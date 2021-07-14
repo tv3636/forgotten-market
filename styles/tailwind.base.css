@@ -1,0 +1,5 @@
+/* 
+   If you change this, run: 
+       yarn run build:base-css 
+ */
+@tailwind base;

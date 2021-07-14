@@ -1,0 +1,251 @@
+{
+	"textures": [
+		{
+			"image": "squarerot.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 676,
+				"h": 30
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "squareRot01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 83,
+						"w": 66,
+						"h": 30
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 66,
+						"h": 30
+					}
+				},
+				{
+					"filename": "squareRot02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 83,
+						"w": 66,
+						"h": 30
+					},
+					"frame": {
+						"x": 66,
+						"y": 0,
+						"w": 66,
+						"h": 30
+					}
+				},
+				{
+					"filename": "squareRot03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 83,
+						"w": 66,
+						"h": 30
+					},
+					"frame": {
+						"x": 132,
+						"y": 0,
+						"w": 66,
+						"h": 30
+					}
+				},
+				{
+					"filename": "squareRot04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 83,
+						"w": 64,
+						"h": 30
+					},
+					"frame": {
+						"x": 198,
+						"y": 0,
+						"w": 64,
+						"h": 30
+					}
+				},
+				{
+					"filename": "squareRot05.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 51,
+						"y": 85,
+						"w": 60,
+						"h": 26
+					},
+					"frame": {
+						"x": 262,
+						"y": 0,
+						"w": 60,
+						"h": 26
+					}
+				},
+				{
+					"filename": "squareRot06.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 57,
+						"y": 87,
+						"w": 50,
+						"h": 22
+					},
+					"frame": {
+						"x": 322,
+						"y": 0,
+						"w": 50,
+						"h": 22
+					}
+				},
+				{
+					"filename": "squareRot07.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 57,
+						"y": 87,
+						"w": 50,
+						"h": 22
+					},
+					"frame": {
+						"x": 372,
+						"y": 0,
+						"w": 50,
+						"h": 22
+					}
+				},
+				{
+					"filename": "squareRot08.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 53,
+						"y": 85,
+						"w": 58,
+						"h": 26
+					},
+					"frame": {
+						"x": 422,
+						"y": 0,
+						"w": 58,
+						"h": 26
+					}
+				},
+				{
+					"filename": "squareRot09.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 51,
+						"y": 85,
+						"w": 62,
+						"h": 28
+					},
+					"frame": {
+						"x": 480,
+						"y": 0,
+						"w": 62,
+						"h": 28
+					}
+				},
+				{
+					"filename": "squareRot10.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 83,
+						"w": 66,
+						"h": 30
+					},
+					"frame": {
+						"x": 542,
+						"y": 0,
+						"w": 66,
+						"h": 30
+					}
+				},
+				{
+					"filename": "squareRot11.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 170,
+						"h": 170
+					},
+					"spriteSourceSize": {
+						"x": 49,
+						"y": 83,
+						"w": 68,
+						"h": 30
+					},
+					"frame": {
+						"x": 608,
+						"y": 0,
+						"w": 68,
+						"h": 30
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:d86eb475447f22eab0bf3e3b0361e39a:552969b6c8ebaa0fdbbf4934dc07d22e:a11c486f9aaef9402f77e98f7a8f6f22$"
+	}
+}

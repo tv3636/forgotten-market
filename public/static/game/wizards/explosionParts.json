@@ -1,0 +1,167 @@
+{
+	"textures": [
+		{
+			"image": "explosionParts.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1854,
+				"h": 1192
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "cross.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 127,
+						"y": 25,
+						"w": 1234,
+						"h": 980
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1234,
+						"h": 980
+					}
+				},
+				{
+					"filename": "squareGiant.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 693,
+						"h": 265
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 36,
+						"w": 616,
+						"h": 210
+					},
+					"frame": {
+						"x": 1237,
+						"y": 1,
+						"w": 616,
+						"h": 210
+					}
+				},
+				{
+					"filename": "boomSquare.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 614,
+						"h": 208
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 614,
+						"h": 208
+					},
+					"frame": {
+						"x": 1,
+						"y": 983,
+						"w": 614,
+						"h": 208
+					}
+				},
+				{
+					"filename": "vertSquare.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 415,
+						"h": 215
+					},
+					"spriteSourceSize": {
+						"x": 42,
+						"y": 46,
+						"w": 334,
+						"h": 144
+					},
+					"frame": {
+						"x": 617,
+						"y": 983,
+						"w": 334,
+						"h": 144
+					}
+				},
+				{
+					"filename": "holeSquare.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 93,
+						"h": 50
+					},
+					"spriteSourceSize": {
+						"x": 28,
+						"y": 17,
+						"w": 50,
+						"h": 20
+					},
+					"frame": {
+						"x": 617,
+						"y": 1129,
+						"w": 50,
+						"h": 20
+					}
+				},
+				{
+					"filename": "whiteGlare.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 120,
+						"h": 120
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 120,
+						"h": 120
+					},
+					"frame": {
+						"x": 953,
+						"y": 983,
+						"w": 120,
+						"h": 120
+					}
+				},
+				{
+					"filename": "beam_giant.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 286,
+						"h": 808
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 11,
+						"w": 286,
+						"h": 797
+					},
+					"frame": {
+						"x": 1237,
+						"y": 213,
+						"w": 286,
+						"h": 797
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:f2970b7fa23004db3e7a82d90a4c7902:f42fc21ad54e020704840faea4022b6a:1e04139b0dee7dad48a5e1da7577c408$"
+	}
+}

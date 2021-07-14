@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Pixel-NES";
+  src: url("/static/game/wizards/Pixel-NES.otf") format("opentype");
+  /* src: url("/static/game/wizards/Pixel-NES.ttf") format("truetype"); */
+  /* src: url("/static/game/wizards/Pixel-NES.woff") format("woff"); */
+}
+
+@font-face {
+  font-family: "Alagard";
+  src: url("/static/game/wizards/alagard.otf") format("opentype");
+}

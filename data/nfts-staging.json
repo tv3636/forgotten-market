@@ -1,0 +1,2422 @@
+{
+  "0": {
+    "name": "Holy Arcanist Illuminus of the Heavens",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/0.png",
+    "background_color": "000000"
+  },
+  "1": {
+    "name": "Evil Arcanist Black Goat of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/1.png",
+    "background_color": "000000"
+  },
+  "2": {
+    "name": "Magus Jameel of the Bastion",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/2.png",
+    "background_color": "09071B"
+  },
+  "3": {
+    "name": "Archmagus Alice of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/3.png",
+    "background_color": "09071B"
+  },
+  "4": {
+    "name": "Artificer Alessar of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/4.png",
+    "background_color": "040D04"
+  },
+  "5": {
+    "name": "Sorcerer Basil ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/5.png",
+    "background_color": "09071B"
+  },
+  "6": {
+    "name": "Magus Hashim of the Havens",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/6.png",
+    "background_color": "000000"
+  },
+  "7": {
+    "name": "Rogue Mage Andy ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/7.png",
+    "background_color": "000000"
+  },
+  "8": {
+    "name": "Bunny Wizard Bernardo",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/8.png",
+    "background_color": "000000"
+  },
+  "9": {
+    "name": "Prismatic Magi Braindraind",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/9.png",
+    "background_color": "000000"
+  },
+  "10": {
+    "name": "Edge Arcanist Artchick",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/10.png",
+    "background_color": "000000"
+  },
+  "11": {
+    "name": "Crow Master Claire Sliver",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/11.png",
+    "background_color": "000000"
+  },
+  "12": {
+    "name": "The Wizard Empress",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/12.png",
+    "background_color": "000000"
+  },
+  "13": {
+    "name": "3D Wizz DeeZe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/13.png",
+    "background_color": "000000"
+  },
+  "14": {
+    "name": "Cat Wizard El Crypto Ball",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/14.png",
+    "background_color": "000000"
+  },
+  "15": {
+    "name": "Arcanist EyesTeethFlesh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/15.png",
+    "background_color": "000000"
+  },
+  "16": {
+    "name": "Hedge Wizard Pandora of the Temple",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/16.png",
+    "background_color": "09071B"
+  },
+  "17": {
+    "name": "Master Ape Gfunk",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/17.png",
+    "background_color": "000000"
+  },
+  "18": {
+    "name": "Cartomancer Fiskantes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/18.png",
+    "background_color": "000000"
+  },
+  "19": {
+    "name": "Master of Spots Hunter",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/19.png",
+    "background_color": "000000"
+  },
+  "20": {
+    "name": "Punk Rock Arcanist Joey",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/20.png",
+    "background_color": "000000"
+  },
+  "21": {
+    "name": "Loop Master Loopify",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/21.png",
+    "background_color": "000000"
+  },
+  "22": {
+    "name": "Necromancer ManuelDaMoon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/22.png",
+    "background_color": "000000"
+  },
+  "23": {
+    "name": "Alien Arcanist Marlo of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/23.png",
+    "background_color": "000000"
+  },
+  "24": {
+    "name": "Philosopher Nietzsche of the Mountain",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/24.png",
+    "background_color": "000000"
+  },
+  "25": {
+    "name": "Necromancer Nikita ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/25.png",
+    "background_color": "000000"
+  },
+  "26": {
+    "name": "Fortune Master Oxelrod",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/26.png",
+    "background_color": "000000"
+  },
+  "27": {
+    "name": "Great Old One 0xmon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/27.png",
+    "background_color": "000000"
+  },
+  "28": {
+    "name": "The Great and Magical UserGnome",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/28.png",
+    "background_color": "000000"
+  },
+  "29": {
+    "name": "Necromancer LeggoMyGreggo",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/29.png",
+    "background_color": "000000"
+  },
+  "30": {
+    "name": "Great Old One Andolini",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/30.png",
+    "background_color": "000000"
+  },
+  "31": {
+    "name": "Archmagus Talbot of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/31.png",
+    "background_color": "1E0200"
+  },
+  "32": {
+    "name": "Cryptomancer Atlanta of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/32.png",
+    "background_color": "040D04"
+  },
+  "33": {
+    "name": "Bringer of Thunder",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/33.png",
+    "background_color": "09071B"
+  },
+  "34": {
+    "name": "Sorcerer Aleister of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/34.png",
+    "background_color": "000000"
+  },
+  "35": {
+    "name": "Archmagus Edge of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/35.png",
+    "background_color": "000000"
+  },
+  "36": {
+    "name": "Wild Mage Axel of Dreams",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/36.png",
+    "background_color": "09071B"
+  },
+  "37": {
+    "name": "Shaman Aamon of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/37.png",
+    "background_color": "000000"
+  },
+  "38": {
+    "name": "Hydromancer Azazel of the Wild",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/38.png",
+    "background_color": "09071B"
+  },
+  "39": {
+    "name": " Aleister of the Capital",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/39.png",
+    "background_color": "000000"
+  },
+  "40": {
+    "name": "Necromancer Kiba of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/40.png",
+    "background_color": "09071B"
+  },
+  "41": {
+    "name": "Adept Pino of the Thorn",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/41.png",
+    "background_color": "09071B"
+  },
+  "42": {
+    "name": "Adept Jerret of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/42.png",
+    "background_color": "040D04"
+  },
+  "43": {
+    "name": "Geomancer Muntjac of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/43.png",
+    "background_color": "09071B"
+  },
+  "44": {
+    "name": "Sage Lumos of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/44.png",
+    "background_color": "09071B"
+  },
+  "45": {
+    "name": "Electromancer Pumlo of the Moors",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/45.png",
+    "background_color": "000000"
+  },
+  "46": {
+    "name": "Hedge Wizard Patch of the Light",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/46.png",
+    "background_color": "09071B"
+  },
+  "47": {
+    "name": "Magus Qasim of the Oasis",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/47.png",
+    "background_color": "040D04"
+  },
+  "48": {
+    "name": "Shaman Ariadne of the Canyon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/48.png",
+    "background_color": "000000"
+  },
+  "49": {
+    "name": "Alchemist Ixar of Arcadia",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/49.png",
+    "background_color": "1E0200"
+  },
+  "50": {
+    "name": "Mystic Pandora of the Riviera",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/50.png",
+    "background_color": "040D04"
+  },
+  "51": {
+    "name": "Witch Rita of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/51.png",
+    "background_color": "040D04"
+  },
+  "52": {
+    "name": "Necromancer Vossler of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/52.png",
+    "background_color": "000000"
+  },
+  "53": {
+    "name": "Battle Mage Homer of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/53.png",
+    "background_color": "000000"
+  },
+  "54": {
+    "name": "Augurer Yumi of the Hall",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/54.png",
+    "background_color": "000000"
+  },
+  "55": {
+    "name": "Sorcerer Basil of the Tundra",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/55.png",
+    "background_color": "09071B"
+  },
+  "56": {
+    "name": "Hedge Wizard Circe of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/56.png",
+    "background_color": "040D04"
+  },
+  "57": {
+    "name": "Archmagus Solomon of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/57.png",
+    "background_color": "000000"
+  },
+  "58": {
+    "name": "Clairvoyant Angus of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/58.png",
+    "background_color": "1E0200"
+  },
+  "59": {
+    "name": "Voodoo Priest Sharx of the Wild",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/59.png",
+    "background_color": "000000"
+  },
+  "60": {
+    "name": "Sorcerer Alizam of the Swell",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/60.png",
+    "background_color": "09071B"
+  },
+  "61": {
+    "name": "Archmagus Faiz of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/61.png",
+    "background_color": "09071B"
+  },
+  "62": {
+    "name": "Hedge Wizard Brutus of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/62.png",
+    "background_color": "000000"
+  },
+  "63": {
+    "name": "Sorcerer Milton of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/63.png",
+    "background_color": "09071B"
+  },
+  "64": {
+    "name": "Archmagus Voidoth of the Bibliotheca",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/64.png",
+    "background_color": "040D04"
+  },
+  "65": {
+    "name": "Battle Mage Angus of Elysium",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/65.png",
+    "background_color": "09071B"
+  },
+  "66": {
+    "name": "Hedge Wizard Soya of the Thorn",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/66.png",
+    "background_color": "1E0200"
+  },
+  "67": {
+    "name": "Archmagus Ozohr of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/67.png",
+    "background_color": "09071B"
+  },
+  "68": {
+    "name": "Wild Mage Soya of the Gnostics",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/68.png",
+    "background_color": "000000"
+  },
+  "69": {
+    "name": "Druid Junko of the Forest",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/69.png",
+    "background_color": "1E0200"
+  },
+  "70": {
+    "name": "Archmagus Oberon of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/70.png",
+    "background_color": "09071B"
+  },
+  "71": {
+    "name": "Enchanter Ash of the Forest",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/71.png",
+    "background_color": "1E0200"
+  },
+  "72": {
+    "name": "Supa Wizz 9272",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/72.png",
+    "background_color": "000000"
+  },
+  "73": {
+    "name": "Battle Mage Devin of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/73.png",
+    "background_color": "09071B"
+  },
+  "74": {
+    "name": "Runecaster Gee of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/74.png",
+    "background_color": "09071B"
+  },
+  "75": {
+    "name": "Dwarzgarth of The Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/75.png",
+    "background_color": "000000"
+  },
+  "76": {
+    "name": "Wise Sam",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/76.png",
+    "background_color": "09071B"
+  },
+  "77": {
+    "name": "Bob the Bearded",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/77.png",
+    "background_color": "09071B"
+  },
+  "78": {
+    "name": "Charmer Cybele of the Lake",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/78.png",
+    "background_color": "040D04"
+  },
+  "79": {
+    "name": "Catherine The Great ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/79.png",
+    "background_color": "040D04"
+  },
+  "80": {
+    "name": "Battle Mage Dante of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/80.png",
+    "background_color": "1E0200"
+  },
+  "81": {
+    "name": "Battlemage Diabolos of the Psychic Leap",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/81.png",
+    "background_color": "040D04"
+  },
+  "82": {
+    "name": "Hedge Wizard Oxnard of the Sands",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/82.png",
+    "background_color": "040D04"
+  },
+  "83": {
+    "name": "Pyromancer Orpheus of the Mist",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/83.png",
+    "background_color": "000000"
+  },
+  "84": {
+    "name": "Arcanist Shivra of the Obelisk",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/84.png",
+    "background_color": "1E0200"
+  },
+  "85": {
+    "name": "Alchemist Sahir of the Oasis",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/85.png",
+    "background_color": "09071B"
+  },
+  "86": {
+    "name": "Hedge Wizard Sonja of Elysium",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/86.png",
+    "background_color": "000000"
+  },
+  "87": {
+    "name": "Shaman Merlon of the Glacier",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/87.png",
+    "background_color": "1E0200"
+  },
+  "88": {
+    "name": "Shaman Daria of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/88.png",
+    "background_color": "000000"
+  },
+  "89": {
+    "name": "Arch-Magician Aden of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/89.png",
+    "background_color": "040D04"
+  },
+  "90": {
+    "name": "Charmer Althea of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/90.png",
+    "background_color": "1E0200"
+  },
+  "91": {
+    "name": "Magus Zorko of the Field",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/91.png",
+    "background_color": "000000"
+  },
+  "92": {
+    "name": "Ghost Eater Brown Cow of the Event Horizon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/92.png",
+    "background_color": "000000"
+  },
+  "93": {
+    "name": " Diana of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/93.png",
+    "background_color": "1E0200"
+  },
+  "94": {
+    "name": "Enchanter Althea of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/94.png",
+    "background_color": "000000"
+  },
+  "95": {
+    "name": "Archmagus Bao of the Bastion",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/95.png",
+    "background_color": "000000"
+  },
+  "96": {
+    "name": "Alchemist Elizabeth of the Moors",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/96.png",
+    "background_color": "040D04"
+  },
+  "97": {
+    "name": "Archmagus Soya of the Swell",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/97.png",
+    "background_color": "040D04"
+  },
+  "98": {
+    "name": "Hedge Wizard Horace of the Havens",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/98.png",
+    "background_color": "000000"
+  },
+  "99": {
+    "name": "Magus Goomer of the Villa",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/99.png",
+    "background_color": "1E0200"
+  },
+  "100": {
+    "name": "Ice Mage Zevi of the Crag",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/100.png",
+    "background_color": "1E0200"
+  },
+  "101": {
+    "name": "Battlemage Hecate of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/101.png",
+    "background_color": "000000"
+  },
+  "102": {
+    "name": "Illusionist Huizhong of Avalon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/102.png",
+    "background_color": "040D04"
+  },
+  "103": {
+    "name": "Shaman Apollo of Dreams",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/103.png",
+    "background_color": "09071B"
+  },
+  "104": {
+    "name": "Alchemist Herne of the Palms",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/104.png",
+    "background_color": "09071B"
+  },
+  "105": {
+    "name": "Augurer Crowley of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/105.png",
+    "background_color": "040D04"
+  },
+  "106": {
+    "name": "Archmagus Lumos of the Wild",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/106.png",
+    "background_color": "09071B"
+  },
+  "107": {
+    "name": "Arch-Magician Lilith of the Toadstools",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/107.png",
+    "background_color": "000000"
+  },
+  "108": {
+    "name": "Enchanter Jahid of Mu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/108.png",
+    "background_color": "000000"
+  },
+  "109": {
+    "name": " Burnside in the Shadows",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/109.png",
+    "background_color": "09071B"
+  },
+  "110": {
+    "name": "Magus Milo of Arcadia",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/110.png",
+    "background_color": "040D04"
+  },
+  "111": {
+    "name": " Aldus of Elysium",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/111.png",
+    "background_color": "000000"
+  },
+  "112": {
+    "name": " David of the Capital",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/112.png",
+    "background_color": "040D04"
+  },
+  "113": {
+    "name": "Hex Mage Talon ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/113.png",
+    "background_color": "040D04"
+  },
+  "114": {
+    "name": "Sorcerer Udor of the Secret Fire",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/114.png",
+    "background_color": "000000"
+  },
+  "115": {
+    "name": "Sorcerer Lumos of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/115.png",
+    "background_color": "040D04"
+  },
+  "116": {
+    "name": "Archmagus Lux of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/116.png",
+    "background_color": "1E0200"
+  },
+  "117": {
+    "name": "Enchanter Amir of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/117.png",
+    "background_color": "09071B"
+  },
+  "118": {
+    "name": "Oracle Victoria of the Obelisk",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/118.png",
+    "background_color": "000000"
+  },
+  "119": {
+    "name": "Archmagus Azahl of the River",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/119.png",
+    "background_color": "1E0200"
+  },
+  "120": {
+    "name": "Alchemist Malthus of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/120.png",
+    "background_color": "040D04"
+  },
+  "121": {
+    "name": "Hedge Wizard Finn of the Temple",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/121.png",
+    "background_color": "1E0200"
+  },
+  "122": {
+    "name": "Archmagus Allistair of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/122.png",
+    "background_color": "09071B"
+  },
+  "123": {
+    "name": "Alchemist Pandora of the Bastion",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/123.png",
+    "background_color": "000000"
+  },
+  "124": {
+    "name": "Sorcerer Orpheus of the Oasis",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/124.png",
+    "background_color": "000000"
+  },
+  "125": {
+    "name": "Archmagus Lilith of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/125.png",
+    "background_color": "09071B"
+  },
+  "126": {
+    "name": "Archmagus Silas of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/126.png",
+    "background_color": "1E0200"
+  },
+  "127": {
+    "name": "Arch-Magician Aleister of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/127.png",
+    "background_color": "1E0200"
+  },
+  "128": {
+    "name": "Sage Rowena of the Canyon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/128.png",
+    "background_color": "000000"
+  },
+  "129": {
+    "name": "Druid Mina of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/129.png",
+    "background_color": "000000"
+  },
+  "130": {
+    "name": "Hydromancer Goober of the Garden",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/130.png",
+    "background_color": "000000"
+  },
+  "131": {
+    "name": "Sorcerer Uvlius of the Realm",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/131.png",
+    "background_color": "09071B"
+  },
+  "132": {
+    "name": "Hedge Wizard Astrid ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/132.png",
+    "background_color": "09071B"
+  },
+  "133": {
+    "name": " Layla of the Ether",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/133.png",
+    "background_color": "000000"
+  },
+  "134": {
+    "name": "Sorcerer Kamil of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/134.png",
+    "background_color": "040D04"
+  },
+  "135": {
+    "name": "Witch Drusilla of Avalon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/135.png",
+    "background_color": "040D04"
+  },
+  "136": {
+    "name": "Arch-Magician Jeldor of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/136.png",
+    "background_color": "040D04"
+  },
+  "137": {
+    "name": "Ice Mage Fugh of the North",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/137.png",
+    "background_color": "040D04"
+  },
+  "138": {
+    "name": "Magus Yumi of the Riviera",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/138.png",
+    "background_color": "000000"
+  },
+  "139": {
+    "name": "Alchemist Jezebel of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/139.png",
+    "background_color": "040D04"
+  },
+  "140": {
+    "name": "Arch-Magician Homer of the Ether",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/140.png",
+    "background_color": "040D04"
+  },
+  "141": {
+    "name": "Shaman Axel of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/141.png",
+    "background_color": "040D04"
+  },
+  "142": {
+    "name": "Enchanter Faye of the Hall",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/142.png",
+    "background_color": "09071B"
+  },
+  "143": {
+    "name": "Battle Mage Aslan of Avalon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/143.png",
+    "background_color": "09071B"
+  },
+  "144": {
+    "name": "Sorcerer Idris of the Palms",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/144.png",
+    "background_color": "09071B"
+  },
+  "145": {
+    "name": "Electromancer Jean Leon of the Sun",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/145.png",
+    "background_color": "000000"
+  },
+  "146": {
+    "name": "Alchemist Magpie of Avalon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/146.png",
+    "background_color": "000000"
+  },
+  "147": {
+    "name": "Clairvoyant Merlon of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/147.png",
+    "background_color": "1E0200"
+  },
+  "148": {
+    "name": "Druid Zeromus of the Woodlands",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/148.png",
+    "background_color": "040D04"
+  },
+  "149": {
+    "name": "Arch-Magician Melanzana of Mu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/149.png",
+    "background_color": "040D04"
+  },
+  "150": {
+    "name": "Ghost Eater Demos of Tartarus",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/150.png",
+    "background_color": "09071B"
+  },
+  "151": {
+    "name": "Mystic Alatar of the Havens",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/151.png",
+    "background_color": "040D04"
+  },
+  "152": {
+    "name": "Alchemist Milo of the Thorn",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/152.png",
+    "background_color": "09071B"
+  },
+  "153": {
+    "name": "Sage Winter Squash of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/153.png",
+    "background_color": "1E0200"
+  },
+  "154": {
+    "name": "Battle Mage Nicolas ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/154.png",
+    "background_color": "09071B"
+  },
+  "155": {
+    "name": "Archmagus Alatar of the Obelisk",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/155.png",
+    "background_color": "09071B"
+  },
+  "156": {
+    "name": "Medium Tundror of the Hall",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/156.png",
+    "background_color": "000000"
+  },
+  "157": {
+    "name": "Thaumaturge Hanko of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/157.png",
+    "background_color": "1E0200"
+  },
+  "158": {
+    "name": "Runecaster Daria of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/158.png",
+    "background_color": "000000"
+  },
+  "159": {
+    "name": "Magus Carmilla of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/159.png",
+    "background_color": "09071B"
+  },
+  "160": {
+    "name": "Archmagus Zubin of the Sands",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/160.png",
+    "background_color": "09071B"
+  },
+  "161": {
+    "name": "Witch Rita of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/161.png",
+    "background_color": "000000"
+  },
+  "162": {
+    "name": "Archmagus Nolan of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/162.png",
+    "background_color": "09071B"
+  },
+  "163": {
+    "name": "Evoker Norix of the Realm",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/163.png",
+    "background_color": "09071B"
+  },
+  "164": {
+    "name": "Sorcerer Reza of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/164.png",
+    "background_color": "000000"
+  },
+  "165": {
+    "name": "Alchemist Sonja of the Field",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/165.png",
+    "background_color": "09071B"
+  },
+  "166": {
+    "name": "Shaman Cromwell of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/166.png",
+    "background_color": "1E0200"
+  },
+  "167": {
+    "name": " George ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/167.png",
+    "background_color": "09071B"
+  },
+  "168": {
+    "name": "Archmagus Basil of the Oasis",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/168.png",
+    "background_color": "040D04"
+  },
+  "169": {
+    "name": "Summoner  of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/169.png",
+    "background_color": "09071B"
+  },
+  "170": {
+    "name": " Pandora of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/170.png",
+    "background_color": "000000"
+  },
+  "171": {
+    "name": "Sorcerer Nazim of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/171.png",
+    "background_color": "040D04"
+  },
+  "172": {
+    "name": "Magus Caligula of the Hall",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/172.png",
+    "background_color": "000000"
+  },
+  "173": {
+    "name": "Adept Aleister of the Sun",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/173.png",
+    "background_color": "000000"
+  },
+  "174": {
+    "name": "Arch-Magician Merlon of the Ether",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/174.png",
+    "background_color": "000000"
+  },
+  "175": {
+    "name": "Cleric Jean Leon of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/175.png",
+    "background_color": "000000"
+  },
+  "176": {
+    "name": "Shaman Mushy of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/176.png",
+    "background_color": "040D04"
+  },
+  "177": {
+    "name": "Thaumaturge Beyna of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/177.png",
+    "background_color": "000000"
+  },
+  "178": {
+    "name": "Evoker Ulysse of the Moors",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/178.png",
+    "background_color": "040D04"
+  },
+  "179": {
+    "name": "Hedge Wizard Samuel of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/179.png",
+    "background_color": "000000"
+  },
+  "180": {
+    "name": "Archmagus Daria of the Capital",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/180.png",
+    "background_color": "09071B"
+  },
+  "181": {
+    "name": "Witch Lilith of the Canyon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/181.png",
+    "background_color": "040D04"
+  },
+  "182": {
+    "name": "Sorcerer Soya of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/182.png",
+    "background_color": "000000"
+  },
+  "183": {
+    "name": "Witch Juniper of the Bastion",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/183.png",
+    "background_color": "1E0200"
+  },
+  "184": {
+    "name": "Shaman Arabella of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/184.png",
+    "background_color": "09071B"
+  },
+  "185": {
+    "name": "Artificer David of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/185.png",
+    "background_color": "1E0200"
+  },
+  "186": {
+    "name": "Arcanist Maia of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/186.png",
+    "background_color": "09071B"
+  },
+  "187": {
+    "name": "Arch-Magician Alatar of the Wold",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/187.png",
+    "background_color": "000000"
+  },
+  "188": {
+    "name": "Hedge Wizard Angus of the Obelisk",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/188.png",
+    "background_color": "040D04"
+  },
+  "189": {
+    "name": "Sorcerer Ramiz of the Lake",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/189.png",
+    "background_color": "040D04"
+  },
+  "190": {
+    "name": "Archmagus Milton of the Psychic Leap",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/190.png",
+    "background_color": "09071B"
+  },
+  "191": {
+    "name": "Illusionist Zane of the Psychic Leap",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/191.png",
+    "background_color": "1E0200"
+  },
+  "192": {
+    "name": "Battle Mage Hothor of the Wold",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/192.png",
+    "background_color": "000000"
+  },
+  "193": {
+    "name": "Witch Lumos of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/193.png",
+    "background_color": "09071B"
+  },
+  "194": {
+    "name": "Battle Mage Atlas in the Shadows",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/194.png",
+    "background_color": "09071B"
+  },
+  "195": {
+    "name": "Hedge Wizard Iprix of the Ether",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/195.png",
+    "background_color": "09071B"
+  },
+  "196": {
+    "name": "Archmagus Drokore of the Reach",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/196.png",
+    "background_color": "09071B"
+  },
+  "197": {
+    "name": "Sage Larissa of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/197.png",
+    "background_color": "09071B"
+  },
+  "198": {
+    "name": "Diabolist Crowley of the Belfry",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/198.png",
+    "background_color": "040D04"
+  },
+  "199": {
+    "name": "Cosmic Mage Rita of the Havens",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/199.png",
+    "background_color": "09071B"
+  },
+  "200": {
+    "name": "Artificer Asphodel of the Mountain",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/200.png",
+    "background_color": "09071B"
+  },
+  "201": {
+    "name": "Voodoo Priest Godfrey of the Ether",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/201.png",
+    "background_color": "000000"
+  },
+  "202": {
+    "name": "Battle Mage Flynn of the Keep",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/202.png",
+    "background_color": "09071B"
+  },
+  "203": {
+    "name": "Battle Mage Homer of Xanadu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/203.png",
+    "background_color": "09071B"
+  },
+  "204": {
+    "name": "Sage Orpheus of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/204.png",
+    "background_color": "09071B"
+  },
+  "205": {
+    "name": "Enchanter Daria of the Wold",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/205.png",
+    "background_color": "1E0200"
+  },
+  "206": {
+    "name": "Pyromancer Fire Eater of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/206.png",
+    "background_color": "1E0200"
+  },
+  "207": {
+    "name": "Artificer Basil of the Palms",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/207.png",
+    "background_color": "09071B"
+  },
+  "208": {
+    "name": "Archmagus Casper of the Realm",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/208.png",
+    "background_color": "000000"
+  },
+  "209": {
+    "name": "Arch-Magician Amir of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/209.png",
+    "background_color": "000000"
+  },
+  "210": {
+    "name": "Thaumaturge Jadis of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/210.png",
+    "background_color": "000000"
+  },
+  "211": {
+    "name": "Archmagus Damien of the Palms",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/211.png",
+    "background_color": "000000"
+  },
+  "212": {
+    "name": "Wild Mage Chooki of the Wold",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/212.png",
+    "background_color": "09071B"
+  },
+  "213": {
+    "name": "Druid Dario of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/213.png",
+    "background_color": "000000"
+  },
+  "214": {
+    "name": "Sorcerer Jahid of the Quantum Downs",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/214.png",
+    "background_color": "09071B"
+  },
+  "215": {
+    "name": "Void Disciple Faye of the Morning Star",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/215.png",
+    "background_color": "040D04"
+  },
+  "216": {
+    "name": " Carly of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/216.png",
+    "background_color": "09071B"
+  },
+  "217": {
+    "name": "Archmagus Ixar of the Thorn",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/217.png",
+    "background_color": "040D04"
+  },
+  "218": {
+    "name": "Archmagus Mina of the Keep",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/218.png",
+    "background_color": "09071B"
+  },
+  "219": {
+    "name": "Magus Angus of the Glacier",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/219.png",
+    "background_color": "09071B"
+  },
+  "220": {
+    "name": "Wild Mage Alessar of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/220.png",
+    "background_color": "040D04"
+  },
+  "221": {
+    "name": "Witch Liliana of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/221.png",
+    "background_color": "040D04"
+  },
+  "222": {
+    "name": "Battlemage Tenguyama of the Astral Plane",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/222.png",
+    "background_color": "000000"
+  },
+  "223": {
+    "name": "Enchanter Calista of the Mountain",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/223.png",
+    "background_color": "1E0200"
+  },
+  "224": {
+    "name": "Archmagus Alessar of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/224.png",
+    "background_color": "09071B"
+  },
+  "225": {
+    "name": "Arch-Magician Dotta of the Loch",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/225.png",
+    "background_color": "09071B"
+  },
+  "226": {
+    "name": "Sorcerer Alizam of the Canyon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/226.png",
+    "background_color": "000000"
+  },
+  "227": {
+    "name": " David of Elysium",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/227.png",
+    "background_color": "000000"
+  },
+  "228": {
+    "name": "Druid Merlon of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/228.png",
+    "background_color": "040D04"
+  },
+  "229": {
+    "name": "Battle Mage Luther of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/229.png",
+    "background_color": "09071B"
+  },
+  "230": {
+    "name": " Artis of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/230.png",
+    "background_color": "000000"
+  },
+  "231": {
+    "name": "Magus Salah of the Grotto",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/231.png",
+    "background_color": "000000"
+  },
+  "232": {
+    "name": "Shadow Mage Hishoken of the Gnostics",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/232.png",
+    "background_color": "040D04"
+  },
+  "233": {
+    "name": "Wild Mage Homer of the Palms",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/233.png",
+    "background_color": "09071B"
+  },
+  "234": {
+    "name": "Hedge Wizard Ozohr of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/234.png",
+    "background_color": "000000"
+  },
+  "235": {
+    "name": "Archmagus Eizo of the Brine",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/235.png",
+    "background_color": "000000"
+  },
+  "236": {
+    "name": "Summoner Jay of the Toadstools",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/236.png",
+    "background_color": "040D04"
+  },
+  "237": {
+    "name": "Cryptomancer Rita of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/237.png",
+    "background_color": "09071B"
+  },
+  "238": {
+    "name": "Hex Mage Duzzle of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/238.png",
+    "background_color": "000000"
+  },
+  "239": {
+    "name": "Sage Beyna of the Atheneum",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/239.png",
+    "background_color": "040D04"
+  },
+  "240": {
+    "name": "Runecaster Ethan of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/240.png",
+    "background_color": "09071B"
+  },
+  "241": {
+    "name": "Ice Mage Salvatore of the Ice",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/241.png",
+    "background_color": "09071B"
+  },
+  "242": {
+    "name": "Adept Min ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/242.png",
+    "background_color": "09071B"
+  },
+  "243": {
+    "name": "Sage Cassius of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/243.png",
+    "background_color": "09071B"
+  },
+  "244": {
+    "name": "Druid Ilyas of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/244.png",
+    "background_color": "09071B"
+  },
+  "245": {
+    "name": "Chaos Mage Wolfram of the Court",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/245.png",
+    "background_color": "040D04"
+  },
+  "246": {
+    "name": "Archmagus Ixar ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/246.png",
+    "background_color": "000000"
+  },
+  "247": {
+    "name": "Witch Lamia of the Sacred Pillars",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/247.png",
+    "background_color": "040D04"
+  },
+  "248": {
+    "name": "Artificer Bojangles of Arcadia",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/248.png",
+    "background_color": "040D04"
+  },
+  "249": {
+    "name": "Archmagus Cairon ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/249.png",
+    "background_color": "040D04"
+  },
+  "250": {
+    "name": "Augurer Colorman of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/250.png",
+    "background_color": "09071B"
+  },
+  "251": {
+    "name": "Archmagus Aleister of the Morning Star",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/251.png",
+    "background_color": "040D04"
+  },
+  "252": {
+    "name": "Arch-Magician Merlon of Elysium",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/252.png",
+    "background_color": "040D04"
+  },
+  "253": {
+    "name": "Arch-Magician Atlanta of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/253.png",
+    "background_color": "000000"
+  },
+  "254": {
+    "name": "Enchanter Jadis of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/254.png",
+    "background_color": "000000"
+  },
+  "255": {
+    "name": "Archmagus Lumos of the Forest",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/255.png",
+    "background_color": "09071B"
+  },
+  "256": {
+    "name": "Archmagus Merlon of the Waste",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/256.png",
+    "background_color": "09071B"
+  },
+  "257": {
+    "name": "Witch Elizabeth of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/257.png",
+    "background_color": "09071B"
+  },
+  "258": {
+    "name": "Druid Hanataka of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/258.png",
+    "background_color": "040D04"
+  },
+  "259": {
+    "name": "Geomancer Eggplant of Xanadu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/259.png",
+    "background_color": "09071B"
+  },
+  "260": {
+    "name": "Cleric Apollo of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/260.png",
+    "background_color": "000000"
+  },
+  "261": {
+    "name": "Null Mage Dr. Death of the Bastion",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/261.png",
+    "background_color": "09071B"
+  },
+  "262": {
+    "name": "Shaman Ambrosia of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/262.png",
+    "background_color": "000000"
+  },
+  "263": {
+    "name": "Conjurer Izible of the Garden",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/263.png",
+    "background_color": "000000"
+  },
+  "264": {
+    "name": "Arch-Magician Lumos of the Fey",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/264.png",
+    "background_color": "000000"
+  },
+  "265": {
+    "name": "Battle Mage Danny of the Wild",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/265.png",
+    "background_color": "000000"
+  },
+  "266": {
+    "name": "Arcanist Apollo of the Berg",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/266.png",
+    "background_color": "1E0200"
+  },
+  "267": {
+    "name": "Illusionist Ming of the Field",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/267.png",
+    "background_color": "000000"
+  },
+  "268": {
+    "name": " Isaac of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/268.png",
+    "background_color": "000000"
+  },
+  "269": {
+    "name": "Archmagus Amir of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/269.png",
+    "background_color": "000000"
+  },
+  "270": {
+    "name": "Shaman Aldus of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/270.png",
+    "background_color": "000000"
+  },
+  "271": {
+    "name": "Enchanter Beyna of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/271.png",
+    "background_color": "1E0200"
+  },
+  "272": {
+    "name": "Alchemist Lumos of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/272.png",
+    "background_color": "040D04"
+  },
+  "273": {
+    "name": "Magus Jahid of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/273.png",
+    "background_color": "000000"
+  },
+  "274": {
+    "name": " Milton of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/274.png",
+    "background_color": "000000"
+  },
+  "275": {
+    "name": "Ghost Eater Jeldor of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/275.png",
+    "background_color": "000000"
+  },
+  "276": {
+    "name": "Archmagus Khudalf of the Villa",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/276.png",
+    "background_color": "040D04"
+  },
+  "277": {
+    "name": "Evoker Ravana of the Quantum Downs",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/277.png",
+    "background_color": "000000"
+  },
+  "278": {
+    "name": "Enchanter Artis of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/278.png",
+    "background_color": "09071B"
+  },
+  "279": {
+    "name": "Aeromancer Patch of the Sacred Pillars",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/279.png",
+    "background_color": "000000"
+  },
+  "280": {
+    "name": "Archmagus Jerret of the Bastion",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/280.png",
+    "background_color": "09071B"
+  },
+  "281": {
+    "name": "Hedge Wizard Iprix of the Sacred Pillars",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/281.png",
+    "background_color": "09071B"
+  },
+  "282": {
+    "name": "Hedge Wizard Borak of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/282.png",
+    "background_color": "1E0200"
+  },
+  "283": {
+    "name": "Battle Mage Baird of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/283.png",
+    "background_color": "1E0200"
+  },
+  "284": {
+    "name": "Hydromancer Corky of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/284.png",
+    "background_color": "000000"
+  },
+  "285": {
+    "name": "Summoner Aleister of the Rock",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/285.png",
+    "background_color": "000000"
+  },
+  "286": {
+    "name": "Enchanter Kazem of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/286.png",
+    "background_color": "000000"
+  },
+  "287": {
+    "name": "Archmagus Ixar of the Wild",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/287.png",
+    "background_color": "000000"
+  },
+  "288": {
+    "name": "Magus Shivra of the Riviera",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/288.png",
+    "background_color": "09071B"
+  },
+  "289": {
+    "name": "Archmagus Zubin of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/289.png",
+    "background_color": "09071B"
+  },
+  "290": {
+    "name": "Battle Mage Nicolas of the Oasis",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/290.png",
+    "background_color": "000000"
+  },
+  "291": {
+    "name": "Sorcerer Davos of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/291.png",
+    "background_color": "09071B"
+  },
+  "292": {
+    "name": "Artificer Molek of the Astral Plane",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/292.png",
+    "background_color": "040D04"
+  },
+  "293": {
+    "name": "Battle Mage Durm of the Circle",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/293.png",
+    "background_color": "000000"
+  },
+  "294": {
+    "name": "Holy Monk Cullen in the Shadows",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/294.png",
+    "background_color": "000000"
+  },
+  "295": {
+    "name": "Archmagus Jeldor of the Wold",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/295.png",
+    "background_color": "000000"
+  },
+  "296": {
+    "name": " Aleister of the Astral Plane",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/296.png",
+    "background_color": "040D04"
+  },
+  "297": {
+    "name": "Pyromancer Ixar of the Hall",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/297.png",
+    "background_color": "000000"
+  },
+  "298": {
+    "name": "Battle Mage Hothor of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/298.png",
+    "background_color": "09071B"
+  },
+  "299": {
+    "name": "Battle Mage Armstrong of the Villa",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/299.png",
+    "background_color": "000000"
+  },
+  "300": {
+    "name": " Milo of the Mist",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/300.png",
+    "background_color": "09071B"
+  },
+  "301": {
+    "name": "Summoner George of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/301.png",
+    "background_color": "09071B"
+  },
+  "302": {
+    "name": "Artificer Jeldor of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/302.png",
+    "background_color": "09071B"
+  },
+  "303": {
+    "name": "Pyromancer Demos of the Brine",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/303.png",
+    "background_color": "000000"
+  },
+  "304": {
+    "name": "Illusionist Rumpleskin of the Realm",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/304.png",
+    "background_color": "040D04"
+  },
+  "305": {
+    "name": "The Red Witch",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/305.png",
+    "background_color": "09071B"
+  },
+  "306": {
+    "name": "Arch-Magician Samuel of Tartarus",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/306.png",
+    "background_color": "000000"
+  },
+  "307": {
+    "name": "Arcanist Miyo of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/307.png",
+    "background_color": "1E0200"
+  },
+  "308": {
+    "name": "Arcanist Onaxx of the Waste",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/308.png",
+    "background_color": "000000"
+  },
+  "309": {
+    "name": "Witch Ekmira of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/309.png",
+    "background_color": "040D04"
+  },
+  "310": {
+    "name": "Archmagus Pumlo of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/310.png",
+    "background_color": "09071B"
+  },
+  "311": {
+    "name": "Sorcerer Alizam of the Mist",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/311.png",
+    "background_color": "000000"
+  },
+  "312": {
+    "name": "Archmagus Soya of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/312.png",
+    "background_color": "000000"
+  },
+  "313": {
+    "name": "Archmagus Apollo of the Toadstools",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/313.png",
+    "background_color": "09071B"
+  },
+  "314": {
+    "name": "Battle Mage Robert of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/314.png",
+    "background_color": "000000"
+  },
+  "315": {
+    "name": "Shaman Jasper of the Hall",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/315.png",
+    "background_color": "000000"
+  },
+  "316": {
+    "name": "Conjurer Caligari of the Brine",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/316.png",
+    "background_color": "000000"
+  },
+  "317": {
+    "name": "Battlemage Auguste of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/317.png",
+    "background_color": "09071B"
+  },
+  "318": {
+    "name": "Magus Lei of the Lake",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/318.png",
+    "background_color": "1E0200"
+  },
+  "319": {
+    "name": " Merlon of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/319.png",
+    "background_color": "09071B"
+  },
+  "320": {
+    "name": "Thaumaturge Rook of the Obelisk",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/320.png",
+    "background_color": "000000"
+  },
+  "321": {
+    "name": "Necromancer Asmodeus of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/321.png",
+    "background_color": "1E0200"
+  },
+  "322": {
+    "name": "Wild Mage Herne of Elysium",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/322.png",
+    "background_color": "000000"
+  },
+  "323": {
+    "name": "Pyromancer Ofaris of the Keep",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/323.png",
+    "background_color": "000000"
+  },
+  "324": {
+    "name": "Ghost Eater Ekmira of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/324.png",
+    "background_color": "1E0200"
+  },
+  "325": {
+    "name": "Geomancer Hashim of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/325.png",
+    "background_color": "040D04"
+  },
+  "326": {
+    "name": "Artificer Fidget of the Capital",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/326.png",
+    "background_color": "09071B"
+  },
+  "327": {
+    "name": "Arcanist Ivy of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/327.png",
+    "background_color": "09071B"
+  },
+  "328": {
+    "name": "Artificer Atlas of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/328.png",
+    "background_color": "09071B"
+  },
+  "329": {
+    "name": "Archmagus George of the Toadstools",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/329.png",
+    "background_color": "000000"
+  },
+  "330": {
+    "name": "Runecaster David of Xanadu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/330.png",
+    "background_color": "000000"
+  },
+  "331": {
+    "name": "Pyromancer Gunthor of the Moors",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/331.png",
+    "background_color": "09071B"
+  },
+  "332": {
+    "name": "Shaman Jeldor ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/332.png",
+    "background_color": "040D04"
+  },
+  "333": {
+    "name": "Cryptomancer Alessar of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/333.png",
+    "background_color": "000000"
+  },
+  "334": {
+    "name": "Arch-Magician David of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/334.png",
+    "background_color": "000000"
+  },
+  "335": {
+    "name": "Witch Calypso of the Reach",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/335.png",
+    "background_color": "040D04"
+  },
+  "336": {
+    "name": "Archmagus Ofaris of the Belfry",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/336.png",
+    "background_color": "000000"
+  },
+  "337": {
+    "name": "Archmagus Hadrien of Mu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/337.png",
+    "background_color": "000000"
+  },
+  "338": {
+    "name": "Diabolist Arcus of Xanadu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/338.png",
+    "background_color": "09071B"
+  },
+  "339": {
+    "name": "Alchemist Shroomer of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/339.png",
+    "background_color": "000000"
+  },
+  "340": {
+    "name": "Voodoo Priest Danny of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/340.png",
+    "background_color": "09071B"
+  },
+  "341": {
+    "name": "Magus Merlon of the Tundra",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/341.png",
+    "background_color": "09071B"
+  },
+  "342": {
+    "name": "Charmer Daria of the Forest",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/342.png",
+    "background_color": "040D04"
+  },
+  "343": {
+    "name": "Archmagus Iprix of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/343.png",
+    "background_color": "040D04"
+  },
+  "344": {
+    "name": "Geomancer Raul of the Desert",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/344.png",
+    "background_color": "1E0200"
+  },
+  "345": {
+    "name": "Archmagus Ofaris of the Bastion",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/345.png",
+    "background_color": "040D04"
+  },
+  "346": {
+    "name": "Battle Mage Dutorn of the Sands",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/346.png",
+    "background_color": "000000"
+  },
+  "347": {
+    "name": "Alchemist Juniper of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/347.png",
+    "background_color": "09071B"
+  },
+  "348": {
+    "name": "Vampyre Stefan in the Shadows",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/348.png",
+    "background_color": "040D04"
+  },
+  "349": {
+    "name": "Battlemage Taqi of the Court",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/349.png",
+    "background_color": "000000"
+  },
+  "350": {
+    "name": "Voodoo Priest Baptiste of the Forest",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/350.png",
+    "background_color": "000000"
+  },
+  "351": {
+    "name": "Battle Mage Wolfram of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/351.png",
+    "background_color": "000000"
+  },
+  "352": {
+    "name": "Geomancer Oberon of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/352.png",
+    "background_color": "000000"
+  },
+  "353": {
+    "name": "Conjurer Bartholomew of the Rock",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/353.png",
+    "background_color": "000000"
+  },
+  "354": {
+    "name": "Mystic Nikolas of the Sands",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/354.png",
+    "background_color": "040D04"
+  },
+  "355": {
+    "name": "Battle Mage Homer of the Keep",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/355.png",
+    "background_color": "000000"
+  },
+  "356": {
+    "name": "Hedge Wizard Angus of the Canyon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/356.png",
+    "background_color": "09071B"
+  },
+  "357": {
+    "name": "Hedge Wizard Daphne of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/357.png",
+    "background_color": "09071B"
+  },
+  "358": {
+    "name": "Geomancer Properpine of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/358.png",
+    "background_color": "040D04"
+  },
+  "359": {
+    "name": "Sorcerer Thor of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/359.png",
+    "background_color": "1E0200"
+  },
+  "360": {
+    "name": "Sorcerer Chooki of the Palms",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/360.png",
+    "background_color": "000000"
+  },
+  "361": {
+    "name": "Adept Casper of Dreams",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/361.png",
+    "background_color": "09071B"
+  },
+  "362": {
+    "name": "Geomancer Magnus of the Mist",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/362.png",
+    "background_color": "040D04"
+  },
+  "363": {
+    "name": " Cassiopeia of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/363.png",
+    "background_color": "000000"
+  },
+  "364": {
+    "name": "Shadow Mage Hagar of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/364.png",
+    "background_color": "000000"
+  },
+  "365": {
+    "name": "Cronus",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/365.png",
+    "background_color": "000000"
+  },
+  "366": {
+    "name": " Amir of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/366.png",
+    "background_color": "09071B"
+  },
+  "367": {
+    "name": "Augurer Victor of El Dorado",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/367.png",
+    "background_color": "09071B"
+  },
+  "368": {
+    "name": "Diabolist Jadis of Mu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/368.png",
+    "background_color": "000000"
+  },
+  "369": {
+    "name": " Argus of the Belfry",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/369.png",
+    "background_color": "000000"
+  },
+  "370": {
+    "name": "Sorcerer Aldus of the Tundra",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/370.png",
+    "background_color": "000000"
+  },
+  "371": {
+    "name": "Shaman Kazem of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/371.png",
+    "background_color": "000000"
+  },
+  "372": {
+    "name": "Alchemist Lin of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/372.png",
+    "background_color": "000000"
+  },
+  "373": {
+    "name": "Archmagus Kamil of the Keep",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/373.png",
+    "background_color": "040D04"
+  },
+  "374": {
+    "name": "Enchanter Faye of the Forest",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/374.png",
+    "background_color": "09071B"
+  },
+  "375": {
+    "name": "Sorcerer Aleister of the Lake",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/375.png",
+    "background_color": "000000"
+  },
+  "376": {
+    "name": "Archmagus Oberon of the Palms",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/376.png",
+    "background_color": "09071B"
+  },
+  "377": {
+    "name": "Hedge Wizard Apollo of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/377.png",
+    "background_color": "040D04"
+  },
+  "378": {
+    "name": "Magus Mina of the Tundra",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/378.png",
+    "background_color": "040D04"
+  },
+  "379": {
+    "name": "Battle Mage Dante of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/379.png",
+    "background_color": "000000"
+  },
+  "380": {
+    "name": "Archmagus Gil of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/380.png",
+    "background_color": "040D04"
+  },
+  "381": {
+    "name": "Scryer Sondra of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/381.png",
+    "background_color": "1E0200"
+  },
+  "382": {
+    "name": "Pyromancer Flamos of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/382.png",
+    "background_color": "000000"
+  },
+  "383": {
+    "name": "Geomancer Shivra of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/383.png",
+    "background_color": "09071B"
+  },
+  "384": {
+    "name": "Arcanist Ixar of the Keep",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/384.png",
+    "background_color": "040D04"
+  },
+  "385": {
+    "name": "Sorcerer Orpheus of Mu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/385.png",
+    "background_color": "1E0200"
+  },
+  "386": {
+    "name": " David of the Temple",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/386.png",
+    "background_color": "040D04"
+  },
+  "387": {
+    "name": "Hedge Wizard Layla of the River",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/387.png",
+    "background_color": "09071B"
+  },
+  "388": {
+    "name": "Druid Calliope of the Surf",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/388.png",
+    "background_color": "040D04"
+  },
+  "389": {
+    "name": "Conjurer Soran of the Mountain",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/389.png",
+    "background_color": "000000"
+  },
+  "390": {
+    "name": "Archmagus Argus ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/390.png",
+    "background_color": "09071B"
+  },
+  "391": {
+    "name": "Enchanter Circe of the Atheneum",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/391.png",
+    "background_color": "1E0200"
+  },
+  "392": {
+    "name": "Sage Jean Leon of the Hall",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/392.png",
+    "background_color": "000000"
+  },
+  "393": {
+    "name": "Illusionist Apollo of the Sun",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/393.png",
+    "background_color": "040D04"
+  },
+  "394": {
+    "name": " Daria of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/394.png",
+    "background_color": "09071B"
+  },
+  "395": {
+    "name": "Alchemist Elizabeth of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/395.png",
+    "background_color": "000000"
+  },
+  "396": {
+    "name": "Sage Alessar of Avalon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/396.png",
+    "background_color": "09071B"
+  },
+  "397": {
+    "name": "Archmagus Casper of the Mount",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/397.png",
+    "background_color": "000000"
+  },
+  "398": {
+    "name": "Sorcerer Chooki of the Sands",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/398.png",
+    "background_color": "1E0200"
+  },
+  "399": {
+    "name": "Enchanter Beyna of the Field",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/399.png",
+    "background_color": "040D04"
+  },
+  "400": {
+    "name": "Sorcerer Kazem of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/400.png",
+    "background_color": "09071B"
+  },
+  "401": {
+    "name": "Archmagus Ozohr of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/401.png",
+    "background_color": "000000"
+  },
+  "402": {
+    "name": "Shadow Mage Samuel of the Lake",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/402.png",
+    "background_color": "09071B"
+  },
+  "403": {
+    "name": "Witch Shivra of the Havens",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/403.png",
+    "background_color": "09071B"
+  },
+  "404": {
+    "name": "Arcanist Ariadne of the Villa",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/404.png",
+    "background_color": "000000"
+  },
+  "405": {
+    "name": "Witch Ekmira of the Light",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/405.png",
+    "background_color": "000000"
+  },
+  "406": {
+    "name": "Battle Mage Angus of the Wold",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/406.png",
+    "background_color": "040D04"
+  },
+  "407": {
+    "name": "Hedge Wizard Keziah of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/407.png",
+    "background_color": "09071B"
+  },
+  "408": {
+    "name": "Necromancer Corvin of the Secret Fire",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/408.png",
+    "background_color": "040D04"
+  },
+  "409": {
+    "name": "Archmagus Soya of the Quantum Downs",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/409.png",
+    "background_color": "09071B"
+  },
+  "410": {
+    "name": "Solar Mage Rita of the Grotto",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/410.png",
+    "background_color": "09071B"
+  },
+  "411": {
+    "name": "Electromancer Tengu of the Morning Star",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/411.png",
+    "background_color": "09071B"
+  },
+  "412": {
+    "name": "Magus Dario of the Hollow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/412.png",
+    "background_color": "000000"
+  },
+  "413": {
+    "name": "Adept Crowley of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/413.png",
+    "background_color": "09071B"
+  },
+  "414": {
+    "name": "Hex Mage Hagar of the Arctic",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/414.png",
+    "background_color": "040D04"
+  },
+  "415": {
+    "name": "Necromancer Xerxes of the Atheneum",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/415.png",
+    "background_color": "040D04"
+  },
+  "416": {
+    "name": "Witch Hagatha of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/416.png",
+    "background_color": "000000"
+  },
+  "417": {
+    "name": "Hex Mage Faye of the Moors",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/417.png",
+    "background_color": "040D04"
+  },
+  "418": {
+    "name": "Enchanter Calliope of the River",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/418.png",
+    "background_color": "040D04"
+  },
+  "419": {
+    "name": "Battlemage Baozhai of the Steppe",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/419.png",
+    "background_color": "000000"
+  },
+  "420": {
+    "name": "Archmagus Aleister of the Grotto",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/420.png",
+    "background_color": "09071B"
+  },
+  "421": {
+    "name": "Arch-Magician Asmodeus of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/421.png",
+    "background_color": "000000"
+  },
+  "422": {
+    "name": "Conjurer Ethan of the Cosmos",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/422.png",
+    "background_color": "000000"
+  },
+  "423": {
+    "name": "Archmagus Jeldor of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/423.png",
+    "background_color": "1E0200"
+  },
+  "424": {
+    "name": "Enchanter Talon of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/424.png",
+    "background_color": "09071B"
+  },
+  "425": {
+    "name": "Pyromancer Celah of El Dorado",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/425.png",
+    "background_color": "09071B"
+  },
+  "426": {
+    "name": "Druid Flynn of the Marsh",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/426.png",
+    "background_color": "09071B"
+  },
+  "427": {
+    "name": " Milton of the Canyon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/427.png",
+    "background_color": "09071B"
+  },
+  "428": {
+    "name": "Aeromancer Carly of the Lake",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/428.png",
+    "background_color": "09071B"
+  },
+  "429": {
+    "name": "Illusionist Argus of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/429.png",
+    "background_color": "000000"
+  },
+  "430": {
+    "name": "Ice Mage Homer out of the Blizzard",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/430.png",
+    "background_color": "1E0200"
+  },
+  "431": {
+    "name": "Cryptomancer Orange Menace of the Light",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/431.png",
+    "background_color": "040D04"
+  },
+  "432": {
+    "name": "Arch-Magician Darby of Mu",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/432.png",
+    "background_color": "09071B"
+  },
+  "433": {
+    "name": "Archmagus Apollo of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/433.png",
+    "background_color": "040D04"
+  },
+  "434": {
+    "name": "Enchanter Pandora of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/434.png",
+    "background_color": "000000"
+  },
+  "435": {
+    "name": "Aeromancer Karasu of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/435.png",
+    "background_color": "000000"
+  },
+  "436": {
+    "name": " Allistair of Limbo",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/436.png",
+    "background_color": "000000"
+  },
+  "437": {
+    "name": "Aeromancer Otto of the Capital",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/437.png",
+    "background_color": "040D04"
+  },
+  "438": {
+    "name": " Ofaris of the Dunes",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/438.png",
+    "background_color": "09071B"
+  },
+  "439": {
+    "name": "Archmagus George of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/439.png",
+    "background_color": "000000"
+  },
+  "440": {
+    "name": "Adept Danny of the Veil",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/440.png",
+    "background_color": "040D04"
+  },
+  "441": {
+    "name": "Sorcerer Isaac of the Citadel",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/441.png",
+    "background_color": "09071B"
+  },
+  "442": {
+    "name": " Cairon of the Gnostics",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/442.png",
+    "background_color": "000000"
+  },
+  "443": {
+    "name": "Archmagus Alatar of the Capital",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/443.png",
+    "background_color": "09071B"
+  },
+  "444": {
+    "name": "Fortune Teller Qasim of the Ether",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/444.png",
+    "background_color": "09071B"
+  },
+  "445": {
+    "name": " Merlon of the Berg",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/445.png",
+    "background_color": "09071B"
+  },
+  "446": {
+    "name": "Magus Magpie of the Rock",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/446.png",
+    "background_color": "040D04"
+  },
+  "447": {
+    "name": "Magus Goliath of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/447.png",
+    "background_color": "09071B"
+  },
+  "448": {
+    "name": "Adept Maia of the Mountain",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/448.png",
+    "background_color": "09071B"
+  },
+  "449": {
+    "name": "Enchanter Katherine of the Canyon",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/449.png",
+    "background_color": "000000"
+  },
+  "450": {
+    "name": "Battle Mage Tundror of the Salt",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/450.png",
+    "background_color": "000000"
+  },
+  "451": {
+    "name": "Magus Milo ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/451.png",
+    "background_color": "000000"
+  },
+  "452": {
+    "name": "Charmer Mina of the Brambles",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/452.png",
+    "background_color": "000000"
+  },
+  "453": {
+    "name": "Aeromancer Huizhong of the Realm",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/453.png",
+    "background_color": "09071B"
+  },
+  "454": {
+    "name": "Archmagus Angus of the Belfry",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/454.png",
+    "background_color": "000000"
+  },
+  "455": {
+    "name": "Shaman Brutus of the Tower",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/455.png",
+    "background_color": "000000"
+  },
+  "456": {
+    "name": "Scryer Lavinia of the Garden",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/456.png",
+    "background_color": "040D04"
+  },
+  "457": {
+    "name": "Charmer Galatea of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/457.png",
+    "background_color": "000000"
+  },
+  "458": {
+    "name": "Artificer Hanko of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/458.png",
+    "background_color": "1E0200"
+  },
+  "459": {
+    "name": "Cryptomancer Thana of the Wild",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/459.png",
+    "background_color": "09071B"
+  },
+  "460": {
+    "name": "Runecaster Cromwell of the Plains",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/460.png",
+    "background_color": "040D04"
+  },
+  "461": {
+    "name": "Diviner Corky of the Toadstools",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/461.png",
+    "background_color": "000000"
+  },
+  "462": {
+    "name": "Void Disciple Samael of the Toadstools",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/462.png",
+    "background_color": "1E0200"
+  },
+  "463": {
+    "name": "Battle Mage Durm ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/463.png",
+    "background_color": "000000"
+  },
+  "464": {
+    "name": "Witch Shivra of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/464.png",
+    "background_color": "000000"
+  },
+  "465": {
+    "name": "Archmagus Ilyas of the Rock",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/465.png",
+    "background_color": "000000"
+  },
+  "466": {
+    "name": "Arch-Magician Godfrey of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/466.png",
+    "background_color": "000000"
+  },
+  "467": {
+    "name": "Medium Min of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/467.png",
+    "background_color": "000000"
+  },
+  "468": {
+    "name": "Archmagus Onaxx ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/468.png",
+    "background_color": "040D04"
+  },
+  "469": {
+    "name": "Druid Bullock of the Road",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/469.png",
+    "background_color": "000000"
+  },
+  "470": {
+    "name": "Archmagus Oberon of the Lake",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/470.png",
+    "background_color": "040D04"
+  },
+  "471": {
+    "name": "Chronomancer Watcher of the Platonic Shadow",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/471.png",
+    "background_color": "040D04"
+  },
+  "472": {
+    "name": "Thaumaturge Goliath of the Astral Plane",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/472.png",
+    "background_color": "09071B"
+  },
+  "473": {
+    "name": "Mystic Impy of the Hills",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/473.png",
+    "background_color": "000000"
+  },
+  "474": {
+    "name": "Chaos Mage Remus of the Grotto",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/474.png",
+    "background_color": "040D04"
+  },
+  "475": {
+    "name": "Arcanist Gary ",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/475.png",
+    "background_color": "09071B"
+  },
+  "476": {
+    "name": "Battle Mage Gary of the Atheneum",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/476.png",
+    "background_color": "040D04"
+  },
+  "477": {
+    "name": "Artificer Benito of the Realm",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/477.png",
+    "background_color": "040D04"
+  },
+  "478": {
+    "name": "Alchemist Rumpleskin of the Brine",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/478.png",
+    "background_color": "09071B"
+  },
+  "479": {
+    "name": "Alchemist Eronin of the Heath",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/479.png",
+    "background_color": "000000"
+  },
+  "480": {
+    "name": "Battlemage Daria of the Wood",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/480.png",
+    "background_color": "000000"
+  },
+  "481": {
+    "name": "Hedge Wizard Rumpleskin of the Valley",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/481.png",
+    "background_color": "040D04"
+  },
+  "482": {
+    "name": "Battle Mage Caligula of the Keep",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/482.png",
+    "background_color": "1E0200"
+  },
+  "483": {
+    "name": "Magus Qasim of the Bibliotheca",
+    "image": "ipfs://QmSkdo54gXTcJXErb5h7AhHYzyzvJgveK1wUGcN86HUKcX/483.png",
+    "background_color": "09071B"
+  }
+}

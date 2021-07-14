@@ -1,0 +1,43 @@
+html,
+body {
+  background-color: #31293ecc;
+}
+
+div#WEB3_CONNECT_MODAL_ID {
+  font-family: "Pixel-NES", monospace;
+}
+
+div#WEB3_CONNECT_MODAL_ID .web3modal-modal-card {
+  border-radius: 2px !important;
+}
+html {
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+body {
+  font-family: system-ui, -apple-system,
+    /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/*
+Sections
+========
+*/
+
+/**
+Remove the margin in all browsers.
+*/
+
+body {
+  margin: 0;
+}

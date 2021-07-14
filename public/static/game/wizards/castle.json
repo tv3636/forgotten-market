@@ -1,0 +1,72 @@
+{ "frames": {
+   "tower-0": {
+    "frame": { "x": 2, "y": 2, "w": 269, "h": 612 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 218, "y": 175, "w": 265, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "lines-0": {
+    "frame": { "x": 273, "y": 388, "w": 205, "h": 269 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 240, "y": 176, "w": 201, "h": 265 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "hatstaff-0": {
+    "frame": { "x": 581, "y": 2, "w": 27, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 376, "y": 420, "w": 23, "h": 19 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "plants-0": {
+    "frame": { "x": 273, "y": 2, "w": 306, "h": 384 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 275, "w": 302, "h": 380 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "palms-0": {
+    "frame": { "x": 2, "y": 616, "w": 257, "h": 66 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 231, "y": 343, "w": 253, "h": 62 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "palms Copy-0": {
+    "frame": { "x": 480, "y": 388, "w": 46, "h": 40 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 198, "y": 369, "w": 42, "h": 36 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "castle.png",
+  "format": "RGBA8888",
+  "size": { "w": 608, "h": 682 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "play", "from": 0, "to": 0, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "tower", "opacity": 255, "blendMode": "normal" },
+   { "name": "lines", "opacity": 255, "blendMode": "normal" },
+   { "name": "hatstaff", "opacity": 255, "blendMode": "normal" },
+   { "name": "plants", "opacity": 255, "blendMode": "normal" },
+   { "name": "palms", "opacity": 255, "blendMode": "normal" },
+   { "name": "palms Copy", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
