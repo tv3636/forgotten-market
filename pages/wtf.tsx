@@ -156,7 +156,7 @@ const AboutWrapper = styled.div`
 const ResponsiveImg = styled.img`
   width: 100%;
   height: auto;
-  image-rendering: crisp-edges;
+  image-rendering: pixelated;
 `;
 
 const AboutPage = () => (
