@@ -25,12 +25,14 @@
     "@next/mdx": "^11.0.1",
     "@reach/dialog": "^0.12.1",
     "@react-hook/window-size": "^3.0.7",
+    "@react-leaflet/core": "1.0.2",
     "@reduxjs/toolkit": "^1.5.0",
     "@svgr/webpack": "^5.5.0",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.4.1",
     "@types/bluebird": "^3.5.35",
+    "@types/leaflet": "^1.7.4",
     "@types/react-redux": "^7.1.12",
     "@types/sharp": "^0.28.0",
     "@types/webfontloader": "^1.6.32",
@@ -52,6 +54,8 @@
     "fortmatic": "^2.2.1",
     "isomorphic-fetch": "^3.0.0",
     "jazzicon": "^1.5.0",
+    "leaflet": "^1.7.1",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
     "lodash": "^4.17.20",
     "mobx": "6.3.0",
     "mobx-persist-store": "1.0.0",
@@ -76,6 +80,7 @@
     "react-feather": "^2.0.9",
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.8.4",
+    "react-leaflet": "3.0.2",
     "react-markdown": "^6.0.2",
     "react-redux": "^7.2.2",
     "react-spring": "^8.0.27",
@@ -108,7 +113,13 @@
   },
   "resolutions": {
     "react": "16.14.0",
-    "**/react": "16.14.0"
+    "**/react": "16.14.0",
+    "react-leaflet/@react-leaflet/core": "1.0.2"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "license": "MIT"
 }

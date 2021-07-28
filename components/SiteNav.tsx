@@ -137,17 +137,20 @@ export default function SiteNav({}: Props) {
           <ResponsivePixelImg src="/static/img/forgotten-runes-logo.png" />
         </li>
         <li className="item">
-          <a href="/wtf">wtf?</a>
+          <a href="/">The Secret Tower</a>
         </li>
         <li className="item">
-          <a href="/lore">Lore</a>
+          <a href="/wtf">wtf?</a>
         </li>
+        {/* <li className="item">
+          <a href="/lore">Lore</a>
+        </li> */}
         <li className="item">
           <a href="/map">Map</a>
         </li>
-        <li className="item">
+        {/* <li className="item">
           <a href="/blog">Blog</a>
-        </li>
+        </li> */}
         <li className="item">
           <a
             href="https://opensea.io/collection/forgottenruneswizardscult"
