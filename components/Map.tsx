@@ -26,8 +26,24 @@ const bounds = new LatLngBounds(
 
 const MapStyles = styled.div`
   height: 100%;
+  .leaflet-container {
+    background-color: black;
+  }
   img.leaflet-image-layer {
     image-rendering: pixelated;
+  }
+  .leaflet-bar a,
+  .leaflet-bar a:hover {
+    background-color: #393245;
+    color: #ececec;
+  }
+  .leaflet-bar a:hover {
+    background-color: #18151e;
+  }
+
+  .leaflet-touch .leaflet-control-layers,
+  .leaflet-touch .leaflet-bar {
+    border: none;
   }
 `;
 
