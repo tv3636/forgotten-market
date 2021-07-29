@@ -38,6 +38,7 @@ const AboutWrapper = styled.div`
   }
 
   .content {
+    width: 100%;
     max-width: 800px;
     line-height: 1.4em;
     p {
