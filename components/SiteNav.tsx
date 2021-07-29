@@ -17,6 +17,11 @@ const SiteNavElement = styled.nav`
     margin-top: 0;
     margin-left: 0;
     width: 100%;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
   }
 
   ul.menu {
