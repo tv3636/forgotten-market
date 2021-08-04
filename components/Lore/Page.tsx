@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import HTMLFlipBook from "react-pageflip";
-type Props = {};
+type Props = { page: number; wizardId: number };
 
 const PageWrapper = styled.div`
   padding: 20px;
@@ -101,24 +101,18 @@ const PageWrapper = styled.div`
   }
 `;
 const Page = React.forwardRef((props: Props, ref: any) => {
+  const { wizardId, page } = props;
   return (
     <PageWrapper className="page" ref={ref}>
       <div className="page-content">
-        <h2 className="page-header">Page header 1</h2>
+        <h2 className="page-header">Page header {wizardId}</h2>
         <div className="page-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus
           mollis nibh, non convallis ex convallis eu. Suspendisse potenti.
           Aenean vitae pellentesque erat. Integer non tristique quam.
           Suspendisse rutrum, augue ac sollicitudin mollis, eros velit viverra
-          metus, a venenatis tellus tellus id magna. Aliquam ac nulla rhoncus,
-          accumsan eros sed, viverra enim. Pellentesque non justo vel nibh
-          sollicitudin pharetra suscipit ut ipsum. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. In cursus mollis nibh, non convallis ex
-          convallis eu. Suspendisse potenti. Aenean vitae pellentesque erat.
-          Integer non tristique quam. Suspendisse rutrum, augue ac sollicitudin
-          mollis, eros velit viverra metus, a venenatis tellus tellus id magna.
         </div>
-        <div className="page-footer">2</div>
+        <div className="page-footer">{wizardId}</div>
       </div>
     </PageWrapper>
   );
