@@ -16,7 +16,7 @@ const LorePage = () => {
   return (
     <Layout title="wtf | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
       <LoreWrapper>
-        <Book wizardId={wizardId} page={page} />
+        {/* <Book wizardId={wizardId} page={page} /> */}
       </LoreWrapper>
     </Layout>
   );
