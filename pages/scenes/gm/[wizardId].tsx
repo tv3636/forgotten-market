@@ -47,7 +47,6 @@ const GmPage = () => {
   const { wizardId, page } = router.query;
   const wizardData: any = wizData[wizardId.toString()];
   const bg = "#" + wizardData.background_color;
-  console.log("bg: ", bg);
 
   return (
     <Layout title="wtf | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
