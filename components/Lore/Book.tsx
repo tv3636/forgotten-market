@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import { HTMLFlipBook } from "../PageFlip/HTMLFlipBook";
 import Page from "./Page";
 import { range } from "lodash";
 import { InfiniteLoader, List } from "react-virtualized";
@@ -67,49 +66,5 @@ export default function Book({ wizardId, page }: Props) {
     );
   };
 
-  return (
-    <BookWrapper>
-      <HTMLFlipBook
-        width={550}
-        height={733}
-        size="stretch"
-        minWidth={315}
-        maxWidth={1000}
-        minHeight={400}
-        maxHeight={1533}
-        maxShadowOpacity={0.5}
-        showCover={true}
-        mobileScrollSupport={true}
-        onFlip={onFlip}
-        style={{}}
-        flippingTime={300}
-        startPage={0}
-        // onChangeOrientation={this.onChangeOrientation}
-        // onChangeState={this.onChangeState}
-        className="book"
-        ref={(el) => (flipBook.current = el)}
-      >
-        <Page wizardId={1} page={1} />
-        <Page wizardId={1} page={1} />
-        <Page wizardId={1} page={1} />
-        <Page wizardId={1} page={1} />
-
-        {/* <InfiniteLoader
-          isRowLoaded={isRowLoaded}
-          loadMoreRows={loadMoreRows}
-          rowCount={rowCount}
-        >
-          {({ onRowsRendered, registerChild }) => (
-            <List
-              ref={registerChild}
-              onRowsRendered={onRowsRendered}
-              rowRenderer={rowRenderer}
-            />
-            <Page wizardId={1} page={1} />
-          )}
-        </InfiniteLoader>
-          */}
-      </HTMLFlipBook>
-    </BookWrapper>
-  );
+  return <BookWrapper></BookWrapper>;
 }
