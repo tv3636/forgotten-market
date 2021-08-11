@@ -72,6 +72,10 @@ const Spread = styled.div<{}>`
   display: grid;
   gap: 0px 0px;
   height: 75vh;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 4px 14px #00000026;
+  border: 1px solid #63440b;
 
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   @media (max-width: 768px) {
@@ -84,6 +88,7 @@ const TextPage = styled.div`
   font-size: 24px;
   max-height: 70vh;
   overflow: scroll;
+  padding: 1em;
 `;
 
 const LorePage = () => {
