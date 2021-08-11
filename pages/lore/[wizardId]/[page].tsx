@@ -82,7 +82,8 @@ const Spread = styled.div<{}>`
 const TextPage = styled.div`
   color: white;
   font-size: 24px;
-  column-width: 150px;
+  max-height: 70vh;
+  overflow: scroll;
 `;
 
 const LorePage = () => {
@@ -108,7 +109,9 @@ const LorePage = () => {
               {/* <ResponsivePixelImg
                 src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
               /> */}
-              <TextPage>{text}</TextPage>
+              <TextPage>
+                <ReactMarkdown>{text}</ReactMarkdown>
+              </TextPage>
             </FirstPage>
           </Spread>
 
