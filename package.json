@@ -36,6 +36,7 @@
     "@types/lodash": "^4.14.172",
     "@types/openseadragon": "^2.4.7",
     "@types/page-flip": "^2.0.0",
+    "@types/react-color": "^3.0.5",
     "@types/react-redux": "^7.1.12",
     "@types/react-virtualized": "^9.21.12",
     "@types/sharp": "^0.28.0",
@@ -55,6 +56,7 @@
     "copy-to-clipboard": "^3.3.1",
     "eth-hooks": "^1.1.2",
     "ethers": "^5.0.24",
+    "formik": "^2.2.9",
     "fortmatic": "^2.2.1",
     "isomorphic-fetch": "^3.0.0",
     "jazzicon": "^1.5.0",
@@ -80,6 +82,7 @@
     "qrcode.react": "^1.0.1",
     "react": "16.14.0",
     "react-blockies": "^1.4.1",
+    "react-color": "^2.19.3",
     "react-css-theme-switcher": "^0.2.3",
     "react-device-detect": "^1.15.0",
     "react-dom": "16.14.0",
@@ -100,7 +103,8 @@
     "tiny-invariant": "^1.1.0",
     "web3modal": "^1.9.3",
     "webfontloader": "^1.6.28",
-    "yargs": "^17.0.1"
+    "yargs": "^17.0.1",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
