@@ -29,6 +29,16 @@ body {
   box-sizing: border-box;
 }
 
+.wizard-overlay-class {
+  background-color: #FFFFFF;
+  opacity: 0.8;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
 /*
 Sections
 ========

@@ -16,7 +16,11 @@ let nextConfig = {
     };
     return config;
   },
-  pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"]
+  pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
+  // images: {
+  //   domains: ['nftz.forgottenrunes.com'],
+  // },
+
 };
 
 nextConfig = withImages(nextConfig);
