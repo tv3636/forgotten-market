@@ -1,11 +1,11 @@
 import * as React from "react";
-import { useState } from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
-const wizData = productionWizardData as { [wizardId: string]: any };
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
+
+const wizData = productionWizardData as { [wizardId: string]: any };
 
 type Props = {
   wizardId: string;

@@ -7,7 +7,7 @@ import {
   TileLayer,
   ImageOverlay,
   Marker,
-  Popup
+  Popup,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -47,18 +47,24 @@ const MapStyles = styled.div`
   }
 `;
 
+export const MapWrapper = styled.div`
+  height: 90vh;
+`;
+
 const Map = () => (
-  <MapStyles>
-    <MapContainer
-      center={[0, 0]}
-      zoom={7}
-      scrollWheelZoom={true}
-      style={{ height: "100%", width: "100%" }}
-      attributionControl={false}
-    >
-      <ImageOverlay bounds={bounds} url="/static/img/map/map.png" />
-    </MapContainer>
-  </MapStyles>
+  <MapWrapper>
+    <MapStyles>
+      <MapContainer
+        center={[0, 0]}
+        zoom={7}
+        scrollWheelZoom={true}
+        style={{ height: "100%", width: "100%" }}
+        attributionControl={false}
+      >
+        <ImageOverlay bounds={bounds} url="/static/img/map/map.png" />
+      </MapContainer>
+    </MapStyles>
+  </MapWrapper>
 );
 
 export default Map;
