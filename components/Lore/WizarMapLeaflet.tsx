@@ -7,10 +7,12 @@ import productionWizardData from "../../data/nfts-prod.json";
 import { renderToString } from "react-dom/server";
 import { useRouter } from "next/router";
 import { GeoJsonObject } from "geojson";
+import { MapWrapper } from "../Map";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const MapStyles = styled.div`
+  height: 100%;
   .leaflet-container {
     background-color: mediumvioletred;
   }
@@ -45,9 +47,8 @@ const WizardPopup = ({ name, index }: { name: string; index: number }) => {
 
 const Layers = () => {
   const map = useMap();
-
   const router = useRouter();
-  const { wizardIndex } = router.query;
+  const { id } = router.query;
 
   useEffect(() => {
     if (!map) return;
@@ -100,11 +101,10 @@ const Layers = () => {
   }, [map]);
 
   useEffect(() => {
-    if (!map || !wizardIndex) return;
+    if (!map || !id) return;
 
-    const x: number = (Number.parseInt(wizardIndex as string) % 100) * 50;
-    const y: number =
-      Math.floor(Number.parseInt(wizardIndex as string) / 100.0) * 50;
+    const x: number = (Number.parseInt(id as string) % 100) * 50;
+    const y: number = Math.floor(Number.parseInt(id as string) / 100.0) * 50;
 
     const point1 = map.unproject([x, y], map.getZoom());
     const point2 = map.unproject([x + 50, y + 50], map.getZoom());
@@ -113,7 +113,7 @@ const Layers = () => {
       [point1.lat, point1.lng],
       [point2.lat, point2.lng],
     ]);
-  }, [wizardIndex]);
+  }, [map, id]);
 
   const bounds = [
     map.unproject([0, 0], map.getZoom()),
@@ -127,7 +127,7 @@ const Layers = () => {
         errorTileUrl={"/static/wizard-tiles/blank.png"}
         // @ts-ignore
         bounds={bounds}
-        maxZoom={10}
+        maxZoom={8}
         minZoom={3}
         url={"/static/wizard-tiles/{z}/{y}/{x}.png"}
       />
@@ -137,19 +137,21 @@ const Layers = () => {
 
 const WizardMapLeaflet = () => {
   return (
-    <MapStyles>
-      <MapContainer
-        preferCanvas={true}
-        crs={CRS.Simple}
-        zoom={5}
-        center={[-78.125, 78.125]}
-        scrollWheelZoom={false}
-        style={{ height: "700px", width: "100%" }}
-        attributionControl={false}
-      >
-        <Layers />
-      </MapContainer>
-    </MapStyles>
+    <MapWrapper>
+      <MapStyles>
+        <MapContainer
+          preferCanvas={true}
+          crs={CRS.Simple}
+          zoom={5}
+          center={[-78.125, 78.125]}
+          scrollWheelZoom={false}
+          style={{ height: "100%", width: "100%" }}
+          attributionControl={false}
+        >
+          <Layers />
+        </MapContainer>
+      </MapStyles>
+    </MapWrapper>
   );
 };
 
