@@ -145,7 +145,7 @@ export default function SiteNav({}: Props) {
           <a href="/">The Secret Tower</a>
         </li>
         <li className="item">
-          <a href="/wtf">wtf?</a>
+          <a href="/wtf">WTF?</a>
         </li>
         <li className="item">
           <a href="/posts">Resources</a>
@@ -156,6 +156,9 @@ export default function SiteNav({}: Props) {
         </li> */}
         <li className="item">
           <a href="/map">Map</a>
+        </li>
+        <li className="item">
+          <a href="/gallery">Gallery</a>
         </li>
         {/* <li className="item">
           <a href="/blog">Blog</a>
