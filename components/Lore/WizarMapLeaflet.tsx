@@ -124,12 +124,12 @@ const Layers = () => {
     <>
       <TileLayer
         noWrap={true}
-        errorTileUrl={"/static/wizard-tiles/blank.png"}
+        errorTileUrl={"https://nftz.forgottenrunes.com/tiles/wizards/blank.png"}
         // @ts-ignore
         bounds={bounds}
         maxZoom={8}
         minZoom={3}
-        url={"/static/wizard-tiles/{z}/{y}/{x}.png"}
+        url={"https://nftz.forgottenrunes.com/tiles/wizards/{z}/{y}/{x}.png"}
       />
     </>
   );
