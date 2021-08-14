@@ -7,6 +7,9 @@ import BookOfLoreControls from "../../components/Lore/BookOfLoreControls";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
+import WizardPicker from "../../components/AddLore/WizardPicker";
+import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
+import { EmptyWell } from "../../components/ui/EmptyWell";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { ChromePicker } from "react-color";
@@ -16,8 +19,10 @@ const wizData = productionWizardData as { [wizardId: string]: any };
 const AddLoreWrapper = styled.div`
   padding: 1em;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  background-color: #0e0e0e;
+  min-height: 90vh;
 `;
 
 const AddLoreLayout = styled.div`
@@ -26,13 +31,19 @@ const AddLoreLayout = styled.div`
   padding: 1em;
   display: grid;
   grid-template-columns: 3fr 2fr;
+  grid-column-gap: 20px;
   color: white;
+  position: relative;
 `;
 
-const WizardPicker = styled.div``;
-const ArtifactPicker = styled.div``;
 const FormPanel = styled.div``;
 const PreviewPanel = styled.div``;
+
+const PreviewStickyPane = styled.div`
+  position: sticky;
+  top: 20px;
+`;
+
 const HelpTooltip = styled.div`
   display: none;
 `;
@@ -54,7 +65,7 @@ const TitleField = ({ ...props }: any) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label htmlFor={props.id || props.name}>Title (optional)</label>
+      <h2>Title (optional)</h2>
       <input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
@@ -67,12 +78,12 @@ const StoryField = ({ ...props }: any) => {
   const [field, meta] = useField(props);
   return (
     <>
-      <label htmlFor={props.id || props.name}>
+      <h2>
         Story (optional, Markdown supported)
         <HelpTooltip>
           Learn more about the <a href="TODO">markdown syntax here</a>
         </HelpTooltip>
-      </label>
+      </h2>
       <input className="text-input" {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
@@ -101,17 +112,17 @@ const AddLorePage = () => {
               <FormPanel>
                 <h1>Add Lore</h1>
                 <FormField>
-                  <h3>Pick a Wizard</h3>
+                  <h2>Pick a Wizard</h2>
                   <WizardPicker />
                 </FormField>
                 <FormField>
-                  <h3>
+                  <h2>
                     Pick an Artifact NFT
                     <HelpTooltip>
                       An Artifact can be any NFT that you want to attach to this
                       Wizard
                     </HelpTooltip>
-                  </h3>
+                  </h2>
                   <ArtifactPicker />
                 </FormField>
                 <FormField>
@@ -131,12 +142,12 @@ const AddLorePage = () => {
                   />
                 </FormField>
                 <FormField>
-                  <h3>Background Color (optional)</h3>
+                  <h2>Background Color (optional)</h2>
                   {/* https://casesandberg.github.io/react-color/ */}
                   <ChromePicker />
                 </FormField>
                 <FormField>
-                  <h3>
+                  <h2>
                     nsfw?
                     <HelpTooltip>
                       Assigning nsfw status is a courtesy to let Wizards of all
@@ -145,7 +156,7 @@ const AddLorePage = () => {
                       inappropriate for minors. If you have questions about when
                       to use this switch, see the Community Guidelines.
                     </HelpTooltip>
-                  </h3>
+                  </h2>
                   <NSFWToggle name="nsfw" />
                 </FormField>
                 <FormField>
@@ -153,7 +164,15 @@ const AddLorePage = () => {
                 </FormField>
               </FormPanel>
               <PreviewPanel>
-                <h3>Preview</h3>
+                <PreviewStickyPane>
+                  <h1>Preview</h1>
+                  <EmptyWell>
+                    <div>
+                      Pick a Wizard and Artifact and a preview of your Lore will
+                      appear here
+                    </div>
+                  </EmptyWell>
+                </PreviewStickyPane>
               </PreviewPanel>
             </AddLoreLayout>
           </Form>
