@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Web3Provider } from "@ethersproject/providers";
 
-const useUserAddress = (provider: Web3Provider): string => {
+const useUserAddress = (provider: Web3Provider | null): string => {
   const [userAddress, setUserAddress] = useState<string>("");
 
   useEffect(() => {
