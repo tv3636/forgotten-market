@@ -10,11 +10,9 @@ type Props = {};
 
 export function ConnectWalletButton() {
   const { web3Settings } = useMst();
-  console.log("store: ", web3Settings);
   const connected = web3Settings.connected;
 
   const setInjectedProvider = (newProvider: any) => {
-    console.log("newProvider: ", newProvider);
     web3Settings.setInjectedProvider(newProvider);
   };
   const [web3Modal, loadWeb3Modal, logoutOfWeb3Modal] =
@@ -22,11 +20,8 @@ export function ConnectWalletButton() {
 
   useEffect(() => {
     console.log("checking if we're already connected");
+    // if you're already connected, set the injectedProvider
   }, []);
 
-  return (
-    <Button onClick={() => loadWeb3Modal()}>
-      Connect Your Wallet a [{connected ? "true" : "false"}]
-    </Button>
-  );
+  return <Button onClick={() => loadWeb3Modal()}>Connect Your Wallet</Button>;
 }
