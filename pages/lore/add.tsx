@@ -17,7 +17,7 @@ import { ChromePicker } from "react-color";
 import TextareaAutosize from "react-textarea-autosize";
 import productionWizardData from "../../data/nfts-prod.json";
 import { css } from "@emotion/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { RgbaColorPicker } from "react-colorful";
 import Switch from "react-switch";
 
@@ -96,6 +96,13 @@ const NSFWStyles = styled.div`
     margin-left: 14px;
     top: 4px;
   }
+`;
+
+const EmptyPreviewStyles = styled.div`
+  font-family: "Alagard";
+  color: #acacac;
+  font-size: 24px;
+  line-height: 1.6;
 `;
 
 const NSFWField = ({ ...props }: { name: string }) => {
@@ -241,10 +248,10 @@ const AddLorePage = () => {
                 <PreviewStickyPane>
                   <h1>Preview</h1>
                   <EmptyWell>
-                    <div>
+                    <EmptyPreviewStyles>
                       Pick a Wizard and Artifact and a preview of your Lore will
                       appear here
-                    </div>
+                    </EmptyPreviewStyles>
                   </EmptyWell>
                 </PreviewStickyPane>
               </PreviewPanel>
