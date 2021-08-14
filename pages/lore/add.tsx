@@ -13,7 +13,9 @@ import { EmptyWell } from "../../components/ui/EmptyWell";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { ChromePicker } from "react-color";
+import TextareaAutosize from "react-textarea-autosize";
 import productionWizardData from "../../data/nfts-prod.json";
+import { css } from "@emotion/react";
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const AddLoreWrapper = styled.div`
@@ -27,7 +29,7 @@ const AddLoreWrapper = styled.div`
 
 const AddLoreLayout = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 1100px;
   padding: 1em;
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -50,6 +52,29 @@ const HelpTooltip = styled.div`
 const BackgroundColorPicker = styled.div``;
 const FormField = styled.div``;
 
+const textInputsCSS = css`
+  padding: 0.5em;
+  width: 100%;
+  border-radius: 3px;
+  border: none;
+  font-size: 1.2em;
+  background-color: #1f1f1f;
+  color: white;
+  ::placeholder {
+    color: #ffffff36;
+  }
+`;
+
+const TextInput = styled.input`
+  ${textInputsCSS};
+`;
+
+const TextAreaAutosizeInput = styled(TextareaAutosize)`
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  ${textInputsCSS};
+`;
+
 const NSFWToggle = ({ ...props }: { name: string }) => {
   const [field, meta] = useField({ ...props, type: "checkbox" });
   return (
@@ -66,7 +91,7 @@ const TitleField = ({ ...props }: any) => {
   return (
     <>
       <h2>Title (optional)</h2>
-      <input className="text-input" {...field} {...props} />
+      <TextInput {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
       ) : null}
@@ -84,7 +109,7 @@ const StoryField = ({ ...props }: any) => {
           Learn more about the <a href="TODO">markdown syntax here</a>
         </HelpTooltip>
       </h2>
-      <input className="text-input" {...field} {...props} />
+      <TextAreaAutosizeInput minRows={4} {...field} {...props} />
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
       ) : null}
