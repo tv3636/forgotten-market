@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
+import Button from "../ui/Button";
 
 type Props = {};
 
@@ -16,5 +17,5 @@ export function ConnectWalletButton() {
   const [web3Modal, loadWeb3Modal, logoutOfWeb3Modal] =
     useWeb3Modal(setInjectedProvider);
 
-  return <button onClick={() => loadWeb3Modal()}>Connect Your Wallet</button>;
+  return <Button onClick={() => loadWeb3Modal()}>Connect Your Wallet</Button>;
 }

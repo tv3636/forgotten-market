@@ -5,6 +5,7 @@ import { EmptyWell } from "../ui/EmptyWell";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ConnectWalletButton } from "../web3/ConnectWalletButton";
+import Button from "../ui/Button";
 
 type Props = {};
 
@@ -24,7 +25,7 @@ export default function ArtifactPicker({}: Props) {
     return (
       <EmptyWell>
         <div>
-          <button>Pick an Artifact NFT</button>
+          <Button>Pick an Artifact NFT</Button>
         </div>
       </EmptyWell>
     );
