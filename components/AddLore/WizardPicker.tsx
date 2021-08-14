@@ -5,6 +5,8 @@ import { EmptyWell } from "../ui/EmptyWell";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
 import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ConnectWalletButton } from "../web3/ConnectWalletButton";
+import { useMst } from "../../store";
+import { observer } from "mobx-react-lite";
 
 type Props = {};
 
@@ -18,8 +20,10 @@ function NotConnected() {
   );
 }
 
-export default function WizardPicker({}: Props) {
-  const walletConnected = false;
+const WizardPicker = observer(({}: Props) => {
+  const { web3Settings } = useMst();
+
+  const walletConnected = web3Settings.connected;
 
   if (!walletConnected) {
     return (
@@ -29,5 +33,7 @@ export default function WizardPicker({}: Props) {
     );
   }
 
-  return <WizardPickerElement>hello</WizardPickerElement>;
-}
+  return <WizardPickerElement>Your wallet is connected</WizardPickerElement>;
+});
+
+export default WizardPicker;
