@@ -5909,6 +5909,11 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
+
 expand-template@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/expand-template/-/expand-template-2.0.3.tgz#6e14b3fcee0f3a6340ecb57d2e8918692052a47c"
@@ -9861,7 +9866,7 @@ react-leaflet@3.1.0:
   dependencies:
     "@react-leaflet/core" "^1.0.2"
 
-react-lifecycles-compat@^3.0.4:
+react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
@@ -9884,6 +9889,16 @@ react-markdown@^6.0.2:
     unified "^9.0.0"
     unist-util-visit "^2.0.0"
     vfile "^4.0.0"
+
+react-modal@^3.14.3:
+  version "3.14.3"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.14.3.tgz#7eb7c5ec85523e5843e2d4737cc17fc3f6aeb1c0"
+  integrity sha512-+C2KODVKyu20zHXPJxfOOcf571L1u/EpFlH+oS/3YDn8rgVE51QZuxuuIwabJ8ZFnOEHaD+r6XNjqwtxZnXO0g==
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.7.2"
+    react-lifecycles-compat "^3.0.0"
+    warning "^4.0.3"
 
 react-pageflip@^2.0.3:
   version "2.0.3"
@@ -9957,6 +9972,14 @@ react-textarea-autosize@^8.3.3:
     "@babel/runtime" "^7.10.2"
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
+
+react-tooltip@^4.2.21:
+  version "4.2.21"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.2.21.tgz#840123ed86cf33d50ddde8ec8813b2960bfded7f"
+  integrity sha512-zSLprMymBDowknr0KVDiJ05IjZn9mQhhg4PRsqln0OZtURAJ1snt1xi5daZfagsh6vfsziZrc9pErPTDY1ACig==
+  dependencies:
+    prop-types "^15.7.2"
+    uuid "^7.0.3"
 
 react-use-gesture@^9.0.0-beta.11:
   version "9.0.0-beta.11"
@@ -11886,6 +11909,11 @@ uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
+  integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
