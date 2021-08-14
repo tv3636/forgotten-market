@@ -10,12 +10,17 @@ import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import WizardPicker from "../../components/AddLore/WizardPicker";
 import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
 import { EmptyWell } from "../../components/ui/EmptyWell";
+import Button from "../../components/ui/Button";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import { ChromePicker } from "react-color";
 import TextareaAutosize from "react-textarea-autosize";
 import productionWizardData from "../../data/nfts-prod.json";
 import { css } from "@emotion/react";
+import { useState } from "react";
+import { RgbaColorPicker } from "react-colorful";
+import Switch from "react-switch";
+
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const AddLoreWrapper = styled.div`
@@ -38,6 +43,11 @@ const AddLoreLayout = styled.div`
   position: relative;
 `;
 
+const SubmitFormField = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const FormPanel = styled.div``;
 const PreviewPanel = styled.div``;
 
@@ -50,7 +60,9 @@ const HelpTooltip = styled.div`
   display: none;
 `;
 const BackgroundColorPicker = styled.div``;
-const FormField = styled.div``;
+const FormField = styled.div`
+  padding: 0.5em 0;
+`;
 
 const textInputsCSS = css`
   padding: 0.5em;
@@ -75,14 +87,49 @@ const TextAreaAutosizeInput = styled(TextareaAutosize)`
   ${textInputsCSS};
 `;
 
-const NSFWToggle = ({ ...props }: { name: string }) => {
+const NSFWStyles = styled.div`
+  h3 {
+    display: inline-block;
+  }
+  label {
+    position: relative;
+    margin-left: 14px;
+    top: 4px;
+  }
+`;
+
+const NSFWField = ({ ...props }: { name: string }) => {
   const [field, meta] = useField({ ...props, type: "checkbox" });
+  const [checked, setChecked] = useState(false);
+
+  // TODO how to useField with Switch?
   return (
-    <>
+    <NSFWStyles>
+      <h3>
+        nsfw?
+        <HelpTooltip>
+          Assigning nsfw status is a courtesy to let Wizards of all ages and
+          backgrounds to safely enjoy the Lore. A good rule of thumb is nsfw
+          should be enabled if the Lore is inappropriate for minors. If you have
+          questions about when to use this switch, see the Community Guidelines.
+        </HelpTooltip>
+      </h3>
       <label className="checkbox-input">
-        <input type="checkbox" {...field} {...props} />
+        {/* <input type="checkbox" {...field} {...props} /> */}
+        <Switch
+          onChange={() => setChecked(!checked)}
+          checked={checked}
+          uncheckedIcon={false}
+          width={40}
+          height={22}
+          offColor={"#494949"}
+          onColor={"#8e0606"}
+          offHandleColor={"#a7a7a7"}
+          // {...field}
+          // {...props}
+        />
       </label>
-    </>
+    </NSFWStyles>
   );
 };
 
@@ -113,6 +160,17 @@ const StoryField = ({ ...props }: any) => {
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
       ) : null}
+    </>
+  );
+};
+
+const ColorField = ({ ...props }: any) => {
+  const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
+  return (
+    <>
+      <h2>Background Color (optional)</h2>
+      {/* https://github.com/omgovich/react-colorful */}
+      <RgbaColorPicker color={color} onChange={setColor} />
     </>
   );
 };
@@ -166,26 +224,17 @@ const AddLorePage = () => {
                     placeholder="Our hero finds himself wandering, without water..."
                   />
                 </FormField>
+                {/* can we get an eyedropper? */}
+                {/* <FormField>
+                  <ColorField />
+                </FormField> */}
                 <FormField>
-                  <h2>Background Color (optional)</h2>
-                  {/* https://casesandberg.github.io/react-color/ */}
-                  <ChromePicker />
+                  <NSFWField />
                 </FormField>
                 <FormField>
-                  <h2>
-                    nsfw?
-                    <HelpTooltip>
-                      Assigning nsfw status is a courtesy to let Wizards of all
-                      ages and backgrounds to safely enjoy the Lore. A good rule
-                      of thumb is nsfw should be enabled if the Lore is
-                      inappropriate for minors. If you have questions about when
-                      to use this switch, see the Community Guidelines.
-                    </HelpTooltip>
-                  </h2>
-                  <NSFWToggle name="nsfw" />
-                </FormField>
-                <FormField>
-                  <button type="submit">Submit</button>
+                  <SubmitFormField>
+                    <Button>Submit</Button>
+                  </SubmitFormField>
                 </FormField>
               </FormPanel>
               <PreviewPanel>
