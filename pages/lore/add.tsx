@@ -215,7 +215,7 @@ const AddLorePage = () => {
                   <ColorField />
                 </FormField> */}
                 <FormField>
-                  <NSFWField />
+                  <NSFWField name={'test'} />
                 </FormField>
                 <FormField>
                   <SubmitFormField>
