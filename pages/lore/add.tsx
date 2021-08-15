@@ -8,7 +8,9 @@ import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import WizardPicker from "../../components/AddLore/WizardPicker";
-import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
+import ArtifactPicker, {
+  ArtifactConfiguration
+} from "../../components/AddLore/ArtifactPicker";
 import { EmptyWell } from "../../components/ui/EmptyWell";
 import Button from "../../components/ui/Button";
 import { Formik, Form, useField } from "formik";
@@ -24,6 +26,7 @@ import {
   TextInput,
   TextAreaAutosizeInput
 } from "../../components/ui/Inputs";
+
 import Switch from "react-switch";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
@@ -164,6 +167,11 @@ const ColorField = ({ ...props }: any) => {
 const AddLorePage = () => {
   const router = useRouter();
   const { wizardId, page } = router.query;
+  const [currentArtifact, setCurrentArtifact] =
+    useState<ArtifactConfiguration | null>(null);
+  const onArtifactPicked = (artifactConfiguration: ArtifactConfiguration) => {
+    setCurrentArtifact(artifactConfiguration);
+  };
 
   return (
     <Layout
@@ -192,7 +200,7 @@ const AddLorePage = () => {
                       Wizard
                     </HelpTooltip>
                   </h2>
-                  <ArtifactPicker />
+                  <ArtifactPicker onArtifactPicked={onArtifactPicked} />
                 </FormField>
                 <FormField>
                   <TitleField
