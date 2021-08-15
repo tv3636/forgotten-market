@@ -30,6 +30,7 @@ const StyledModal = styled(ModalDecorator)`
     min-width: 50vw;
     min-height: 50vw;
     color: white;
+    display: flex;
   }
 `;
 export default StyledModal;

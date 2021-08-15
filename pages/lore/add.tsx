@@ -19,6 +19,11 @@ import productionWizardData from "../../data/nfts-prod.json";
 import { css } from "@emotion/react";
 import React, { useState } from "react";
 import { RgbaColorPicker } from "react-colorful";
+import {
+  FormField,
+  TextInput,
+  TextAreaAutosizeInput
+} from "../../components/ui/Inputs";
 import Switch from "react-switch";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
@@ -60,32 +65,6 @@ const HelpTooltip = styled.div`
   display: none;
 `;
 const BackgroundColorPicker = styled.div``;
-const FormField = styled.div`
-  padding: 0.5em 0;
-`;
-
-const textInputsCSS = css`
-  padding: 0.5em;
-  width: 100%;
-  border-radius: 3px;
-  border: none;
-  font-size: 1.2em;
-  background-color: #1f1f1f;
-  color: white;
-  ::placeholder {
-    color: #ffffff36;
-  }
-`;
-
-const TextInput = styled.input`
-  ${textInputsCSS};
-`;
-
-const TextAreaAutosizeInput = styled(TextareaAutosize)`
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  ${textInputsCSS};
-`;
 
 const NSFWStyles = styled.div`
   h3 {
