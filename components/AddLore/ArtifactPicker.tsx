@@ -10,13 +10,39 @@ import Button from "../ui/Button";
 import Modal from "react-modal";
 import { ModalDecorator } from "../ui/ModalDecorator";
 import StyledModal from "./StyledModal";
+import {
+  FormField,
+  TextInput,
+  TextAreaAutosizeInput
+} from "../../components/ui/Inputs";
 
-const ArtifactPickerModalElement = styled.div``;
+const ArtifactPickerModalElement = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em;
+  width: 100%;
+  height: 100%;
+`;
+
+const ArtifactPickerFormContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  padding: 1em 0em 1em 0em;
+  margin-bottom: 2em;
+`;
 
 function ArtifactPickerModal({ onRequestClose }: any) {
   return (
     <ArtifactPickerModalElement>
       <h1>Pick an Artifact</h1>
+      <ArtifactPickerFormContainer>
+        <h2>NFT URL</h2>
+        <TextInput placeholder={"Enter an OpenSea or Rarible URL"} />
+      </ArtifactPickerFormContainer>
       <Button onClick={onRequestClose}>Done</Button>
     </ArtifactPickerModalElement>
   );
