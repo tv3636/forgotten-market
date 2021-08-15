@@ -41,6 +41,14 @@ const ErrorMessage = styled.div`
   padding: 1.5em 0;
 `;
 
+const NftDisplayContainer = styled.div`
+  width: 100%;
+  margin: 2em 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 // If you're testing, here are some Artifacts to try:
 // A poem from Margret
 // https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/96577616716374093869564910580926487133870015185803080998328868057160295120897
@@ -52,7 +60,7 @@ function ArtifactPickerModal({ onRequestClose }: any) {
   // onChange, debounce, e
   const [inputUrl, setInputUrl] = useState<string | null>(null);
   const [inputError, setInputError] = useState<string | null>(null);
-  const [contractId, setContractId] = useState<string | null>(null);
+  const [contractAddress, setContractAddress] = useState<string | null>(null);
   const [tokenId, setTokenId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -63,19 +71,19 @@ function ArtifactPickerModal({ onRequestClose }: any) {
         const path = url.pathname;
 
         if (host.match(/opensea/)) {
-          const [nothing, assets, contractId, tokenId, ...rest] =
+          const [nothing, assets, contractAddress, tokenId, ...rest] =
             path.split("/");
-          if (contractId?.length > 0 && tokenId?.length > 0) {
+          if (contractAddress?.length > 0 && tokenId?.length > 0) {
             setInputError(null);
-            setContractId(contractId);
+            setContractAddress(contractAddress);
             setTokenId(tokenId);
           }
         } else if (host.match(/rarible/)) {
           const [nothing, token, contractTokenId, ...rest] = path.split("/");
-          const [contractId, tokenId] = contractTokenId.split(":");
-          if (contractId?.length > 0 && tokenId?.length > 0) {
+          const [contractAddress, tokenId] = contractTokenId.split(":");
+          if (contractAddress?.length > 0 && tokenId?.length > 0) {
             setInputError(null);
-            setContractId(contractId);
+            setContractAddress(contractAddress);
             setTokenId(tokenId);
           }
         } else {
@@ -98,9 +106,11 @@ function ArtifactPickerModal({ onRequestClose }: any) {
             setInputUrl(evt?.target?.value);
           }}
         />
-        {contractId && tokenId && (
-          <NFTDisplay contractId={contractId} tokenId={tokenId} />
-        )}
+        <NftDisplayContainer>
+          {contractAddress && tokenId && (
+            <NFTDisplay contractAddress={contractAddress} tokenId={tokenId} />
+          )}
+        </NftDisplayContainer>
         {inputError && <ErrorMessage>{inputError}</ErrorMessage>}
       </ArtifactPickerFormContainer>
       <Button onClick={onRequestClose}>Done</Button>
