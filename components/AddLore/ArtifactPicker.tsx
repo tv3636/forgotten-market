@@ -56,7 +56,7 @@ const NftDisplayContainer = styled.div`
 // https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/58811179388067127948312763744960816539054544338312292935514425161264702423041
 // Gremplin Remix of Marlo's Alien
 // https://rarible.com/token/0x1adaac3daaae37496f9762671281544f912ebf48:10008?tab=details
-function ArtifactPickerModal({ onRequestClose }: any) {
+function ArtifactPickerModal({ onRequestClose, onArtifactPicked }: any) {
   // onChange, debounce, e
   const [inputUrl, setInputUrl] = useState<string | null>(null);
   const [inputError, setInputError] = useState<string | null>(null);
@@ -77,6 +77,7 @@ function ArtifactPickerModal({ onRequestClose }: any) {
             setInputError(null);
             setContractAddress(contractAddress);
             setTokenId(tokenId);
+            onArtifactPicked({ contractAddress, tokenId });
           }
         } else if (host.match(/rarible/)) {
           const [nothing, token, contractTokenId, ...rest] = path.split("/");
@@ -85,6 +86,7 @@ function ArtifactPickerModal({ onRequestClose }: any) {
             setInputError(null);
             setContractAddress(contractAddress);
             setTokenId(tokenId);
+            onArtifactPicked({ contractAddress, tokenId });
           }
         } else {
           setInputError(`Unknown NFT host ${host}. Try using "advanced"`);
@@ -118,9 +120,14 @@ function ArtifactPickerModal({ onRequestClose }: any) {
   );
 }
 
-type Props = {};
+type Props = {
+  onArtifactPicked: (artifactConfiguration: ArtifactConfiguration) => void;
+};
 
 const ArtifactPickerElement = styled.div``;
+const ArtifactPickerControls = styled.div`
+  margin-top: 2em;
+`;
 
 /**
  * Artifact Picker
@@ -129,25 +136,46 @@ const ArtifactPickerElement = styled.div``;
  *
  **/
 
-export default function ArtifactPicker({}: Props) {
-  const haveArtifact = false;
-  const [modalIsOpen, setModalIsOpen] = useState(true);
-  const closeModal = () => setModalIsOpen(false);
+export type ArtifactConfiguration = {
+  contractAddress: string;
+  tokenId: string;
+};
 
-  if (!haveArtifact) {
-    return (
+export default function ArtifactPicker({ onArtifactPicked }: Props) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const closeModal = () => setModalIsOpen(false);
+  const [currentArtifact, setCurrentArtifact] =
+    useState<ArtifactConfiguration | null>(null);
+
+  const onArtifactModalPicked = (
+    artifactConfiguration: ArtifactConfiguration
+  ) => {
+    setCurrentArtifact(artifactConfiguration);
+    onArtifactPicked(artifactConfiguration);
+  };
+
+  return (
+    <ArtifactPickerElement>
       <EmptyWell>
-        <div>
+        {currentArtifact && (
+          <NFTDisplay
+            contractAddress={currentArtifact.contractAddress}
+            tokenId={currentArtifact.tokenId}
+          />
+        )}
+
+        <ArtifactPickerControls>
           <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
-            Pick an Artifact NFT
+            Pick {currentArtifact ? "another" : "an"} Artifact NFT
           </Button>
           <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
-            <ArtifactPickerModal onRequestClose={closeModal} />
+            <ArtifactPickerModal
+              onRequestClose={closeModal}
+              onArtifactPicked={onArtifactModalPicked}
+            />
           </StyledModal>
-        </div>
+        </ArtifactPickerControls>
       </EmptyWell>
-    );
-  }
-
-  return <ArtifactPickerElement>hello</ArtifactPickerElement>;
+    </ArtifactPickerElement>
+  );
 }
