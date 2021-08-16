@@ -28,6 +28,7 @@ import {
 } from "../../components/ui/Inputs";
 
 import Switch from "react-switch";
+import LorePreview from "../../components/AddLore/LorePreview";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -78,13 +79,6 @@ const NSFWStyles = styled.div`
     margin-left: 14px;
     top: 4px;
   }
-`;
-
-const EmptyPreviewStyles = styled.div`
-  font-family: "Alagard";
-  color: #acacac;
-  font-size: 24px;
-  line-height: 1.6;
 `;
 
 const NSFWField = ({ ...props }: { name: string }) => {
@@ -234,12 +228,7 @@ const AddLorePage = () => {
               <PreviewPanel>
                 <PreviewStickyPane>
                   <h1>Preview</h1>
-                  <EmptyWell>
-                    <EmptyPreviewStyles>
-                      Pick a Wizard and Artifact and a preview of your Lore will
-                      appear here
-                    </EmptyPreviewStyles>
-                  </EmptyWell>
+                  <LorePreview currentArtifact={currentArtifact} />
                 </PreviewStickyPane>
               </PreviewPanel>
             </AddLoreLayout>
