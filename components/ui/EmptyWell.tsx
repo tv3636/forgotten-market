@@ -11,4 +11,5 @@ export const EmptyWell = styled.div<{ solid?: boolean }>`
   justify-content: center;
   padding: 32px 60px;
   flex-direction: column;
+  margin: auto;
 `;
