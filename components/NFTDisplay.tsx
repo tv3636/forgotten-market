@@ -111,11 +111,17 @@ type ResolvedNFTData = {
   image?: string;
 };
 
-export default function NFTDisplay({
+export function useNFTInfo({
   contractAddress,
-  tokenId,
-  pixelArt
-}: Props) {
+  tokenId
+}: {
+  contractAddress: string;
+  tokenId: string;
+}): {
+  loading: boolean;
+  nftData: ResolvedNFTData;
+  error: string | null;
+} {
   const provider = useProvider();
   const [loading, setLoading] = useState(false);
   const [nftData, setNftData] = useState<ResolvedNFTData>({});
@@ -141,11 +147,15 @@ export default function NFTDisplay({
     run();
   }, [contractAddress, tokenId]);
 
-  // if you have a contractId and tokenId,
-  // then fetch the erc721 contract (todo what about eip1155?)
-  // then pull the tokenURI
-  // then pull the IPFS stuff from cloudflare
-  // the embed the image
+  return { loading, nftData, error };
+}
+
+export default function NFTDisplay({
+  contractAddress,
+  tokenId,
+  pixelArt
+}: Props) {
+  const { loading, nftData, error } = useNFTInfo({ contractAddress, tokenId });
 
   return (
     <NFTDisplayElement>
