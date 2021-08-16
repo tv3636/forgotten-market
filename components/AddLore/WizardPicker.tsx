@@ -11,10 +11,12 @@ import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultCon
 import WizardDiv from "../WizardDiv";
 import productionWizardData from "../../data/nfts-prod.json";
 
-
 type Props = {};
 
-const WizardPickerElement = styled.div``;
+const WizardPickerElement = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+`;
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 function NotConnected() {
@@ -25,27 +27,25 @@ function NotConnected() {
   );
 }
 
-async function getWizards(injectedProvider: any) {
-    const address = injectedProvider.provider.selectedAddress;
-    const contract = getWizardsContract({ provider: injectedProvider });
-    const result = await contract.tokensOfOwner(address);
-    const tokens: any = [];
-
-    result.forEach((element: any) => {
-      let thisWiz = wizData[Number(element._hex)];
-      thisWiz['id'] = Number(element._hex).toString();
-      tokens.push(thisWiz) 
-    });
-    
-    return tokens;
-}
-
-function WizardSelection(props: any) {
+function WizardList(props: any) {
   const [wizards, setWizards] = useState([]);
 
   useEffect(() => {
     async function run() {
-      const tokens = await getWizards(props.injectedProvider);
+      const tokens: any = [];
+      try {
+        const address = props.injectedProvider.provider.selectedAddress;
+        const contract = getWizardsContract({ provider: props.injectedProvider });
+        const result = await contract.tokensOfOwner(address);
+
+        result.forEach((element: any) => {
+          let thisWiz = wizData[Number(element._hex)];
+          thisWiz['id'] = Number(element._hex).toString();
+          tokens.push(thisWiz) 
+        });
+      } catch (err) {
+        console.log("err: ", err);
+      }
       setWizards(tokens);
     }
     run();
@@ -72,7 +72,7 @@ const WizardPicker = observer(({}: Props) => {
   const injectedProvider = web3Settings.injectedProvider;
 
   if (injectedProvider) {
-    return <WizardPickerElement><WizardSelection injectedProvider={injectedProvider}/></WizardPickerElement>;
+    return <WizardPickerElement><WizardList injectedProvider={injectedProvider}/></WizardPickerElement>;
   } else {
     return <WizardPickerElement></WizardPickerElement>;
   }
