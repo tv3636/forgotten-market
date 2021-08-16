@@ -3,8 +3,14 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { EmptyWell } from "../ui/EmptyWell";
 import { ArtifactConfiguration } from "./ArtifactPicker";
+import NFTDisplay from "../NFTDisplay";
+import LoreMarkdown from "../Lore/LoreMarkdown";
 
-type Props = { currentArtifact: ArtifactConfiguration };
+type Props = {
+  currentArtifact: ArtifactConfiguration | null;
+  currentStory: string | null;
+  currentTitle: string | null;
+};
 
 const LorePreviewElement = styled.div`
   position: relative;
@@ -13,19 +19,20 @@ const LorePreviewElement = styled.div`
 `;
 
 const EmptyPreviewStyles = styled.div`
-  font-family: "Alagard";
-  color: #acacac;
   font-size: 24px;
   line-height: 1.6;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 60px;
-  flex-direction: column;
+  padding: 1em 2em;
 `;
 
 const ParchmentBackground = styled.div`
+  font-family: "Alagard";
+  word-break: break-word;
+  color: #acacac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
   ::before {
     content: "";
     background-image: url("/static/lore/book/paperTxt01.png");
@@ -44,7 +51,7 @@ const ParchmentLines = styled.div`
     background-image: url("/static/lore/book/page_border_horizontal.png");
     background-repeat: repeat-x;
     position: absolute;
-    top: 0px;
+    top: 4px;
     right: 0px;
     bottom: 0px;
     left: 0px;
@@ -57,7 +64,7 @@ const ParchmentLines = styled.div`
     position: absolute;
     top: 0px;
     right: 0px;
-    bottom: 0px;
+    bottom: 4px;
     left: 0px;
   }
 `;
@@ -70,13 +77,36 @@ function ParchmentPage({ children }: { children: any }) {
   );
 }
 
-export default function LorePreview({ currentArtifact }: Props) {
+const LorePreviewLayout = styled.div`
+  padding: 1em;
+`;
+
+export default function LorePreview({
+  currentArtifact,
+  currentTitle,
+  currentStory
+}: Props) {
+  const hasContent = currentTitle || currentStory || currentArtifact;
+
   return (
     <LorePreviewElement>
       <ParchmentPage>
-        <EmptyPreviewStyles>
-          Pick a Wizard and Artifact and a preview of your Lore will appear here
-        </EmptyPreviewStyles>
+        <LorePreviewLayout>
+          {!hasContent && (
+            <EmptyPreviewStyles>
+              Pick a Wizard and Artifact and a preview of your Lore will appear
+              here
+            </EmptyPreviewStyles>
+          )}
+          {currentTitle && <h1>{currentTitle}</h1>}
+          {currentStory && <LoreMarkdown>{currentStory}</LoreMarkdown>}
+          {currentArtifact && (
+            <NFTDisplay
+              contractAddress={currentArtifact.contractAddress}
+              tokenId={currentArtifact.tokenId}
+            />
+          )}
+        </LorePreviewLayout>
       </ParchmentPage>
     </LorePreviewElement>
   );

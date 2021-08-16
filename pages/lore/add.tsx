@@ -29,6 +29,8 @@ import {
 
 import Switch from "react-switch";
 import LorePreview from "../../components/AddLore/LorePreview";
+import { useDebounce } from "../../hooks";
+import HelpTooltip from "../../components/Lore/HelpTooltip";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -39,6 +41,7 @@ const AddLoreWrapper = styled.div`
   justify-content: center;
   background-color: #0e0e0e;
   min-height: 90vh;
+  padding-bottom: 300px;
 `;
 
 const AddLoreLayout = styled.div`
@@ -46,7 +49,7 @@ const AddLoreLayout = styled.div`
   max-width: 1100px;
   padding: 1em;
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
   grid-column-gap: 20px;
   color: white;
   position: relative;
@@ -58,19 +61,21 @@ const SubmitFormField = styled.div`
 `;
 
 const FormPanel = styled.div``;
-const PreviewPanel = styled.div``;
+const PreviewPanel = styled.div`
+  width: 100%;
+`;
 
 const PreviewStickyPane = styled.div`
   position: sticky;
   top: 20px;
 `;
 
-const HelpTooltip = styled.div`
-  display: none;
-`;
 const BackgroundColorPicker = styled.div``;
+const FormStyled = styled(Form)`
+  width: 100%;
+`;
 
-const NSFWStyles = styled.div`
+const CheckboxFieldStyles = styled.div`
   h3 {
     display: inline-block;
   }
@@ -87,14 +92,18 @@ const NSFWField = ({ ...props }: { name: string }) => {
 
   // TODO how to useField with Switch?
   return (
-    <NSFWStyles>
+    <CheckboxFieldStyles>
       <h3>
         nsfw?
         <HelpTooltip>
-          Assigning nsfw status is a courtesy to let Wizards of all ages and
-          backgrounds to safely enjoy the Lore. A good rule of thumb is nsfw
-          should be enabled if the Lore is inappropriate for minors. If you have
-          questions about when to use this switch, see the Community Guidelines.
+          <p>
+            Assigning nsfw status is a courtesy to let Wizards of all ages and
+            backgrounds to safely enjoy the Lore.
+          </p>
+          <p>
+            A good rule of thumb is nsfw should be enabled if the Lore is
+            inappropriate for minors.
+          </p>
         </HelpTooltip>
       </h3>
       <label className="checkbox-input">
@@ -112,7 +121,39 @@ const NSFWField = ({ ...props }: { name: string }) => {
           // {...props}
         />
       </label>
-    </NSFWStyles>
+    </CheckboxFieldStyles>
+  );
+};
+
+const PixelArtField = ({ ...props }: { name: string }) => {
+  const [field, meta] = useField({ ...props, type: "checkbox" });
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <CheckboxFieldStyles>
+      <h3>
+        Pixel Art?
+        <HelpTooltip>
+          Pixel Art requires a special style of rendering for sharp edges. Check
+          this box if your Artifact is pixel art
+        </HelpTooltip>
+      </h3>
+      <label className="checkbox-input">
+        {/* <input type="checkbox" {...field} {...props} /> */}
+        <Switch
+          onChange={() => setChecked(!checked)}
+          checked={checked}
+          uncheckedIcon={false}
+          width={40}
+          height={22}
+          offColor={"#494949"}
+          onColor={"#65D36E"}
+          offHandleColor={"#a7a7a7"}
+          // {...field}
+          // {...props}
+        />
+      </label>
+    </CheckboxFieldStyles>
   );
 };
 
@@ -136,7 +177,7 @@ const StoryField = ({ ...props }: any) => {
       <h2>
         Story (optional, Markdown supported)
         <HelpTooltip>
-          Learn more about the <a href="TODO">markdown syntax here</a>
+          Markdown is a popular syntax for formatting text.
         </HelpTooltip>
       </h2>
       <TextAreaAutosizeInput minRows={4} {...field} {...props} />
@@ -161,8 +202,15 @@ const ColorField = ({ ...props }: any) => {
 const AddLorePage = () => {
   const router = useRouter();
   const { wizardId, page } = router.query;
+
+  const [currentTitle, setCurrentTitle] = useState<string | null>(null);
+
+  const [currentStory, setCurrentStory] = useState<string | null>(null);
+  const debouncedCurrentStory = useDebounce(currentStory, 80);
+
   const [currentArtifact, setCurrentArtifact] =
     useState<ArtifactConfiguration | null>(null);
+
   const onArtifactPicked = (artifactConfiguration: ArtifactConfiguration) => {
     setCurrentArtifact(artifactConfiguration);
   };
@@ -178,7 +226,7 @@ const AddLorePage = () => {
             console.log(JSON.stringify(values, null, 2));
           }}
         >
-          <Form>
+          <FormStyled>
             <AddLoreLayout>
               <FormPanel>
                 <h1>Add Lore</h1>
@@ -197,11 +245,15 @@ const AddLorePage = () => {
                   <ArtifactPicker onArtifactPicked={onArtifactPicked} />
                 </FormField>
                 <FormField>
+                  <PixelArtField />
+                </FormField>
+                <FormField>
                   <TitleField
                     label="Title"
                     name="title"
                     type="text"
                     placeholder="The Journey of Wizzy to The Sacred Pillars"
+                    onChange={(evt: any) => setCurrentTitle(evt.target.value)}
                   />
                 </FormField>
                 <FormField>
@@ -210,6 +262,7 @@ const AddLorePage = () => {
                     name="story"
                     type="textarea"
                     placeholder="Our hero finds himself wandering, without water..."
+                    onChange={(evt: any) => setCurrentStory(evt.target.value)}
                   />
                 </FormField>
                 {/* can we get an eyedropper? */}
@@ -228,11 +281,15 @@ const AddLorePage = () => {
               <PreviewPanel>
                 <PreviewStickyPane>
                   <h1>Preview</h1>
-                  <LorePreview currentArtifact={currentArtifact} />
+                  <LorePreview
+                    currentArtifact={currentArtifact}
+                    currentTitle={currentTitle}
+                    currentStory={debouncedCurrentStory}
+                  />
                 </PreviewStickyPane>
               </PreviewPanel>
             </AddLoreLayout>
-          </Form>
+          </FormStyled>
         </Formik>
       </AddLoreWrapper>
     </Layout>
