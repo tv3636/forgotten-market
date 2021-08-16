@@ -69,6 +69,10 @@ export async function fetchERC721TokenMetadata({
   const response = await fetch(httpTokenURI);
   const metadata: any = await response.json();
 
+  if (response.status === 404) {
+    throw new Error(`Can't find tokenURI for ${httpTokenURI}`);
+  }
+
   let image = null;
   if (metadata.image) {
     image = await httpifyUrl(metadata.image, tokenId);
@@ -80,14 +84,15 @@ export async function fetchERC721TokenMetadata({
 type Props = {
   contractAddress: string;
   tokenId: string;
+  pixelArt?: boolean;
 };
 
 const NFTDisplayElement = styled.div``;
 
-export const ResponsivePixelImg = styled.img`
+export const ResponsiveMaybePixelImg = styled.img<{ pixelArt?: boolean }>`
   width: 100%;
   height: auto;
-  image-rendering: pixelated;
+  image-rendering: ${(props) => (props.pixelArt ? "pixelated" : "auto")};
   border-radius: 3px;
   overflow: hidden;
 `;
@@ -97,25 +102,40 @@ const LoadingElement = styled.div`
   margin: 1em 0em;
 `;
 
+const ErrorMessage = styled.div`
+  color: red;
+`;
+
 type ResolvedNFTData = {
   metadata?: any;
   image?: string;
 };
 
-export default function NFTDisplay({ contractAddress, tokenId }: Props) {
+export default function NFTDisplay({
+  contractAddress,
+  tokenId,
+  pixelArt
+}: Props) {
   const provider = useProvider();
   const [loading, setLoading] = useState(false);
   const [nftData, setNftData] = useState<ResolvedNFTData>({});
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function run() {
       setLoading(true);
-      const [metadata, image] = await fetchERC721TokenMetadata({
-        contractAddress,
-        tokenId,
-        provider
-      });
-      setNftData({ metadata, image });
+      try {
+        const [metadata, image] = await fetchERC721TokenMetadata({
+          contractAddress,
+          tokenId,
+          provider
+        });
+        setNftData({ metadata, image });
+        setError(null);
+      } catch (err) {
+        console.log("err: ", err);
+        setError(err.message);
+      }
       setLoading(false);
     }
     run();
@@ -131,8 +151,13 @@ export default function NFTDisplay({ contractAddress, tokenId }: Props) {
     <NFTDisplayElement>
       {loading && <LoadingElement>Loading... {contractAddress}</LoadingElement>}
       {nftData.image && (
-        <ResponsivePixelImg src={nftData.image} alt={nftData?.metadata?.name} />
+        <ResponsiveMaybePixelImg
+          src={nftData.image}
+          alt={nftData?.metadata?.name}
+          pixelArt={pixelArt}
+        />
       )}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </NFTDisplayElement>
   );
 }

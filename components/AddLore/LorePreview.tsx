@@ -42,6 +42,7 @@ const ParchmentBackground = styled.div`
     bottom: 0px;
     left: 0px;
     opacity: 0.2;
+    z-index: -1;
   }
 `;
 
@@ -99,13 +100,13 @@ export default function LorePreview({
             </EmptyPreviewStyles>
           )}
           {currentTitle && <h1>{currentTitle}</h1>}
-          {currentStory && <LoreMarkdown>{currentStory}</LoreMarkdown>}
           {currentArtifact && (
             <NFTDisplay
               contractAddress={currentArtifact.contractAddress}
               tokenId={currentArtifact.tokenId}
             />
           )}
+          {currentStory && <LoreMarkdown>{currentStory}</LoreMarkdown>}
         </LorePreviewLayout>
       </ParchmentPage>
     </LorePreviewElement>
