@@ -17,6 +17,9 @@ import {
 } from "../../components/ui/Inputs";
 import NFTDisplay from "../NFTDisplay";
 
+// TODO: bg color extraction with colorthief
+// https://lokeshdhakar.com/projects/color-thief/#getting-started
+
 const ArtifactPickerModalElement = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,6 +52,13 @@ const NftDisplayContainer = styled.div`
   justify-content: center;
 `;
 
+const AdvancedContainer = styled.div`
+  width: 100%;
+`;
+const TextFieldLayout = styled.div`
+  margin: 0.5em 0;
+`;
+
 // If you're testing, here are some Artifacts to try:
 // A poem from Margret
 // https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/96577616716374093869564910580926487133870015185803080998328868057160295120897
@@ -62,6 +72,7 @@ function ArtifactPickerModal({ onRequestClose, onArtifactPicked }: any) {
   const [inputError, setInputError] = useState<string | null>(null);
   const [contractAddress, setContractAddress] = useState<string | null>(null);
   const [tokenId, setTokenId] = useState<string | null>(null);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   useEffect(() => {
     if (inputUrl) {
@@ -108,6 +119,33 @@ function ArtifactPickerModal({ onRequestClose, onArtifactPicked }: any) {
             setInputUrl(evt?.target?.value);
           }}
         />
+        <h3 onClick={() => setShowAdvanced(!showAdvanced)}>
+          {showAdvanced ? "v " : "> "}
+          Advanced
+        </h3>
+        {showAdvanced && (
+          <AdvancedContainer>
+            <TextFieldLayout>
+              <TextInput
+                placeholder={"Enter a Contract Address"}
+                value={contractAddress as string}
+                onChange={(evt) => {
+                  setContractAddress(evt?.target?.value);
+                }}
+              />
+            </TextFieldLayout>
+            <TextFieldLayout>
+              <TextInput
+                placeholder={"... and tokenId"}
+                value={tokenId as string}
+                onChange={(evt) => {
+                  setTokenId(evt?.target?.value);
+                }}
+              />
+            </TextFieldLayout>
+          </AdvancedContainer>
+        )}
+
         <NftDisplayContainer>
           {contractAddress && tokenId && (
             <NFTDisplay contractAddress={contractAddress} tokenId={tokenId} />
