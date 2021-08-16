@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import useProvider from "../hooks/useProvider";
+import useProvider, { getProvider } from "../hooks/useProvider";
 import { getERC721Contract } from "../contracts/ERC721Contract";
 import Image from "next/image";
 import { ethers } from "ethers";
@@ -40,6 +40,30 @@ const storefrontABI = [
   }
 ];
 
+const erc721MetadataCache: { [key: string]: any } = {};
+export async function fetchERC721TokenMetadataCached({
+  contractAddress,
+  tokenId,
+  provider
+}: {
+  contractAddress: string;
+  tokenId: string;
+  provider: any;
+}) {
+  //
+  const cacheKey = `${contractAddress}:::${tokenId}`;
+  if (erc721MetadataCache[cacheKey]) {
+    return erc721MetadataCache[cacheKey];
+  }
+  const promise = fetchERC721TokenMetadata({
+    contractAddress,
+    tokenId,
+    provider
+  });
+
+  return (erc721MetadataCache[cacheKey] = promise);
+}
+
 export async function fetchERC721TokenMetadata({
   contractAddress,
   tokenId,
@@ -50,6 +74,15 @@ export async function fetchERC721TokenMetadata({
   provider: any;
 }) {
   let tokenURI = null;
+  // const cacheKey = `${contractAddress}:::${tokenId}`;
+  // if (
+  //   erc721MetadataCache[cacheKey] &&
+  //   erc721MetadataCache[cacheKey][0] &&
+  //   erc721MetadataCache[cacheKey][1]
+  // ) {
+  //   return erc721MetadataCache[cacheKey];
+  // }
+
   // try fetching regular ERC721, but if it doesn't work, then try OpenSea's weird-ass way directly
   try {
     const contract = getERC721Contract({ contractAddress, provider });
@@ -78,6 +111,7 @@ export async function fetchERC721TokenMetadata({
     image = await httpifyUrl(metadata.image, tokenId);
   }
 
+  // erc721MetadataCache[cacheKey] = [metadata, image];
   return [metadata, image];
 }
 
@@ -111,12 +145,17 @@ type ResolvedNFTData = {
   image?: string;
 };
 
-export default function NFTDisplay({
+export function useNFTInfo({
   contractAddress,
-  tokenId,
-  pixelArt
-}: Props) {
-  const provider = useProvider();
+  tokenId
+}: {
+  contractAddress?: string | null;
+  tokenId?: string | null;
+}): {
+  loading: boolean;
+  nftData: ResolvedNFTData;
+  error: string | null;
+} {
   const [loading, setLoading] = useState(false);
   const [nftData, setNftData] = useState<ResolvedNFTData>({});
   const [error, setError] = useState<string | null>(null);
@@ -124,8 +163,17 @@ export default function NFTDisplay({
   useEffect(() => {
     async function run() {
       setLoading(true);
+      if (!contractAddress) {
+        return;
+      }
+      if (tokenId == null || tokenId == undefined) {
+        return;
+      }
+      console.log("fetching data", contractAddress, tokenId);
+
       try {
-        const [metadata, image] = await fetchERC721TokenMetadata({
+        const provider = getProvider();
+        const [metadata, image] = await fetchERC721TokenMetadataCached({
           contractAddress,
           tokenId,
           provider
@@ -138,14 +186,20 @@ export default function NFTDisplay({
       }
       setLoading(false);
     }
+
     run();
   }, [contractAddress, tokenId]);
 
-  // if you have a contractId and tokenId,
-  // then fetch the erc721 contract (todo what about eip1155?)
-  // then pull the tokenURI
-  // then pull the IPFS stuff from cloudflare
-  // the embed the image
+  return { loading, nftData, error };
+}
+
+export default function NFTDisplay({
+  contractAddress,
+  tokenId,
+  pixelArt
+}: Props) {
+  // TODO this needs some caching as it's being called way way too often.
+  const { loading, nftData, error } = useNFTInfo({ contractAddress, tokenId });
 
   return (
     <NFTDisplayElement>
