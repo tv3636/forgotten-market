@@ -7,7 +7,7 @@ import BookOfLoreControls from "../../components/Lore/BookOfLoreControls";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
-import WizardPicker from "../../components/AddLore/WizardPicker";
+import WizardPicker, {WizardConfiguration} from "../../components/AddLore/WizardPicker";
 import ArtifactPicker, {
   ArtifactConfiguration
 } from "../../components/AddLore/ArtifactPicker";
@@ -215,6 +215,13 @@ const AddLorePage = () => {
     setCurrentArtifact(artifactConfiguration);
   };
 
+  const [currentWizard, setCurrentWizard] =
+    useState<WizardConfiguration | null>(null);
+
+  const onWizardPicked = (wizardConfiguration: WizardConfiguration) => {
+    setCurrentWizard(wizardConfiguration);
+  };
+
   return (
     <Layout
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
@@ -232,7 +239,7 @@ const AddLorePage = () => {
                 <h1>Add Lore</h1>
                 <FormField>
                   <h2>Pick a Wizard</h2>
-                  <WizardPicker />
+                  <WizardPicker onWizardPicked={onWizardPicked} />
                 </FormField>
                 <FormField>
                   <h2>
