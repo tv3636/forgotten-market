@@ -9705,7 +9705,7 @@ rc-textarea@^0.3.0, rc-textarea@~0.3.0:
     rc-resize-observer "^1.0.0"
     rc-util "^5.7.0"
 
-rc-tooltip@^5.0.1, rc-tooltip@^5.1.1, rc-tooltip@~5.1.0:
+rc-tooltip@^5.0.1, rc-tooltip@~5.1.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/rc-tooltip/-/rc-tooltip-5.1.1.tgz#94178ed162d0252bc4993b725f5dc2ac0fccf154"
   integrity sha512-alt8eGMJulio6+4/uDm7nvV+rJq9bsfxFDCI0ljPdbuoygUscbsMYb6EQgwib/uqsXQUvzk+S7A59uYHmEgmDA==
@@ -9991,14 +9991,6 @@ react-textarea-autosize@^8.3.3:
     "@babel/runtime" "^7.10.2"
     use-composed-ref "^1.0.0"
     use-latest "^1.0.0"
-
-react-tooltip@^4.2.21:
-  version "4.2.21"
-  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-4.2.21.tgz#840123ed86cf33d50ddde8ec8813b2960bfded7f"
-  integrity sha512-zSLprMymBDowknr0KVDiJ05IjZn9mQhhg4PRsqln0OZtURAJ1snt1xi5daZfagsh6vfsziZrc9pErPTDY1ACig==
-  dependencies:
-    prop-types "^15.7.2"
-    uuid "^7.0.3"
 
 react-use-gesture@^9.0.0-beta.11:
   version "9.0.0-beta.11"
@@ -11928,11 +11920,6 @@ uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
-
-uuid@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
-  integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
