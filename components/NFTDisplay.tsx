@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import useProvider from "../hooks/useProvider";
+import useProvider, { getProvider } from "../hooks/useProvider";
 import { getERC721Contract } from "../contracts/ERC721Contract";
 import Image from "next/image";
 import { ethers } from "ethers";
@@ -40,6 +40,8 @@ const storefrontABI = [
   }
 ];
 
+const erc721MetadataCache: { [key: string]: any } = {};
+
 export async function fetchERC721TokenMetadata({
   contractAddress,
   tokenId,
@@ -50,6 +52,11 @@ export async function fetchERC721TokenMetadata({
   provider: any;
 }) {
   let tokenURI = null;
+  const cacheKey = `${contractAddress}:::${tokenId}`;
+  if (erc721MetadataCache[cacheKey]) {
+    return erc721MetadataCache[cacheKey];
+  }
+
   // try fetching regular ERC721, but if it doesn't work, then try OpenSea's weird-ass way directly
   try {
     const contract = getERC721Contract({ contractAddress, provider });
@@ -78,6 +85,7 @@ export async function fetchERC721TokenMetadata({
     image = await httpifyUrl(metadata.image, tokenId);
   }
 
+  erc721MetadataCache[cacheKey] = [metadata, image];
   return [metadata, image];
 }
 
@@ -122,7 +130,6 @@ export function useNFTInfo({
   nftData: ResolvedNFTData;
   error: string | null;
 } {
-  const provider = useProvider();
   const [loading, setLoading] = useState(false);
   const [nftData, setNftData] = useState<ResolvedNFTData>({});
   const [error, setError] = useState<string | null>(null);
@@ -136,7 +143,10 @@ export function useNFTInfo({
       if (tokenId == null || tokenId == undefined) {
         return;
       }
+      console.log("fetching data", contractAddress, tokenId);
+
       try {
+        const provider = getProvider();
         const [metadata, image] = await fetchERC721TokenMetadata({
           contractAddress,
           tokenId,
@@ -150,6 +160,7 @@ export function useNFTInfo({
       }
       setLoading(false);
     }
+
     run();
   }, [contractAddress, tokenId]);
 
