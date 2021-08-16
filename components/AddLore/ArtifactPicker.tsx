@@ -156,7 +156,7 @@ export default function ArtifactPicker({ onArtifactPicked }: Props) {
 
   return (
     <ArtifactPickerElement>
-      <EmptyWell>
+      <EmptyWell solid={currentArtifact ? true : false}>
         {currentArtifact && (
           <NFTDisplay
             contractAddress={currentArtifact.contractAddress}
