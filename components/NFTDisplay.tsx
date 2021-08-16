@@ -115,8 +115,8 @@ export function useNFTInfo({
   contractAddress,
   tokenId
 }: {
-  contractAddress: string;
-  tokenId: string;
+  contractAddress?: string | null;
+  tokenId?: string | null;
 }): {
   loading: boolean;
   nftData: ResolvedNFTData;
@@ -130,6 +130,12 @@ export function useNFTInfo({
   useEffect(() => {
     async function run() {
       setLoading(true);
+      if (!contractAddress) {
+        return;
+      }
+      if (tokenId == null || tokenId == undefined) {
+        return;
+      }
       try {
         const [metadata, image] = await fetchERC721TokenMetadata({
           contractAddress,
@@ -155,6 +161,7 @@ export default function NFTDisplay({
   tokenId,
   pixelArt
 }: Props) {
+  // TODO this needs some caching as it's being called way way too often.
   const { loading, nftData, error } = useNFTInfo({ contractAddress, tokenId });
 
   return (

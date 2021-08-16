@@ -32,6 +32,7 @@ import LorePreview from "../../components/AddLore/LorePreview";
 import { useDebounce } from "../../hooks";
 import HelpTooltip from "../../components/Lore/HelpTooltip";
 import { useExtractColors } from "../../hooks/useExtractColors";
+import { useNFTInfo } from "../../components/NFTDisplay";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -71,7 +72,8 @@ const PreviewStickyPane = styled.div`
   top: 20px;
 `;
 
-const FormStyled = styled(Form)`
+// const FormStyled = styled(Form)`
+const FormStyled = styled.form`
   width: 100%;
 `;
 
@@ -87,7 +89,7 @@ const InlineFieldStyles = styled.div`
 `;
 
 const NSFWField = ({ ...props }: { name: string }) => {
-  const [field, meta] = useField({ ...props, type: "checkbox" });
+  // const [field, meta] = useField({ ...props, type: "checkbox" });
   const [checked, setChecked] = useState(false);
 
   // TODO how to useField with Switch?
@@ -126,7 +128,7 @@ const NSFWField = ({ ...props }: { name: string }) => {
 };
 
 const PixelArtField = ({ ...props }: { name: string }) => {
-  const [field, meta] = useField({ ...props, type: "checkbox" });
+  // const [field, meta] = useField({ ...props, type: "checkbox" });
   const [checked, setChecked] = useState(false);
 
   return (
@@ -168,14 +170,25 @@ const Swatch = styled.div<{ bgColor: string | null }>`
 `;
 
 const BackgroundColorPickerField = ({
-  currentImageUrl,
+  artifactConfiguration,
+  onChange,
   ...props
 }: {
-  currentImageUrl: string;
+  artifactConfiguration: ArtifactConfiguration | null;
+  onChange: (color?: string | null) => void;
   name: string;
 }) => {
-  const [field, meta] = useField({ ...props, type: "string" });
-  const { bgColor } = useExtractColors(currentImageUrl);
+  // const [field, meta] = useField({ ...props, type: "string" });
+
+  const { loading, nftData, error } = useNFTInfo({
+    contractAddress: artifactConfiguration?.contractAddress,
+    tokenId: artifactConfiguration?.tokenId
+  });
+  const { bgColor } = useExtractColors(nftData?.image);
+
+  useEffect(() => {
+    onChange(bgColor);
+  }, [bgColor]);
 
   return (
     <InlineFieldStyles>
@@ -195,20 +208,23 @@ const BackgroundColorPickerField = ({
 };
 
 const TitleField = ({ ...props }: any) => {
-  const [field, meta] = useField(props);
+  // const [field, meta] = useField(props);
+
+  const field = {};
   return (
     <>
       <h2>Title (optional)</h2>
       <TextInput {...field} {...props} />
-      {meta.touched && meta.error ? (
+      {/* {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
-      ) : null}
+      ) : null} */}
     </>
   );
 };
 
 const StoryField = ({ ...props }: any) => {
-  const [field, meta] = useField(props);
+  // const [field, meta] = useField(props);
+  const field = {};
   return (
     <>
       <h2>
@@ -218,9 +234,9 @@ const StoryField = ({ ...props }: any) => {
         </HelpTooltip>
       </h2>
       <TextAreaAutosizeInput minRows={4} {...field} {...props} />
-      {meta.touched && meta.error ? (
+      {/* {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
-      ) : null}
+      ) : null} */}
     </>
   );
 };
@@ -243,6 +259,10 @@ const AddLorePage = () => {
   const [currentTitle, setCurrentTitle] = useState<string | null>(null);
 
   const [currentStory, setCurrentStory] = useState<string | null>(null);
+  const [currentBgColor, setCurrentBgColor] = useState<
+    string | null | undefined
+  >(null);
+
   const debouncedCurrentStory = useDebounce(currentStory, 80);
 
   const [currentArtifact, setCurrentArtifact] =
@@ -261,81 +281,86 @@ const AddLorePage = () => {
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
     >
       <AddLoreWrapper>
-        <Formik
+        {/* <Formik
           initialValues={{ nsfw: false }}
           onSubmit={(values, { setSubmitting }) => {
             console.log(JSON.stringify(values, null, 2));
           }}
-        >
-          <FormStyled>
-            <AddLoreLayout>
-              <FormPanel>
-                {/* <Swatch bgColor={bgColor} /> */}
-                <h1>Add Lore</h1>
-                <FormField>
-                  <h2>Pick a Wizard</h2>
-                  <WizardPicker />
-                </FormField>
-                <FormField>
-                  <h2>
-                    Pick an Artifact NFT
-                    <HelpTooltip>
-                      An Artifact can be any NFT that you want to attach to this
-                      Wizard
-                    </HelpTooltip>
-                  </h2>
-                  <ArtifactPicker onArtifactPicked={onArtifactPicked} />
-                </FormField>
-                <FormField>
-                  <BackgroundColorPickerField />
-                </FormField>
-                <FormField>
-                  <PixelArtField />
-                </FormField>
-                <FormField>
-                  <TitleField
-                    label="Title"
-                    name="title"
-                    type="text"
-                    placeholder="The Journey of Wizzy to The Sacred Pillars"
-                    onChange={(evt: any) => setCurrentTitle(evt.target.value)}
-                  />
-                </FormField>
-                <FormField>
-                  <StoryField
-                    label="Story"
-                    name="story"
-                    type="textarea"
-                    placeholder="Our hero finds himself wandering, without water..."
-                    onChange={(evt: any) => setCurrentStory(evt.target.value)}
-                  />
-                </FormField>
-                {/* can we get an eyedropper? */}
-                {/* <FormField>
+        > */}
+        <FormStyled>
+          <AddLoreLayout>
+            <FormPanel>
+              {/* <Swatch bgColor={bgColor} /> */}
+              <h1>Add Lore</h1>
+              <FormField>
+                <h2>Pick a Wizard</h2>
+                <WizardPicker />
+              </FormField>
+              <FormField>
+                <h2>
+                  Pick an Artifact NFT
+                  <HelpTooltip>
+                    An Artifact can be any NFT that you want to attach to this
+                    Wizard
+                  </HelpTooltip>
+                </h2>
+                <ArtifactPicker onArtifactPicked={onArtifactPicked} />
+              </FormField>
+              <FormField>
+                <BackgroundColorPickerField
+                  name="bgColor"
+                  artifactConfiguration={currentArtifact}
+                  onChange={(color?: string | null) => setCurrentBgColor(color)}
+                />
+              </FormField>
+              <FormField>
+                <PixelArtField name="pixelArt" />
+              </FormField>
+              <FormField>
+                <TitleField
+                  label="Title"
+                  name="title"
+                  type="text"
+                  placeholder="The Journey of Wizzy to The Sacred Pillars"
+                  onChange={(evt: any) => setCurrentTitle(evt.target.value)}
+                />
+              </FormField>
+              <FormField>
+                <StoryField
+                  label="Story"
+                  name="story"
+                  type="textarea"
+                  placeholder="Our hero finds himself wandering, without water..."
+                  onChange={(evt: any) => setCurrentStory(evt.target.value)}
+                />
+              </FormField>
+              {/* can we get an eyedropper? */}
+              {/* <FormField>
                   <ColorField />
                 </FormField> */}
-                <FormField>
-                  <NSFWField />
-                </FormField>
-                <FormField>
-                  <SubmitFormField>
-                    <Button>Submit</Button>
-                  </SubmitFormField>
-                </FormField>
-              </FormPanel>
-              <PreviewPanel>
-                <PreviewStickyPane>
-                  <h1>Preview</h1>
-                  <LorePreview
-                    currentArtifact={currentArtifact}
-                    currentTitle={currentTitle}
-                    currentStory={debouncedCurrentStory}
-                  />
-                </PreviewStickyPane>
-              </PreviewPanel>
-            </AddLoreLayout>
-          </FormStyled>
-        </Formik>
+              <FormField>
+                <NSFWField name="isNsfw" />
+              </FormField>
+              <FormField>
+                <SubmitFormField>
+                  <Button>Submit</Button>
+                </SubmitFormField>
+              </FormField>
+            </FormPanel>
+            <PreviewPanel>
+              <PreviewStickyPane>
+                <h1>Preview</h1>
+                <LorePreview
+                  currentArtifact={currentArtifact}
+                  currentTitle={currentTitle}
+                  currentStory={debouncedCurrentStory}
+                  currentBgColor={currentBgColor}
+                />
+              </PreviewStickyPane>
+            </PreviewPanel>
+          </AddLoreLayout>
+        </FormStyled>
+        {/* </Formik> */}
       </AddLoreWrapper>
     </Layout>
   );
