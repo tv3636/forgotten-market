@@ -41,6 +41,28 @@ const storefrontABI = [
 ];
 
 const erc721MetadataCache: { [key: string]: any } = {};
+export async function fetchERC721TokenMetadataCached({
+  contractAddress,
+  tokenId,
+  provider
+}: {
+  contractAddress: string;
+  tokenId: string;
+  provider: any;
+}) {
+  //
+  const cacheKey = `${contractAddress}:::${tokenId}`;
+  if (erc721MetadataCache[cacheKey]) {
+    return erc721MetadataCache[cacheKey];
+  }
+  const promise = fetchERC721TokenMetadata({
+    contractAddress,
+    tokenId,
+    provider
+  });
+
+  return (erc721MetadataCache[cacheKey] = promise);
+}
 
 export async function fetchERC721TokenMetadata({
   contractAddress,
@@ -52,10 +74,14 @@ export async function fetchERC721TokenMetadata({
   provider: any;
 }) {
   let tokenURI = null;
-  const cacheKey = `${contractAddress}:::${tokenId}`;
-  if (erc721MetadataCache[cacheKey]) {
-    return erc721MetadataCache[cacheKey];
-  }
+  // const cacheKey = `${contractAddress}:::${tokenId}`;
+  // if (
+  //   erc721MetadataCache[cacheKey] &&
+  //   erc721MetadataCache[cacheKey][0] &&
+  //   erc721MetadataCache[cacheKey][1]
+  // ) {
+  //   return erc721MetadataCache[cacheKey];
+  // }
 
   // try fetching regular ERC721, but if it doesn't work, then try OpenSea's weird-ass way directly
   try {
@@ -85,7 +111,7 @@ export async function fetchERC721TokenMetadata({
     image = await httpifyUrl(metadata.image, tokenId);
   }
 
-  erc721MetadataCache[cacheKey] = [metadata, image];
+  // erc721MetadataCache[cacheKey] = [metadata, image];
   return [metadata, image];
 }
 
@@ -147,7 +173,7 @@ export function useNFTInfo({
 
       try {
         const provider = getProvider();
-        const [metadata, image] = await fetchERC721TokenMetadata({
+        const [metadata, image] = await fetchERC721TokenMetadataCached({
           contractAddress,
           tokenId,
           provider
