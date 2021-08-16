@@ -19,7 +19,7 @@ import { ChromePicker } from "react-color";
 import TextareaAutosize from "react-textarea-autosize";
 import productionWizardData from "../../data/nfts-prod.json";
 import { css } from "@emotion/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RgbaColorPicker } from "react-colorful";
 import {
   FormField,
@@ -71,12 +71,11 @@ const PreviewStickyPane = styled.div`
   top: 20px;
 `;
 
-const BackgroundColorPicker = styled.div``;
 const FormStyled = styled(Form)`
   width: 100%;
 `;
 
-const CheckboxFieldStyles = styled.div`
+const InlineFieldStyles = styled.div`
   h3 {
     display: inline-block;
   }
@@ -93,7 +92,7 @@ const NSFWField = ({ ...props }: { name: string }) => {
 
   // TODO how to useField with Switch?
   return (
-    <CheckboxFieldStyles>
+    <InlineFieldStyles>
       <h3>
         nsfw?
         <HelpTooltip>
@@ -122,7 +121,7 @@ const NSFWField = ({ ...props }: { name: string }) => {
           // {...props}
         />
       </label>
-    </CheckboxFieldStyles>
+    </InlineFieldStyles>
   );
 };
 
@@ -131,7 +130,7 @@ const PixelArtField = ({ ...props }: { name: string }) => {
   const [checked, setChecked] = useState(false);
 
   return (
-    <CheckboxFieldStyles>
+    <InlineFieldStyles>
       <h3>
         Pixel Art?
         <HelpTooltip>
@@ -154,7 +153,44 @@ const PixelArtField = ({ ...props }: { name: string }) => {
           // {...props}
         />
       </label>
-    </CheckboxFieldStyles>
+    </InlineFieldStyles>
+  );
+};
+
+const Swatch = styled.div<{ bgColor: string | null }>`
+  width: 42px;
+  height: 24px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: ${(props) => props.bgColor || "transparent"};
+  display: inline-block;
+  cursor: pointer;
+`;
+
+const BackgroundColorPickerField = ({
+  currentImageUrl,
+  ...props
+}: {
+  currentImageUrl: string;
+  name: string;
+}) => {
+  const [field, meta] = useField({ ...props, type: "string" });
+  const { bgColor } = useExtractColors(currentImageUrl);
+
+  return (
+    <InlineFieldStyles>
+      <h3>
+        BG Color
+        <HelpTooltip>
+          Background color for the page. Helps some images fit better on the
+          page.
+        </HelpTooltip>
+      </h3>
+      <label className="checkbox-input">
+        {/* <input type="checkbox" {...field} {...props} /> */}
+        <Swatch bgColor={bgColor} />
+      </label>
+    </InlineFieldStyles>
   );
 };
 
@@ -200,12 +236,6 @@ const ColorField = ({ ...props }: any) => {
   );
 };
 
-const Swatch = styled.div<{ bgColor: string | null }>`
-  width: 60px;
-  height: 20px;
-  background-color: ${(props) => props.bgColor || "white"};
-`;
-
 const AddLorePage = () => {
   const router = useRouter();
   const { wizardId, page } = router.query;
@@ -240,7 +270,7 @@ const AddLorePage = () => {
           <FormStyled>
             <AddLoreLayout>
               <FormPanel>
-                <Swatch bgColor={bgColor} />
+                {/* <Swatch bgColor={bgColor} /> */}
                 <h1>Add Lore</h1>
                 <FormField>
                   <h2>Pick a Wizard</h2>
@@ -255,6 +285,9 @@ const AddLorePage = () => {
                     </HelpTooltip>
                   </h2>
                   <ArtifactPicker onArtifactPicked={onArtifactPicked} />
+                </FormField>
+                <FormField>
+                  <BackgroundColorPickerField />
                 </FormField>
                 <FormField>
                   <PixelArtField />
