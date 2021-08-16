@@ -74,6 +74,12 @@ const ParchmentLines = styled.div`
   }
 `;
 
+const LoreStory = styled.div`
+  p {
+    font-size: 18px;
+  }
+`;
+
 function ParchmentPage({
   bgColor,
   children
@@ -90,6 +96,13 @@ function ParchmentPage({
 
 const LorePreviewLayout = styled.div`
   padding: 1em;
+`;
+
+const LoreTitle = styled.h1`
+  width: 100%;
+  text-align: center;
+  margin-top: 1em;
+  margin-bottom: 1em;
 `;
 
 export default function LorePreview({
@@ -110,14 +123,18 @@ export default function LorePreview({
               here
             </EmptyPreviewStyles>
           )}
-          {currentTitle && <h1>{currentTitle}</h1>}
+          {currentTitle && <LoreTitle>{currentTitle}</LoreTitle>}
           {currentArtifact && (
             <NFTDisplay
               contractAddress={currentArtifact.contractAddress}
               tokenId={currentArtifact.tokenId}
             />
           )}
-          {currentStory && <LoreMarkdown>{currentStory}</LoreMarkdown>}
+          {currentStory && (
+            <LoreStory>
+              <LoreMarkdown>{currentStory}</LoreMarkdown>
+            </LoreStory>
+          )}
         </LorePreviewLayout>
       </ParchmentPage>
     </LorePreviewElement>

@@ -20,7 +20,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import productionWizardData from "../../data/nfts-prod.json";
 import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
-import { RgbaColorPicker } from "react-colorful";
+import { RgbaColorPicker, HexColorPicker } from "react-colorful";
 import {
   FormField,
   TextInput,
@@ -33,6 +33,7 @@ import { useDebounce } from "../../hooks";
 import HelpTooltip from "../../components/Lore/HelpTooltip";
 import { useExtractColors } from "../../hooks/useExtractColors";
 import { useNFTInfo } from "../../components/NFTDisplay";
+import convert from "color-convert";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -159,7 +160,7 @@ const PixelArtField = ({ ...props }: { name: string }) => {
   );
 };
 
-const Swatch = styled.div<{ bgColor: string | null }>`
+const Swatch = styled.div<{ bgColor?: string | null }>`
   width: 42px;
   height: 24px;
   border: 1px solid white;
@@ -184,11 +185,21 @@ const BackgroundColorPickerField = ({
     contractAddress: artifactConfiguration?.contractAddress,
     tokenId: artifactConfiguration?.tokenId
   });
-  const { bgColor } = useExtractColors(nftData?.image);
+
+  const [localBgColor, setLocalBgColor] = useState<string>();
+  const [bigPickerShowing, setBigPickerShowing] = useState<boolean>(false);
+
+  const { bgColor: detectedBgColor } = useExtractColors(nftData?.image);
+
+  const setColor = (newColor: string) => {
+    console.log("newColor: ", newColor);
+    onChange(newColor);
+    setLocalBgColor(newColor);
+  };
 
   useEffect(() => {
-    onChange(bgColor);
-  }, [bgColor]);
+    if (detectedBgColor) setColor(detectedBgColor);
+  }, [detectedBgColor]);
 
   return (
     <InlineFieldStyles>
@@ -201,7 +212,16 @@ const BackgroundColorPickerField = ({
       </h3>
       <label className="checkbox-input">
         {/* <input type="checkbox" {...field} {...props} /> */}
-        <Swatch bgColor={bgColor} />
+        <Swatch
+          bgColor={localBgColor}
+          onClick={() => setBigPickerShowing(!bigPickerShowing)}
+        />
+        {bigPickerShowing && (
+          <HexColorPicker
+            color={localBgColor}
+            onChange={(hex) => setColor(hex)}
+          />
+        )}
       </label>
     </InlineFieldStyles>
   );
@@ -237,17 +257,6 @@ const StoryField = ({ ...props }: any) => {
       {/* {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
       ) : null} */}
-    </>
-  );
-};
-
-const ColorField = ({ ...props }: any) => {
-  const [color, setColor] = useState({ r: 200, g: 150, b: 35, a: 1 });
-  return (
-    <>
-      <h2>Background Color (optional)</h2>
-      {/* https://github.com/omgovich/react-colorful */}
-      <RgbaColorPicker color={color} onChange={setColor} />
     </>
   );
 };
@@ -290,7 +299,6 @@ const AddLorePage = () => {
         <FormStyled>
           <AddLoreLayout>
             <FormPanel>
-              {/* <Swatch bgColor={bgColor} /> */}
               <h1>Add Lore</h1>
               <FormField>
                 <h2>Pick a Wizard</h2>
@@ -335,9 +343,6 @@ const AddLorePage = () => {
                 />
               </FormField>
               {/* can we get an eyedropper? */}
-              {/* <FormField>
-                  <ColorField />
-                </FormField> */}
               <FormField>
                 <NSFWField name="isNsfw" />
               </FormField>
