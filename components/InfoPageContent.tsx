@@ -15,28 +15,6 @@ const AboutWrapper = styled.div`
   display: flex;
   justify-content: center;
 
-  a {
-    color: #a983ff;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    font-family: "Alagard", system-ui, -apple-system, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  }
-  h1 {
-    margin-top: 1.5em;
-  }
-  h2 {
-    margin-top: 1.3em;
-  }
-  h3 {
-    margin-top: 1em;
-  }
-
   .content {
     width: 100%;
     max-width: 800px;

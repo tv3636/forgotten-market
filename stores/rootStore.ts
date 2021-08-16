@@ -1,14 +1,18 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree";
-import { IWeb3Settings } from "./Web3Store";
+import { Counter, ICounter } from "./Counter";
+import { IWeb3Settings, Web3Settings } from "./Web3Store";
 
 export interface IRootStore {
   web3Settings: IWeb3Settings;
+  counter: ICounter;
 }
 
 export const Store = types
   .model({
     lastUpdate: types.Date,
-    light: false
+    light: false,
+    web3Settings: types.optional(Web3Settings, {}),
+    counter: types.optional(Counter, {})
   })
   .actions((self) => {
     let timer: any;
