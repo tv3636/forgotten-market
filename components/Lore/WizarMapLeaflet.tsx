@@ -13,8 +13,9 @@ const wizData = productionWizardData as { [wizardId: string]: any };
 
 const MapStyles = styled.div`
   height: 100%;
+
   .leaflet-container {
-    background-color: mediumvioletred;
+    background-color: #18151e;
   }
 
   .leaflet-bar a,
@@ -30,6 +31,17 @@ const MapStyles = styled.div`
   .leaflet-touch .leaflet-control-layers,
   .leaflet-touch .leaflet-bar {
     border: none;
+  }
+
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    background: lightgoldenrodyellow;
+    color: black;
+    opacity: 0.9;
+  }
+
+  .leaflet-popup-content-wrapper {
+    border-radius: 2px;
   }
 `;
 
@@ -52,7 +64,19 @@ const Layers = () => {
 
   useEffect(() => {
     if (!map) return;
-    const features = [];
+
+    L.tileLayer(
+      "https://nftz.forgottenrunes.com/tiles/wizards/{z}/{y}/{x}.png",
+      {
+        noWrap: true,
+        errorTileUrl: "https://nftz.forgottenrunes.com/tiles/wizards/blank.png",
+        maxZoom: 8,
+        minZoom: 3,
+      }
+    ).addTo(map);
+
+    const backgrounds = []; // Background rectangles and click area for popup
+
     for (let i = 0; i < 10000; i++) {
       const x = (i % 100) * 50;
       const y = Math.floor(i / 100.0) * 50;
@@ -60,32 +84,41 @@ const Layers = () => {
       const point1 = map.unproject([x, y], map.getZoom());
       const point2 = map.unproject([x + 50, y + 50], map.getZoom());
 
-      const featureGeoJson = L.rectangle([
+      const background = L.rectangle([
         [point1.lat, point1.lng],
         [point2.lat, point2.lng],
-      ]).toGeoJSON();
+      ]);
+
+      const featureGeoJson = background.toGeoJSON();
 
       featureGeoJson.properties.style = {
-        color: "black",
+        color: `#${wizData[i].background_color}`,
         stroke: false,
-        fillOpacity: 0,
+        fillOpacity: 1,
       };
 
       featureGeoJson.properties.wizardData = wizData[i];
       featureGeoJson.properties.index = i;
 
-      features.push(featureGeoJson);
+      backgrounds.push(featureGeoJson);
     }
 
-    const polygon: GeoJsonObject = {
+    const geoJson: GeoJsonObject = {
       type: "FeatureCollection",
       // @ts-ignore
-      features: features,
+      features: backgrounds,
     };
 
-    L.geoJSON(polygon, {
+    map.createPane("underlays");
+    // @ts-ignore
+    map.getPane("underlays").style.zIndex = -1;
+
+    L.geoJSON(geoJson, {
+      pane: "underlays",
       onEachFeature: function (feature, layer) {
-        layer.bindPopup(
+        const popup = L.popup({
+          className: "wizard-gallery-popup",
+        }).setContent(
           renderToString(
             <WizardPopup
               name={feature.properties.wizardData.name as string}
@@ -93,6 +126,12 @@ const Layers = () => {
             />
           )
         );
+
+        layer.bindPopup(popup);
+
+        layer.on("click", function (e) {
+          e.target.openPopup(e.target.getBounds().getCenter());
+        });
       },
       style: function (feature) {
         return feature?.properties.style;
@@ -115,22 +154,36 @@ const Layers = () => {
     ]);
   }, [map, id]);
 
-  const bounds = [
-    map.unproject([0, 0], map.getZoom()),
-    map.unproject([5000, 5000], map.getZoom()),
-  ];
+  // useEffect(() => {
+  //   if (!map || !wizardsWithoutLore) return;
+  //
+  //   for (let i = 0; i < wizardsWithoutLore.length; i++) {
+  //     const index = wizardsWithoutLore[i];
+  //     const x = (index % 100) * 50;
+  //     const y = Math.floor(index / 100.0) * 50;
+  //
+  //     const point1 = map.unproject([x, y], map.getZoom());
+  //     const point2 = map.unproject([x + 50, y + 50], map.getZoom());
+  //
+  //     // Non-lore wizards
+  //     var svgOverlay = document.createElementNS(
+  //       "http://www.w3.org/2000/svg",
+  //       "svg"
+  //     );
+  //     svgOverlay.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  //     svgOverlay.setAttribute("viewBox", "0 0 400 400");
+  //     svgOverlay.innerHTML =
+  //       '<rect width="400" height="400" style="background-color: grey;  opacity: 0.3"/>';
+  //     L.svgOverlay(svgOverlay, [
+  //       [point1.lat, point1.lng],
+  //       [point2.lat, point2.lng],
+  //     ]).addTo(map);
+  //   }
+  // }, [wizardsWithoutLore]);
 
   return (
     <>
-      <TileLayer
-        noWrap={true}
-        errorTileUrl={"https://nftz.forgottenrunes.com/tiles/wizards/blank.png"}
-        // @ts-ignore
-        bounds={bounds}
-        maxZoom={8}
-        minZoom={3}
-        url={"https://nftz.forgottenrunes.com/tiles/wizards/{z}/{y}/{x}.png"}
-      />
+      {/* We using raw leaflet for tile and layer adding for performance reasons*/}
     </>
   );
 };
@@ -144,9 +197,10 @@ const WizardMapLeaflet = () => {
           crs={CRS.Simple}
           zoom={5}
           center={[-78.125, 78.125]}
-          scrollWheelZoom={false}
+          scrollWheelZoom={true}
           style={{ height: "100%", width: "100%" }}
           attributionControl={false}
+          zoomSnap={0.25}
         >
           <Layers />
         </MapContainer>

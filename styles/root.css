@@ -1,43 +1,35 @@
 html,
 body {
-  background-color: #31293ecc;
+    background-color: #31293ecc;
 }
 
 div#WEB3_CONNECT_MODAL_ID {
-  font-family: "Pixel-NES", monospace;
+    font-family: "Pixel-NES", monospace;
 }
 
 div#WEB3_CONNECT_MODAL_ID .web3modal-modal-card {
-  border-radius: 2px !important;
+    border-radius: 2px !important;
 }
+
 html {
-  line-height: 1.15;
-  /* 1 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */
+    line-height: 1.15;
+    /* 1 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
 }
 
 body {
-  font-family: system-ui, -apple-system,
-    /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
+    font-family: system-ui, -apple-system,
+        /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 *,
 ::before,
 ::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.wizard-overlay-class {
-  background-color: #FFFFFF;
-  opacity: 0.8;
-  border-radius: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-weight: 700;
-  text-decoration: none;
-}
 
 /*
 Sections
@@ -49,7 +41,7 @@ Remove the margin in all browsers.
 */
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
 a {
