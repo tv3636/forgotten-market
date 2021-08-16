@@ -31,6 +31,7 @@ import Switch from "react-switch";
 import LorePreview from "../../components/AddLore/LorePreview";
 import { useDebounce } from "../../hooks";
 import HelpTooltip from "../../components/Lore/HelpTooltip";
+import { useExtractColors } from "../../hooks/useExtractColors";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -199,6 +200,12 @@ const ColorField = ({ ...props }: any) => {
   );
 };
 
+const Swatch = styled.div<{ bgColor: string | null }>`
+  width: 60px;
+  height: 20px;
+  background-color: ${(props) => props.bgColor || "white"};
+`;
+
 const AddLorePage = () => {
   const router = useRouter();
   const { wizardId, page } = router.query;
@@ -215,6 +222,10 @@ const AddLorePage = () => {
     setCurrentArtifact(artifactConfiguration);
   };
 
+  // const { bgColor } = useExtractColors(
+  //   "https://cloudflare-ipfs.com/ipfs/QmdFQR875GwXP4n4zmQq8YXChQYNQbPJBv1q5eevCB73gw/image.gif"
+  // );
+
   return (
     <Layout
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
@@ -229,6 +240,7 @@ const AddLorePage = () => {
           <FormStyled>
             <AddLoreLayout>
               <FormPanel>
+                <Swatch bgColor={bgColor} />
                 <h1>Add Lore</h1>
                 <FormField>
                   <h2>Pick a Wizard</h2>
