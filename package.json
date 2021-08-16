@@ -80,6 +80,7 @@
     "phaser3-rex-plugins": "^1.1.53",
     "polished": "^4.0.5",
     "qrcode.react": "^1.0.1",
+    "rc-tooltip": "^5.1.1",
     "react": "16.14.0",
     "react-blockies": "^1.4.1",
     "react-color": "^2.19.3",
