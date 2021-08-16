@@ -12,11 +12,6 @@ import Button from "../ui/Button";
 import Modal from "react-modal";
 import { ModalDecorator } from "../ui/ModalDecorator";
 import StyledModal from "./StyledModal";
-import {
-  FormField,
-  TextInput,
-  TextAreaAutosizeInput
-} from "../../components/ui/Inputs";
 import WizardDiv from "../WizardDiv";
 import WizardCard from "../WizardCard";
 import productionWizardData from "../../data/nfts-prod.json";
@@ -40,26 +35,6 @@ const WizardPickerFormContainer = styled.div`
   width: 100%;
   padding: 1em 0em 1em 0em;
   margin-bottom: 2em;
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  padding: 1.5em 0;
-`;
-
-const NftDisplayContainer = styled.div`
-  width: 100%;
-  margin: 2em 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const AdvancedContainer = styled.div`
-  width: 100%;
-`;
-const TextFieldLayout = styled.div`
-  margin: 0.5em 0;
 `;
 
 function NotConnected() {
@@ -100,19 +75,6 @@ function WizardList(props: any) {
 }
 
 function WizardPickerModal({ onRequestClose, onWizardPicked, injectedProvider }: any) {
-  // onChange, debounce, e
-  const [inputUrl, setInputUrl] = useState<string | null>(null);
-  const [inputError, setInputError] = useState<string | null>(null);
-  const [contractAddress, setContractAddress] = useState<string | null>(null);
-  const [tokenId, setTokenId] = useState<string | null>(null);
-  const [showAdvanced, setShowAdvanced] = useState(false);
-
-  useEffect(() => {
-    if (tokenId) {
-      console.log(tokenId);
-    }
-  }, [inputUrl]);
-
   return (
     <WizardPickerModalElement>
       <h1>Pick a Wizard</h1>
