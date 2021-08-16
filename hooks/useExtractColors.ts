@@ -40,7 +40,6 @@ function extractBgColor(imagePixels: any, width: number, height: number) {
     colorCounts[hexColor] = colorCounts[hexColor] || 0;
     colorCounts[hexColor] = colorCounts[hexColor] + 1;
   }
-  console.log("colorCounts: ", colorCounts);
 
   const mostFrequentPair = sortBy(
     toPairs(colorCounts),
@@ -50,25 +49,31 @@ function extractBgColor(imagePixels: any, width: number, height: number) {
   return "#" + mostFrequentColor;
 }
 
-export function useExtractColors(url: string) {
+export function useExtractColors(url?: string | null) {
   const [bgColor, setBgColor] = useState<string | null>(null);
 
   useEffect(() => {
     async function run() {
+      if (!url) return;
       //
       const imageData = await getImageData(url);
       const image: HTMLImageElement = document.createElement("img");
+      image.addEventListener("load", function () {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        if (!context) return;
+        const width = (canvas.width = image.naturalWidth);
+        const height = (canvas.height = image.naturalHeight);
+        context.drawImage(image, 0, 0, width, height);
+        const imagePixels = context.getImageData(0, 0, width, height);
+        const extractedBgColor = extractBgColor(
+          imagePixels.data,
+          width,
+          height
+        );
+        setBgColor(extractedBgColor);
+      });
       image.src = imageData;
-
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-      if (!context) return;
-      const width = (canvas.width = image.naturalWidth);
-      const height = (canvas.height = image.naturalHeight);
-      context.drawImage(image, 0, 0, width, height);
-      const imagePixels = context.getImageData(0, 0, width, height);
-      const extractedBgColor = extractBgColor(imagePixels.data, width, height);
-      setBgColor(extractedBgColor);
     }
     run();
   }, [url]);

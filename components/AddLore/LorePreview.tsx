@@ -10,6 +10,7 @@ type Props = {
   currentArtifact: ArtifactConfiguration | null;
   currentStory: string | null;
   currentTitle: string | null;
+  currentBgColor?: string | null;
 };
 
 const LorePreviewElement = styled.div`
@@ -24,7 +25,7 @@ const EmptyPreviewStyles = styled.div`
   padding: 1em 2em;
 `;
 
-const ParchmentBackground = styled.div`
+const ParchmentBackground = styled.div<{ bgColor: string | null }>`
   font-family: "Alagard";
   word-break: break-word;
   color: #acacac;
@@ -32,6 +33,7 @@ const ParchmentBackground = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: ${(props) => props.bgColor || "transparent"};
 
   ::before {
     content: "";
@@ -56,6 +58,7 @@ const ParchmentLines = styled.div`
     right: 0px;
     bottom: 0px;
     left: 0px;
+    opacity: 0.8;
   }
   ::after {
     content: "";
@@ -67,12 +70,19 @@ const ParchmentLines = styled.div`
     right: 0px;
     bottom: 4px;
     left: 0px;
+    opacity: 0.8;
   }
 `;
 
-function ParchmentPage({ children }: { children: any }) {
+function ParchmentPage({
+  bgColor,
+  children
+}: {
+  bgColor: string | null;
+  children: any;
+}) {
   return (
-    <ParchmentBackground>
+    <ParchmentBackground bgColor={bgColor}>
       <ParchmentLines>{children}</ParchmentLines>
     </ParchmentBackground>
   );
@@ -85,13 +95,14 @@ const LorePreviewLayout = styled.div`
 export default function LorePreview({
   currentArtifact,
   currentTitle,
-  currentStory
+  currentStory,
+  currentBgColor
 }: Props) {
   const hasContent = currentTitle || currentStory || currentArtifact;
 
   return (
     <LorePreviewElement>
-      <ParchmentPage>
+      <ParchmentPage bgColor={currentBgColor}>
         <LorePreviewLayout>
           {!hasContent && (
             <EmptyPreviewStyles>
