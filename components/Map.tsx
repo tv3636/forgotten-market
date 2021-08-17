@@ -1,14 +1,5 @@
-import Layout from "../components/Layout";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
 import styled from "@emotion/styled";
-import {
-  MapContainer,
-  TileLayer,
-  ImageOverlay,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { ImageOverlay, MapContainer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";

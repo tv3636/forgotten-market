@@ -35,7 +35,7 @@ const MapStyles = styled.div`
 
   .leaflet-popup-content-wrapper,
   .leaflet-popup-tip {
-    background: lightgoldenrodyellow;
+    background: #dfd1a8;
     color: black;
     opacity: 0.9;
   }
@@ -45,14 +45,24 @@ const MapStyles = styled.div`
   }
 `;
 
-const WizardPopup = ({ name, index }: { name: string; index: number }) => {
+const WizardPopup = ({
+  name,
+  index,
+  hasLore,
+}: {
+  name: string;
+  index: number;
+  hasLore: boolean;
+}) => {
   return (
     <>
       <h3>{index}</h3>
       <h3>{name}</h3>
-      <a href={`/lore/${index}/0`} target={"_blank"}>
-        View lore
-      </a>
+      {hasLore && (
+        <a href={`/lore/${index}/0`} target={"_blank"}>
+          View lore
+        </a>
+      )}
     </>
   );
 };
@@ -96,15 +106,18 @@ const Layers = () => {
 
       const featureGeoJson = background.toGeoJSON();
 
+      const hasLore = Math.random() > 0.3;
+      // TODO: use proper array for prod
+
       featureGeoJson.properties.style = {
-        // TODO: do wizard without lore below
-        color: Math.random() > 0.3 ? `#${wizData[i].background_color}` : "grey",
+        color: hasLore ? `#${wizData[i].background_color}` : "grey",
         stroke: false,
         fillOpacity: 1,
       };
 
       featureGeoJson.properties.wizardData = wizData[i];
       featureGeoJson.properties.index = i;
+      featureGeoJson.properties.hasLore = hasLore;
 
       backgrounds.push(featureGeoJson);
     }
@@ -129,6 +142,7 @@ const Layers = () => {
             <WizardPopup
               name={feature.properties.wizardData.name as string}
               index={feature.properties.index}
+              hasLore={feature.properties.hasLore}
             />
           )
         );
