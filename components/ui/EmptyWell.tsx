@@ -9,7 +9,11 @@ export const EmptyWell = styled.div<{ solid?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px 60px;
   flex-direction: column;
   margin: auto;
+
+  padding: 10px 20px;
+  @media (min-width: 768px) {
+    padding: 32px 60px;
+  }
 `;
