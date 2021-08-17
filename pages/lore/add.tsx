@@ -7,7 +7,9 @@ import BookOfLoreControls from "../../components/Lore/BookOfLoreControls";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
-import WizardPicker, {WizardConfiguration} from "../../components/AddLore/WizardPicker";
+import WizardPicker, {
+  WizardConfiguration
+} from "../../components/AddLore/WizardPicker";
 import ArtifactPicker, {
   ArtifactConfiguration
 } from "../../components/AddLore/ArtifactPicker";
@@ -48,11 +50,14 @@ const AddLoreLayout = styled.div`
   width: 100%;
   max-width: 1100px;
   padding: 1em;
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  grid-column-gap: 20px;
   color: white;
   position: relative;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-column-gap: 20px;
+  }
 `;
 
 const SubmitFormField = styled.div`
