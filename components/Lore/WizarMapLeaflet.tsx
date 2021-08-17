@@ -62,6 +62,11 @@ const Layers = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  const wizardHasLore: boolean[] = new Array(10000).fill(true);
+  // TODO: ^ populate with true/falses for wizard
+  wizardHasLore[3] = false;
+  wizardHasLore[3500] = false;
+
   useEffect(() => {
     if (!map) return;
 
@@ -92,7 +97,8 @@ const Layers = () => {
       const featureGeoJson = background.toGeoJSON();
 
       featureGeoJson.properties.style = {
-        color: `#${wizData[i].background_color}`,
+        // TODO: do wizard without lore below
+        color: Math.random() > 0.3 ? `#${wizData[i].background_color}` : "grey",
         stroke: false,
         fillOpacity: 1,
       };
@@ -153,33 +159,6 @@ const Layers = () => {
       [point2.lat, point2.lng],
     ]);
   }, [map, id]);
-
-  // useEffect(() => {
-  //   if (!map || !wizardsWithoutLore) return;
-  //
-  //   for (let i = 0; i < wizardsWithoutLore.length; i++) {
-  //     const index = wizardsWithoutLore[i];
-  //     const x = (index % 100) * 50;
-  //     const y = Math.floor(index / 100.0) * 50;
-  //
-  //     const point1 = map.unproject([x, y], map.getZoom());
-  //     const point2 = map.unproject([x + 50, y + 50], map.getZoom());
-  //
-  //     // Non-lore wizards
-  //     var svgOverlay = document.createElementNS(
-  //       "http://www.w3.org/2000/svg",
-  //       "svg"
-  //     );
-  //     svgOverlay.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-  //     svgOverlay.setAttribute("viewBox", "0 0 400 400");
-  //     svgOverlay.innerHTML =
-  //       '<rect width="400" height="400" style="background-color: grey;  opacity: 0.3"/>';
-  //     L.svgOverlay(svgOverlay, [
-  //       [point1.lat, point1.lng],
-  //       [point2.lat, point2.lng],
-  //     ]).addTo(map);
-  //   }
-  // }, [wizardsWithoutLore]);
 
   return (
     <>
