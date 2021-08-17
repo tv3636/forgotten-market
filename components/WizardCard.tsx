@@ -7,50 +7,62 @@ const opensea_base_url =
   "https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/";
 
 const CardStyle = styled.div<{ isHovering: boolean }>`
-  opacity: ${(props) => (props.isHovering ? 1 : 0.7)};
+  /* opacity: ${(props) => (props.isHovering ? 1 : 0.7)}; */
   transition: all 0.1s ease-in;
+  max-width: 100%;
+  position: relative;
 
-  .wizard-image-div {
-    height: 171px;
-    width: 180.75px;
-    position: relative;
-    background-image: url("../static/img/frame-alt.png");
-    background-size: 180.75px 171px;
-    display: inline-block;
-    scroll-snap-align: end;
-    margin: 0.45%;
+  &:after {
+    content: "";
+    display: block;
+    /* padding-bottom: 100%; */
   }
+`;
 
-  .wizard-image {
-    margin-top: 28px;
-  }
+const WizardFrame = styled.div`
+  position: relative;
+  background-image: url("/static/img/frame-alt.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
-  @font-face {
-    font-family: "Alagard";
-    src: url("/static/game/wizards/alagard.otf") format("opentype");
-  }
+const WizardImageContainer = styled.div`
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-  .name-div {
-    width: 107.25px;
-    height: 24.75px;
-    position: absolute;
-    left: 37.5px;
-    top: 1.5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+const WizardImage = styled.img`
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  margin-top: 23%;
+  margin-bottom: 13%;
+`;
 
-  .wizard-name {
+const WizardName = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h3 {
     text-align: center;
     position: relative;
-    z-index: 1;
     line-height: 1em;
 
-    font-size: 11px;
-    padding: 0 5px;
+    font-size: 1em;
+    padding: 0 30%;
     color: #dfd1a8;
     font-family: "Alagard";
+    position: absolute;
+    margin-top: 30%;
   }
 `;
 
@@ -63,22 +75,20 @@ const WizardCard = (props: any) => {
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
     >
-      <div
-        className="wizard-image-div"
+      <WizardFrame
         onClick={() =>
           props.onClick ? props.onClick(props.id, props.name) : null
         }
       >
-        <div className="name-div">
-          <h3 className="wizard-name">{props.name}</h3>
-        </div>
-        <img
-          className="wizard-image"
-          src={image_base_url + props.id + ".png"}
-          height={131.25}
-          width={131.25}
-        />
-      </div>
+        <WizardName>
+          <h3>
+            {props.name} (#{props.id})
+          </h3>
+        </WizardName>
+        <WizardImageContainer>
+          <WizardImage src={image_base_url + props.id + ".png"} />
+        </WizardImageContainer>
+      </WizardFrame>
     </CardStyle>
   );
 };
