@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { WizardConfiguration } from "./AddLore/WizardPicker";
 
 const image_base_url =
   "https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-";
@@ -66,7 +67,15 @@ const WizardName = styled.div`
   }
 `;
 
-const WizardCard = (props: any) => {
+const WizardCard = ({
+  id,
+  name,
+  onWizardPicked
+}: {
+  id: string;
+  name: string;
+  onWizardPicked?: (wizardConfiguration: WizardConfiguration) => void;
+}) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
@@ -76,17 +85,26 @@ const WizardCard = (props: any) => {
       onMouseOut={() => setIsHovering(false)}
     >
       <WizardFrame
-        onClick={() =>
-          props.onClick ? props.onClick(props.id, props.name) : null
+        onClick={
+          onWizardPicked
+            ? () => {
+                const wizardPicked: WizardConfiguration = {
+                  tokenId: id,
+                  name: name
+                };
+                console.log("wizardPicked: ", wizardPicked);
+                onWizardPicked(wizardPicked);
+              }
+            : () => null
         }
       >
         <WizardName>
           <h3>
-            {props.name} (#{props.id})
+            {name} (#{id})
           </h3>
         </WizardName>
         <WizardImageContainer>
-          <WizardImage src={image_base_url + props.id + ".png"} />
+          <WizardImage src={image_base_url + id + ".png"} />
         </WizardImageContainer>
       </WizardFrame>
     </CardStyle>

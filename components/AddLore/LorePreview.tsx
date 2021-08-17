@@ -5,12 +5,14 @@ import { EmptyWell } from "../ui/EmptyWell";
 import { ArtifactConfiguration } from "./ArtifactPicker";
 import NFTDisplay from "../NFTDisplay";
 import LoreMarkdown from "../Lore/LoreMarkdown";
+import { WizardConfiguration } from "./WizardPicker";
 
 type Props = {
   currentArtifact: ArtifactConfiguration | null;
   currentStory: string | null;
   currentTitle: string | null;
   currentBgColor?: string | null;
+  currentWizard?: WizardConfiguration | null;
 };
 
 const LorePreviewElement = styled.div`
@@ -105,17 +107,43 @@ const LoreTitle = styled.h1`
   margin-bottom: 1em;
 `;
 
+const WizardNameHeader = styled.div`
+  position: relative;
+  background-image: url("/static/lore/book/page_border_header_top.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 4em;
+  color: black;
+  margin-top: 4%;
+  padding: 0 25%;
+  text-align: center;
+`;
+
 export default function LorePreview({
   currentArtifact,
   currentTitle,
   currentStory,
-  currentBgColor
+  currentBgColor,
+  currentWizard
 }: Props) {
-  const hasContent = currentTitle || currentStory || currentArtifact;
+  const hasContent =
+    currentTitle || currentStory || currentArtifact || currentWizard;
 
   return (
     <LorePreviewElement>
       <ParchmentPage bgColor={currentBgColor}>
+        {currentWizard && (
+          <WizardNameHeader>
+            {currentWizard.name} (#{currentWizard.tokenId})
+          </WizardNameHeader>
+        )}
         <LorePreviewLayout>
           {!hasContent && (
             <EmptyPreviewStyles>
