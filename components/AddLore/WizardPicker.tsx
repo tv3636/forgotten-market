@@ -12,7 +12,6 @@ import Button from "../ui/Button";
 import Modal from "react-modal";
 import { ModalDecorator } from "../ui/ModalDecorator";
 import StyledModal from "./StyledModal";
-import WizardDiv from "../WizardDiv";
 import WizardCard from "../WizardCard";
 import productionWizardData from "../../data/nfts-prod.json";
 
@@ -45,6 +44,39 @@ function NotConnected() {
   );
 }
 
+const WizardGridElement = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const WizardGridLayout = styled.div`
+  display: grid;
+  grid-gap: 5px;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  font-size: 12px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    font-size: 10px;
+  }
+`;
+
+function WizardGrid(props: any) {
+  const onClick = props.onClick ? props.onClick : () => null;
+  return (
+    <WizardGridElement>
+      <WizardGridLayout>
+        {props.wizards.map((wizard: any) => (
+          <WizardCard id={wizard.id} name={wizard.name} onClick={onClick} />
+        ))}
+      </WizardGridLayout>
+    </WizardGridElement>
+  );
+}
+
 function WizardList(props: any) {
   const [wizards, setWizards] = useState([]);
 
@@ -53,13 +85,15 @@ function WizardList(props: any) {
       const tokens: any = [];
       try {
         const address = props.injectedProvider.provider.selectedAddress;
-        const contract = getWizardsContract({ provider: props.injectedProvider });
+        const contract = getWizardsContract({
+          provider: props.injectedProvider
+        });
         const result = await contract.tokensOfOwner(address);
 
         result.forEach((element: any) => {
           let thisWiz = wizData[Number(element._hex)];
-          thisWiz['id'] = Number(element._hex).toString();
-          tokens.push(thisWiz) 
+          thisWiz["id"] = Number(element._hex).toString();
+          tokens.push(thisWiz);
         });
       } catch (err) {
         console.log("err: ", err);
@@ -68,18 +102,23 @@ function WizardList(props: any) {
     }
     run();
   });
-  
-  return (
-    <WizardDiv wizards={wizards} onClick={props.onClick}/>
-  );
+
+  return <WizardGrid wizards={wizards} onClick={props.onClick} />;
 }
 
-function WizardPickerModal({ onRequestClose, onWizardPicked, injectedProvider }: any) {
+function WizardPickerModal({
+  onRequestClose,
+  onWizardPicked,
+  injectedProvider
+}: any) {
   return (
     <WizardPickerModalElement>
       <h1>Pick a Wizard</h1>
       <WizardPickerFormContainer>
-        <WizardList injectedProvider={injectedProvider} onClick={onWizardPicked}/>
+        <WizardList
+          injectedProvider={injectedProvider}
+          onClick={onWizardPicked}
+        />
       </WizardPickerFormContainer>
       <Button onClick={onRequestClose}>Done</Button>
     </WizardPickerModalElement>
@@ -116,9 +155,7 @@ const WizardPicker = observer(({}: Props) => {
   const [currentWizard, setCurrentWizard] =
     useState<WizardConfiguration | null>(null);
 
-  const onWizardModalPicked = (
-    WizardConfiguration: WizardConfiguration
-  ) => {
+  const onWizardModalPicked = (WizardConfiguration: WizardConfiguration) => {
     setCurrentWizard(WizardConfiguration);
   };
 
@@ -131,29 +168,27 @@ const WizardPicker = observer(({}: Props) => {
   }
 
   function wizardPicked(tokenId: string, name: string) {
-    onWizardModalPicked({tokenId, name});
+    onWizardModalPicked({ tokenId, name });
+    closeModal();
   }
 
   return (
     <WizardPickerElement>
       <EmptyWell solid={currentWizard ? true : false}>
         {currentWizard && (
-          <WizardCard
-            id={currentWizard.tokenId}
-            name={currentWizard.name}
-          />
+          <WizardCard id={currentWizard.tokenId} name={currentWizard.name} />
         )}
 
-          <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
-            Pick {currentWizard ? "another" : "a"} Wizard
-          </Button>
-          <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
-            <WizardPickerModal
-              onRequestClose={closeModal}
-              onWizardPicked={wizardPicked}
-              injectedProvider={web3Settings.injectedProvider}
-            />
-          </StyledModal>
+        <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
+          Pick {currentWizard ? "another" : "a"} Wizard
+        </Button>
+        <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
+          <WizardPickerModal
+            onRequestClose={closeModal}
+            onWizardPicked={wizardPicked}
+            injectedProvider={web3Settings.injectedProvider}
+          />
+        </StyledModal>
       </EmptyWell>
     </WizardPickerElement>
   );
