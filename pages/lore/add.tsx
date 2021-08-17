@@ -197,7 +197,6 @@ const BackgroundColorPickerField = ({
   const { bgColor: detectedBgColor } = useExtractColors(nftData?.image);
 
   const setColor = (newColor: string) => {
-    console.log("newColor: ", newColor);
     onChange(newColor);
     setLocalBgColor(newColor);
   };
@@ -286,8 +285,7 @@ const AddLorePage = () => {
     setCurrentArtifact(artifactConfiguration);
   };
 
-  const [currentWizard, setCurrentWizard] =
-    useState<WizardConfiguration | null>(null);
+  const [currentWizard, setCurrentWizard] = useState<WizardConfiguration>();
 
   const onWizardPicked = (wizardConfiguration: WizardConfiguration) => {
     setCurrentWizard(wizardConfiguration);
@@ -368,6 +366,7 @@ const AddLorePage = () => {
                   currentTitle={currentTitle}
                   currentStory={debouncedCurrentStory}
                   currentBgColor={currentBgColor}
+                  currentWizard={currentWizard}
                 />
               </PreviewStickyPane>
             </PreviewPanel>

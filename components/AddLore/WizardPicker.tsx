@@ -64,29 +64,49 @@ const WizardGridLayout = styled.div`
   }
 `;
 
-function WizardGrid(props: any) {
-  const onClick = props.onClick ? props.onClick : () => null;
+export type onWizardPickedFn = (
+  wizardConfiguration: WizardConfiguration
+) => void;
+
+function WizardGrid({
+  wizards,
+  onWizardPicked
+}: {
+  wizards: any[];
+  onWizardPicked: onWizardPickedFn;
+}) {
   return (
     <WizardGridElement>
       <WizardGridLayout>
-        {props.wizards.map((wizard: any) => (
-          <WizardCard id={wizard.id} name={wizard.name} onClick={onClick} />
+        {wizards.map((wizard: any) => (
+          <WizardCard
+            key={wizard.id}
+            id={wizard.id}
+            name={wizard.name}
+            onWizardPicked={onWizardPicked}
+          />
         ))}
       </WizardGridLayout>
     </WizardGridElement>
   );
 }
 
-function WizardList(props: any) {
+function WizardList({
+  injectedProvider,
+  onWizardPicked
+}: {
+  injectedProvider: any;
+  onWizardPicked: onWizardPickedFn;
+}) {
   const [wizards, setWizards] = useState([]);
 
   useEffect(() => {
     async function run() {
       const tokens: any = [];
       try {
-        const address = props.injectedProvider.provider.selectedAddress;
+        const address = injectedProvider.provider.selectedAddress;
         const contract = getWizardsContract({
-          provider: props.injectedProvider
+          provider: injectedProvider
         });
         const result = await contract.tokensOfOwner(address);
 
@@ -95,6 +115,12 @@ function WizardList(props: any) {
           thisWiz["id"] = Number(element._hex).toString();
           tokens.push(thisWiz);
         });
+
+        // tmp
+        const devon = wizData[6001];
+        devon.id = "6001";
+        tokens.push(devon);
+        //
       } catch (err) {
         console.log("err: ", err);
       }
@@ -103,7 +129,7 @@ function WizardList(props: any) {
     run();
   });
 
-  return <WizardGrid wizards={wizards} onClick={props.onClick} />;
+  return <WizardGrid wizards={wizards} onWizardPicked={onWizardPicked} />;
 }
 
 function WizardPickerModal({
@@ -117,7 +143,7 @@ function WizardPickerModal({
       <WizardPickerFormContainer>
         <WizardList
           injectedProvider={injectedProvider}
-          onClick={onWizardPicked}
+          onWizardPicked={onWizardPicked}
         />
       </WizardPickerFormContainer>
       <Button onClick={onRequestClose}>Done</Button>
@@ -146,7 +172,7 @@ export type WizardConfiguration = {
   name: string;
 };
 
-const WizardPicker = observer(({}: Props) => {
+const WizardPicker = observer(({ onWizardPicked }: Props) => {
   const { web3Settings } = useMst();
   const walletConnected = web3Settings.connected;
 
@@ -155,8 +181,9 @@ const WizardPicker = observer(({}: Props) => {
   const [currentWizard, setCurrentWizard] =
     useState<WizardConfiguration | null>(null);
 
-  const onWizardModalPicked = (WizardConfiguration: WizardConfiguration) => {
-    setCurrentWizard(WizardConfiguration);
+  const onWizardModalPicked = (wizardConfiguration: WizardConfiguration) => {
+    setCurrentWizard(wizardConfiguration);
+    onWizardPicked(wizardConfiguration);
   };
 
   if (!walletConnected) {
@@ -167,8 +194,8 @@ const WizardPicker = observer(({}: Props) => {
     );
   }
 
-  function wizardPicked(tokenId: string, name: string) {
-    onWizardModalPicked({ tokenId, name });
+  function wizardPicked(wizardConfiguration: WizardConfiguration) {
+    onWizardModalPicked(wizardConfiguration);
     closeModal();
   }
 
@@ -178,7 +205,6 @@ const WizardPicker = observer(({}: Props) => {
         {currentWizard && (
           <WizardCard id={currentWizard.tokenId} name={currentWizard.name} />
         )}
-
         <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
           Pick {currentWizard ? "another" : "a"} Wizard
         </Button>
