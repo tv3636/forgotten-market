@@ -1,4 +1,5 @@
-import { Provider as MobxProvider } from "mobx-react";
+import { Provider as MobxStateTreeProvider } from "../store";
+
 import Head from "next/head";
 import { useGTag } from "../hooks/useGTag";
 import { useStore } from "../store";
@@ -86,9 +87,9 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
       </Head>
 
-      <MobxProvider store={store}>
+      <MobxStateTreeProvider value={store}>
         <Component {...pageProps} />
-      </MobxProvider>
+      </MobxStateTreeProvider>
     </>
   );
 }
