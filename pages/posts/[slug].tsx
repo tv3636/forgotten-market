@@ -5,6 +5,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import Head from "next/head";
 import Link from "next/link";
 import path from "path";
+import styled from "@emotion/styled";
 import Layout from "../../components/InfoPageLayout";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
 import dynamic from "next/dynamic";
@@ -22,6 +23,15 @@ const components = {
   Head
 };
 
+const NavAnchor = styled.a`
+  text-decoration: none;
+  font-style: italic;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 export default function PostPage({
   source,
   frontMatter
@@ -29,15 +39,16 @@ export default function PostPage({
   source: { compiledSource: string; scope: any };
   frontMatter: any;
 }) {
+  const title = `${frontMatter.title} | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`;
   return (
-    <Layout>
-      {/* <header>
+    <Layout title={title}>
+      <header>
         <nav>
-          <Link href="/">
-            <a>👈 Go back home</a>
+          <Link href="/posts">
+            <NavAnchor>{"<"} All Posts</NavAnchor>
           </Link>
         </nav>
-      </header> */}
+      </header>
       <div className="post-header">
         <h1>{frontMatter.title}</h1>
         {frontMatter.description && (

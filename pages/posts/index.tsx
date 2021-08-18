@@ -12,18 +12,25 @@ export type Post = {
   filePath: string;
 };
 
+const StyledAnchor = styled.a`
+  font-size: 1.2em;
+  margin-bottom: 0.3em;
+  display: inline-block;
+  cursor: pointer;
+`;
 const Description = styled.div``;
 const BlogEntries = styled.ul`
   list-style: none;
   padding-inline-start: 0;
+  margin-top: 3em;
 `;
 const BlogEntry = styled.li`
-  margin: 1em 0;
+  margin: 2em 0;
 `;
 
 export default function Index({ posts }: { posts: Post[] }) {
   return (
-    <InfoPageLayout>
+    <InfoPageLayout title="Blog Posts: Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
       <h1>Forgotten Blog Posts</h1>
       <BlogEntries>
         {posts.map((post) => (
@@ -32,7 +39,7 @@ export default function Index({ posts }: { posts: Post[] }) {
               as={`/posts/${post.filePath.replace(/\.mdx?$/, "")}`}
               href={`/posts/[slug]`}
             >
-              <a>{post.data.title}</a>
+              <StyledAnchor>{post.data.title}</StyledAnchor>
             </Link>
             {post.data.description && (
               <Description>{post.data.description}</Description>

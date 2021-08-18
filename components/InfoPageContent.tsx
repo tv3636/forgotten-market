@@ -27,6 +27,7 @@ const AboutWrapper = styled.div`
   h5 {
     font-family: "Alagard", system-ui, -apple-system, "Segoe UI", Roboto,
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.2em;
   }
   h1 {
     margin-top: 1.5em;
@@ -48,7 +49,7 @@ const AboutWrapper = styled.div`
   }
 
   p img {
-    margin: 0 auto;
+    margin: 0.5em auto;
     width: 100%;
   }
 `;
