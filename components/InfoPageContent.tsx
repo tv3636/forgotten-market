@@ -9,6 +9,7 @@ type Props = {
 };
 
 const AboutWrapper = styled.div`
+  min-height: 95vh;
   padding: 2em 2em;
   color: rgb(172 167 185);
 
