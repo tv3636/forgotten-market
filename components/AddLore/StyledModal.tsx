@@ -31,6 +31,7 @@ const StyledModal = styled(ModalDecorator)`
     min-height: 50vw;
     color: white;
     display: flex;
+    width: 90vw;
     max-width: 800px;
     max-height: 90vh;
   }
