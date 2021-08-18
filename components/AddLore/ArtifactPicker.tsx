@@ -164,7 +164,11 @@ type Props = {
 
 const ArtifactPickerElement = styled.div``;
 const ArtifactPickerControls = styled.div`
-  margin-top: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 /**

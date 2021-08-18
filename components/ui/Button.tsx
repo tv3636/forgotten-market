@@ -10,6 +10,9 @@ type Props = {
 };
 
 const ButtonElement = styled.a<Props>`
+  display: inline-block;
+  text-align: center;
+
   ${(props) => {
     switch (props.size) {
       case "small": {

@@ -7,7 +7,9 @@ import BookOfLoreControls from "../../components/Lore/BookOfLoreControls";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
-import WizardPicker, {WizardConfiguration} from "../../components/AddLore/WizardPicker";
+import WizardPicker, {
+  WizardConfiguration
+} from "../../components/AddLore/WizardPicker";
 import ArtifactPicker, {
   ArtifactConfiguration
 } from "../../components/AddLore/ArtifactPicker";
@@ -51,11 +53,14 @@ const AddLoreLayout = styled.div`
   width: 100%;
   max-width: 1100px;
   padding: 1em;
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  grid-column-gap: 20px;
   color: white;
   position: relative;
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-column-gap: 20px;
+  }
 `;
 
 const SubmitFormField = styled.div`
@@ -192,7 +197,6 @@ const BackgroundColorPickerField = ({
   const { bgColor: detectedBgColor } = useExtractColors(nftData?.image);
 
   const setColor = (newColor: string) => {
-    console.log("newColor: ", newColor);
     onChange(newColor);
     setLocalBgColor(newColor);
   };
@@ -281,8 +285,7 @@ const AddLorePage = () => {
     setCurrentArtifact(artifactConfiguration);
   };
 
-  const [currentWizard, setCurrentWizard] =
-    useState<WizardConfiguration | null>(null);
+  const [currentWizard, setCurrentWizard] = useState<WizardConfiguration>();
 
   const onWizardPicked = (wizardConfiguration: WizardConfiguration) => {
     setCurrentWizard(wizardConfiguration);
@@ -363,6 +366,7 @@ const AddLorePage = () => {
                   currentTitle={currentTitle}
                   currentStory={debouncedCurrentStory}
                   currentBgColor={currentBgColor}
+                  currentWizard={currentWizard}
                 />
               </PreviewStickyPane>
             </PreviewPanel>
