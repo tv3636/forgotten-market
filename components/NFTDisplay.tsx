@@ -61,6 +61,11 @@ export async function fetchERC721TokenMetadataCached({
     provider
   });
 
+  promise.catch((err) => {
+    console.log("err: ", err);
+    delete erc721MetadataCache[cacheKey];
+  });
+
   return (erc721MetadataCache[cacheKey] = promise);
 }
 
