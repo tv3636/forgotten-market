@@ -9,11 +9,35 @@ type Props = {
 };
 
 const AboutWrapper = styled.div`
+  min-height: 95vh;
   padding: 2em 2em;
   color: rgb(172 167 185);
 
   display: flex;
   justify-content: center;
+
+  a {
+    color: #a983ff;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Alagard", system-ui, -apple-system, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.2em;
+  }
+  h1 {
+    margin-top: 1.5em;
+  }
+  h2 {
+    margin-top: 1.3em;
+  }
+  h3 {
+    margin-top: 1em;
+  }
 
   .content {
     width: 100%;
@@ -25,7 +49,7 @@ const AboutWrapper = styled.div`
   }
 
   p img {
-    margin: 0 auto;
+    margin: 0.5em auto;
     width: 100%;
   }
 `;

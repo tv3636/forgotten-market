@@ -147,6 +147,10 @@ export default function SiteNav({}: Props) {
         <li className="item">
           <a href="/wtf">wtf?</a>
         </li>
+        <li className="item">
+          <a href="/posts">Resources</a>
+        </li>
+
         {/* <li className="item">
           <a href="/lore">Lore</a>
         </li> */}
