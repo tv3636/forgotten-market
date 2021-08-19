@@ -1,14 +1,5 @@
-import Layout from "../components/Layout";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
 import styled from "@emotion/styled";
-import {
-  MapContainer,
-  TileLayer,
-  ImageOverlay,
-  Marker,
-  Popup
-} from "react-leaflet";
+import { ImageOverlay, MapContainer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -47,18 +38,24 @@ const MapStyles = styled.div`
   }
 `;
 
+export const MapWrapper = styled.div`
+  height: 90vh;
+`;
+
 const Map = () => (
-  <MapStyles>
-    <MapContainer
-      center={[0, 0]}
-      zoom={7}
-      scrollWheelZoom={true}
-      style={{ height: "100%", width: "100%" }}
-      attributionControl={false}
-    >
-      <ImageOverlay bounds={bounds} url="/static/img/map/map.png" />
-    </MapContainer>
-  </MapStyles>
+  <MapWrapper>
+    <MapStyles>
+      <MapContainer
+        center={[0, 0]}
+        zoom={7}
+        scrollWheelZoom={true}
+        style={{ height: "100%", width: "100%" }}
+        attributionControl={false}
+      >
+        <ImageOverlay bounds={bounds} url="/static/img/map/map.png" />
+      </MapContainer>
+    </MapStyles>
+  </MapWrapper>
 );
 
 export default Map;
