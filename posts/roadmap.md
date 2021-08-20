@@ -69,6 +69,7 @@ This Book will be an online compendium where any Wizard holder can attach art, s
 In the near future, The Secret Tower on our website will undergo a subtle transformation. Wizard holders will have the opportunity to commit the unspeakable act of burning their Wizard!!! This act, while incredibly risky, will destroy the Wizard but may potentially return a mysterious Ghost Wizard. The exact details of the Great Burning have yet to be revealed, but for those who choose to take part in this even, be warned:
 
 > “Many that live deserve death. And some that die deserve life. Can you give it to them? Then do not be too eager to deal out death in judgement. For even the very wise cannot see all ends.”
+> 
 > -Gandalf the Grey
 
 ## FRWC comic book issue #1 released
@@ -80,8 +81,14 @@ Perhaps one of the things we are most excited about is the animated version of t
 
 ## Forgotten Runes Warrior's Guild
 When the time is right, and only then, we intend a companion Warrior drop to the Wizards. But why Warriors?
-Every good book, film, and video game in the Fantasy genre needs this power balance of the brains (Wizards) and the brawn (Warriors). Indeed, it is an established trope: Wizards & Warriors, Swords & Sorcery, Might & Magic. We believe this dynamic will be crucial in our own books, animations, and games. If we have a large metaverse of 10k Wizards, we will need other power dynamics to cooperate with or to challenge them!
-Though Warriors will arrive much later,  we see Wizards as the emissaries to our universe. The Wizards will shape this world in its nascent creation. In due time, they will be long established in this world- settled in Hedge Wizard Wood, populated in Calista’s Citadel, and fortified in the Blue Wizard Bastion. They will be well learned in the Forgotten Runes. Their power and wisdom will pervade across the land.
+
+Every good book, film, and video game in the Fantasy genre needs this power balance of the brains (Wizards) and the brawn (Warriors). Indeed, it is an established trope: Wizards & Warriors, Swords & Sorcery, Might & Magic. 
+
+We believe this dynamic will be crucial in our own books, animations, and games. If we have a large metaverse of 10k Wizards, we will need other power dynamics to cooperate with or to challenge them!
+Though Warriors will arrive much later,  we see Wizards as the emissaries to our universe. 
+
+The Wizards will shape this world in its nascent creation. In due time, they will be long established in this world- settled in Hedge Wizard Wood, populated in Calista’s Citadel, and fortified in the Blue Wizard Bastion. They will be well learned in the Forgotten Runes. Their power and wisdom will pervade across the land.
+
 But even the very wise cannot see all ends...
 How will the Wizards respond to the arrival of the Warriors?
 
