@@ -16,16 +16,17 @@ The order of these items is in flux. We may complete these milestones in a sligh
 Also, two items from Roadmap 1.0 are carried over, namely Forgotten Souls and the Warriors Guild. And for those wondering, the commercial rights milestone will be clearly spelled out in a near future blog post. And finally, there will be many other surprises along the way. This Roadmap only covers a few of the major milestones.
 
 As for Roadmap 2.0, here it is in text form:
--All Wizard holders will receive full turnarounds for every Wizard they own.
--Wizards will be deployable into other metaverses with full walk cycles
--Forgotten Runes Book of Lore goes live
--The Great Burning: Forgotten Souls token burn at the Secret Tower
--FRWC comic book issue #1 released
--Official FRWC Metaverse beta launch
--FRWC animated short premieres
--Forgotten Runes Warrior's Guild drops
+
+- All Wizard holders will receive full turnarounds for every Wizard they own.
+- Wizards will be deployable into other metaverses with full walk cycles
+- Forgotten Runes Book of Lore goes live
+- The Great Burning: Forgotten Souls token burn at the Secret Tower
+- FRWC comic book issue #1 released
+- Official FRWC Metaverse beta launch
+- FRWC animated short premieres
+- Forgotten Runes Warrior's Guild drops
  
-Let’s discuss these one by one-
+Let’s discuss these one by one
 
 ## All Wizard holders will receive full turnarounds for every Wizard they own.
 Currently, our Wizards exist as beautiful static images minted as NFTs. But FR Wizards are meant for so much more...
