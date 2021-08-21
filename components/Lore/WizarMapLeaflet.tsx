@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, useMap } from "react-leaflet";
 import styled from "@emotion/styled";
 import "leaflet/dist/leaflet.css";
 import L, { CRS } from "leaflet";
@@ -8,6 +8,8 @@ import { renderToString } from "react-dom/server";
 import { useRouter } from "next/router";
 import { GeoJsonObject } from "geojson";
 import { MapWrapper } from "../Map";
+import { Box } from "rebass";
+import WizardCardNoBorder from "../WizardCardNoBorder";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -35,13 +37,18 @@ const MapStyles = styled.div`
 
   .leaflet-popup-content-wrapper,
   .leaflet-popup-tip {
-    background: #dfd1a8;
-    color: black;
+    background: black;
+    color: white;
     opacity: 0.9;
   }
 
   .leaflet-popup-content-wrapper {
     border-radius: 2px;
+  }
+
+  .leaflet-popup-content {
+    margin: 8px 10px;
+    line-height: 1.4;
   }
 `;
 
@@ -55,15 +62,14 @@ const WizardPopup = ({
   hasLore: boolean;
 }) => {
   return (
-    <>
-      <h3>{index}</h3>
-      <h3>{name}</h3>
-      {hasLore && (
-        <a href={`/lore/${index}/0`} target={"_blank"}>
-          View lore
-        </a>
-      )}
-    </>
+    <Box width={250} style={{ fontSize: 12 }}>
+      <WizardCardNoBorder
+        id={index}
+        name={name}
+        showOpenSeaLink={true}
+        showLoreLink={true}
+      />
+    </Box>
   );
 };
 
@@ -71,11 +77,6 @@ const Layers = () => {
   const map = useMap();
   const router = useRouter();
   const { id } = router.query;
-
-  const wizardHasLore: boolean[] = new Array(10000).fill(true);
-  // TODO: ^ populate with true/falses for wizard
-  wizardHasLore[3] = false;
-  wizardHasLore[3500] = false;
 
   useEffect(() => {
     if (!map) return;
@@ -106,8 +107,7 @@ const Layers = () => {
 
       const featureGeoJson = background.toGeoJSON();
 
-      const hasLore = Math.random() > 0.3;
-      // TODO: use proper array for prod
+      const hasLore = true; // TODO:
 
       featureGeoJson.properties.style = {
         color: hasLore ? `#${wizData[i].background_color}` : "grey",
@@ -135,9 +135,7 @@ const Layers = () => {
     L.geoJSON(geoJson, {
       pane: "underlays",
       onEachFeature: function (feature, layer) {
-        const popup = L.popup({
-          className: "wizard-gallery-popup",
-        }).setContent(
+        const popup = L.popup().setContent(
           renderToString(
             <WizardPopup
               name={feature.properties.wizardData.name as string}
