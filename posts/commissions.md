@@ -87,6 +87,10 @@ Our resident bard
 - Twitter: [@tadmajor](https://twitter.com/tadmajor)
 - Status: active
 
-<WizardArt wizard="0" url="https://i.imgur.com/EJlFph7.png" />
+<WizardArt wizard="685" url="https://i.imgur.com/kqQscBS.gif" />
 
-https://twitter.com/Tadmajor/status/1429942440430034944
+<WizardArt wizard="1061" url="https://i.imgur.com/yGmszqr.gif" />
+
+## Like Wizard, Commission Wizard
+
+Want to see your Wizard come to life? Commission one of the artists above!

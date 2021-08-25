@@ -59,17 +59,13 @@ export default function PostPage({
           <p className="description">{frontMatter.description}</p>
         )}
       </div>
-      <main>
-        <MDXRemote {...source} components={components} />
-      </main>
-
+      <MDXRemote {...source} components={components} />
       <style jsx>{`
         .post-header h1 {
           margin-bottom: 0;
         }
-
         .post-header {
-          margin-bottom: 2rem;
+          margin-bottom: 1rem;
         }
         .description {
           opacity: 0.6;
