@@ -45,7 +45,7 @@ export default function PostPage({
 }) {
   const title = `${frontMatter.title} | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`;
   return (
-    <Layout title={title}>
+    <Layout title={title} description={frontMatter.description}>
       <header>
         <nav>
           <Link href="/posts">
