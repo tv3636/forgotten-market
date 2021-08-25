@@ -45,7 +45,7 @@ Here's a few examples of artwork created by our community in this sprit.
 
 ## Magus Devon of The Quantum Downs ([#6001](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/6001))
 
-[SOurce Tweet](https://twitter.com/magusdevon/status/1413215538046701574?s=21)
+[Source Tweet](https://twitter.com/magusdevon/status/1413215538046701574?s=21)
 
 <ResponsiveImg className="full-bleed" src="/static/img/wtf/magus-6001.png" />
 
