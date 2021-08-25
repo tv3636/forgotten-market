@@ -38,6 +38,7 @@ export default function Index({ posts }: { posts: Post[] }) {
             <Link
               as={`/posts/${post.filePath.replace(/\.mdx?$/, "")}`}
               href={`/posts/[slug]`}
+              passHref={true}
             >
               <StyledAnchor>{post.data.title}</StyledAnchor>
             </Link>
