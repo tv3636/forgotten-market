@@ -24,7 +24,7 @@ let nextConfig = {
     };
     return config;
   },
-  pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"]
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"]
 };
 
 nextConfig = withImages(nextConfig);
