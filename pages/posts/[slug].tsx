@@ -7,8 +7,11 @@ import Link from "next/link";
 import path from "path";
 import styled from "@emotion/styled";
 import Layout from "../../components/InfoPageLayout";
+import WizardArt from "../../components/WizardArt";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
 import dynamic from "next/dynamic";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -20,7 +23,8 @@ const components = {
   // useful for conditionally loading components for certain routes.
   // See the notes in README.md for more details.
   //   TestComponent: dynamic(() => import("../../components/TestComponent")),
-  Head
+  Head,
+  WizardArt
 };
 
 const NavAnchor = styled.a`
@@ -85,7 +89,7 @@ export const getStaticProps = async ({ params }: { params: any }) => {
     // Optionally pass remark/rehype plugins
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: []
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings]
     },
     scope: data
   });
