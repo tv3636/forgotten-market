@@ -15,27 +15,30 @@ See a Wizard in physical paint in your neighborhood! Here's a list of murals tha
 Photos:
 
 ![](https://i.imgur.com/fg29jza.jpg)
+![](https://i.imgur.com/xVPav6m.jpg)
+![](https://i.imgur.com/fBYzhXN.jpg)
+
 
 ## Miami, Florida, USA
 
-Status: In progress
-Wizards: _To be revealed_
-Dates: September 2021
-Location: Wynwood District, _Address to be announced_
+* Status: In progress
+* Wizards: _To be revealed_
+* Dates: September 2021
+* Location: Wynwood District, _Address to be announced_
 
 ## Los Angeles, California, USA
 
-Status: In progress
-Wizards: _To be revealed_
-Dates: September 2021
-Location: Santee Alley and Midcity, _Address to be announced_
+* Status: In progress
+* Wizards: _To be revealed_
+* Dates: September 2021
+* Location: Santee Alley and Midcity, _Address to be announced_
 
 ## Oakland, California, USA
 
-Status: In progress
-Wizards: _To be revealed_
-Dates: September 2021
-Location: Downtown Oakland and Laurel District, _Address to be announced_
+* Status: In progress
+* Wizards: _To be revealed_
+* Dates: September 2021
+* Location: Downtown Oakland and Laurel District, _Address to be announced_
 
 ## Commissioning Your Own Mural
 
