@@ -8,6 +8,8 @@ import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
 import productionWizardData from "../../../data/nfts-prod.json";
 import { PageHorizontalBreak } from "../../../components/Lore/Page";
 import { Box } from "rebass";
+import client from "../../../lib/graphql";
+import { gql } from "@apollo/client";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -89,9 +91,8 @@ const TextPage = styled.div`
   font-family: "Alagard", serif;
 `;
 
-const LorePage = () => {
-  const router = useRouter();
-  const { wizardId, page } = router.query;
+const LorePage = ({ wizardId, page, lore }) => {
+  // const router = useRouter();
   const wizardData: any = wizData[wizardId.toString()];
   const bg = "#" + wizardData.background_color;
 
@@ -127,8 +128,32 @@ const LorePage = () => {
   );
 };
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { data } = await client.query({
+    query: gql`
+      query WizardLore {
+        wizard(id: ${context?.query?.wizardId}) {
+          id
+          lore(where: { struck: false, nsfw: false }) {
+            id
+            creator
+            assetAddress
+            loreMetadataURI
+            parentLoreId
+            tokenId
+            struck
+            nsfw
+          }
+        }
+      }
+    `,
+  });
+
   return {
-    props: { wizardId: context?.query?.wizardId, page: context?.query?.page },
+    props: {
+      wizardId: context?.query?.wizardId,
+      page: context?.query?.page,
+      lore: data.wizard?.lore ?? [],
+    },
   };
 }
 export default LorePage;
