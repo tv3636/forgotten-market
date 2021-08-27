@@ -164,6 +164,9 @@ export default function SiteNav({}: Props) {
         <li className="item">
           <a href="/map">Map</a>
         </li>
+        <li className="item">
+          <a href="/gallery">Gallery</a>
+        </li>
         {/* <li className="item">
           <a href="/blog">Blog</a>
         </li> */}

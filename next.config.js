@@ -33,7 +33,9 @@ let nextConfig = {
     defaultLocale: "en-US",
     localeDetection: true
   },
-
+  images: {
+    domains: ["nftz.forgottenrunes.com"],
+  },
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"]
 };
 
