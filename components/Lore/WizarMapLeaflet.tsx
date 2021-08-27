@@ -73,7 +73,8 @@ const WizardPopup = ({
   );
 };
 
-const Layers = () => {
+const Layers = ({ wizardLore }: { wizardLore: object }) => {
+  console.log(wizardLore);
   const map = useMap();
   const router = useRouter();
   const { id } = router.query;
@@ -107,7 +108,7 @@ const Layers = () => {
 
       const featureGeoJson = background.toGeoJSON();
 
-      const hasLore = true; // TODO:
+      const hasLore = wizardLore[i]; // TODO:
 
       featureGeoJson.properties.style = {
         color: hasLore ? `#${wizData[i].background_color}` : "grey",
@@ -179,7 +180,7 @@ const Layers = () => {
   );
 };
 
-const WizardMapLeaflet = () => {
+const WizardMapLeaflet = ({ wizardLore }: { wizardLore: object }) => {
   return (
     <MapWrapper>
       <MapStyles>
@@ -193,7 +194,7 @@ const WizardMapLeaflet = () => {
           attributionControl={false}
           zoomSnap={0.25}
         >
-          <Layers />
+          <Layers wizardLore={wizardLore} />
         </MapContainer>
       </MapStyles>
     </MapWrapper>
