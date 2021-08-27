@@ -10,8 +10,6 @@ import { PageHorizontalBreak, Spacer } from "./Page";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
-const wizData = productionWizardData as { [wizardId: string]: any };
-
 type Props = {
   wizardId: string;
   page: string;

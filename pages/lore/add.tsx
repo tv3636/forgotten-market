@@ -55,6 +55,7 @@ const AddLoreLayout = styled.div`
   padding: 1em;
   color: white;
   position: relative;
+  margin: 0 auto;
 
   @media (min-width: 768px) {
     display: grid;
