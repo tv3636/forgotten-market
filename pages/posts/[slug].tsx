@@ -12,6 +12,7 @@ import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
 import dynamic from "next/dynamic";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import { GetStaticPaths, GetStaticProps } from "next";
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -75,9 +76,19 @@ export default function PostPage({
   );
 }
 
-export const getStaticProps = async ({ params }: { params: any }) => {
-  const postFilePath = path.join(POSTS_PATH, `${params.slug}.md`);
-  const source = fs.readFileSync(postFilePath);
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const localizedPostFilePath = path.join(
+    POSTS_PATH,
+    `${params?.slug}.${locale}.md`
+  );
+  const postFilePath = path.join(POSTS_PATH, `${params?.slug}.md`);
+  const postFilePathToLoad = fs.existsSync(localizedPostFilePath)
+    ? localizedPostFilePath
+    : postFilePath;
+
+  console.log("postFilePathToLoad: ", postFilePathToLoad);
+
+  const source = fs.readFileSync(postFilePathToLoad);
 
   const { content, data } = matter(source);
 
@@ -98,12 +109,24 @@ export const getStaticProps = async ({ params }: { params: any }) => {
   };
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({
+  locales,
+  defaultLocale
+}) => {
   const paths = postFilePaths
     // Remove file extensions for page paths
-    .map((path) => path.replace(/\.mdx?$/, ""))
+    // including locales
+    .map((path) => {
+      const slug = path.replace(/(\.(\w\w-?(\w\w)?))?\.mdx?$/, "");
+      const localeMatch = path.match(/(\.(\w\w-?(\w\w)?))?\.mdx?$/);
+      const locale =
+        localeMatch && localeMatch[2]
+          ? localeMatch[2]
+          : defaultLocale || "en-US";
+      return { slug, locale };
+    })
     // Map the path into the static paths object required by Next.js
-    .map((slug) => ({ params: { slug } }));
+    .map(({ slug, locale }) => ({ params: { slug }, locale }));
 
   return {
     paths,
