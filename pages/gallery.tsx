@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import dynamic from "next/dynamic";
 
 const WizardMapLeaflet = dynamic(
-  () => import("../components/Lore/WizarMapLeaflet"),
+  () => import("../components/Lore/WizardMapLeaflet"),
   { ssr: false }
 );
 
