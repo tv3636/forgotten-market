@@ -10,11 +10,17 @@ import rehypeSlug from "rehype-slug";
 import { postFilePaths, POSTS_PATH } from "../lib/mdxUtils";
 import InfoPageLayout from "../components/InfoPageLayout";
 import { ResponsiveImg } from "../components/ResponsivePixelImg";
+import dynamic from "next/dynamic";
+
+const WizardMap = dynamic(() => import("../components/Lore/WizardMapLeaflet"), {
+  ssr: false
+});
 
 const components = {
   Head,
   InfoPageLayout,
-  ResponsiveImg
+  ResponsiveImg,
+  WizardMap
 };
 
 export default function WtfPage({

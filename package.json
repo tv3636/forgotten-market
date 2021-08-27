@@ -9,7 +9,7 @@
     "build-static": "yarn run build && yarn run export",
     "type-check": "tsc",
     "build:base-css": "tailwindcss build ./styles/tailwind.base.css -o ./styles/base.css",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s ./public",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
@@ -114,9 +114,11 @@
     "rehype-slug": "^5.0.0",
     "remark-gfm": "^1.0.0",
     "seedrandom": "^3.0.5",
+    "storybook-addon-next-router": "^3.0.7",
     "tiny-invariant": "^1.1.0",
     "web3modal": "^1.9.3",
     "webfontloader": "^1.6.28",
+    "webpack-merge": "^5.8.0",
     "yargs": "^17.0.1",
     "yup": "^0.32.9"
   },
