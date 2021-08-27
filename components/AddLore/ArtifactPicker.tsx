@@ -16,6 +16,7 @@ import {
   TextAreaAutosizeInput
 } from "../../components/ui/Inputs";
 import NFTDisplay from "../NFTDisplay";
+import { ArtifactConfiguration } from "../Lore/types";
 
 // TODO: bg color extraction with colorthief
 // https://lokeshdhakar.com/projects/color-thief/#getting-started
@@ -177,11 +178,6 @@ const ArtifactPickerControls = styled.div`
  * This component lets the user pick any existing NFT to represent the Artifact attached to this Wizard.
  *
  **/
-
-export type ArtifactConfiguration = {
-  contractAddress: string;
-  tokenId: string;
-};
 
 export default function ArtifactPicker({ onArtifactPicked }: Props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);

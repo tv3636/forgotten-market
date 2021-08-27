@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import styled from "@emotion/styled";
 import BookOfLoreControls from "./BookOfLoreControls";
+import BookOfLorePage from "./BookOfLorePage";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import PageHorizontalBreak from "../../components/PageHorizontalBreak";
 import productionWizardData from "../../data/nfts-prod.json";
@@ -55,14 +56,6 @@ const Carousel = styled.div`
   padding: 0 40px;
 `;
 
-const FirstPage = styled.div<{ bg?: string }>`
-  background-color: ${(props) => props.bg || "#000000"};
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Spread = styled.div<{}>`
   display: grid;
   gap: 0px 0px;
@@ -101,18 +94,18 @@ const Book = ({ wizardId, page }: Props) => {
       <Carousel>
         <PageHorizontalBreak />
         <Spread>
-          <FirstPage bg={bg}>
+          <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
             <ResponsivePixelImg
               src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
               style={{ maxWidth: "480px" }}
             />
-          </FirstPage>
+          </BookOfLorePage>
 
-          <FirstPage bg={bg}>
+          <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
             <TextPage>
               <ReactMarkdown>{text}</ReactMarkdown>
             </TextPage>
-          </FirstPage>
+          </BookOfLorePage>
         </Spread>
 
         <BookOfLoreControls
