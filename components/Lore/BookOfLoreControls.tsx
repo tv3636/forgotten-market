@@ -6,7 +6,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Flex } from "rebass";
-import { PageHorizontalBreak, Spacer } from "./Page";
+import PageHorizontalBreak from "../PageHorizontalBreak";
+import Spacer from "../Spacer";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
