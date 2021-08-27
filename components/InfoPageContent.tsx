@@ -10,11 +10,23 @@ type Props = {
 
 const AboutWrapper = styled.div`
   min-height: 95vh;
-  padding: 2em 2em;
-  color: rgb(172 167 185);
+  color: #e2ded6;
 
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: center; */
+
+  display: grid;
+  grid-template-columns: 1fr min(60ch, calc(100% - 32px)) 1fr;
+  grid-column-gap: 16px;
+
+  & > * {
+    grid-column: 2;
+  }
+
+  .full-bleed {
+    width: 100%;
+    grid-column: 1 / 4;
+  }
 
   a {
     color: #a983ff;
@@ -39,13 +51,20 @@ const AboutWrapper = styled.div`
     margin-top: 1em;
   }
 
-  .content {
+  /* .content {
     width: 100%;
     max-width: 800px;
-    line-height: 1.4em;
-    p {
-      line-height: 1.6em;
-    }
+
+  } */
+
+  line-height: 1.4em;
+  p {
+    line-height: 1.6em;
+  }
+
+  p {
+    font-size: 19px;
+    margin-bottom: 32px;
   }
 
   p img {
@@ -56,7 +75,8 @@ const AboutWrapper = styled.div`
 
 const InfoPageLayout = ({ children }: Props) => (
   <AboutWrapper>
-    <div className="content">{children}</div>
+    {/* <div className="content">{children}</div> */}
+    {children}
   </AboutWrapper>
 );
 

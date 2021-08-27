@@ -7,8 +7,12 @@ import Link from "next/link";
 import path from "path";
 import styled from "@emotion/styled";
 import Layout from "../../components/InfoPageLayout";
+import WizardArt from "../../components/WizardArt";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
 import dynamic from "next/dynamic";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import { GetStaticPaths, GetStaticProps } from "next";
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -20,7 +24,8 @@ const components = {
   // useful for conditionally loading components for certain routes.
   // See the notes in README.md for more details.
   //   TestComponent: dynamic(() => import("../../components/TestComponent")),
-  Head
+  Head,
+  WizardArt
 };
 
 const NavAnchor = styled.a`
@@ -41,7 +46,7 @@ export default function PostPage({
 }) {
   const title = `${frontMatter.title} | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`;
   return (
-    <Layout title={title}>
+    <Layout title={title} description={frontMatter.description}>
       <header>
         <nav>
           <Link href="/posts">
@@ -55,17 +60,13 @@ export default function PostPage({
           <p className="description">{frontMatter.description}</p>
         )}
       </div>
-      <main>
-        <MDXRemote {...source} components={components} />
-      </main>
-
+      <MDXRemote {...source} components={components} />
       <style jsx>{`
         .post-header h1 {
           margin-bottom: 0;
         }
-
         .post-header {
-          margin-bottom: 2rem;
+          margin-bottom: 1rem;
         }
         .description {
           opacity: 0.6;
@@ -75,9 +76,19 @@ export default function PostPage({
   );
 }
 
-export const getStaticProps = async ({ params }: { params: any }) => {
-  const postFilePath = path.join(POSTS_PATH, `${params.slug}.mdx`);
-  const source = fs.readFileSync(postFilePath);
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const localizedPostFilePath = path.join(
+    POSTS_PATH,
+    `${params?.slug}.${locale}.md`
+  );
+  const postFilePath = path.join(POSTS_PATH, `${params?.slug}.md`);
+  const postFilePathToLoad = fs.existsSync(localizedPostFilePath)
+    ? localizedPostFilePath
+    : postFilePath;
+
+  console.log("postFilePathToLoad: ", postFilePathToLoad);
+
+  const source = fs.readFileSync(postFilePathToLoad);
 
   const { content, data } = matter(source);
 
@@ -85,7 +96,7 @@ export const getStaticProps = async ({ params }: { params: any }) => {
     // Optionally pass remark/rehype plugins
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: []
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings]
     },
     scope: data
   });
@@ -98,12 +109,24 @@ export const getStaticProps = async ({ params }: { params: any }) => {
   };
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({
+  locales,
+  defaultLocale
+}) => {
   const paths = postFilePaths
     // Remove file extensions for page paths
-    .map((path) => path.replace(/\.mdx?$/, ""))
+    // including locales
+    .map((path) => {
+      const slug = path.replace(/(\.(\w\w-?(\w\w)?))?\.mdx?$/, "");
+      const localeMatch = path.match(/(\.(\w\w-?(\w\w)?))?\.mdx?$/);
+      const locale =
+        localeMatch && localeMatch[2]
+          ? localeMatch[2]
+          : defaultLocale || "en-US";
+      return { slug, locale };
+    })
     // Map the path into the static paths object required by Next.js
-    .map((slug) => ({ params: { slug } }));
+    .map(({ slug, locale }) => ({ params: { slug }, locale }));
 
   return {
     paths,

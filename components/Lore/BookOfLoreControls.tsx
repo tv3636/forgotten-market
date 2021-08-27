@@ -4,6 +4,11 @@ import productionWizardData from "../../data/nfts-prod.json";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import { Flex } from "rebass";
+import { PageHorizontalBreak, Spacer } from "./Page";
+
+const wizData = productionWizardData as { [wizardId: string]: any };
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -12,20 +17,18 @@ type Props = {
   page: string;
 };
 
-const BookOfLoreControlsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  gap: 0px 0px;
-  margin-top: 1em;
+const WizardNameWrapper = styled.div`
+  background-image: url("/static/lore/book/page_border_header_top.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 320px;
+  min-width: 320px;
+  min-height: 60px;
+  padding: 12px 20px 12px 26px;
+  font-family: "Alagard", serif;
+  word-break: break-word;
+  text-align: center;
 `;
-
-const PaginationWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-function BookOfLorePaginator({}: {}) {}
 
 export default function BookOfLoreControls({ wizardId, page }: Props) {
   const wizardData: any = wizData[wizardId.toString()];
@@ -54,20 +57,32 @@ export default function BookOfLoreControls({ wizardId, page }: Props) {
   );
 
   return (
-    <BookOfLoreControlsWrapper>
-      <div>{/* Socials */}</div>
-      <PaginationWrapper>
-        <Link href={prevPageUrl} passHref>
-          <a>back</a>
-        </Link>
-        <span>
+    <Flex flexDirection={"column"} justifyContent={"top"} alignItems={"center"}>
+      <Flex justifyContent={"center"} alignItems={"flex-start"} width={"100%"}>
+        <PageHorizontalBreak />
+        <WizardNameWrapper>
           {wizardData.name} (#{wizardId})
-        </span>
-        <Link href={nextPageUrl} passHref>
-          <a>next</a>
+        </WizardNameWrapper>
+        <PageHorizontalBreak />
+      </Flex>
+      <Spacer mb={2} />
+      <Flex>
+        <Link href={prevPageUrl} passHref>
+          <Image
+            src={"/static/lore/book/arrow_L.png"}
+            width={"12px"}
+            height={"25px"}
+          />
         </Link>
-      </PaginationWrapper>
-      <div>{/* more */}</div>
-    </BookOfLoreControlsWrapper>
+        <Spacer ml={3} />
+        <Link href={nextPageUrl} passHref>
+          <Image
+            src={"/static/lore/book/arrow_R.png"}
+            width={"12px"}
+            height={"25px"}
+          />
+        </Link>
+      </Flex>
+    </Flex>
   );
 }

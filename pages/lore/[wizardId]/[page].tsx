@@ -1,13 +1,14 @@
 import Layout from "../../../components/Layout";
 import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
 import styled from "@emotion/styled";
-import Book from "../../../components/Lore/Book";
 import BookOfLoreControls from "../../../components/Lore/BookOfLoreControls";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
 import productionWizardData from "../../../data/nfts-prod.json";
+import { PageHorizontalBreak } from "../../../components/Lore/Page";
+import { Box } from "rebass";
+
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const text = `
@@ -50,10 +51,6 @@ flustered that he answered “Hear what I have got to say!”
 
 “What’s that?” they asked.`;
 
-const LoreWrapper = styled.div`
-  padding: 1em;
-`;
-
 const Carousel = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -84,11 +81,12 @@ const Spread = styled.div<{}>`
 `;
 
 const TextPage = styled.div`
-  color: white;
+  color: #e1decd;
   font-size: 24px;
   max-height: 70vh;
   overflow: scroll;
   padding: 1em;
+  font-family: "Alagard", serif;
 `;
 
 const LorePage = () => {
@@ -101,19 +99,18 @@ const LorePage = () => {
     <Layout
       title={`${wizardData.name} (${wizardId}) | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
     >
-      <LoreWrapper>
+      <Box>
         <Carousel>
+          <PageHorizontalBreak />
           <Spread>
-            <FirstPage bg={"#" + wizardData.background_color}>
+            <FirstPage bg={bg}>
               <ResponsivePixelImg
                 src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
+                style={{ maxWidth: "480px" }}
               />
             </FirstPage>
 
-            <FirstPage bg={"#" + wizardData.background_color}>
-              {/* <ResponsivePixelImg
-                src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
-              /> */}
+            <FirstPage bg={bg}>
               <TextPage>
                 <ReactMarkdown>{text}</ReactMarkdown>
               </TextPage>
@@ -125,13 +122,13 @@ const LorePage = () => {
             page={page as string}
           />
         </Carousel>
-      </LoreWrapper>
+      </Box>
     </Layout>
   );
 };
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
-    props: { wizardId: context?.query?.wizardId, page: context?.query?.page }
+    props: { wizardId: context?.query?.wizardId, page: context?.query?.page },
   };
 }
 export default LorePage;

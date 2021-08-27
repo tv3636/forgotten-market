@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { ResponsivePixelImg } from "./ResponsivePixelImg";
+import Link from "next/link";
 
 type Props = {};
 
@@ -142,13 +143,19 @@ export default function SiteNav({}: Props) {
           <ResponsivePixelImg src="/static/img/forgotten-runes-logo.png" />
         </li>
         <li className="item">
-          <a href="/">The Secret Tower</a>
+          <Link as={"/"} href={"/"} passHref={true}>
+            <a href="/">The Secret Tower</a>
+          </Link>
         </li>
         <li className="item">
-          <a href="/wtf">WTF?</a>
+          <Link as={"/wtf"} href={"/wtf"} passHref={true}>
+            wtf?
+          </Link>
         </li>
         <li className="item">
-          <a href="/posts">Resources</a>
+          <Link as={"/posts"} href={"/posts"} passHref={true}>
+            <a>Resources</a>
+          </Link>
         </li>
 
         {/* <li className="item">

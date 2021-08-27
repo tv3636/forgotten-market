@@ -4,7 +4,10 @@ import Link from "next/link";
 import path from "path";
 import InfoPageLayout from "../../components/InfoPageLayout";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
+import { fileLocale, pickBestByLocale } from "../../lib/localeTools";
 import styled from "@emotion/styled";
+import compact from "lodash/compact";
+import { GetStaticProps } from "next";
 
 export type Post = {
   content: string;
@@ -36,8 +39,12 @@ export default function Index({ posts }: { posts: Post[] }) {
         {posts.map((post) => (
           <BlogEntry key={post.filePath}>
             <Link
-              as={`/posts/${post.filePath.replace(/\.mdx?$/, "")}`}
+              as={`/posts/${post.filePath.replace(
+                /(\.(\w\w-?(\w\w)?))?\.mdx?$/,
+                ""
+              )}`}
               href={`/posts/[slug]`}
+              passHref={true}
             >
               <StyledAnchor>{post.data.title}</StyledAnchor>
             </Link>
@@ -51,17 +58,27 @@ export default function Index({ posts }: { posts: Post[] }) {
   );
 }
 
-export function getStaticProps() {
-  const posts = postFilePaths.map((filePath) => {
-    const source = fs.readFileSync(path.join(POSTS_PATH, filePath));
-    const { content, data } = matter(source);
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  locales,
+  defaultLocale
+}) => {
+  let posts = compact(
+    postFilePaths.map((filePath) => {
+      const { basename, localeExt } = fileLocale(filePath);
+      const source = fs.readFileSync(path.join(POSTS_PATH, filePath));
+      const { content, data } = matter(source);
 
-    return {
-      content,
-      data,
-      filePath
-    };
-  });
+      return {
+        content,
+        data,
+        filePath,
+        basename,
+        locale: localeExt
+      };
+    })
+  );
+  posts = pickBestByLocale(locale || "default", posts);
 
   return { props: { posts } };
-}
+};

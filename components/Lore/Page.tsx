@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import HTMLFlipBook from "react-pageflip";
+import { space } from "styled-system";
+
 type Props = { page: number; wizardId: number };
 
 const PageWrapper = styled.div`
@@ -100,6 +100,17 @@ const PageWrapper = styled.div`
     }
   }
 `;
+
+export const Spacer = styled.div(space);
+
+export const PageHorizontalBreak = styled.div`
+  width: 100%;
+  height: 8px;
+  background-image: url("/static/lore/book/page_border_horizontal.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
 const Page = React.forwardRef((props: Props, ref: any) => {
   const { wizardId, page } = props;
   return (
