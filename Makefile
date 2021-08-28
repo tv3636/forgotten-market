@@ -16,3 +16,10 @@ get-abis:
 
 start-ipfs:
 	ipfs daemon
+
+start-graph:
+	cargo run -p graph-node --release -- \
+	--postgres-url postgresql://localhost:5432/graphprotocol \
+	--ethereum-rpc rinkeby:https://mainnet.infura.io \
+	--ipfs 127.0.0.1:5001 \
+	--debug

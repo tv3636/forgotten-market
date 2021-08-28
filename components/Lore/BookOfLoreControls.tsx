@@ -82,6 +82,9 @@ export default function BookOfLoreControls({ wizardId, page }: Props) {
           />
         </Link>
       </Flex>
+      <Link href="/lore/add" passHref={true}>
+        <a>Write in The Book</a>
+      </Link>
     </Flex>
   );
 }
