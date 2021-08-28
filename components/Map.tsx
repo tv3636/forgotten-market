@@ -42,7 +42,9 @@ export const MapWrapper = styled.div`
   height: 90vh;
 `;
 
-const Map = () => (
+type Props = {};
+
+const Map = ({}: Props) => (
   <MapWrapper>
     <MapStyles>
       <MapContainer
