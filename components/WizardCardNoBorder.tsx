@@ -7,13 +7,15 @@ const WizardCardNoBorder = ({
   id,
   name,
   showOpenSeaLink = false,
-  showLoreLink = false,
+  showLoreLink = false
 }: {
   id: number;
   name: string;
   showOpenSeaLink: boolean;
   showLoreLink: boolean;
 }) => {
+  showLoreLink = false; // tmp
+
   return (
     <Flex flexDirection={"column"} alignItems={"center"} p={1}>
       <Box py={3} textAlign={"center"}>
