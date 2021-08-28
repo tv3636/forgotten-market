@@ -73,8 +73,7 @@ const WizardPopup = ({
   );
 };
 
-const Layers = ({ wizardLore }: { wizardLore: object }) => {
-  console.log(wizardLore);
+const Layers = ({ wizardLore }: { wizardLore: any }) => {
   const map = useMap();
   const router = useRouter();
   const { id } = router.query;

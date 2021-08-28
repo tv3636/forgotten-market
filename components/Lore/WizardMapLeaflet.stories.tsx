@@ -19,7 +19,4 @@ const Template: ComponentStory<typeof WizardMapLeaflet> = (args) => (
 );
 
 export const Primary = Template.bind({});
-Primary.args = {
-  primary: true,
-  label: "Button"
-};
+Primary.args = {};

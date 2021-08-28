@@ -2,10 +2,10 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { EmptyWell } from "../ui/EmptyWell";
-import { ArtifactConfiguration } from "./ArtifactPicker";
 import NFTDisplay from "../NFTDisplay";
 import LoreMarkdown from "../Lore/LoreMarkdown";
 import { WizardConfiguration } from "./WizardPicker";
+import { ArtifactConfiguration } from "../Lore/types";
 
 type Props = {
   currentArtifact: ArtifactConfiguration | null;
@@ -138,7 +138,7 @@ export default function LorePreview({
 
   return (
     <LorePreviewElement>
-      <ParchmentPage bgColor={currentBgColor}>
+      <ParchmentPage bgColor={currentBgColor || "black"}>
         {currentWizard && (
           <WizardNameHeader>
             {currentWizard.name} (#{currentWizard.tokenId})
