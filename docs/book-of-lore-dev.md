@@ -18,6 +18,15 @@ Running The Book of Lore locally is involved. The pieces are:
 
 In theory, running with `docker-compose` should be easier, but I found it's easier to just manually install all of the parts. ymmv.
 
+## Postgres
+
+```
+createdb graphprotocol
+createuser frwc
+psql graphprotocol
+grant all privileges on database graphprotocol to frwc;
+```
+
 ## Rinkeby
 
 In the `docker-compose.yml`:
