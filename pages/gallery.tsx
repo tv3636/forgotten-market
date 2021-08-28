@@ -18,28 +18,32 @@ const WizardGalleryPage = ({ wizardLore }: { wizardLore: object }) => {
 };
 
 export async function getStaticProps() {
-  const { data } = await client.query({
-    query: gql`
-      query Lore {
-        wizards {
-          id
-        }
-      }
-    `,
-  });
+  // const { data } = await client.query({
+  //   query: gql`
+  //     query Lore {
+  //       wizards {
+  //         id
+  //       }
+  //     }
+  //   `
+  // });
+
+  // // Note: due to the way we index our subgraph we assume existence of wizard = has lore (yes, edge case if wizard only has struck lore etc)
+  // const wizardLore = data.wizards.reduce(
+  //   (acc: object, { id }: { id: string }) => ({
+  //     ...acc,
+  //     [parseInt(id)]: true
+  //   }),
+  //   {}
+  // );
+
+  const wizardLore = {};
 
   return {
     props: {
-      // Note: due to the way we index our subgraph we assume existence of wizard = has lore (yes, edge case if wizard only has struck lore etc)
-      wizardLore: data.wizards.reduce(
-        (acc: object, { id }: { id: string }) => ({
-          ...acc,
-          [parseInt(id)]: true,
-        }),
-        {}
-      ),
+      wizardLore
     },
-    revalidate: 60 * 30, //30 mins
+    revalidate: 60 * 30 //30 mins
   };
 }
 

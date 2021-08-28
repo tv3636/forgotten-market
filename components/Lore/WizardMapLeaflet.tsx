@@ -111,7 +111,8 @@ const Layers = ({ wizardLore }: { wizardLore: object }) => {
       const hasLore = wizardLore[i]; // TODO:
 
       featureGeoJson.properties.style = {
-        color: hasLore ? `#${wizData[i].background_color}` : "grey",
+        // color: hasLore ? `#${wizData[i].background_color}` : "grey",
+        color: `#${wizData[i].background_color}`,
         stroke: false,
         fillOpacity: 1
       };
