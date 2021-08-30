@@ -24,16 +24,40 @@ In theory, running with `docker-compose` should be easier, but I found it's easi
 createdb graphprotocol
 createuser frwc
 psql graphprotocol
+
+# in the psql shell
 grant all privileges on database graphprotocol to frwc;
+alter user frwc with superuser;
 ```
 
-## Rinkeby
+## Commands
 
-In the `docker-compose.yml`:
+Start the Graph Protocol Node
 
 ```
-services:
-  graph-node:
-    environment:
-      ethereum: 'rinkeby:https://rinkeby.infura.io'
+cargo run -p graph-node --release -- \
+        --postgres-url postgresql://frwc:@localhost:5432/graphprotocol \
+        --ethereum-rpc rinkeby:https://rinkeby.infura.io/v3/mykeyhere \
+        --ipfs 127.0.0.1:5001 \
+        --debug
 ```
+
+Deploy the local subgraph
+
+```
+cd bookoflore-subgraph
+yarn
+yarn codegen
+yarn build
+yarn create-local
+yarn deploy-local
+
+
+```
+
+## URLs
+
+GraphiQL: http://localhost:8000/
+HTTP: http://localhost:8000/subgraphs/name/<subgraph-name>
+WebSockets: ws://localhost:8001/subgraphs/name/<subgraph-name>
+Admin: http://localhost:8020/
