@@ -91,6 +91,19 @@ Our resident bard
 
 <WizardArt wizard="1061" url="https://i.imgur.com/yGmszqr.gif" />
 
+### Dr. Slurp
+
+- Style: Music
+- Twitter: [@dr_slurp_](https://twitter.com/dr_slurp_)
+- Discord: `dr.slurp#5822`
+
+Examples:
+
+* [#4159 Party Music for Artificer Horace](
+https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/9013605400530109520503820491760377436763154446583357164055150077560695554049)
+* [#76 Study Music for Wise Sam](
+https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/90136054005301095205038204917603774367631544465833571640551500786602071818250)
+
 ## Like Wizard, Commission Wizard
 
 Want to see your Wizard come to life? Commission one of the artists above!
