@@ -23,6 +23,7 @@ const BookOfLorePageWrapper = styled.div<{ bg?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: scroll;
 `;
 
 export default function BookOfLorePage({

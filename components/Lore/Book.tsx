@@ -55,6 +55,9 @@ const Carousel = styled.div`
   position: relative;
   /* height: calc(100vh - 58px - 30px); */
   padding: 0 40px;
+  @media (max-width: 768px) {
+    padding: 0 2px;
+  }
 `;
 
 const Spread = styled.div<{ bg: string }>`
@@ -66,12 +69,10 @@ const Spread = styled.div<{ bg: string }>`
     /* background-color: ${(props) => props.bg}; */
   }
 
-  /* 
   grid-template-areas:
-    "lefttopcorner topborder lefttopbinding  righttopbinding  topborder righttopcorner"
-    "leftborder    pagebody  leftpagebinding rightpagebinding pagebody  rightborder"
-    "leftbotcorner botborder leftbotbinding  rightbotbinding  botborder rightbotcorner";
-  */
+    "lefttopcorner topborder1 lefttopbinding  righttopbinding  topborder2 righttopcorner"
+    "leftborder    pagebody1  leftpagebinding rightpagebinding pagebody2  rightborder"
+    "leftbotcorner botborder1 leftbotbinding  rightbotbinding  botborder2 rightbotcorner";
 
   // the 300px here is the sum of:
   // top nav + top border row + bottom border row + pagination controls + any padding
@@ -79,8 +80,16 @@ const Spread = styled.div<{ bg: string }>`
   grid-template-columns: 71px minmax(0, 1fr) 52px 52px minmax(0, 1fr) 71px;
 
   @media (max-width: 768px) {
-    grid-template-columns: 71px minmax(0, 1fr) 52px 0px 0px 0px;
-    grid-template-rows: 74px minmax(0, calc(100vh - 350px)) 74px;
+    grid-template-areas:
+      "lefttopcorner topborder1 topborder1 topborder1  topborder1 righttopcorner"
+      "leftborder    pagebody1  pagebody1 pagebody1 pagebody1  rightborder"
+      "leftborder    pagebody2  pagebody2 pagebody2 pagebody2  rightborder"
+      "leftbotcorner botborder1 botborder1  botborder1  botborder1 rightbotcorner";
+
+    grid-template-rows: 74px max-content max-content 74px;
+
+    /* grid-template-columns: 71px minmax(0, 1fr) 52px 0px 0px 0px; */
+    /* grid-template-rows: 74px minmax(0, calc(100vh - 350px)) 74px; */
   }
 `;
 
@@ -88,21 +97,25 @@ const LeftTopCorner = styled.div`
   background-image: url("/static/lore/book/corner_topLeft.png");
   background-repeat: no-repeat;
   background-position: left bottom;
+  grid-area: lefttopcorner;
 `;
 const RightTopCorner = styled.div`
   background-image: url("/static/lore/book/corner_topRight.png");
   background-repeat: no-repeat;
   background-position: right bottom;
+  grid-area: righttopcorner;
 `;
 const LeftBotCorner = styled.div`
   background-image: url("/static/lore/book/corner_bottomLeft.png");
   background-repeat: no-repeat;
   background-position: left bottom;
+  grid-area: leftbotcorner;
 `;
 const RightBotCorner = styled.div`
   background-image: url("/static/lore/book/corner_bottomRight.png");
   background-repeat: no-repeat;
   background-position: right bottom;
+  grid-area: rightbotcorner;
 `;
 
 const LeftBorder = styled.div`
@@ -110,53 +123,79 @@ const LeftBorder = styled.div`
   background-repeat: repeat-y;
   /* background-position: left center; */
   background-position: 2px 0px;
+  grid-area: leftborder;
 `;
 const RightBorder = styled.div`
   background-image: url("/static/lore/book/edge_Right_large.png");
   background-repeat: repeat-y;
   background-position: right top;
+  grid-area: rightborder;
 `;
 
-const TopBorder = styled.div``;
-const BotBorder = styled.div`
+const TopBorder1 = styled.div`
+  grid-area: topborder1;
+`;
+const TopBorder2 = styled.div`
+  grid-area: topborder2;
+`;
+
+const BotBorder1 = styled.div`
   background-image: url("/static/lore/book/edge_bottom_Right_large.png");
   background-repeat: repeat-x;
   background-position: center bottom;
+  grid-area: botborder1;
+`;
+const BotBorder2 = styled.div`
+  background-image: url("/static/lore/book/edge_bottom_Right_large.png");
+  background-repeat: repeat-x;
+  background-position: center bottom;
+  grid-area: botborder2;
 `;
 
 const LeftPageBinding = styled.div`
   background-image: url("/static/lore/book/center_tile.png");
   background-position: left center;
+  grid-area: leftpagebinding;
 `;
 const RightPageBinding = styled.div`
   background-image: url("/static/lore/book/center_tile.png");
   background-position: right center;
+  grid-area: rightpagebinding;
 `;
 
 const LeftTopBinding = styled.div`
   background-image: url("/static/lore/book/center_top.png");
   background-position: left bottom;
+  grid-area: lefttopbinding;
 `;
 const RightTopBinding = styled.div`
   background-image: url("/static/lore/book/center_top.png");
   background-position: right bottom;
+  grid-area: righttopbinding;
 `;
 
 const LeftBotBinding = styled.div`
   background-image: url("/static/lore/book/center_bottm.png");
   background-position: left bottom;
+  grid-area: leftbotbinding;
 `;
 const RightBotBinding = styled.div`
   background-image: url("/static/lore/book/center_bottm.png");
   background-position: right bottom;
+  grid-area: rightbotbinding;
 `;
 
-const PageBody = styled.div``;
+const PageBody1 = styled.div`
+  grid-area: pagebody1;
+`;
+const PageBody2 = styled.div`
+  grid-area: pagebody2;
+`;
 
 const TextPage = styled.div`
   color: #e1decd;
   font-size: 24px;
-  max-height: 70vh;
+  /* max-height: 70vh; */
   overflow: scroll;
   padding: 1em;
   font-family: "Alagard", serif;
@@ -176,37 +215,37 @@ const Book = ({ wizardId, page }: Props) => {
       <Carousel>
         <Spread bg={bg}>
           <LeftTopCorner />
-          <TopBorder />
+          <TopBorder1 />
           <LeftTopBinding />
           <RightTopBinding />
-          <TopBorder />
+          <TopBorder2 />
           <RightTopCorner />
 
           <LeftBorder />
-          <PageBody>
+          <PageBody1>
             <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
               <ResponsivePixelImg
                 src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
                 style={{ maxWidth: "480px" }}
               />
             </BookOfLorePage>
-          </PageBody>
+          </PageBody1>
           <LeftPageBinding />
           <RightPageBinding />
-          <PageBody>
+          <PageBody2>
             <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
               <TextPage>
                 <ReactMarkdown>{text}</ReactMarkdown>
               </TextPage>
             </BookOfLorePage>
-          </PageBody>
+          </PageBody2>
           <RightBorder />
 
           <LeftBotCorner />
-          <BotBorder />
+          <BotBorder1 />
           <LeftBotBinding />
           <RightBotBinding />
-          <BotBorder />
+          <BotBorder2 />
           <RightBotCorner />
         </Spread>
       </Carousel>
