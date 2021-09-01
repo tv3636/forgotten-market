@@ -3,16 +3,19 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import Book from "../../../components/Lore/Book";
+import LoreAnimations from "../../../components/Lore/LoreAnimations";
 import client from "../../../lib/graphql";
 import { gql } from "@apollo/client";
 
-const LorePage = ({lore}) => {
+const LorePage = ({ lore }) => {
   const router = useRouter();
   const { wizardId, page } = router.query;
 
   return (
     <Layout>
-      <Book wizardId={wizardId as string} page={page as string} />
+      <LoreAnimations>
+        <Book wizardId={wizardId as string} page={page as string} />
+      </LoreAnimations>
     </Layout>
   );
 };
@@ -34,15 +37,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           }
         }
       }
-    `,
+    `
   });
 
   return {
     props: {
       wizardId: context?.query?.wizardId,
       page: context?.query?.page,
-      lore: data.wizard?.lore ?? [],
-    },
+      lore: data.wizard?.lore ?? []
+    }
   };
 }
 export default LorePage;

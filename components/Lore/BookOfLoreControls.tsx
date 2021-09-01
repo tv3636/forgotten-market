@@ -28,6 +28,9 @@ const WizardNameWrapper = styled.div`
   font-family: "Alagard", serif;
   word-break: break-word;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BookOfLoreControlsElement = styled.div`

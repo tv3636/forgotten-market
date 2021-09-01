@@ -5,6 +5,7 @@ import BookOfLorePage from "./BookOfLorePage";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import PageHorizontalBreak from "../../components/PageHorizontalBreak";
 import productionWizardData from "../../data/nfts-prod.json";
+import { motion } from "framer-motion";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
