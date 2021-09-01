@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Flex } from "rebass";
 import PageHorizontalBreak from "../PageHorizontalBreak";
 import Spacer from "../Spacer";
+import Button from "../ui/Button";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -29,12 +30,65 @@ const WizardNameWrapper = styled.div`
   text-align: center;
 `;
 
+const BookOfLoreControlsElement = styled.div`
+  position: relative;
+  margin: 10px 40px; // this x-margin should match the outer container of Book.tsx
+  padding: 10px 10px;
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+const WriteContainer = styled.div`
+  position: absolute;
+  right: 0px;
+  top: 10px;
+
+  @media (max-width: 768px) {
+    position: relative;
+  }
+`;
+
+const PreviousPageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-right: 1em;
+`;
+const NextPageContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 1em;
+`;
+
+const WriteButton = styled(Button)`
+  background-color: #27222f;
+  border-radius: 5px;
+  @media (max-width: 768px) {
+    margin-top: 30px;
+  }
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default function BookOfLoreControls({ wizardId, page }: Props) {
   const wizardData: any = wizData[wizardId.toString()];
   const wizardNum = parseInt(wizardId);
   const pageNum = parseInt(page);
-  const prevPageUrl = `/lore/${wizardNum - 1}/0`;
-  const nextPageUrl = `/lore/${wizardNum + 1}/0`;
+
+  // This isn't quite right because the pagination is Lore only
+  const previousWizardNumber = wizardNum > 0 ? wizardNum - 1 : 0;
+  const nextWizardNumber = wizardNum < 9999 ? wizardNum + 1 : 9999;
+
+  const prevPageUrl = `/lore/${previousWizardNumber}/0`;
+  const nextPageUrl = `/lore/${nextWizardNumber}/0`;
   const router = useRouter();
 
   useHotkeys(
@@ -56,35 +110,35 @@ export default function BookOfLoreControls({ wizardId, page }: Props) {
   );
 
   return (
-    <Flex flexDirection={"column"} justifyContent={"top"} alignItems={"center"}>
-      <Flex justifyContent={"center"} alignItems={"flex-start"} width={"100%"}>
-        <PageHorizontalBreak />
+    <BookOfLoreControlsElement>
+      <PaginationContainer>
+        <PreviousPageContainer>
+          <Link href={prevPageUrl} passHref>
+            <Image
+              src={"/static/lore/book/arrow_L.png"}
+              width={"12px"}
+              height={"25px"}
+            />
+          </Link>
+        </PreviousPageContainer>
         <WizardNameWrapper>
           {wizardData.name} (#{wizardId})
         </WizardNameWrapper>
-        <PageHorizontalBreak />
-      </Flex>
-      <Spacer mb={2} />
-      <Flex>
-        <Link href={prevPageUrl} passHref>
-          <Image
-            src={"/static/lore/book/arrow_L.png"}
-            width={"12px"}
-            height={"25px"}
-          />
+        <NextPageContainer>
+          <Link href={nextPageUrl} passHref>
+            <Image
+              src={"/static/lore/book/arrow_R.png"}
+              width={"12px"}
+              height={"25px"}
+            />
+          </Link>
+        </NextPageContainer>
+      </PaginationContainer>
+      <WriteContainer>
+        <Link href="/lore/add" passHref={true}>
+          <WriteButton size="medium">Write Your Lore</WriteButton>
         </Link>
-        <Spacer ml={3} />
-        <Link href={nextPageUrl} passHref>
-          <Image
-            src={"/static/lore/book/arrow_R.png"}
-            width={"12px"}
-            height={"25px"}
-          />
-        </Link>
-      </Flex>
-      <Link href="/lore/add" passHref={true}>
-        <a>Write in The Book</a>
-      </Link>
-    </Flex>
+      </WriteContainer>
+    </BookOfLoreControlsElement>
   );
 }
