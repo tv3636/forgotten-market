@@ -5,7 +5,6 @@ import BookOfLorePage from "./BookOfLorePage";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import PageHorizontalBreak from "../../components/PageHorizontalBreak";
 import productionWizardData from "../../data/nfts-prod.json";
-import { Box } from "rebass";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -49,27 +48,110 @@ flustered that he answered “Hear what I have got to say!”
 
 “What’s that?” they asked.`;
 
+const BookElement = styled.div``;
+
 const Carousel = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: calc(100vh - 58px - 30px);
+  /* height: calc(100vh - 58px - 30px); */
   padding: 0 40px;
 `;
 
-const Spread = styled.div<{}>`
+const Spread = styled.div<{ bg: string }>`
   display: grid;
   gap: 0px 0px;
-  height: 75vh;
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: 0px 4px 14px #00000026;
-  border: 1px solid #63440b;
 
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  & > * {
+    border: 1px solid red;
+    /* background-color: ${(props) => props.bg}; */
+  }
+
+  /* 
+  grid-template-areas:
+    "lefttopcorner topborder lefttopbinding  righttopbinding  topborder righttopcorner"
+    "leftborder    pagebody  leftpagebinding rightpagebinding pagebody  rightborder"
+    "leftbotcorner botborder leftbotbinding  rightbotbinding  botborder rightbotcorner";
+  */
+
+  // the 300px here is the sum of:
+  // top nav + top border row + bottom border row + pagination controls + any padding
+  grid-template-rows: 74px minmax(0, calc(100vh - 350px)) 74px;
+  grid-template-columns: 71px minmax(0, 1fr) 52px 52px minmax(0, 1fr) 71px;
+
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 71px minmax(0, 1fr) 52px 0px 0px 0px;
+    grid-template-rows: 74px minmax(0, calc(100vh - 350px)) 74px;
   }
 `;
+
+const LeftTopCorner = styled.div`
+  background-image: url("/static/lore/book/corner_topLeft.png");
+  background-repeat: no-repeat;
+  background-position: left bottom;
+`;
+const RightTopCorner = styled.div`
+  background-image: url("/static/lore/book/corner_topRight.png");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+`;
+const LeftBotCorner = styled.div`
+  background-image: url("/static/lore/book/corner_bottomLeft.png");
+  background-repeat: no-repeat;
+  background-position: left bottom;
+`;
+const RightBotCorner = styled.div`
+  background-image: url("/static/lore/book/corner_bottomRight.png");
+  background-repeat: no-repeat;
+  background-position: right bottom;
+`;
+
+const LeftBorder = styled.div`
+  background-image: url("/static/lore/book/edge_Left_large.png");
+  background-repeat: repeat-y;
+  /* background-position: left center; */
+  background-position: 2px 0px;
+`;
+const RightBorder = styled.div`
+  background-image: url("/static/lore/book/edge_Right_large.png");
+  background-repeat: repeat-y;
+  background-position: right top;
+`;
+
+const TopBorder = styled.div``;
+const BotBorder = styled.div`
+  background-image: url("/static/lore/book/edge_bottom_Right_large.png");
+  background-repeat: repeat-x;
+  background-position: center bottom;
+`;
+
+const LeftPageBinding = styled.div`
+  background-image: url("/static/lore/book/center_tile.png");
+  background-position: left center;
+`;
+const RightPageBinding = styled.div`
+  background-image: url("/static/lore/book/center_tile.png");
+  background-position: right center;
+`;
+
+const LeftTopBinding = styled.div`
+  background-image: url("/static/lore/book/center_top.png");
+  background-position: left bottom;
+`;
+const RightTopBinding = styled.div`
+  background-image: url("/static/lore/book/center_top.png");
+  background-position: right bottom;
+`;
+
+const LeftBotBinding = styled.div`
+  background-image: url("/static/lore/book/center_bottm.png");
+  background-position: left bottom;
+`;
+const RightBotBinding = styled.div`
+  background-image: url("/static/lore/book/center_bottm.png");
+  background-position: right bottom;
+`;
+
+const PageBody = styled.div``;
 
 const TextPage = styled.div`
   color: #e1decd;
@@ -90,30 +172,46 @@ const Book = ({ wizardId, page }: Props) => {
   const bg = "#" + wizardData.background_color;
 
   return (
-    <Box>
+    <BookElement>
       <Carousel>
-        <PageHorizontalBreak />
-        <Spread>
-          <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
-            <ResponsivePixelImg
-              src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
-              style={{ maxWidth: "480px" }}
-            />
-          </BookOfLorePage>
+        <Spread bg={bg}>
+          <LeftTopCorner />
+          <TopBorder />
+          <LeftTopBinding />
+          <RightTopBinding />
+          <TopBorder />
+          <RightTopCorner />
 
-          <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
-            <TextPage>
-              <ReactMarkdown>{text}</ReactMarkdown>
-            </TextPage>
-          </BookOfLorePage>
+          <LeftBorder />
+          <PageBody>
+            <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
+              <ResponsivePixelImg
+                src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
+                style={{ maxWidth: "480px" }}
+              />
+            </BookOfLorePage>
+          </PageBody>
+          <LeftPageBinding />
+          <RightPageBinding />
+          <PageBody>
+            <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
+              <TextPage>
+                <ReactMarkdown>{text}</ReactMarkdown>
+              </TextPage>
+            </BookOfLorePage>
+          </PageBody>
+          <RightBorder />
+
+          <LeftBotCorner />
+          <BotBorder />
+          <LeftBotBinding />
+          <RightBotBinding />
+          <BotBorder />
+          <RightBotCorner />
         </Spread>
-
-        <BookOfLoreControls
-          wizardId={wizardId as string}
-          page={page as string}
-        />
       </Carousel>
-    </Box>
+      <BookOfLoreControls wizardId={wizardId as string} page={page as string} />
+    </BookElement>
   );
 };
 
