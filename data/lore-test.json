@@ -1,0 +1,65 @@
+{
+  "data": {
+    "previousWizardLore": {
+      "id": 0,
+      "lore": [
+        {
+          "id": "0/0",
+          "index": "0",
+          "wizardId": "0",
+          "title": "The guy with the mask",
+          "story": "Today this is the man"
+        },
+        {
+          "id": "0/1",
+          "index": "1",
+          "wizardId": "0",
+          "title": "Page 2 for the Triangle",
+          "story": "What do you think about this one"
+        }
+      ]
+    },
+    "currentWizardLore": {
+      "id": 1,
+      "lore": [
+        {
+          "id": "1/0",
+          "index": "0",
+          "wizardId": "1",
+          "title": "Sometimes we have to",
+          "story": "Just go to this place",
+          "assetAddress": "0x495f947276749ce646f68ac8c248420045cb7b5e",
+          "tokenId": "58811179388067127948312763744960816539054544338312292935514425161264702423041"
+        },
+        {
+          "id": "1/1",
+          "index": "1",
+          "wizardId": "1",
+          "title": "Page 2 for the This one",
+          "story": "another page",
+          "assetAddress": "0x1adaac3daaae37496f9762671281544f912ebf48",
+          "tokenId": "10008"
+        }
+      ]
+    },
+    "nextWizardLore": {
+      "id": 2,
+      "lore": [
+        {
+          "id": "2/0",
+          "index": "0",
+          "wizardId": "2",
+          "title": "Sometimes we have to",
+          "story": "Just go to this place"
+        },
+        {
+          "id": "2/1",
+          "index": "1",
+          "wizardId": "2",
+          "title": "Page 2 for the This one",
+          "story": "another page"
+        }
+      ]
+    }
+  }
+}
