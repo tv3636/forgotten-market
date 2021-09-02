@@ -18,6 +18,7 @@ export default async function handler(
     const response = await pinata.pinJSONToIPFS({
       name: req.body?.title,
       description: req.body?.story,
+      background_color: req.body?.bg_color, // Note: needs to be without #
       attributes: [
         { trait_type: "Artifact Address", value: req.body.address },
         { trait_type: "Artifact Token ID", value: req.body.token_id },

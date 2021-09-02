@@ -301,6 +301,16 @@ const AddLorePage = () => {
           initialValues={{ nsfw: false }}
           onSubmit={async (values, { setSubmitting }) => {
             console.log(JSON.stringify(values, null, 2));
+            // Json to submit to "/api/lore" via POST"
+            // {
+            //   address: "123",
+            //   token_id: 0,
+            //   title: "<optional>",
+            //   story: "<optional>",
+            //   pixel_art: "false/true",
+            //   bg_color: "<without #, optional>",
+            // }
+            // response {hash: <IPFS hash>}
           }}
         >
           <FormStyled>
