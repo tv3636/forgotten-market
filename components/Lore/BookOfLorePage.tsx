@@ -19,11 +19,16 @@ type Props = {
 
 const BookOfLorePageWrapper = styled.div<{ bg?: string }>`
   background-color: ${(props) => props.bg || "#000000"};
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: scroll;
+
+  // Ties to Book
+  height: calc(100% + 96px);
+  margin: -75px -14px 0 -14px;
+
+  /* padding: 1em 0; */
 `;
 
 export default function BookOfLorePage({

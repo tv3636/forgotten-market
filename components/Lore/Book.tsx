@@ -207,6 +207,7 @@ const TextPage = styled.div`
   overflow: scroll;
   padding: 1em;
   font-family: "Alagard", serif;
+  align-self: flex-start;
 `;
 
 export type Props = {
@@ -242,7 +243,7 @@ const Book = ({ wizardId, page }: Props) => {
           <RightPageBinding />
           <PageBody2
             initial={{ rotateY: 0 }}
-            animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
+            // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
             transition={{ duration: 1 }}
           >
             <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
