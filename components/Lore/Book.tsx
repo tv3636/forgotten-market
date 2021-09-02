@@ -71,6 +71,10 @@ const Spread = styled.div<{ bg: string }>`
     /* background-color: ${(props) => props.bg}; */
   }
 
+  .bg {
+    background-color: ${(props) => props.bg};
+  }
+
   grid-template-areas:
     "lefttopcorner topborder1 lefttopbinding  righttopbinding  topborder2 righttopcorner"
     "leftborder    pagebody1  leftpagebinding rightpagebinding pagebody2  rightborder"
@@ -78,7 +82,7 @@ const Spread = styled.div<{ bg: string }>`
 
   // the 300px here is the sum of:
   // top nav + top border row + bottom border row + pagination controls + any padding
-  grid-template-rows: 78px minmax(0, calc(100vh - 350px)) 80px;
+  grid-template-rows: 78px minmax(0, min(calc(100vh - 350px), 600px)) 80px;
   grid-template-columns: 69px minmax(0, 1fr) 39px 39px minmax(0, 1fr) 69px;
 
   @media (max-width: 768px) {
@@ -164,6 +168,7 @@ const LeftPageBinding = styled.div`
   background-position: left top;
   grid-area: leftpagebinding;
 `;
+
 const RightPageBinding = styled.div`
   background-image: url("/static/lore/book/slices/center_right_tile.png");
   background-position: right top;
@@ -174,22 +179,26 @@ const LeftTopBinding = styled.div`
   background-image: url("/static/lore/book/slices/center_top_left.png");
   background-position: left top;
   grid-area: lefttopbinding;
+  border-top-right-radius: 25%;
 `;
 const RightTopBinding = styled.div`
   background-image: url("/static/lore/book/slices/center_top_right.png");
   background-position: right top;
   grid-area: righttopbinding;
+  border-top-left-radius: 25%;
 `;
 
 const LeftBotBinding = styled.div`
   background-image: url("/static/lore/book/slices/center_bottom_left.png");
   background-position: left top;
   grid-area: leftbotbinding;
+  border-bottom-left-radius: 15%;
 `;
 const RightBotBinding = styled.div`
   background-image: url("/static/lore/book/slices/center_bottom_right.png");
   background-position: right top;
   grid-area: rightbotbinding;
+  border-bottom-right-radius: 15%;
 `;
 
 const PageBody1 = styled(motion.div)`
@@ -225,8 +234,8 @@ const Book = ({ wizardId, page }: Props) => {
         <Spread bg={bg}>
           <LeftTopCorner />
           <TopBorder1 />
-          <LeftTopBinding />
-          <RightTopBinding />
+          <LeftTopBinding className="bg" />
+          <RightTopBinding className="bg" />
           <TopBorder2 />
           <RightTopCorner />
 
@@ -239,8 +248,8 @@ const Book = ({ wizardId, page }: Props) => {
               />
             </BookOfLorePage>
           </PageBody1>
-          <LeftPageBinding />
-          <RightPageBinding />
+          <LeftPageBinding className="bg" />
+          <RightPageBinding className="bg" />
           <PageBody2
             initial={{ rotateY: 0 }}
             // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
@@ -256,8 +265,8 @@ const Book = ({ wizardId, page }: Props) => {
 
           <LeftBotCorner />
           <BotBorder1 />
-          <LeftBotBinding />
-          <RightBotBinding />
+          <LeftBotBinding className="bg" />
+          <RightBotBinding className="bg" />
           <BotBorder2 />
           <RightBotCorner />
         </Spread>
