@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK from "@pinata/sdk";
 
+// TODO: replace with .env vars
 const pinata = pinataSDK(
   "8ffb530286f0f2abe486",
   "d6cb8112672ebd58416a834b88621656dbc27dad91cbe5d73a7f83f72dc1dbcd"
