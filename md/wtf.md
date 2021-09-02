@@ -79,7 +79,7 @@ Both the art and code were created by us.
 
 ## Roadmap
 
-You can find more information about [our roadmap on this page](/roadmap).
+You can find more information about [our roadmap on this page](/posts/roadmap).
 
 # Q: Tell me more about on-chain encoding?
 
