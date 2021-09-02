@@ -67,7 +67,7 @@ const Spread = styled.div<{ bg: string }>`
   position: relative;
 
   & > * {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     /* background-color: ${(props) => props.bg}; */
   }
 
@@ -149,13 +149,13 @@ const TopBorder2 = styled.div`
 const BotBorder1 = styled.div`
   background-image: url("/static/lore/book/slices/bottom_left_tile.png");
   background-repeat: repeat-x;
-  background-position: left bottom;
+  background-position: left top;
   grid-area: botborder1;
 `;
 const BotBorder2 = styled.div`
   background-image: url("/static/lore/book/slices/bottom_right_tile.png");
   background-repeat: repeat-x;
-  background-position: right bottom;
+  background-position: right top;
   grid-area: botborder2;
 `;
 
@@ -183,12 +183,12 @@ const RightTopBinding = styled.div`
 
 const LeftBotBinding = styled.div`
   background-image: url("/static/lore/book/slices/center_bottom_left.png");
-  background-position: left bottom;
+  background-position: left top;
   grid-area: leftbotbinding;
 `;
 const RightBotBinding = styled.div`
   background-image: url("/static/lore/book/slices/center_bottom_right.png");
-  background-position: right bottom;
+  background-position: right top;
   grid-area: rightbotbinding;
 `;
 
