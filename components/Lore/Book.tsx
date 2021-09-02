@@ -64,6 +64,7 @@ const Carousel = styled.div`
 const Spread = styled.div<{ bg: string }>`
   display: grid;
   gap: 0px 0px;
+  position: relative;
 
   & > * {
     border: 1px solid red;
@@ -77,8 +78,8 @@ const Spread = styled.div<{ bg: string }>`
 
   // the 300px here is the sum of:
   // top nav + top border row + bottom border row + pagination controls + any padding
-  grid-template-rows: 74px minmax(0, calc(100vh - 350px)) 74px;
-  grid-template-columns: 71px minmax(0, 1fr) 52px 52px minmax(0, 1fr) 71px;
+  grid-template-rows: 78px minmax(0, calc(100vh - 350px)) 80px;
+  grid-template-columns: 69px minmax(0, 1fr) 39px 39px minmax(0, 1fr) 69px;
 
   @media (max-width: 768px) {
     grid-template-areas:
@@ -95,39 +96,38 @@ const Spread = styled.div<{ bg: string }>`
 `;
 
 const LeftTopCorner = styled.div`
-  background-image: url("/static/lore/book/corner_topLeft.png");
+  background-image: url("/static/lore/book/slices/corner_top_left.png");
   background-repeat: no-repeat;
-  background-position: left bottom;
+  background-position: left top;
   grid-area: lefttopcorner;
 `;
 const RightTopCorner = styled.div`
-  background-image: url("/static/lore/book/corner_topRight.png");
+  background-image: url("/static/lore/book/slices/corner_top_right.png");
   background-repeat: no-repeat;
-  background-position: right bottom;
+  background-position: right top;
   grid-area: righttopcorner;
 `;
 const LeftBotCorner = styled.div`
-  background-image: url("/static/lore/book/corner_bottomLeft.png");
+  background-image: url("/static/lore/book/slices/corner_bottom_left.png");
   background-repeat: no-repeat;
-  background-position: left bottom;
+  background-position: left top;
   grid-area: leftbotcorner;
 `;
 const RightBotCorner = styled.div`
-  background-image: url("/static/lore/book/corner_bottomRight.png");
+  background-image: url("/static/lore/book/slices/corner_bottom_right.png");
   background-repeat: no-repeat;
-  background-position: right bottom;
+  background-position: right top;
   grid-area: rightbotcorner;
 `;
 
 const LeftBorder = styled.div`
-  background-image: url("/static/lore/book/edge_Left_large.png");
+  background-image: url("/static/lore/book/slices/side_left_tile.png");
   background-repeat: repeat-y;
-  /* background-position: left center; */
-  background-position: 2px 0px;
+  background-position: left top;
   grid-area: leftborder;
 `;
 const RightBorder = styled.div`
-  background-image: url("/static/lore/book/edge_Right_large.png");
+  background-image: url("/static/lore/book/slices/side_right_tile.png");
   background-repeat: repeat-y;
   background-position: right top;
   grid-area: rightborder;
@@ -135,62 +135,69 @@ const RightBorder = styled.div`
 
 const TopBorder1 = styled.div`
   grid-area: topborder1;
+  background-image: url("/static/lore/book/slices/top_left_tile.png");
+  background-repeat: repeat-x;
+  background-position: left top;
 `;
 const TopBorder2 = styled.div`
   grid-area: topborder2;
+  background-image: url("/static/lore/book/slices/top_left_tile.png");
+  background-repeat: repeat-x;
+  background-position: right top;
 `;
 
 const BotBorder1 = styled.div`
-  background-image: url("/static/lore/book/edge_bottom_Right_large.png");
+  background-image: url("/static/lore/book/slices/bottom_left_tile.png");
   background-repeat: repeat-x;
-  background-position: center bottom;
+  background-position: left bottom;
   grid-area: botborder1;
 `;
 const BotBorder2 = styled.div`
-  background-image: url("/static/lore/book/edge_bottom_Right_large.png");
+  background-image: url("/static/lore/book/slices/bottom_right_tile.png");
   background-repeat: repeat-x;
-  background-position: center bottom;
+  background-position: right bottom;
   grid-area: botborder2;
 `;
 
 const LeftPageBinding = styled.div`
-  background-image: url("/static/lore/book/center_tile.png");
-  background-position: left center;
+  background-image: url("/static/lore/book/slices/center_left_tile.png");
+  background-position: left top;
   grid-area: leftpagebinding;
 `;
 const RightPageBinding = styled.div`
-  background-image: url("/static/lore/book/center_tile.png");
-  background-position: right center;
+  background-image: url("/static/lore/book/slices/center_right_tile.png");
+  background-position: right top;
   grid-area: rightpagebinding;
 `;
 
 const LeftTopBinding = styled.div`
-  background-image: url("/static/lore/book/center_top.png");
-  background-position: left bottom;
+  background-image: url("/static/lore/book/slices/center_top_left.png");
+  background-position: left top;
   grid-area: lefttopbinding;
 `;
 const RightTopBinding = styled.div`
-  background-image: url("/static/lore/book/center_top.png");
-  background-position: right bottom;
+  background-image: url("/static/lore/book/slices/center_top_right.png");
+  background-position: right top;
   grid-area: righttopbinding;
 `;
 
 const LeftBotBinding = styled.div`
-  background-image: url("/static/lore/book/center_bottm.png");
+  background-image: url("/static/lore/book/slices/center_bottom_left.png");
   background-position: left bottom;
   grid-area: leftbotbinding;
 `;
 const RightBotBinding = styled.div`
-  background-image: url("/static/lore/book/center_bottm.png");
+  background-image: url("/static/lore/book/slices/center_bottom_right.png");
   background-position: right bottom;
   grid-area: rightbotbinding;
 `;
 
-const PageBody1 = styled.div`
+const PageBody1 = styled(motion.div)`
   grid-area: pagebody1;
 `;
-const PageBody2 = styled.div`
+const PageBody2 = styled(motion.div)`
   grid-area: pagebody2;
+  position: relative;
 `;
 
 const TextPage = styled.div`
@@ -233,7 +240,11 @@ const Book = ({ wizardId, page }: Props) => {
           </PageBody1>
           <LeftPageBinding />
           <RightPageBinding />
-          <PageBody2>
+          <PageBody2
+            initial={{ rotateY: 0 }}
+            animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
+            transition={{ duration: 1 }}
+          >
             <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
               <TextPage>
                 <ReactMarkdown>{text}</ReactMarkdown>
