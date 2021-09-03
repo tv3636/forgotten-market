@@ -31,7 +31,7 @@ export type WizardLores = {
   lore: Lore[];
 };
 
-export type WizardLorePagination = {
+export type WizardLorePages = {
   previousWizardLore: WizardLores;
   currentWizardLore: WizardLores;
   nextWizardLore: WizardLores;

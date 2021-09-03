@@ -6,8 +6,14 @@ import Book from "../../../components/Lore/Book";
 import LoreAnimations from "../../../components/Lore/LoreAnimations";
 import client from "../../../lib/graphql";
 import { gql } from "@apollo/client";
+import { WizardLorePages } from "../../../components/Lore/types";
+import wizardLorePagesTestData from "../../../data/lore-test.json";
 
-const LorePage = ({ lore }) => {
+const LorePage = ({
+  wizardLorePages
+}: {
+  wizardLorePages: WizardLorePages;
+}) => {
   const router = useRouter();
   const { wizardId, page } = router.query;
 
@@ -44,7 +50,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: {
       wizardId: context?.query?.wizardId,
       page: context?.query?.page,
-      lore: data.wizard?.lore ?? []
+      lore: data.wizard?.lore ?? [],
+      wizardLorePages: wizardLorePagesTestData.data
     }
   };
 }
