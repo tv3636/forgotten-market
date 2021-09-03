@@ -1,6 +1,6 @@
 {
   "data": {
-    "previousWizardLore": {
+    "0": {
       "id": 0,
       "lore": [
         {
@@ -8,7 +8,7 @@
           "index": "0",
           "wizardId": "0",
           "title": "The guy with the mask",
-          "story": "Today this is the man"
+          "story": "Today this is the man. There was nothing so VERY remarkable in that; nor did Alice\nthink it so VERY much out of the way to hear the Rabbit say to\nitself, `Oh dear!  Oh dear!  I shall be late!'  (when she thought\nit over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually TOOK A WATCH OUT OF ITS WAISTCOAT- POCKET, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge."
         },
         {
           "id": "0/1",
@@ -19,7 +19,7 @@
         }
       ]
     },
-    "currentWizardLore": {
+    "1": {
       "id": 1,
       "lore": [
         {
@@ -39,10 +39,19 @@
           "story": "another page",
           "assetAddress": "0x1adaac3daaae37496f9762671281544f912ebf48",
           "tokenId": "10008"
+        },
+        {
+          "id": "1/2",
+          "index": "2",
+          "wizardId": "1",
+          "title": "Page 3 for the This one",
+          "story": "another page",
+          "assetAddress": "0x1adaac3daaae37496f9762671281544f912ebf48",
+          "tokenId": "10008"
         }
       ]
     },
-    "nextWizardLore": {
+    "2": {
       "id": 2,
       "lore": [
         {

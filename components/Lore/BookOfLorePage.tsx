@@ -13,7 +13,7 @@ const wizData = productionWizardData as { [wizardId: string]: any };
 type Props = {
   bg: string;
   wizardId: string;
-  page: string;
+  page: number;
   children: any;
 };
 

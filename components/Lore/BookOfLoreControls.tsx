@@ -9,12 +9,15 @@ import { Flex } from "rebass";
 import PageHorizontalBreak from "../PageHorizontalBreak";
 import Spacer from "../Spacer";
 import Button from "../ui/Button";
+import { WizardLorePageRoute } from "./loreUtils";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 type Props = {
   wizardId: string;
   page: string;
+  nextPageRoute: WizardLorePageRoute | null;
+  previousPageRoute: WizardLorePageRoute | null;
 };
 
 const WizardNameWrapper = styled.div`
@@ -81,17 +84,22 @@ const PaginationContainer = styled.div`
   justify-content: center;
 `;
 
-export default function BookOfLoreControls({ wizardId, page }: Props) {
+export default function BookOfLoreControls({
+  wizardId,
+  page,
+  nextPageRoute,
+  previousPageRoute
+}: Props) {
   const wizardData: any = wizData[wizardId.toString()];
   const wizardNum = parseInt(wizardId);
   const pageNum = parseInt(page);
 
   // This isn't quite right because the pagination is Lore only
-  const previousWizardNumber = wizardNum > 0 ? wizardNum - 1 : 0;
-  const nextWizardNumber = wizardNum < 9999 ? wizardNum + 1 : 9999;
+  // const previousWizardNumber = wizardNum > 0 ? wizardNum - 1 : 0;
+  // const nextWizardNumber = wizardNum < 9999 ? wizardNum + 1 : 9999;
 
-  const prevPageUrl = `/lore/${previousWizardNumber}/0`;
-  const nextPageUrl = `/lore/${nextWizardNumber}/0`;
+  const prevPageUrl = previousPageRoute?.as;
+  const nextPageUrl = nextPageRoute?.as;
   const router = useRouter();
 
   useHotkeys(
@@ -116,25 +124,33 @@ export default function BookOfLoreControls({ wizardId, page }: Props) {
     <BookOfLoreControlsElement>
       <PaginationContainer>
         <PreviousPageContainer>
-          <Link href={prevPageUrl} passHref>
-            <Image
-              src={"/static/lore/book/arrow_L.png"}
-              width={"12px"}
-              height={"25px"}
-            />
-          </Link>
+          {prevPageUrl && (
+            <Link href={prevPageUrl} passHref>
+              <a>
+                <Image
+                  src={"/static/lore/book/arrow_L.png"}
+                  width={"12px"}
+                  height={"25px"}
+                />
+              </a>
+            </Link>
+          )}
         </PreviousPageContainer>
         <WizardNameWrapper>
           {wizardData.name} (#{wizardId})
         </WizardNameWrapper>
         <NextPageContainer>
-          <Link href={nextPageUrl} passHref>
-            <Image
-              src={"/static/lore/book/arrow_R.png"}
-              width={"12px"}
-              height={"25px"}
-            />
-          </Link>
+          {nextPageUrl && (
+            <Link href={nextPageUrl} passHref>
+              <a>
+                <Image
+                  src={"/static/lore/book/arrow_R.png"}
+                  width={"12px"}
+                  height={"25px"}
+                />
+              </a>
+            </Link>
+          )}
         </NextPageContainer>
       </PaginationContainer>
       <WriteContainer>

@@ -20,7 +20,11 @@ const LorePage = ({
   return (
     <Layout>
       <LoreAnimations>
-        <Book wizardId={wizardId as string} page={page as string} />
+        <Book
+          wizardId={wizardId as string}
+          page={page as string}
+          wizardLorePages={wizardLorePages}
+        />
       </LoreAnimations>
     </Layout>
   );
@@ -46,12 +50,22 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     `
   });
 
+  const wizardId = (context?.query?.wizardId as string) || "0";
+  const wizardNum = parseInt(wizardId);
+  const loreData: any = wizardLorePagesTestData.data;
+  const wizardLorePages = {
+    previousWizardLore:
+      wizardNum > 0 ? loreData[(wizardNum - 1).toString()] : null,
+    currentWizardLore: loreData[wizardId],
+    nextWizardLore: loreData[(wizardNum + 1).toString()] || null
+  };
+
   return {
     props: {
       wizardId: context?.query?.wizardId,
       page: context?.query?.page,
       lore: data.wizard?.lore ?? [],
-      wizardLorePages: wizardLorePagesTestData.data
+      wizardLorePages
     }
   };
 }

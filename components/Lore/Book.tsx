@@ -4,9 +4,11 @@ import BookOfLoreControls from "./BookOfLoreControls";
 import BookOfLorePage from "./BookOfLorePage";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import PageHorizontalBreak from "../../components/PageHorizontalBreak";
-import productionWizardData from "../../data/nfts-prod.json";
 import { motion } from "framer-motion";
-
+import WizardMapLeaflet from "./WizardMapLeaflet";
+import { WizardLorePages } from "./types";
+import { typeSetter } from "./loreUtils";
+import productionWizardData from "../../data/nfts-prod.json";
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const text = `hello`;
@@ -169,23 +171,24 @@ const PageBody2 = styled(motion.div)`
   position: relative;
 `;
 
-const TextPage = styled.div`
-  color: #e1decd;
-  font-size: 24px;
-  overflow: scroll;
-  padding: 1em;
-  font-family: "Alagard", serif;
-  align-self: flex-start;
-`;
-
 export type Props = {
   wizardId: string;
   page: string;
+  wizardLorePages: WizardLorePages;
 };
 
-const Book = ({ wizardId, page }: Props) => {
+const Book = ({ wizardId, page, wizardLorePages }: Props) => {
   const wizardData: any = wizData[wizardId.toString()];
+  const pageInt = parseInt(page);
   const bg = "#" + wizardData.background_color;
+
+  const { components, previousPageRoute, nextPageRoute } = typeSetter({
+    wizardId,
+    pageNum: parseInt(page),
+    wizardLorePages
+  });
+  const { previousPage, currentLeftPage, currentRightPage, nextPage } =
+    components;
 
   return (
     <BookElement>
@@ -200,12 +203,13 @@ const Book = ({ wizardId, page }: Props) => {
 
           <LeftBorder />
           <PageBody1>
-            <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
+            {/* <BookOfLorePage wizardId={wizardId} page={pageInt} bg={bg}>
               <ResponsivePixelImg
                 src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
                 style={{ maxWidth: "480px" }}
               />
-            </BookOfLorePage>
+            </BookOfLorePage> */}
+            {currentLeftPage}
           </PageBody1>
           <LeftPageBinding className="bg" />
           <RightPageBinding className="bg" />
@@ -214,11 +218,12 @@ const Book = ({ wizardId, page }: Props) => {
             // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
             transition={{ duration: 1 }}
           >
-            <BookOfLorePage wizardId={wizardId} page={page} bg={bg}>
+            {/* <BookOfLorePage wizardId={wizardId} page={pageInt} bg={bg}>
               <TextPage>
                 <ReactMarkdown>{text}</ReactMarkdown>
               </TextPage>
-            </BookOfLorePage>
+            </BookOfLorePage> */}
+            {currentRightPage}
           </PageBody2>
           <RightBorder />
 
@@ -230,7 +235,12 @@ const Book = ({ wizardId, page }: Props) => {
           <RightBotCorner />
         </Spread>
       </Carousel>
-      <BookOfLoreControls wizardId={wizardId as string} page={page as string} />
+      <BookOfLoreControls
+        wizardId={wizardId as string}
+        page={page as string}
+        previousPageRoute={previousPageRoute}
+        nextPageRoute={nextPageRoute}
+      />
     </BookElement>
   );
 };
