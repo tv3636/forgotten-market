@@ -13,7 +13,7 @@ import StyledModal from "./StyledModal";
 import {
   FormField,
   TextInput,
-  TextAreaAutosizeInput
+  TextAreaAutosizeInput,
 } from "../../components/ui/Inputs";
 import NFTDisplay from "../NFTDisplay";
 import { ArtifactConfiguration } from "../Lore/types";
@@ -98,7 +98,6 @@ function ArtifactPickerModal({ onRequestClose, onArtifactPicked }: any) {
             setInputError(null);
             setContractAddress(contractAddress);
             setTokenId(tokenId);
-            onArtifactPicked({ contractAddress, tokenId });
           }
         } else {
           setInputError(`Unknown NFT host ${host}. Try using "advanced"`);
@@ -108,6 +107,12 @@ function ArtifactPickerModal({ onRequestClose, onArtifactPicked }: any) {
       }
     }
   }, [inputUrl]);
+
+  useEffect(() => {
+    if (contractAddress && tokenId) {
+      onArtifactPicked({ contractAddress, tokenId });
+    }
+  }, [contractAddress, tokenId]);
 
   return (
     <ArtifactPickerModalElement>
@@ -206,7 +211,11 @@ export default function ArtifactPicker({ onArtifactPicked }: Props) {
           <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
             Pick {currentArtifact ? "another" : "an"} Artifact NFT
           </Button>
-          <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
+          <StyledModal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            ariaHideApp={false}
+          >
             <ArtifactPickerModal
               onRequestClose={closeModal}
               onArtifactPicked={onArtifactModalPicked}

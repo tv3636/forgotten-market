@@ -12,7 +12,7 @@ export async function httpifyUrl(url: string, tokenId: string) {
   if (url.match(/^http/)) {
     return url;
   } else if (url.match(/^ipfs/)) {
-    return url.replace(/^ipfs:\/\//, "https://cloudflare-ipfs.com/");
+    return url.replace(/^ipfs:\/\//, "https://cloudflare-ipfs.com/ipfs/");
   } else {
     return url;
   }
@@ -24,27 +24,27 @@ const storefrontABI = [
       {
         internalType: "uint256",
         name: "tokenId",
-        type: "uint256"
-      }
+        type: "uint256",
+      },
     ],
     name: "uri",
     outputs: [
       {
         internalType: "string",
         name: "",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     stateMutability: "view",
-    type: "function"
-  }
+    type: "function",
+  },
 ];
 
 const erc721MetadataCache: { [key: string]: any } = {};
 export async function fetchERC721TokenMetadataCached({
   contractAddress,
   tokenId,
-  provider
+  provider,
 }: {
   contractAddress: string;
   tokenId: string;
@@ -58,7 +58,7 @@ export async function fetchERC721TokenMetadataCached({
   const promise = fetchERC721TokenMetadata({
     contractAddress,
     tokenId,
-    provider
+    provider,
   });
 
   promise.catch((err) => {
@@ -72,7 +72,7 @@ export async function fetchERC721TokenMetadataCached({
 export async function fetchERC721TokenMetadata({
   contractAddress,
   tokenId,
-  provider
+  provider,
 }: {
   contractAddress: string;
   tokenId: string;
@@ -152,7 +152,7 @@ type ResolvedNFTData = {
 
 export function useNFTInfo({
   contractAddress,
-  tokenId
+  tokenId,
 }: {
   contractAddress?: string | null;
   tokenId?: string | null;
@@ -181,7 +181,7 @@ export function useNFTInfo({
         const [metadata, image] = await fetchERC721TokenMetadataCached({
           contractAddress,
           tokenId,
-          provider
+          provider,
         });
         setNftData({ metadata, image });
         setError(null);
@@ -201,7 +201,7 @@ export function useNFTInfo({
 export default function NFTDisplay({
   contractAddress,
   tokenId,
-  pixelArt
+  pixelArt,
 }: Props) {
   // TODO this needs some caching as it's being called way way too often.
   const { loading, nftData, error } = useNFTInfo({ contractAddress, tokenId });
