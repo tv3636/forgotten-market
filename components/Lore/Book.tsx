@@ -4,7 +4,7 @@ import BookOfLoreControls from "./BookOfLoreControls";
 import BookOfLorePage from "./BookOfLorePage";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import PageHorizontalBreak from "../../components/PageHorizontalBreak";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import WizardMapLeaflet from "./WizardMapLeaflet";
 import { WizardLorePages } from "./types";
 import { typeSetter } from "./loreUtils";
@@ -225,8 +225,7 @@ const Book = ({ wizardId, page, wizardLorePages }: Props) => {
           // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
           // transition={{ duration: 1 }}
           >
-            {currentRightPage}
-            {/* <PageBodyBack>hi hi</PageBodyBack> */}
+            <AnimatePresence>{currentRightPage}</AnimatePresence>
           </PageBody2>
           <RightBorder />
 

@@ -1,6 +1,6 @@
 import { WizardLorePages } from "./types";
 import productionWizardData from "../../data/nfts-prod.json";
-import BookOfLorePage from "./BookOfLorePage";
+import { BookOfLorePage } from "./IndividualLorePage";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import first from "lodash/first";
 import last from "lodash/last";
@@ -8,6 +8,8 @@ import get from "lodash/get";
 import IndividualLorePage from "./IndividualLorePage";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
+
+// move this to IndividualLorePage
 export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
   const wizardData: any = wizData[wizardId.toString()];
   const bg = "#" + wizardData.background_color;
