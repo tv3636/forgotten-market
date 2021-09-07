@@ -55,7 +55,7 @@ export default function IndividualLorePage({ wizardId, lore, page }: Props) {
       page={page}
       bg={bg}
       lore={lore}
-      layoutId={layoutId}
+      // layoutId={layoutId}
     >
       {Inner}
     </BookOfLorePage>

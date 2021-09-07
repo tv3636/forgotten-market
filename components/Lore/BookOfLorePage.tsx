@@ -16,7 +16,7 @@ type Props = {
   wizardId: string;
   page: number;
   children: any;
-  layoutId: string;
+  layoutId?: string;
   lore?: Lore;
 };
 

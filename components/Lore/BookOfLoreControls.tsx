@@ -84,6 +84,11 @@ const PaginationContainer = styled.div`
   justify-content: center;
 `;
 
+const NoPageSpacer = styled.div`
+  width: 12px;
+  display: block;
+`;
+
 export default function BookOfLoreControls({
   wizardId,
   page,
@@ -128,7 +133,7 @@ export default function BookOfLoreControls({
     <BookOfLoreControlsElement>
       <PaginationContainer>
         <PreviousPageContainer>
-          {prevPageUrl && (
+          {prevPageUrl ? (
             <Link href={prevPageUrl} passHref>
               <a>
                 <Image
@@ -138,13 +143,15 @@ export default function BookOfLoreControls({
                 />
               </a>
             </Link>
+          ) : (
+            <NoPageSpacer />
           )}
         </PreviousPageContainer>
         <WizardNameWrapper>
           {wizardData.name} (#{wizardId})
         </WizardNameWrapper>
         <NextPageContainer>
-          {nextPageUrl && (
+          {nextPageUrl ? (
             <Link href={nextPageUrl} passHref>
               <a>
                 <Image
@@ -154,6 +161,8 @@ export default function BookOfLoreControls({
                 />
               </a>
             </Link>
+          ) : (
+            <NoPageSpacer />
           )}
         </NextPageContainer>
       </PaginationContainer>
