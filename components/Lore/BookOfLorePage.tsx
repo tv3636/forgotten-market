@@ -32,6 +32,11 @@ const BookOfLorePageWrapper = styled(motion.div)<{ bg?: string }>`
   height: calc(100% + 96px);
   margin: -75px -14px 0 -14px;
 
+  @media (max-width: 768px) {
+    height: calc(100% + 23px);
+    margin: 0px -14px 0 -14px;
+  }
+
   /* padding: 1em 0; */
 `;
 

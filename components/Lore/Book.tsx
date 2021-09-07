@@ -49,7 +49,7 @@ const Spread = styled.div<{ bg: string }>`
 
   @media (max-width: 768px) {
     grid-template-areas:
-      "lefttopcorner topborder1 topborder1 topborder1  topborder1 righttopcorner"
+      "lefttopcorner pagebody1 pagebody1 pagebody1  pagebody1 righttopcorner"
       "leftborder    pagebody1  pagebody1 pagebody1 pagebody1  rightborder"
       "leftborder    pagebody2  pagebody2 pagebody2 pagebody2  rightborder"
       "leftbotcorner botborder1 botborder1  botborder1  botborder1 rightbotcorner";

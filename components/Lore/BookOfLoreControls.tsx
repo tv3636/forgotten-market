@@ -10,6 +10,7 @@ import PageHorizontalBreak from "../PageHorizontalBreak";
 import Spacer from "../Spacer";
 import Button from "../ui/Button";
 import { WizardLorePageRoute } from "./loreUtils";
+import { ResponsivePixelImg } from "../ResponsivePixelImg";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -89,6 +90,28 @@ const NoPageSpacer = styled.div`
   display: block;
 `;
 
+const SocialContainer = styled.div`
+  position: absolute;
+  left: 0px;
+  top: 10px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    position: relative;
+    top: 0;
+    margin-bottom: 15px;
+  }
+`;
+
+const SocialItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.4em;
+`;
+
 export default function BookOfLoreControls({
   wizardId,
   page,
@@ -129,8 +152,31 @@ export default function BookOfLoreControls({
     [wizardNum, pageNum]
   );
 
+  const url = typeof window !== "undefined" ? window?.location?.href : "";
+
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+    `The Lore of ${wizardData.name} (#${wizardId})`
+  )}&url=${encodeURIComponent(url)}`;
+
   return (
     <BookOfLoreControlsElement>
+      <SocialContainer>
+        <SocialItem>
+          <a
+            href={`https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${wizardId}`}
+            className="icon-link"
+            target="_blank"
+          >
+            <ResponsivePixelImg src="/static/img/icons/social_opensea_default_w.png" />
+          </a>
+        </SocialItem>
+        <SocialItem>
+          <a href={tweetUrl} className="icon-link" target="_blank">
+            <ResponsivePixelImg src="/static/img/icons/social_twitter_default_w.png" />
+          </a>
+        </SocialItem>
+      </SocialContainer>
+
       <PaginationContainer>
         <PreviousPageContainer>
           {prevPageUrl ? (
