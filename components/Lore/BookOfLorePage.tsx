@@ -6,7 +6,8 @@ import BookOfLoreControls from "./BookOfLoreControls";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import PageHorizontalBreak from "../../components/PageHorizontalBreak";
 import productionWizardData from "../../data/nfts-prod.json";
-import { Box } from "rebass";
+import { motion } from "framer-motion";
+import { Lore } from "./types";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -15,9 +16,12 @@ type Props = {
   wizardId: string;
   page: number;
   children: any;
+  layoutId: string;
+  lore?: Lore;
 };
 
-const BookOfLorePageWrapper = styled.div<{ bg?: string }>`
+// const BookOfLorePageWrapper = styled.div<{ bg?: string }>`
+const BookOfLorePageWrapper = styled(motion.div)<{ bg?: string }>`
   background-color: ${(props) => props.bg || "#000000"};
   display: flex;
   align-items: center;
@@ -35,7 +39,14 @@ export default function BookOfLorePage({
   bg,
   wizardId,
   page,
+  lore,
+  layoutId,
   children
 }: Props) {
-  return <BookOfLorePageWrapper bg={bg}>{children}</BookOfLorePageWrapper>;
+  console.log("layoutId: ", layoutId);
+  return (
+    <BookOfLorePageWrapper bg={bg} layoutId={layoutId}>
+      {children}
+    </BookOfLorePageWrapper>
+  );
 }

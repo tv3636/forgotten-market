@@ -163,12 +163,27 @@ const RightBotBinding = styled.div`
   border-bottom-right-radius: 15%;
 `;
 
+const PreviousPageBody = styled(motion.div)`
+  position: relative;
+`;
+const NextPageBody = styled(motion.div)`
+  position: relative;
+`;
+
 const PageBody1 = styled(motion.div)`
   grid-area: pagebody1;
+  position: relative;
 `;
 const PageBody2 = styled(motion.div)`
   grid-area: pagebody2;
   position: relative;
+`;
+
+const PageBodyFront = styled(motion.div)`
+  background-color: green;
+`;
+const PageBodyBack = styled(motion.div)`
+  background-color: green;
 `;
 
 export type Props = {
@@ -202,28 +217,16 @@ const Book = ({ wizardId, page, wizardLorePages }: Props) => {
           <RightTopCorner />
 
           <LeftBorder />
-          <PageBody1>
-            {/* <BookOfLorePage wizardId={wizardId} page={pageInt} bg={bg}>
-              <ResponsivePixelImg
-                src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
-                style={{ maxWidth: "480px" }}
-              />
-            </BookOfLorePage> */}
-            {currentLeftPage}
-          </PageBody1>
+          <PageBody1>{currentLeftPage}</PageBody1>
           <LeftPageBinding className="bg" />
           <RightPageBinding className="bg" />
           <PageBody2
-            initial={{ rotateY: 0 }}
-            // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
-            transition={{ duration: 1 }}
+          // initial={{ rotateY: 0 }}
+          // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
+          // transition={{ duration: 1 }}
           >
-            {/* <BookOfLorePage wizardId={wizardId} page={pageInt} bg={bg}>
-              <TextPage>
-                <ReactMarkdown>{text}</ReactMarkdown>
-              </TextPage>
-            </BookOfLorePage> */}
             {currentRightPage}
+            {/* <PageBodyBack>hi hi</PageBodyBack> */}
           </PageBody2>
           <RightBorder />
 

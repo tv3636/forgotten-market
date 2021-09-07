@@ -105,7 +105,9 @@ export default function BookOfLoreControls({
   useHotkeys(
     "left",
     () => {
-      router.push(prevPageUrl);
+      if (prevPageUrl) {
+        router.push(prevPageUrl);
+      }
       return true;
     },
     [wizardNum, pageNum]
@@ -114,7 +116,9 @@ export default function BookOfLoreControls({
   useHotkeys(
     "right",
     () => {
-      router.push(nextPageUrl);
+      if (nextPageUrl) {
+        router.push(nextPageUrl);
+      }
       return true;
     },
     [wizardNum, pageNum]

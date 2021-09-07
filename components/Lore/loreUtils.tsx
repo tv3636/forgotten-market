@@ -13,7 +13,12 @@ export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
   const bg = "#" + wizardData.background_color;
 
   return (
-    <BookOfLorePage wizardId={wizardId} page={0} bg={bg}>
+    <BookOfLorePage
+      wizardId={wizardId}
+      page={0}
+      bg={bg}
+      layoutId={`page-${wizardId}-core`}
+    >
       <ResponsivePixelImg
         src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
         style={{ maxWidth: "480px" }}
@@ -44,7 +49,6 @@ export function typeSetter({
   pageNum: number;
   wizardLorePages: WizardLorePages;
 }) {
-  console.log("pageNum: ", pageNum);
   const { previousWizardLore, currentWizardLore, nextWizardLore } =
     wizardLorePages;
 
@@ -101,9 +105,12 @@ export function typeSetter({
 
     // the the page on the right
     const firstLore = get(wizardLorePages.currentWizardLore?.lore, 0);
-    console.log("firstLore: ", firstLore);
     components.currentRightPage = (
-      <IndividualLorePage wizardId={wizardNum} lore={firstLore} />
+      <IndividualLorePage
+        wizardId={wizardNum}
+        lore={firstLore}
+        page={pageNum}
+      />
     );
 
     // the previous page is the last lore of the previous wizard
@@ -113,6 +120,7 @@ export function typeSetter({
         <IndividualLorePage
           wizardId={previousWizardId}
           lore={previousWizardsLastLore}
+          page={pageNum}
         />
       );
       previousPageRoute = {
@@ -125,19 +133,26 @@ export function typeSetter({
     // if it's page 1+ for this Wizard...
     // show the Lore on the left
     const loreLeft = get(wizardLorePages.currentWizardLore?.lore, pageNum - 1);
-    console.log("loreLeft: ", loreLeft);
     components.currentLeftPage = (
-      <IndividualLorePage wizardId={wizardNum} lore={loreLeft} />
+      <IndividualLorePage wizardId={wizardNum} lore={loreLeft} page={pageNum} />
     );
 
     // show the next lore on the right
     const loreRight = get(wizardLorePages.currentWizardLore?.lore, pageNum);
     components.currentRightPage = (
-      <IndividualLorePage wizardId={wizardNum} lore={loreRight} />
+      <IndividualLorePage
+        wizardId={wizardNum}
+        lore={loreRight}
+        page={pageNum}
+      />
     );
 
     components.previousPage = (
-      <IndividualLorePage wizardId={wizardNum} lore={currentWizardsLastLore} />
+      <IndividualLorePage
+        wizardId={wizardNum}
+        lore={currentWizardsLastLore}
+        page={pageNum}
+      />
     );
     previousPageRoute = {
       as: `/lore/${wizardId}/${previousLorePageIdx}`,
@@ -155,7 +170,7 @@ export function typeSetter({
 
   const nextLore = get(wizardLorePages.currentWizardLore?.lore, 0);
   const nextLorePage = (
-    <IndividualLorePage wizardId={wizardNum} lore={nextLore} />
+    <IndividualLorePage wizardId={wizardNum} lore={nextLore} page={pageNum} />
   );
 
   // if we're on page 0 and the wizard has 0 lore => nextWizard
@@ -174,6 +189,7 @@ export function typeSetter({
           wizardLorePages.currentWizardLore?.lore,
           nextLoreIdx as number
         )}
+        page={pageNum}
       />
     );
     nextPageRoute = {

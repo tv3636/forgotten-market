@@ -21,15 +21,18 @@ const IndividualLorePageWrapper = styled.div``;
 type Props = {
   wizardId: number;
   lore?: Lore;
+  page: number;
 };
-export default function IndividualLorePage({ wizardId, lore }: Props) {
+export default function IndividualLorePage({ wizardId, lore, page }: Props) {
   const wizardData: any = wizData[wizardId.toString()];
   const bg = "#" + wizardData.background_color;
   const text = lore?.story || "";
+  let layoutId = `page-${wizardId}-${lore?.id || "x"}`;
   console.log("lore: ", lore);
 
   let Inner = <div />;
   if (!lore) {
+    layoutId = `page-${wizardId}-${"none"}`;
     const noLore = `No further Lore for ${wizardData.name} has been recorded. Write The Lore button`;
     Inner = (
       <TextPage>
@@ -47,7 +50,13 @@ export default function IndividualLorePage({ wizardId, lore }: Props) {
   }
 
   return (
-    <BookOfLorePage wizardId={wizardId.toString()} page={0} bg={bg}>
+    <BookOfLorePage
+      wizardId={wizardId.toString()}
+      page={page}
+      bg={bg}
+      lore={lore}
+      layoutId={layoutId}
+    >
       {Inner}
     </BookOfLorePage>
   );
