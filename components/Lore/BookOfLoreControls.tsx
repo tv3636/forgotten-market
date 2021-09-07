@@ -71,7 +71,7 @@ const NextPageContainer = styled.div`
   padding-left: 1em;
 `;
 
-const WriteButton = styled(Button)`
+export const WriteButton = styled(Button)`
   background-color: #27222f;
   border-radius: 5px;
   @media (max-width: 768px) {
