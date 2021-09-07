@@ -53,7 +53,7 @@ Wizards who live in the same city sometimes team up to coordinate and share fund
 
 Getting a Mural done is relatively simple: find an artist, describe what you want in detail, pay them, and wait.
 
-Cost: between $1,000-$5,000
+Cost: between $1,000-$5,000  
 Timeline: About an hour of prep, a few weeks of waiting
 
 # Instructions:
