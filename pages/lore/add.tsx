@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import WizardPicker, {
-  WizardConfiguration,
+  WizardConfiguration
 } from "../../components/AddLore/WizardPicker";
 import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
 import { EmptyWell } from "../../components/ui/EmptyWell";
@@ -24,7 +24,7 @@ import { RgbaColorPicker, HexColorPicker } from "react-colorful";
 import {
   FormField,
   TextInput,
-  TextAreaAutosizeInput,
+  TextAreaAutosizeInput
 } from "../../components/ui/Inputs";
 
 import Switch from "react-switch";
@@ -91,6 +91,24 @@ const InlineFieldStyles = styled.div`
     position: relative;
     margin-left: 14px;
     top: 4px;
+  }
+`;
+
+// TODO, unify with Button.tsx
+const SubmitButton = styled.button`
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.8em 1em;
+  border-radius: 3px;
+  font-family: "Alagard";
+  font-size: 20px;
+  color: white;
+  background-color: #393246;
+  border: none;
+  &:hover {
+    color: #cccccc;
+    background-color: #2a2433;
   }
 `;
 
@@ -188,7 +206,7 @@ const BackgroundColorPickerField = ({
 
   const { loading, nftData, error } = useNFTInfo({
     contractAddress: artifactConfiguration?.contractAddress,
-    tokenId: artifactConfiguration?.tokenId,
+    tokenId: artifactConfiguration?.tokenId
   });
 
   const [localBgColor, setLocalBgColor] = useState<string>();
@@ -305,7 +323,7 @@ const AddLorePage = () => {
               method: "post",
               headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
               },
               body: JSON.stringify({
                 address: currentArtifact?.contractAddress,
@@ -313,8 +331,8 @@ const AddLorePage = () => {
                 title: currentTitle,
                 story: currentStory,
                 pixel_art: values?.pixelArt ?? false,
-                bg_color: currentBgColor,
-              }),
+                bg_color: currentBgColor
+              })
             });
             console.log(await response.json());
 
@@ -334,10 +352,16 @@ const AddLorePage = () => {
                   </FormField>
                   <FormField>
                     <h2>
-                      Pick an Artifact NFT
+                      Pick an Artifact NFT (optional)
                       <HelpTooltip>
-                        An Artifact can be any NFT that you want to attach to
-                        this Wizard
+                        <p>
+                          An Artifact can be any NFT that you want to attach to
+                          this Wizard.{" "}
+                        </p>
+                        <p>
+                          This is optional though. You can just write a story,
+                          if you want to!
+                        </p>
                       </HelpTooltip>
                     </h2>
                     <ArtifactPicker onArtifactPicked={onArtifactPicked} />
@@ -361,6 +385,7 @@ const AddLorePage = () => {
                       type="text"
                       placeholder="The Journey of Wizzy to The Sacred Pillars"
                       onChange={(evt: any) => setCurrentTitle(evt.target.value)}
+                      tabIndex={2}
                     />
                   </FormField>
                   <FormField>
@@ -370,6 +395,7 @@ const AddLorePage = () => {
                       type="textarea"
                       placeholder="Our hero finds himself wandering, without water..."
                       onChange={(evt: any) => setCurrentStory(evt.target.value)}
+                      tabIndex={3}
                     />
                   </FormField>
                   {/* can we get an eyedropper? */}
@@ -378,8 +404,7 @@ const AddLorePage = () => {
                   </FormField>
                   <FormField>
                     <SubmitFormField>
-                      {/*<Button>Submit</Button>*/}
-                      <button type={"submit"}>Submit</button>
+                      <SubmitButton type={"submit"}>Submit</SubmitButton>
                     </SubmitFormField>
                   </FormField>
                 </FormPanel>

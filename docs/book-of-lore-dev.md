@@ -70,4 +70,4 @@ Admin: http://localhost:8020/
 
 On submit, the form hits: `/api/lore`
 
-`/api/lore` -
+`/api/lore` - `pages/api/lore.tsx`

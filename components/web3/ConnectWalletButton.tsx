@@ -8,6 +8,10 @@ import { useMst } from "../../store";
 
 type Props = {};
 
+const ConnectButton = styled(Button)`
+  background-color: #3f2b20;
+`;
+
 export function ConnectWalletButton() {
   const { web3Settings } = useMst();
   const connected = web3Settings.connected;
@@ -23,5 +27,9 @@ export function ConnectWalletButton() {
     // if you're already connected, set the injectedProvider
   }, []);
 
-  return <Button onClick={() => loadWeb3Modal()}>Connect Your Wallet</Button>;
+  return (
+    <ConnectButton onClick={() => loadWeb3Modal()}>
+      Connect Your Wallet
+    </ConnectButton>
+  );
 }
