@@ -8,11 +8,9 @@ import { useRouter } from "next/router";
 import { GetServerSidePropsContext } from "next";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import WizardPicker, {
-  WizardConfiguration
+  WizardConfiguration,
 } from "../../components/AddLore/WizardPicker";
-import ArtifactPicker, {
-  ArtifactConfiguration
-} from "../../components/AddLore/ArtifactPicker";
+import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
 import { EmptyWell } from "../../components/ui/EmptyWell";
 import Button from "../../components/ui/Button";
 import { Formik, Form, useField } from "formik";
@@ -26,7 +24,7 @@ import { RgbaColorPicker, HexColorPicker } from "react-colorful";
 import {
   FormField,
   TextInput,
-  TextAreaAutosizeInput
+  TextAreaAutosizeInput,
 } from "../../components/ui/Inputs";
 
 import Switch from "react-switch";
@@ -36,6 +34,7 @@ import HelpTooltip from "../../components/Lore/HelpTooltip";
 import { useExtractColors } from "../../hooks/useExtractColors";
 import { useNFTInfo } from "../../components/NFTDisplay";
 import convert from "color-convert";
+import { ArtifactConfiguration } from "../../components/Lore/types";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -126,6 +125,7 @@ const NSFWField = ({ ...props }: { name: string }) => {
           offColor={"#494949"}
           onColor={"#8e0606"}
           offHandleColor={"#a7a7a7"}
+          name={props.name}
           // {...field}
           // {...props}
         />
@@ -158,8 +158,7 @@ const PixelArtField = ({ ...props }: { name: string }) => {
           offColor={"#494949"}
           onColor={"#65D36E"}
           offHandleColor={"#a7a7a7"}
-          // {...field}
-          // {...props}
+          name={props.name}
         />
       </label>
     </InlineFieldStyles>
@@ -189,7 +188,7 @@ const BackgroundColorPickerField = ({
 
   const { loading, nftData, error } = useNFTInfo({
     contractAddress: artifactConfiguration?.contractAddress,
-    tokenId: artifactConfiguration?.tokenId
+    tokenId: artifactConfiguration?.tokenId,
   });
 
   const [localBgColor, setLocalBgColor] = useState<string>();
@@ -297,83 +296,109 @@ const AddLorePage = () => {
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
     >
       <AddLoreWrapper>
-        {/* <Formik
-          initialValues={{ nsfw: false }}
-          onSubmit={(values, { setSubmitting }) => {
+        <Formik
+          initialValues={{ isNsfw: false, pixelArt: false }}
+          onSubmit={async (values) => {
+            // TODO: custom  validation for custom fields, like artifact et. Also for some reason values are not right for e.g. pixelArt ha */
             console.log(JSON.stringify(values, null, 2));
+            const response = await fetch("/api/lore", {
+              method: "post",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                address: currentArtifact?.contractAddress,
+                token_id: currentArtifact?.tokenId,
+                title: currentTitle,
+                story: currentStory,
+                pixel_art: values?.pixelArt ?? false,
+                bg_color: currentBgColor,
+              }),
+            });
+            console.log(await response.json());
+
+            // TODO: submit TX with the hash woop woop
+
+            return false;
           }}
-        > */}
-        <FormStyled>
-          <AddLoreLayout>
-            <FormPanel>
-              <h1>Add Lore</h1>
-              <FormField>
-                <h2>Pick a Wizard</h2>
-                <WizardPicker onWizardPicked={onWizardPicked} />
-              </FormField>
-              <FormField>
-                <h2>
-                  Pick an Artifact NFT
-                  <HelpTooltip>
-                    An Artifact can be any NFT that you want to attach to this
-                    Wizard
-                  </HelpTooltip>
-                </h2>
-                <ArtifactPicker onArtifactPicked={onArtifactPicked} />
-              </FormField>
-              <FormField>
-                <BackgroundColorPickerField
-                  name="bgColor"
-                  artifactConfiguration={currentArtifact}
-                  onChange={(color?: string | null) => setCurrentBgColor(color)}
-                />
-              </FormField>
-              <FormField>
-                <PixelArtField name="pixelArt" />
-              </FormField>
-              <FormField>
-                <TitleField
-                  label="Title"
-                  name="title"
-                  type="text"
-                  placeholder="The Journey of Wizzy to The Sacred Pillars"
-                  onChange={(evt: any) => setCurrentTitle(evt.target.value)}
-                />
-              </FormField>
-              <FormField>
-                <StoryField
-                  label="Story"
-                  name="story"
-                  type="textarea"
-                  placeholder="Our hero finds himself wandering, without water..."
-                  onChange={(evt: any) => setCurrentStory(evt.target.value)}
-                />
-              </FormField>
-              {/* can we get an eyedropper? */}
-              <FormField>
-                <NSFWField name="isNsfw" />
-              </FormField>
-              <FormField>
-                <SubmitFormField>
-                  <Button>Submit</Button>
-                </SubmitFormField>
-              </FormField>
-            </FormPanel>
-            <PreviewPanel>
-              <PreviewStickyPane>
-                <h1>Preview</h1>
-                <LorePreview
-                  currentArtifact={currentArtifact}
-                  currentTitle={currentTitle}
-                  currentStory={debouncedCurrentStory}
-                  currentBgColor={currentBgColor}
-                  currentWizard={currentWizard}
-                />
-              </PreviewStickyPane>
-            </PreviewPanel>
-          </AddLoreLayout>
-        </FormStyled>
-        {/* </Formik> */}
+        >
+          {(form) => (
+            <FormStyled onSubmit={form.handleSubmit}>
+              <AddLoreLayout>
+                <FormPanel>
+                  <h1>Add Lore</h1>
+                  <FormField>
+                    <h2>Pick a Wizard</h2>
+                    <WizardPicker onWizardPicked={onWizardPicked} />
+                  </FormField>
+                  <FormField>
+                    <h2>
+                      Pick an Artifact NFT
+                      <HelpTooltip>
+                        An Artifact can be any NFT that you want to attach to
+                        this Wizard
+                      </HelpTooltip>
+                    </h2>
+                    <ArtifactPicker onArtifactPicked={onArtifactPicked} />
+                  </FormField>
+                  <FormField>
+                    <BackgroundColorPickerField
+                      name="bgColor"
+                      artifactConfiguration={currentArtifact}
+                      onChange={(color?: string | null) =>
+                        setCurrentBgColor(color)
+                      }
+                    />
+                  </FormField>
+                  <FormField>
+                    <PixelArtField name="pixelArt" />
+                  </FormField>
+                  <FormField>
+                    <TitleField
+                      label="Title"
+                      name="title"
+                      type="text"
+                      placeholder="The Journey of Wizzy to The Sacred Pillars"
+                      onChange={(evt: any) => setCurrentTitle(evt.target.value)}
+                    />
+                  </FormField>
+                  <FormField>
+                    <StoryField
+                      label="Story"
+                      name="story"
+                      type="textarea"
+                      placeholder="Our hero finds himself wandering, without water..."
+                      onChange={(evt: any) => setCurrentStory(evt.target.value)}
+                    />
+                  </FormField>
+                  {/* can we get an eyedropper? */}
+                  <FormField>
+                    <NSFWField name="isNsfw" />
+                  </FormField>
+                  <FormField>
+                    <SubmitFormField>
+                      {/*<Button>Submit</Button>*/}
+                      <button type={"submit"}>Submit</button>
+                    </SubmitFormField>
+                  </FormField>
+                </FormPanel>
+                <PreviewPanel>
+                  <PreviewStickyPane>
+                    <h1>Preview</h1>
+                    <LorePreview
+                      currentArtifact={currentArtifact}
+                      currentTitle={currentTitle}
+                      currentStory={debouncedCurrentStory}
+                      currentBgColor={currentBgColor}
+                      currentWizard={currentWizard}
+                    />
+                  </PreviewStickyPane>
+                </PreviewPanel>
+              </AddLoreLayout>
+            </FormStyled>
+          )}
+        </Formik>
       </AddLoreWrapper>
     </Layout>
   );
