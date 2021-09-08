@@ -1,30 +1,18 @@
 import Layout from "../../components/Layout";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
 import styled from "@emotion/styled";
-import Book from "../../components/Lore/Book";
-import BookOfLoreControls from "../../components/Lore/BookOfLoreControls";
 import { useRouter } from "next/router";
-import { GetServerSidePropsContext } from "next";
-import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import WizardPicker, {
-  WizardConfiguration
+  WizardConfiguration,
 } from "../../components/AddLore/WizardPicker";
 import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
-import { EmptyWell } from "../../components/ui/EmptyWell";
-import Button from "../../components/ui/Button";
-import { Formik, Form, useField } from "formik";
-import * as Yup from "yup";
-import { ChromePicker } from "react-color";
-import TextareaAutosize from "react-textarea-autosize";
+import { Formik } from "formik";
 import productionWizardData from "../../data/nfts-prod.json";
-import { css } from "@emotion/react";
 import React, { useEffect, useState } from "react";
-import { RgbaColorPicker, HexColorPicker } from "react-colorful";
+import { HexColorPicker } from "react-colorful";
 import {
   FormField,
+  TextAreaAutosizeInput,
   TextInput,
-  TextAreaAutosizeInput
 } from "../../components/ui/Inputs";
 
 import Switch from "react-switch";
@@ -33,8 +21,9 @@ import { useDebounce } from "../../hooks";
 import HelpTooltip from "../../components/Lore/HelpTooltip";
 import { useExtractColors } from "../../hooks/useExtractColors";
 import { useNFTInfo } from "../../components/NFTDisplay";
-import convert from "color-convert";
 import { ArtifactConfiguration } from "../../components/Lore/types";
+import { useMst } from "../../store";
+import { getBookOfLoreContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -206,7 +195,7 @@ const BackgroundColorPickerField = ({
 
   const { loading, nftData, error } = useNFTInfo({
     contractAddress: artifactConfiguration?.contractAddress,
-    tokenId: artifactConfiguration?.tokenId
+    tokenId: artifactConfiguration?.tokenId,
   });
 
   const [localBgColor, setLocalBgColor] = useState<string>();
@@ -284,11 +273,8 @@ const StoryField = ({ ...props }: any) => {
 };
 
 const AddLorePage = () => {
-  const router = useRouter();
-  const { wizardId, page } = router.query;
-
+  const { web3Settings } = useMst();
   const [currentTitle, setCurrentTitle] = useState<string | null>(null);
-
   const [currentStory, setCurrentStory] = useState<string | null>(null);
   const [currentBgColor, setCurrentBgColor] = useState<
     string | null | undefined
@@ -317,28 +303,66 @@ const AddLorePage = () => {
         <Formik
           initialValues={{ isNsfw: false, pixelArt: false }}
           onSubmit={async (values) => {
-            // TODO: custom  validation for custom fields, like artifact et. Also for some reason values are not right for e.g. pixelArt ha */
+            console.log(web3Settings.injectedProvider?.getSigner());
+            if (
+              !currentArtifact?.contractAddress ||
+              !currentArtifact?.tokenId ||
+              !currentWizard?.tokenId
+            ) {
+              // TODO: proper error messages for user
+              console.error("No artifact or wizard set...");
+              return false;
+            }
+
             console.log(JSON.stringify(values, null, 2));
+
+            const loreContract = await getBookOfLoreContract({
+              provider: web3Settings.injectedProvider,
+            });
+
             const response = await fetch("/api/lore", {
               method: "post",
               headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                address: currentArtifact?.contractAddress,
-                token_id: currentArtifact?.tokenId,
+                address: currentArtifact.contractAddress,
+                token_id: currentArtifact.tokenId,
                 title: currentTitle,
                 story: currentStory,
                 pixel_art: values?.pixelArt ?? false,
-                bg_color: currentBgColor
-              })
+                bg_color: currentBgColor,
+              }),
             });
-            console.log(await response.json());
 
-            // TODO: submit TX with the hash woop woop
+            const apiResponse = await response.json();
 
-            return false;
+            if (response.status !== 201 && response.status !== 200) {
+              console.error(apiResponse);
+              //TODO: user visible error
+              return false;
+            }
+
+            console.log(apiResponse);
+
+            await loreContract
+              //@ts-ignore
+              .connect(web3Settings.injectedProvider?.getSigner())
+              .addLore(
+                currentWizard.tokenId,
+                currentArtifact.contractAddress,
+                currentArtifact.tokenId,
+                0,
+                values.isNsfw,
+                `ipfs://${apiResponse.hash}`,
+                { gasLimit: 300000 } //TODO: actual gas limit
+              );
+
+            //TODO: I guess some idea of success to user and/or change page
+            //TODO: Note that I am not sure going directly to lore viewing page will work as the GraphQL data may not be instant hmm
+            //TODO: One idea is to just have a nice "Lore submitted component, check <here> in a bit to see it live..." - just for first version
+            return true;
           }}
         >
           {(form) => (
