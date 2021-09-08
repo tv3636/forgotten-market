@@ -59,3 +59,15 @@ GraphiQL: http://localhost:8000/
 HTTP: http://localhost:8000/subgraphs/name/<subgraph-name>
 WebSockets: ws://localhost:8001/subgraphs/name/<subgraph-name>
 Admin: http://localhost:8020/
+
+## Running On Rinkeby
+
+## Flow
+
+### Adding Lore
+
+`/lore/add` - `pages/lore/add.tsx`
+
+On submit, the form hits: `/api/lore`
+
+`/api/lore` -

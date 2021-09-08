@@ -1,10 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK from "@pinata/sdk";
 
-// TODO: replace with .env vars
 const pinata = pinataSDK(
-  "8ffb530286f0f2abe486",
-  "d6cb8112672ebd58416a834b88621656dbc27dad91cbe5d73a7f83f72dc1dbcd"
+  process.env.PINATA_ID || "",
+  process.env.PINATA_SECRET_KEY || ""
 );
 
 export default async function handler(
@@ -23,8 +22,8 @@ export default async function handler(
       attributes: [
         { trait_type: "Artifact Address", value: req.body.address },
         { trait_type: "Artifact Token ID", value: req.body.token_id },
-        { trait_type: "Pixel Art", value: req.body?.pixel_art ?? false },
-      ],
+        { trait_type: "Pixel Art", value: req.body?.pixel_art ?? false }
+      ]
     });
     return res.status(201).json({ hash: response.IpfsHash });
   } catch (e) {
