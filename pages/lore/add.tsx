@@ -2,7 +2,7 @@ import Layout from "../../components/Layout";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import WizardPicker, {
-  WizardConfiguration,
+  WizardConfiguration
 } from "../../components/AddLore/WizardPicker";
 import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
 import { Formik } from "formik";
@@ -12,7 +12,7 @@ import { HexColorPicker } from "react-colorful";
 import {
   FormField,
   TextAreaAutosizeInput,
-  TextInput,
+  TextInput
 } from "../../components/ui/Inputs";
 
 import Switch from "react-switch";
@@ -24,6 +24,10 @@ import { useNFTInfo } from "../../components/NFTDisplay";
 import { ArtifactConfiguration } from "../../components/Lore/types";
 import { useMst } from "../../store";
 import { getBookOfLoreContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import StyledToastContainer from "../../components/StyledToastContainer";
+import { AddressZero } from "@ethersproject/constants";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -99,6 +103,10 @@ const SubmitButton = styled.button`
     color: #cccccc;
     background-color: #2a2433;
   }
+`;
+
+const ErrorMessage = styled.div`
+  color: red;
 `;
 
 const NSFWField = ({ ...props }: { name: string }) => {
@@ -182,6 +190,15 @@ const Swatch = styled.div<{ bgColor?: string | null }>`
   cursor: pointer;
 `;
 
+export type LoreAPISubmitParams = {
+  address?: string;
+  token_id?: string;
+  title: string | null;
+  story: string | null;
+  pixel_art: boolean;
+  bg_color: string | null | undefined;
+};
+
 const BackgroundColorPickerField = ({
   artifactConfiguration,
   onChange,
@@ -195,7 +212,7 @@ const BackgroundColorPickerField = ({
 
   const { loading, nftData, error } = useNFTInfo({
     contractAddress: artifactConfiguration?.contractAddress,
-    tokenId: artifactConfiguration?.tokenId,
+    tokenId: artifactConfiguration?.tokenId
   });
 
   const [localBgColor, setLocalBgColor] = useState<string>();
@@ -295,6 +312,13 @@ const AddLorePage = () => {
     setCurrentWizard(wizardConfiguration);
   };
 
+  const validate = async (values: any): Promise<any> => {
+    console.log("values: ", values);
+    return null;
+  };
+
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
+
   return (
     <Layout
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
@@ -302,62 +326,124 @@ const AddLorePage = () => {
       <AddLoreWrapper>
         <Formik
           initialValues={{ isNsfw: false, pixelArt: false }}
+          validate={validate}
           onSubmit={async (values) => {
-            console.log(web3Settings.injectedProvider?.getSigner());
-            if (
-              !currentArtifact?.contractAddress ||
-              !currentArtifact?.tokenId ||
-              !currentWizard?.tokenId
-            ) {
-              // TODO: proper error messages for user
-              console.error("No artifact or wizard set...");
+            // console.log(web3Settings.injectedProvider?.getSigner());
+            console.log("onSubmit", currentWizard);
+            if (!currentWizard?.tokenId) {
+              toast.error(`Sorry, there was a problem`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined
+              });
+
+              console.log("currentWizard?.tokenId: ", currentWizard?.tokenId);
+              setErrorMessage(
+                "No Wizard selected. Please select a Wizard above"
+              );
               return false;
             }
+            setErrorMessage(null);
 
-            console.log(JSON.stringify(values, null, 2));
+            if (currentArtifact?.contractAddress || currentArtifact?.tokenId) {
+              if (
+                !(currentArtifact?.contractAddress || currentArtifact?.tokenId)
+              ) {
+                setErrorMessage("Artifact needs a contract and a tokenId");
+              }
+            }
+
+            // console.log(JSON.stringify(values, null, 2));
 
             const loreContract = await getBookOfLoreContract({
-              provider: web3Settings.injectedProvider,
+              provider: web3Settings.injectedProvider
             });
+
+            console.log("toast.info");
+            toast.info("Preparing your Lore", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined
+            });
+
+            let loreBody: LoreAPISubmitParams = {
+              title: currentTitle,
+              story: currentStory,
+              pixel_art: values?.pixelArt ?? false,
+              bg_color: currentBgColor
+            };
+
+            if (currentArtifact?.contractAddress && currentArtifact?.tokenId) {
+              loreBody = {
+                ...loreBody,
+                address: currentArtifact.contractAddress,
+                token_id: currentArtifact.tokenId
+              };
+            }
 
             const response = await fetch("/api/lore", {
               method: "post",
               headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
               },
-              body: JSON.stringify({
-                address: currentArtifact.contractAddress,
-                token_id: currentArtifact.tokenId,
-                title: currentTitle,
-                story: currentStory,
-                pixel_art: values?.pixelArt ?? false,
-                bg_color: currentBgColor,
-              }),
+              body: JSON.stringify(loreBody)
             });
 
             const apiResponse = await response.json();
 
             if (response.status !== 201 && response.status !== 200) {
               console.error(apiResponse);
-              //TODO: user visible error
+
+              toast.error(`Sorry, there was a problem`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined
+              });
               return false;
             }
 
             console.log(apiResponse);
 
-            await loreContract
-              //@ts-ignore
-              .connect(web3Settings.injectedProvider?.getSigner())
-              .addLore(
-                currentWizard.tokenId,
-                currentArtifact.contractAddress,
-                currentArtifact.tokenId,
-                0,
-                values.isNsfw,
-                `ipfs://${apiResponse.hash}`,
-                { gasLimit: 300000 } //TODO: actual gas limit
-              );
+            try {
+              await loreContract
+                //@ts-ignore
+                .connect(web3Settings.injectedProvider?.getSigner())
+                .addLore(
+                  currentWizard.tokenId,
+                  currentArtifact?.contractAddress
+                    ? currentArtifact.contractAddress
+                    : AddressZero,
+                  currentArtifact?.tokenId ? currentArtifact?.tokenId : 0,
+                  0,
+                  values.isNsfw,
+                  `ipfs://${apiResponse.hash}`,
+                  { gasLimit: 300000 } //TODO: actual gas limit
+                );
+            } catch (err) {
+              console.log("err: ", err);
+              toast.error(`Sorry, there was a problem: ${err.message}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined
+              });
+            }
 
             //TODO: I guess some idea of success to user and/or change page
             //TODO: Note that I am not sure going directly to lore viewing page will work as the GraphQL data may not be instant hmm
@@ -426,6 +512,7 @@ const AddLorePage = () => {
                   <FormField>
                     <NSFWField name="isNsfw" />
                   </FormField>
+                  {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                   <FormField>
                     <SubmitFormField>
                       <SubmitButton type={"submit"}>Submit</SubmitButton>
@@ -449,6 +536,7 @@ const AddLorePage = () => {
           )}
         </Formik>
       </AddLoreWrapper>
+      <StyledToastContainer theme="dark" />
     </Layout>
   );
 };
