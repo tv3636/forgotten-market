@@ -205,6 +205,8 @@ const Book = ({ wizardId, page, wizardLorePages }: Props) => {
   const { previousPage, currentLeftPage, currentRightPage, nextPage } =
     components;
 
+  const layoutId = `page-${wizardId}-${page}`;
+
   return (
     <BookElement>
       <Carousel>
@@ -221,9 +223,11 @@ const Book = ({ wizardId, page, wizardLorePages }: Props) => {
           <LeftPageBinding className="bg" />
           <RightPageBinding className="bg" />
           <PageBody2
-          // initial={{ rotateY: 0 }}
-          // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
+          // initial={{ rotateY: 0, left: 0 }}
+          // exit={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
           // transition={{ duration: 1 }}
+          // key={layoutId}
+          // layoutId={layoutId}
           >
             <AnimatePresence>{currentRightPage}</AnimatePresence>
           </PageBody2>

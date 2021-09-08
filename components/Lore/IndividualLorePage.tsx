@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import { WriteButton } from "./BookOfLoreControls";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ResponsivePixelImg } from "../ResponsivePixelImg";
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const TextPage = styled.div<{ alignSelf?: string; alignChildren?: string }>`
@@ -63,13 +64,36 @@ export function BookOfLorePage({
   children
 }: BookOfLorePageProps) {
   return (
-    <BookOfLorePageWrapper bg={bg} layoutId={layoutId}>
+    <BookOfLorePageWrapper
+      bg={bg}
+      // layoutId={layoutId}
+      // initial={{ rotateY: 0 }}
+      // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
+      // transition={{ duration: 1 }}
+    >
       {children}
     </BookOfLorePageWrapper>
   );
 }
 
-const IndividualLorePageWrapper = styled.div``;
+export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
+  const wizardData: any = wizData[wizardId.toString()];
+  const bg = "#" + wizardData.background_color;
+
+  return (
+    <BookOfLorePage
+      wizardId={wizardId}
+      page={0}
+      bg={bg}
+      // layoutId={`page-${wizardId}-core`}
+    >
+      <ResponsivePixelImg
+        src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
+        style={{ maxWidth: "480px" }}
+      />
+    </BookOfLorePage>
+  );
+};
 
 type Props = {
   wizardId: number;
@@ -81,7 +105,7 @@ export default function IndividualLorePage({ wizardId, lore, page }: Props) {
   const bg = "#" + wizardData.background_color;
   const text = lore?.story || "";
   let layoutId = `page-${wizardId}-${lore?.id || "x"}`;
-  console.log("lore: ", lore);
+  // console.log("lore: ", lore);
 
   let Inner = <div />;
   if (!lore) {
@@ -111,6 +135,7 @@ export default function IndividualLorePage({ wizardId, lore, page }: Props) {
       page={page}
       bg={bg}
       lore={lore}
+      // key={layoutId}
       // layoutId={layoutId}
     >
       {Inner}

@@ -1,33 +1,12 @@
 import { WizardLorePages } from "./types";
 import productionWizardData from "../../data/nfts-prod.json";
-import { BookOfLorePage } from "./IndividualLorePage";
-import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
+import { CoreWizardPage } from "./IndividualLorePage";
 import first from "lodash/first";
 import last from "lodash/last";
 import get from "lodash/get";
 import IndividualLorePage from "./IndividualLorePage";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
-
-// move this to IndividualLorePage
-export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
-  const wizardData: any = wizData[wizardId.toString()];
-  const bg = "#" + wizardData.background_color;
-
-  return (
-    <BookOfLorePage
-      wizardId={wizardId}
-      page={0}
-      bg={bg}
-      layoutId={`page-${wizardId}-core`}
-    >
-      <ResponsivePixelImg
-        src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
-        style={{ maxWidth: "480px" }}
-      />
-    </BookOfLorePage>
-  );
-};
 
 export type LoreBookPageComponents = {
   previousPage: any;
