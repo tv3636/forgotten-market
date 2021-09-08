@@ -4,8 +4,6 @@ import { WizardConfiguration } from "./AddLore/WizardPicker";
 
 const image_base_url =
   "https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-";
-const opensea_base_url =
-  "https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/";
 
 const CardStyle = styled.div<{ isHovering: boolean }>`
   /* opacity: ${(props) => (props.isHovering ? 1 : 0.7)}; */
@@ -70,7 +68,7 @@ const WizardName = styled.div`
 const WizardCard = ({
   id,
   name,
-  onWizardPicked
+  onWizardPicked,
 }: {
   id: string;
   name: string;
@@ -90,7 +88,7 @@ const WizardCard = ({
             ? () => {
                 const wizardPicked: WizardConfiguration = {
                   tokenId: id,
-                  name: name
+                  name: name,
                 };
                 console.log("wizardPicked: ", wizardPicked);
                 onWizardPicked(wizardPicked);
@@ -104,7 +102,9 @@ const WizardCard = ({
           </h3>
         </WizardName>
         <WizardImageContainer>
-          <WizardImage src={image_base_url + id + ".png"} />
+          <WizardImage
+            src={`${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL}/${id}.png`}
+          />
         </WizardImageContainer>
       </WizardFrame>
     </CardStyle>
