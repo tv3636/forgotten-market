@@ -70,7 +70,7 @@ export type onWizardPickedFn = (
 
 function WizardGrid({
   wizards,
-  onWizardPicked
+  onWizardPicked,
 }: {
   wizards: any[];
   onWizardPicked: onWizardPickedFn;
@@ -93,7 +93,7 @@ function WizardGrid({
 
 function WizardList({
   injectedProvider,
-  onWizardPicked
+  onWizardPicked,
 }: {
   injectedProvider: any;
   onWizardPicked: onWizardPickedFn;
@@ -106,7 +106,7 @@ function WizardList({
       try {
         const address = injectedProvider.provider.selectedAddress;
         const contract = getWizardsContract({
-          provider: injectedProvider
+          provider: injectedProvider,
         });
         const result = await contract.tokensOfOwner(address);
 
@@ -135,7 +135,7 @@ function WizardList({
 function WizardPickerModal({
   onRequestClose,
   onWizardPicked,
-  injectedProvider
+  injectedProvider,
 }: any) {
   return (
     <WizardPickerModalElement>
@@ -208,7 +208,11 @@ const WizardPicker = observer(({ onWizardPicked }: Props) => {
         <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
           Pick {currentWizard ? "another" : "a"} Wizard
         </Button>
-        <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
+        <StyledModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          ariaHideApp={false}
+        >
           <WizardPickerModal
             onRequestClose={closeModal}
             onWizardPicked={wizardPicked}
