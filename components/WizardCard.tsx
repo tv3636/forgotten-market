@@ -2,9 +2,6 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { WizardConfiguration } from "./AddLore/WizardPicker";
 
-const image_base_url =
-  "https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-";
-
 const CardStyle = styled.div<{ isHovering: boolean }>`
   /* opacity: ${(props) => (props.isHovering ? 1 : 0.7)}; */
   transition: all 0.1s ease-in;
