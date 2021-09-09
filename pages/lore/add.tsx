@@ -529,11 +529,27 @@ const AddLorePage = () => {
 
               const receipt = await tx.wait();
 
+              console.log(`receipt: ${JSON.stringify(receipt)}`);
+
               if (receipt.status === 1) {
-                console.log(`success: ${JSON.stringify(receipt)}`);
                 await router.push(
                   `/lore/add?waitForTxHash=${receipt.transactionHash}&wizardId=${currentWizard.tokenId}`
                 );
+              } else {
+                toast.error(
+                  `Sorry, it appears your transaction may have failed (?)`,
+                  {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                  }
+                );
+                setSubmitting(false);
+                return false;
               }
             } catch (err) {
               console.log("err: ", err);
