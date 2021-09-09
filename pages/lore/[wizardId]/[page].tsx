@@ -10,7 +10,7 @@ import { WizardLorePages } from "../../../components/Lore/types";
 import wizardLorePagesTestData from "../../../data/lore-test.json";
 
 const LorePage = ({
-  wizardLorePages
+  wizardLorePages,
 }: {
   wizardLorePages: WizardLorePages;
 }) => {
@@ -47,9 +47,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           }
         }
       }
-    `
+    `,
   });
 
+  console.log(data);
   const wizardId = (context?.query?.wizardId as string) || "0";
   const wizardNum = parseInt(wizardId);
   const loreData: any = wizardLorePagesTestData.data;
@@ -57,7 +58,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     previousWizardLore:
       wizardNum > 0 ? loreData[(wizardNum - 1).toString()] : null,
     currentWizardLore: loreData[wizardId],
-    nextWizardLore: loreData[(wizardNum + 1).toString()] || null
+    nextWizardLore: loreData[(wizardNum + 1).toString()] || null,
   };
 
   return {
@@ -65,8 +66,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       wizardId: context?.query?.wizardId,
       page: context?.query?.page,
       lore: data.wizard?.lore ?? [],
-      wizardLorePages
-    }
+      wizardLorePages,
+    },
   };
 }
 export default LorePage;
