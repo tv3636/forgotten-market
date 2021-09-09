@@ -672,6 +672,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
           query WizardLore{
               lores(where: { struck: false, nsfw: false, txHash: "${context.query?.waitForTxHash}" }) {
                   id
+                  index
                   txHash
               }
           }
@@ -683,9 +684,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     if (data?.lores?.length > 0) {
       return {
         redirect: {
-          destination: `/lore/${context?.query?.wizardId}/${
-            data?.lores[0].id.match(/^(\d+)-(\d+)$/)[2]
-          }`,
+          destination: `/lore/${context?.query?.wizardId}/${data?.lores[0].index}`,
         },
       };
     }
