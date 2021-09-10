@@ -12,6 +12,7 @@ import Button from "../ui/Button";
 import { WizardLorePageRoute } from "./loreUtils";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { BackgroundColorPickerField, NSFWField } from "./AddLoreFields";
+import { AnyARecord } from "dns";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 const WizardNameWrapper = styled.div`
@@ -112,8 +113,16 @@ const MidControls = styled.div`
 
 type Props = {
   wizardId?: string;
+  onSubmit: any;
+  onBackgroundColorChanged: (color?: string | null | undefined) => void;
+  onNsfwChanged: (newNsfw: boolean) => void;
 };
-export default function AddLoreControls({ wizardId }: Props) {
+export default function AddLoreControls({
+  wizardId,
+  onSubmit,
+  onBackgroundColorChanged,
+  onNsfwChanged
+}: Props) {
   const wizardData: any = wizardId ? wizData[wizardId.toString()] : {};
   const wizardNum = parseInt(wizardId || "0");
 
@@ -162,16 +171,14 @@ export default function AddLoreControls({ wizardId }: Props) {
         <MidControls>
           <BackgroundColorPickerField
             name="bgColor"
-            onChange={
-              (color?: string | null) => null // setCurrentBgColor(color)
-            }
+            onChange={onBackgroundColorChanged}
           />
-          <NSFWField name="isNsfw" />
+          <NSFWField name="isNsfw" onChange={onNsfwChanged} />
         </MidControls>
 
-        <Link href="/lore/add" passHref={true}>
-          <WriteButton size="medium">Save Your Lore</WriteButton>
-        </Link>
+        <WriteButton size="medium" onClick={onSubmit}>
+          Save Your Lore
+        </WriteButton>
       </WriteContainer>
     </BookOfLoreControlsElement>
   );

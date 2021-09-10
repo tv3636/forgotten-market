@@ -47,9 +47,20 @@ const Swatch = styled.div<{ bgColor?: string | null }>`
   cursor: pointer;
 `;
 
-export const NSFWField = ({ ...props }: { name: string }) => {
+export const NSFWField = ({
+  onChange,
+  ...props
+}: {
+  onChange: any;
+  name: string;
+}) => {
   // const [field, meta] = useField({ ...props, type: "checkbox" });
   const [checked, setChecked] = useState(false);
+
+  const doOnChange = (newValue: boolean) => {
+    setChecked(newValue);
+    onChange(newValue);
+  };
 
   // TODO how to useField with Switch?
   return (
@@ -70,7 +81,7 @@ export const NSFWField = ({ ...props }: { name: string }) => {
       <label className="checkbox-input">
         {/* <input type="checkbox" {...field} {...props} /> */}
         <Switch
-          onChange={() => setChecked(!checked)}
+          onChange={() => doOnChange(!checked)}
           checked={checked}
           uncheckedIcon={false}
           width={40}
@@ -119,34 +130,33 @@ export const PixelArtField = ({ ...props }: { name: string }) => {
 };
 
 export const BackgroundColorPickerField = ({
-  artifactConfiguration,
   onChange,
   ...props
 }: {
-  artifactConfiguration: ArtifactConfiguration | null;
   onChange: (color?: string | null) => void;
   name: string;
 }) => {
   // const [field, meta] = useField({ ...props, type: "string" });
 
-  const { loading, nftData, error } = useNFTInfo({
-    contractAddress: artifactConfiguration?.contractAddress,
-    tokenId: artifactConfiguration?.tokenId
-  });
+  //   const { loading, nftData, error } = useNFTInfo({
+  //     contractAddress: artifactConfiguration?.contractAddress,
+  //     tokenId: artifactConfiguration?.tokenId
+  //   });
 
   const [localBgColor, setLocalBgColor] = useState<string>();
   const [bigPickerShowing, setBigPickerShowing] = useState<boolean>(false);
 
-  const { bgColor: detectedBgColor } = useExtractColors(nftData?.image);
+  //   const { bgColor: detectedBgColor } = useExtractColors(nftData?.image);
 
   const setColor = (newColor: string) => {
     onChange(newColor);
     setLocalBgColor(newColor);
   };
 
-  useEffect(() => {
-    if (detectedBgColor) setColor(detectedBgColor);
-  }, [detectedBgColor]);
+  // detecting and setting a bg color needs to come from dragging and dropping the _first_ image
+  //   useEffect(() => {
+  //     if (detectedBgColor) setColor(detectedBgColor);
+  //   }, [detectedBgColor]);
 
   return (
     <InlineFieldStyles>

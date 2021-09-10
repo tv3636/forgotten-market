@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { EditorState } from "draft-js";
+import { ContentState, convertFromRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
 import createMarkdownShortcutsPlugin from "draft-js-markdown-shortcuts-plugin";
 import createImagePlugin from "@draft-js-plugins/image";
@@ -15,6 +15,7 @@ type Props = {};
 const AddLoreEditorElement = styled.div`
   color: white; // TODO use the color from the background picker
   font-family: "Alagard";
+  height: 100%;
 `;
 
 const defaultText = `
@@ -43,16 +44,13 @@ const imagePlugin = createImagePlugin({ decorator });
 
 const mockUpload = () => true;
 
-const dragNDropFileUploadPlugin = createDragNDropUploadPlugin();
-/*
-    {
+const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
   handleUpload: mockUpload,
   addImage: imagePlugin.addImage
-}
-*/
+});
 
 const plugins = [
-  //   dragNDropFileUploadPlugin,
+  dragNDropFileUploadPlugin,
   createMarkdownShortcutsPlugin(),
   blockDndPlugin,
   focusPlugin,
@@ -60,17 +58,46 @@ const plugins = [
   imagePlugin
 ];
 
+const emptyContentState = convertFromRaw({
+  entityMap: {},
+  blocks: [
+    {
+      text: "",
+      key: "foo",
+      type: "unstyled",
+      entityRanges: []
+    }
+  ]
+});
+
 export default function AddLoreEditor({}: Props) {
-  const [value, setValue] = useState(defaultText);
-  const [editorState, setEditorState] = React.useState(() =>
-    EditorState.createEmpty()
+  //   const [editorState, setEditorState] = useState(() =>
+  //     EditorState.createEmpty()
+  //   );
+
+  // https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
+  const [editorState, setEditorState] = React.useState(
+    EditorState.createWithContent(emptyContentState)
   );
+
+  useEffect(() => {
+    setEditorState(
+      EditorState.createWithContent(ContentState.createFromText("hi"))
+    );
+  }, []);
 
   return (
     <AddLoreEditorElement>
       <Editor
+        editorKey={"key-here"}
         editorState={editorState}
-        onChange={setEditorState}
+        // onChange={setEditorState}
+        onChange={(editorState) => {
+          setEditorState(editorState);
+          //   onChange(editorState.getCurrentContent().getPlainText());
+        }}
+        userSelect="none"
+        contentEditable={false}
         plugins={plugins}
       />
     </AddLoreEditorElement>

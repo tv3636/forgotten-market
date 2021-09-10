@@ -40,6 +40,7 @@ import BookFrame from "../../components/Lore/BookFrame";
 import AddLoreEditor from "../../components/AddLore/AddLoreEditor";
 import "draft-js/dist/Draft.css";
 import AddLoreControls from "../../components/AddLore/AddLoreControls";
+import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -144,6 +145,7 @@ const AddLorePage = () => {
   const { web3Settings } = useMst();
   const [currentTitle, setCurrentTitle] = useState<string | null>(null);
   const [currentStory, setCurrentStory] = useState<string | null>(null);
+  const [currentNsfw, setNsfw] = useState<boolean>(false);
   const [currentBgColor, setCurrentBgColor] = useState<
     string | null | undefined
   >(null);
@@ -170,8 +172,46 @@ const AddLorePage = () => {
     return <WaitingForGraphPage />;
   }
 
-  const bg = "0000";
-  const controls = <AddLoreControls wizardId={currentWizard?.tokenId} />;
+  const values = {
+    nsfw: false,
+    bg_color: "000000"
+  };
+
+  const onSubmit = () => {
+    onSubmitAddLoreForm({
+      values,
+      currentWizard,
+      setErrorMessage,
+      setSubmitting,
+      currentStory,
+      currentTitle,
+      currentBgColor,
+      web3Settings,
+      router
+    });
+  };
+
+  const onBackgroundColorChanged = (newColor?: string | null | undefined) => {
+    if (newColor) {
+      setCurrentBgColor(newColor);
+    }
+  };
+
+  const onNsfwChanged = (newNsfw: boolean) => {
+    setNsfw(newNsfw);
+  };
+
+  //
+
+  const bg = currentBgColor;
+  const controls = (
+    <AddLoreControls
+      wizardId={currentWizard?.tokenId}
+      onSubmit={onSubmit}
+      onBackgroundColorChanged={onBackgroundColorChanged}
+      onNsfwChanged={onNsfwChanged}
+    />
+  );
 
   const currentLeftPage = (
     <div>
@@ -185,7 +225,7 @@ const AddLorePage = () => {
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
     >
       <AddLoreWrapper>
-        <BookFrame bg={bg} controls={controls}>
+        <BookFrame bg={bg || "#000000"} controls={controls}>
           <div />
           {currentLeftPage}
           {currentRightPage}
