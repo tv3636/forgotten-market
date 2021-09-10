@@ -11,20 +11,9 @@ import Spacer from "../Spacer";
 import Button from "../ui/Button";
 import { WizardLorePageRoute } from "./loreUtils";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
-import {
-  BackgroundColorPickerField,
-  NSFWField
-} from "../AddLore/AddLoreFields";
+import { BackgroundColorPickerField, NSFWField } from "./AddLoreFields";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
-
-type Props = {
-  wizardId: string;
-  page: string;
-  nextPageRoute: WizardLorePageRoute | null;
-  previousPageRoute: WizardLorePageRoute | null;
-};
-
 const WizardNameWrapper = styled.div`
   background-image: url("/static/lore/book/page_border_header_top.png");
   background-repeat: no-repeat;
@@ -39,6 +28,7 @@ const WizardNameWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 const BookOfLoreControlsElement = styled.div`
@@ -47,17 +37,19 @@ const BookOfLoreControlsElement = styled.div`
   padding: 10px 10px;
   padding-bottom: 80px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
 
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
 const WriteContainer = styled.div`
-  position: absolute;
-  right: 0px;
-  top: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
 
   @media (max-width: 768px) {
     position: relative;
@@ -84,6 +76,7 @@ export const WriteButton = styled(Button)`
 `;
 
 const PaginationContainer = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,10 +88,7 @@ const NoPageSpacer = styled.div`
 `;
 
 const SocialContainer = styled.div`
-  position: absolute;
-  left: 0px;
-  top: 10px;
-
+  flex: 1;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -116,74 +106,22 @@ const SocialItem = styled.div`
   padding: 0.4em;
 `;
 
-export default function BookOfLoreControls({
-  wizardId,
-  page,
-  nextPageRoute,
-  previousPageRoute
-}: Props) {
-  const wizardData: any = wizData[wizardId.toString()];
-  const wizardNum = parseInt(wizardId);
-  const pageNum = parseInt(page);
+const MidControls = styled.div`
+  margin-right: 2em;
+`;
 
-  // This isn't quite right because the pagination is Lore only
-  // const previousWizardNumber = wizardNum > 0 ? wizardNum - 1 : 0;
-  // const nextWizardNumber = wizardNum < 9999 ? wizardNum + 1 : 9999;
-
-  const prevPageUrl = previousPageRoute?.as;
-  const nextPageUrl = nextPageRoute?.as;
-  const router = useRouter();
-
-  useHotkeys(
-    "left",
-    () => {
-      if (prevPageUrl) {
-        router.push(prevPageUrl);
-      }
-      return true;
-    },
-    [wizardNum, pageNum]
-  );
-
-  useHotkeys(
-    "right",
-    () => {
-      if (nextPageUrl) {
-        router.push(nextPageUrl);
-      }
-      return true;
-    },
-    [wizardNum, pageNum]
-  );
-
-  const url = typeof window !== "undefined" ? window?.location?.href : "";
-
-  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    `The Lore of ${wizardData.name} (#${wizardId})`
-  )}&url=${encodeURIComponent(url)}`;
+type Props = {
+  wizardId?: string;
+};
+export default function AddLoreControls({ wizardId }: Props) {
+  const wizardData: any = wizardId ? wizData[wizardId.toString()] : {};
+  const wizardNum = parseInt(wizardId || "0");
 
   return (
     <BookOfLoreControlsElement>
-      <SocialContainer>
-        <SocialItem>
-          <a
-            href={`https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${wizardId}`}
-            className="icon-link"
-            target="_blank"
-          >
-            <ResponsivePixelImg src="/static/img/icons/social_opensea_default_w.png" />
-          </a>
-        </SocialItem>
-        <SocialItem>
-          <a href={tweetUrl} className="icon-link" target="_blank">
-            <ResponsivePixelImg src="/static/img/icons/social_twitter_default_w.png" />
-          </a>
-        </SocialItem>
-      </SocialContainer>
-
       <PaginationContainer>
         <PreviousPageContainer>
-          {prevPageUrl ? (
+          {/* {prevPageUrl ? (
             <Link href={prevPageUrl} passHref>
               <a>
                 <Image
@@ -195,13 +133,17 @@ export default function BookOfLoreControls({
             </Link>
           ) : (
             <NoPageSpacer />
-          )}
+          )} */}
         </PreviousPageContainer>
         <WizardNameWrapper>
-          {wizardData.name} (#{wizardId})
+          {wizardData?.name && (
+            <>
+              <span>{wizardData.name}</span> <span>(#{wizardId})</span>
+            </>
+          )}
         </WizardNameWrapper>
         <NextPageContainer>
-          {nextPageUrl ? (
+          {/* {nextPageUrl ? (
             <Link href={nextPageUrl} passHref>
               <a>
                 <Image
@@ -213,12 +155,22 @@ export default function BookOfLoreControls({
             </Link>
           ) : (
             <NoPageSpacer />
-          )}
+          )} */}
         </NextPageContainer>
       </PaginationContainer>
       <WriteContainer>
+        <MidControls>
+          <BackgroundColorPickerField
+            name="bgColor"
+            onChange={
+              (color?: string | null) => null // setCurrentBgColor(color)
+            }
+          />
+          <NSFWField name="isNsfw" />
+        </MidControls>
+
         <Link href="/lore/add" passHref={true}>
-          <WriteButton size="medium">Write Your Lore</WriteButton>
+          <WriteButton size="medium">Save Your Lore</WriteButton>
         </Link>
       </WriteContainer>
     </BookOfLoreControlsElement>

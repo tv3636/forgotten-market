@@ -14,13 +14,26 @@ import { useExtractColors } from "../../hooks/useExtractColors";
 import { TextAreaAutosizeInput, TextInput } from "../ui/Inputs";
 
 const InlineFieldStyles = styled.div`
+  margin-top: 5px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+
   h3 {
     display: inline-block;
+    margin-block-start: 0;
+    color: white;
   }
   label {
     position: relative;
     margin-left: 14px;
     top: 4px;
+  }
+
+  .react-colorful {
+    position: absolute;
+    z-index: 100;
   }
 `;
 

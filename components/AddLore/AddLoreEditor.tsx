@@ -13,7 +13,8 @@ import createResizeablePlugin from "@draft-js-plugins/resizeable";
 type Props = {};
 
 const AddLoreEditorElement = styled.div`
-  color: white;
+  color: white; // TODO use the color from the background picker
+  font-family: "Alagard";
 `;
 
 const defaultText = `
@@ -51,7 +52,7 @@ const dragNDropFileUploadPlugin = createDragNDropUploadPlugin();
 */
 
 const plugins = [
-  dragNDropFileUploadPlugin,
+  //   dragNDropFileUploadPlugin,
   createMarkdownShortcutsPlugin(),
   blockDndPlugin,
   focusPlugin,
