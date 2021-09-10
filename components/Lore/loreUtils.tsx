@@ -1,12 +1,10 @@
-import { WizardLorePages } from "./types";
-import productionWizardData from "../../data/nfts-prod.json";
-import { CoreWizardPage } from "./IndividualLorePage";
-import first from "lodash/first";
-import last from "lodash/last";
-import get from "lodash/get";
-import IndividualLorePage from "./IndividualLorePage";
+import { LorePageData } from "./types";
 
-const wizData = productionWizardData as { [wizardId: string]: any };
+import IndividualLorePage, {
+  CoreWizardPage,
+  EmptyLorePage,
+} from "./IndividualLorePage";
+import React from "react";
 
 export type LoreBookPageComponents = {
   previousPage: any;
@@ -21,169 +19,103 @@ export type WizardLorePageRoute = {
   loreIdx: number;
 };
 
-export function typeSetter({
+export function typeSetterV2({
   wizardId,
   pageNum,
-  wizardLorePages
+  lorePageData,
 }: {
   wizardId: string;
   pageNum: number;
-  wizardLorePages: WizardLorePages;
+  lorePageData: LorePageData;
 }) {
-  const { previousWizardLore, currentWizardLore, nextWizardLore } =
-    wizardLorePages;
-
   const wizardNum = parseInt(wizardId);
 
-  let components: LoreBookPageComponents = {
+  const components: LoreBookPageComponents = {
     previousPage: null,
     currentLeftPage: null,
     currentRightPage: null,
-    nextPage: null
+    nextPage: null,
   };
+
+  components.currentLeftPage = lorePageData.leftPage ? (
+    <IndividualLorePage
+      loreMetadataURI={lorePageData.leftPage.loreMetadataURI}
+    />
+  ) : (
+    <CoreWizardPage wizardId={wizardId} />
+  );
+
+  components.currentRightPage = lorePageData.rightPage ? (
+    <IndividualLorePage
+      loreMetadataURI={lorePageData.rightPage.loreMetadataURI}
+    />
+  ) : (
+    <EmptyLorePage />
+  );
+
+  components.previousPage = lorePageData.prevRightPage ? (
+    <IndividualLorePage
+      loreMetadataURI={lorePageData.prevRightPage.loreMetadataURI}
+    />
+  ) : (
+    <EmptyLorePage />
+  );
+
+  components.nextPage = lorePageData.nextLeftPage ? (
+    <IndividualLorePage
+      loreMetadataURI={lorePageData.nextLeftPage.loreMetadataURI}
+    />
+  ) : (
+    <CoreWizardPage wizardId={wizardId} />
+  );
 
   let previousPageRoute: WizardLorePageRoute | null = null;
   let nextPageRoute: WizardLorePageRoute | null = null;
 
-  const coreWizardPage = <CoreWizardPage wizardId={wizardId} />;
-  const numOfCurrentWizardsLore = (
-    wizardLorePages.currentWizardLore?.lore || []
-  ).length; // todo should we use the graphql pagination values for this?
-
-  const previousLorePageIdx = pageNum > 0 ? Math.max(0, pageNum - 2) : null;
-  const nextLoreIdx =
-    pageNum + 1 < numOfCurrentWizardsLore ? pageNum + 2 : null;
-
-  const previousWizardId = wizardNum - 1;
-  const previousWizardsLastLore = last(
-    wizardLorePages.previousWizardLore?.lore
-  );
-  const numOfPreviousWizardsLore = (
-    wizardLorePages.previousWizardLore?.lore || []
-  ).length; // todo should we use the graphql pagination values for this?
-  const previousLoreId = Math.max(0, numOfPreviousWizardsLore - 1);
-  const previousLoreRouteId = Math.max(
-    0,
-    numOfPreviousWizardsLore % 2 == 0
-      ? numOfPreviousWizardsLore
-      : numOfPreviousWizardsLore - 1
-  );
-  const currentWizardsLastLore = get(
-    wizardLorePages.currentWizardLore?.lore,
-    previousLoreId
-  );
-
-  const nextWizardId = wizardNum + 1;
-  const nextWizardsFirstLore = first(wizardLorePages.previousWizardLore?.lore);
-  const nextWizardsCoreWizardPage = (
-    <CoreWizardPage wizardId={nextWizardId.toString()} />
-  );
-
-  // the first page for this wizard
-  if (pageNum === 0) {
-    // show the Wizard themselves on the left
-    components.currentLeftPage = coreWizardPage;
-
-    // the the page on the right
-    const firstLore = get(wizardLorePages.currentWizardLore?.lore, 0);
-    components.currentRightPage = (
-      <IndividualLorePage
-        wizardId={wizardNum}
-        lore={firstLore}
-        page={pageNum}
-      />
-    );
-
-    // the previous page is the last lore of the previous wizard
-    // but the route is one farther
-    if (wizardNum > 0) {
-      components.previousPage = (
-        <IndividualLorePage
-          wizardId={previousWizardId}
-          lore={previousWizardsLastLore}
-          page={pageNum}
-        />
-      );
-      previousPageRoute = {
-        as: `/lore/${previousWizardId}/${previousLoreRouteId}`,
-        wizardId: previousWizardId,
-        loreIdx: previousLoreRouteId
-      };
-    }
-  } else {
-    // if it's page 1+ for this Wizard...
-    // show the Lore on the left
-    const loreLeft = get(wizardLorePages.currentWizardLore?.lore, pageNum - 1);
-    components.currentLeftPage = (
-      <IndividualLorePage wizardId={wizardNum} lore={loreLeft} page={pageNum} />
-    );
-
-    // show the next lore on the right
-    const loreRight = get(wizardLorePages.currentWizardLore?.lore, pageNum);
-    components.currentRightPage = (
-      <IndividualLorePage
-        wizardId={wizardNum}
-        lore={loreRight}
-        page={pageNum}
-      />
-    );
-
-    components.previousPage = (
-      <IndividualLorePage
-        wizardId={wizardNum}
-        lore={currentWizardsLastLore}
-        page={pageNum}
-      />
-    );
+  // Figure out previous route
+  if (lorePageData.prevRightPage) {
+    // Previous page could be this wizards or previous wizard's last
+    const previousIdMatcher =
+      lorePageData.prevRightPage.id.match(/^(\d+)-(\d+)$/);
+    const previousPageWizNum = parseInt(previousIdMatcher?.[1] ?? "0");
+    const previousPagePageNum =
+      previousPageWizNum === wizardNum
+        ? pageNum - 1
+        : lorePageData.prevWizardPageCount > 0
+        ? lorePageData.prevWizardPageCount - 1
+        : 0;
     previousPageRoute = {
-      as: `/lore/${wizardId}/${previousLorePageIdx}`,
-      wizardId: wizardNum,
-      loreIdx: previousLorePageIdx as number
+      as: `/lore/${previousPageWizNum}/${previousPagePageNum}`,
+      wizardId: previousPageWizNum,
+      loreIdx: previousPagePageNum,
+    };
+  } else {
+    const prevWizardNum = wizardNum > 0 ? wizardNum - 1 : 0;
+    previousPageRoute = {
+      as: `/lore/${prevWizardNum}/0`,
+      wizardId: prevWizardNum,
+      loreIdx: 0,
     };
   }
 
-  const nextWizardPage = nextWizardsCoreWizardPage;
-  const nextWizardPageRoute = {
-    as: `/lore/${nextWizardId}/0`,
-    wizardId: nextWizardId,
-    loreIdx: 0
-  };
-
-  const nextLore = get(wizardLorePages.currentWizardLore?.lore, 0);
-  const nextLorePage = (
-    <IndividualLorePage wizardId={wizardNum} lore={nextLore} page={pageNum} />
-  );
-
-  // if we're on page 0 and the wizard has 0 lore => nextWizard
-  // if we're on page 0 and the wizard has 1 lore => nextWizard
-  // if we're on page 0 and the wizard has 2 lore => nextLore
-  // if we're on page 2 and the wizard has 4 lore => nextLore
-  // page 2, numLore 2
-  if (pageNum >= numOfCurrentWizardsLore - 1) {
-    components.nextPage = nextWizardPage;
-    nextPageRoute = nextWizardPageRoute;
-  } else {
-    components.nextPage = (
-      <IndividualLorePage
-        wizardId={wizardNum}
-        lore={get(
-          wizardLorePages.currentWizardLore?.lore,
-          nextLoreIdx as number
-        )}
-        page={pageNum}
-      />
-    );
+  // Figure out next route
+  if (lorePageData.nextLeftPage) {
     nextPageRoute = {
-      as: `/lore/${wizardId}/${nextLoreIdx}`,
+      as: `/lore/${wizardNum}/${pageNum + 1}`,
       wizardId: wizardNum,
-      loreIdx: nextLoreIdx as number
+      loreIdx: pageNum + 1,
     };
-    components.nextPage = nextLorePage;
+  } else {
+    nextPageRoute = {
+      as: `/lore/${wizardNum + 1}/0`,
+      wizardId: wizardNum + 1,
+      loreIdx: 0,
+    };
   }
 
   return {
     components,
     previousPageRoute,
-    nextPageRoute
+    nextPageRoute,
   };
 }

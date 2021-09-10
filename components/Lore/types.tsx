@@ -18,7 +18,7 @@ export type Lore = {
   title?: string;
   story?: string;
   nsfw?: boolean;
-  strick?: boolean;
+  struck?: boolean;
   creator?: string;
   parentLoreId?: number;
   wizard: LoreWizard;
@@ -26,13 +26,13 @@ export type Lore = {
 
 export type LorePage = {};
 
-export type WizardLores = {
-  wizardId: string;
-  lore: Lore[];
-};
-
-export type WizardLorePages = {
-  previousWizardLore: WizardLores;
-  currentWizardLore: WizardLores;
-  nextWizardLore: WizardLores;
+export type LorePageData = {
+  leftPage: { [key: string]: string };
+  rightPage: { [key: string]: string };
+  prevLeftPage: { [key: string]: string };
+  prevRightPage: { [key: string]: string };
+  nextLeftPage: { [key: string]: string };
+  nextRightPage: { [key: string]: string };
+  nextWizardRightPage: { [key: string]: string };
+  prevWizardPageCount: number;
 };

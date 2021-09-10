@@ -1,17 +1,11 @@
-import ReactMarkdown from "react-markdown";
 import styled from "@emotion/styled";
 import BookOfLoreControls from "./BookOfLoreControls";
-import BookOfLorePage from "./BookOfLorePage";
-import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
-import PageHorizontalBreak from "../../components/PageHorizontalBreak";
 import { AnimatePresence, motion } from "framer-motion";
-import WizardMapLeaflet from "./WizardMapLeaflet";
-import { WizardLorePages } from "./types";
-import { typeSetter } from "./loreUtils";
+import { LorePageData } from "./types";
+import { typeSetterV2 } from "./loreUtils";
 import productionWizardData from "../../data/nfts-prod.json";
-const wizData = productionWizardData as { [wizardId: string]: any };
 
-const text = `hello`;
+const wizData = productionWizardData as { [wizardId: string]: any };
 
 const BookElement = styled.div``;
 
@@ -189,23 +183,21 @@ const PageBodyBack = styled(motion.div)`
 export type Props = {
   wizardId: string;
   page: string;
-  wizardLorePages: WizardLorePages;
+  lorePageData: LorePageData;
 };
 
-const Book = ({ wizardId, page, wizardLorePages }: Props) => {
+const Book = ({ wizardId, page, lorePageData }: Props) => {
   const wizardData: any = wizData[wizardId.toString()];
-  const pageInt = parseInt(page);
   const bg = "#" + wizardData.background_color;
 
-  const { components, previousPageRoute, nextPageRoute } = typeSetter({
+  const { components, previousPageRoute, nextPageRoute } = typeSetterV2({
     wizardId,
     pageNum: parseInt(page),
-    wizardLorePages
+    lorePageData: lorePageData,
   });
+
   const { previousPage, currentLeftPage, currentRightPage, nextPage } =
     components;
-
-  const layoutId = `page-${wizardId}-${page}`;
 
   return (
     <BookElement>
