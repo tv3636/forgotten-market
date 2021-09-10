@@ -1,45 +1,19 @@
 import * as React from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
-
-import dynamic from "next/dynamic";
-const MDEditor = dynamic(
-  () => import("@uiw/react-md-editor").then((mod) => mod.default),
-  { ssr: false }
-);
+import { EditorState } from "draft-js";
+import Editor, { composeDecorators } from "@draft-js-plugins/editor";
+import createMarkdownShortcutsPlugin from "draft-js-markdown-shortcuts-plugin";
+import createImagePlugin from "@draft-js-plugins/image";
+import createFocusPlugin from "@draft-js-plugins/focus";
+import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
+import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
+import createResizeablePlugin from "@draft-js-plugins/resizeable";
 
 type Props = {};
 
 const AddLoreEditorElement = styled.div`
-  .w-md-editor {
-    background-color: black;
-    color: white;
-  }
-  .w-md-editor-text-pre,
-  .wmde-markdown-color code[class*="language-"] {
-    color: white;
-    font-family: "Alagard";
-  }
-  .w-md-editor-text-pre .title,
-  .w-md-editor-text-pre .bold {
-    color: white !important;
-    font-weight: bold;
-  }
-  .w-md-editor-text-pre .italic {
-    color: white !important;
-    font-style: italic;
-  }
-  .wmde-markdown-color code[class*="language-"] .token.operator,
-  .wmde-markdown-color code[class*="language-"] .token.entity,
-  .wmde-markdown-color code[class*="language-"] .token.url,
-  .wmde-markdown-color code[class*="language-"] .token.variable {
-    background-color: black;
-  }
-  .w-md-editor-text-pre .url {
-    color: #84a8d2 !important;
-  }
-  span.token.title.important {
-  }
+  color: white;
 `;
 
 const defaultText = `
@@ -57,17 +31,46 @@ Here is my story
 A [link](https://url.com)
 `;
 
+const resizeablePlugin = createResizeablePlugin();
+const focusPlugin = createFocusPlugin();
+const blockDndPlugin = createBlockDndPlugin();
+const decorator = composeDecorators(
+  focusPlugin.decorator,
+  blockDndPlugin.decorator
+);
+const imagePlugin = createImagePlugin({ decorator });
+
+const mockUpload = () => true;
+
+const dragNDropFileUploadPlugin = createDragNDropUploadPlugin();
+/*
+    {
+  handleUpload: mockUpload,
+  addImage: imagePlugin.addImage
+}
+*/
+
+const plugins = [
+  dragNDropFileUploadPlugin,
+  createMarkdownShortcutsPlugin(),
+  blockDndPlugin,
+  focusPlugin,
+  //   resizeablePlugin,
+  imagePlugin
+];
+
 export default function AddLoreEditor({}: Props) {
   const [value, setValue] = useState(defaultText);
+  const [editorState, setEditorState] = React.useState(() =>
+    EditorState.createEmpty()
+  );
 
   return (
     <AddLoreEditorElement>
-      <MDEditor
-        value={value}
-        onChange={setValue}
-        hideToolbar={true}
-        preview={"edit"}
-        height={600}
+      <Editor
+        editorState={editorState}
+        onChange={setEditorState}
+        plugins={plugins}
       />
     </AddLoreEditorElement>
   );

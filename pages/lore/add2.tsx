@@ -38,8 +38,6 @@ import {
 } from "../../components/AddLore/AddLoreFields";
 import BookFrame from "../../components/Lore/BookFrame";
 import AddLoreEditor from "../../components/AddLore/AddLoreEditor";
-import "@uiw/react-md-editor/markdown-editor.css";
-import "@uiw/react-markdown-preview/markdown.css";
 import "draft-js/dist/Draft.css";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
