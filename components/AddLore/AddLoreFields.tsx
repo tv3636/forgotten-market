@@ -11,6 +11,7 @@ import HelpTooltip from "../Lore/HelpTooltip";
 import { ArtifactConfiguration } from "../Lore/types";
 import { useNFTInfo } from "../NFTDisplay";
 import { useExtractColors } from "../../hooks/useExtractColors";
+import { TextAreaAutosizeInput, TextInput } from "../ui/Inputs";
 
 const InlineFieldStyles = styled.div`
   h3 {
@@ -157,5 +158,39 @@ export const BackgroundColorPickerField = ({
         )}
       </label>
     </InlineFieldStyles>
+  );
+};
+
+const TitleField = ({ ...props }: any) => {
+  // const [field, meta] = useField(props);
+
+  const field = {};
+  return (
+    <>
+      <h2>Title (optional)</h2>
+      <TextInput {...field} {...props} />
+      {/* {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null} */}
+    </>
+  );
+};
+
+const StoryField = ({ ...props }: any) => {
+  // const [field, meta] = useField(props);
+  const field = {};
+  return (
+    <>
+      <h2>
+        Story (optional, Markdown supported)
+        <HelpTooltip>
+          Markdown is a popular syntax for formatting text.
+        </HelpTooltip>
+      </h2>
+      <TextAreaAutosizeInput minRows={4} {...field} {...props} />
+      {/* {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null} */}
+    </>
   );
 };
