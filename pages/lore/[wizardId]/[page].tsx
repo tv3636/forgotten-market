@@ -10,7 +10,7 @@ import { LorePageData } from "../../../components/Lore/types";
 const LorePage = ({
   wizardId,
   page,
-  lorePagesV2,
+  lorePagesV2
 }: {
   wizardId: string;
   page: string;
@@ -20,9 +20,7 @@ const LorePage = ({
 
   return (
     <Layout>
-      <LoreAnimations>
-        <Book wizardId={wizardId} page={page} lorePageData={lorePagesV2} />
-      </LoreAnimations>
+      <Book wizardId={wizardId} page={page} lorePageData={lorePagesV2} />
     </Layout>
   );
 };
@@ -138,7 +136,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       query WizardLore {
         ${queryString}
       }
-    `,
+    `
   });
 
   // console.log(data);
@@ -151,7 +149,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     nextRightPage: data?.nextRightPage?.[0] ?? null,
     //  If both next left and next right are null then you know nextLeft is wizard+1 and and nextRight is below
     nextWizardRightPage: data?.nextWizardRightPage?.[0] ?? null,
-    prevWizardPageCount: (data?.prevWizardAllLores ?? []).length,
+    prevWizardPageCount: (data?.prevWizardAllLores ?? []).length
   };
   console.log(lorePageData);
 
@@ -163,8 +161,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       wizardId: context?.query?.wizardId,
       page: leftPageNum >= 1 ? leftPageNum : 0,
       lore: data.wizard?.lore ?? [],
-      lorePagesV2: lorePageData,
-    },
+      lorePagesV2: lorePageData
+    }
   };
 }
 export default LorePage;
