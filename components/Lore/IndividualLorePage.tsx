@@ -1,13 +1,14 @@
 import * as React from "react";
-import { useState } from "react";
 import styled from "@emotion/styled";
-import { Lore } from "./types";
 import productionWizardData from "../../data/nfts-prod.json";
 import ReactMarkdown from "react-markdown";
 import { WriteButton } from "./BookOfLoreControls";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
+import useSWR from "swr";
+import { find } from "lodash";
+
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const TextPage = styled.div<{ alignSelf?: string; alignChildren?: string }>`
@@ -30,14 +31,9 @@ const TextPage = styled.div<{ alignSelf?: string; alignChildren?: string }>`
 
 type BookOfLorePageProps = {
   bg: string;
-  wizardId: string;
-  page: number;
   children: any;
-  layoutId?: string;
-  lore?: Lore;
 };
 
-// const BookOfLorePageWrapper = styled.div<{ bg?: string }>`
 const BookOfLorePageWrapper = styled(motion.div)<{ bg?: string }>`
   background-color: ${(props) => props.bg || "#000000"};
   display: flex;
@@ -55,25 +51,8 @@ const BookOfLorePageWrapper = styled(motion.div)<{ bg?: string }>`
   }
 `;
 
-export function BookOfLorePage({
-  bg,
-  wizardId,
-  page,
-  lore,
-  layoutId,
-  children
-}: BookOfLorePageProps) {
-  return (
-    <BookOfLorePageWrapper
-      bg={bg}
-      // layoutId={layoutId}
-      // initial={{ rotateY: 0 }}
-      // animate={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
-      // transition={{ duration: 1 }}
-    >
-      {children}
-    </BookOfLorePageWrapper>
-  );
+export function BookOfLorePage({ bg, children }: BookOfLorePageProps) {
+  return <BookOfLorePageWrapper bg={bg}>{children}</BookOfLorePageWrapper>;
 }
 
 export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
@@ -81,12 +60,7 @@ export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
   const bg = "#" + wizardData.background_color;
 
   return (
-    <BookOfLorePage
-      wizardId={wizardId}
-      page={0}
-      bg={bg}
-      // layoutId={`page-${wizardId}-core`}
-    >
+    <BookOfLorePage bg={bg}>
       <ResponsivePixelImg
         src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
         style={{ maxWidth: "480px" }}
@@ -95,50 +69,90 @@ export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
   );
 };
 
-type Props = {
-  wizardId: number;
-  lore?: Lore;
-  page: number;
-};
-export default function IndividualLorePage({ wizardId, lore, page }: Props) {
-  const wizardData: any = wizData[wizardId.toString()];
-  const bg = "#" + wizardData.background_color;
-  const text = lore?.story || "";
-  let layoutId = `page-${wizardId}-${lore?.id || "x"}`;
-  // console.log("lore: ", lore);
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  let Inner = <div />;
-  if (!lore) {
-    layoutId = `page-${wizardId}-${"none"}`;
-    const noLore = `No further Lore for ${wizardData.name} has been recorded...`;
-    Inner = (
+export const EmptyLorePage = () => {
+  return (
+    <BookOfLorePage bg={"black"}>
       <TextPage alignSelf="center" alignChildren="center">
-        <ReactMarkdown>{noLore}</ReactMarkdown>
-        <Link href="/lore/add" passHref={true}>
+        <ReactMarkdown>{`No further Lore has been recorded...`}</ReactMarkdown>
+        <Link href="/lore/add">
           <WriteButton size="medium">Write Your Lore</WriteButton>
         </Link>
       </TextPage>
-    );
-  }
+    </BookOfLorePage>
+  );
+};
 
-  if (text) {
+export default function IndividualLorePage({
+  loreMetadataURI,
+}: {
+  loreMetadataURI: string;
+}) {
+  const { data, error } = useSWR(
+    `https://cloudflare-ipfs.com/ipfs/${
+      loreMetadataURI?.match(/^ipfs:\/\/(.*)$/)?.[1]
+    }`,
+    fetcher
+  );
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>loading...</div>;
+
+  // {
+  //   name: "Such lore",
+  //   description: "Much wow",
+  //   background_color: "#639b67",
+  //   attributes: [
+  //     {
+  //       trait_type: "Artifact Address",
+  //       value: "0x521f9C7505005CFA19A8E5786a9c3c9c9F5e6f42",
+  //     },
+  //     { trait_type: "Artifact Token ID", value: "283" },
+  //     { trait_type: "Pixel Art", value: false },
+  //   ],
+  // };
+
+  const bg = data.background_color;
+  const story = data?.description || "";
+  const title = data?.name || "";
+  const artifactAddress: string = find(data?.attributes || [], {
+    trait_type: "Artifact Address",
+  })?.value;
+  const artifactTokenId: string = find(data?.attributes || [], {
+    trait_type: "Artifact Token ID",
+  })?.value;
+  const pixelArt: boolean =
+    find(data?.attributes || [], {
+      trait_type: "Pixel Art",
+    })?.value ?? false;
+
+  // let layoutId = `page-${wizardId}-${loreMetadataURI}`;
+  // console.log("lore: ", lore);
+
+  let Inner = <div />;
+
+  if (story) {
     Inner = (
       <TextPage>
-        <ReactMarkdown>{text}</ReactMarkdown>
+        <ReactMarkdown>{title}</ReactMarkdown>
+        <ReactMarkdown>{story}</ReactMarkdown>
       </TextPage>
     );
   }
 
-  return (
-    <BookOfLorePage
-      wizardId={wizardId.toString()}
-      page={page}
-      bg={bg}
-      lore={lore}
-      // key={layoutId}
-      // layoutId={layoutId}
-    >
-      {Inner}
-    </BookOfLorePage>
-  );
+  if (artifactAddress) {
+    //TODO:
+    Inner = <h1 style={{ color: "white" }}>An artifact lives here</h1>;
+  }
+
+  if (!artifactAddress && !story) {
+    Inner = (
+      <h1 style={{ color: "white" }}>
+        This is just bad testing lore that has no story or artifact...
+      </h1>
+    );
+  }
+
+  return <BookOfLorePage bg={bg}>{Inner}</BookOfLorePage>;
 }

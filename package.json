@@ -120,6 +120,7 @@
     "remark-gfm": "^1.0.0",
     "seedrandom": "^3.0.5",
     "storybook-addon-next-router": "^3.0.7",
+    "swr": "^1.0.0",
     "tiny-invariant": "^1.1.0",
     "web3modal": "^1.9.3",
     "webfontloader": "^1.6.28",
