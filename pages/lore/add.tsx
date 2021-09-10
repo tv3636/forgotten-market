@@ -41,6 +41,7 @@ import AddLoreEditor from "../../components/AddLore/AddLoreEditor";
 import "draft-js/dist/Draft.css";
 import AddLoreControls from "../../components/AddLore/AddLoreControls";
 import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
+import { BookOfLorePage } from "../../components/Lore/IndividualLorePage";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -177,6 +178,10 @@ const AddLorePage = () => {
     bg_color: "000000"
   };
 
+  const wizardBg = currentWizard?.tokenId
+    ? "#" + wizData[currentWizard?.tokenId?.toString()].background_color
+    : "black";
+
   const onSubmit = () => {
     onSubmitAddLoreForm({
       values,
@@ -214,11 +219,15 @@ const AddLorePage = () => {
   );
 
   const currentLeftPage = (
-    <div>
+    <BookOfLorePage bg={wizardBg}>
       <WizardPicker onWizardPicked={onWizardPicked} />
-    </div>
+    </BookOfLorePage>
   );
-  const currentRightPage = <AddLoreEditor />;
+  const currentRightPage = (
+    <BookOfLorePage bg={bg || "#000000"}>
+      <AddLoreEditor />
+    </BookOfLorePage>
+  );
 
   return (
     <Layout

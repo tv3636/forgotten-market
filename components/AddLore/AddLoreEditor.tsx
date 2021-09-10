@@ -16,6 +16,16 @@ const AddLoreEditorElement = styled.div`
   color: white; // TODO use the color from the background picker
   font-family: "Alagard";
   height: 100%;
+  width: 100%;
+  padding: 1em;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-top: 0.5em;
+  }
 `;
 
 const defaultText = `

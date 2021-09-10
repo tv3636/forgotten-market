@@ -1,6 +1,6 @@
 import { ToastContainer, toast } from "react-toastify";
 import { getBookOfLoreContract } from "../../contracts/ForgottenRunesWizardsCultContract";
-import { LoreAPISubmitParams } from "../../pages/lore/add2";
+import { LoreAPISubmitParams } from "../../pages/lore/add";
 export const onSubmitAddLoreForm = async ({
   values,
   currentWizard,
