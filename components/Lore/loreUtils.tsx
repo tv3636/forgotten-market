@@ -2,7 +2,7 @@ import { LorePageData } from "./types";
 
 import IndividualLorePage, {
   CoreWizardPage,
-  EmptyLorePage,
+  EmptyLorePage
 } from "./IndividualLorePage";
 import React from "react";
 
@@ -22,7 +22,7 @@ export type WizardLorePageRoute = {
 export function typeSetterV2({
   wizardId,
   pageNum,
-  lorePageData,
+  lorePageData
 }: {
   wizardId: string;
   pageNum: number;
@@ -34,7 +34,7 @@ export function typeSetterV2({
     previousPage: null,
     currentLeftPage: null,
     currentRightPage: null,
-    nextPage: null,
+    nextPage: null
   };
 
   components.currentLeftPage = lorePageData.leftPage ? (
@@ -50,7 +50,7 @@ export function typeSetterV2({
       loreMetadataURI={lorePageData.rightPage.loreMetadataURI}
     />
   ) : (
-    <EmptyLorePage />
+    <EmptyLorePage wizardId={wizardId} />
   );
 
   components.previousPage = lorePageData.prevRightPage ? (
@@ -87,14 +87,14 @@ export function typeSetterV2({
     previousPageRoute = {
       as: `/lore/${previousPageWizNum}/${previousPagePageNum}`,
       wizardId: previousPageWizNum,
-      loreIdx: previousPagePageNum,
+      loreIdx: previousPagePageNum
     };
   } else {
     const prevWizardNum = wizardNum > 0 ? wizardNum - 1 : 0;
     previousPageRoute = {
       as: `/lore/${prevWizardNum}/0`,
       wizardId: prevWizardNum,
-      loreIdx: 0,
+      loreIdx: 0
     };
   }
 
@@ -103,19 +103,19 @@ export function typeSetterV2({
     nextPageRoute = {
       as: `/lore/${wizardNum}/${pageNum + 1}`,
       wizardId: wizardNum,
-      loreIdx: pageNum + 1,
+      loreIdx: pageNum + 1
     };
   } else {
     nextPageRoute = {
       as: `/lore/${wizardNum + 1}/0`,
       wizardId: wizardNum + 1,
-      loreIdx: 0,
+      loreIdx: 0
     };
   }
 
   return {
     components,
     previousPageRoute,
-    nextPageRoute,
+    nextPageRoute
   };
 }

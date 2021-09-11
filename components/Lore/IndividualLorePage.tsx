@@ -71,11 +71,17 @@ export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const EmptyLorePage = () => {
+export const EmptyLorePage = ({ wizardId }: { wizardId?: number }) => {
+  const noMoreLore = wizardId
+    ? `No further Lore has been recorded for ${
+        wizData[wizardId.toString()].name
+      }...`
+    : `No further Lore has been recorded...`;
+
   return (
     <BookOfLorePage bg={"black"}>
       <TextPage alignSelf="center" alignChildren="center">
-        <ReactMarkdown>{`No further Lore has been recorded...`}</ReactMarkdown>
+        <ReactMarkdown>{noMoreLore}</ReactMarkdown>
         <Link href="/lore/add">
           <WriteButton size="medium">Write Your Lore</WriteButton>
         </Link>
@@ -85,7 +91,7 @@ export const EmptyLorePage = () => {
 };
 
 export default function IndividualLorePage({
-  loreMetadataURI,
+  loreMetadataURI
 }: {
   loreMetadataURI: string;
 }) {
@@ -117,14 +123,14 @@ export default function IndividualLorePage({
   const story = data?.description || "";
   const title = data?.name || "";
   const artifactAddress: string = find(data?.attributes || [], {
-    trait_type: "Artifact Address",
+    trait_type: "Artifact Address"
   })?.value;
   const artifactTokenId: string = find(data?.attributes || [], {
-    trait_type: "Artifact Token ID",
+    trait_type: "Artifact Token ID"
   })?.value;
   const pixelArt: boolean =
     find(data?.attributes || [], {
-      trait_type: "Pixel Art",
+      trait_type: "Pixel Art"
     })?.value ?? false;
 
   // let layoutId = `page-${wizardId}-${loreMetadataURI}`;
