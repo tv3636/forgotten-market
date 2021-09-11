@@ -9,11 +9,11 @@ import createFocusPlugin from "@draft-js-plugins/focus";
 import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
 import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
+import { markdownToDraft } from "markdown-draft-js";
+import { getContrast } from "../../lib/colorUtils";
 
-type Props = {};
-
-const AddLoreEditorElement = styled.div`
-  color: white; // TODO use the color from the background picker
+const AddLoreEditorElement = styled.div<{ bg?: string }>`
+  color: ${(props) => getContrast(props.bg || "#000000")};
   font-family: "Alagard";
   height: 100%;
   width: 100%;
@@ -25,6 +25,9 @@ const AddLoreEditorElement = styled.div`
   h4,
   h5 {
     margin-top: 0.5em;
+  }
+  .DraftEditor-editorContainer {
+    z-index: 0 !important;
   }
 `;
 
@@ -80,15 +83,21 @@ const emptyContentState = convertFromRaw({
   ]
 });
 
-export default function AddLoreEditor({}: Props) {
-  //   const [editorState, setEditorState] = useState(() =>
-  //     EditorState.createEmpty()
-  //   );
-
+type Props = {
+  onChange: (editorState: any) => void;
+  bg: string;
+};
+export default function AddLoreEditor({ onChange, bg }: Props) {
   // https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
-  const [editorState, setEditorState] = React.useState(
+  const [editorState, setEditorState] = useState(
     EditorState.createWithContent(emptyContentState)
   );
+
+  const performOnChange = (editorState: any) => {
+    setEditorState(editorState);
+    onChange(editorState);
+    //   onChange(editorState.getCurrentContent().getPlainText());
+  };
 
   useEffect(() => {
     setEditorState(
@@ -97,15 +106,12 @@ export default function AddLoreEditor({}: Props) {
   }, []);
 
   return (
-    <AddLoreEditorElement>
+    <AddLoreEditorElement bg={bg}>
       <Editor
         editorKey={"key-here"}
         editorState={editorState}
         // onChange={setEditorState}
-        onChange={(editorState) => {
-          setEditorState(editorState);
-          //   onChange(editorState.getCurrentContent().getPlainText());
-        }}
+        onChange={performOnChange}
         userSelect="none"
         contentEditable={false}
         plugins={plugins}

@@ -42,6 +42,7 @@ import "draft-js/dist/Draft.css";
 import AddLoreControls from "../../components/AddLore/AddLoreControls";
 import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
 import { BookOfLorePage } from "../../components/Lore/IndividualLorePage";
+import { getContrast } from "../../lib/colorUtils";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -55,11 +56,12 @@ const AddLoreWrapper = styled.div`
   padding-bottom: 300px; */
 `;
 
-const AddLoreLayout = styled.div`
+const AddLoreLayout = styled.div<{ bg: string }>`
   width: 100%;
   max-width: 1100px;
   padding: 1em;
-  color: white;
+  color: ${(props) => getContrast(props.bg || "#000000")};
+
   position: relative;
   margin: 0 auto;
 
@@ -150,6 +152,7 @@ const AddLorePage = () => {
   const [currentBgColor, setCurrentBgColor] = useState<
     string | null | undefined
   >(null);
+  const [currentEditorState, setCurrentEditorState] = useState();
 
   const debouncedCurrentStory = useDebounce(currentStory, 80);
 
@@ -183,6 +186,8 @@ const AddLorePage = () => {
     : "black";
 
   const onSubmit = () => {
+    // // var markdownString = draftToMarkdown(rawObject);
+
     onSubmitAddLoreForm({
       values,
       currentWizard,
@@ -225,7 +230,7 @@ const AddLorePage = () => {
   );
   const currentRightPage = (
     <BookOfLorePage bg={bg || "#000000"}>
-      <AddLoreEditor />
+      <AddLoreEditor onChange={setCurrentEditorState} bg={bg || "#000000"} />
     </BookOfLorePage>
   );
 
