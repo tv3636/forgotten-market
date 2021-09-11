@@ -143,9 +143,7 @@ export default function SiteNav({}: Props) {
           <ResponsivePixelImg src="/static/img/forgotten-runes-logo.png" />
         </li>
         <li className="item">
-          <Link as={"/"} href={"/"} passHref={true}>
-            <a href="/">The Secret Tower</a>
-          </Link>
+          <a href="/">The Secret Tower</a>
         </li>
         <li className="item">
           <Link as={"/wtf"} href={"/wtf"} passHref={true}>
