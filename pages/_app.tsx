@@ -3,6 +3,7 @@ import { Provider as MobxStateTreeProvider } from "../store";
 import Head from "next/head";
 import { useGTag } from "../hooks/useGTag";
 import { useStore } from "../store";
+import { motion, AnimateSharedLayout } from "framer-motion";
 
 import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";
@@ -88,7 +89,9 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
       </Head>
 
       <MobxStateTreeProvider value={store}>
-        <Component {...pageProps} />
+        <AnimateSharedLayout>
+          <Component {...pageProps} />
+        </AnimateSharedLayout>
       </MobxStateTreeProvider>
     </>
   );

@@ -43,43 +43,42 @@ export type Props = {
 
 const BookFrame = ({ bg, bgL, bgR, controls, children }: Props) => {
   return (
-    <LoreAnimations>
-      <BookElement>
-        <Carousel>
-          <Spread bg={bg} bgL={bgL} bgR={bgR}>
-            <LeftTopCorner />
-            <TopBorder1 />
-            <LeftTopBinding className="bg bgL" />
-            <RightTopBinding className="bg bgR" />
-            <TopBorder2 />
-            <RightTopCorner />
+    <BookElement>
+      <Carousel layoutId="bookCarousel">
+        <Spread layoutId="bookSpread" bg={bg} bgL={bgL} bgR={bgR}>
+          <LeftTopCorner layoutId="bookLeftTopCover" />
+          <TopBorder1 layoutId="bookTopBorder1" />
+          <LeftTopBinding className="bg bgL" layoutId="bookLeftTopBinding" />
+          <RightTopBinding className="bg bgR" layoutId="bookRightTopBinding" />
+          <TopBorder2 layoutId="bookTopBorder2" />
+          <RightTopCorner layoutId="bookRightTopCorner" />
 
-            <LeftBorder />
-            <PageBody1>{children[1]}</PageBody1>
-            <LeftPageBinding className="bg bgL" />
-            <RightPageBinding className="bg bgR" />
-            <PageBody2
+          <LeftBorder layoutId="leftBorder" />
+          <PageBody1 layoutId="pageBody1">{children[1]}</PageBody1>
+          <LeftPageBinding className="bg bgL" layoutId="leftPageBinding" />
+          <RightPageBinding className="bg bgR" layoutId="rightPageBinding" />
+          <PageBody2
             // initial={{ rotateY: 0, left: 0 }}
             // exit={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
             // transition={{ duration: 1 }}
             // key={layoutId}
             // layoutId={layoutId}
-            >
-              <AnimatePresence>{children[2]}</AnimatePresence>
-            </PageBody2>
-            <RightBorder />
+            layoutId="pageBody2"
+          >
+            {children[2]}
+          </PageBody2>
+          <RightBorder layoutId="rightBorder" />
 
-            <LeftBotCorner />
-            <BotBorder1 />
-            <LeftBotBinding className="bg bgL" />
-            <RightBotBinding className="bg bgR" />
-            <BotBorder2 />
-            <RightBotCorner />
-          </Spread>
-        </Carousel>
-        {controls}
-      </BookElement>
-    </LoreAnimations>
+          <LeftBotCorner layoutId="leftBotCorner" />
+          <BotBorder1 layoutId="botBorder1" />
+          <LeftBotBinding className="bg bgL" layoutId="leftBotBinding" />
+          <RightBotBinding className="bg bgR" layoutId="rightBotBinding" />
+          <BotBorder2 layoutId="botBorder2" />
+          <RightBotCorner layoutId="rightBotCorner" />
+        </Spread>
+      </Carousel>
+      {controls}
+    </BookElement>
   );
 };
 

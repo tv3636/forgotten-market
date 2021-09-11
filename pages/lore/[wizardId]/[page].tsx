@@ -6,6 +6,7 @@ import LoreAnimations from "../../../components/Lore/LoreAnimations";
 import client from "../../../lib/graphql";
 import { gql } from "@apollo/client";
 import { LorePageData } from "../../../components/Lore/types";
+import LoreSharedLayout from "../../../components/Lore/LoreSharedLayout";
 
 const LorePage = ({
   wizardId,
@@ -20,7 +21,9 @@ const LorePage = ({
 
   return (
     <Layout>
-      <Book wizardId={wizardId} page={page} lorePageData={lorePagesV2} />
+      <LoreSharedLayout>
+        <Book wizardId={wizardId} page={page} lorePageData={lorePagesV2} />
+      </LoreSharedLayout>
     </Layout>
   );
 };

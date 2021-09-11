@@ -20,7 +20,11 @@ import productionWizardData from "../../data/nfts-prod.json";
 import { useDebounce } from "../../hooks";
 import client from "../../lib/graphql";
 import { useMst } from "../../store";
-import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
+import {
+  getPendingLoreTxHashRedirection,
+  onSubmitAddLoreForm
+} from "../../components/AddLore/addLoreHelpers";
+import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -170,48 +174,33 @@ const AddLorePage = () => {
     <Layout
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
     >
-      <AddLoreWrapper>
-        <BookFrame
-          bg={bg || "#000000"}
-          bgL={bgL || "#000000"}
-          bgR={bgR || "#000000"}
-          controls={controls}
-        >
-          <div />
-          {currentLeftPage}
-          {currentRightPage}
-          <div />
-        </BookFrame>
-      </AddLoreWrapper>
-      <StyledToastContainer theme="dark" />
+      <LoreSharedLayout>
+        <AddLoreWrapper>
+          <BookFrame
+            bg={bg || "#000000"}
+            bgL={bgL || "#000000"}
+            bgR={bgR || "#000000"}
+            controls={controls}
+          >
+            <div />
+            {currentLeftPage}
+            {currentRightPage}
+            <div />
+          </BookFrame>
+        </AddLoreWrapper>
+        <StyledToastContainer theme="dark" />
+      </LoreSharedLayout>
     </Layout>
   );
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (context.query?.waitForTxHash && context.query?.wizardId) {
-    console.log(`txHash: ${context.query?.waitForTxHash}`);
-    const { data } = await client.query({
-      query: gql`
-          query WizardLore{
-              lores(where: { struck: false, nsfw: false, txHash: "${context.query?.waitForTxHash}" }) {
-                  id
-                  index
-                  txHash
-              }
-          }
-      `
+    const redirect = await getPendingLoreTxHashRedirection({
+      waitForTxHash: context.query.waitForTxHash as string,
+      wizardId: context.query?.wizardId as string
     });
-
-    console.log(data);
-
-    if (data?.lores?.length > 0) {
-      return {
-        redirect: {
-          destination: `/lore/${context?.query?.wizardId}/${data?.lores[0].index}`
-        }
-      };
-    }
+    return redirect;
   }
 
   return { props: {} };

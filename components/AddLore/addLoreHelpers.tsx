@@ -5,6 +5,8 @@ import { AddressZero } from "@ethersproject/constants";
 import axios from "axios";
 import Bluebird from "bluebird";
 import parseDataUrl from "parse-data-url";
+import client from "../../lib/graphql";
+import { gql } from "@apollo/client";
 
 export const onSubmitAddLoreForm = async ({
   values,
@@ -114,13 +116,13 @@ export const onSubmitAddLoreForm = async ({
   console.log(apiResponse);
 
   try {
-    let toastMsg = "Submitting your lore on chain (please don't re-submit!)";
+    let toastMsg = "Confirming your lore on chain";
     let txToastId = toast.info(toastMsg, {
       position: "top-right",
       autoClose: false,
       hideProgressBar: false,
       closeOnClick: false,
-      progress: undefined
+      progress: 0
     });
     const tx = await loreContract
       //@ts-ignore
@@ -158,10 +160,25 @@ export const onSubmitAddLoreForm = async ({
     const receipt = await tx.wait();
     console.log(`receipt: ${JSON.stringify(receipt)}`);
 
+    // right here
+    // freeze the editor
+    // pulse the text
+    // make a loader
+    // and redirect only after the page is done, go directly to the lore page
+    // pass waiting for indexing / confetti
     if (receipt.status === 1) {
-      await router.push(
-        `/lore/add?waitForTxHash=${receipt.transactionHash}&wizardId=${currentWizard.tokenId}`
-      );
+      const redirection = await getPendingLoreTxHashRedirection({
+        waitForTxHash: receipt.transactionHash,
+        wizardId: currentWizard.tokenId
+      });
+      console.log("redirection: ", redirection);
+      const destination = redirection?.redirect?.destination;
+      await router.push({
+        pathname: destination,
+        query: { first: true },
+        as: destination
+      });
+      // `/lore/add?waitForTxHash=${receipt.transactionHash}&wizardId=${currentWizard.tokenId}`
     } else {
       toast.update(txToastId, {
         render: () => (
@@ -183,7 +200,7 @@ export const onSubmitAddLoreForm = async ({
     console.log("err: ", err);
     toast.error(`Sorry, there was a problem: ${err.message}`, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: false,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -258,6 +275,8 @@ export async function uploadBookOfLoreImage({
   }
 }
 
+// we can either do this from the blocks in markdown or maybe it's easier to
+// just upload them when the user drags them over
 export async function uploadBookOfLoreImages({
   imgDataUris,
   wizardId
@@ -291,3 +310,33 @@ Our hero finds themselves surrounded by a...`,
   `They weren't always a solitary Wizard until...`
   // ??? ideas?
 ];
+
+export const getPendingLoreTxHashRedirection = async ({
+  waitForTxHash,
+  wizardId
+}: {
+  waitForTxHash: string;
+  wizardId: string;
+}) => {
+  const { data } = await client.query({
+    query: gql`
+          query WizardLore{
+              lores(where: { struck: false, nsfw: false, txHash: "${waitForTxHash}" }) {
+                  id
+                  index
+                  txHash
+              }
+          }
+      `
+  });
+  console.log(data);
+
+  return {
+    redirect: {
+      destination:
+        data?.lores?.length > 0
+          ? `/lore/${wizardId}/${data?.lores[0].index}`
+          : null
+    }
+  };
+};

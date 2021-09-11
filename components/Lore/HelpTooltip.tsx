@@ -12,8 +12,8 @@ const HelpTooltipElement = styled.div`
 const TooltipContent = styled.div<{ visible?: boolean }>`
   display: ${(props) => (props.visible ? "block" : "none")};
   position: absolute;
-  left: 42px;
-  top: -24px;
+  right: 42px;
+  bottom: -24px;
   width: 350px;
   background-color: white;
   padding: 1em;

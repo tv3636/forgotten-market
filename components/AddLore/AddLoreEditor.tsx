@@ -49,21 +49,7 @@ const AddLoreEditorElement = styled.div<{ bg?: string }>`
   }
 `;
 
-const defaultText = `
-Okay **bold** _italic_ Got the typing here.
-
-Here is my story
-
-# Title
-## H2
-### h3
-#### h4
-
-> Blockquote
-
-A [link](https://url.com)
-`;
-
+// https://www.draft-js-plugins.com/plugin/mention
 const resizeablePlugin = createResizeablePlugin();
 const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
@@ -74,36 +60,27 @@ const decorator = composeDecorators(
 // https://www.draft-js-plugins.com/plugin/image
 const imagePlugin = createImagePlugin({ decorator });
 
-const mockUpload = () => true;
+// TODO: hook up with real uploading in loreUtils?
+// alternatively, make convertDraftStateToMarkdown return a manifest of dataUris
+// and upload after that
+const mockUpload = (...args: any) => {
+  console.log("args: ", args);
+  return true;
+};
 
 const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
   handleUpload: mockUpload,
   addImage: imagePlugin.addImage
 });
 
-// https://www.draft-js-plugins.com/plugin/mention
-
 const topLevelPlugins = [
   dragNDropFileUploadPlugin,
   createMarkdownShortcutsPlugin(),
   blockDndPlugin,
   focusPlugin,
-  //   resizeablePlugin,
+  resizeablePlugin,
   imagePlugin
 ];
-
-const emptyContentState = convertFromRaw({
-  entityMap: {},
-  blocks: [
-    // idk the proper typings here, but it fixes the bug referenced below
-    {
-      text: "",
-      key: "foo",
-      type: "unstyled",
-      entityRanges: []
-    }
-  ]
-});
 
 const markdownToDraftState = (text: string) => {
   const rawData = markdownToDraft(text);
@@ -123,6 +100,7 @@ export const convertDraftStateToMarkdown = (state: EditorState): string => {
         },
         close: function (entity: any) {
           console.log("entity: ", entity);
+          // one idea is that we convert this method to async and then upload and replace these URLs right here
           return `![](${entity["data"].src})`;
         }
       }

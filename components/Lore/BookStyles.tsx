@@ -6,9 +6,9 @@ import { typeSetterV2 } from "./loreUtils";
 import productionWizardData from "../../data/nfts-prod.json";
 import LoreAnimations from "./LoreAnimations";
 
-export const BookElement = styled.div``;
+export const BookElement = styled(motion.div)``;
 
-export const Carousel = styled.div`
+export const Carousel = styled(motion.div)`
   box-sizing: border-box;
   position: relative;
   padding: 0 40px;
@@ -17,7 +17,12 @@ export const Carousel = styled.div`
   }
 `;
 
-export const Spread = styled.div<{ bg: string; bgL: string; bgR: string }>`
+export const Spread = styled(motion.div)<{
+  layoutId: string;
+  bg: string;
+  bgL: string;
+  bgR: string;
+}>`
   display: grid;
   gap: 0px 0px;
   position: relative;
@@ -60,102 +65,102 @@ export const Spread = styled.div<{ bg: string; bgL: string; bgR: string }>`
   }
 `;
 
-export const LeftTopCorner = styled.div`
+export const LeftTopCorner = styled(motion.div)`
   background-image: url("/static/lore/book/slices/corner_top_left.png");
   background-repeat: no-repeat;
   background-position: left top;
   grid-area: lefttopcorner;
 `;
-export const RightTopCorner = styled.div`
+export const RightTopCorner = styled(motion.div)`
   background-image: url("/static/lore/book/slices/corner_top_right.png");
   background-repeat: no-repeat;
   background-position: right top;
   grid-area: righttopcorner;
 `;
-export const LeftBotCorner = styled.div`
+export const LeftBotCorner = styled(motion.div)`
   background-image: url("/static/lore/book/slices/corner_bottom_left.png");
   background-repeat: no-repeat;
   background-position: left top;
   grid-area: leftbotcorner;
 `;
-export const RightBotCorner = styled.div`
+export const RightBotCorner = styled(motion.div)`
   background-image: url("/static/lore/book/slices/corner_bottom_right.png");
   background-repeat: no-repeat;
   background-position: right top;
   grid-area: rightbotcorner;
 `;
 
-export const LeftBorder = styled.div`
+export const LeftBorder = styled(motion.div)`
   background-image: url("/static/lore/book/slices/side_left_tile.png");
   background-repeat: repeat-y;
   background-position: left top;
   grid-area: leftborder;
 `;
-export const RightBorder = styled.div`
+export const RightBorder = styled(motion.div)`
   background-image: url("/static/lore/book/slices/side_right_tile.png");
   background-repeat: repeat-y;
   background-position: right top;
   grid-area: rightborder;
 `;
 
-export const TopBorder1 = styled.div`
+export const TopBorder1 = styled(motion.div)`
   grid-area: topborder1;
   background-image: url("/static/lore/book/slices/top_left_tile.png");
   background-repeat: repeat-x;
   background-position: left top;
 `;
-export const TopBorder2 = styled.div`
+export const TopBorder2 = styled(motion.div)`
   grid-area: topborder2;
   background-image: url("/static/lore/book/slices/top_left_tile.png");
   background-repeat: repeat-x;
   background-position: right top;
 `;
 
-export const BotBorder1 = styled.div`
+export const BotBorder1 = styled(motion.div)`
   background-image: url("/static/lore/book/slices/bottom_left_tile.png");
   background-repeat: repeat-x;
   background-position: left top;
   grid-area: botborder1;
 `;
-export const BotBorder2 = styled.div`
+export const BotBorder2 = styled(motion.div)`
   background-image: url("/static/lore/book/slices/bottom_right_tile.png");
   background-repeat: repeat-x;
   background-position: right top;
   grid-area: botborder2;
 `;
 
-export const LeftPageBinding = styled.div`
+export const LeftPageBinding = styled(motion.div)`
   background-image: url("/static/lore/book/slices/center_left_tile.png");
   background-position: left top;
   grid-area: leftpagebinding;
 `;
 
-export const RightPageBinding = styled.div`
+export const RightPageBinding = styled(motion.div)`
   background-image: url("/static/lore/book/slices/center_right_tile.png");
   background-position: right top;
   grid-area: rightpagebinding;
 `;
 
-export const LeftTopBinding = styled.div`
+export const LeftTopBinding = styled(motion.div)`
   background-image: url("/static/lore/book/slices/center_top_left.png");
   background-position: left top;
   grid-area: lefttopbinding;
   border-top-right-radius: 25%;
 `;
-export const RightTopBinding = styled.div`
+export const RightTopBinding = styled(motion.div)`
   background-image: url("/static/lore/book/slices/center_top_right.png");
   background-position: right top;
   grid-area: righttopbinding;
   border-top-left-radius: 25%;
 `;
 
-export const LeftBotBinding = styled.div`
+export const LeftBotBinding = styled(motion.div)`
   background-image: url("/static/lore/book/slices/center_bottom_left.png");
   background-position: left top;
   grid-area: leftbotbinding;
   border-bottom-left-radius: 15%;
 `;
-export const RightBotBinding = styled.div`
+export const RightBotBinding = styled(motion.div)`
   background-image: url("/static/lore/book/slices/center_bottom_right.png");
   background-position: right top;
   grid-area: rightbotbinding;
