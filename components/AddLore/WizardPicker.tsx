@@ -64,6 +64,11 @@ const WizardGridLayout = styled.div`
   }
 `;
 
+const NoWizards = styled.div`
+  font-family: "Alagard";
+  font-size: 1.5em;
+`;
+
 export type onWizardPickedFn = (
   wizardConfiguration: WizardConfiguration
 ) => void;
@@ -87,6 +92,12 @@ function WizardGrid({
           />
         ))}
       </WizardGridLayout>
+      {wizards.length === 0 && (
+        <NoWizards>
+          The connected wallet doesn't hold any Wizards. Perhaps try another
+          wallet?
+        </NoWizards>
+      )}
     </WizardGridElement>
   );
 }
@@ -117,9 +128,10 @@ function WizardList({
         });
 
         // tmp
-        const devon = wizData[6001];
-        devon.id = "6001";
-        tokens.push(devon);
+        // const devon = wizData[6001];
+        // devon.id = "6001";
+        // tokens.push(devon);
+
         //
       } catch (err) {
         console.log("err: ", err);

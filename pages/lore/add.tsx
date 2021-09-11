@@ -100,11 +100,6 @@ const AddLorePage = () => {
     return <WaitingForGraphPage />;
   }
 
-  const values = {
-    nsfw: false,
-    bg_color: "000000"
-  };
-
   const wizardBg = currentWizard?.tokenId
     ? "#" + wizData[currentWizard?.tokenId?.toString()].background_color
     : "black";
@@ -120,7 +115,7 @@ const AddLorePage = () => {
     }
 
     onSubmitAddLoreForm({
-      values,
+      values: { bg_color: currentBgColor, nsfw: currentNsfw },
       currentWizard,
       setErrorMessage,
       setSubmitting,

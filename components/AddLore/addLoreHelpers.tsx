@@ -20,7 +20,7 @@ export const onSubmitAddLoreForm = async ({
   web3Settings,
   router
 }: any) => {
-  console.log("onSubmit", currentWizard);
+  console.log("onSubmit", currentWizard, values);
   setErrorMessage(null);
 
   if (!currentWizard?.tokenId) {
@@ -153,7 +153,7 @@ export const onSubmitAddLoreForm = async ({
           : AddressZero,
         currentArtifact?.tokenId ? currentArtifact?.tokenId : 0,
         0,
-        values.isNsfw,
+        values.nsfw,
         `ipfs://${apiResponse.hash}`,
         { gasLimit: 300000 } //TODO: actual gas limit
       );
