@@ -94,6 +94,20 @@ const SocialItem = styled.div`
 const MidControls = styled.div`
   margin-right: 2em;
 `;
+const RightControls = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  a.how {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: white;
+    opacity: 0.7;
+    font-style: italic;
+    font-size: 0.9em;
+  }
+`;
 
 type Props = {
   wizardId?: string;
@@ -152,9 +166,9 @@ export default function AddLoreControls({
         </NextPageContainer>
       </PaginationContainer>
       <WriteContainer>
-        <Link href={"/lore/63/0"} passHref>
+        {/* <Link href={"/lore/63/0"} passHref>
           <a>test visiting lore</a>
-        </Link>
+        </Link> */}
         <MidControls>
           <BackgroundColorPickerField
             name="bgColor"
@@ -162,10 +176,18 @@ export default function AddLoreControls({
           />
           <NSFWField name="isNsfw" onChange={onNsfwChanged} />
         </MidControls>
-
-        <WriteButton size="medium" onClick={onSubmit}>
-          Save Your Lore
-        </WriteButton>
+        <RightControls>
+          <WriteButton size="medium" onClick={onSubmit}>
+            Save Your Lore
+          </WriteButton>
+          <a
+            href="/posts/writing-in-the-book-of-lore"
+            target="_blank"
+            className="how"
+          >
+            How does this work?
+          </a>
+        </RightControls>
       </WriteContainer>
     </BookOfLoreControlsElement>
   );

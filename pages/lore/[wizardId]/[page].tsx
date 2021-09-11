@@ -7,6 +7,12 @@ import client from "../../../lib/graphql";
 import { gql } from "@apollo/client";
 import { LorePageData } from "../../../components/Lore/types";
 import LoreSharedLayout from "../../../components/Lore/LoreSharedLayout";
+import dynamic from "next/dynamic";
+
+const WizardMapLeaflet = dynamic(
+  () => import("../../../components/Lore/WizardMapLeaflet"),
+  { ssr: false }
+);
 
 const LorePage = ({
   wizardId,
@@ -24,6 +30,7 @@ const LorePage = ({
       <LoreSharedLayout>
         <Book wizardId={wizardId} page={page} lorePageData={lorePagesV2} />
       </LoreSharedLayout>
+      <WizardMapLeaflet wizardLore={{}} bookOfLore={true} />
     </Layout>
   );
 };

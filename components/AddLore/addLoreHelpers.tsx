@@ -57,6 +57,25 @@ export const onSubmitAddLoreForm = async ({
   setSubmitting(true);
 
   const provider = web3Settings.injectedProvider;
+  console.log("provider: ", provider);
+  const { chainId } = await provider.getNetwork();
+  if (chainId !== 4) {
+    toast.error(
+      `Wrong Network. Please change your network to Rinkeby and try again`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined
+      }
+    );
+    setSubmitting(false);
+    return false;
+  }
+
   const loreContract = await getBookOfLoreContract({
     provider: provider
   });

@@ -55,11 +55,13 @@ const MapStyles = styled.div`
 const WizardPopup = ({
   name,
   index,
-  hasLore
+  hasLore,
+  bookOfLore = false
 }: {
   name: string;
   index: number;
   hasLore: boolean;
+  bookOfLore: boolean;
 }) => {
   return (
     <Box width={250} style={{ fontSize: 12 }}>
@@ -68,12 +70,19 @@ const WizardPopup = ({
         name={name}
         showOpenSeaLink={true}
         showLoreLink={true}
+        bookOfLore={bookOfLore}
       />
     </Box>
   );
 };
 
-const Layers = ({ wizardLore }: { wizardLore: any }) => {
+const Layers = ({
+  wizardLore,
+  bookOfLore
+}: {
+  wizardLore: any;
+  bookOfLore: boolean;
+}) => {
   const map = useMap();
   const router = useRouter();
   const { id } = router.query;
@@ -142,6 +151,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
               name={feature.properties.wizardData.name as string}
               index={feature.properties.index}
               hasLore={feature.properties.hasLore}
+              bookOfLore={bookOfLore}
             />
           )
         );
@@ -180,7 +190,13 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
   );
 };
 
-const WizardMapLeaflet = ({ wizardLore }: { wizardLore: object }) => {
+const WizardMapLeaflet = ({
+  wizardLore,
+  bookOfLore = false
+}: {
+  wizardLore: object;
+  bookOfLore: boolean;
+}) => {
   return (
     <MapWrapper>
       <MapStyles>
@@ -194,7 +210,7 @@ const WizardMapLeaflet = ({ wizardLore }: { wizardLore: object }) => {
           attributionControl={false}
           zoomSnap={0.25}
         >
-          <Layers wizardLore={wizardLore} />
+          <Layers wizardLore={wizardLore} bookOfLore={bookOfLore} />
         </MapContainer>
       </MapStyles>
     </MapWrapper>

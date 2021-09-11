@@ -50,7 +50,7 @@ export function typeSetterV2({
       loreMetadataURI={lorePageData.rightPage.loreMetadataURI}
     />
   ) : (
-    <EmptyLorePage wizardId={wizardId} />
+    <EmptyLorePage wizardId={wizardId} pageNum={pageNum} />
   );
 
   components.previousPage = lorePageData.prevRightPage ? (

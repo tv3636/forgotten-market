@@ -166,6 +166,7 @@ const AddLorePage = () => {
         onChange={setCurrentEditorState}
         bg={bg || "#000000"}
         wizardId={currentWizard?.tokenId}
+        isLoading={submitting}
       />
     </BookOfLorePage>
   );

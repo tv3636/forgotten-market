@@ -12,7 +12,7 @@ const WizardMapLeaflet = dynamic(
 const WizardGalleryPage = ({ wizardLore }: { wizardLore: object }) => {
   return (
     <Layout title="Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
-      <WizardMapLeaflet wizardLore={wizardLore} />
+      <WizardMapLeaflet wizardLore={wizardLore} bookOfLore={false} />
     </Layout>
   );
 };

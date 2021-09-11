@@ -80,7 +80,6 @@ function WizardGrid({
       <WizardGridLayout>
         {wizards.map((wizard: any) => (
           <WizardCard
-            layoutId={`wizard-${wizard.id}`}
             key={wizard.id}
             id={wizard.id}
             name={wizard.name}

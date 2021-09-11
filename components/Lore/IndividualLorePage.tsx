@@ -24,6 +24,8 @@ const TextPage = styled.div<{ alignSelf?: string; alignChildren?: string }>`
       display: flex;
       flex-direction: column;
       align-items: center;
+      height: 100%;
+      justify-content: center;
       `;
     }
   }}
@@ -32,6 +34,8 @@ const TextPage = styled.div<{ alignSelf?: string; alignChildren?: string }>`
     margin-top: 0.5em;
   }
 `;
+
+const LoadingPageText = styled.div``;
 
 type BookOfLorePageProps = {
   bg: string;
@@ -75,12 +79,20 @@ export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const EmptyLorePage = ({ wizardId }: { wizardId?: number }) => {
+export const EmptyLorePage = ({
+  wizardId,
+  pageNum
+}: {
+  wizardId?: number;
+  pageNum: number;
+}) => {
+  const furtherOrAny = pageNum < 1 ? "" : " further";
+
   const noMoreLore = wizardId
-    ? `No further Lore has been recorded for ${
+    ? `No${furtherOrAny} Lore has been recorded for ${
         wizData[wizardId.toString()].name
       }...`
-    : `No further Lore has been recorded...`;
+    : `No${furtherOrAny} Lore has been recorded...`;
 
   return (
     <BookOfLorePage bg={"black"}>
@@ -99,29 +111,34 @@ export default function IndividualLorePage({
 }: {
   loreMetadataURI: string;
 }) {
-  const { data, error } = useSWR(
-    `https://cloudflare-ipfs.com/ipfs/${
-      loreMetadataURI?.match(/^ipfs:\/\/(.*)$/)?.[1]
-    }`,
-    fetcher
-  );
+  // const ipfsURL = `https://cloudflare-ipfs.com/ipfs/${
+  const ipfsURL = `https://nfts.forgottenrunes.com/ipfs/${
+    loreMetadataURI?.match(/^ipfs:\/\/(.*)$/)?.[1]
+  }`;
+  console.log("ipfsURL: ", ipfsURL);
+  const { data, error } = useSWR(ipfsURL, fetcher);
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <div>loading...</div>;
-
-  // {
-  //   name: "Such lore",
-  //   description: "Much wow",
-  //   background_color: "#639b67",
-  //   attributes: [
-  //     {
-  //       trait_type: "Artifact Address",
-  //       value: "0x521f9C7505005CFA19A8E5786a9c3c9c9F5e6f42",
-  //     },
-  //     { trait_type: "Artifact Token ID", value: "283" },
-  //     { trait_type: "Pixel Art", value: false },
-  //   ],
-  // };
+  if (error)
+    return (
+      <BookOfLorePage bg={"#000000"}>
+        <TextPage alignChildren={"center"}>
+          Sorry, this page failed to load. Everything might be okay, just
+          refresh and try again.
+        </TextPage>
+      </BookOfLorePage>
+    );
+  if (!data)
+    // TODO: retry here
+    return (
+      <BookOfLorePage bg={"#000000"}>
+        <TextPage alignChildren={"center"}>
+          <LoadingPageText>
+            Your Lore has been written and is now being indexed. It will show up
+            here in a couple of minutes.
+          </LoadingPageText>
+        </TextPage>
+      </BookOfLorePage>
+    );
 
   const bg = data.background_color;
   const story = data?.description || "";
@@ -145,8 +162,8 @@ export default function IndividualLorePage({
   if (story) {
     Inner = (
       <TextPage>
-        <ReactMarkdown>{title}</ReactMarkdown>
-        <ReactMarkdown>{story}</ReactMarkdown>
+        {title && <ReactMarkdown>{title}</ReactMarkdown>}
+        {story && <ReactMarkdown>{story}</ReactMarkdown>}
       </TextPage>
     );
   }
@@ -158,9 +175,11 @@ export default function IndividualLorePage({
 
   if (!artifactAddress && !story) {
     Inner = (
-      <h1 style={{ color: "white" }}>
-        This is just bad testing lore that has no story or artifact...
-      </h1>
+      <TextPage alignChildren="center">
+        <h1 style={{ color: "white" }}>
+          This is just bad testing lore that has no story or artifact...
+        </h1>
+      </TextPage>
     );
   }
 

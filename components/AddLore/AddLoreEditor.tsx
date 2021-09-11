@@ -20,8 +20,15 @@ const wizData = productionWizardData as { [wizardId: string]: any };
 import { sample } from "lodash";
 import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
 import { convertToRaw } from "draft-js";
+import { css, keyframes } from "@emotion/react";
 
-const AddLoreEditorElement = styled.div<{ bg?: string }>`
+const pulse = keyframes`
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% {  opacity: 0.3; }
+`;
+
+const AddLoreEditorElement = styled.div<{ bg?: string; isLoading: boolean }>`
   color: ${(props) => getContrast(props.bg || "#000000")};
   font-family: "Alagard";
   height: 100%;
@@ -47,6 +54,13 @@ const AddLoreEditorElement = styled.div<{ bg?: string }>`
       height: auto;
     }
   }
+
+  ${(props) =>
+    props.isLoading
+      ? css`
+          animation: ${pulse} 3s infinite ease-in-out;
+        `
+      : ""}
 `;
 
 // https://www.draft-js-plugins.com/plugin/mention
@@ -112,10 +126,16 @@ type Props = {
   onChange: (editorState: any) => void;
   bg: string;
   wizardId: string | undefined;
+  isLoading: boolean;
 };
 
 const defaultPrompt = "_Please pick a Wizard on the other page_";
-export default function AddLoreEditor({ onChange, bg, wizardId }: Props) {
+export default function AddLoreEditor({
+  onChange,
+  bg,
+  wizardId,
+  isLoading
+}: Props) {
   const ref = useRef<Editor>(null);
 
   // https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
@@ -168,7 +188,7 @@ Our hero finds themselves surrounded by a...`
   */
 
   return (
-    <AddLoreEditorElement bg={bg}>
+    <AddLoreEditorElement bg={bg} isLoading={isLoading}>
       <Editor
         editorKey={"key-here"}
         editorState={editorState}
