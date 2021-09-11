@@ -12,13 +12,14 @@ import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import createMentionPlugin, {
   defaultSuggestionsFilter
 } from "@draft-js-plugins/mention";
-import { markdownToDraft } from "markdown-draft-js";
 import { getContrast } from "../../lib/colorUtils";
 import mentions from "./WizardMentions";
 import productionWizardData from "../../data/nfts-prod.json";
 import { titlePrompts } from "./addLoreHelpers";
 const wizData = productionWizardData as { [wizardId: string]: any };
 import { sample } from "lodash";
+import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
+import { convertToRaw } from "draft-js";
 
 const AddLoreEditorElement = styled.div<{ bg?: string }>`
   color: ${(props) => getContrast(props.bg || "#000000")};
@@ -36,6 +37,15 @@ const AddLoreEditorElement = styled.div<{ bg?: string }>`
   }
   .DraftEditor-editorContainer {
     z-index: 0 !important;
+  }
+
+  figure {
+    margin: 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
   }
 `;
 
@@ -101,6 +111,25 @@ const markdownToDraftState = (text: string) => {
   return EditorState.createWithContent(contentState);
 };
 
+// https://github.com/Rosey/markdown-draft-js/pull/49#issuecomment-775247720
+export const convertDraftStateToMarkdown = (state: EditorState): string => {
+  const raw = convertToRaw(state.getCurrentContent());
+  console.log("raw: ", raw);
+  return draftToMarkdown(convertToRaw(state.getCurrentContent()), {
+    entityItems: {
+      IMAGE: {
+        open: function (entity: any) {
+          return "";
+        },
+        close: function (entity: any) {
+          console.log("entity: ", entity);
+          return `![](${entity["data"].src})`;
+        }
+      }
+    }
+  });
+};
+
 type Props = {
   onChange: (editorState: any) => void;
   bg: string;
@@ -135,7 +164,7 @@ Our hero finds themselves surrounded by a...`
     // picked, as long as the _user_ didn't type in the Draft field
     const text = editorState.getCurrentContent().getPlainText("\u0001");
     if (text.match(/Please pick a Wizard/)) {
-      setEditorState(newEditorState);
+      performOnChange(newEditorState);
     }
   }, [wizardId]);
 

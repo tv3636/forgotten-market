@@ -13,17 +13,18 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(404);
   }
+  // TODO: can we validate the a signing of the wallet and add this as metadata, so that we can filter stuff out if we need to?
+  const readStream = null;
 
   try {
-    const response = await pinata.pinJSONToIPFS({
-      name: req.body?.title,
-      description: req.body?.story,
-      background_color: req.body?.bg_color, // Note: needs to be without # for compliance with spec
-      attributes: [
-        { trait_type: "Artifact Address", value: req.body.address },
-        { trait_type: "Artifact Token ID", value: req.body.token_id },
-        { trait_type: "Pixel Art", value: req.body?.pixel_art ?? false }
-      ]
+    // https://github.com/PinataCloud/Pinata-SDK#pinFileToIPFS-anchor
+    const response = await pinata.pinFileToIPFS(readStream, {
+      pinataMetadata: {
+        name: "filename",
+        keyvalues: {
+          uploader: "address-of-uploader-TODO"
+        }
+      }
     });
     return res.status(201).json({ hash: response.IpfsHash });
   } catch (e) {

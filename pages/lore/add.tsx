@@ -6,8 +6,9 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import AddLoreControls from "../../components/AddLore/AddLoreControls";
-import AddLoreEditor from "../../components/AddLore/AddLoreEditor";
-import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
+import AddLoreEditor, {
+  convertDraftStateToMarkdown
+} from "../../components/AddLore/AddLoreEditor";
 import WizardPicker, {
   WizardConfiguration
 } from "../../components/AddLore/WizardPicker";
@@ -17,11 +18,9 @@ import { BookOfLorePage } from "../../components/Lore/IndividualLorePage";
 import StyledToastContainer from "../../components/StyledToastContainer";
 import productionWizardData from "../../data/nfts-prod.json";
 import { useDebounce } from "../../hooks";
-import { getContrast } from "../../lib/colorUtils";
 import client from "../../lib/graphql";
 import { useMst } from "../../store";
-import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
-import { convertToRaw, EditorState } from "draft-js";
+import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -63,23 +62,6 @@ const WaitingForGraphPage = () => {
       </h1>
     </Layout>
   );
-};
-
-// https://github.com/Rosey/markdown-draft-js/pull/49#issuecomment-775247720
-export const convertToMD = (state: EditorState): string => {
-  return draftToMarkdown(convertToRaw(state.getCurrentContent()), {
-    entityItems: {
-      image: {
-        open: function (entity: any) {
-          return "";
-        },
-        close: function (entity: any) {
-          console.log("entity: ", entity);
-          return `![](${entity["data"].src})`;
-        }
-      }
-    }
-  });
 };
 
 const AddLorePage = () => {
@@ -127,7 +109,7 @@ const AddLorePage = () => {
     console.log("currentEditorState: ", currentEditorState);
     let _currentStory = currentStory;
     if (currentEditorState) {
-      const markdownString = convertToMD(currentEditorState);
+      const markdownString = convertDraftStateToMarkdown(currentEditorState);
       console.log("markdownString: ", markdownString);
       _currentStory = markdownString;
       // extract the title and the story from the markdown

@@ -158,6 +158,7 @@ type Props = {
 const WizardPickerElement = styled.div`
   margin-left: auto;
   margin-right: auto;
+  max-height: 100%;
 `;
 
 const StyledPickWizardButton = styled(Button)`

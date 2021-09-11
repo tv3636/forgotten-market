@@ -27,6 +27,10 @@ const TextPage = styled.div<{ alignSelf?: string; alignChildren?: string }>`
       `;
     }
   }}
+
+  h1,h2,h3,h4,h5 {
+    margin-top: 0.5em;
+  }
 `;
 
 type BookOfLorePageProps = {
