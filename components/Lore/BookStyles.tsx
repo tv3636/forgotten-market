@@ -17,7 +17,7 @@ export const Carousel = styled.div`
   }
 `;
 
-export const Spread = styled.div<{ bg: string }>`
+export const Spread = styled.div<{ bg: string; bgL: string; bgR: string }>`
   display: grid;
   gap: 0px 0px;
   position: relative;
@@ -28,6 +28,12 @@ export const Spread = styled.div<{ bg: string }>`
 
   .bg {
     background-color: ${(props) => props.bg};
+  }
+  .bgL {
+    background-color: ${(props) => props.bgL};
+  }
+  .bgR {
+    background-color: ${(props) => props.bgR};
   }
 
   grid-template-areas:

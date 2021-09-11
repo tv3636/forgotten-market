@@ -157,6 +157,9 @@ const AddLorePage = () => {
   };
 
   const bg = currentBgColor;
+  const bgL = wizardBg;
+  const bgR = currentBgColor;
+
   const controls = (
     <AddLoreControls
       wizardId={currentWizard?.tokenId}
@@ -173,7 +176,11 @@ const AddLorePage = () => {
   );
   const currentRightPage = (
     <BookOfLorePage bg={bg || "#000000"}>
-      <AddLoreEditor onChange={setCurrentEditorState} bg={bg || "#000000"} />
+      <AddLoreEditor
+        onChange={setCurrentEditorState}
+        bg={bg || "#000000"}
+        wizardId={currentWizard?.tokenId}
+      />
     </BookOfLorePage>
   );
 
@@ -182,7 +189,12 @@ const AddLorePage = () => {
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
     >
       <AddLoreWrapper>
-        <BookFrame bg={bg || "#000000"} controls={controls}>
+        <BookFrame
+          bg={bg || "#000000"}
+          bgL={bgL || "#000000"}
+          bgR={bgR || "#000000"}
+          controls={controls}
+        >
           <div />
           {currentLeftPage}
           {currentRightPage}

@@ -15,6 +15,10 @@ import createMentionPlugin, {
 import { markdownToDraft } from "markdown-draft-js";
 import { getContrast } from "../../lib/colorUtils";
 import mentions from "./WizardMentions";
+import productionWizardData from "../../data/nfts-prod.json";
+import { titlePrompts } from "./addLoreHelpers";
+const wizData = productionWizardData as { [wizardId: string]: any };
+import { sample } from "lodash";
 
 const AddLoreEditorElement = styled.div<{ bg?: string }>`
   color: ${(props) => getContrast(props.bg || "#000000")};
@@ -91,37 +95,56 @@ const emptyContentState = convertFromRaw({
   ]
 });
 
+const markdownToDraftState = (text: string) => {
+  const rawData = markdownToDraft(text);
+  const contentState = convertFromRaw(rawData);
+  return EditorState.createWithContent(contentState);
+};
+
 type Props = {
   onChange: (editorState: any) => void;
   bg: string;
+  wizardId: string | undefined;
 };
-export default function AddLoreEditor({ onChange, bg }: Props) {
+
+const defaultPrompt = "_Please pick a Wizard on the other page_";
+export default function AddLoreEditor({ onChange, bg, wizardId }: Props) {
   const ref = useRef<Editor>(null);
 
   // https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
   const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(emptyContentState)
+    markdownToDraftState(defaultPrompt)
   );
 
-  const performOnChange = (editorState: any) => {
-    setEditorState(editorState);
-    onChange(editorState);
+  const performOnChange = (newEditorState: any) => {
+    setEditorState(newEditorState);
+    onChange(newEditorState);
   };
 
   useEffect(() => {
-    setEditorState(
-      EditorState.createWithContent(
-        ContentState.createFromText("Write your Lore here...")
-      )
-    );
-  }, []);
+    const titlePrompt = sample(titlePrompts);
+    const defaultText = wizardId
+      ? `# ${titlePrompt} ${wizData[wizardId].name}
+## Part 1
+Our hero finds themselves surrounded by a...`
+      : defaultPrompt;
+    const newEditorState = markdownToDraftState(defaultText);
 
-  const [open, setOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState(mentions);
+    // lame, I know
+    // dirty tracking is hard. ideally we want to update with any new wizard
+    // picked, as long as the _user_ didn't type in the Draft field
+    const text = editorState.getCurrentContent().getPlainText("\u0001");
+    if (text.match(/Please pick a Wizard/)) {
+      setEditorState(newEditorState);
+    }
+  }, [wizardId]);
+
   const plugins = topLevelPlugins;
 
   // I don't understand why this needs to be in a useMemo, but it's part of the docs
   /*
+  const [open, setOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState(mentions);
   const { MentionSuggestions, plugins } = useMemo(() => {
     const mentionPlugin = createMentionPlugin();
     const { MentionSuggestions } = mentionPlugin;

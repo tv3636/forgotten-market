@@ -175,3 +175,18 @@ export const onSubmitAddLoreForm = async ({
   setSubmitting(false);
   return true;
 };
+
+export const titlePrompts = [
+  "The Tale of",
+  "The Untold story of",
+  "The Adventures of"
+  // "The Downfall of",
+  // ??? ideas?
+];
+
+export const storyPrompts = [
+  `## Part 1
+Our hero finds themselves surrounded by a...`,
+  `They weren't always a solitary Wizard until...`
+  // ??? ideas?
+];

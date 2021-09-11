@@ -31,6 +31,8 @@ import {
 
 export type Props = {
   bg: string;
+  bgL: string;
+  bgR: string;
   controls?: JSX.Element | JSX.Element[];
   children: JSX.Element[];
 };
@@ -39,23 +41,23 @@ export type Props = {
  * The children prop is a bit non-standard: the children are treated as a specific array of four elements. The current left and right pages are index 1 and 2 respectively, with the previous and next being 0 and 4
  */
 
-const BookFrame = ({ bg, controls, children }: Props) => {
+const BookFrame = ({ bg, bgL, bgR, controls, children }: Props) => {
   return (
     <LoreAnimations>
       <BookElement>
         <Carousel>
-          <Spread bg={bg}>
+          <Spread bg={bg} bgL={bgL} bgR={bgR}>
             <LeftTopCorner />
             <TopBorder1 />
-            <LeftTopBinding className="bg" />
-            <RightTopBinding className="bg" />
+            <LeftTopBinding className="bg bgL" />
+            <RightTopBinding className="bg bgR" />
             <TopBorder2 />
             <RightTopCorner />
 
             <LeftBorder />
             <PageBody1>{children[1]}</PageBody1>
-            <LeftPageBinding className="bg" />
-            <RightPageBinding className="bg" />
+            <LeftPageBinding className="bg bgL" />
+            <RightPageBinding className="bg bgR" />
             <PageBody2
             // initial={{ rotateY: 0, left: 0 }}
             // exit={{ rotateY: -180, left: "calc(-100% - 8vw - 4px)" }}
@@ -69,8 +71,8 @@ const BookFrame = ({ bg, controls, children }: Props) => {
 
             <LeftBotCorner />
             <BotBorder1 />
-            <LeftBotBinding className="bg" />
-            <RightBotBinding className="bg" />
+            <LeftBotBinding className="bg bgL" />
+            <RightBotBinding className="bg bgR" />
             <BotBorder2 />
             <RightBotCorner />
           </Spread>
