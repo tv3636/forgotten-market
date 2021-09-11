@@ -17,7 +17,7 @@ const CardStyle = styled.div<{ isHovering: boolean }>`
 
 const WizardFrame = styled.div`
   position: relative;
-  background-image: url("/static/img/frame-alt.png");
+  background-image: url("/static/img/wizard_frame.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -101,7 +101,7 @@ const WizardCard = ({
         </WizardName>
         <WizardImageContainer>
           <WizardImage
-            src={`${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL}/${id}.png`}
+            src={`${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL}/alt/400-nobg/wizard-${id}.png`}
           />
         </WizardImageContainer>
       </WizardFrame>

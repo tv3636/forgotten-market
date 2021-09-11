@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import { ContentState, convertFromRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
@@ -9,8 +9,12 @@ import createFocusPlugin from "@draft-js-plugins/focus";
 import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
 import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
+import createMentionPlugin, {
+  defaultSuggestionsFilter
+} from "@draft-js-plugins/mention";
 import { markdownToDraft } from "markdown-draft-js";
 import { getContrast } from "../../lib/colorUtils";
+import mentions from "./WizardMentions";
 
 const AddLoreEditorElement = styled.div<{ bg?: string }>`
   color: ${(props) => getContrast(props.bg || "#000000")};
@@ -53,6 +57,7 @@ const decorator = composeDecorators(
   focusPlugin.decorator,
   blockDndPlugin.decorator
 );
+// https://www.draft-js-plugins.com/plugin/image
 const imagePlugin = createImagePlugin({ decorator });
 
 const mockUpload = () => true;
@@ -62,7 +67,9 @@ const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
   addImage: imagePlugin.addImage
 });
 
-const plugins = [
+// https://www.draft-js-plugins.com/plugin/mention
+
+const topLevelPlugins = [
   dragNDropFileUploadPlugin,
   createMarkdownShortcutsPlugin(),
   blockDndPlugin,
@@ -74,6 +81,7 @@ const plugins = [
 const emptyContentState = convertFromRaw({
   entityMap: {},
   blocks: [
+    // idk the proper typings here, but it fixes the bug referenced below
     {
       text: "",
       key: "foo",
@@ -88,6 +96,8 @@ type Props = {
   bg: string;
 };
 export default function AddLoreEditor({ onChange, bg }: Props) {
+  const ref = useRef<Editor>(null);
+
   // https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(emptyContentState)
@@ -96,14 +106,36 @@ export default function AddLoreEditor({ onChange, bg }: Props) {
   const performOnChange = (editorState: any) => {
     setEditorState(editorState);
     onChange(editorState);
-    //   onChange(editorState.getCurrentContent().getPlainText());
   };
 
   useEffect(() => {
     setEditorState(
-      EditorState.createWithContent(ContentState.createFromText("hi"))
+      EditorState.createWithContent(
+        ContentState.createFromText("Write your Lore here...")
+      )
     );
   }, []);
+
+  const [open, setOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState(mentions);
+  const plugins = topLevelPlugins;
+
+  // I don't understand why this needs to be in a useMemo, but it's part of the docs
+  /*
+  const { MentionSuggestions, plugins } = useMemo(() => {
+    const mentionPlugin = createMentionPlugin();
+    const { MentionSuggestions } = mentionPlugin;
+    const plugins = [...topLevelPlugins, mentionPlugin];
+    return { plugins, MentionSuggestions };
+  }, []);
+
+  const onOpenChange = useCallback((_open: boolean) => {
+    setOpen(_open);
+  }, []);
+  const onSearchChange = useCallback(({ value }: { value: string }) => {
+    setSuggestions(defaultSuggestionsFilter(value, mentions));
+  }, []);
+  */
 
   return (
     <AddLoreEditorElement bg={bg}>
@@ -116,6 +148,15 @@ export default function AddLoreEditor({ onChange, bg }: Props) {
         contentEditable={false}
         plugins={plugins}
       />
+      {/* <MentionSuggestions
+        open={open}
+        onOpenChange={onOpenChange}
+        suggestions={suggestions}
+        onSearchChange={onSearchChange}
+        onAddMention={() => {
+          // get the mention object selected
+        }}
+      /> */}
     </AddLoreEditorElement>
   );
 }

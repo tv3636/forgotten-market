@@ -1,6 +1,8 @@
 import { ToastContainer, toast } from "react-toastify";
 import { getBookOfLoreContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 import { LoreAPISubmitParams } from "../../pages/lore/add";
+import { AddressZero } from "@ethersproject/constants";
+
 export const onSubmitAddLoreForm = async ({
   values,
   currentWizard,
@@ -33,57 +35,17 @@ export const onSubmitAddLoreForm = async ({
     return false;
   }
 
-  if (
-    (currentArtifact?.contractAddress || currentArtifact?.tokenId) &&
-    !(currentArtifact?.contractAddress || currentArtifact?.tokenId)
-  ) {
-    toast.error(
-      `Sorry, there was a problem: artifact needs both a contract and a tokenId`,
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined
-      }
-    );
-    setErrorMessage("Artifact needs both a contract and a tokenId");
-    return false;
-  }
-
-  if ((currentStory || currentTitle) && !(currentStory || currentTitle)) {
-    toast.error(
-      `Sorry, there was a problem: story needs both a title and a story body`,
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined
-      }
-    );
-    setErrorMessage("Story needs both a title and a story body");
-    return false;
-  }
-
-  if (!currentArtifact?.contractAddress && !currentStory) {
-    toast.error(
-      `Sorry, there was a problem: need either story or artifact to be present`,
-      {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined
-      }
-    );
-    setErrorMessage("Need either story or artifact to be present");
+  if (!currentStory) {
+    toast.error(`Sorry, there was a problem: need either story to submit`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined
+    });
+    setErrorMessage("Need a story to be present");
     return false;
   }
 

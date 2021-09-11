@@ -160,6 +160,10 @@ const WizardPickerElement = styled.div`
   margin-right: auto;
 `;
 
+const StyledPickWizardButton = styled(Button)`
+  margin-top: 1em;
+`;
+
 /**
  * Wizard Picker
  *
@@ -205,9 +209,9 @@ const WizardPicker = observer(({ onWizardPicked }: Props) => {
         {currentWizard && (
           <WizardCard id={currentWizard.tokenId} name={currentWizard.name} />
         )}
-        <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
+        <StyledPickWizardButton onClick={() => setModalIsOpen(!modalIsOpen)}>
           Pick {currentWizard ? "another" : "a"} Wizard
-        </Button>
+        </StyledPickWizardButton>
         <StyledModal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}

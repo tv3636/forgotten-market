@@ -1,48 +1,27 @@
-import Layout from "../../components/Layout";
+import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
+import "draft-js/dist/Draft.css";
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import AddLoreControls from "../../components/AddLore/AddLoreControls";
+import AddLoreEditor from "../../components/AddLore/AddLoreEditor";
+import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
 import WizardPicker, {
   WizardConfiguration
 } from "../../components/AddLore/WizardPicker";
-import ArtifactPicker from "../../components/AddLore/ArtifactPicker";
-import { Formik } from "formik";
-import productionWizardData from "../../data/nfts-prod.json";
-import React, { useEffect, useState } from "react";
-import { HexColorPicker } from "react-colorful";
-import {
-  FormField,
-  TextAreaAutosizeInput,
-  TextInput
-} from "../../components/ui/Inputs";
-
-import Switch from "react-switch";
-import LorePreview from "../../components/AddLore/LorePreview";
-import { useDebounce } from "../../hooks";
-import HelpTooltip from "../../components/Lore/HelpTooltip";
-import { useExtractColors } from "../../hooks/useExtractColors";
-import { useNFTInfo } from "../../components/NFTDisplay";
-import { ArtifactConfiguration } from "../../components/Lore/types";
-import { useMst } from "../../store";
-import { getBookOfLoreContract } from "../../contracts/ForgottenRunesWizardsCultContract";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import StyledToastContainer from "../../components/StyledToastContainer";
-import { AddressZero } from "@ethersproject/constants";
-import { GetServerSidePropsContext } from "next";
-import client from "../../lib/graphql";
-import { gql, useQuery } from "@apollo/client";
-import {
-  BackgroundColorPickerField,
-  NSFWField,
-  PixelArtField
-} from "../../components/AddLore/AddLoreFields";
+import Layout from "../../components/Layout";
 import BookFrame from "../../components/Lore/BookFrame";
-import AddLoreEditor from "../../components/AddLore/AddLoreEditor";
-import "draft-js/dist/Draft.css";
-import AddLoreControls from "../../components/AddLore/AddLoreControls";
-import { onSubmitAddLoreForm } from "../../components/AddLore/addLoreHelpers";
 import { BookOfLorePage } from "../../components/Lore/IndividualLorePage";
+import StyledToastContainer from "../../components/StyledToastContainer";
+import productionWizardData from "../../data/nfts-prod.json";
+import { useDebounce } from "../../hooks";
 import { getContrast } from "../../lib/colorUtils";
+import client from "../../lib/graphql";
+import { useMst } from "../../store";
+import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
+import { convertToRaw, EditorState } from "draft-js";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -54,64 +33,6 @@ const AddLoreWrapper = styled.div`
   background-color: #0e0e0e;
   min-height: 90vh;
   padding-bottom: 300px; */
-`;
-
-const AddLoreLayout = styled.div<{ bg: string }>`
-  width: 100%;
-  max-width: 1100px;
-  padding: 1em;
-  color: ${(props) => getContrast(props.bg || "#000000")};
-
-  position: relative;
-  margin: 0 auto;
-
-  @media (min-width: 768px) {
-    display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    grid-column-gap: 20px;
-  }
-`;
-
-const SubmitFormField = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const FormPanel = styled.div``;
-const PreviewPanel = styled.div`
-  width: 100%;
-`;
-
-const PreviewStickyPane = styled.div`
-  position: sticky;
-  top: 20px;
-`;
-
-// const FormStyled = styled(Form)`
-const FormStyled = styled.form`
-  width: 100%;
-`;
-
-// TODO, unify with Button.tsx
-const SubmitButton = styled.button`
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  padding: 0.8em 1em;
-  border-radius: 3px;
-  font-family: "Alagard", fantasy;
-  font-size: 20px;
-  color: white;
-  background-color: #393246;
-  border: none;
-  &:hover {
-    color: #cccccc;
-    background-color: #2a2433;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
 `;
 
 export type LoreAPISubmitParams = {
@@ -142,6 +63,23 @@ const WaitingForGraphPage = () => {
       </h1>
     </Layout>
   );
+};
+
+// https://github.com/Rosey/markdown-draft-js/pull/49#issuecomment-775247720
+export const convertToMD = (state: EditorState): string => {
+  return draftToMarkdown(convertToRaw(state.getCurrentContent()), {
+    entityItems: {
+      image: {
+        open: function (entity: any) {
+          return "";
+        },
+        close: function (entity: any) {
+          console.log("entity: ", entity);
+          return `![](${entity["data"].src})`;
+        }
+      }
+    }
+  });
 };
 
 const AddLorePage = () => {
@@ -186,14 +124,21 @@ const AddLorePage = () => {
     : "black";
 
   const onSubmit = () => {
-    // // var markdownString = draftToMarkdown(rawObject);
+    console.log("currentEditorState: ", currentEditorState);
+    let _currentStory = currentStory;
+    if (currentEditorState) {
+      const markdownString = convertToMD(currentEditorState);
+      console.log("markdownString: ", markdownString);
+      _currentStory = markdownString;
+      // extract the title and the story from the markdown
+    }
 
     onSubmitAddLoreForm({
       values,
       currentWizard,
       setErrorMessage,
       setSubmitting,
-      currentStory,
+      currentStory: _currentStory,
       currentTitle,
       currentBgColor,
       web3Settings,
@@ -210,8 +155,6 @@ const AddLorePage = () => {
   const onNsfwChanged = (newNsfw: boolean) => {
     setNsfw(newNsfw);
   };
-
-  //
 
   const bg = currentBgColor;
   const controls = (
