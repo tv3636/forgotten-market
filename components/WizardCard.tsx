@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { WizardConfiguration } from "./AddLore/WizardPicker";
+import { motion, AnimateSharedLayout } from "framer-motion";
 
 const CardStyle = styled.div<{ isHovering: boolean }>`
   /* opacity: ${(props) => (props.isHovering ? 1 : 0.7)}; */
@@ -35,7 +36,7 @@ const WizardImageContainer = styled.div`
   justify-content: center;
 `;
 
-const WizardImage = styled.img`
+const WizardImage = styled(motion.img)`
   width: 100%;
   height: auto;
   image-rendering: pixelated;
@@ -101,6 +102,8 @@ const WizardCard = ({
         </WizardName>
         <WizardImageContainer>
           <WizardImage
+            layoutId={`wizard-image-${id}`}
+            key={`wizard-image-${id}`}
             src={`${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL}/alt/400-nobg/wizard-${id}.png`}
           />
         </WizardImageContainer>
