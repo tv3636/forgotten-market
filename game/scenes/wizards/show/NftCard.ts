@@ -24,7 +24,7 @@ export class NftCard {
   constructor({
     nftId,
     scene,
-    idx
+    idx,
   }: {
     nftId: number;
     scene: Phaser.Scene;
@@ -57,7 +57,7 @@ export class NftCard {
       scale: 1,
       ease: "Back.easeOut",
       duration: 100,
-      delay: this.idx * 100
+      delay: this.idx * 100,
     });
 
     const nftName = nftData[this.nftId?.toString()]?.name + ` (#${this.nftId})`;
@@ -77,9 +77,9 @@ export class NftCard {
         metrics: {
           fontSize: 20,
           ascent: 15,
-          descent: 2
-        }
-      }
+          descent: 2,
+        },
+      },
     });
     summonText.setOrigin(0.5, 0.5);
     summonText.setPosition(0, -155);
@@ -88,7 +88,7 @@ export class NftCard {
     const rexTextTyping = scene.plugins.get("rexTextTyping") as any;
     if (rexTextTyping) {
       const typing = rexTextTyping.add(summonText, {
-        speed: 45
+        speed: 45,
       });
       typing.start(nftNameUp);
     }
@@ -145,7 +145,7 @@ export class NftCard {
 
   createSocials({
     nftName,
-    nftImageUrl
+    nftImageUrl,
   }: {
     nftName: string;
     nftImageUrl: string;
@@ -165,7 +165,7 @@ export class NftCard {
             generateTweetLink({ nftName, nftImageUrl, nftId: this.nftId }),
             "_blank"
           );
-        }
+        },
       },
       // {
       //   default: "social_ig_default.png",
@@ -188,7 +188,7 @@ export class NftCard {
           console.log("opensea");
           const openSeaURL = `https://opensea.io/assets/${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS}/${this.nftId}`;
           window.open(openSeaURL, "_blank");
-        }
+        },
       },
       // {
       //   default: "social_link_default.png",
@@ -205,8 +205,8 @@ export class NftCard {
           const zipURL = `https://nftz.forgottenrunes.com/wizard/${this.nftId}.zip`;
           window.open(zipURL, "_blank");
           // downloadURI(nftImageUrl, `wizard-${this.nftId}.png`);
-        }
-      }
+        },
+      },
     ];
 
     for (let i = 0; i < buttons.length; i++) {
@@ -226,7 +226,7 @@ export class NftCard {
       this.scene.tweens.add({
         targets: socialButton,
         alpha: { value: 1, duration: 200, ease: "Power1" },
-        delay: i * 140
+        delay: i * 140,
       });
     }
   }
@@ -254,7 +254,7 @@ function downloadURI(uri: string, name: string) {
 function generateTweetLink({
   nftName,
   nftImageUrl,
-  nftId
+  nftId,
 }: {
   nftName: string;
   nftImageUrl: string;

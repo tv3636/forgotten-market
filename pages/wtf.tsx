@@ -13,19 +13,19 @@ import { ResponsiveImg } from "../components/ResponsivePixelImg";
 import dynamic from "next/dynamic";
 
 const WizardMap = dynamic(() => import("../components/Lore/WizardMapLeaflet"), {
-  ssr: false
+  ssr: false,
 });
 
 const components = {
   Head,
   InfoPageLayout,
   ResponsiveImg,
-  WizardMap
+  WizardMap,
 };
 
 export default function WtfPage({
   source,
-  frontMatter
+  frontMatter,
 }: {
   source: { compiledSource: string; scope: any };
   frontMatter: any;
@@ -52,15 +52,15 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings]
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
-    scope: data
+    scope: data,
   });
 
   return {
     props: {
       source: mdxSource,
-      frontMatter: data
-    }
+      frontMatter: data,
+    },
   };
 };

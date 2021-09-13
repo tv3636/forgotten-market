@@ -90,7 +90,7 @@ export class AsepriteLayersAnimationLoaderPlugin extends Phaser.Plugins
             animFrames.push({
               key: key,
               frame: entry.frame,
-              duration: minDuration - entry.duration
+              duration: minDuration - entry.duration,
             });
           });
 
@@ -107,7 +107,7 @@ export class AsepriteLayersAnimationLoaderPlugin extends Phaser.Plugins
             key: configKey,
             frames: animFrames,
             duration: totalDuration,
-            yoyo: direction === "pingpong"
+            yoyo: direction === "pingpong",
           };
 
           var result = _this.create(createConfig);
@@ -183,7 +183,7 @@ export class AsepriteLayersAnimationLoaderPlugin extends Phaser.Plugins
             animFrames.push({
               key: key,
               frame: entry.frame,
-              duration: entry.duration - minDuration
+              duration: entry.duration - minDuration,
             });
           });
 
@@ -198,7 +198,7 @@ export class AsepriteLayersAnimationLoaderPlugin extends Phaser.Plugins
             key: name,
             frames: animFrames,
             duration: totalDuration,
-            yoyo: direction === "pingpong"
+            yoyo: direction === "pingpong",
           };
 
           var result = _this.create(createConfig);

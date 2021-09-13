@@ -13,7 +13,7 @@ export const ModalDecorator = ({
     ? {
         portalClassName: name,
         overlayClassName: `${name}__Overlay`,
-        className: `${name}__Content`
+        className: `${name}__Content`,
       }
     : {};
 

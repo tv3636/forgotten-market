@@ -18,7 +18,7 @@ export default {
     zoom: 1 / window.devicePixelRatio,
     width: "100%",
     height: "100%",
-    autoRound: true
+    autoRound: true,
   },
   plugins: {
     global: [
@@ -26,18 +26,18 @@ export default {
         key: "AsepriteLayersAnimationLoaderPlugin",
         plugin: AsepriteLayersAnimationLoaderPlugin,
         start: true,
-        mapping: "myAasepriteLoader"
+        mapping: "myAasepriteLoader",
       },
       {
         key: "WebFontLoader",
         plugin: WebFontLoaderPlugin,
-        start: true
+        start: true,
       },
       {
         key: "rexTextTyping",
         plugin: TextTypingPlugin,
-        start: true
-      }
-    ]
-  }
+        start: true,
+      },
+    ],
+  },
 };

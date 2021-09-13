@@ -10,8 +10,8 @@ export default {
   title: "Wizards/WizardMapLeaflet",
   component: WizardMapLeaflet,
   argTypes: {
-    backgroundColor: { control: "color" }
-  }
+    backgroundColor: { control: "color" },
+  },
 } as ComponentMeta<typeof WizardMapLeaflet>;
 
 const Template: ComponentStory<typeof WizardMapLeaflet> = (args) => (

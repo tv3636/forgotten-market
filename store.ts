@@ -5,7 +5,7 @@ import {
   Instance,
   SnapshotIn,
   SnapshotOut,
-  types
+  types,
 } from "mobx-state-tree";
 import { MobXProviderContext } from "mobx-react";
 import { createContext } from "react";

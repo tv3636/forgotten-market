@@ -7,10 +7,10 @@ See a Wizard in physical paint in your neighborhood! Here's a list of murals tha
 
 ## Austin, Texas, USA
 
-* Status: Active
-* Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
-* Dates: August 2021 - Present
-* Address: Arcade UFO, 3101 Speedway, Austin,TX 78705
+- Status: Active
+- Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
+- Dates: August 2021 - Present
+- Address: Arcade UFO, 3101 Speedway, Austin,TX 78705
 
 Photos:
 
@@ -18,27 +18,26 @@ Photos:
 ![](https://i.imgur.com/xVPav6m.jpg)
 ![](https://i.imgur.com/fBYzhXN.jpg)
 
-
 ## Miami, Florida, USA
 
-* Status: In progress
-* Wizards: _To be revealed_
-* Dates: September 2021
-* Location: Wynwood District, _Address to be announced_
+- Status: In progress
+- Wizards: _To be revealed_
+- Dates: September 2021
+- Location: Wynwood District, _Address to be announced_
 
 ## Los Angeles, California, USA
 
-* Status: In progress
-* Wizards: _To be revealed_
-* Dates: September 2021
-* Location: Santee Alley and Midcity, _Address to be announced_
+- Status: In progress
+- Wizards: _To be revealed_
+- Dates: September 2021
+- Location: Santee Alley and Midcity, _Address to be announced_
 
 ## Oakland, California, USA
 
-* Status: In progress
-* Wizards: _To be revealed_
-* Dates: September 2021
-* Location: Downtown Oakland and Laurel District, _Address to be announced_
+- Status: In progress
+- Wizards: _To be revealed_
+- Dates: September 2021
+- Location: Downtown Oakland and Laurel District, _Address to be announced_
 
 ## Commissioning Your Own Mural
 
