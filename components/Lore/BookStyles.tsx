@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import BookOfLoreControls from "./BookOfLoreControls";
 import { AnimatePresence, motion } from "framer-motion";
 import { LorePageData } from "./types";
-import { typeSetterV2 } from "./loreUtils";
+import { typeSetter } from "./loreUtils";
 import productionWizardData from "../../data/nfts-prod.json";
 import LoreAnimations from "./LoreAnimations";
 
