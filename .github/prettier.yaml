@@ -1,9 +1,7 @@
 name: Prettier
 
-# This action works with pull requests and pushes
-on:
-  pull_request:
-  push:
+# Triggers the workflow on push or pull request events
+on: [push, pull_request]
 
 jobs:
   prettier:
