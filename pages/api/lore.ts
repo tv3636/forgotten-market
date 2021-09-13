@@ -1,5 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK from "@pinata/sdk";
+import { utils } from "ethers";
+import { getProvider } from "../../hooks/useProvider";
+import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const pinata = pinataSDK(
   process.env.PINATA_ID || "",
@@ -14,6 +17,29 @@ export default async function handler(
     return res.status(404);
   }
 
+  if (!req.body?.signature || !req.body?.wizard_id) {
+    return res.status(400).json({
+      error:
+        "You must supply both a signature and a wizard id that was signed...",
+    });
+  }
+
+  // console.log(req.body.signature);
+
+  const signingAddress = await utils.verifyMessage(
+    req.body.wizard_id,
+    req.body.signature
+  );
+
+  const wizardContract = getWizardsContract({ provider: getProvider() });
+  const wizardOwner = await wizardContract.ownerOf(req.body.wizard_id);
+
+  if (wizardOwner !== signingAddress) {
+    return res.status(400).json({
+      error: `Address ${signingAddress} does not own wizard ${req.body.wizard_id}, ${wizardOwner} does instead.`,
+    });
+  }
+
   try {
     const response = await pinata.pinJSONToIPFS({
       name: req.body?.title,
@@ -22,8 +48,10 @@ export default async function handler(
       attributes: [
         { trait_type: "Artifact Address", value: req.body.address },
         { trait_type: "Artifact Token ID", value: req.body.token_id },
-        { trait_type: "Pixel Art", value: req.body?.pixel_art ?? false }
-      ]
+        { trait_type: "Pixel Art", value: req.body?.pixel_art ?? false },
+        { trait_type: "Wizard ID", value: req.body.wizard_id },
+        { trait_type: "Creator", value: signingAddress },
+      ],
     });
     return res.status(201).json({ hash: response.IpfsHash });
   } catch (e) {
