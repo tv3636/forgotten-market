@@ -40,7 +40,7 @@ export default function WizardArt({ wizard, url }: Props) {
   const wd = wizData[wizard];
   const wizardTitle = `${wd.name} (#${wizard})`;
   const wizardImageUrl = `https://nftz.forgottenrunes.com/wizards/${wizard}.png`;
-  console.log("wd.background_color: ", wd.background_color);
+  // console.log("wd.background_color: ", wd.background_color);
   return (
     <WizardArtWrapper color={wd.background_color}>
       <h2>{wizardTitle}</h2>
