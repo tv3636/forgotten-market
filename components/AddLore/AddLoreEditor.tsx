@@ -121,8 +121,8 @@ export const convertDraftStateToMarkdown = (
 
         close: function () {
           return "";
-        }
-      }
+        },
+      },
     },
     entityItems: {
       IMAGE: {

@@ -51,7 +51,7 @@ const BookFrame = ({
   controls,
   children,
   previousPageRoute,
-  nextPageRoute
+  nextPageRoute,
 }: Props) => {
   const prevPageUrl = previousPageRoute?.as;
   const nextPageUrl = nextPageRoute?.as;
