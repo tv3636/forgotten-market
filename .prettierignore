@@ -1,9 +1,10 @@
-# testing
-/coverage
-
 # next.js
 /.next/
 /out/
+/public
+/lib
 
 # production
 /build
+
+/node_modules
