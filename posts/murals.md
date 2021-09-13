@@ -21,10 +21,13 @@ Photos:
 
 ## Miami, Florida, USA
 
-* Status: In progress
-* Wizards: _To be revealed_
+* Status: Active
 * Dates: September 2021
-* Location: Wynwood District, _Address to be announced_
+* Location 1 [#9044](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/9044): 3404 N Miami Ave Miami, FL 33127 
+* Location 2 [#1556](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/1556), [#48](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/48), [#5969](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/5969): 30 NW 34th Street Miami, FL 33127
+
+![](https://i.imgur.com/SfsuVoN.jpg)
+![](https://i.imgur.com/5bWOID0.jpg)
 
 ## Los Angeles, California, USA
 
@@ -50,7 +53,7 @@ Wizards who live in the same city sometimes team up to coordinate and share fund
 
 Getting a Mural done is relatively simple: find an artist, describe what you want in detail, pay them, and wait.
 
-Cost: between $1,000-$5,000
+Cost: between $1,000-$5,000  
 Timeline: About an hour of prep, a few weeks of waiting
 
 # Instructions:

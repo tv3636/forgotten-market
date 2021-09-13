@@ -8,6 +8,7 @@ import path from "path";
 import styled from "@emotion/styled";
 import Layout from "../../components/InfoPageLayout";
 import WizardArt from "../../components/WizardArt";
+import OgImage from "../../components/OgImage";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
 import dynamic from "next/dynamic";
 import rehypeSlug from "rehype-slug";
@@ -47,6 +48,7 @@ export default function PostPage({
   const title = `${frontMatter.title} | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`;
   return (
     <Layout title={title} description={frontMatter.description}>
+      <OgImage title={frontMatter.title} />
       <header>
         <nav>
           <Link href="/posts">

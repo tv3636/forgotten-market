@@ -143,9 +143,7 @@ export default function SiteNav({}: Props) {
           <ResponsivePixelImg src="/static/img/forgotten-runes-logo.png" />
         </li>
         <li className="item">
-          <Link as={"/"} href={"/"} passHref={true}>
-            <a href="/">The Secret Tower</a>
-          </Link>
+          <a href="/">The Secret Tower</a>
         </li>
         <li className="item">
           <Link as={"/wtf"} href={"/wtf"} passHref={true}>
@@ -162,10 +160,14 @@ export default function SiteNav({}: Props) {
           <a href="/lore">Lore</a>
         </li> */}
         <li className="item">
-          <a href="/map">Map</a>
+          <Link as={"/map"} href={"/map"} passHref={true}>
+            <a>Map</a>
+          </Link>
         </li>
         <li className="item">
-          <a href="/gallery">Gallery</a>
+          <Link as={"/gallery"} href={"/gallery"} passHref={true}>
+            <a>Gallery</a>
+          </Link>
         </li>
         {/* <li className="item">
           <a href="/blog">Blog</a>
