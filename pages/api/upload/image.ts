@@ -22,9 +22,9 @@ export default async function handler(
       pinataMetadata: {
         name: "filename",
         keyvalues: {
-          uploader: "address-of-uploader-TODO"
-        }
-      }
+          uploader: "address-of-uploader-TODO",
+        },
+      },
     });
     return res.status(201).json({ hash: response.IpfsHash });
   } catch (e) {

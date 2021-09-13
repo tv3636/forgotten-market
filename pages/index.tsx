@@ -3,7 +3,7 @@ import React from "react";
 import Layout from "../components/Layout";
 
 const DynamicGameRoot = dynamic(() => import("../game/GameRoot"), {
-  ssr: false
+  ssr: false,
 });
 
 const IndexPage = () => (

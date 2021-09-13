@@ -16,7 +16,7 @@ export default class WebFontFile extends Phaser.Loader.File {
   constructor(loader: any, fontNames: string[], service = "google") {
     super(loader, {
       type: "webfont",
-      key: fontNames.toString()
+      key: fontNames.toString(),
     });
 
     this.fontNames = Array.isArray(fontNames) ? fontNames : [fontNames];
@@ -32,7 +32,7 @@ export default class WebFontFile extends Phaser.Loader.File {
       },
       fontinactive: (familyName: string) => {
         this.checkLoadedFonts(familyName);
-      }
+      },
     };
 
     switch (this.service) {
@@ -53,14 +53,14 @@ export default class WebFontFile extends Phaser.Loader.File {
 
   getGoogleConfig() {
     return {
-      families: this.fontNames
+      families: this.fontNames,
     };
   }
 
   getAdobeEdgeConfig() {
     return {
       id: this.fontNames.join(";"),
-      api: "//use.edgefonts.net"
+      api: "//use.edgefonts.net",
     };
   }
 

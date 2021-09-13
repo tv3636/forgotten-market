@@ -119,7 +119,7 @@ export default function AddLoreControls({
   wizardId,
   onSubmit,
   onBackgroundColorChanged,
-  onNsfwChanged
+  onNsfwChanged,
 }: Props) {
   const wizardData: any = wizardId ? wizData[wizardId.toString()] : {};
   const wizardNum = parseInt(wizardId || "0");

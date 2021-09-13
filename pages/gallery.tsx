@@ -41,9 +41,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      wizardLore
+      wizardLore,
     },
-    revalidate: 60 * 30 //30 mins
+    revalidate: 60 * 30, //30 mins
   };
 }
 
