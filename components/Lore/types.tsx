@@ -29,10 +29,7 @@ export type LorePage = {};
 export type LorePageData = {
   leftPage: { [key: string]: string };
   rightPage: { [key: string]: string };
-  prevLeftPage: { [key: string]: string };
   prevRightPage: { [key: string]: string };
   nextLeftPage: { [key: string]: string };
-  nextRightPage: { [key: string]: string };
-  nextWizardRightPage: { [key: string]: string };
   prevWizardPageCount: number;
 };
