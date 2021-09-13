@@ -66,7 +66,7 @@ const WizardName = styled.div`
 const WizardCard = ({
   id,
   name,
-  onWizardPicked,
+  onWizardPicked
 }: {
   id: string;
   name: string;
@@ -87,7 +87,7 @@ const WizardCard = ({
             ? () => {
                 const wizardPicked: WizardConfiguration = {
                   tokenId: id,
-                  name: name,
+                  name: name
                 };
                 console.log("wizardPicked: ", wizardPicked);
                 onWizardPicked(wizardPicked);

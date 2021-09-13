@@ -12,7 +12,7 @@ export const Store = types
     lastUpdate: types.Date,
     light: false,
     web3Settings: types.optional(Web3Settings, {}),
-    counter: types.optional(Counter, {}),
+    counter: types.optional(Counter, {})
   })
   .actions((self) => {
     let timer: any;

@@ -2,7 +2,7 @@ import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import {
   useEventListener,
   useEventEmitter,
-  GameContext,
+  GameContext
 } from "phaser-react-tools";
 import * as React from "react";
 import { useContext, useEffect, useState } from "react";

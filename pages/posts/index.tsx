@@ -61,7 +61,7 @@ export default function Index({ posts }: { posts: Post[] }) {
 export const getStaticProps: GetStaticProps = async ({
   locale,
   locales,
-  defaultLocale,
+  defaultLocale
 }) => {
   let posts = compact(
     postFilePaths.map((filePath) => {
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async ({
         data,
         filePath,
         basename,
-        locale: localeExt,
+        locale: localeExt
       };
     })
   );

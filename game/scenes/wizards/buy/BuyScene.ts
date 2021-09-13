@@ -25,8 +25,8 @@ export class BuyScene extends Phaser.Scene {
     const webfont = {
       custom: {
         families: ["Pixel-NES", "Alagard"],
-        urls: ["/static/game/wizards/fonts.css"],
-      },
+        urls: ["/static/game/wizards/fonts.css"]
+      }
     };
     (scene.load as any).rexWebFont(webfont);
   }
@@ -52,7 +52,7 @@ export class BuyScene extends Phaser.Scene {
       targets: frame,
       scale: 1,
       ease: "Back.easeOut",
-      duration: 100,
+      duration: 100
     });
 
     const closeButton = this.add.sprite(
@@ -84,7 +84,7 @@ export class BuyScene extends Phaser.Scene {
       targets: closeButton,
       scale: 1,
       ease: "Back.easeOut",
-      duration: 100,
+      duration: 100
     });
 
     rayZone.setInteractive({ useHandCursor: false }).on("pointerup", () => {
@@ -100,8 +100,8 @@ export class BuyScene extends Phaser.Scene {
       metrics: {
         fontSize: 28,
         ascent: 27,
-        descent: 1,
-      },
+        descent: 1
+      }
     });
     console.log("summon wizards", summonText.getTextMetrics());
 
@@ -111,7 +111,7 @@ export class BuyScene extends Phaser.Scene {
     const rexTextTyping = this.plugins.get("rexTextTyping") as any;
     if (rexTextTyping) {
       const typing = rexTextTyping.add(summonText, {
-        speed: 45,
+        speed: 45
       });
       typing.start("Summon Wizards?");
     }
@@ -125,7 +125,7 @@ export class BuyScene extends Phaser.Scene {
       onClick: () => {
         console.log("you clicked button one");
         this.initiateBuy({ howMany: 1 });
-      },
+      }
     });
 
     let buy2 = new BuyButtonRow({
@@ -137,7 +137,7 @@ export class BuyScene extends Phaser.Scene {
       onClick: () => {
         console.log("you clicked button two");
         this.initiateBuy({ howMany: 3 });
-      },
+      }
     });
 
     let buy3 = new BuyButtonRow({
@@ -149,7 +149,7 @@ export class BuyScene extends Phaser.Scene {
       onClick: () => {
         console.log("you clicked button three");
         this.initiateBuy({ howMany: 12 });
-      },
+      }
     });
 
     this.time.addEvent({
@@ -157,7 +157,7 @@ export class BuyScene extends Phaser.Scene {
       callback: () => {
         buy1.create();
       },
-      startAt: 0,
+      startAt: 0
     });
 
     this.time.addEvent({
@@ -165,7 +165,7 @@ export class BuyScene extends Phaser.Scene {
       callback: () => {
         buy2.create();
       },
-      startAt: 0,
+      startAt: 0
     });
 
     this.time.addEvent({
@@ -173,7 +173,7 @@ export class BuyScene extends Phaser.Scene {
       callback: () => {
         buy3.create();
       },
-      startAt: 0,
+      startAt: 0
     });
 
     this.updateCamera();
@@ -212,7 +212,7 @@ export class BuyScene extends Phaser.Scene {
       toast.create({
         scene: this,
         message: "Can't find Metamask",
-        duration: 3000,
+        duration: 3000
       });
       return;
     }
@@ -220,7 +220,7 @@ export class BuyScene extends Phaser.Scene {
     const signer = injectedProvider.getSigner();
     const contract = getWizardsContract({ provider: injectedProvider });
     const tx = await contract.populateTransaction.summon(howMany, {
-      value: PRICE.mul(howMany),
+      value: PRICE.mul(howMany)
     });
 
     console.log("signer: ", signer);
@@ -245,7 +245,7 @@ export class BuyScene extends Phaser.Scene {
       toast.create({
         scene: this,
         message: err.message?.substr(0, 200),
-        duration: 3000,
+        duration: 3000
       });
     }
   }
@@ -284,8 +284,8 @@ export class BuyScene extends Phaser.Scene {
         metrics: {
           fontSize: 24,
           ascent: 24,
-          descent: 4,
-        },
+          descent: 4
+        }
       });
       // console.log("summon wizards", summonText.getTextMetrics());
       summonText.setOrigin(0.5, 0);
@@ -295,7 +295,7 @@ export class BuyScene extends Phaser.Scene {
       const rexTextTyping = this.plugins.get("rexTextTyping") as any;
       if (rexTextTyping) {
         const typing = rexTextTyping.add(summonText, {
-          speed: 45,
+          speed: 45
         });
         typing.start(message);
       }
@@ -307,7 +307,7 @@ export class BuyScene extends Phaser.Scene {
           console.log("opensea");
           const openSeaURL = `https://opensea.io/collection/forgottenruneswizardscult`;
           window.open(openSeaURL, "_blank");
-        },
+        }
       };
 
       const socialButton = new ImageButton(
@@ -325,7 +325,7 @@ export class BuyScene extends Phaser.Scene {
       this.tweens.add({
         targets: socialButton,
         alpha: { value: 1, duration: 1000, ease: "Power1" },
-        delay: 1000,
+        delay: 1000
       });
     } catch (err) {
       console.log("err: ", err);

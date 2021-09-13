@@ -22,8 +22,8 @@ export class ShowScene extends Phaser.Scene {
     const webfont = {
       custom: {
         families: ["Pixel-NES", "Alagard"],
-        urls: ["/static/game/wizards/fonts.css"],
-      },
+        urls: ["/static/game/wizards/fonts.css"]
+      }
     };
     (scene.load as any).rexWebFont(webfont);
   }
@@ -74,7 +74,7 @@ export class ShowScene extends Phaser.Scene {
       targets: closeButton,
       scale: 1,
       ease: "Back.easeOut",
-      duration: 100,
+      duration: 100
     });
 
     rayZone
@@ -202,7 +202,7 @@ export class ShowScene extends Phaser.Scene {
       toast.create({
         scene: this,
         message: err.message?.substr(0, 200),
-        duration: 3000,
+        duration: 3000
       });
       this.showYouHaveNoWizards();
     }
@@ -239,9 +239,9 @@ export class ShowScene extends Phaser.Scene {
         metrics: {
           fontSize: 20,
           ascent: 15,
-          descent: 2,
-        },
-      },
+          descent: 2
+        }
+      }
     });
     summonText.setOrigin(0.5, 0.5);
     summonText.setPosition(centerX, 100);
@@ -250,7 +250,7 @@ export class ShowScene extends Phaser.Scene {
     const rexTextTyping = scene.plugins.get("rexTextTyping") as any;
     if (rexTextTyping) {
       const typing = rexTextTyping.add(summonText, {
-        speed: 45,
+        speed: 45
       });
       typing.start(message);
     }

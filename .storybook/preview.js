@@ -6,12 +6,12 @@ export const parameters = {
   controls: {
     matchers: {
       color: /(background|color)$/i,
-      date: /Date$/,
-    },
+      date: /Date$/
+    }
   },
   nextRouter: {
-    Provider: RouterContext.Provider,
-  },
+    Provider: RouterContext.Provider
+  }
 };
 
 // export const decorators = [withNextRouter()];

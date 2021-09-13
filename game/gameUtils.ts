@@ -6,7 +6,7 @@ export function fadeIn(
   gameObject.setAlpha(0);
   scene.tweens.add({
     targets: gameObject,
-    alpha: { value: 1, duration, ease: "Power1" },
+    alpha: { value: 1, duration, ease: "Power1" }
   });
 }
 

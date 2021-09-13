@@ -10,7 +10,7 @@ import events from "../../../events";
 import {
   getWeb3Controller,
   Web3Controller,
-  Web3ControllerEvents,
+  Web3ControllerEvents
 } from "./Web3Controller";
 import { getWizardsContract } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { JsonRpcProvider } from "@ethersproject/providers";
@@ -69,7 +69,7 @@ export class HomeScene extends Phaser.Scene {
         if (web3Controller.web3Connected) {
           this.launchBuyScene();
         }
-      },
+      }
     });
     this.tower = new Tower({ scene: this });
     this.summonStartBlock = BigNumber.from(0);
@@ -92,11 +92,11 @@ export class HomeScene extends Phaser.Scene {
     const webfont = {
       custom: {
         families: ["Pixel-NES", "Alagard"],
-        urls: ["/static/game/wizards/fonts.css"],
+        urls: ["/static/game/wizards/fonts.css"]
       },
       google: {
-        families: ["Bangers"],
-      },
+        families: ["Bangers"]
+      }
     };
     (this.load as any).rexWebFont(webfont);
   }
@@ -193,7 +193,7 @@ export class HomeScene extends Phaser.Scene {
       summoningBegun,
       summonStartBlock,
       currentBlock,
-      diffBlock,
+      diffBlock
     };
   }
 
@@ -271,7 +271,7 @@ export class HomeScene extends Phaser.Scene {
       key: "idle",
       delay: 1000,
       repeatDelay: 2000,
-      repeat: -1,
+      repeat: -1
     });
     this.wolf.on(Phaser.Animations.Events.ANIMATION_COMPLETE, (anim: any) => {
       if (anim?.key === "howl") {
@@ -280,7 +280,7 @@ export class HomeScene extends Phaser.Scene {
           key: "idle",
           delay: 1000,
           repeatDelay: 2000,
-          repeat: -1,
+          repeat: -1
         });
       }
     });
@@ -294,7 +294,7 @@ export class HomeScene extends Phaser.Scene {
       this.wolf.play({
         key: "howl",
         repeat: 0,
-        delay: 0,
+        delay: 0
       });
     });
 
@@ -304,7 +304,7 @@ export class HomeScene extends Phaser.Scene {
     this.cat.depth = 2;
     this.cat.play({
       key: "play",
-      repeat: -1,
+      repeat: -1
     });
 
     (this as any).myAasepriteLoader?.createFromAseprite("doorguy");
@@ -314,7 +314,7 @@ export class HomeScene extends Phaser.Scene {
       key: "play-doorguy",
       delay: 1000,
       repeatDelay: 10000,
-      repeat: -1,
+      repeat: -1
     });
 
     // const zoneGraphics = this.add.graphics();
@@ -350,7 +350,7 @@ export class HomeScene extends Phaser.Scene {
     this.crow.play({
       key: "crow-fly-mm",
       delay: 1000,
-      repeat: 0,
+      repeat: 0
     });
 
     // const zoneGraphics = this.add.graphics();
@@ -375,7 +375,7 @@ export class HomeScene extends Phaser.Scene {
     if (!this.crow) return;
     this.tweens.add({
       targets: this.crow,
-      alpha: { value: 0, duration: 500, ease: "Power1" },
+      alpha: { value: 0, duration: 500, ease: "Power1" }
     });
     this.time.addEvent({
       delay: 501,
@@ -384,7 +384,7 @@ export class HomeScene extends Phaser.Scene {
           this.crow.destroy();
           this.crow = null;
         }
-      },
+      }
     });
   }
 
@@ -412,7 +412,7 @@ export class HomeScene extends Phaser.Scene {
         downY: event.downY,
         worldX: self.input.activePointer.worldX,
         worldY: self.input.activePointer.worldY,
-        worldXRel: centerX - self.input.activePointer.worldX,
+        worldXRel: centerX - self.input.activePointer.worldX
       });
     });
   }
@@ -517,7 +517,7 @@ export class HomeScene extends Phaser.Scene {
 
     this.tweens.add({
       targets: darkSky,
-      alpha: { value: 1, duration: timeToFade, ease: "Power1" },
+      alpha: { value: 1, duration: timeToFade, ease: "Power1" }
     });
 
     this.towerBeams.bringToFront();
@@ -531,7 +531,7 @@ export class HomeScene extends Phaser.Scene {
         this.cameras.main.shake(shakeDuration, shakeVector);
         this.backgroundScene.cameras.main.shake(shakeDuration, shakeVector);
       },
-      startAt: 0,
+      startAt: 0
     });
 
     // explode
@@ -542,7 +542,7 @@ export class HomeScene extends Phaser.Scene {
       callback: () => {
         this.towerBeams.explode();
       },
-      startAt: 0,
+      startAt: 0
     });
   }
 
@@ -553,7 +553,7 @@ export class HomeScene extends Phaser.Scene {
 
     this.tweens.add({
       targets: this.darkSky,
-      alpha: { value: 0, duration: 500, ease: "Power1" },
+      alpha: { value: 0, duration: 500, ease: "Power1" }
     });
   }
 
@@ -619,8 +619,8 @@ export class HomeScene extends Phaser.Scene {
       metrics: {
         fontSize: 43,
         ascent: 35,
-        descent: 8,
-      },
+        descent: 8
+      }
     });
     // console.log("summoning", summonText.getTextMetrics());
 
@@ -635,7 +635,7 @@ export class HomeScene extends Phaser.Scene {
     const rexTextTyping = this.plugins.get("rexTextTyping") as any;
     if (rexTextTyping) {
       const typing = rexTextTyping.add(summonText, {
-        speed: 45,
+        speed: 45
       });
       typing.start("The Summoning\n\nhas not yet begun");
     }
@@ -647,8 +647,8 @@ export class HomeScene extends Phaser.Scene {
       metrics: {
         fontSize: 40,
         ascent: 30,
-        descent: 2,
-      },
+        descent: 2
+      }
     });
     countText.scale = 0.5;
     countText.setOrigin(0.5, 0);
@@ -658,7 +658,7 @@ export class HomeScene extends Phaser.Scene {
     countText.setAlpha(0);
     this.tweens.add({
       targets: countText,
-      alpha: { value: 0.8, duration: 1000, delay: 2000, ease: "Power1" },
+      alpha: { value: 0.8, duration: 1000, delay: 2000, ease: "Power1" }
     });
     countText
       .setInteractive({ useHandCursor: true })

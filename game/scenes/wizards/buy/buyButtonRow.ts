@@ -17,7 +17,7 @@ export class BuyButtonRow {
     baseName,
     displayPrice,
     priceDelay,
-    onClick,
+    onClick
   }: {
     scene: Phaser.Scene;
     baseY: number;
@@ -82,8 +82,8 @@ export class BuyButtonRow {
       metrics: {
         fontSize: 28,
         ascent: 27,
-        descent: 1,
-      },
+        descent: 1
+      }
     });
     console.log("pricetext", priceText.getTextMetrics());
     priceText.setOrigin(0, 0.5);
@@ -93,7 +93,7 @@ export class BuyButtonRow {
     // console.log("rexTextTyping: ", rexTextTyping);
     if (rexTextTyping) {
       const typing = rexTextTyping.add(priceText, {
-        speed: 45,
+        speed: 45
       });
 
       scene.time.addEvent({
@@ -101,7 +101,7 @@ export class BuyButtonRow {
         callback: () => {
           typing.start(this.displayPrice);
         },
-        startAt: 0,
+        startAt: 0
       });
     }
   }

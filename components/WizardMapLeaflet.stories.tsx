@@ -10,8 +10,8 @@ export default {
   title: "Wizards/Map",
   component: Map,
   argTypes: {
-    backgroundColor: { control: "color" },
-  },
+    backgroundColor: { control: "color" }
+  }
 } as ComponentMeta<typeof Map>;
 
 const Template: ComponentStory<typeof Map> = (args) => <Map {...args} />;
@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof Map> = (args) => <Map {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   primary: true,
-  label: "Button",
+  label: "Button"
 };

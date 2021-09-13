@@ -5,7 +5,7 @@ export class Toast {
   create({
     scene,
     message,
-    duration,
+    duration
   }: {
     scene: Phaser.Scene;
     message: string;
@@ -28,8 +28,8 @@ export class Toast {
       metrics: {
         fontSize: 25,
         ascent: 24,
-        descent: 1,
-      }, // +
+        descent: 1
+      } // +
     });
 
     summonText.setScale(0.5);
@@ -43,13 +43,13 @@ export class Toast {
 
     scene.tweens.add({
       targets: summonText,
-      alpha: { value: 1, duration: fadeInTime, ease: "Power1" },
+      alpha: { value: 1, duration: fadeInTime, ease: "Power1" }
     });
 
     scene.tweens.add({
       targets: summonText,
       alpha: { value: 0, duration: 500, ease: "Power1" },
-      delay: fadeInTime + duration,
+      delay: fadeInTime + duration
     });
   }
 }

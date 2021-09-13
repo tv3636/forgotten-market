@@ -1,15 +1,15 @@
 import {
   JsonRpcProvider,
   StaticJsonRpcProvider,
-  Web3Provider,
+  Web3Provider
 } from "@ethersproject/providers";
 import events, {
   OnMetamaskConnectedEventArgs,
-  OnSiteProviderEventArgs,
+  OnSiteProviderEventArgs
 } from "../../../events";
 
 export const Web3ControllerEvents = {
-  WEB3_CONNECTED: "Web3ControllerEvents/WEB3_CONNECTED",
+  WEB3_CONNECTED: "Web3ControllerEvents/WEB3_CONNECTED"
 };
 
 let _web3Controller: Web3Controller;
@@ -31,7 +31,7 @@ export class Web3Controller {
     game,
     bgScene,
     buyScene,
-    homeScene,
+    homeScene
   }: {
     game: Phaser.Game;
     bgScene?: Phaser.Scene;
@@ -58,7 +58,7 @@ export class Web3Controller {
       ({
         provider,
         injectedProvider,
-        address,
+        address
       }: OnMetamaskConnectedEventArgs) => {
         console.log("metamask connected:", provider, injectedProvider, address);
         this.web3Connected = true;

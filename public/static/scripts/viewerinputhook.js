@@ -35,110 +35,110 @@
  */
 
 (function (OSD, $, undefined) {
-  if (!OSD.version || OSD.version.major < 1) {
-    throw new Error(
-      "OpenSeadragonViewerInputHook requires OpenSeadragon version 1.0.0+"
-    );
-  }
+	if (!OSD.version || OSD.version.major < 1) {
+		throw new Error(
+			'OpenSeadragonViewerInputHook requires OpenSeadragon version 1.0.0+'
+		);
+	}
 
-  /**
-   * Creates a new ViewerInputHook attached to the viewer.
-   *
-   * @method addViewerInputHook
-   * @memberof external:"OpenSeadragon.Viewer"#
-   * @param {Object} options
-   * @param {Object[]} [options.hooks]
-   * @returns {OpenSeadragonImaging.ViewerInputHook}
-   *
-   **/
-  OSD.Viewer.prototype.addViewerInputHook = function (options) {
-    options = options || {};
-    options.viewer = this;
-    return new $.ViewerInputHook(options);
-  };
+	/**
+	 * Creates a new ViewerInputHook attached to the viewer.
+	 *
+	 * @method addViewerInputHook
+	 * @memberof external:"OpenSeadragon.Viewer"#
+	 * @param {Object} options
+	 * @param {Object[]} [options.hooks]
+	 * @returns {OpenSeadragonImaging.ViewerInputHook}
+	 *
+	 **/
+	OSD.Viewer.prototype.addViewerInputHook = function (options) {
+		options = options || {};
+		options.viewer = this;
+		return new $.ViewerInputHook(options);
+	};
 
-  /**
-   * Creates a new ViewerInputHook attached (optionally) to the viewer instance passed in the options parameter.
-   *
-   * @class ViewerInputHook
-   * @classdesc Provides hooks into the OpenSeadragon viewer event pipeline.
-   * @memberof OpenSeadragonImaging
-   * @param {Object} options
-   * @param {external:"OpenSeadragon.Viewer"} [options.viewer] - Reference to OpenSeadragon viewer to attach to.
-   * @param {Object[]} options.hooks
-   *
-   **/
-  $.ViewerInputHook = function (options) {
-    var curHook, curTracker;
+	/**
+	 * Creates a new ViewerInputHook attached (optionally) to the viewer instance passed in the options parameter.
+	 *
+	 * @class ViewerInputHook
+	 * @classdesc Provides hooks into the OpenSeadragon viewer event pipeline.
+	 * @memberof OpenSeadragonImaging
+	 * @param {Object} options
+	 * @param {external:"OpenSeadragon.Viewer"} [options.viewer] - Reference to OpenSeadragon viewer to attach to.
+	 * @param {Object[]} options.hooks
+	 *
+	 **/
+	$.ViewerInputHook = function (options) {
+		var curHook, curTracker;
 
-    options = options || {};
-    options.hooks = options.hooks || [];
+		options = options || {};
+		options.hooks = options.hooks || [];
 
-    this.viewerTrackers = {};
+		this.viewerTrackers = {};
 
-    if (options.viewer) {
-      this.viewerTrackers.viewer = options.viewer.innerTracker;
-      this.viewerTrackers.viewer_outer = options.viewer.outerTracker;
-    }
+		if (options.viewer) {
+			this.viewerTrackers.viewer = options.viewer.innerTracker;
+			this.viewerTrackers.viewer_outer = options.viewer.outerTracker;
+		}
 
-    for (curHook = 0; curHook < options.hooks.length; curHook++) {
-      if (typeof options.hooks[curHook].tracker === "string") {
-        if (!options.viewer) {
-          throw new Error("A viewer must be specified.");
-        }
-        curTracker = this.viewerTrackers[options.hooks[curHook].tracker];
-        if (curTracker === undefined) {
-          throw new Error(
-            "Unknown tracker specified: " + options.hooks[curHook].tracker
-          );
-        }
-      } else {
-        curTracker = options.hooks[curHook].tracker;
-      }
-      /*jshint loopfunc:true*/
-      (function (_this, tracker, handler, hookHandler) {
-        var origHandler = tracker[handler];
-        tracker[handler] = function (event) {
-          return _this.callHandlers(hookHandler, origHandler, event);
-        };
-      })(
-        this,
-        curTracker,
-        options.hooks[curHook].handler,
-        options.hooks[curHook].hookHandler
-      );
-      /*jshint loopfunc:false*/
-    }
-  };
+		for (curHook = 0; curHook < options.hooks.length; curHook++) {
+			if (typeof options.hooks[curHook].tracker === 'string') {
+				if (!options.viewer) {
+					throw new Error('A viewer must be specified.');
+				}
+				curTracker = this.viewerTrackers[
+					options.hooks[curHook].tracker
+				];
+				if (curTracker === undefined) {
+					throw new Error(
+						'Unknown tracker specified: ' +
+							options.hooks[curHook].tracker
+					);
+				}
+			} else {
+				curTracker = options.hooks[curHook].tracker;
+			}
+			/*jshint loopfunc:true*/
+			(function (_this, tracker, handler, hookHandler) {
+				var origHandler = tracker[handler];
+				tracker[handler] = function (event) {
+					return _this.callHandlers(hookHandler, origHandler, event);
+				};
+			})(
+				this,
+				curTracker,
+				options.hooks[curHook].handler,
+				options.hooks[curHook].hookHandler
+			);
+			/*jshint loopfunc:false*/
+		}
+	};
 
-  /**
-   * ViewerInputHook version.
-   * @member {Object} OpenSeadragonImaging.ViewerInputHook.version
-   * @property {String} versionStr - The version number as a string ('major.minor.revision').
-   * @property {Number} major - The major version number.
-   * @property {Number} minor - The minor version number.
-   * @property {Number} revision - The revision number.
-   */
-  $.ViewerInputHook.version = {
-    versionStr: "<%= viewerinputhookVersion.versionStr %>",
-  };
-  var versionSplits = $.ViewerInputHook.version.versionStr.split(".");
-  $.ViewerInputHook.version.major = parseInt(versionSplits[0], 10);
-  $.ViewerInputHook.version.minor = parseInt(versionSplits[1], 10);
-  $.ViewerInputHook.version.revision = parseInt(versionSplits[2], 10);
+	/**
+	 * ViewerInputHook version.
+	 * @member {Object} OpenSeadragonImaging.ViewerInputHook.version
+	 * @property {String} versionStr - The version number as a string ('major.minor.revision').
+	 * @property {Number} major - The major version number.
+	 * @property {Number} minor - The minor version number.
+	 * @property {Number} revision - The revision number.
+	 */
+	$.ViewerInputHook.version = {
+		versionStr: '<%= viewerinputhookVersion.versionStr %>'
+	};
+	var versionSplits = $.ViewerInputHook.version.versionStr.split('.');
+	$.ViewerInputHook.version.major = parseInt(versionSplits[0], 10);
+	$.ViewerInputHook.version.minor = parseInt(versionSplits[1], 10);
+	$.ViewerInputHook.version.revision = parseInt(versionSplits[2], 10);
 
-  $.ViewerInputHook.prototype.callHandlers = function (
-    hookHandler,
-    origHandler,
-    event
-  ) {
-    var ret = hookHandler(event);
-    if (origHandler && !event.stopHandlers) {
-      ret = origHandler(event);
-    }
-    return event.stopBubbling ? false : ret;
-  };
-})(
-  OpenSeadragon,
-  (window.OpenSeadragonImaging = window.OpenSeadragonImaging || {})
-);
+	$.ViewerInputHook.prototype.callHandlers = function (
+		hookHandler,
+		origHandler,
+		event
+	) {
+		var ret = hookHandler(event);
+		if (origHandler && !event.stopHandlers) {
+			ret = origHandler(event);
+		}
+		return event.stopBubbling ? false : ret;
+	};
+})(OpenSeadragon, (window.OpenSeadragonImaging = window.OpenSeadragonImaging || {}));

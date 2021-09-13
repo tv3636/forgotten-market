@@ -1,7 +1,7 @@
 import { fadeIn, fixHackyBraveText } from "../gameUtils";
 import {
   getWeb3Controller,
-  Web3Controller,
+  Web3Controller
 } from "../scenes/wizards/home/Web3Controller";
 import { buildAnimationParticleClass } from "./animation-particles";
 
@@ -34,7 +34,7 @@ export class TowerBeams {
 
   constructor({
     scene,
-    onClick,
+    onClick
   }: {
     scene: Phaser.Scene;
     onClick: () => void;
@@ -139,21 +139,21 @@ export class TowerBeams {
       end: 11,
       zeroPad: 2,
       prefix: "squareRot",
-      suffix: ".png",
+      suffix: ".png"
     });
 
     const beamphaseAnim = scene.anims.create({
       key: "beamphase1-square",
       frames: frameNames,
       frameRate: 20,
-      repeat: -1,
+      repeat: -1
     });
     // squarePulse.anims.play("beamphase1-square");
 
     // https://github.com/photonstorm/phaser3-examples/blob/master/public/src/game%20objects/particle%20emitter/custom%20particles.js
 
     const AnimatedParticle = buildAnimationParticleClass({
-      anim: beamphaseAnim,
+      anim: beamphaseAnim
     });
 
     let particles = scene.add.particles("squarerot");
@@ -170,7 +170,7 @@ export class TowerBeams {
       lifespan: 1370,
       alpha: 0,
       blendMode: "Phaser.BlendModes.SCREEN",
-      particleClass: AnimatedParticle as any,
+      particleClass: AnimatedParticle as any
     });
     emitter.setAlpha(function (p: any, k: any, t: number) {
       //   return 1 - 2 * Math.abs(t - 0.5);
@@ -206,7 +206,7 @@ export class TowerBeams {
       { leftX: -42, rightX: -63, sideY: 179, sideYTip: 183, beam: beamRight },
       { leftX: -42, rightX: -63, sideY: 179, sideYTip: 183, beam: beamRight2 },
       { leftX: 17, rightX: -17, sideY: 251, sideYTip: 258, beam: beamCenter },
-      { leftX: 17, rightX: -17, sideY: 251, sideYTip: 258, beam: beamCenter2 },
+      { leftX: 17, rightX: -17, sideY: 251, sideYTip: 258, beam: beamCenter2 }
     ].map(({ leftX, rightX, sideY, sideYTip, beam }) => {
       // left column beam mask
       const shape = scene.add.graphics({});
@@ -268,7 +268,7 @@ export class TowerBeams {
     [this.beamLeft2, this.beamRight2, this.beamCenter2].forEach((beam: any) => {
       this.scene.tweens.add({
         targets: beam,
-        alpha: { value: 1, duration, ease: "Power1" },
+        alpha: { value: 1, duration, ease: "Power1" }
       });
     });
   }
@@ -278,7 +278,7 @@ export class TowerBeams {
     [this.beamLeft2, this.beamRight2, this.beamCenter2].forEach((beam: any) => {
       this.scene.tweens.add({
         targets: beam,
-        alpha: { value: 0, duration: 1000, ease: "Power1" },
+        alpha: { value: 0, duration: 1000, ease: "Power1" }
       });
     });
   }
@@ -288,13 +288,13 @@ export class TowerBeams {
     if (this.beamGiant) {
       this.scene.tweens.add({
         targets: this.beamGiant,
-        alpha: { value: 0, duration: 500, ease: "Power1" },
+        alpha: { value: 0, duration: 500, ease: "Power1" }
       });
       this.scene.time.addEvent({
         delay: 501,
         callback: () => {
           this.beamGiant.destroy();
-        },
+        }
       });
     }
 
@@ -302,7 +302,7 @@ export class TowerBeams {
       if (beam) {
         this.scene.tweens.add({
           targets: beam,
-          alpha: { value: 1, duration: 500, ease: "Power1" },
+          alpha: { value: 1, duration: 500, ease: "Power1" }
         });
       }
     });
@@ -320,7 +320,7 @@ export class TowerBeams {
 
       this.scene.tweens.add({
         targets: beam,
-        alpha: { value: 0, duration: 50, ease: "Power1" },
+        alpha: { value: 0, duration: 50, ease: "Power1" }
       });
     });
   }
@@ -359,14 +359,14 @@ export class TowerBeams {
       scale: {
         value: 0.1 * scaleIncrease,
         duration: crossDuration,
-        ease: "Power1",
+        ease: "Power1"
       },
       x: {
         value: centerX - 4 * scaleIncrease,
         duration: crossDuration,
-        ease: "Power1",
+        ease: "Power1"
       },
-      y: { value: 390, duration: crossDuration, ease: "Power1" },
+      y: { value: 390, duration: crossDuration, ease: "Power1" }
     });
 
     // whiteGlare
@@ -388,10 +388,10 @@ export class TowerBeams {
         scene.tweens.add({
           targets: whiteGlare,
           alpha: { value: 0.8, duration: 300, ease: "Power1" },
-          yoyo: true,
+          yoyo: true
         });
       },
-      startAt: 0,
+      startAt: 0
     });
 
     // boomSquare
@@ -417,17 +417,17 @@ export class TowerBeams {
           scale: {
             value: 0.25 * scaleIncrease,
             duration,
-            ease,
+            ease
           },
           x: {
             value: centerX,
             duration,
-            ease,
+            ease
           },
-          y: { value: 250, duration: crossDuration, ease },
+          y: { value: 250, duration: crossDuration, ease }
         });
       },
-      startAt: 0,
+      startAt: 0
     });
 
     // squareGiant
@@ -452,17 +452,17 @@ export class TowerBeams {
           scale: {
             value: 0.25 * scaleIncrease,
             duration,
-            ease: "Power1",
+            ease: "Power1"
           },
           x: {
             value: centerX,
             duration,
-            ease: "Power1",
+            ease: "Power1"
           },
-          y: { value: 250, duration: crossDuration, ease: "Power1" },
+          y: { value: 250, duration: crossDuration, ease: "Power1" }
         });
       },
-      startAt: 0,
+      startAt: 0
     });
 
     const beamGiant = scene.add.sprite(
@@ -498,12 +498,12 @@ export class TowerBeams {
           alpha: {
             value: 0,
             duration: crossDuration * 1.2,
-            ease: "Power1",
+            ease: "Power1"
           },
-          y: { value: -100, duration: crossDuration, ease: "Power1" },
+          y: { value: -100, duration: crossDuration, ease: "Power1" }
         });
       },
-      startAt: 0,
+      startAt: 0
     });
 
     // beamGiant
@@ -514,18 +514,18 @@ export class TowerBeams {
 
         scene.tweens.add({
           targets: beamGiant,
-          alpha: { value: 1, duration: 200, ease: "Power1" },
+          alpha: { value: 1, duration: 200, ease: "Power1" }
         });
 
         this.turnOffBeams();
-      },
+      }
     });
 
     scene.time.addEvent({
       delay: 2000,
       callback: () => {
         this.showSummonsSent();
-      },
+      }
     });
 
     // DEBUG
@@ -560,8 +560,8 @@ export class TowerBeams {
       metrics: {
         fontSize: 43,
         ascent: 35,
-        descent: 8,
-      },
+        descent: 8
+      }
     });
     summonText.scale = 0.5;
     summonText.setOrigin(0, 0);
@@ -572,7 +572,7 @@ export class TowerBeams {
     const rexTextTyping = scene.plugins.get("rexTextTyping") as any;
     if (rexTextTyping) {
       const typing = rexTextTyping.add(summonText, {
-        speed: 45,
+        speed: 45
       });
       typing.start(message);
     }
@@ -591,8 +591,8 @@ export class TowerBeams {
           metrics: {
             fontSize: 40,
             ascent: 30,
-            descent: 2,
-          }, // +
+            descent: 2
+          } // +
         }
       );
       explorerLink.setAlpha(0);
@@ -603,7 +603,7 @@ export class TowerBeams {
       this.explorerLink = explorerLink;
       this.scene.tweens.add({
         targets: this.explorerLink,
-        alpha: { value: 0.8, duration: 1600, delay: 3000, ease: "Power1" },
+        alpha: { value: 0.8, duration: 1600, delay: 3000, ease: "Power1" }
       });
       explorerLink
         .setInteractive({ useHandCursor: true })
@@ -655,7 +655,7 @@ export class TowerBeams {
         delay: sleepTime,
         callback: () => {
           this.summonConfirmed();
-        },
+        }
       });
     }
   }
@@ -667,7 +667,7 @@ export class TowerBeams {
       end: 4,
       zeroPad: 2,
       prefix: "trifx",
-      suffix: ".png",
+      suffix: ".png"
     });
 
     console.log("frameNames: ", frameNames);

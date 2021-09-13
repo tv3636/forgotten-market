@@ -85,7 +85,7 @@ const LoreStory = styled.div`
 
 function ParchmentPage({
   bgColor,
-  children,
+  children
 }: {
   bgColor: string | null;
   children: any;
@@ -132,7 +132,7 @@ export default function LorePreview({
   currentTitle,
   currentStory,
   currentBgColor,
-  currentWizard,
+  currentWizard
 }: Props) {
   const hasContent =
     currentTitle || currentStory || currentArtifact || currentWizard;

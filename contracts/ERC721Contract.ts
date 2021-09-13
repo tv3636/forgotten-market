@@ -3,7 +3,7 @@ import { abi as ForgottenRunesWizardsCultAbi } from "./ForgottenRunesWizardsCult
 
 export function getERC721Contract({
   contractAddress,
-  provider,
+  provider
 }: {
   contractAddress: string;
   provider: any;

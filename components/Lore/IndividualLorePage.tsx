@@ -81,7 +81,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const EmptyLorePage = ({
   wizardId,
-  pageNum,
+  pageNum
 }: {
   wizardId?: number;
   pageNum: number;
@@ -107,7 +107,7 @@ export const EmptyLorePage = ({
 };
 
 export default function IndividualLorePage({
-  loreMetadataURI,
+  loreMetadataURI
 }: {
   loreMetadataURI: string;
 }) {
@@ -144,14 +144,14 @@ export default function IndividualLorePage({
   const story = data?.description || "";
   const title = data?.name || "";
   const artifactAddress: string = find(data?.attributes || [], {
-    trait_type: "Artifact Address",
+    trait_type: "Artifact Address"
   })?.value;
   const artifactTokenId: string = find(data?.attributes || [], {
-    trait_type: "Artifact Token ID",
+    trait_type: "Artifact Token ID"
   })?.value;
   const pixelArt: boolean =
     find(data?.attributes || [], {
-      trait_type: "Pixel Art",
+      trait_type: "Pixel Art"
     })?.value ?? false;
 
   // let layoutId = `page-${wizardId}-${loreMetadataURI}`;

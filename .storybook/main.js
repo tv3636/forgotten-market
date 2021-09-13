@@ -23,12 +23,12 @@ module.exports = {
   stories: [
     "../stories/**/*.stories.mdx",
     "../stories/**/*.stories.@(js|jsx|ts|tsx)",
-    "../components/**/*.stories.@(js|jsx|ts|tsx)",
+    "../components/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   addons: [
     "storybook-addon-next-router",
     "@storybook/addon-links",
-    "@storybook/addon-essentials",
+    "@storybook/addon-essentials"
   ],
   webpackFinal: async (config) => {
     return merge(config, {
@@ -36,9 +36,9 @@ module.exports = {
         alias: {
           "@emotion/core": getPackageDir("@emotion/react"),
           "@emotion/styled": getPackageDir("@emotion/styled"),
-          "emotion-theming": getPackageDir("@emotion/react"),
-        },
-      },
+          "emotion-theming": getPackageDir("@emotion/react")
+        }
+      }
     });
-  },
+  }
 };

@@ -6,7 +6,7 @@ export class MagicSequenceDirector {
   constructor({
     bgScene,
     buyScene,
-    homeScene,
+    homeScene
   }: {
     bgScene: Phaser.Scene;
     buyScene: Phaser.Scene;

@@ -9,7 +9,7 @@ const WizardCardNoBorder = ({
   name,
   showOpenSeaLink = false,
   showLoreLink = false,
-  bookOfLore = false,
+  bookOfLore = false
 }: {
   id: number;
   name: string;

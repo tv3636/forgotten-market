@@ -22,7 +22,7 @@ const Book = ({ wizardId, page, lorePageData }: Props) => {
   const { components, previousPageRoute, nextPageRoute } = typeSetterV2({
     wizardId,
     pageNum: parseInt(page),
-    lorePageData: lorePageData,
+    lorePageData: lorePageData
   });
 
   const { previousPage, currentLeftPage, currentRightPage, nextPage } =
