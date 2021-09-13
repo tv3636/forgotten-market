@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import BookOfLoreControls from "./BookOfLoreControls";
 import { AnimatePresence, motion } from "framer-motion";
 import { LorePageData } from "./types";
-import { typeSetterV2 } from "./loreUtils";
+import { typeSetter } from "./loreUtils";
 import productionWizardData from "../../data/nfts-prod.json";
 import LoreAnimations from "./LoreAnimations";
 import BookFrame from "./BookFrame";
@@ -19,7 +19,7 @@ const Book = ({ wizardId, page, lorePageData }: Props) => {
   const wizardData: any = wizData[wizardId.toString()];
   const bg = "#" + wizardData.background_color;
 
-  const { components, previousPageRoute, nextPageRoute } = typeSetterV2({
+  const { components, previousPageRoute, nextPageRoute } = typeSetter({
     wizardId,
     pageNum: parseInt(page),
     lorePageData: lorePageData,
