@@ -75,7 +75,7 @@ export type onWizardPickedFn = (
 
 function WizardGrid({
   wizards,
-  onWizardPicked
+  onWizardPicked,
 }: {
   wizards: any[];
   onWizardPicked: onWizardPickedFn;
@@ -104,7 +104,7 @@ function WizardGrid({
 
 function WizardList({
   injectedProvider,
-  onWizardPicked
+  onWizardPicked,
 }: {
   injectedProvider: any;
   onWizardPicked: onWizardPickedFn;
@@ -117,7 +117,7 @@ function WizardList({
       try {
         const address = injectedProvider.provider.selectedAddress;
         const contract = getWizardsContract({
-          provider: injectedProvider
+          provider: injectedProvider,
         });
         const result = await contract.tokensOfOwner(address);
 
@@ -147,7 +147,7 @@ function WizardList({
 function WizardPickerModal({
   onRequestClose,
   onWizardPicked,
-  injectedProvider
+  injectedProvider,
 }: any) {
   return (
     <WizardPickerModalElement>

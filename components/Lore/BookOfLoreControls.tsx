@@ -13,7 +13,7 @@ import { WizardLorePageRoute } from "./loreUtils";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import {
   BackgroundColorPickerField,
-  NSFWField
+  NSFWField,
 } from "../AddLore/AddLoreFields";
 import { WizardNameWrapper } from "./BookSharedComponents";
 
@@ -105,7 +105,7 @@ export default function BookOfLoreControls({
   wizardId,
   page,
   nextPageRoute,
-  previousPageRoute
+  previousPageRoute,
 }: Props) {
   const wizardData: any = wizData[wizardId.toString()];
   const wizardNum = parseInt(wizardId);

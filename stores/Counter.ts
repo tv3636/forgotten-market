@@ -2,7 +2,7 @@ import { Instance, types } from "mobx-state-tree";
 
 export const Counter = types
   .model({
-    count: types.optional(types.number, 0)
+    count: types.optional(types.number, 0),
   })
   .actions((self) => ({
     increment() {
@@ -10,7 +10,7 @@ export const Counter = types
     },
     decrement() {
       self.count--;
-    }
+    },
   }));
 
 export type ICounter = Instance<typeof Counter>;

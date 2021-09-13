@@ -56,7 +56,7 @@ const WizardPopup = ({
   name,
   index,
   hasLore,
-  bookOfLore = false
+  bookOfLore = false,
 }: {
   name: string;
   index: number;
@@ -78,7 +78,7 @@ const WizardPopup = ({
 
 const Layers = ({
   wizardLore,
-  bookOfLore
+  bookOfLore,
 }: {
   wizardLore: any;
   bookOfLore: boolean;
@@ -96,7 +96,7 @@ const Layers = ({
         noWrap: true,
         errorTileUrl: "https://nftz.forgottenrunes.com/tiles/wizards/blank.png",
         maxZoom: 8,
-        minZoom: 3
+        minZoom: 3,
       }
     ).addTo(map);
 
@@ -111,7 +111,7 @@ const Layers = ({
 
       const background = L.rectangle([
         [point1.lat, point1.lng],
-        [point2.lat, point2.lng]
+        [point2.lat, point2.lng],
       ]);
 
       const featureGeoJson = background.toGeoJSON();
@@ -122,7 +122,7 @@ const Layers = ({
         // color: hasLore ? `#${wizData[i].background_color}` : "grey",
         color: `#${wizData[i].background_color}`,
         stroke: false,
-        fillOpacity: 1
+        fillOpacity: 1,
       };
 
       featureGeoJson.properties.wizardData = wizData[i];
@@ -135,7 +135,7 @@ const Layers = ({
     const geoJson: GeoJsonObject = {
       type: "FeatureCollection",
       // @ts-ignore
-      features: backgrounds
+      features: backgrounds,
     };
 
     map.createPane("underlays");
@@ -164,7 +164,7 @@ const Layers = ({
       },
       style: function (feature) {
         return feature?.properties.style;
-      }
+      },
     }).addTo(map);
   }, [map]);
 
@@ -179,7 +179,7 @@ const Layers = ({
 
     map.fitBounds([
       [point1.lat, point1.lng],
-      [point2.lat, point2.lng]
+      [point2.lat, point2.lng],
     ]);
   }, [map, id]);
 
@@ -192,7 +192,7 @@ const Layers = ({
 
 const WizardMapLeaflet = ({
   wizardLore,
-  bookOfLore = false
+  bookOfLore = false,
 }: {
   wizardLore: object;
   bookOfLore: boolean;

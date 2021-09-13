@@ -14,7 +14,7 @@ export function getWizardsContract({ provider }: { provider: any }) {
 }
 
 const BOOK_OF_LORE_ADDRESS: { [chainId: number]: string } = {
-  4: `0xdEb9121865D634A15023C7724B38F5c7Db6C88bB`
+  4: `0xdEb9121865D634A15023C7724B38F5c7Db6C88bB`,
 };
 
 export async function getBookOfLoreContract({ provider }: { provider: any }) {

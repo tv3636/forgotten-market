@@ -70,7 +70,7 @@ const GmPage = () => {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
-    props: { wizardId: context?.query?.wizardId }
+    props: { wizardId: context?.query?.wizardId },
   };
 }
 

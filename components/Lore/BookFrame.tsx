@@ -26,7 +26,7 @@ import {
   LeftBotBinding,
   RightBotBinding,
   BotBorder2,
-  RightBotCorner
+  RightBotCorner,
 } from "./BookStyles";
 
 export type Props = {

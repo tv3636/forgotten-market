@@ -6,8 +6,8 @@ export default {
   title: "Wizards/BookOfLorePage",
   component: BookOfLorePage,
   argTypes: {
-    bg: { control: "color" }
-  }
+    bg: { control: "color" },
+  },
 } as ComponentMeta<typeof BookOfLorePage>;
 
 const Template: ComponentStory<typeof BookOfLorePage> = (args) => (
@@ -19,5 +19,5 @@ Primary.args = {
   bg: "black",
   wizardId: "0",
   page: "0",
-  children: <div>hey</div>
+  children: <div>hey</div>,
 };

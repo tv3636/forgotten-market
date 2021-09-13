@@ -63,9 +63,8 @@ export function useContractInteraction<
   const [receipt, setReceipt] = useState<ContractReceipt>();
   const [transaction, setTransaction] = useState<ContractTransaction>();
   const [error, setError] = useState<Error>();
-  const [value, setValue] = useState<
-    UnwrapPromise<ReturnType<T["functions"][S]>>
-  >();
+  const [value, setValue] =
+    useState<UnwrapPromise<ReturnType<T["functions"][S]>>>();
 
   // Reset state is added to allow the same hook to be used for multiple transactions although
   // it is highly unrecommended.
@@ -139,6 +138,6 @@ export function useContractInteraction<
     errorMessage,
     error,
     value,
-    reset
+    reset,
   };
 }
