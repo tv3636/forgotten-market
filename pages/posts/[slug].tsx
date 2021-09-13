@@ -25,7 +25,7 @@ const components = {
   // See the notes in README.md for more details.
   //   TestComponent: dynamic(() => import("../../components/TestComponent")),
   Head,
-  WizardArt
+  WizardArt,
 };
 
 const NavAnchor = styled.a`
@@ -39,7 +39,7 @@ const NavAnchor = styled.a`
 
 export default function PostPage({
   source,
-  frontMatter
+  frontMatter,
 }: {
   source: { compiledSource: string; scope: any };
   frontMatter: any;
@@ -96,22 +96,22 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     // Optionally pass remark/rehype plugins
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings]
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
-    scope: data
+    scope: data,
   });
 
   return {
     props: {
       source: mdxSource,
-      frontMatter: data
-    }
+      frontMatter: data,
+    },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async ({
   locales,
-  defaultLocale
+  defaultLocale,
 }) => {
   const paths = postFilePaths
     // Remove file extensions for page paths
@@ -130,6 +130,6 @@ export const getStaticPaths: GetStaticPaths = async ({
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   };
 };

@@ -20,8 +20,8 @@ export class InteriorScene extends Phaser.Scene {
     const webfont = {
       custom: {
         families: ["Pixel-NES", "Alagard"],
-        urls: ["/static/game/wizards/fonts.css"]
-      }
+        urls: ["/static/game/wizards/fonts.css"],
+      },
     };
     (scene.load as any).rexWebFont(webfont);
   }
@@ -55,14 +55,14 @@ export class InteriorScene extends Phaser.Scene {
       targets: rays01,
       alpha: { value: 1, duration: 1800, ease: "Power1" },
       yoyo: true,
-      repeat: -1
+      repeat: -1,
     });
 
     this.tweens.add({
       targets: rays02,
       alpha: { value: 1, duration: 2700, ease: "Power1" },
       yoyo: true,
-      repeat: -1
+      repeat: -1,
     });
 
     this.setupWizardsRemaining();
@@ -95,8 +95,8 @@ export class InteriorScene extends Phaser.Scene {
       metrics: {
         fontSize: 35,
         ascent: 34,
-        descent: 1
-      }
+        descent: 1,
+      },
     });
     // console.log("interior", this.summonText.getTextMetrics());
 
@@ -113,7 +113,7 @@ export class InteriorScene extends Phaser.Scene {
       targets: this.summonText,
       alpha: { value: 0.1, duration: 800, ease: "Power1" },
       yoyo: true,
-      repeat: -1
+      repeat: -1,
     });
 
     const self = this;

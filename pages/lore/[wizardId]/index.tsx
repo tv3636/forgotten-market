@@ -7,8 +7,8 @@ const Index = ({ wizardLorePages }: { wizardLorePages: WizardLorePages }) => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     redirect: {
-      destination: `/lore/${context?.query?.wizardId}/0`
-    }
+      destination: `/lore/${context?.query?.wizardId}/0`,
+    },
   };
 }
 export default Index;

@@ -6,7 +6,7 @@ import { INFURA_ID } from "../constants";
 import {
   StaticJsonRpcProvider,
   JsonRpcProvider,
-  Web3Provider
+  Web3Provider,
 } from "@ethersproject/providers";
 
 const useWeb3Modal = (setInjectedProvider: any) => {
@@ -18,8 +18,8 @@ const useWeb3Modal = (setInjectedProvider: any) => {
       rpc: {
         [process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID
           ? parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
-          : 1]: process.env.NEXT_PUBLIC_REACT_APP_NETWORK_URL
-      }
+          : 1]: process.env.NEXT_PUBLIC_REACT_APP_NETWORK_URL,
+      },
     };
     // console.log("walletConnectOptions: ", walletConnectOptions);
 
@@ -30,15 +30,15 @@ const useWeb3Modal = (setInjectedProvider: any) => {
         main: "rgb(199, 199, 199)",
         secondary: "rgb(136, 136, 136)",
         border: "rgba(195, 195, 195, 0.14)",
-        hover: "rgb(18 15 21)"
+        hover: "rgb(18 15 21)",
       },
       // disableInjectedProvider: true,
       providerOptions: {
         walletconnect: {
           package: WalletConnectProvider, // required
-          options: walletConnectOptions
-        }
-      }
+          options: walletConnectOptions,
+        },
+      },
     });
 
     const safeClearCachedProvider = async () => {

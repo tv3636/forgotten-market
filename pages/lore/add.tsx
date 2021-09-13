@@ -1,4 +1,3 @@
-import { gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import "draft-js/dist/Draft.css";
 import { GetServerSidePropsContext } from "next";
@@ -7,10 +6,10 @@ import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import AddLoreControls from "../../components/AddLore/AddLoreControls";
 import AddLoreEditor, {
-  convertDraftStateToMarkdown
+  convertDraftStateToMarkdown,
 } from "../../components/AddLore/AddLoreEditor";
 import WizardPicker, {
-  WizardConfiguration
+  WizardConfiguration,
 } from "../../components/AddLore/WizardPicker";
 import Layout from "../../components/Layout";
 import BookFrame from "../../components/Lore/BookFrame";
@@ -18,13 +17,13 @@ import { BookOfLorePage } from "../../components/Lore/IndividualLorePage";
 import StyledToastContainer from "../../components/StyledToastContainer";
 import productionWizardData from "../../data/nfts-prod.json";
 import { useDebounce } from "../../hooks";
-import client from "../../lib/graphql";
 import { useMst } from "../../store";
 import {
   getPendingLoreTxHashRedirection,
-  onSubmitAddLoreForm
+  onSubmitAddLoreForm,
 } from "../../components/AddLore/addLoreHelpers";
 import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
+import Draft, { EditorState } from "draft-js";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -39,6 +38,8 @@ const AddLoreWrapper = styled.div`
 `;
 
 export type LoreAPISubmitParams = {
+  wizard_id: string;
+  signature: string;
   address?: string;
   token_id?: string;
   title: string | null;
@@ -76,7 +77,7 @@ const AddLorePage = () => {
   const [currentBgColor, setCurrentBgColor] = useState<
     string | null | undefined
   >(null);
-  const [currentEditorState, setCurrentEditorState] = useState();
+  const [currentEditorState, setCurrentEditorState] = useState<EditorState>();
 
   const debouncedCurrentStory = useDebounce(currentStory, 80);
 
@@ -104,7 +105,7 @@ const AddLorePage = () => {
     ? "#" + wizData[currentWizard?.tokenId?.toString()].background_color
     : "black";
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     console.log("currentEditorState: ", currentEditorState);
     let _currentStory = currentStory;
     let _currentTitle = currentTitle;
@@ -117,7 +118,7 @@ const AddLorePage = () => {
       // extract the title and the story from the markdown
     }
 
-    onSubmitAddLoreForm({
+    await onSubmitAddLoreForm({
       values: { bg_color: currentBgColor, nsfw: currentNsfw },
       currentWizard,
       setErrorMessage,
@@ -126,7 +127,7 @@ const AddLorePage = () => {
       currentTitle: _currentTitle,
       currentBgColor,
       web3Settings,
-      router
+      router,
     });
   };
 
@@ -197,7 +198,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (context.query?.waitForTxHash && context.query?.wizardId) {
     const redirect = await getPendingLoreTxHashRedirection({
       waitForTxHash: context.query.waitForTxHash as string,
-      wizardId: context.query?.wizardId as string
+      wizardId: context.query?.wizardId as string,
     });
     return redirect;
   }

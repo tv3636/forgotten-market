@@ -10,7 +10,7 @@ import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
 import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import createMentionPlugin, {
-  defaultSuggestionsFilter
+  defaultSuggestionsFilter,
 } from "@draft-js-plugins/mention";
 import { getContrast } from "../../lib/colorUtils";
 import mentions from "./WizardMentions";
@@ -84,7 +84,7 @@ const mockUpload = (...args: any) => {
 
 const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
   handleUpload: mockUpload,
-  addImage: imagePlugin.addImage
+  addImage: imagePlugin.addImage,
 });
 
 const topLevelPlugins = [
@@ -93,7 +93,7 @@ const topLevelPlugins = [
   blockDndPlugin,
   focusPlugin,
   resizeablePlugin,
-  imagePlugin
+  imagePlugin,
 ];
 
 const markdownToDraftState = (text: string) => {
@@ -133,9 +133,9 @@ export const convertDraftStateToMarkdown = (
           console.log("entity: ", entity);
           // one idea is that we convert this method to async and then upload and replace these URLs right here
           return `![](${entity["data"].src})`;
-        }
-      }
-    }
+        },
+      },
+    },
   });
   return { markdown, headers };
 };
@@ -152,7 +152,7 @@ export default function AddLoreEditor({
   onChange,
   bg,
   wizardId,
-  isLoading
+  isLoading,
 }: Props) {
   const ref = useRef<Editor>(null);
 

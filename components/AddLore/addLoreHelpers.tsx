@@ -18,7 +18,7 @@ export const onSubmitAddLoreForm = async ({
   currentTitle,
   currentBgColor,
   web3Settings,
-  router
+  router,
 }: any) => {
   console.log("onSubmit", currentWizard, values);
   setErrorMessage(null);
@@ -31,7 +31,7 @@ export const onSubmitAddLoreForm = async ({
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
-      progress: undefined
+      progress: undefined,
     });
 
     console.log("currentWizard?.tokenId: ", currentWizard?.tokenId);
@@ -48,7 +48,7 @@ export const onSubmitAddLoreForm = async ({
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
-      progress: undefined
+      progress: undefined,
     });
     setErrorMessage("Need a story to be present");
     return false;
@@ -59,6 +59,7 @@ export const onSubmitAddLoreForm = async ({
   const provider = web3Settings.injectedProvider;
   console.log("provider: ", provider);
   const { chainId } = await provider.getNetwork();
+
   if (chainId !== 4) {
     toast.error(
       `Wrong Network. Please change your network to Rinkeby and try again`,
@@ -69,16 +70,49 @@ export const onSubmitAddLoreForm = async ({
         closeOnClick: true,
         pauseOnHover: true,
         draggable: false,
-        progress: undefined
+        progress: undefined,
       }
     );
     setSubmitting(false);
     return false;
   }
 
+  const signer = provider.getSigner();
+
   const loreContract = await getBookOfLoreContract({
-    provider: provider
+    provider: provider,
   });
+
+  toast.info("Signing wizard ID to verify ownership...", {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: false,
+    progress: undefined,
+  });
+
+  let signature;
+
+  try {
+    signature = await signer.signMessage(currentWizard.tokenId);
+  } catch (err: any) {
+    console.log("err: ", err);
+    toast.error(`Sorry, there was a problem when signing: ${err.message}`, {
+      position: "top-right",
+      autoClose: false,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+    setSubmitting(false);
+    return false;
+  }
+
+  toast.dismiss();
 
   toast.info("Preparing your Lore", {
     position: "top-right",
@@ -87,21 +121,23 @@ export const onSubmitAddLoreForm = async ({
     closeOnClick: true,
     pauseOnHover: true,
     draggable: false,
-    progress: undefined
+    progress: undefined,
   });
 
   let loreBody: LoreAPISubmitParams = {
+    wizard_id: currentWizard.tokenId,
+    signature: signature,
     title: currentTitle,
     story: currentStory,
     pixel_art: values?.pixelArt ?? false,
-    bg_color: currentBgColor
+    bg_color: currentBgColor,
   };
 
   if (currentArtifact?.contractAddress && currentArtifact?.tokenId) {
     loreBody = {
       ...loreBody,
       address: currentArtifact.contractAddress,
-      token_id: currentArtifact.tokenId
+      token_id: currentArtifact.tokenId,
     };
   }
 
@@ -110,12 +146,14 @@ export const onSubmitAddLoreForm = async ({
     method: "post",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(loreBody)
+    body: JSON.stringify(loreBody),
   });
 
   const apiResponse = await response.json();
+
+  toast.dismiss();
 
   if (response.status !== 201 && response.status !== 200) {
     console.error(apiResponse);
@@ -127,7 +165,7 @@ export const onSubmitAddLoreForm = async ({
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
-      progress: undefined
+      progress: undefined,
     });
     setSubmitting(false);
     return false;
@@ -142,11 +180,12 @@ export const onSubmitAddLoreForm = async ({
       autoClose: false,
       hideProgressBar: false,
       closeOnClick: false,
-      progress: 0
+      progress: 0,
     });
+
     const tx = await loreContract
       //@ts-ignore
-      .connect(provider?.getSigner())
+      .connect(signer)
       .addLore(
         currentWizard.tokenId,
         currentArtifact?.contractAddress
@@ -174,7 +213,7 @@ export const onSubmitAddLoreForm = async ({
           </p>
         </div>
       ),
-      type: toast.TYPE.INFO
+      type: toast.TYPE.INFO,
     });
 
     const receipt = await tx.wait();
@@ -189,14 +228,14 @@ export const onSubmitAddLoreForm = async ({
     if (receipt.status === 1) {
       const redirection = await getPendingLoreTxHashRedirection({
         waitForTxHash: receipt.transactionHash,
-        wizardId: currentWizard.tokenId
+        wizardId: currentWizard.tokenId,
       });
       console.log("redirection: ", redirection);
       const destination = redirection?.redirect?.destination;
       await router.push({
         pathname: destination,
         query: { first: true },
-        as: destination
+        as: destination,
       });
       // `/lore/add?waitForTxHash=${receipt.transactionHash}&wizardId=${currentWizard.tokenId}`
     } else {
@@ -211,7 +250,7 @@ export const onSubmitAddLoreForm = async ({
             </p>
           </div>
         ),
-        type: toast.TYPE.ERROR
+        type: toast.TYPE.ERROR,
       });
       setSubmitting(false);
       return false;
@@ -225,7 +264,7 @@ export const onSubmitAddLoreForm = async ({
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
-      progress: undefined
+      progress: undefined,
     });
     setSubmitting(false);
     return false;
@@ -245,7 +284,7 @@ export type ImageUploadAPIParams = {
 export async function uploadBookOfLoreImage({
   imgDataUri,
   wizardId,
-  toastId
+  toastId,
 }: {
   wizardId: string; // just for metadata, not technically require
   imgDataUri: string;
@@ -262,7 +301,7 @@ export async function uploadBookOfLoreImage({
     address,
     signature,
     wizardId,
-    img: imgBuffer
+    img: imgBuffer,
   };
 
   // const response = await fetch("/api/lore", {
@@ -299,7 +338,7 @@ export async function uploadBookOfLoreImage({
 // just upload them when the user drags them over
 export async function uploadBookOfLoreImages({
   imgDataUris,
-  wizardId
+  wizardId,
 }: {
   imgDataUris: string[];
   wizardId: string;
@@ -309,7 +348,7 @@ export async function uploadBookOfLoreImages({
     autoClose: 5000,
     hideProgressBar: false,
     closeOnClick: false,
-    progress: 0
+    progress: 0,
   });
   await Bluebird.map(imgDataUris, async (imgDataUri) => {
     uploadBookOfLoreImage({ imgDataUri, toastId, wizardId });
@@ -319,7 +358,7 @@ export async function uploadBookOfLoreImages({
 export const titlePrompts = [
   "The Tale of",
   "The Untold story of",
-  "The Adventures of"
+  "The Adventures of",
   // "The Downfall of",
   // ??? ideas?
 ];
@@ -327,13 +366,13 @@ export const titlePrompts = [
 export const storyPrompts = [
   `## Part 1
 Our hero finds themselves surrounded by a...`,
-  `They weren't always a solitary Wizard until...`
+  `They weren't always a solitary Wizard until...`,
   // ??? ideas?
 ];
 
 export const getPendingLoreTxHashRedirection = async ({
   waitForTxHash,
-  wizardId
+  wizardId,
 }: {
   waitForTxHash: string;
   wizardId: string;
@@ -347,7 +386,7 @@ export const getPendingLoreTxHashRedirection = async ({
                   txHash
               }
           }
-      `
+      `,
   });
   console.log(data);
 
@@ -356,7 +395,7 @@ export const getPendingLoreTxHashRedirection = async ({
       destination:
         data?.lores?.length > 0
           ? `/lore/${wizardId}/${data?.lores[0].index}`
-          : null
-    }
+          : null,
+    },
   };
 };

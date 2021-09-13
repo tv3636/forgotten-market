@@ -26,7 +26,7 @@ import {
   LeftBotBinding,
   RightBotBinding,
   BotBorder2,
-  RightBotCorner
+  RightBotCorner,
 } from "./BookStyles";
 import { useRouter } from "next/router";
 

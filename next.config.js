@@ -4,7 +4,7 @@ const root = path.resolve(__dirname);
 const withImages = require("next-images");
 const withSvgr = require("next-svgr");
 const withMDX = require("@next/mdx")({
-  extension: /\.mdx?$/
+  extension: /\.mdx?$/,
 });
 const withTM = require("next-transpile-modules")([
   "rehype-slug",
@@ -12,7 +12,7 @@ const withTM = require("next-transpile-modules")([
   "hast-util-has-property",
   "hast-util-heading-rank",
   "hast-util-to-string",
-  "hast-util-is-element"
+  "hast-util-is-element",
 ]);
 
 // https://gist.github.com/diachedelic/6ded48f5c6442482fa69e91ec7ab1742
@@ -20,7 +20,7 @@ let nextConfig = {
   webpack: (config, options) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      react$: path.resolve(root, "./node_modules/react")
+      react$: path.resolve(root, "./node_modules/react"),
     };
     return config;
   },
@@ -31,12 +31,12 @@ let nextConfig = {
     // This is the default locale you want to be used when visiting
     // a non-locale prefixed path e.g. `/hello`
     defaultLocale: "en-US",
-    localeDetection: true
+    localeDetection: true,
   },
   images: {
-    domains: ["nftz.forgottenrunes.com"]
+    domains: ["nftz.forgottenrunes.com"],
   },
-  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"]
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
 };
 
 nextConfig = withImages(nextConfig);
@@ -44,7 +44,7 @@ nextConfig = withSvgr(nextConfig);
 nextConfig = withMDX(nextConfig);
 nextConfig = withTM({
   webpack5: false,
-  ...nextConfig
+  ...nextConfig,
 });
 
 module.exports = nextConfig;
