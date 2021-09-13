@@ -10,18 +10,6 @@ type Props = {
   title: string;
 };
 
-// TODO figure out the min-max of font-size
-// actually put this in the og-generator
-function linearmap(
-  value: number,
-  istart: number,
-  istop: number,
-  ostart: number,
-  ostop: number
-) {
-  return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
-}
-
 // https://og.forgottenrunes.com/6001.png?wizard=6001&fontSize=128px
 export default function OgImage({ title, fontSize, wizard }: Props) {
   const filename = encodeURIComponent(title);
@@ -48,6 +36,8 @@ export default function OgImage({ title, fontSize, wizard }: Props) {
         key="twittercard"
         content="summary_large_image"
       />
+      <meta name="twitter:image:width" content="2048" />
+      <meta name="twitter:image:height" content="1170" />
     </Head>
   );
 }
