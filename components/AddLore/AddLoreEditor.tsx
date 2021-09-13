@@ -103,10 +103,27 @@ const markdownToDraftState = (text: string) => {
 };
 
 // https://github.com/Rosey/markdown-draft-js/pull/49#issuecomment-775247720
-export const convertDraftStateToMarkdown = (state: EditorState): string => {
+export const convertDraftStateToMarkdown = (
+  state: EditorState
+): { markdown: string; headers: string[] } => {
   const raw = convertToRaw(state.getCurrentContent());
-  console.log("raw: ", raw);
-  return draftToMarkdown(convertToRaw(state.getCurrentContent()), {
+  // console.log("raw: ", raw);
+
+  let headers: string[] = [];
+
+  const markdown = draftToMarkdown(convertToRaw(state.getCurrentContent()), {
+    styleItems: {
+      "header-one": {
+        open: function (entity: any) {
+          headers.push(entity.text);
+          return "# ";
+        },
+
+        close: function () {
+          return "";
+        }
+      }
+    },
     entityItems: {
       IMAGE: {
         open: function (entity: any) {
@@ -120,6 +137,7 @@ export const convertDraftStateToMarkdown = (state: EditorState): string => {
       }
     }
   });
+  return { markdown, headers };
 };
 
 type Props = {

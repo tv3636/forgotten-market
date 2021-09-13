@@ -176,3 +176,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   };
 }
 export default LorePage;
+
+// https://og.forgottenrunes.com/6001.png?wizard=6001&fontSize=128px

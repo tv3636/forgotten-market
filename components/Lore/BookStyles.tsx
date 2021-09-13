@@ -70,24 +70,28 @@ export const LeftTopCorner = styled(motion.div)`
   background-repeat: no-repeat;
   background-position: left top;
   grid-area: lefttopcorner;
+  ${(props) => (props.onClick ? "cursor: pointer;" : "")}
 `;
 export const RightTopCorner = styled(motion.div)`
   background-image: url("/static/lore/book/slices/corner_top_right.png");
   background-repeat: no-repeat;
   background-position: right top;
   grid-area: righttopcorner;
+  ${(props) => (props.onClick ? "cursor: pointer;" : "")}
 `;
 export const LeftBotCorner = styled(motion.div)`
   background-image: url("/static/lore/book/slices/corner_bottom_left.png");
   background-repeat: no-repeat;
   background-position: left top;
   grid-area: leftbotcorner;
+  ${(props) => (props.onClick ? "cursor: pointer;" : "")}
 `;
 export const RightBotCorner = styled(motion.div)`
   background-image: url("/static/lore/book/slices/corner_bottom_right.png");
   background-repeat: no-repeat;
   background-position: right top;
   grid-area: rightbotcorner;
+  ${(props) => (props.onClick ? "cursor: pointer;" : "")}
 `;
 
 export const LeftBorder = styled(motion.div)`
@@ -95,12 +99,14 @@ export const LeftBorder = styled(motion.div)`
   background-repeat: repeat-y;
   background-position: left top;
   grid-area: leftborder;
+  ${(props) => (props.onClick ? "cursor: pointer;" : "")}
 `;
 export const RightBorder = styled(motion.div)`
   background-image: url("/static/lore/book/slices/side_right_tile.png");
   background-repeat: repeat-y;
   background-position: right top;
   grid-area: rightborder;
+  ${(props) => (props.onClick ? "cursor: pointer;" : "")}
 `;
 
 export const TopBorder1 = styled(motion.div)`

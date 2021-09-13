@@ -14,7 +14,6 @@ const withTM = require("next-transpile-modules")([
   "hast-util-to-string",
   "hast-util-is-element"
 ]);
-const removeImports = require("next-remove-imports")();
 
 // https://gist.github.com/diachedelic/6ded48f5c6442482fa69e91ec7ab1742
 let nextConfig = {
@@ -47,6 +46,5 @@ nextConfig = withTM({
   webpack5: false,
   ...nextConfig
 });
-nextConfig = removeImports(nextConfig);
 
 module.exports = nextConfig;

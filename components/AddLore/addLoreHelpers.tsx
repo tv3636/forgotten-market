@@ -105,6 +105,7 @@ export const onSubmitAddLoreForm = async ({
     };
   }
 
+  console.log("loreBody: ", loreBody);
   const response = await fetch("/api/lore", {
     method: "post",
     headers: {

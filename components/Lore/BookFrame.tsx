@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import BookOfLoreControls from "./BookOfLoreControls";
 import { AnimatePresence, motion } from "framer-motion";
 import { LorePageData } from "./types";
-import { typeSetterV2 } from "./loreUtils";
+import { typeSetterV2, WizardLorePageRoute } from "./loreUtils";
 import productionWizardData from "../../data/nfts-prod.json";
 import LoreAnimations from "./LoreAnimations";
 import {
@@ -28,6 +28,7 @@ import {
   BotBorder2,
   RightBotCorner
 } from "./BookStyles";
+import { useRouter } from "next/router";
 
 export type Props = {
   bg: string;
@@ -35,25 +36,58 @@ export type Props = {
   bgR: string;
   controls?: JSX.Element | JSX.Element[];
   children: JSX.Element[];
+  nextPageRoute: WizardLorePageRoute | null;
+  previousPageRoute: WizardLorePageRoute | null;
 };
 
 /**
  * The children prop is a bit non-standard: the children are treated as a specific array of four elements. The current left and right pages are index 1 and 2 respectively, with the previous and next being 0 and 4
  */
 
-const BookFrame = ({ bg, bgL, bgR, controls, children }: Props) => {
+const BookFrame = ({
+  bg,
+  bgL,
+  bgR,
+  controls,
+  children,
+  previousPageRoute,
+  nextPageRoute
+}: Props) => {
+  const prevPageUrl = previousPageRoute?.as;
+  const nextPageUrl = nextPageRoute?.as;
+  const router = useRouter();
+
+  const goToNextPage = nextPageUrl
+    ? () => {
+        if (nextPageUrl) {
+          router.push(nextPageUrl);
+        }
+      }
+    : undefined;
+
+  const goToPrevPage = prevPageUrl
+    ? () => {
+        if (prevPageUrl) {
+          router.push(prevPageUrl);
+        }
+      }
+    : undefined;
+
   return (
     <BookElement>
       <Carousel layoutId="bookCarousel">
         <Spread layoutId="bookSpread" bg={bg} bgL={bgL} bgR={bgR}>
-          <LeftTopCorner layoutId="bookLeftTopCover" />
+          <LeftTopCorner layoutId="bookLeftTopCover" onClick={goToPrevPage} />
           <TopBorder1 layoutId="bookTopBorder1" />
           <LeftTopBinding className="bg bgL" layoutId="bookLeftTopBinding" />
           <RightTopBinding className="bg bgR" layoutId="bookRightTopBinding" />
           <TopBorder2 layoutId="bookTopBorder2" />
-          <RightTopCorner layoutId="bookRightTopCorner" />
+          <RightTopCorner
+            layoutId="bookRightTopCorner"
+            onClick={goToNextPage}
+          />
 
-          <LeftBorder layoutId="leftBorder" />
+          <LeftBorder layoutId="leftBorder" onClick={goToPrevPage} />
           <PageBody1 layoutId="pageBody1">{children[1]}</PageBody1>
           <LeftPageBinding className="bg bgL" layoutId="leftPageBinding" />
           <RightPageBinding className="bg bgR" layoutId="rightPageBinding" />
@@ -67,14 +101,14 @@ const BookFrame = ({ bg, bgL, bgR, controls, children }: Props) => {
           >
             {children[2]}
           </PageBody2>
-          <RightBorder layoutId="rightBorder" />
+          <RightBorder layoutId="rightBorder" onClick={goToNextPage} />
 
-          <LeftBotCorner layoutId="leftBotCorner" />
+          <LeftBotCorner layoutId="leftBotCorner" onClick={goToPrevPage} />
           <BotBorder1 layoutId="botBorder1" />
           <LeftBotBinding className="bg bgL" layoutId="leftBotBinding" />
           <RightBotBinding className="bg bgR" layoutId="rightBotBinding" />
           <BotBorder2 layoutId="botBorder2" />
-          <RightBotCorner layoutId="rightBotCorner" />
+          <RightBotCorner layoutId="rightBotCorner" onClick={goToNextPage} />
         </Spread>
       </Carousel>
       {controls}

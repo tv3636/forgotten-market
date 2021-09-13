@@ -107,10 +107,13 @@ const AddLorePage = () => {
   const onSubmit = () => {
     console.log("currentEditorState: ", currentEditorState);
     let _currentStory = currentStory;
+    let _currentTitle = currentTitle;
     if (currentEditorState) {
-      const markdownString = convertDraftStateToMarkdown(currentEditorState);
-      console.log("markdownString: ", markdownString);
-      _currentStory = markdownString;
+      const { markdown, headers } =
+        convertDraftStateToMarkdown(currentEditorState);
+      console.log("markdownString: ", markdown);
+      _currentStory = markdown;
+      _currentTitle = headers[0] ? headers[0] : _currentTitle;
       // extract the title and the story from the markdown
     }
 
@@ -120,7 +123,7 @@ const AddLorePage = () => {
       setErrorMessage,
       setSubmitting,
       currentStory: _currentStory,
-      currentTitle,
+      currentTitle: _currentTitle,
       currentBgColor,
       web3Settings,
       router

@@ -38,7 +38,14 @@ const Book = ({ wizardId, page, lorePageData }: Props) => {
   );
 
   return (
-    <BookFrame bg={bg} bgL={bg} bgR={bg} controls={controls}>
+    <BookFrame
+      bg={bg}
+      bgL={bg}
+      bgR={bg}
+      controls={controls}
+      previousPageRoute={previousPageRoute}
+      nextPageRoute={nextPageRoute}
+    >
       {previousPage}
       {currentLeftPage}
       {currentRightPage}
