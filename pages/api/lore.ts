@@ -45,21 +45,26 @@ export default async function handler(
   let storyWithUploadedImages;
 
   if (req.body?.story) {
-    storyWithUploadedImages = await replaceAsync(
-      req.body?.story,
-      /!\[(.*?)\]\(((?:data).*?)\)/gim,
-      // @ts-ignore
-      async (whole: string, alt: string, base64image: string) => {
-        const splitBase64 = base64image.split(";base64,");
-        const dataPart = splitBase64[0];
-        console.log(dataPart);
-        const extension = dataPart.substr(dataPart.lastIndexOf("/") + 1);
+    try {
+      storyWithUploadedImages = await replaceAsync(
+        req.body?.story,
+        /!\[(.*?)\]\(((?:data).*?)\)/gim,
+        // @ts-ignore
+        async (whole: string, alt: string, base64image: string) => {
+          const splitBase64 = base64image.split(";base64,");
+          const headerPart = splitBase64[0];
+          // console.log(headerPart);
+          const dataPart = splitBase64[1];
+          const extension = headerPart.substr(headerPart.lastIndexOf("/") + 1);
 
-        const filename = `img_${req.body.wizard_id}.${extension}`;
+          const filename = `img_${req.body.wizard_id}_${dataPart
+            .slice(dataPart.length - 10)
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase()}.${extension}`;
 
-        fs.writeFileSync(filename, splitBase64[1], { encoding: "base64" });
+          // console.log(filename);
+          fs.writeFileSync(filename, dataPart, { encoding: "base64" });
 
-        try {
           const res = await pinata.pinFileToIPFS(
             fs.createReadStream(filename),
             {
@@ -71,18 +76,20 @@ export default async function handler(
               },
             }
           );
+          // console.log(`![${alt}](ipfs://${res.IpfsHash}/${filename})`);
           return `![${alt}](ipfs://${res.IpfsHash}/${filename})`; // leaving as ipfs://  so we can use as-is, can always replace on frontend to another provider
-        } catch (e) {
-          console.error(e);
-          return res.status(400).json({
-            error: `Problem extracting and uploading images to IPFS: ${e}.`,
-          });
         }
-      }
-    );
+      );
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({
+        error: `Problem extracting and uploading images to IPFS: ${e}.`,
+      });
+    }
   }
 
   try {
+    // console.log("pinning json");
     const response = await pinata.pinJSONToIPFS({
       name: req.body?.title,
       description: storyWithUploadedImages,
