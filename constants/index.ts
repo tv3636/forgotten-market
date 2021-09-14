@@ -35,3 +35,7 @@ export const IMAGE_NOBG_BASE_URL =
   "https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-";
 export const OPENSEA_BASE_URL =
   "https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/"; // TODO: prod/stage
+
+export const IPFS_SERVER =
+  process.env.NEXT_PUBLIC_IPFS_SERVER ?? "https://nfts.forgottenrunes.com/ipfs";
+console.log(IPFS_SERVER);
