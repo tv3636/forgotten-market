@@ -1,13 +1,13 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { uriTransformer } from "react-markdown";
 import { WriteButton } from "./BookOfLoreControls";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import useSWR from "swr";
-import { find } from "lodash";
+import { IPFS_SERVER } from "../../constants";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -111,8 +111,7 @@ export default function IndividualLorePage({
 }: {
   loreMetadataURI: string;
 }) {
-  // const ipfsURL = `https://cloudflare-ipfs.com/ipfs/${
-  const ipfsURL = `https://nfts.forgottenrunes.com/ipfs/${
+  const ipfsURL = `${IPFS_SERVER}/${
     loreMetadataURI?.match(/^ipfs:\/\/(.*)$/)?.[1]
   }`;
   console.log("ipfsURL: ", ipfsURL);
@@ -143,19 +142,6 @@ export default function IndividualLorePage({
   const bg = data.background_color;
   const story = data?.description || "";
   const title = data?.name || "";
-  const artifactAddress: string = find(data?.attributes || [], {
-    trait_type: "Artifact Address",
-  })?.value;
-  const artifactTokenId: string = find(data?.attributes || [], {
-    trait_type: "Artifact Token ID",
-  })?.value;
-  const pixelArt: boolean =
-    find(data?.attributes || [], {
-      trait_type: "Pixel Art",
-    })?.value ?? false;
-
-  // let layoutId = `page-${wizardId}-${loreMetadataURI}`;
-  // console.log("lore: ", lore);
 
   let Inner = <div />;
 
@@ -163,22 +149,18 @@ export default function IndividualLorePage({
     Inner = (
       <TextPage>
         {title && <ReactMarkdown>{title}</ReactMarkdown>}
-        {story && <ReactMarkdown>{story}</ReactMarkdown>}
-      </TextPage>
-    );
-  }
-
-  if (artifactAddress) {
-    //TODO:
-    Inner = <h1 style={{ color: "white" }}>An artifact lives here</h1>;
-  }
-
-  if (!artifactAddress && !story) {
-    Inner = (
-      <TextPage alignChildren="center">
-        <h1 style={{ color: "white" }}>
-          This is just bad testing lore that has no story or artifact...
-        </h1>
+        {story && (
+          <ReactMarkdown
+            transformImageUri={(src: string, alt: string, title) => {
+              if (src.startsWith("ipfs://")) {
+                src = src.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
+              }
+              return uriTransformer(src);
+            }}
+          >
+            {story}
+          </ReactMarkdown>
+        )}
       </TextPage>
     );
   }

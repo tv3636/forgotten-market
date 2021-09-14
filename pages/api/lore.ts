@@ -90,9 +90,6 @@ export default async function handler(
       // ^ Should we save original in case? I guess not since editing is allowed to fix any issues etc
       background_color: req.body?.bg_color, // Note: needs to be without # for compliance with spec
       attributes: [
-        { trait_type: "Artifact Address", value: req.body.address },
-        { trait_type: "Artifact Token ID", value: req.body.token_id },
-        { trait_type: "Pixel Art", value: req.body?.pixel_art ?? false },
         { trait_type: "Wizard ID", value: req.body.wizard_id },
         { trait_type: "Creator", value: signingAddress },
       ],
