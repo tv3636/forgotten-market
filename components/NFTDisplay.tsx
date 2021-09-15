@@ -5,6 +5,7 @@ import useProvider, { getProvider } from "../hooks/useProvider";
 import { getERC721Contract } from "../contracts/ERC721Contract";
 import Image from "next/image";
 import { ethers } from "ethers";
+import { IPFS_SERVER } from "../constants";
 
 // move to lib/nftUtils.ts
 export async function httpifyUrl(url: string, tokenId: string) {
@@ -12,7 +13,7 @@ export async function httpifyUrl(url: string, tokenId: string) {
   if (url.match(/^http/)) {
     return url;
   } else if (url.match(/^ipfs/)) {
-    return url.replace(/^ipfs:\/\//, "https://cloudflare-ipfs.com/ipfs/");
+    return url.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
   } else {
     return url;
   }

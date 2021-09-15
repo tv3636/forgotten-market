@@ -1,13 +1,12 @@
 import fs from "fs";
 import matter from "gray-matter";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import Head from "next/head";
 import path from "path";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeSlug from "rehype-slug";
-import { postFilePaths, POSTS_PATH } from "../lib/mdxUtils";
+
+import { POSTS_PATH } from "../lib/mdxUtils";
 import InfoPageLayout from "../components/InfoPageLayout";
 import { ResponsiveImg } from "../components/ResponsivePixelImg";
 import dynamic from "next/dynamic";
@@ -52,7 +51,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+      // rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
     scope: data,
   });

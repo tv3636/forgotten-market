@@ -1,34 +1,28 @@
-import styled from "@emotion/styled";
-import BookOfLoreControls from "./BookOfLoreControls";
-import { AnimatePresence, motion } from "framer-motion";
-import { LorePageData } from "./types";
-import { typeSetterV2, WizardLorePageRoute } from "./loreUtils";
-import productionWizardData from "../../data/nfts-prod.json";
-import LoreAnimations from "./LoreAnimations";
 import {
   BookElement,
-  Spread,
+  BotBorder1,
+  BotBorder2,
   Carousel,
-  LeftTopCorner,
-  TopBorder1,
-  LeftTopBinding,
-  RightTopBinding,
-  TopBorder2,
-  RightTopCorner,
   LeftBorder,
-  PageBody1,
+  LeftBotBinding,
+  LeftBotCorner,
   LeftPageBinding,
-  RightPageBinding,
+  LeftTopBinding,
+  LeftTopCorner,
+  PageBody1,
   PageBody2,
   RightBorder,
-  LeftBotCorner,
-  BotBorder1,
-  LeftBotBinding,
   RightBotBinding,
-  BotBorder2,
   RightBotCorner,
+  RightPageBinding,
+  RightTopBinding,
+  RightTopCorner,
+  Spread,
+  TopBorder1,
+  TopBorder2,
 } from "./BookStyles";
 import { useRouter } from "next/router";
+import { WizardLorePageRoute } from "./loreUtils";
 
 export type Props = {
   bg: string;

@@ -7,3 +7,5 @@ declare module "phaser3-rex-plugins/plugins/roundrectanglecanvas-plugin";
 
 declare module "markdown-draft-js";
 declare module "parse-data-url";
+
+declare module "draft-js-markdown-shortcuts-plugin";

@@ -5,6 +5,7 @@ import IndividualLorePage, {
   EmptyLorePage,
 } from "./IndividualLorePage";
 import React from "react";
+import * as net from "net";
 
 export type LoreBookPageComponents = {
   previousPage: any;
@@ -19,7 +20,7 @@ export type WizardLorePageRoute = {
   loreIdx: number;
 };
 
-export function typeSetterV2({
+export function typeSetter({
   wizardId,
   pageNum,
   lorePageData,
@@ -50,23 +51,7 @@ export function typeSetterV2({
       loreMetadataURI={lorePageData.rightPage.loreMetadataURI}
     />
   ) : (
-    <EmptyLorePage wizardId={wizardId} pageNum={pageNum} />
-  );
-
-  components.previousPage = lorePageData.prevRightPage ? (
-    <IndividualLorePage
-      loreMetadataURI={lorePageData.prevRightPage.loreMetadataURI}
-    />
-  ) : (
-    <EmptyLorePage />
-  );
-
-  components.nextPage = lorePageData.nextLeftPage ? (
-    <IndividualLorePage
-      loreMetadataURI={lorePageData.nextLeftPage.loreMetadataURI}
-    />
-  ) : (
-    <CoreWizardPage wizardId={wizardId} />
+    <EmptyLorePage wizardId={wizardNum} pageNum={pageNum} />
   );
 
   let previousPageRoute: WizardLorePageRoute | null = null;
@@ -89,29 +74,22 @@ export function typeSetterV2({
       wizardId: previousPageWizNum,
       loreIdx: previousPagePageNum,
     };
-  } else {
-    const prevWizardNum = wizardNum > 0 ? wizardNum - 1 : 0;
-    previousPageRoute = {
-      as: `/lore/${prevWizardNum}/0`,
-      wizardId: prevWizardNum,
-      loreIdx: 0,
-    };
   }
 
   // Figure out next route
   if (lorePageData.nextLeftPage) {
+    const nextIdMatcher = lorePageData.nextLeftPage.id.match(/^(\d+)-(\d+)$/);
+    const nextPageWizNum = parseInt(nextIdMatcher?.[1] ?? "0");
+    const nextPagePageNum = nextPageWizNum === wizardNum ? pageNum + 2 : 0;
     nextPageRoute = {
-      as: `/lore/${wizardNum}/${pageNum + 1}`,
-      wizardId: wizardNum,
-      loreIdx: pageNum + 1,
-    };
-  } else {
-    nextPageRoute = {
-      as: `/lore/${wizardNum + 1}/0`,
-      wizardId: wizardNum + 1,
-      loreIdx: 0,
+      as: `/lore/${nextPageWizNum}/${nextPagePageNum}`,
+      wizardId: nextPageWizNum,
+      loreIdx: nextPagePageNum,
     };
   }
+
+  // console.log(previousPageRoute);
+  // console.log(nextPageRoute);
 
   return {
     components,

@@ -38,7 +38,7 @@
  * @param {string} text
  * @return {string}
  */
-function cleanText(text) {
+function cleanText(text:string) {
   return encodeURIComponent(text).replace(/%(23|2C|2F|3F|5C)/g, "%25$1");
 }
 
@@ -66,8 +66,8 @@ export default function generateSocialImage({
   textLeftOffset = 480,
   titleGravity = "south_west",
   taglineGravity = "north_west",
-  titleLeftOffset = null,
-  taglineLeftOffset = null,
+  titleLeftOffset,
+  taglineLeftOffset,
   titleBottomOffset = 254,
   taglineTopOffset = 445,
   textColor = "000000",
@@ -75,8 +75,32 @@ export default function generateSocialImage({
   taglineColor,
   titleFontSize = 64,
   taglineFontSize = 48,
-  version = null
-}) {
+  version
+} : {  title:string;
+  tagline:string;
+  cloudName:string;
+  imagePublicID:string;
+  cloudinaryUrlBase:string;
+  titleFont:string;
+  titleExtraConfig:string;
+  taglineExtraConfig:string;
+  taglineFont:string;
+  imageWidth:number;
+  imageHeight:number;
+  textAreaWidth:number;
+  textLeftOffset:number;
+  titleGravity:string;
+  taglineGravity:string;
+  titleLeftOffset:string;
+  taglineLeftOffset:string;
+  titleBottomOffset:number;
+  taglineTopOffset:number;
+  textColor:string;
+  titleColor:string;
+  taglineColor:string;
+  titleFontSize:number;
+  taglineFontSize:number;
+  version:string;}) {
   // configure social media image dimensions, quality, and format
   const imageConfig = [
     `w_${imageWidth}`,

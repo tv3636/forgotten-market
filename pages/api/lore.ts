@@ -3,6 +3,8 @@ import pinataSDK from "@pinata/sdk";
 import { utils } from "ethers";
 import { getProvider } from "../../hooks/useProvider";
 import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+import replaceAsync from "string-replace-async";
+import fs from "fs";
 
 const pinata = pinataSDK(
   process.env.PINATA_ID || "",
@@ -40,15 +42,61 @@ export default async function handler(
     });
   }
 
+  let storyWithUploadedImages;
+
+  if (req.body?.story) {
+    try {
+      storyWithUploadedImages = await replaceAsync(
+        req.body?.story,
+        /!\[(.*?)\]\(((?:data).*?)\)/gim,
+        // @ts-ignore
+        async (whole: string, alt: string, base64image: string) => {
+          const splitBase64 = base64image.split(";base64,");
+          const headerPart = splitBase64[0];
+          // console.log(headerPart);
+          const dataPart = splitBase64[1];
+          const extension = headerPart.substr(headerPart.lastIndexOf("/") + 1);
+
+          const filename = `img_${req.body.wizard_id}_${dataPart
+            .slice(dataPart.length - 10)
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase()}.${extension}`;
+
+          // console.log(filename);
+          fs.writeFileSync(filename, dataPart, { encoding: "base64" });
+
+          const res = await pinata.pinFileToIPFS(
+            fs.createReadStream(filename),
+            {
+              pinataMetadata: {
+                name: "Converted Base64 Image",
+              },
+              pinataOptions: {
+                wrapWithDirectory: true,
+              },
+            }
+          );
+          // console.log(`![${alt}](ipfs://${res.IpfsHash}/${filename})`);
+          return `![${alt}](ipfs://${res.IpfsHash}/${filename})`; // leaving as ipfs://  so we can use as-is, can always replace on frontend to another provider
+        }
+      );
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({
+        error: `Problem extracting and uploading images to IPFS: ${e}.`,
+      });
+    }
+  }
+
   try {
+    // console.log("pinning json");
     const response = await pinata.pinJSONToIPFS({
       name: req.body?.title,
-      description: req.body?.story,
+      description: storyWithUploadedImages,
+      // original_story: req.body?.story,
+      // ^ Should we save original in case? I guess not since editing is allowed to fix any issues etc
       background_color: req.body?.bg_color, // Note: needs to be without # for compliance with spec
       attributes: [
-        { trait_type: "Artifact Address", value: req.body.address },
-        { trait_type: "Artifact Token ID", value: req.body.token_id },
-        { trait_type: "Pixel Art", value: req.body?.pixel_art ?? false },
         { trait_type: "Wizard ID", value: req.body.wizard_id },
         { trait_type: "Creator", value: signingAddress },
       ],

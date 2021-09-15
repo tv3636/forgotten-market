@@ -1,16 +1,7 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
-import Link from "next/link";
-import { useHotkeys } from "react-hotkeys-hook";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { Flex } from "rebass";
-import PageHorizontalBreak from "../PageHorizontalBreak";
-import Spacer from "../Spacer";
 import Button from "../ui/Button";
-import { WizardLorePageRoute } from "./loreUtils";
-import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { BackgroundColorPickerField, NSFWField } from "./AddLoreFields";
 import { WizardNameWrapper } from "../Lore/BookSharedComponents";
 
