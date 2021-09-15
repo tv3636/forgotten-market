@@ -13,7 +13,7 @@ const withTM = require("next-transpile-modules")([
   "hast-util-heading-rank",
   "hast-util-to-string",
   "hast-util-is-element",
-  "unist-util-is"
+  "unist-util-is",
 ]);
 
 // https://gist.github.com/diachedelic/6ded48f5c6442482fa69e91ec7ab1742
@@ -35,7 +35,7 @@ let nextConfig = {
     localeDetection: true,
   },
   images: {
-    domains: ["nftz.forgottenrunes.com"]
+    domains: ["nftz.forgottenrunes.com"],
   },
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
 };
