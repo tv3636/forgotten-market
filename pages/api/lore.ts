@@ -5,6 +5,7 @@ import { getProvider } from "../../hooks/useProvider";
 import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 import replaceAsync from "string-replace-async";
 import fs from "fs";
+import * as os from "os";
 
 const pinata = pinataSDK(
   process.env.PINATA_ID || "",
@@ -63,10 +64,12 @@ export default async function handler(
             .toLowerCase()}.${extension}`;
 
           // console.log(filename);
-          fs.writeFileSync(filename, dataPart, { encoding: "base64" });
+          fs.writeFileSync(os.tmpdir() + "/" + filename, dataPart, {
+            encoding: "base64",
+          });
 
           const res = await pinata.pinFileToIPFS(
-            fs.createReadStream(filename),
+            fs.createReadStream(os.tmpdir() + "/" + filename),
             {
               pinataMetadata: {
                 name: "Converted Base64 Image",
