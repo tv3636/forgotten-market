@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
-import { ContentState, convertFromRaw, EditorState } from "draft-js";
+import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
 import createMarkdownShortcutsPlugin from "draft-js-markdown-shortcuts-plugin";
 import createImagePlugin from "@draft-js-plugins/image";
@@ -9,18 +9,14 @@ import createFocusPlugin from "@draft-js-plugins/focus";
 import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
 import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
-import createMentionPlugin, {
-  defaultSuggestionsFilter,
-} from "@draft-js-plugins/mention";
 import { getContrast } from "../../lib/colorUtils";
-import mentions from "./WizardMentions";
 import productionWizardData from "../../data/nfts-prod.json";
 import { titlePrompts } from "./addLoreHelpers";
-const wizData = productionWizardData as { [wizardId: string]: any };
 import { sample } from "lodash";
 import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
-import { convertToRaw } from "draft-js";
 import { css, keyframes } from "@emotion/react";
+
+const wizData = productionWizardData as { [wizardId: string]: any };
 
 const pulse = keyframes`
   0% { opacity: 0.3; }
@@ -74,22 +70,20 @@ const decorator = composeDecorators(
 // https://www.draft-js-plugins.com/plugin/image
 const imagePlugin = createImagePlugin({ decorator });
 
-// TODO: hook up with real uploading in loreUtils?
-// alternatively, make convertDraftStateToMarkdown return a manifest of dataUris
-// and upload after that
 const mockUpload = (...args: any) => {
-  console.log("args: ", args);
+  // console.log("args: ", args);
   return true;
 };
 
 const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
   handleUpload: mockUpload,
+  // @ts-ignore
   addImage: imagePlugin.addImage,
 });
 
 const topLevelPlugins = [
   dragNDropFileUploadPlugin,
-  createMarkdownShortcutsPlugin(),
+  createMarkdownShortcutsPlugin,
   blockDndPlugin,
   focusPlugin,
   resizeablePlugin,
@@ -212,8 +206,8 @@ Our hero finds themselves surrounded by a...`
         editorState={editorState}
         // onChange={setEditorState}
         onChange={performOnChange}
-        userSelect="none"
-        contentEditable={false}
+        // userSelect="none"
+        // contentEditable={false}
         plugins={plugins}
       />
       {/* <MentionSuggestions

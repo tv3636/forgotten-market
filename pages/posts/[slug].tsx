@@ -9,9 +9,8 @@ import styled from "@emotion/styled";
 import Layout from "../../components/InfoPageLayout";
 import WizardArt from "../../components/WizardArt";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
-import dynamic from "next/dynamic";
-import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
+// import rehypeSlug from "rehype-slug";
+// import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { GetStaticPaths, GetStaticProps } from "next";
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
@@ -96,7 +95,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     // Optionally pass remark/rehype plugins
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+      // rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
     scope: data,
   });
