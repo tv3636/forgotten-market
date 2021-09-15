@@ -181,6 +181,8 @@ const AddLorePage = () => {
             bgL={bgL || "#000000"}
             bgR={bgR || "#000000"}
             controls={controls}
+            nextPageRoute={null}
+            previousPageRoute={null}
           >
             <div />
             {currentLeftPage}

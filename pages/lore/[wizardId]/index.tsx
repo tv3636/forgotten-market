@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext } from "next";
-import { WizardLorePages } from "../../../components/Lore/types";
 
-const Index = ({ wizardLorePages }: { wizardLorePages: WizardLorePages }) => {
+const Index = () => {
   return <></>;
 };
 export async function getServerSideProps(context: GetServerSidePropsContext) {
