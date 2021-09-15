@@ -83,7 +83,7 @@ const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
 
 const topLevelPlugins = [
   dragNDropFileUploadPlugin,
-  createMarkdownShortcutsPlugin,
+  createMarkdownShortcutsPlugin(),
   blockDndPlugin,
   focusPlugin,
   resizeablePlugin,
