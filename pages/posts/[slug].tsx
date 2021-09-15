@@ -10,8 +10,8 @@ import Layout from "../../components/InfoPageLayout";
 import WizardArt from "../../components/WizardArt";
 import OgImage from "../../components/OgImage";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
-// import rehypeSlug from "rehype-slug";
-// import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { GetStaticPaths, GetStaticProps } from "next";
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
@@ -90,14 +90,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   console.log("postFilePathToLoad: ", postFilePathToLoad);
 
   const source = fs.readFileSync(postFilePathToLoad);
-
   const { content, data } = matter(source);
-
   const mdxSource = await serialize(content, {
-    // Optionally pass remark/rehype plugins
     mdxOptions: {
       remarkPlugins: [],
-      // rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
     scope: data,
   });
