@@ -26,7 +26,7 @@ const LorePage = ({
       <LoreSharedLayout>
         <Book wizardId={wizardId} page={page} lorePageData={lorePages} />
       </LoreSharedLayout>
-      {/*<WizardMapLeaflet wizardLore={{}} bookOfLore={true} />*/}
+      <WizardMapLeaflet wizardLore={{}} bookOfLore={true} />
     </Layout>
   );
 };
