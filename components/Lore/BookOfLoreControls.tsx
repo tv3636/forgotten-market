@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
 import Link from "next/link";
@@ -6,17 +7,15 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Button from "../ui/Button";
-import { WizardLorePageRoute } from "./loreUtils";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { WizardNameWrapper } from "./BookSharedComponents";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 type Props = {
-  wizardId: string;
-  page: string;
-  nextPageRoute: WizardLorePageRoute | null;
-  previousPageRoute: WizardLorePageRoute | null;
+  wizardNum: number;
+  nextPageRoute: string | null;
+  previousPageRoute: string | null;
 };
 
 const BookOfLoreControlsElement = styled.div`
@@ -95,49 +94,44 @@ const SocialItem = styled.div`
 `;
 
 export default function BookOfLoreControls({
-  wizardId,
-  page,
+  wizardNum,
   nextPageRoute,
   previousPageRoute,
 }: Props) {
-  const wizardData: any = wizData[wizardId.toString()];
-  const wizardNum = parseInt(wizardId);
-  const pageNum = parseInt(page);
-
-  // This isn't quite right because the pagination is Lore only
-  // const previousWizardNumber = wizardNum > 0 ? wizardNum - 1 : 0;
-  // const nextWizardNumber = wizardNum < 9999 ? wizardNum + 1 : 9999;
-
-  const prevPageUrl = previousPageRoute?.as;
-  const nextPageUrl = nextPageRoute?.as;
+  const wizardData: any = wizData[wizardNum.toString()];
   const router = useRouter();
+
+  useEffect(() => {
+    if (nextPageRoute) router.prefetch(nextPageRoute);
+    if (previousPageRoute) router.prefetch(previousPageRoute);
+  }, []);
 
   useHotkeys(
     "left",
     () => {
-      if (prevPageUrl) {
-        router.push(prevPageUrl);
+      if (previousPageRoute) {
+        router.push(previousPageRoute);
       }
       return true;
     },
-    [wizardNum, pageNum]
+    [previousPageRoute, router]
   );
 
   useHotkeys(
     "right",
     () => {
-      if (nextPageUrl) {
-        router.push(nextPageUrl);
+      if (nextPageRoute) {
+        router.push(nextPageRoute);
       }
       return true;
     },
-    [wizardNum, pageNum]
+    [nextPageRoute, router]
   );
 
   const url = typeof window !== "undefined" ? window?.location?.href : "";
 
   const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    `The Lore of ${wizardData.name} (#${wizardId})`
+    `The Lore of ${wizardData.name} (#${wizardNum})`
   )}&url=${encodeURIComponent(url)}`;
 
   return (
@@ -145,7 +139,7 @@ export default function BookOfLoreControls({
       <SocialContainer>
         <SocialItem>
           <a
-            href={`https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${wizardId}`}
+            href={`https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${wizardNum}`}
             className="icon-link"
             target="_blank"
           >
@@ -161,8 +155,8 @@ export default function BookOfLoreControls({
 
       <PaginationContainer>
         <PreviousPageContainer>
-          {prevPageUrl ? (
-            <Link href={prevPageUrl} passHref>
+          {previousPageRoute ? (
+            <Link href={previousPageRoute} passHref>
               <a>
                 <Image
                   src={"/static/lore/book/arrow_L.png"}
@@ -176,11 +170,11 @@ export default function BookOfLoreControls({
           )}
         </PreviousPageContainer>
         <WizardNameWrapper layout layoutId="wizardName">
-          {wizardData.name} (#{wizardId})
+          {wizardData.name} (#{wizardNum})
         </WizardNameWrapper>
         <NextPageContainer>
-          {nextPageUrl ? (
-            <Link href={nextPageUrl} passHref>
+          {nextPageRoute ? (
+            <Link href={nextPageRoute} passHref>
               <a>
                 <Image
                   src={"/static/lore/book/arrow_R.png"}

@@ -77,20 +77,18 @@ export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
   );
 };
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 export const EmptyLorePage = ({
-  wizardId,
+  wizardNum,
   pageNum,
 }: {
-  wizardId?: number;
+  wizardNum: number;
   pageNum: number;
 }) => {
   const furtherOrAny = pageNum < 1 ? "" : " further";
 
-  const noMoreLore = wizardId
+  const noMoreLore = wizardNum
     ? `No${furtherOrAny} Lore has been recorded for ${
-        wizData[wizardId.toString()].name
+        wizData[wizardNum.toString()].name
       }...`
     : `No${furtherOrAny} Lore has been recorded...`;
 
@@ -107,63 +105,31 @@ export const EmptyLorePage = ({
 };
 
 export default function IndividualLorePage({
-  loreMetadataURI,
+  bgColor,
+  title,
+  story,
 }: {
-  loreMetadataURI: string;
+  bgColor: string;
+  title?: string;
+  story?: string;
 }) {
-  const ipfsURL = `${IPFS_SERVER}/${
-    loreMetadataURI?.match(/^ipfs:\/\/(.*)$/)?.[1]
-  }`;
-  console.log("ipfsURL: ", ipfsURL);
-  const { data, error } = useSWR(ipfsURL, fetcher);
+  const Inner = (
+    <TextPage>
+      {title && <ReactMarkdown>{title}</ReactMarkdown>}
+      {story && (
+        <ReactMarkdown
+          transformImageUri={(src: string, alt: string, title) => {
+            if (src.startsWith("ipfs://")) {
+              src = src.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
+            }
+            return uriTransformer(src);
+          }}
+        >
+          {story}
+        </ReactMarkdown>
+      )}
+    </TextPage>
+  );
 
-  if (error)
-    return (
-      <BookOfLorePage bg={"#000000"}>
-        <TextPage alignChildren={"center"}>
-          Sorry, this page failed to load. Everything might be okay, just
-          refresh and try again.
-        </TextPage>
-      </BookOfLorePage>
-    );
-  if (!data)
-    // TODO: retry here
-    return (
-      <BookOfLorePage bg={"#000000"}>
-        <TextPage alignChildren={"center"}>
-          <LoadingPageText>
-            Your Lore has been written and is now being indexed. It will show up
-            here in a couple of minutes.
-          </LoadingPageText>
-        </TextPage>
-      </BookOfLorePage>
-    );
-
-  const bg = data.background_color;
-  const story = data?.description || "";
-  const title = data?.name || "";
-
-  let Inner = <div />;
-
-  if (story) {
-    Inner = (
-      <TextPage>
-        {title && <ReactMarkdown>{title}</ReactMarkdown>}
-        {story && (
-          <ReactMarkdown
-            transformImageUri={(src: string, alt: string, title) => {
-              if (src.startsWith("ipfs://")) {
-                src = src.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
-              }
-              return uriTransformer(src);
-            }}
-          >
-            {story}
-          </ReactMarkdown>
-        )}
-      </TextPage>
-    );
-  }
-
-  return <BookOfLorePage bg={bg}>{Inner}</BookOfLorePage>;
+  return <BookOfLorePage bg={bgColor}>{Inner}</BookOfLorePage>;
 }
