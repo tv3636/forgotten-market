@@ -5,16 +5,9 @@ import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Flex } from "rebass";
-import PageHorizontalBreak from "../PageHorizontalBreak";
-import Spacer from "../Spacer";
 import Button from "../ui/Button";
 import { WizardLorePageRoute } from "./loreUtils";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
-import {
-  BackgroundColorPickerField,
-  NSFWField,
-} from "../AddLore/AddLoreFields";
 import { WizardNameWrapper } from "./BookSharedComponents";
 
 const wizData = productionWizardData as { [wizardId: string]: any };

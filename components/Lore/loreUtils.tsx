@@ -60,8 +60,9 @@ export function typeSetter({
   // Figure out previous route
   if (lorePageData.prevRightPage) {
     // Previous page could be this wizards or previous wizard's last
-    const previousIdMatcher =
-      lorePageData.prevRightPage.id.match(/^(\d+)-(\d+)$/);
+    const previousIdMatcher = lorePageData.prevRightPage.id.match(
+      /^wizards-(\d+)-(\d+)$/
+    );
     const previousPageWizNum = parseInt(previousIdMatcher?.[1] ?? "0");
     const previousPagePageNum =
       previousPageWizNum === wizardNum
@@ -78,7 +79,9 @@ export function typeSetter({
 
   // Figure out next route
   if (lorePageData.nextLeftPage) {
-    const nextIdMatcher = lorePageData.nextLeftPage.id.match(/^(\d+)-(\d+)$/);
+    const nextIdMatcher = lorePageData.nextLeftPage.id.match(
+      /^wizards-(\d+)-(\d+)$/
+    );
     const nextPageWizNum = parseInt(nextIdMatcher?.[1] ?? "0");
     const nextPagePageNum = nextPageWizNum === wizardNum ? pageNum + 2 : 0;
     nextPageRoute = {

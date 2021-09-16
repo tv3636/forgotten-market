@@ -13,7 +13,6 @@ export const onSubmitAddLoreForm = async ({
   currentWizard,
   setErrorMessage,
   setSubmitting,
-  currentArtifact,
   currentStory,
   currentTitle,
   currentBgColor,
@@ -133,14 +132,6 @@ export const onSubmitAddLoreForm = async ({
     bg_color: currentBgColor,
   };
 
-  if (currentArtifact?.contractAddress && currentArtifact?.tokenId) {
-    loreBody = {
-      ...loreBody,
-      address: currentArtifact.contractAddress,
-      token_id: currentArtifact.tokenId,
-    };
-  }
-
   console.log("loreBody: ", loreBody);
   const response = await fetch("/api/lore", {
     method: "post",
@@ -187,11 +178,8 @@ export const onSubmitAddLoreForm = async ({
       //@ts-ignore
       .connect(signer)
       .addLore(
+        process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS,
         currentWizard.tokenId,
-        currentArtifact?.contractAddress
-          ? currentArtifact.contractAddress
-          : AddressZero,
-        currentArtifact?.tokenId ? currentArtifact?.tokenId : 0,
         0,
         values.nsfw,
         `ipfs://${apiResponse.hash}`,

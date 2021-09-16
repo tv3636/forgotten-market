@@ -35,7 +35,7 @@ const COMMON_LORE_FIELDS = `
   id
   index
   creator
-  assetAddress
+  tokenContract
   loreMetadataURI
   parentLoreId
   tokenId
@@ -105,8 +105,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     `;
   } else {
     queryString = `${queryString}
-      prevRightPage: lores(first: 1, where: {id_lt: "${wizardId.padStart(
-        4,
+      prevRightPage: lores(first: 1, where: {id_lt: "wizards-${wizardId.padStart(
+        5,
         "0"
       )}-0000", struck: false, nsfw: false}, orderBy: id, orderDirection:desc) {
         ${COMMON_LORE_FIELDS}
@@ -128,8 +128,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     `;
   } else {
     queryString = `${queryString}
-      nextLeftPage: lores(first: 1, where: {id_gt: "${wizardId.padStart(
-        4,
+      nextLeftPage: lores(first: 1, where: {id_gt: "wizards-${wizardId.padStart(
+        5,
         "0"
       )}-0000", struck: false, nsfw: false}, orderBy: id, orderDirection:asc) {
         ${COMMON_LORE_FIELDS}
