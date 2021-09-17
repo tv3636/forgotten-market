@@ -33,8 +33,8 @@ const Book = ({ wizardNum, lorePageData }: Props) => {
   return (
     <BookFrame
       bg={bg}
-      bgL={lorePageData.leftPage?.bgColor ?? "black"}
-      bgR={lorePageData.rightPage?.bgColor ?? "black"}
+      bgL={lorePageData.leftPage?.bgColor ?? "#000000"}
+      bgR={lorePageData.rightPage?.bgColor ?? "#000000"}
       controls={controls}
       previousPageRoute={lorePageData.previousPageRoute}
       nextPageRoute={lorePageData.nextPageRoute}

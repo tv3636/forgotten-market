@@ -53,7 +53,7 @@ async function fetchLoreMetadata(loreMetadataURI: string | null): Promise<any> {
   const ipfsURL = `${IPFS_SERVER}/${
     loreMetadataURI.match(/^ipfs:\/\/(.*)$/)?.[1]
   }`;
-  console.log("ipfsURL: ", ipfsURL);
+  // console.log("ipfsURL: ", ipfsURL);
 
   if (!ipfsURL || ipfsURL === "undefined") {
     return null;
@@ -77,7 +77,7 @@ async function hydratePageDataFromMetadata(
 
   return {
     isEmpty: false,
-    bgColor: metadata?.background_color ?? "black",
+    bgColor: metadata?.background_color ?? "#000000",
     title: metadata?.name ?? "Untitled",
     story: metadata?.description ?? "",
   };
@@ -89,8 +89,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   );
   const pageNum: number = parseInt((context.params?.page as string) ?? "0");
 
-  console.log(wizardNum);
-  console.log(pageNum);
+  console.log(`In static props for wizard ${wizardNum} page ${pageNum}`);
 
   if (pageNum % 2 !== 0) {
     // We always key from right page, so redirect...
@@ -110,7 +109,10 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     leftPageNum
   );
 
-  console.log({ leftPageGraphData, rightPageGraphData });
+  console.log(`Left page graph data:`);
+  console.log(leftPageGraphData);
+  console.log(`Right page graph data:`);
+  console.log(rightPageGraphData);
 
   if (leftPageNum >= 1 && !leftPageGraphData && !rightPageGraphData) {
     // Trying to open lore pages that don't exist for wizard, go to 0th lore for now (yes later could be fancy and figure out last page that does exist if any etc)
@@ -147,7 +149,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     // Would end showing add lore
     rightPage = {
       isEmpty: true,
-      bgColor: "black",
+      bgColor: "#000000",
     };
   }
   rightPage.pageNumber = rightPageNum;
@@ -156,6 +158,9 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     pageNum,
     leftPageGraphData,
     rightPageGraphData
+  );
+  console.log(
+    `Static props for wizard ${wizardNum} page ${pageNum} is returning the following:`
   );
   console.log({
     leftPage,
@@ -196,7 +201,7 @@ export async function getStaticPaths() {
     `,
   });
 
-  console.log(data);
+  // console.log(data);
 
   //Note: its so annoying NextJs doesn't let you pass extra data to getStaticProps so now we fetch inside there too sigh... https://github.com/vercel/next.js/discussions/11272
   const paths = flatMap(data.loreTokens, (loreTokenData: any) => {

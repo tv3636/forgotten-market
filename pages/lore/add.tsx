@@ -118,7 +118,7 @@ const AddLorePage = () => {
 
   const wizardBg = currentWizard?.tokenId
     ? "#" + wizData[currentWizard?.tokenId?.toString()].background_color
-    : "black";
+    : "#000000";
 
   const onSubmit = async () => {
     console.log("currentEditorState: ", currentEditorState);
