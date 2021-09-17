@@ -32,12 +32,12 @@ const LorePage = ({
   wizardNum: number;
   lorePageData: LorePageData;
 }) => {
-  const wizardName = wizData[wizardId.toString()].name;
+  const wizardName = wizData[wizardNum.toString()].name;
   return (
     <Layout>
       <OgImage
-        title={`The Lore of ${wizardName} (#${wizardId})`}
-        wizard={wizardId}
+        title={`The Lore of ${wizardName} (#${wizardNum})`}
+        wizard={wizardNum}
       />
       <LoreSharedLayout>
         <Book wizardNum={wizardNum} lorePageData={lorePageData} />
