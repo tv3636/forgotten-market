@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import { getLoreUrl } from "../../../../components/Lore/loreUtils";
 
 const Index = () => {
   return <></>;
@@ -6,7 +7,11 @@ const Index = () => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     redirect: {
-      destination: `/lore/${context?.query?.wizardId}/0`,
+      destination: getLoreUrl(
+        "wizards",
+        parseInt(context?.query?.wizardId as string),
+        0
+      ),
     },
   };
 }

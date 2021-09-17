@@ -6,6 +6,7 @@ import parseDataUrl from "parse-data-url";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { NORMALIZED_WIZARD_CONTRACT_ADDRESS } from "../Lore/loreSubgraphUtils";
+import { getLoreUrl } from "../Lore/loreUtils";
 
 export const onSubmitAddLoreForm = async ({
   values,
@@ -358,7 +359,7 @@ export const getPendingLoreTxHashRedirection = async ({
 }) => {
   const { data } = await client.query({
     query: gql`
-          query WizardLore{
+          query Lore{
               lores(where: { struck: false, nsfw: false, txHash: "${waitForTxHash}" }) {
                   id
                   index
@@ -372,7 +373,7 @@ export const getPendingLoreTxHashRedirection = async ({
   if (data?.lores[0]) {
     const { data: wizardPageCount } = await client.query({
       query: gql`
-          query WizardLore {
+          query Lore {
               lores( where: {tokenId: "${wizardId}", tokenContract: "${NORMALIZED_WIZARD_CONTRACT_ADDRESS}", struck: false, nsfw: false}) {
                   id
               }
@@ -385,7 +386,7 @@ export const getPendingLoreTxHashRedirection = async ({
 
     return {
       redirect: {
-        destination: `/lore/${wizardId}/${pageNum}`,
+        destination: getLoreUrl("wizards", parseInt(wizardId), pageNum),
       },
     };
   }

@@ -56,3 +56,11 @@ export function typeSetter({
     components,
   };
 }
+
+export function getLoreUrl(
+  loreTokenSlug: string,
+  tokenId: number,
+  pageNum: number
+) {
+  return `/lore/${loreTokenSlug}/${tokenId}/${pageNum}`;
+}

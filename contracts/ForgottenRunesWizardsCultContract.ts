@@ -25,3 +25,10 @@ export async function getBookOfLoreContract({ provider }: { provider: any }) {
     provider
   );
 }
+
+export const LORE_CONTRACTS = {
+  wizards:
+    process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS?.toLowerCase() ??
+    "0x",
+  // souls...
+};
