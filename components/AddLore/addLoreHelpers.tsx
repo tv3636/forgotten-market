@@ -390,7 +390,7 @@ export const getPendingLoreTxHashRedirection = async ({
 
   return {
     redirect: {
-      destination: `/lore/add?waitForTxHash=${waitForTxHash}&wizardId=${wizardId}`,
+      destination: `/lore/add?waitForTxHash=${waitForTxHash}&wizardId=${wizardId}&client=true`,
     },
   };
 };

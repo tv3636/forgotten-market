@@ -6,12 +6,14 @@ import { WriteButton } from "./BookOfLoreControls";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
-import useSWR from "swr";
 import { IPFS_SERVER } from "../../constants";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
-const TextPage = styled.div<{ alignSelf?: string; alignChildren?: string }>`
+export const TextPage = styled.div<{
+  alignSelf?: string;
+  alignChildren?: string;
+}>`
   color: #e1decd;
   font-size: 24px;
   overflow: scroll;
