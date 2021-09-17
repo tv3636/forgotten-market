@@ -1,7 +1,8 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
+console.log(`Graphski: ${process.env.SUBGRAPH_ENDPOINT}`)
 const client = new ApolloClient({
-  uri: "https://api.studio.thegraph.com/query/6917/frwc-lore/v0.0.18",
+  uri: process.env.SUBGRAPH_ENDPOINT,
   cache: new InMemoryCache(),
 });
 

@@ -26,10 +26,17 @@ export type Lore = {
 
 export type LorePage = {};
 
+export type IndividualLorePageData = {
+  bgColor?: string;
+  isEmpty: boolean;
+  title?: string;
+  story?: string;
+  pageNumber?: number;
+};
+
 export type LorePageData = {
-  leftPage: { [key: string]: string };
-  rightPage: { [key: string]: string };
-  prevRightPage: { [key: string]: string };
-  nextLeftPage: { [key: string]: string };
-  prevWizardPageCount: number;
+  leftPage: IndividualLorePageData;
+  rightPage: IndividualLorePageData;
+  previousPageRoute: string | null;
+  nextPageRoute: string | null;
 };

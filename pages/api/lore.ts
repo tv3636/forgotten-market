@@ -96,9 +96,7 @@ export default async function handler(
     const response = await pinata.pinJSONToIPFS({
       name: req.body?.title,
       description: storyWithUploadedImages,
-      // original_story: req.body?.story,
-      // ^ Should we save original in case? I guess not since editing is allowed to fix any issues etc
-      background_color: req.body?.bg_color, // Note: needs to be without # for compliance with spec
+      background_color: req.body?.bg_color,
       attributes: [
         { trait_type: "Wizard ID", value: req.body.wizard_id },
         { trait_type: "Creator", value: signingAddress },
