@@ -1,12 +1,11 @@
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { getBookOfLoreContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 import { LoreAPISubmitParams } from "../../pages/lore/add";
-import { AddressZero } from "@ethersproject/constants";
-import axios from "axios";
 import Bluebird from "bluebird";
 import parseDataUrl from "parse-data-url";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
+import { NORMALIZED_WIZARD_CONTRACT_ADDRESS } from "../Lore/loreSubgraphUtils";
 
 export const onSubmitAddLoreForm = async ({
   values,
@@ -214,18 +213,10 @@ export const onSubmitAddLoreForm = async ({
     // and redirect only after the page is done, go directly to the lore page
     // pass waiting for indexing / confetti
     if (receipt.status === 1) {
-      const redirection = await getPendingLoreTxHashRedirection({
-        waitForTxHash: receipt.transactionHash,
-        wizardId: currentWizard.tokenId,
-      });
-      console.log("redirection: ", redirection);
-      const destination = redirection?.redirect?.destination;
-      await router.push({
-        pathname: destination,
-        query: { first: true },
-        as: destination,
-      });
-      // `/lore/add?waitForTxHash=${receipt.transactionHash}&wizardId=${currentWizard.tokenId}`
+      await router.push(
+        `/lore/add?waitForTxHash=${receipt.transactionHash}&wizardId=${currentWizard.tokenId}`
+      );
+      //
     } else {
       toast.update(txToastId, {
         render: () => (
@@ -376,14 +367,30 @@ export const getPendingLoreTxHashRedirection = async ({
           }
       `,
   });
-  console.log(data);
+
+  if (data?.lores[0]) {
+    const { data: wizardPageCount } = await client.query({
+      query: gql`
+          query WizardLore {
+              lores( where: {tokenId: "${wizardId}", tokenContract: "${NORMALIZED_WIZARD_CONTRACT_ADDRESS}", struck: false, nsfw: false}) {
+                  id
+              }
+          }
+      `,
+    });
+
+    const pageNum = (wizardPageCount?.lores).length - 1;
+
+    return {
+      redirect: {
+        destination: `/lore/${wizardId}/${pageNum}`,
+      },
+    };
+  }
 
   return {
     redirect: {
-      destination:
-        data?.lores?.length > 0
-          ? `/lore/${wizardId}/${data?.lores[0].index}`
-          : null,
+      destination: `/lore/add?waitForTxHash=${waitForTxHash}&wizardId=${wizardId}`,
     },
   };
 };

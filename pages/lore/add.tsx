@@ -184,10 +184,8 @@ const AddLorePage = () => {
             nextPageRoute={null}
             previousPageRoute={null}
           >
-            <div />
             {currentLeftPage}
             {currentRightPage}
-            <div />
           </BookFrame>
         </AddLoreWrapper>
         <StyledToastContainer theme="dark" />
