@@ -1,55 +1,46 @@
-import styled from "@emotion/styled";
 import BookOfLoreControls from "./BookOfLoreControls";
-import { AnimatePresence, motion } from "framer-motion";
 import { LorePageData } from "./types";
 import { typeSetter } from "./loreUtils";
 import productionWizardData from "../../data/nfts-prod.json";
-import LoreAnimations from "./LoreAnimations";
 import BookFrame from "./BookFrame";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 export type Props = {
-  wizardId: string;
-  page: string;
+  wizardNum: number;
   lorePageData: LorePageData;
 };
 
-const Book = ({ wizardId, page, lorePageData }: Props) => {
-  const wizardData: any = wizData[wizardId.toString()];
+const Book = ({ wizardNum, lorePageData }: Props) => {
+  const wizardData: any = wizData[wizardNum.toString()];
   const bg = "#" + wizardData.background_color;
 
-  const { components, previousPageRoute, nextPageRoute } = typeSetter({
-    wizardId,
-    pageNum: parseInt(page),
-    lorePageData: lorePageData,
+  const { components } = typeSetter({
+    wizardNum,
+    lorePageData,
   });
 
-  const { previousPage, currentLeftPage, currentRightPage, nextPage } =
-    components;
+  const { currentLeftPage, currentRightPage } = components;
 
   const controls = (
     <BookOfLoreControls
-      wizardId={wizardId as string}
-      page={page as string}
-      previousPageRoute={previousPageRoute}
-      nextPageRoute={nextPageRoute}
+      wizardNum={wizardNum}
+      previousPageRoute={lorePageData.previousPageRoute}
+      nextPageRoute={lorePageData.nextPageRoute}
     />
   );
 
   return (
     <BookFrame
       bg={bg}
-      bgL={bg}
-      bgR={bg}
+      bgL={lorePageData.leftPage?.bgColor ?? "black"}
+      bgR={lorePageData.rightPage?.bgColor ?? "black"}
       controls={controls}
-      previousPageRoute={previousPageRoute}
-      nextPageRoute={nextPageRoute}
+      previousPageRoute={lorePageData.previousPageRoute}
+      nextPageRoute={lorePageData.nextPageRoute}
     >
-      {previousPage}
       {currentLeftPage}
       {currentRightPage}
-      {nextPage}
     </BookFrame>
   );
 };

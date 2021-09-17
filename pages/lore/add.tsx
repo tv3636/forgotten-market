@@ -23,7 +23,8 @@ import {
   onSubmitAddLoreForm,
 } from "../../components/AddLore/addLoreHelpers";
 import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
-import Draft, { EditorState } from "draft-js";
+import { EditorState } from "draft-js";
+import { Flex } from "rebass";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -48,9 +49,23 @@ export type LoreAPISubmitParams = {
   bg_color: string | null | undefined;
 };
 
+export const WaitingText = styled.div`
+  color: #e1decd;
+  font-size: 24px;
+  overflow: scroll;
+  padding: 1em;
+  font-family: "Alagard", serif;
+`;
 const WaitingForGraphPage = () => {
+  const router = useRouter();
   useEffect(() => {
-    let reloadTimer = setTimeout(() => window.location.reload(true), 5 * 1000);
+    let reloadTimer = setTimeout(
+      () =>
+        router.push(
+          `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&wizardId=${router.query?.wizardId}`
+        ),
+      5 * 1000
+    );
 
     return () => {
       clearTimeout(reloadTimer);
@@ -58,14 +73,14 @@ const WaitingForGraphPage = () => {
   }, []);
 
   return (
-    <Layout
-      title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
+    <Flex
+      width={"100%"}
+      height={"100vh"}
+      justifyContent={"center"}
+      alignItems={"center"}
     >
-      <h1>
-        This is an amazing waiting animation right here, you just have to
-        squint....
-      </h1>
-    </Layout>
+      <WaitingText>Waiting for your lore to be inscribed...</WaitingText>
+    </Flex>
   );
 };
 
@@ -184,10 +199,8 @@ const AddLorePage = () => {
             nextPageRoute={null}
             previousPageRoute={null}
           >
-            <div />
             {currentLeftPage}
             {currentRightPage}
-            <div />
           </BookFrame>
         </AddLoreWrapper>
         <StyledToastContainer theme="dark" />
@@ -197,12 +210,16 @@ const AddLorePage = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  if (context.query?.waitForTxHash && context.query?.wizardId) {
-    const redirect = await getPendingLoreTxHashRedirection({
+  if (
+    context.query?.waitForTxHash &&
+    context.query?.wizardId &&
+    !context.query?.client
+  ) {
+    const pendingLoreProps = await getPendingLoreTxHashRedirection({
       waitForTxHash: context.query.waitForTxHash as string,
       wizardId: context.query?.wizardId as string,
     });
-    return redirect;
+    return pendingLoreProps;
   }
 
   return { props: {} };
