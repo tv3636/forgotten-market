@@ -7,7 +7,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { IPFS_SERVER } from "../../constants";
+import { loreTextStyles } from "./loreStyles";
 import { getContrast } from "../../lib/colorUtils";
+
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -33,7 +35,14 @@ export const TextPage = styled.div<{
     }
   }}
 
-  h1,h2,h3,h4,h5 {
+  width: 100%;
+  ${loreTextStyles};
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     margin-top: 0.5em;
   }
 `;
