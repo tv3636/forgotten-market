@@ -7,6 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { IPFS_SERVER } from "../../constants";
+import { loreTextStyles } from "./loreStyles";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -32,7 +33,14 @@ export const TextPage = styled.div<{
     }
   }}
 
-  h1,h2,h3,h4,h5 {
+  width: 100%;
+  ${loreTextStyles};
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     margin-top: 0.5em;
   }
 `;
@@ -117,7 +125,6 @@ export default function IndividualLorePage({
 }) {
   const Inner = (
     <TextPage>
-      {title && <ReactMarkdown>{title}</ReactMarkdown>}
       {story && (
         <ReactMarkdown
           transformImageUri={(src: string, alt: string, title) => {

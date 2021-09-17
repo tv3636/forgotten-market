@@ -15,6 +15,7 @@ import { titlePrompts } from "./addLoreHelpers";
 import { sample } from "lodash";
 import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
 import { css, keyframes } from "@emotion/react";
+import { loreTextStyles } from "../Lore/loreStyles";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -30,6 +31,8 @@ const AddLoreEditorElement = styled.div<{ bg?: string; isLoading: boolean }>`
   height: 100%;
   width: 100%;
   padding: 1em;
+
+  ${loreTextStyles};
 
   h1,
   h2,
