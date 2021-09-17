@@ -10,7 +10,6 @@ import { IPFS_SERVER } from "../../constants";
 import { loreTextStyles } from "./loreStyles";
 import { getContrast } from "../../lib/colorUtils";
 
-
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 export const TextPage = styled.div<{
