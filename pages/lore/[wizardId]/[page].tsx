@@ -110,6 +110,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     leftPageNum
   );
 
+  console.log({ leftPageGraphData, rightPageGraphData });
+
   if (leftPageNum >= 1 && !leftPageGraphData && !rightPageGraphData) {
     // Trying to open lore pages that don't exist for wizard, go to 0th lore for now (yes later could be fancy and figure out last page that does exist if any etc)
     return {

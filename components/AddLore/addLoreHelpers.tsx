@@ -366,6 +366,7 @@ export const getPendingLoreTxHashRedirection = async ({
               }
           }
       `,
+    fetchPolicy: "no-cache",
   });
 
   if (data?.lores[0]) {
@@ -377,6 +378,7 @@ export const getPendingLoreTxHashRedirection = async ({
               }
           }
       `,
+      fetchPolicy: "no-cache",
     });
 
     const pageNum = (wizardPageCount?.lores).length - 1;

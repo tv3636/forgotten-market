@@ -81,6 +81,7 @@ export async function getPreviousAndNextPageData(
             ${queryString}
         }
     `,
+    fetchPolicy: "no-cache",
   });
 
   const nextLeftPageData = prevAndNextPageData?.nextLeftPage?.[0] ?? null;
@@ -103,6 +104,7 @@ export async function getPreviousAndNextPageData(
                 }
             }
         `,
+        fetchPolicy: "no-cache",
       });
 
       previousWizardPageCount = (prevWizardPageCount?.lores ?? []).length;
@@ -147,6 +149,7 @@ export async function getCurrentWizardData(
             ${currentWizAndPagequeryString}
         }
     `,
+    fetchPolicy: "no-cache",
   });
 
   return {
