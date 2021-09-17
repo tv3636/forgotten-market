@@ -5,7 +5,10 @@ import client from "../../../lib/graphql";
 import { gql } from "@apollo/client";
 import { LorePageData } from "../../../components/Lore/types";
 import LoreSharedLayout from "../../../components/Lore/LoreSharedLayout";
+import OgImage from "../../../components/OgImage";
 import dynamic from "next/dynamic";
+import productionWizardData from "../../../data/nfts-prod.json";
+const wizData = productionWizardData as { [wizardId: string]: any };
 
 const WizardMapLeaflet = dynamic(
   () => import("../../../components/Lore/WizardMapLeaflet"),
@@ -21,8 +24,13 @@ const LorePage = ({
   page: string;
   lorePages: LorePageData;
 }) => {
+  const wizardName = wizData[wizardId.toString()].name;
   return (
     <Layout>
+      <OgImage
+        title={`The Lore of ${wizardName} (#${wizardId})`}
+        wizard={wizardId}
+      />
       <LoreSharedLayout>
         <Book wizardId={wizardId} page={page} lorePageData={lorePages} />
       </LoreSharedLayout>
