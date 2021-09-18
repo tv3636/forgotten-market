@@ -335,17 +335,18 @@ export async function uploadBookOfLoreImages({
   toast.done(toastId);
 }
 export const titlePrompts = [
-  "The Tale of",
-  "The Untold story of",
-  "The Adventures of",
+  "The Lore of",
+  // "The Untold story of",
+  // "The Adventures of",
   // "The Downfall of",
   // ??? ideas?
 ];
 
 export const storyPrompts = [
-  `## Part 1
-Our hero finds themselves surrounded by a...`,
-  `They weren't always a solitary Wizard until...`,
+  `Delete this text and write your Lore here`,
+  //  `## Part 1
+  // Our hero finds themselves surrounded by a...`,
+  // `They weren't always a solitary Wizard until...`,
   // ??? ideas?
 ];
 

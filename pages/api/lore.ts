@@ -27,7 +27,7 @@ export default async function handler(
     });
   }
 
-  // console.log(req.body.signature);
+  console.log(req.body.signature);
 
   const signingAddress = await utils.verifyMessage(
     req.body.wizard_id,
