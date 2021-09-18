@@ -159,6 +159,13 @@ export default function SiteNav({}: Props) {
         {/* <li className="item">
           <a href="/lore">Lore</a>
         </li> */}
+
+        <li className="item">
+          <Link as={"/lore"} href={"/lore"} passHref={true}>
+            <a>Lore</a>
+          </Link>
+        </li>
+
         <li className="item">
           <Link as={"/map"} href={"/map"} passHref={true}>
             <a>Map</a>
