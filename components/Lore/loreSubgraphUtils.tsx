@@ -1,5 +1,7 @@
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
+import { LORE_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
+import { getLoreUrl } from "./loreUtils";
 
 const COMMON_LORE_FIELDS = `
   id
@@ -21,13 +23,13 @@ export const NORMALIZED_WIZARD_CONTRACT_ADDRESS =
   process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS?.toLowerCase();
 
 function getWizardLoreId(wizardNum: number, loreIndex: number) {
-  return `${NORMALIZED_WIZARD_CONTRACT_ADDRESS}-${wizardNum
+  return `${LORE_CONTRACTS.wizards}-${wizardNum
     .toString()
     .padStart(10, "0")}-${loreIndex.toString().padStart(10, "0")}`;
 }
 
 export async function getPreviousAndNextPageData(
-  wizardNum: number,
+  tokenId: number,
   leftPageData: any,
   rightPageData: any
 ) {
@@ -43,7 +45,7 @@ export async function getPreviousAndNextPageData(
   } else {
     queryString = `${queryString}
       prevRightPage: lores(first: 1, where: {id_lt: "${getWizardLoreId(
-        wizardNum,
+        tokenId,
         0
       )}", struck: false, nsfw: false}, orderBy: id, orderDirection:desc) {
         id
@@ -66,7 +68,7 @@ export async function getPreviousAndNextPageData(
   } else {
     queryString = `${queryString}
       nextLeftPage: lores(first: 1, where: {id_gt: "${getWizardLoreId(
-        wizardNum,
+        tokenId,
         0
       )}", struck: false, nsfw: false}, orderBy: id, orderDirection:asc) {
         id
@@ -81,6 +83,7 @@ export async function getPreviousAndNextPageData(
             ${queryString}
         }
     `,
+    fetchPolicy: "no-cache",
   });
 
   const nextLeftPageData = prevAndNextPageData?.nextLeftPage?.[0] ?? null;
@@ -94,7 +97,7 @@ export async function getPreviousAndNextPageData(
       prevRightPageData.id.match(GRAPH_ID_MATCHER)[2] ?? "0"
     );
 
-    if (prevRightPageWizardNum !== wizardNum) {
+    if (prevRightPageWizardNum !== tokenId) {
       const { data: prevWizardPageCount } = await client.query({
         query: gql`
             query WizardLore {
@@ -103,6 +106,7 @@ export async function getPreviousAndNextPageData(
                 }
             }
         `,
+        fetchPolicy: "no-cache",
       });
 
       previousWizardPageCount = (prevWizardPageCount?.lores ?? []).length;
@@ -117,7 +121,7 @@ export async function getPreviousAndNextPageData(
   return {
     nextLeftPageGraphData: nextLeftPageData,
     prevRightPageGraphData: prevRightPageData,
-    previousWizardPageCount,
+    previousTokenPageCount: previousWizardPageCount,
   };
 }
 
@@ -147,6 +151,7 @@ export async function getCurrentWizardData(
             ${currentWizAndPagequeryString}
         }
     `,
+    fetchPolicy: "no-cache",
   });
 
   return {
@@ -156,7 +161,8 @@ export async function getCurrentWizardData(
 }
 
 export async function getPreAndNextPageRoutes(
-  wizardNum: number,
+  loreTokenSlug: string,
+  tokenId: number,
   pageNum: number,
   leftPageGraphData: any,
   rightPageGraphData: any
@@ -164,9 +170,9 @@ export async function getPreAndNextPageRoutes(
   const {
     nextLeftPageGraphData,
     prevRightPageGraphData,
-    previousWizardPageCount,
+    previousTokenPageCount,
   } = await getPreviousAndNextPageData(
-    wizardNum,
+    tokenId,
     leftPageGraphData,
     rightPageGraphData
   );
@@ -176,23 +182,27 @@ export async function getPreAndNextPageRoutes(
   if (prevRightPageGraphData) {
     // Previous page could be this wizards or previous wizard's last
     const previousIdMatcher = prevRightPageGraphData.id.match(GRAPH_ID_MATCHER);
-    const previousPageWizNum = parseInt(previousIdMatcher?.[2] ?? "0");
+    const previousPageTokenId = parseInt(previousIdMatcher?.[2] ?? "0");
     const previousPagePageNum =
-      previousPageWizNum === wizardNum
+      previousPageTokenId === tokenId
         ? pageNum - 2
-        : previousWizardPageCount > 0
-        ? previousWizardPageCount - 1
+        : previousTokenPageCount > 0
+        ? previousTokenPageCount - 1
         : 0;
-    previousPageRoute = `/lore/${previousPageWizNum}/${previousPagePageNum}`;
+    previousPageRoute = getLoreUrl(
+      loreTokenSlug,
+      previousPageTokenId,
+      previousPagePageNum
+    );
   }
 
   // Figure out next route
   let nextPageRoute = null;
   if (nextLeftPageGraphData) {
     const nextIdMatcher = nextLeftPageGraphData.id.match(GRAPH_ID_MATCHER);
-    const nextPageWizNum = parseInt(nextIdMatcher?.[2] ?? "0");
-    const nextPagePageNum = nextPageWizNum === wizardNum ? pageNum + 2 : 0;
-    nextPageRoute = `/lore/${nextPageWizNum}/${nextPagePageNum}`;
+    const nextPageTokenId = parseInt(nextIdMatcher?.[2] ?? "0");
+    const nextPagePageNum = nextPageTokenId === tokenId ? pageNum + 2 : 0;
+    nextPageRoute = getLoreUrl(loreTokenSlug, nextPageTokenId, nextPagePageNum);
   }
   return { previousPageRoute, nextPageRoute };
 }

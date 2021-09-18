@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { IPFS_SERVER } from "../../constants";
 import { loreTextStyles } from "./loreStyles";
+import { getContrast } from "../../lib/colorUtils";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -103,7 +104,7 @@ export const EmptyLorePage = ({
     : `No${furtherOrAny} Lore has been recorded...`;
 
   return (
-    <BookOfLorePage bg={"black"}>
+    <BookOfLorePage bg={"#000000"}>
       <TextPage alignSelf="center" alignChildren="center">
         <ReactMarkdown>{noMoreLore}</ReactMarkdown>
         <Link href="/lore/add">
@@ -123,8 +124,10 @@ export default function IndividualLorePage({
   title?: string;
   story?: string;
 }) {
+  const textColor = getContrast(bgColor ?? "#000000");
   const Inner = (
-    <TextPage>
+    <TextPage style={{ color: textColor }}>
+      {title && <ReactMarkdown>{title}</ReactMarkdown>}
       {story && (
         <ReactMarkdown
           transformImageUri={(src: string, alt: string, title) => {

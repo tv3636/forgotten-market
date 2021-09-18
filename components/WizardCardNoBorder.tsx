@@ -3,6 +3,7 @@ import { ResponsivePixelImg } from "./ResponsivePixelImg";
 import * as React from "react";
 import { IMAGE_NOBG_BASE_URL, OPENSEA_BASE_URL } from "../constants";
 import Link from "next/link";
+import { getLoreUrl } from "./Lore/loreUtils";
 
 const WizardCardNoBorder = ({
   id,
@@ -53,7 +54,7 @@ const WizardCardNoBorder = ({
           {showLoreLink ? (
             <>
               {/* TODO: have this just _select_ the Wizard if you're on the Book of Lore. Maybe need some state management like Mobx? */}
-              <Link passHref={true} href={`/lore/${id}/0`}>
+              <Link passHref={true} href={getLoreUrl("wizards", id, 0)}>
                 <a
                   className="icon-link"
                   title={"Lore"}

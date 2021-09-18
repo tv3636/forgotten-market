@@ -3,6 +3,7 @@ import productionWizardData from "../../data/nfts-prod.json";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { BookElement, Carousel } from "./BookStyles";
 import Link from "next/link";
+import { getLoreUrl } from "./loreUtils";
 
 export type Props = {};
 
@@ -27,8 +28,8 @@ const BookCover = ({}: Props) => {
       <Carousel layoutId="bookCarousel">
         <CoverContainer>
           <Link
-            as={"/lore/wizards/0/0"}
-            href={"/lore/wizards/0/0"}
+            as={getLoreUrl("wizards", 0, 0)}
+            href={getLoreUrl("wizards", 0, 0)}
             passHref={true}
           >
             <a>
