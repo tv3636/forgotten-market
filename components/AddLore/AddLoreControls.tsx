@@ -104,11 +104,13 @@ type Props = {
   wizardId?: string;
   onSubmit: any;
   onBackgroundColorChanged: (color?: string | null | undefined) => void;
+  currentBackgroundColor: string | null | undefined;
   onNsfwChanged: (newNsfw: boolean) => void;
 };
 export default function AddLoreControls({
   wizardId,
   onSubmit,
+  currentBackgroundColor,
   onBackgroundColorChanged,
   onNsfwChanged,
 }: Props) {
@@ -164,6 +166,7 @@ export default function AddLoreControls({
           <BackgroundColorPickerField
             name="bgColor"
             onChange={onBackgroundColorChanged}
+            currentBackgroundColor={currentBackgroundColor}
           />
           <NSFWField name="isNsfw" onChange={onNsfwChanged} />
         </MidControls>

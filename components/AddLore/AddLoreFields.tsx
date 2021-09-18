@@ -130,9 +130,11 @@ export const PixelArtField = ({ ...props }: { name: string }) => {
 };
 
 export const BackgroundColorPickerField = ({
+  currentBackgroundColor,
   onChange,
   ...props
 }: {
+  currentBackgroundColor: string | null | undefined;
   onChange: (color?: string | null) => void;
   name: string;
 }) => {
@@ -143,10 +145,17 @@ export const BackgroundColorPickerField = ({
   //     tokenId: artifactConfiguration?.tokenId
   //   });
 
-  const [localBgColor, setLocalBgColor] = useState<string>();
+  const [localBgColor, setLocalBgColor] = useState<string | null | undefined>(
+    currentBackgroundColor
+  );
   const [bigPickerShowing, setBigPickerShowing] = useState<boolean>(false);
 
   //   const { bgColor: detectedBgColor } = useExtractColors(nftData?.image);
+
+  // trying to get outside control of this component
+  // useEffect(() => {
+  //   setLocalBgColor(currentBackgroundColor);
+  // }, [currentBackgroundColor]);
 
   const setColor = (newColor: string) => {
     onChange(newColor);
@@ -157,6 +166,8 @@ export const BackgroundColorPickerField = ({
   //   useEffect(() => {
   //     if (detectedBgColor) setColor(detectedBgColor);
   //   }, [detectedBgColor]);
+
+  const colorToUse = localBgColor || currentBackgroundColor;
 
   return (
     <InlineFieldStyles>
@@ -170,12 +181,12 @@ export const BackgroundColorPickerField = ({
       <label className="checkbox-input">
         {/* <input type="checkbox" {...field} {...props} /> */}
         <Swatch
-          bgColor={localBgColor}
+          bgColor={colorToUse}
           onClick={() => setBigPickerShowing(!bigPickerShowing)}
         />
         {bigPickerShowing && (
           <HexColorPicker
-            color={localBgColor}
+            color={colorToUse || "#000000"}
             onChange={(hex) => setColor(hex)}
           />
         )}

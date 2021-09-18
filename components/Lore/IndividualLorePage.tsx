@@ -37,12 +37,10 @@ export const TextPage = styled.div<{
   width: 100%;
   ${loreTextStyles};
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    margin-top: 0.5em;
+  img {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
   }
 `;
 
@@ -127,7 +125,6 @@ export default function IndividualLorePage({
   const textColor = getContrast(bgColor ?? "#000000");
   const Inner = (
     <TextPage style={{ color: textColor }}>
-      {title && <ReactMarkdown>{title}</ReactMarkdown>}
       {story && (
         <ReactMarkdown
           transformImageUri={(src: string, alt: string, title) => {

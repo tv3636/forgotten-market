@@ -11,11 +11,12 @@ import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import { getContrast } from "../../lib/colorUtils";
 import productionWizardData from "../../data/nfts-prod.json";
-import { titlePrompts } from "./addLoreHelpers";
+import { storyPrompts, titlePrompts } from "./addLoreHelpers";
 import { sample } from "lodash";
 import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
 import { css, keyframes } from "@emotion/react";
 import { loreTextStyles } from "../Lore/loreStyles";
+import { useExtractColors } from "../../hooks/useExtractColors";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -34,13 +35,6 @@ const AddLoreEditorElement = styled.div<{ bg?: string; isLoading: boolean }>`
 
   ${loreTextStyles};
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    margin-top: 0.5em;
-  }
   .DraftEditor-editorContainer {
     z-index: 0 !important;
   }
@@ -74,18 +68,12 @@ const decorator = composeDecorators(
 const imagePlugin = createImagePlugin({ decorator });
 
 const mockUpload = (...args: any) => {
-  // console.log("args: ", args);
+  // console.log("mockUpload: ", args);
   return true;
 };
 
-const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
-  handleUpload: mockUpload,
-  // @ts-ignore
-  addImage: imagePlugin.addImage,
-});
-
 const topLevelPlugins = [
-  dragNDropFileUploadPlugin,
+  // dragNDropFileUploadPlugin,
   createMarkdownShortcutsPlugin(),
   blockDndPlugin,
   focusPlugin,
@@ -139,6 +127,7 @@ export const convertDraftStateToMarkdown = (
 
 type Props = {
   onChange: (editorState: any) => void;
+  onBgColorChanged: (newColor?: string | null | undefined) => void;
   bg: string;
   wizardId: string | undefined;
   isLoading: boolean;
@@ -147,6 +136,7 @@ type Props = {
 const defaultPrompt = "_Please pick a Wizard on the other page_";
 export default function AddLoreEditor({
   onChange,
+  onBgColorChanged,
   bg,
   wizardId,
   isLoading,
@@ -165,10 +155,9 @@ export default function AddLoreEditor({
 
   useEffect(() => {
     const titlePrompt = sample(titlePrompts);
+    const storyPrompt = sample(storyPrompts);
     const defaultText = wizardId
-      ? `# ${titlePrompt} ${wizData[wizardId].name}
-## Part 1
-Our hero finds themselves surrounded by a...`
+      ? `# ${titlePrompt} ${wizData[wizardId].name}\n${storyPrompt}`
       : defaultPrompt;
     const newEditorState = markdownToDraftState(defaultText);
 
@@ -176,12 +165,34 @@ Our hero finds themselves surrounded by a...`
     // dirty tracking is hard. ideally we want to update with any new wizard
     // picked, as long as the _user_ didn't type in the Draft field
     const text = editorState.getCurrentContent().getPlainText("\u0001");
-    if (text.match(/Please pick a Wizard/)) {
-      performOnChange(newEditorState);
-    }
+    // if (text.match(/Please pick a Wizard/)) {
+    performOnChange(newEditorState);
+    // }
   }, [wizardId]);
 
-  const plugins = topLevelPlugins;
+  // extract the background color of the first image uploaded
+  const [firstImageUrl, setFirstImageUrl] = useState<string | undefined>();
+  const backgroundColor = useExtractColors(firstImageUrl);
+  if (backgroundColor?.bgColor && onBgColorChanged) {
+    onBgColorChanged(backgroundColor.bgColor);
+  }
+
+  const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
+    handleUpload: mockUpload,
+    // @ts-ignore
+    addImage: (
+      editorState: EditorState,
+      url: string,
+      extraData: Record<string, unknown>
+    ) => {
+      if (!firstImageUrl) {
+        setFirstImageUrl(url);
+      }
+      return imagePlugin.addImage(editorState, url, extraData);
+    },
+  });
+
+  const plugins = [...topLevelPlugins, dragNDropFileUploadPlugin];
 
   // I don't understand why this needs to be in a useMemo, but it's part of the docs
   /*

@@ -2,6 +2,14 @@ import { css } from "@emotion/react";
 export const loreTextStyles = css`
   font-size: 16px;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-top: 0.5em;
+  }
+
   h1 {
     font-size: 32px;
   }

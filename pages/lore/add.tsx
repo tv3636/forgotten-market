@@ -152,6 +152,14 @@ const AddLorePage = () => {
     }
   };
 
+  const onEditorChangedBackgroundColor = (
+    newColor?: string | null | undefined
+  ) => {
+    if (!currentBgColor && newColor) {
+      setCurrentBgColor(newColor);
+    }
+  };
+
   const onNsfwChanged = (newNsfw: boolean) => {
     setNsfw(newNsfw);
   };
@@ -164,6 +172,7 @@ const AddLorePage = () => {
     <AddLoreControls
       wizardId={currentWizard?.tokenId}
       onSubmit={onSubmit}
+      currentBackgroundColor={currentBgColor}
       onBackgroundColorChanged={onBackgroundColorChanged}
       onNsfwChanged={onNsfwChanged}
     />
@@ -178,6 +187,7 @@ const AddLorePage = () => {
     <BookOfLorePage bg={bg || "#000000"}>
       <AddLoreEditor
         onChange={setCurrentEditorState}
+        onBgColorChanged={onEditorChangedBackgroundColor}
         bg={bg || "#000000"}
         wizardId={currentWizard?.tokenId}
         isLoading={submitting}
