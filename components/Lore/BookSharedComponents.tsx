@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 
-export const WizardNameWrapper = styled(motion.div)<{ layoutId: string }>`
+export const LoreNameWrapper = styled(motion.div)<{ layoutId: string }>`
   background-image: url("/static/lore/book/page_border_header_top.png");
   background-repeat: no-repeat;
   background-size: cover;

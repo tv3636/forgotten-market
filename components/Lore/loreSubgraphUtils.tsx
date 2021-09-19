@@ -2,6 +2,7 @@ import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { LORE_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
 import { getLoreUrl } from "./loreUtils";
+import path from "path";
 
 const COMMON_LORE_FIELDS = `
   id
@@ -165,7 +166,8 @@ export async function getPreAndNextPageRoutes(
   tokenId: number,
   pageNum: number,
   leftPageGraphData: any,
-  rightPageGraphData: any
+  rightPageGraphData: any,
+  narrativePageCount: number
 ) {
   const {
     nextLeftPageGraphData,
@@ -194,6 +196,9 @@ export async function getPreAndNextPageRoutes(
       previousPageTokenId,
       previousPagePageNum
     );
+  } else {
+    //No previous pages implies this is first wizard in the book, so before it comes lore
+    previousPageRoute = getLoreUrl("narrative", 0, narrativePageCount - 1);
   }
 
   // Figure out next route

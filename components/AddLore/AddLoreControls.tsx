@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
 import Button from "../ui/Button";
 import { BackgroundColorPickerField, NSFWField } from "./AddLoreFields";
-import { WizardNameWrapper } from "../Lore/BookSharedComponents";
+import { LoreNameWrapper } from "../Lore/BookSharedComponents";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -135,13 +135,13 @@ export default function AddLoreControls({
             <NoPageSpacer />
           )} */}
         </PreviousPageContainer>
-        <WizardNameWrapper layout layoutId="wizardName">
+        <LoreNameWrapper layout layoutId="wizardName">
           {wizardData?.name && (
             <>
               <span>{wizardData.name}</span> <span>(#{wizardId})</span>
             </>
           )}
-        </WizardNameWrapper>
+        </LoreNameWrapper>
         <NextPageContainer>
           {/* {nextPageUrl ? (
             <Link href={nextPageUrl} passHref>
