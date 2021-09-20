@@ -1,4 +1,4 @@
-export const NETWORK = (chainId: string) => {
+export const NETWORK = (chainId: number): NetworkDescription | undefined => {
   for (let n in NETWORKS) {
     if (NETWORKS[n].chainId == chainId) {
       return NETWORKS[n];
@@ -7,7 +7,15 @@ export const NETWORK = (chainId: string) => {
 };
 export const INFURA_ID = "remove";
 
-export const NETWORKS: { [key: string]: any } = {
+export type NetworkDescription = {
+  name: string;
+  color: string;
+  chainId: number;
+  blockExplorer: string;
+  rpcUrl: string;
+};
+
+export const NETWORKS: { [key: string]: NetworkDescription } = {
   localhost: {
     name: "localhost",
     color: "#666666",

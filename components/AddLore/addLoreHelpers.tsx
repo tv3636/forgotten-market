@@ -7,6 +7,7 @@ import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { NORMALIZED_WIZARD_CONTRACT_ADDRESS } from "../Lore/loreSubgraphUtils";
 import { getLoreUrl } from "../Lore/loreUtils";
+import { NETWORK } from "../../constants";
 
 export const onSubmitAddLoreForm = async ({
   values,
@@ -56,12 +57,17 @@ export const onSubmitAddLoreForm = async ({
   setSubmitting(true);
 
   const provider = web3Settings.injectedProvider;
-  console.log("provider: ", provider);
   const { chainId } = await provider.getNetwork();
+  console.log("chainId: ", chainId);
+  const appChainId = process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID || 4; // Rinkeby default
+  console.log("appChainId: ", appChainId);
+  const network = NETWORK(parseInt(chainId as string));
+  console.log("network: ", network);
+  const appChainName = network?.name || "rinkeby";
 
-  if (chainId !== 4) {
+  if (chainId.toString() !== appChainId.toString()) {
     toast.error(
-      `Wrong Network. Please change your network to Rinkeby and try again`,
+      `Wrong Network. Please change your network to ${appChainName} and try again`,
       {
         position: "top-right",
         autoClose: 5000,
