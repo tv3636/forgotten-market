@@ -58,11 +58,8 @@ export const onSubmitAddLoreForm = async ({
 
   const provider = web3Settings.injectedProvider;
   const { chainId } = await provider.getNetwork();
-  console.log("chainId: ", chainId);
   const appChainId = process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID || 4; // Rinkeby default
-  console.log("appChainId: ", appChainId);
   const network = NETWORK(parseInt(chainId as string));
-  console.log("network: ", network);
   const appChainName = network?.name || "rinkeby";
 
   if (chainId.toString() !== appChainId.toString()) {

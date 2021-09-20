@@ -71,3 +71,9 @@ Admin: http://localhost:8020/
 On submit, the form hits: `/api/lore`
 
 `/api/lore` - `pages/api/lore.tsx`
+
+## Environment Variables
+
+- `SUBGRAPH_ENDPOINT`
+- `PINATA_SECRET_KEY`
+- `PINATA_ID`
