@@ -84,3 +84,7 @@ p {
 ::-webkit-scrollbar-corner {
   background: rgba(0, 0, 0, 0);
 }
+
+#nprogress .peg {
+  box-shadow: none !important;
+}

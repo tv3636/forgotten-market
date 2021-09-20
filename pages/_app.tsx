@@ -4,6 +4,7 @@ import Head from "next/head";
 import { useGTag } from "../hooks/useGTag";
 import { useStore } from "../store";
 import { motion, AnimateSharedLayout } from "framer-motion";
+import NextNprogress from "nextjs-progressbar";
 
 import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";
@@ -91,6 +92,13 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
       <MobxStateTreeProvider value={store}>
         <AnimateSharedLayout>
           <Component {...pageProps} />
+          <NextNprogress
+            color="darkgrey"
+            startPosition={0.1}
+            stopDelayMs={200}
+            height={3}
+            showOnShallow={false}
+          />
         </AnimateSharedLayout>
       </MobxStateTreeProvider>
     </>

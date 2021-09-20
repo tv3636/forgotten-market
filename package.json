@@ -99,6 +99,7 @@
     "next-remove-imports": "^1.0.5",
     "next-svgr": "^0.0.2",
     "next-transpile-modules": "^8.0.0",
+    "nextjs-progressbar": "^0.0.11",
     "node-base64-image": "^2.0.3",
     "page-flip": "^2.0.7",
     "parse-data-url": "^4.0.1",
