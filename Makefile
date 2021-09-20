@@ -19,7 +19,7 @@ start-ipfs:
 
 start-graph:
 	cargo run -p graph-node --release -- \
-	--postgres-url postgresql://localhost:5432/graphprotocol \
-	--ethereum-rpc rinkeby:https://mainnet.infura.io \
+	--postgres-url postgresql://frwc:@localhost:5432/graphprotocol \
+	--ethereum-rpc rinkeby:https://rinkeby.infura.io \
 	--ipfs 127.0.0.1:5001 \
 	--debug

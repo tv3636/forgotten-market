@@ -1,11 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { WizardConfiguration } from "./AddLore/WizardPicker";
-
-const image_base_url =
-  "https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-";
-const opensea_base_url =
-  "https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/";
+import { motion, AnimateSharedLayout } from "framer-motion";
 
 const CardStyle = styled.div<{ isHovering: boolean }>`
   /* opacity: ${(props) => (props.isHovering ? 1 : 0.7)}; */
@@ -22,7 +18,7 @@ const CardStyle = styled.div<{ isHovering: boolean }>`
 
 const WizardFrame = styled.div`
   position: relative;
-  background-image: url("/static/img/frame-alt.png");
+  background-image: url("/static/img/wizard_frame.png");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -40,7 +36,7 @@ const WizardImageContainer = styled.div`
   justify-content: center;
 `;
 
-const WizardImage = styled.img`
+const WizardImage = styled(motion.img)`
   width: 100%;
   height: auto;
   image-rendering: pixelated;
@@ -70,7 +66,7 @@ const WizardName = styled.div`
 const WizardCard = ({
   id,
   name,
-  onWizardPicked
+  onWizardPicked,
 }: {
   id: string;
   name: string;
@@ -85,12 +81,13 @@ const WizardCard = ({
       onMouseOut={() => setIsHovering(false)}
     >
       <WizardFrame
+        className="wizardFrame"
         onClick={
           onWizardPicked
             ? () => {
                 const wizardPicked: WizardConfiguration = {
                   tokenId: id,
-                  name: name
+                  name: name,
                 };
                 console.log("wizardPicked: ", wizardPicked);
                 onWizardPicked(wizardPicked);
@@ -104,7 +101,11 @@ const WizardCard = ({
           </h3>
         </WizardName>
         <WizardImageContainer>
-          <WizardImage src={image_base_url + id + ".png"} />
+          <WizardImage
+            layoutId={`wizard-image-${id}`}
+            key={`wizard-image-${id}`}
+            src={`${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL}/alt/400-nobg/wizard-${id}.png`}
+          />
         </WizardImageContainer>
       </WizardFrame>
     </CardStyle>

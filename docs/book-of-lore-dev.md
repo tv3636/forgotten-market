@@ -18,13 +18,62 @@ Running The Book of Lore locally is involved. The pieces are:
 
 In theory, running with `docker-compose` should be easier, but I found it's easier to just manually install all of the parts. ymmv.
 
-## Rinkeby
-
-In the `docker-compose.yml`:
+## Postgres
 
 ```
-services:
-  graph-node:
-    environment:
-      ethereum: 'rinkeby:https://rinkeby.infura.io'
+createdb graphprotocol
+createuser frwc
+psql graphprotocol
+
+# in the psql shell
+grant all privileges on database graphprotocol to frwc;
+alter user frwc with superuser;
 ```
+
+## Commands
+
+Start the Graph Protocol Node
+
+```
+cargo run -p graph-node --release -- \
+        --postgres-url postgresql://frwc:@localhost:5432/graphprotocol \
+        --ethereum-rpc rinkeby:https://rinkeby.infura.io/v3/mykeyhere \
+        --ipfs 127.0.0.1:5001 \
+        --debug
+```
+
+Deploy the local subgraph
+
+```
+cd bookoflore-subgraph
+yarn
+yarn codegen
+yarn build
+yarn create-local
+yarn deploy-local
+```
+
+## URLs
+
+GraphiQL: http://localhost:8000/
+HTTP: http://localhost:8000/subgraphs/name/<subgraph-name>
+WebSockets: ws://localhost:8001/subgraphs/name/<subgraph-name>
+Admin: http://localhost:8020/
+
+## Running On Rinkeby
+
+## Flow
+
+### Adding Lore
+
+`/lore/add` - `pages/lore/add.tsx`
+
+On submit, the form hits: `/api/lore`
+
+`/api/lore` - `pages/api/lore.tsx`
+
+## Environment Variables
+
+- `SUBGRAPH_ENDPOINT`
+- `PINATA_SECRET_KEY`
+- `PINATA_ID`

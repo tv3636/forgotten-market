@@ -2,9 +2,10 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 
-export const EmptyWell = styled.div<{ solid?: boolean }>`
+export const EmptyWell = styled.div<{ solid?: boolean; noBorder?: boolean }>`
   border-radius: 5px;
-  border: 2px ${(props) => (props.solid ? "solid" : "dashed")}
+  border: 2px
+    ${(props) => (props.noBorder ? "none" : props.solid ? "solid" : "dashed")}
     rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;

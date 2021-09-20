@@ -2,15 +2,11 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { EmptyWell } from "../ui/EmptyWell";
-import useWeb3Modal from "../../hooks/useWeb3Modal";
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import { ConnectWalletButton } from "../web3/ConnectWalletButton";
 import { useMst } from "../../store";
 import { observer } from "mobx-react-lite";
 import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 import Button from "../ui/Button";
-import Modal from "react-modal";
-import { ModalDecorator } from "../ui/ModalDecorator";
 import StyledModal from "./StyledModal";
 import WizardCard from "../WizardCard";
 import productionWizardData from "../../data/nfts-prod.json";
@@ -64,13 +60,18 @@ const WizardGridLayout = styled.div`
   }
 `;
 
+const NoWizards = styled.div`
+  font-family: "Alagard";
+  font-size: 1.5em;
+`;
+
 export type onWizardPickedFn = (
   wizardConfiguration: WizardConfiguration
 ) => void;
 
 function WizardGrid({
   wizards,
-  onWizardPicked
+  onWizardPicked,
 }: {
   wizards: any[];
   onWizardPicked: onWizardPickedFn;
@@ -87,13 +88,19 @@ function WizardGrid({
           />
         ))}
       </WizardGridLayout>
+      {wizards.length === 0 && (
+        <NoWizards>
+          The connected wallet doesn't hold any Wizards. Perhaps try another
+          wallet?
+        </NoWizards>
+      )}
     </WizardGridElement>
   );
 }
 
 function WizardList({
   injectedProvider,
-  onWizardPicked
+  onWizardPicked,
 }: {
   injectedProvider: any;
   onWizardPicked: onWizardPickedFn;
@@ -106,7 +113,7 @@ function WizardList({
       try {
         const address = injectedProvider.provider.selectedAddress;
         const contract = getWizardsContract({
-          provider: injectedProvider
+          provider: injectedProvider,
         });
         const result = await contract.tokensOfOwner(address);
 
@@ -117,9 +124,10 @@ function WizardList({
         });
 
         // tmp
-        const devon = wizData[6001];
-        devon.id = "6001";
-        tokens.push(devon);
+        // const devon = wizData[6001];
+        // devon.id = "6001";
+        // tokens.push(devon);
+
         //
       } catch (err) {
         console.log("err: ", err);
@@ -135,7 +143,7 @@ function WizardList({
 function WizardPickerModal({
   onRequestClose,
   onWizardPicked,
-  injectedProvider
+  injectedProvider,
 }: any) {
   return (
     <WizardPickerModalElement>
@@ -158,6 +166,11 @@ type Props = {
 const WizardPickerElement = styled.div`
   margin-left: auto;
   margin-right: auto;
+  max-height: 100%;
+`;
+
+const StyledPickWizardButton = styled(Button)`
+  margin-top: 1em;
 `;
 
 /**
@@ -201,14 +214,18 @@ const WizardPicker = observer(({ onWizardPicked }: Props) => {
 
   return (
     <WizardPickerElement>
-      <EmptyWell solid={currentWizard ? true : false}>
+      <EmptyWell noBorder={currentWizard ? true : false}>
         {currentWizard && (
           <WizardCard id={currentWizard.tokenId} name={currentWizard.name} />
         )}
-        <Button onClick={() => setModalIsOpen(!modalIsOpen)}>
+        <StyledPickWizardButton onClick={() => setModalIsOpen(!modalIsOpen)}>
           Pick {currentWizard ? "another" : "a"} Wizard
-        </Button>
-        <StyledModal isOpen={modalIsOpen} onRequestClose={closeModal}>
+        </StyledPickWizardButton>
+        <StyledModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          ariaHideApp={false}
+        >
           <WizardPickerModal
             onRequestClose={closeModal}
             onWizardPicked={wizardPicked}

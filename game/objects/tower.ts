@@ -181,7 +181,7 @@ export class Tower {
       targets: band2,
       alpha: { value: 0.7, duration: 8000, ease: "Power1" },
       yoyo: true,
-      repeat: -1
+      repeat: -1,
     });
 
     // const palms1 = scene.add.sprite(
@@ -206,7 +206,7 @@ export class Tower {
   addRunes({
     n,
     originX,
-    originY
+    originY,
   }: {
     n: number;
     originX: number;
@@ -241,7 +241,7 @@ export class Tower {
         alpha: { value: 0.1, duration: 1000, ease: "Power1" },
         delay: (maxRunes - i) * 180,
         yoyo: true,
-        repeat: -1
+        repeat: -1,
       });
     }
     this.scene.tweens.add({
@@ -249,7 +249,7 @@ export class Tower {
       alpha: { value: 0.2, duration: 1400, ease: "Power1" },
       delay: 0,
       yoyo: true,
-      repeat: -1
+      repeat: -1,
     });
   }
   stopLoadingRunes() {
@@ -263,7 +263,7 @@ export class Tower {
         });
         this.scene.tweens.add({
           targets: rune,
-          alpha: { value: 1, duration: 200, ease: "Power1" }
+          alpha: { value: 1, duration: 200, ease: "Power1" },
         });
       }
     }
@@ -276,7 +276,7 @@ export class Tower {
       });
       this.scene.tweens.add({
         targets: this.lines,
-        alpha: { value: 1, duration: 200, ease: "Power1" }
+        alpha: { value: 1, duration: 200, ease: "Power1" },
       });
     }
   }

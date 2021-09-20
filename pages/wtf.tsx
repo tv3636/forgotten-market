@@ -1,31 +1,32 @@
 import fs from "fs";
 import matter from "gray-matter";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import Head from "next/head";
 import path from "path";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeSlug from "rehype-slug";
-import { postFilePaths, POSTS_PATH } from "../lib/mdxUtils";
+
+import { POSTS_PATH } from "../lib/mdxUtils";
 import InfoPageLayout from "../components/InfoPageLayout";
 import { ResponsiveImg } from "../components/ResponsivePixelImg";
 import dynamic from "next/dynamic";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 const WizardMap = dynamic(() => import("../components/Lore/WizardMapLeaflet"), {
-  ssr: false
+  ssr: false,
 });
 
 const components = {
   Head,
   InfoPageLayout,
   ResponsiveImg,
-  WizardMap
+  WizardMap,
 };
 
 export default function WtfPage({
   source,
-  frontMatter
+  frontMatter,
 }: {
   source: { compiledSource: string; scope: any };
   frontMatter: any;
@@ -48,19 +49,20 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     : postFilePath;
 
   const source = fs.readFileSync(postFilePathToLoad);
+  // TODO: unify with [slug].tsx
   const { content, data } = matter(source);
   const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings]
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
-    scope: data
+    scope: data,
   });
 
   return {
     props: {
       source: mdxSource,
-      frontMatter: data
-    }
+      frontMatter: data,
+    },
   };
 };

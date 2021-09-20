@@ -55,11 +55,13 @@ const MapStyles = styled.div`
 const WizardPopup = ({
   name,
   index,
-  hasLore
+  hasLore,
+  bookOfLore = false,
 }: {
   name: string;
   index: number;
   hasLore: boolean;
+  bookOfLore: boolean;
 }) => {
   return (
     <Box width={250} style={{ fontSize: 12 }}>
@@ -68,12 +70,19 @@ const WizardPopup = ({
         name={name}
         showOpenSeaLink={true}
         showLoreLink={true}
+        bookOfLore={bookOfLore}
       />
     </Box>
   );
 };
 
-const Layers = ({ wizardLore }: { wizardLore: any }) => {
+const Layers = ({
+  wizardLore,
+  bookOfLore,
+}: {
+  wizardLore: any;
+  bookOfLore: boolean;
+}) => {
   const map = useMap();
   const router = useRouter();
   const { id } = router.query;
@@ -87,7 +96,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
         noWrap: true,
         errorTileUrl: "https://nftz.forgottenrunes.com/tiles/wizards/blank.png",
         maxZoom: 8,
-        minZoom: 3
+        minZoom: 3,
       }
     ).addTo(map);
 
@@ -102,7 +111,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
 
       const background = L.rectangle([
         [point1.lat, point1.lng],
-        [point2.lat, point2.lng]
+        [point2.lat, point2.lng],
       ]);
 
       const featureGeoJson = background.toGeoJSON();
@@ -113,7 +122,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
         // color: hasLore ? `#${wizData[i].background_color}` : "grey",
         color: `#${wizData[i].background_color}`,
         stroke: false,
-        fillOpacity: 1
+        fillOpacity: 1,
       };
 
       featureGeoJson.properties.wizardData = wizData[i];
@@ -126,7 +135,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
     const geoJson: GeoJsonObject = {
       type: "FeatureCollection",
       // @ts-ignore
-      features: backgrounds
+      features: backgrounds,
     };
 
     map.createPane("underlays");
@@ -142,6 +151,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
               name={feature.properties.wizardData.name as string}
               index={feature.properties.index}
               hasLore={feature.properties.hasLore}
+              bookOfLore={bookOfLore}
             />
           )
         );
@@ -154,7 +164,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
       },
       style: function (feature) {
         return feature?.properties.style;
-      }
+      },
     }).addTo(map);
   }, [map]);
 
@@ -169,7 +179,7 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
 
     map.fitBounds([
       [point1.lat, point1.lng],
-      [point2.lat, point2.lng]
+      [point2.lat, point2.lng],
     ]);
   }, [map, id]);
 
@@ -180,7 +190,13 @@ const Layers = ({ wizardLore }: { wizardLore: any }) => {
   );
 };
 
-const WizardMapLeaflet = ({ wizardLore }: { wizardLore: object }) => {
+const WizardMapLeaflet = ({
+  wizardLore,
+  bookOfLore = false,
+}: {
+  wizardLore: object;
+  bookOfLore: boolean;
+}) => {
   return (
     <MapWrapper>
       <MapStyles>
@@ -194,7 +210,7 @@ const WizardMapLeaflet = ({ wizardLore }: { wizardLore: object }) => {
           attributionControl={false}
           zoomSnap={0.25}
         >
-          <Layers wizardLore={wizardLore} />
+          <Layers wizardLore={wizardLore} bookOfLore={bookOfLore} />
         </MapContainer>
       </MapStyles>
     </MapWrapper>

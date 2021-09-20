@@ -12,6 +12,7 @@ type Props = {
 const ButtonElement = styled.a<Props>`
   display: inline-block;
   text-align: center;
+  text-decoration: none;
 
   ${(props) => {
     switch (props.size) {

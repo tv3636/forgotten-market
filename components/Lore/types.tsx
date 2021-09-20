@@ -3,11 +3,40 @@ export type ArtifactConfiguration = {
   tokenId: string;
 };
 
+export type LoreWizard = {
+  id: string;
+};
+
+// try to match the schema from bookoflore-subgraph
 export type Lore = {
+  id?: string;
+  index?: number;
   wizardId: string;
-  artifactConfiguration: ArtifactConfiguration;
+  assetAddress: string;
+  tokenId: string;
   isPixelArt?: boolean;
   title?: string;
   story?: string;
-  isNsfw?: boolean;
+  nsfw?: boolean;
+  struck?: boolean;
+  creator?: string;
+  parentLoreId?: number;
+  wizard: LoreWizard;
+};
+
+export type LorePage = {};
+
+export type IndividualLorePageData = {
+  bgColor?: string;
+  isEmpty: boolean;
+  title?: string;
+  story?: string;
+  pageNumber?: number;
+};
+
+export type LorePageData = {
+  leftPage: IndividualLorePageData;
+  rightPage: IndividualLorePageData;
+  previousPageRoute: string | null;
+  nextPageRoute: string | null;
 };

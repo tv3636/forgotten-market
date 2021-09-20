@@ -10,7 +10,6 @@ import Layout from "../../components/InfoPageLayout";
 import WizardArt from "../../components/WizardArt";
 import OgImage from "../../components/OgImage";
 import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
-import dynamic from "next/dynamic";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -26,7 +25,7 @@ const components = {
   // See the notes in README.md for more details.
   //   TestComponent: dynamic(() => import("../../components/TestComponent")),
   Head,
-  WizardArt
+  WizardArt,
 };
 
 const NavAnchor = styled.a`
@@ -40,7 +39,7 @@ const NavAnchor = styled.a`
 
 export default function PostPage({
   source,
-  frontMatter
+  frontMatter,
 }: {
   source: { compiledSource: string; scope: any };
   frontMatter: any;
@@ -91,29 +90,26 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   console.log("postFilePathToLoad: ", postFilePathToLoad);
 
   const source = fs.readFileSync(postFilePathToLoad);
-
   const { content, data } = matter(source);
-
   const mdxSource = await serialize(content, {
-    // Optionally pass remark/rehype plugins
     mdxOptions: {
       remarkPlugins: [],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings]
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
-    scope: data
+    scope: data,
   });
 
   return {
     props: {
       source: mdxSource,
-      frontMatter: data
-    }
+      frontMatter: data,
+    },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async ({
   locales,
-  defaultLocale
+  defaultLocale,
 }) => {
   const paths = postFilePaths
     // Remove file extensions for page paths
@@ -132,6 +128,6 @@ export const getStaticPaths: GetStaticPaths = async ({
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   };
 };

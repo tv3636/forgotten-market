@@ -2,20 +2,22 @@ import { Box, Flex } from "rebass";
 import { ResponsivePixelImg } from "./ResponsivePixelImg";
 import * as React from "react";
 import { IMAGE_NOBG_BASE_URL, OPENSEA_BASE_URL } from "../constants";
+import Link from "next/link";
+import { getLoreUrl } from "./Lore/loreUtils";
 
 const WizardCardNoBorder = ({
   id,
   name,
   showOpenSeaLink = false,
-  showLoreLink = false
+  showLoreLink = false,
+  bookOfLore = false,
 }: {
   id: number;
   name: string;
   showOpenSeaLink: boolean;
   showLoreLink: boolean;
+  bookOfLore: boolean;
 }) => {
-  showLoreLink = false; // tmp
-
   return (
     <Flex flexDirection={"column"} alignItems={"center"} p={1}>
       <Box py={3} textAlign={"center"}>
@@ -51,14 +53,16 @@ const WizardCardNoBorder = ({
           <Box ml={3} />
           {showLoreLink ? (
             <>
-              <a
-                href={`/lore/${id}/0`}
-                className="icon-link"
-                title={"Lore"}
-                target={"_blank"}
-              >
-                <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
-              </a>
+              {/* TODO: have this just _select_ the Wizard if you're on the Book of Lore. Maybe need some state management like Mobx? */}
+              <Link passHref={true} href={getLoreUrl("wizards", id, 0)}>
+                <a
+                  className="icon-link"
+                  title={"Lore"}
+                  target={bookOfLore ? "_self" : "_blank"}
+                >
+                  <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
+                </a>
+              </Link>
             </>
           ) : null}
         </Flex>
