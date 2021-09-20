@@ -27,7 +27,7 @@ export default async function handler(
     });
   }
 
-  console.log(req.body.signature);
+  // console.log("signature", req.body.signature);
 
   const signingAddress = await utils.verifyMessage(
     req.body.wizard_id,
@@ -108,3 +108,10 @@ export default async function handler(
     return res.status(400).json({ error: "IPFS upload issue" });
   }
 }
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb",
+    },
+  },
+};

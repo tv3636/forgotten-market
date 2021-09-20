@@ -59,8 +59,11 @@ export const onSubmitAddLoreForm = async ({
   const provider = web3Settings.injectedProvider;
   const { chainId } = await provider.getNetwork();
   const appChainId = process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID || 4; // Rinkeby default
-  const network = NETWORK(parseInt(chainId as string));
+  const network = NETWORK(parseInt(appChainId as string));
   const appChainName = network?.name || "rinkeby";
+
+  // console.log("appChainId: ", appChainId);
+  // console.log("chainId: ", chainId);
 
   if (chainId.toString() !== appChainId.toString()) {
     toast.error(
@@ -136,16 +139,33 @@ export const onSubmitAddLoreForm = async ({
   };
 
   console.log("loreBody: ", loreBody);
-  const response = await fetch("/api/lore", {
-    method: "post",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(loreBody),
-  });
+  let response, apiResponse;
 
-  const apiResponse = await response.json();
+  try {
+    response = await fetch("/api/lore", {
+      method: "post",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loreBody),
+    });
+
+    apiResponse = await response.json();
+  } catch (err: any) {
+    console.error(err);
+    toast.error(`Sorry, there was a problem: ${err?.message}`, {
+      position: "top-right",
+      autoClose: false,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+      progress: undefined,
+    });
+    setSubmitting(false);
+    return false;
+  }
 
   toast.dismiss();
 
@@ -154,7 +174,7 @@ export const onSubmitAddLoreForm = async ({
 
     toast.error(`Sorry, there was a problem with IPFS upload`, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: false,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

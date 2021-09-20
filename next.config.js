@@ -37,6 +37,7 @@ let nextConfig = {
   images: {
     domains: ["nftz.forgottenrunes.com"],
   },
+
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
 };
 
