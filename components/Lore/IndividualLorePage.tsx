@@ -9,6 +9,7 @@ import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { IPFS_SERVER } from "../../constants";
 import { loreTextStyles } from "./loreStyles";
 import { getContrast } from "../../lib/colorUtils";
+import { isNumber } from "lodash";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -100,7 +101,7 @@ export const EmptyLorePage = ({
 }) => {
   const furtherOrAny = pageNum < 1 ? "" : " further";
 
-  const noMoreLore = wizardNum
+  const noMoreLore = isNumber(wizardNum)
     ? `No${furtherOrAny} Lore has been recorded for ${
         wizData[wizardNum.toString()].name
       }...`

@@ -18,8 +18,13 @@ const CoverContainer = styled.div`
 `;
 
 const StyledCoverImage = styled(ResponsivePixelImg)`
-  height: auto;
-  width: 50vw;
+  width: auto;
+  height: 80vh;
+
+  @media (max-width: 768px) {
+    width: 90vw;
+    height: auto;
+  }
 `;
 
 const BookCover = ({}: Props) => {
@@ -28,8 +33,8 @@ const BookCover = ({}: Props) => {
       <Carousel layoutId="bookCarousel">
         <CoverContainer>
           <Link
-            as={getLoreUrl("wizards", 0, 0)}
-            href={getLoreUrl("wizards", 0, 0)}
+            as={"/lore/narrative/0/0"}
+            href={"/lore/narrative/0/0"}
             passHref={true}
           >
             <a>
