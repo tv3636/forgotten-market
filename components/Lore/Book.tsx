@@ -7,16 +7,20 @@ import BookFrame from "./BookFrame";
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 export type Props = {
-  wizardNum: number;
+  loreTokenSlug: string;
+  tokenId: number;
   lorePageData: LorePageData;
 };
 
-const Book = ({ wizardNum, lorePageData }: Props) => {
-  const wizardData: any = wizData[wizardNum.toString()];
-  const bg = "#" + wizardData.background_color;
+const Book = ({ loreTokenSlug, tokenId, lorePageData }: Props) => {
+  const bg =
+    loreTokenSlug === "wizards"
+      ? "#" + wizData[tokenId.toString()].background_color
+      : "#00000";
 
   const { components } = typeSetter({
-    wizardNum,
+    loreTokenSlug,
+    tokenId,
     lorePageData,
   });
 
@@ -24,7 +28,8 @@ const Book = ({ wizardNum, lorePageData }: Props) => {
 
   const controls = (
     <BookOfLoreControls
-      wizardNum={wizardNum}
+      loreTokenSlug={loreTokenSlug}
+      tokenId={tokenId}
       previousPageRoute={lorePageData.previousPageRoute}
       nextPageRoute={lorePageData.nextPageRoute}
     />

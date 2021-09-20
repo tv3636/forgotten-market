@@ -8,12 +8,13 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Button from "../ui/Button";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
-import { WizardNameWrapper } from "./BookSharedComponents";
+import { LoreNameWrapper } from "./BookSharedComponents";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 type Props = {
-  wizardNum: number;
+  loreTokenSlug: string;
+  tokenId: number;
   nextPageRoute: string | null;
   previousPageRoute: string | null;
 };
@@ -93,12 +94,49 @@ const SocialItem = styled.div`
   padding: 0.4em;
 `;
 
+const LoreSocialContainer = ({
+  loreTokenSlug,
+  tokenId,
+}: {
+  loreTokenSlug: string;
+  tokenId: number;
+}) => {
+  if (loreTokenSlug === "narrative") {
+    return null;
+  }
+
+  const wizardData: any = wizData[tokenId.toString()];
+  const url = typeof window !== "undefined" ? window?.location?.href : "";
+
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+    `The Lore of ${wizardData.name} (#${tokenId})`
+  )}&url=${encodeURIComponent(url)}`;
+
+  return (
+    <SocialContainer>
+      <SocialItem>
+        <a
+          href={`https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${tokenId}`}
+          className="icon-link"
+          target="_blank"
+        >
+          <ResponsivePixelImg src="/static/img/icons/social_opensea_default_w.png" />
+        </a>
+      </SocialItem>
+      <SocialItem>
+        <a href={tweetUrl} className="icon-link" target="_blank">
+          <ResponsivePixelImg src="/static/img/icons/social_twitter_default_w.png" />
+        </a>
+      </SocialItem>
+    </SocialContainer>
+  );
+};
 export default function BookOfLoreControls({
-  wizardNum,
+  loreTokenSlug,
+  tokenId,
   nextPageRoute,
   previousPageRoute,
 }: Props) {
-  const wizardData: any = wizData[wizardNum.toString()];
   const router = useRouter();
 
   useEffect(() => {
@@ -128,30 +166,9 @@ export default function BookOfLoreControls({
     [nextPageRoute, router]
   );
 
-  const url = typeof window !== "undefined" ? window?.location?.href : "";
-
-  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    `The Lore of ${wizardData.name} (#${wizardNum})`
-  )}&url=${encodeURIComponent(url)}`;
-
   return (
     <BookOfLoreControlsElement>
-      <SocialContainer>
-        <SocialItem>
-          <a
-            href={`https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${wizardNum}`}
-            className="icon-link"
-            target="_blank"
-          >
-            <ResponsivePixelImg src="/static/img/icons/social_opensea_default_w.png" />
-          </a>
-        </SocialItem>
-        <SocialItem>
-          <a href={tweetUrl} className="icon-link" target="_blank">
-            <ResponsivePixelImg src="/static/img/icons/social_twitter_default_w.png" />
-          </a>
-        </SocialItem>
-      </SocialContainer>
+      <LoreSocialContainer loreTokenSlug={loreTokenSlug} tokenId={tokenId} />
 
       <PaginationContainer>
         <PreviousPageContainer>
@@ -169,9 +186,11 @@ export default function BookOfLoreControls({
             <NoPageSpacer />
           )}
         </PreviousPageContainer>
-        <WizardNameWrapper layout layoutId="wizardName">
-          {wizardData.name} (#{wizardNum})
-        </WizardNameWrapper>
+        <LoreNameWrapper layout layoutId="wizardName">
+          {loreTokenSlug === "wizards"
+            ? `${wizData[tokenId.toString()].name} (#${tokenId})`
+            : "Narrative Page"}
+        </LoreNameWrapper>
         <NextPageContainer>
           {nextPageRoute ? (
             <Link href={nextPageRoute} passHref>

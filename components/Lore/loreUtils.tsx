@@ -18,10 +18,12 @@ export type WizardLorePageRoute = {
 };
 
 export function typeSetter({
-  wizardNum,
+  loreTokenSlug,
+  tokenId,
   lorePageData,
 }: {
-  wizardNum: number;
+  loreTokenSlug: string;
+  tokenId: number;
   lorePageData: LorePageData;
 }) {
   const components: LoreBookPageComponents = {
@@ -35,9 +37,9 @@ export function typeSetter({
       title={lorePageData.leftPage.title}
       story={lorePageData.leftPage.story}
     />
-  ) : (
-    <CoreWizardPage wizardId={wizardNum.toString()} />
-  );
+  ) : loreTokenSlug === "wizards" ? (
+    <CoreWizardPage wizardId={tokenId.toString()} />
+  ) : null;
 
   components.currentRightPage = !lorePageData.rightPage.isEmpty ? (
     <IndividualLorePage
@@ -45,12 +47,12 @@ export function typeSetter({
       title={lorePageData.rightPage.title}
       story={lorePageData.rightPage.story}
     />
-  ) : (
+  ) : loreTokenSlug === "wizards" ? (
     <EmptyLorePage
-      wizardNum={wizardNum}
+      wizardNum={tokenId}
       pageNum={lorePageData.rightPage?.pageNumber ?? 0}
     />
-  );
+  ) : null;
 
   return {
     components,
