@@ -138,14 +138,14 @@ async function getNarrativePageData(pageNum: number, loreTokenSlug: string) {
       loreTokenSlug,
       lorePageData: {
         leftPage: {
-          bgColor: "#00000",
+          bgColor: "#000000",
           isEmpty: false,
-          title: "", //TODO
+          title: "The Book of Lore", //TODO
           story: await fs.readFile(leftNarrativeFileName, "utf8"),
           pageNum: leftPageNum,
         },
         rightPage: {
-          bgColor: "#00000",
+          bgColor: "#000000",
           isEmpty: false, //TODO: even if empty we set false as we pass empty story (to prevent add lore button) #hack
           title: "", //TODO
           story: rightNarrativeExists

@@ -9,7 +9,7 @@ export const LoreNameWrapper = styled(motion.div)<{ layoutId: string }>`
   width: 320px;
   min-width: 320px;
   min-height: 60px;
-  padding: 12px 20px 12px 26px;
+  padding: 12px 26px 12px 26px;
   font-family: "Alagard", serif;
   word-break: break-word;
   text-align: center;

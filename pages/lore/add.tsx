@@ -127,7 +127,7 @@ const AddLorePage = () => {
     if (currentEditorState) {
       const { markdown, headers } =
         convertDraftStateToMarkdown(currentEditorState);
-      console.log("markdownString: ", markdown);
+      // console.log("markdownString: ", markdown);
       _currentStory = markdown;
       _currentTitle = headers[0] ? headers[0] : _currentTitle;
       // extract the title and the story from the markdown
