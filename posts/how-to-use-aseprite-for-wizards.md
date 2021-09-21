@@ -3,8 +3,6 @@ title: How to get started with Aseprite (or Photoshop) for Wizards
 description: This guide will show you how to get your Wizard into Aseprite to use for art remixes, animation, or anything Aseprite will allow you to do.
 ---
 
-This guide will show you how to get your Wizard into Aseprite to use for art remixes, animation, or anything Aseprite will allow you to do.
-
 First, you'll want your Wizard broken into it's separate layers, which will likely include the head, body, prop, familiar, and rune.
 
 To get your Wizard's layers, go to forgottenrunes.com. Connect your wallet by clicking the crow.

@@ -49,11 +49,11 @@ export default function PostPage({
     <Layout title={title} description={frontMatter.description}>
       <OgImage title={frontMatter.title} />
       <header>
-        <nav>
+        {/* <nav>
           <Link href="/posts">
             <NavAnchor>{"<"} All Posts</NavAnchor>
           </Link>
-        </nav>
+        </nav> */}
       </header>
       <div className="post-header">
         <h1>{frontMatter.title}</h1>

@@ -18,6 +18,7 @@ const AboutWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr min(60ch, calc(100% - 32px)) 1fr;
   grid-column-gap: 16px;
+  grid-auto-rows: max-content;
 
   & > * {
     grid-column: 2;
@@ -70,6 +71,28 @@ const AboutWrapper = styled.div`
   p img {
     margin: 0.5em auto;
     width: 100%;
+  }
+
+  blockquote {
+    background-color: #ffffff1f;
+    margin: 0;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    p:last-child {
+      font-size: 1em;
+      margin-bottom: 1em;
+    }
+  }
+
+  li {
+    line-height: 1.8em;
+  }
+
+  hr {
+    width: 100%;
+    border-color: #ffffff63;
+    grid-column: 1 / 4;
   }
 `;
 

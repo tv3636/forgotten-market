@@ -3,14 +3,12 @@ title: Wizard Murals
 description: "See a Wizard in physical paint in your neighborhood. Here's a list of murals that exist or have existed and instructions on how to commission your own"
 ---
 
-See a Wizard in physical paint in your neighborhood! Here's a list of murals that exist or have existed and instructions on how to commission your own.
-
 ## Austin, Texas, USA
 
-* Status: Active
-* Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
-* Dates: August 2021 - Present
-* Address: Arcade UFO, 3101 Speedway, Austin,TX 78705
+- Status: Active
+- Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
+- Dates: August 2021 - Present
+- Address: Arcade UFO, 3101 Speedway, Austin,TX 78705
 
 Photos:
 
@@ -18,30 +16,29 @@ Photos:
 ![](https://i.imgur.com/xVPav6m.jpg)
 ![](https://i.imgur.com/fBYzhXN.jpg)
 
-
 ## Miami, Florida, USA
 
-* Status: Active
-* Dates: September 2021
-* Location 1 [#9044](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/9044): 3404 N Miami Ave Miami, FL 33127 
-* Location 2 [#1556](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/1556), [#48](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/48), [#5969](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/5969): 30 NW 34th Street Miami, FL 33127
+- Status: Active
+- Dates: September 2021
+- Location 1 [#9044](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/9044): 3404 N Miami Ave Miami, FL 33127
+- Location 2 [#1556](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/1556), [#48](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/48), [#5969](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/5969): 30 NW 34th Street Miami, FL 33127
 
 ![](https://i.imgur.com/SfsuVoN.jpg)
 ![](https://i.imgur.com/5bWOID0.jpg)
 
 ## Los Angeles, California, USA
 
-* Status: In progress
-* Wizards: _To be revealed_
-* Dates: September 2021
-* Location: Santee Alley and Midcity, _Address to be announced_
+- Status: In progress
+- Wizards: _To be revealed_
+- Dates: September 2021
+- Location: Santee Alley and Midcity, _Address to be announced_
 
 ## Oakland, California, USA
 
-* Status: In progress
-* Wizards: _To be revealed_
-* Dates: September 2021
-* Location: Downtown Oakland and Laurel District, _Address to be announced_
+- Status: In progress
+- Wizards: _To be revealed_
+- Dates: September 2021
+- Location: Downtown Oakland and Laurel District, _Address to be announced_
 
 ## Commissioning Your Own Mural
 
