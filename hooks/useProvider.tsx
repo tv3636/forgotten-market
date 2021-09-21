@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { StaticJsonRpcProvider } from "@ethersproject/providers";
 
 export function getProvider(useServerSideProvider = false) {
   const provider = new StaticJsonRpcProvider(
