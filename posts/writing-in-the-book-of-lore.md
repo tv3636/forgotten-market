@@ -1,11 +1,11 @@
 ---
-title: Writing in the Book of Lore A How-to
+title: "Writing in the Book of Lore: A How-to"
 description: If you're looking for specific instructions on how to write in the Book of Lore, this post is for you
 ---
 
-The _Forgotten Runes Book of Lore_ contain the stories, legends, and myths of thousands of Wizards. This tome is ever growing, always evolving, but forever immutable once a Wizard changes hands.
+The [_Forgotten Runes Book of Lore_](/lore) contain the stories, legends, and myths of thousands of Wizards. This tome is ever growing, always evolving, but forever immutable once a Wizard changes hands.
 
-[![](https://i.imgur.com/2cI5AXI.png)](/lore/)
+[![](/static/lore/instructions/2cI5AXI.png)](/lore/)
 
 ## What Lore Should Be Written?
 
@@ -26,18 +26,29 @@ Here is a quickstart guide to writing Lore (but please read through for detailed
 To write lore, you:
 
 - [Visit the Add Lore Page](/lore/add)
-  ![](https://i.imgur.com/4jSfHkl.png)
+
+![](/static/lore/instructions/4jSfHkl.png)
+
 - Connect your Wallet
 - Pick a Wizard
-  ![](https://i.imgur.com/tZ3pPBw.png)
+
+![](/static/lore/instructions/tZ3pPBw.png)
+
 - Write your Lore using the editor
-  ![](https://i.imgur.com/zW1QrZj.png)
+
+![](/static/lore/instructions/zW1QrZj.png)
+
 - Sign a message
-  ![](https://i.imgur.com/Cc8YlwR.png)
+
+![](/static/lore/instructions/Cc8YlwR.png)
+
 - Submit a transaction
-  ![](https://i.imgur.com/12CCh8s.png)
+
+![](/static/lore/instructions/12CCh8s.png)
+
 - Enjoy - and share - your Lore
-  ![](https://i.imgur.com/L7DgMrl.png)
+
+![](/static/lore/instructions/L7DgMrl.png)
 
 ## Writing Lore in the Editor
 
@@ -72,7 +83,7 @@ You can upload multiple images and intersperse them with text. Or you can have L
 
 You can change the background color of your Lore using the color picker.
 
-![](https://i.imgur.com/3pxuUM4.png)
+![](/static/lore/instructions/3pxuUM4.png)
 
 ### Toggle NSFW
 
@@ -120,24 +131,31 @@ The Lore Master may not:
 ## FAQ
 
 **Q:** Is my Lore stored "on-chain"?
+
 **A:** Partially. The Lore contents (images, stories) are stored on IPFS, like most other NFTs. The record of the Lore - and pointer to IPFS - is stored on-chain.
 
 **Q:** Where is the Book of Lore contract?
+
 **A:** The mainnet address of the Book of Lore is [`0x4218948d1da133cf4b0758639a8c065dbdccb2bb`, found here](https://etherscan.io/address/0x4218948d1da133cf4b0758639a8c065dbdccb2bb#code)
 
 **Q:** Does it cost gas?
+
 **A:** Yes. The contract ensures that only Wizard holders may write new Lore and it writes it perminently on-chain, so it does cost gas. The gas cost is almost exactly the same as a swap on Sushiswap (about 100k gas, which is about $22 at 50Gwei at current prices).
 
 **Q:** Is _The Book of Lore_ decentralized?
+
 **A:** Yes. Writing to the Book is controlled by the smart contract at `0x421` and it cannot be disabled. All Wizard holders may write to this Book within the parameters outlined above. Currently the website is hosted at forgottenrunes.com and The Creators _pin_ (ensure persistence of) the IPFS files of non-struck Lore, however anyone else may pin any files they choose.
 
 **Q:** How should I write my Lore?
+
 **A:** Join the Discord and we'll help you think through this!
 
 **Q:** Can I update my Lore?
+
 **A:** Yes **if** you originally created it _and_ you still hold the Wizard. However, the editing interface has not been created as of 9/21. Editing will be shipped in Q4 2021.
 
 **Q:** What about _Forgotten Souls_, _Forgotten Runes Warriors_, etc.?
+
 **A:** The Book will support their stories to be told.
 
 ## Next Steps

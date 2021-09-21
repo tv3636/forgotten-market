@@ -66,9 +66,6 @@ export default function PostPage({
         .post-header h1 {
           margin-bottom: 0;
         }
-        .post-header {
-          margin-bottom: 1rem;
-        }
         .description {
           opacity: 0.6;
         }
