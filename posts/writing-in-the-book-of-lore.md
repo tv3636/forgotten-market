@@ -5,7 +5,11 @@ description: If you're looking for specific instructions on how to write in the 
 
 The [_Forgotten Runes Book of Lore_](/lore) contains the stories, legends, and myths of thousands of Wizards. This tome is ever-growing, always evolving, but forever immutable once a Wizard changes hands.
 
-[![](/static/lore/instructions/2cI5AXI.png)](/lore/)
+## Video Quickstart
+
+Watch this video for a quick introduction on how to add Lore to your Wizard.
+
+<div class="embed-container"><iframe height="100%" width="100%" src="https://www.youtube.com/embed/0pczqUrUiJM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 
 ## What Lore Should Be Written?
 
@@ -18,6 +22,8 @@ One way to get ideas for writing Lore is to read what is written already, read t
 A future document will be written that gives guidelines for _what to write_ Lore, but this document focuses more on the _how_.
 
 ## How it Works, An Overview
+
+[![](/static/lore/instructions/2cI5AXI.png)](/lore/)
 
 Lore is attached to a specific Wizard token. While **anyone can read the Book**, only _Wizard holders_ can write Lore.
 
