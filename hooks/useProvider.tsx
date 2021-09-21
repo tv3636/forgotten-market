@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { StaticJsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 
-export function getProvider() {
+export function getProvider(useServerSideProvider = false) {
   const provider = new StaticJsonRpcProvider(
-    process.env.NEXT_PUBLIC_REACT_APP_NETWORK_URL
+    useServerSideProvider
+      ? process.env.SERVER_SIDE_NETWORK_URL
+      : process.env.NEXT_PUBLIC_REACT_APP_NETWORK_URL
   );
   return provider;
 }
