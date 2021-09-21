@@ -1,4 +1,5 @@
 import * as React from "react";
+import { isNumber } from "lodash";
 
 import Head from "next/head";
 
@@ -17,7 +18,7 @@ export default function OgImage({ title, fontSize, wizard }: Props) {
   if (fontSize) {
     params.fontSize = fontSize;
   }
-  if (wizard) {
+  if (isNumber(wizard)) {
     params.wizard = wizard;
   }
   const queryString = Object.keys(params)
