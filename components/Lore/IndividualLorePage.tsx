@@ -136,6 +136,8 @@ export default function IndividualLorePage({
           transformImageUri={(src: string, alt: string, title) => {
             if (src.startsWith("ipfs://")) {
               src = src.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
+            } else if (src.startsWith("data")) {
+              return src;
             }
             return uriTransformer(src);
           }}
