@@ -38,6 +38,12 @@ const LorePage = ({
   tokenId: number;
   lorePageData: LorePageData;
 }) => {
+  let title = "The Book of Lore";
+
+  if (loreTokenSlug === "wizards") {
+    title = `The Lore of ${wizData[tokenId.toString()].name} #${tokenId})`;
+  }
+
   const og = loreTokenSlug === "wizards" && (
     <OgImage
       title={`The Lore of ${wizData[tokenId.toString()].name} #${tokenId})`}
@@ -46,7 +52,7 @@ const LorePage = ({
   );
 
   return (
-    <Layout>
+    <Layout title={title}>
       {og}
       <LoreSharedLayout>
         <Book

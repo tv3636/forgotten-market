@@ -25,6 +25,7 @@ import {
 import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
 import { EditorState } from "draft-js";
 import { Flex } from "rebass";
+import OgImage from "../../components/OgImage";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -200,6 +201,12 @@ const AddLorePage = () => {
       title={`Add Lore | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`}
     >
       <LoreSharedLayout>
+        <OgImage
+          title={`Write in The Book of Lore`}
+          images={
+            "https://www.forgottenrunes.com/static/lore/book/closed_whole.png"
+          }
+        />
         <AddLoreWrapper>
           <BookFrame
             bg={bg || "#000000"}

@@ -9,10 +9,11 @@ type Props = {
   wizard?: string | number;
   fontSize?: string;
   title: string;
+  images?: string;
 };
 
 // https://og.forgottenrunes.com/6001.png?wizard=6001&fontSize=128px
-export default function OgImage({ title, fontSize, wizard }: Props) {
+export default function OgImage({ title, fontSize, wizard, images }: Props) {
   const filename = encodeURIComponent(title);
   let params: any = {};
   if (fontSize) {
@@ -20,6 +21,9 @@ export default function OgImage({ title, fontSize, wizard }: Props) {
   }
   if (isNumber(wizard)) {
     params.wizard = wizard;
+  }
+  if (images) {
+    params.images = images;
   }
   const queryString = Object.keys(params)
     .map((key) => key + "=" + params[key])
