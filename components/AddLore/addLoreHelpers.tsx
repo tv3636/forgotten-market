@@ -410,7 +410,9 @@ export const getPendingLoreTxHashRedirection = async ({
 
     return {
       redirect: {
-        destination: getLoreUrl("wizards", parseInt(wizardId), pageNum),
+        destination: `/lore/add?lorePageToPrefetch=${
+          pageNum % 2 === 0 ? pageNum : pageNum + 1
+        }&wizardId=${wizardId}&client=true`,
       },
     };
   }
