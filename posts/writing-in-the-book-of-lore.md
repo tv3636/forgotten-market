@@ -83,8 +83,6 @@ To upload images:
 
 You can upload multiple images and intersperse them with text. Or you can have Lore which is simply a single image. It's up to you.
 
-> **NOTE** as of September 2021, there is a maximum file size of 4mb for **all images** in a single Lore. This restriction will be lifted within a couple of weeks
-
 ### Background Color
 
 You can change the background color of your Lore using the color picker.
