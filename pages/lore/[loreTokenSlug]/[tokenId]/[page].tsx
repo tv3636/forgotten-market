@@ -15,6 +15,7 @@ import productionWizardData from "../../../../data/nfts-prod.json";
 import { flatMap } from "lodash";
 import {
   getCurrentWizardData,
+  getFirstAvailableWizardLoreUrl,
   getPreAndNextPageRoutes,
 } from "../../../../components/Lore/loreSubgraphUtils";
 import { LORE_CONTRACTS } from "../../../../contracts/ForgottenRunesWizardsCultContract";
@@ -162,7 +163,7 @@ async function getNarrativePageData(pageNum: number, loreTokenSlug: string) {
         previousPageRoute: leftPageNum >= 1 ? leftPageNum - 1 : null,
         nextPageRoute: nextNarrativeExists
           ? rightPageNum + 1
-          : getLoreUrl("wizards", 0, 0), //TODO: do graph query to get first wizard's first lore
+          : await getFirstAvailableWizardLoreUrl(),
       },
     },
     revalidate: 2,
