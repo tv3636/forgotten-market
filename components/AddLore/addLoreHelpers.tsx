@@ -348,7 +348,7 @@ export async function uploadBookOfLoreImages({
 }) {
   const toastId = toast.info("Uploading Lore Images", {
     position: "top-right",
-    autoClose: 5000,
+    autoClose: 60000,
     hideProgressBar: false,
     closeOnClick: false,
     progress: 0,
