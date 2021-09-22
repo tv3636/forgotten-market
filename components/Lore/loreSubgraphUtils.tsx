@@ -162,18 +162,8 @@ export async function getCurrentWizardData(
 }
 
 export async function getFirstAvailableWizardLoreUrl() {
-  const { data } = await client.query({
-    query: gql`
-        query WizardLore {
-            lores( first:1, orderBy: id, orderDirection: asc, where: {tokenContract: "${NORMALIZED_WIZARD_CONTRACT_ADDRESS}", struck: false, nsfw: false}) {
-                tokenId
-            }
-        }
-    `,
-    fetchPolicy: "no-cache",
-  });
-
-  return getLoreUrl("wizards", data?.lores?.[0]?.tokenId ?? 0, 0);
+  // We used to fetch this from subgraph but now we know wizard 0 always has lore so no need :)
+  return getLoreUrl("wizards", 0, 0);
 }
 
 export async function getPreAndNextPageRoutes(
