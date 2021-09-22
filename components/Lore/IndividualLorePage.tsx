@@ -142,7 +142,8 @@ export default function IndividualLorePage({
             return uriTransformer(src);
           }}
         >
-          {story}
+          {/* Markdown needs two spaces before a \n for line break but our editor doesn't do this if you c/p content into it... */}
+          {story.replace(/[^\s]+\n/gi, "  \n")}
         </ReactMarkdown>
       )}
     </TextPage>
