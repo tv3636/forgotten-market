@@ -26,6 +26,7 @@ import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
 import { EditorState } from "draft-js";
 import { Flex } from "rebass";
 import OgImage from "../../components/OgImage";
+import { getLoreUrl } from "../../components/Lore/loreUtils";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -60,16 +61,30 @@ export const WaitingText = styled.div`
 const WaitingForGraphPage = () => {
   const router = useRouter();
   useEffect(() => {
-    let reloadTimer = setTimeout(
-      () =>
-        router.push(
-          `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&wizardId=${router.query?.wizardId}`
-        ),
-      5 * 1000
-    );
+    let reloadTimer: number;
+
+    if (router.query?.lorePageToPrefetch) {
+      // The idea here is that we ask Next.js to prefetch (and therefore ideally re-generate) the specific lore page
+      const pageNum = parseInt(router.query?.lorePageToPrefetch as string);
+      const url = getLoreUrl(
+        "wizards",
+        parseInt(router.query?.wizardId as string),
+        pageNum
+      );
+      router.prefetch(url);
+      reloadTimer = window.setTimeout(() => router.push(url), 4 * 1000);
+    } else {
+      reloadTimer = window.setTimeout(
+        () =>
+          router.push(
+            `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&wizardId=${router.query?.wizardId}`
+          ),
+        1.5 * 1000
+      );
+    }
 
     return () => {
-      clearTimeout(reloadTimer);
+      window.clearTimeout(reloadTimer);
     };
   }, []);
 
@@ -95,17 +110,10 @@ const AddLorePage = () => {
   >(null);
   const [currentEditorState, setCurrentEditorState] = useState<EditorState>();
 
-  const debouncedCurrentStory = useDebounce(currentStory, 80);
-
   const [currentWizard, setCurrentWizard] = useState<WizardConfiguration>();
 
   const onWizardPicked = (wizardConfiguration: WizardConfiguration) => {
     setCurrentWizard(wizardConfiguration);
-  };
-
-  const validate = async (values: any): Promise<any> => {
-    console.log("values: ", values);
-    return null;
   };
 
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
@@ -113,7 +121,10 @@ const AddLorePage = () => {
 
   const router = useRouter();
 
-  if (router.query?.waitForTxHash && router.query?.wizardId) {
+  if (
+    (router.query?.waitForTxHash || router.query?.lorePageToPrefetch) &&
+    router.query?.wizardId
+  ) {
     return <WaitingForGraphPage />;
   }
 
