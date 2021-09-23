@@ -10,11 +10,11 @@ import { keyBy } from "lodash";
 
 - [-] `/art/:tokenSlug/trait/:width/:traitSlug/:traitName.png` - the trait layer for the collection (e.g. "Wizzy Head.png")
 - [-] `/art/:tokenSlug/:tokenId.zip` - downloadable package, everything, including sprites & layers with preset resizes
-- [-] `/art/:tokenSlug/:tokenId.png` - regular image of the wizard add default size 400px
+- [+] `/art/:tokenSlug/:tokenId.png` - regular image of the wizard add default size 400px
 - [-] `/art/:tokenSlug/:tokenId/spritesheet.png` - full spritesheet
 - [-] `/art/:tokenSlug/:tokenId/spritesheet.json` - full spritesheet.json
 - [+] `/art/:tokenSlug/:tokenId/trait/:traitSlug.png` - a "wizard's" trait layer
-- [-] `/art/:tokenSlug/:tokenId/:style.png` - stylized image
+- [+] `/art/:tokenSlug/:tokenId/:style.png` - stylized image
 - [-] `/art/:tokenSlug/:tokenId/:width/frame/:animationTag/:frameName.png` - full layers for an anim pos: "Kobald 0 left"
 - [-] `/art/:tokenSlug/:tokenId/:width/frame/:animationTag/:frameName/:traitName.png` - e.g. "head of kobald 0 facing left"
   head, walk, up
@@ -32,6 +32,9 @@ import { keyBy } from "lodash";
 ### Examples
 
 - http://localhost:3005/api/art/wizards/487/trait/head.png
+- http://localhost:3005/api/art/wizards/107/default.png
+- http://localhost:3005/api/art/wizards/107/nobg.png?width=700
+- http://localhost:3005/api/art/wizards/108.png
 
 */
 
@@ -174,31 +177,25 @@ export async function getTraitLayerBuffer({
   return buffer;
 }
 
+export type GetStyledTokenBufferProps = {
+  tokenSlug: string;
+  tokenId: string;
+  width: number;
+  style: string;
+  trim?: boolean;
+  noBg?: boolean;
+};
+
 export async function getStyledTokenBuffer({
   tokenSlug,
   tokenId,
   width,
   style,
   trim,
-}: {
-  tokenSlug: string;
-  tokenId: string;
-  width: number;
-  style: string;
-  trim?: boolean;
-}) {
+  noBg,
+}: GetStyledTokenBufferProps) {
   const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
   const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
-
-  // todo generalize
-  //   const frameNum: number =
-  //     wizardLayerData[traitSlug]?.length > 0
-  //       ? parseInt(wizardLayerData[traitSlug])
-  //       : -1;
-
-  //   if (frameNum < 0) {
-  //     throw new Error(`Unknown trait ${traitSlug}`);
-  //   }
 
   const layerNames = tokenLayerNames[tokenSlug];
 
@@ -225,7 +222,12 @@ export async function getStyledTokenBuffer({
     }
   }
 
-  const [bgBuffer, ...rest] = buffers;
+  if (noBg) {
+    buffers.shift(); // remove bg
+  }
+
+  let [bgBuffer, ...rest] = buffers;
+
   const restBuffers = rest.map((r: any) => ({ input: r }));
   const canvas = await sharp(bgBuffer).composite(restBuffers).png().toBuffer();
 

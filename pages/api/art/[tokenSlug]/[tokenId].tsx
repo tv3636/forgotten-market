@@ -2,6 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import request from "request";
 import fs from "fs";
 import * as os from "os";
+import stream from "stream";
+import {
+  getStyledTokenBuffer,
+  GetStyledTokenBufferProps,
+  stripExtension,
+} from "../../../../lib/art/artGeneration";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,10 +18,23 @@ export default async function handler(
   }
   console.log("req.query: ", req.query);
 
-  const { tokenSlug, tokenId } = req.query;
+  let { tokenSlug, tokenId, width, trim } = req.query;
+  let trimOption = !trim || trim === "0" ? false : true;
+  let widthOption = !width ? 400 : parseInt(width as string);
 
-  const url =
-    "https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-417.png";
+  tokenId = stripExtension(tokenId as string);
 
-  return request.get(url).pipe(res);
+  let genOptions: GetStyledTokenBufferProps = {
+    tokenSlug: tokenSlug as string,
+    tokenId: tokenId as string,
+    width: widthOption,
+    style: "default",
+    trim: trimOption,
+  };
+
+  const buffer = await getStyledTokenBuffer(genOptions);
+
+  var bufferStream = new stream.PassThrough();
+  bufferStream.end(buffer);
+  return bufferStream.pipe(res);
 }

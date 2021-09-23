@@ -5,6 +5,7 @@ import * as os from "os";
 import stream from "stream";
 import {
   getStyledTokenBuffer,
+  GetStyledTokenBufferProps,
   getTraitLayerBuffer,
   getWizardPartsBuffer,
   stripExtension,
@@ -25,13 +26,19 @@ export default async function handler(
 
   const styleSlug = style ? stripExtension(style as string) : "default";
 
-  const buffer = await getStyledTokenBuffer({
+  let genOptions: GetStyledTokenBufferProps = {
     tokenSlug: tokenSlug as string,
     tokenId: tokenId as string,
     width: widthOption,
     style: styleSlug,
     trim: trimOption,
-  });
+  };
+
+  if (styleSlug === "nobg") {
+    genOptions.noBg = true;
+  }
+
+  const buffer = await getStyledTokenBuffer(genOptions);
 
   var bufferStream = new stream.PassThrough();
   bufferStream.end(buffer);
