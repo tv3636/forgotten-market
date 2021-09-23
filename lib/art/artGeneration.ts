@@ -1,22 +1,23 @@
 import sharp from "sharp";
 import path from "path";
 import wizardLayers from "../../public/static/nfts/wizards/wizards-layers.json";
-import { keyBy } from "lodash";
+import wizardTraits from "../../public/static/nfts/wizards/wizards-traits.json";
+import { groupBy, keyBy, map } from "lodash";
 
 // public/static/nfts/wizards/forgotten-runes-wizards-cult-traits.png
 
 /*
 ### So the routes are something like:
 
-- [-] `/art/:tokenSlug/trait/:width/:traitSlug/:traitName.png` - the trait layer for the collection (e.g. "Wizzy Head.png")
+- [+] `/art/:tokenSlug/trait/:traitSlug/:traitName.png` - the trait layer for the collection (e.g. "Wizzy Head.png")
 - [-] `/art/:tokenSlug/:tokenId.zip` - downloadable package, everything, including sprites & layers with preset resizes
 - [+] `/art/:tokenSlug/:tokenId.png` - regular image of the wizard add default size 400px
 - [-] `/art/:tokenSlug/:tokenId/spritesheet.png` - full spritesheet
 - [-] `/art/:tokenSlug/:tokenId/spritesheet.json` - full spritesheet.json
 - [+] `/art/:tokenSlug/:tokenId/trait/:traitSlug.png` - a "wizard's" trait layer
 - [+] `/art/:tokenSlug/:tokenId/:style.png` - stylized image
-- [-] `/art/:tokenSlug/:tokenId/:width/frame/:animationTag/:frameName.png` - full layers for an anim pos: "Kobald 0 left"
-- [-] `/art/:tokenSlug/:tokenId/:width/frame/:animationTag/:frameName/:traitName.png` - e.g. "head of kobald 0 facing left"
+- [-] `/art/:tokenSlug/:tokenId/frame/:animationTag/:frameName.png` - full layers for an anim pos: "Kobald 0 left"
+- [-] `/art/:tokenSlug/:tokenId/frame/:animationTag/:frameName/:traitName.png` - e.g. "head of kobald 0 facing left"
   head, walk, up
 
 ### With Parameters:
@@ -36,6 +37,7 @@ import { keyBy } from "lodash";
 - http://localhost:3005/api/art/wizards/107/nobg.png?width=700
 - http://localhost:3005/api/art/wizards/108.png
 - http://localhost:3005/api/art/wizards/108/sepia.png
+- http://localhost:3005/api/art/wizards/trait/head/Prophet.png?trim=true
 
 */
 
@@ -70,6 +72,37 @@ export const wizardLayerNames = [
 
 export const tokenLayerNames: { [key: string]: string[] } = {
   wizards: wizardLayerNames,
+};
+
+export type TraitsLayerDescription = {
+  idx: string;
+  filename: string;
+  trait: string;
+  label: string;
+};
+
+function doubleKeyBy(collection: any[], key1: string, key2: string) {
+  let grouped = groupBy(collection, key1);
+  let final: any = {};
+  map(grouped, (groupItems, key) => {
+    final[key] = final[key] || {};
+    for (let i = 0; i < groupItems.length; i++) {
+      final[key][groupItems[i][key2]] = groupItems[i];
+    }
+  });
+  return final;
+}
+
+const wizardsTraitsLayerDescriptionByLabel: {
+  [trait: string]: { [label: string]: TraitsLayerDescription };
+} = doubleKeyBy(wizardTraits, "trait", "label");
+
+export const tokenTraitsByLabel: {
+  [tokenSlug: string]: {
+    [trait: string]: { [label: string]: TraitsLayerDescription };
+  };
+} = {
+  wizards: wizardsTraitsLayerDescriptionByLabel,
 };
 
 export async function extractWizardFrame({
@@ -132,7 +165,7 @@ export async function getTokenLayersData({
 
 // --------
 
-export async function getTraitLayerBuffer({
+export async function getTraitLayerBufferForTokenId({
   tokenSlug,
   tokenId,
   width,
@@ -161,6 +194,43 @@ export async function getTraitLayerBuffer({
   const layerPartBuffer = await extractWizardFrame({
     partsBuffer,
     frameNum,
+  });
+
+  const size = width;
+  let buffer = await sharp(layerPartBuffer)
+    .resize(size, size, {
+      fit: sharp.fit.fill,
+      kernel: sharp.kernel.nearest,
+    })
+    .toBuffer();
+
+  if (trim) {
+    buffer = await sharp(buffer).trim().toBuffer();
+  }
+
+  return buffer;
+}
+
+export async function getTraitLayerBuffer({
+  tokenSlug,
+  traitSlug,
+  traitName,
+  width,
+  trim,
+}: {
+  tokenSlug: string;
+  traitSlug: string;
+  traitName: string;
+  width: number;
+  trim?: boolean;
+}) {
+  const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
+
+  const tokenLayerInfo = tokenTraitsByLabel[tokenSlug][traitSlug][traitName];
+
+  const layerPartBuffer = await extractWizardFrame({
+    partsBuffer,
+    frameNum: parseInt(tokenLayerInfo.idx),
   });
 
   const size = width;
