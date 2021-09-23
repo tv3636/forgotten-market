@@ -9,6 +9,7 @@ import {
   getTraitLayerBuffer,
   getWizardPartsBuffer,
   stripExtension,
+  VALID_TOKEN_STYLES,
 } from "../../../../../lib/art/artGeneration";
 
 export default async function handler(
@@ -25,6 +26,9 @@ export default async function handler(
   let widthOption = !width ? 400 : parseInt(width as string);
 
   const styleSlug = style ? stripExtension(style as string) : "default";
+  if (!VALID_TOKEN_STYLES.includes(styleSlug)) {
+    throw new Error(`${styleSlug} is not a valid style`);
+  }
 
   let genOptions: GetStyledTokenBufferProps = {
     tokenSlug: tokenSlug as string,
@@ -36,6 +40,10 @@ export default async function handler(
 
   if (styleSlug === "nobg") {
     genOptions.noBg = true;
+  }
+
+  if (styleSlug === "sepia") {
+    genOptions.sepia = true;
   }
 
   const buffer = await getStyledTokenBuffer(genOptions);

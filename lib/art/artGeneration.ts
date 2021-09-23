@@ -35,6 +35,7 @@ import { keyBy } from "lodash";
 - http://localhost:3005/api/art/wizards/107/default.png
 - http://localhost:3005/api/art/wizards/107/nobg.png?width=700
 - http://localhost:3005/api/art/wizards/108.png
+- http://localhost:3005/api/art/wizards/108/sepia.png
 
 */
 
@@ -184,8 +185,10 @@ export type GetStyledTokenBufferProps = {
   style: string;
   trim?: boolean;
   noBg?: boolean;
+  sepia?: boolean;
 };
 
+export const VALID_TOKEN_STYLES = ["default", "nobg", "sepia"];
 export async function getStyledTokenBuffer({
   tokenSlug,
   tokenId,
@@ -193,6 +196,7 @@ export async function getStyledTokenBuffer({
   style,
   trim,
   noBg,
+  sepia,
 }: GetStyledTokenBufferProps) {
   const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
   const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
@@ -222,6 +226,10 @@ export async function getStyledTokenBuffer({
     }
   }
 
+  if (sepia) {
+    noBg = true;
+  }
+
   if (noBg) {
     buffers.shift(); // remove bg
   }
@@ -238,6 +246,22 @@ export async function getStyledTokenBuffer({
       kernel: sharp.kernel.nearest,
     })
     .toBuffer();
+
+  if (sepia) {
+    buffer = await sharp(buffer)
+      .modulate({
+        saturation: 0,
+      })
+      .tint("#9F7E34")
+      .modulate({
+        brightness: 1.1,
+        saturation: 1 - 0.1,
+      })
+      .modulate({
+        brightness: 0.8,
+      })
+      .toBuffer();
+  }
 
   if (trim) {
     buffer = await sharp(buffer).trim().toBuffer();
