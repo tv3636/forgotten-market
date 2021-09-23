@@ -13,7 +13,7 @@ For the Wizard NFT character packs, we have:
 - `/art/:tokenSlug/trait/:width/:traitSlug/:traitName.png` - the trait layer for the collection (e.g. "Wizzy Head.png")
 
 - `/art/:tokenSlug/:tokenId.zip` - downloadable package, everything, including sprites & layers with preset resizes
-- `/art/:tokenSlug/:tokenId.png` - regular image of the wizard
+- `/art/:tokenSlug/:tokenId.png` - regular image of the wizard add default size 400px
 - `/art/:tokenSlug/:tokenId/spritesheet.png` - full spritesheet
 - `/art/:tokenSlug/:tokenId/spritesheet.json` - full spritesheet.json
 - `/art/:tokenSlug/:tokenId/:width/frame/:animationTag/:frameName.png` - full layers for an animation position - e.g. "Kobald 0 facing left"
@@ -31,3 +31,7 @@ For the Wizard NFT character packs, we have:
 - `traitSlug` - `{background,body,head,prop,familiar,rune,...}`
 - `animationTag` - `{std,walk,swing,...}`
 - `frameName` - `{default,up,r,...}`
+
+### Examples:
+
+- http://localhost:3005/api/art/wizards/487/400/head.png
