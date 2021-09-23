@@ -38,7 +38,7 @@
  * @param {string} text
  * @return {string}
  */
-function cleanText(text:string) {
+function cleanText(text: string) {
   return encodeURIComponent(text).replace(/%(23|2C|2F|3F|5C)/g, "%25$1");
 }
 
@@ -75,39 +75,41 @@ export default function generateSocialImage({
   taglineColor,
   titleFontSize = 64,
   taglineFontSize = 48,
-  version
-} : {  title:string;
-  tagline:string;
-  cloudName:string;
-  imagePublicID:string;
-  cloudinaryUrlBase:string;
-  titleFont:string;
-  titleExtraConfig:string;
-  taglineExtraConfig:string;
-  taglineFont:string;
-  imageWidth:number;
-  imageHeight:number;
-  textAreaWidth:number;
-  textLeftOffset:number;
-  titleGravity:string;
-  taglineGravity:string;
-  titleLeftOffset:string;
-  taglineLeftOffset:string;
-  titleBottomOffset:number;
-  taglineTopOffset:number;
-  textColor:string;
-  titleColor:string;
-  taglineColor:string;
-  titleFontSize:number;
-  taglineFontSize:number;
-  version:string;}) {
+  version,
+}: {
+  title: string;
+  tagline: string;
+  cloudName: string;
+  imagePublicID: string;
+  cloudinaryUrlBase: string;
+  titleFont: string;
+  titleExtraConfig: string;
+  taglineExtraConfig: string;
+  taglineFont: string;
+  imageWidth: number;
+  imageHeight: number;
+  textAreaWidth: number;
+  textLeftOffset: number;
+  titleGravity: string;
+  taglineGravity: string;
+  titleLeftOffset: string;
+  taglineLeftOffset: string;
+  titleBottomOffset: number;
+  taglineTopOffset: number;
+  textColor: string;
+  titleColor: string;
+  taglineColor: string;
+  titleFontSize: number;
+  taglineFontSize: number;
+  version: string;
+}) {
   // configure social media image dimensions, quality, and format
   const imageConfig = [
     `w_${imageWidth}`,
     `h_${imageHeight}`,
     "c_fill",
     "q_auto",
-    "f_auto"
+    "f_auto",
   ].join(",");
 
   // configure the title text
@@ -120,7 +122,7 @@ export default function generateSocialImage({
     `y_${titleBottomOffset}`,
     `l_text:${titleFont}_${titleFontSize}${titleExtraConfig}:${cleanText(
       title
-    )}`
+    )}`,
   ].join(",");
 
   // configure the tagline text
@@ -134,7 +136,7 @@ export default function generateSocialImage({
         `y_${taglineTopOffset}`,
         `l_text:${taglineFont}_${taglineFontSize}${taglineExtraConfig}:${cleanText(
           tagline
-        )}`
+        )}`,
       ].join(",")
     : undefined;
 
@@ -148,7 +150,7 @@ export default function generateSocialImage({
     titleConfig,
     taglineConfig,
     version,
-    imagePublicID
+    imagePublicID,
   ];
 
   // remove any falsy sections of the URL (e.g. an undefined version)
