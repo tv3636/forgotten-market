@@ -3,14 +3,12 @@ title: Wizardの壁画
 description: "物理的なペイントで描かれたWizardを、あなたの近所で見てみませんか？ここでは、現存する壁画や過去に存在した壁画のリストに加え、自分の壁画を依頼する方法を紹介します。"
 ---
 
-物理的なペイントで描かれたWizardを、あなたの近所で見てみませんか？ここでは、現存する壁画や過去に存在した壁画のリストに加え、自分の壁画を依頼する方法を紹介します。
-
 ## Austin, Texas, USA
 
-* ステータス: アクティブ
-* Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
-* 日付: August 2021 - Present
-* 住所: Arcade UFO, 3101 Speedway, Austin,TX 78705
+- ステータス: アクティブ
+- Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
+- 日付: August 2021 - Present
+- 住所: Arcade UFO, 3101 Speedway, Austin,TX 78705
 
 Photos:
 
@@ -18,29 +16,29 @@ Photos:
 ![](https://i.imgur.com/xVPav6m.jpg)
 ![](https://i.imgur.com/fBYzhXN.jpg)
 
-
 ## Miami, Florida, USA
 
-* ステータス: Active
-* 日付: September 2021
-* 場所 1 [#9044](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/9044): 3404 N Miami Ave Miami, FL 33127 
-* 場所 2 [#1556](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/1556), [#48](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/48), [#5969](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/5969): 30 NW 34th Street Miami, FL 33127
+- ステータス: Active
+- 日付: September 2021
+- 場所 1 [#9044](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/9044): 3404 N Miami Ave Miami, FL 33127
+- 場所 2 [#1556](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/1556), [#48](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/48), [#5969](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/5969): 30 NW 34th Street Miami, FL 33127
 
 ![](https://i.imgur.com/SfsuVoN.jpg)
 ![](https://i.imgur.com/5bWOID0.jpg)
+
 ## Los Angeles, California, USA
 
-* ステータス: 作成中
-* Wizards: _To be revealed_
-* 日付: September 2021
-* 場所: Santee Alley and Midcity, _Address to be announced_
+- ステータス: 作成中
+- Wizards: _To be revealed_
+- 日付: September 2021
+- 場所: Santee Alley and Midcity, _Address to be announced_
 
 ## Oakland, California, USA
 
-* ステータス: 作成中
-* Wizards: _To be revealed_
-* 日付: September 2021
-* 場所: Downtown Oakland and Laurel District, _Address to be announced_
+- ステータス: 作成中
+- Wizards: _To be revealed_
+- 日付: September 2021
+- 場所: Downtown Oakland and Laurel District, _Address to be announced_
 
 ## 壁画の作成依頼について
 
