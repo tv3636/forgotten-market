@@ -8,6 +8,7 @@ import {
   GetStyledTokenBufferProps,
   stripExtension,
 } from "../../../../lib/art/artGeneration";
+import archiver from "archiver";
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,20 +22,57 @@ export default async function handler(
   let { tokenSlug, tokenId, width, trim } = req.query;
   let trimOption = !trim || trim === "0" ? false : true;
   let widthOption = !width ? 400 : parseInt(width as string);
+  let isZip = false;
 
-  tokenId = stripExtension(tokenId as string);
+  console.log("tokenId: ", tokenId);
+  if ((tokenId as string).match(/\.zip$/)) {
+    isZip = true;
+  }
 
-  let genOptions: GetStyledTokenBufferProps = {
-    tokenSlug: tokenSlug as string,
-    tokenId: tokenId as string,
-    width: widthOption,
-    style: "default",
-    trim: trimOption,
-  };
+  console.log("isZip: ", isZip);
+  if (isZip) {
+    // var bufferStream = new stream.PassThrough();
+    // bufferStream.end(buffer);
+    // return bufferStream.pipe(res);
 
-  const buffer = await getStyledTokenBuffer(genOptions);
+    // Tell the browser that this is a zip file.
+    res.writeHead(200, {
+      "Content-Type": "application/zip",
+      "Content-disposition": "attachment; filename=myFile.zip",
+    });
 
-  var bufferStream = new stream.PassThrough();
-  bufferStream.end(buffer);
-  return bufferStream.pipe(res);
+    const zip = archiver("zip");
+
+    // Send the file to the page output.
+    zip.pipe(res);
+
+    // https://github.com/archiverjs/node-archiver
+    // archive.append(fs.createReadStream(file1), { name: 'file1.txt' });
+
+    // Create zip with some files. Two dynamic, one static. Put #2 in a sub folder.
+    zip
+      .append("Some text to go in file 1.", { name: "1.txt" })
+      .append("Some text to go in file 2. I go in a folder!", {
+        name: "somefolder/2.txt",
+      })
+      .file("staticFiles/3.txt", { name: "3.txt" })
+      .finalize();
+    return;
+  } else {
+    tokenId = stripExtension(tokenId as string);
+
+    let genOptions: GetStyledTokenBufferProps = {
+      tokenSlug: tokenSlug as string,
+      tokenId: tokenId as string,
+      width: widthOption,
+      style: "default",
+      trim: trimOption,
+    };
+
+    const buffer = await getStyledTokenBuffer(genOptions);
+
+    var bufferStream = new stream.PassThrough();
+    bufferStream.end(buffer);
+    return bufferStream.pipe(res);
+  }
 }

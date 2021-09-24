@@ -40,6 +40,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "@storybook/addon-postcss": "^2.0.0",
     "@svgr/webpack": "^5.5.0",
+    "@types/archiver": "^5.1.1",
     "@types/bluebird": "^3.5.35",
     "@types/color-convert": "^2.0.0",
     "@types/draft-js": "^0.11.5",
@@ -67,6 +68,7 @@
     "@web3-react/walletconnect-connector": "^6.1.6",
     "@web3-react/walletlink-connector": "^6.1.6",
     "antd": "^4.15.4",
+    "archiver": "^5.3.0",
     "axios": "^0.21.4",
     "bluebird": "^3.7.2",
     "color-convert": "^2.0.1",
@@ -147,7 +149,8 @@
     "webfontloader": "^1.6.28",
     "webpack-merge": "^5.8.0",
     "yargs": "^17.0.1",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "zip": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -10,16 +10,15 @@ For the Wizard NFT character packs, we have:
 
 ### So the routes are something like:
 
-- `/art/:tokenSlug/trait/:width/:traitSlug/:traitName.png` - the trait layer for the collection (e.g. "Wizzy Head.png")
-
-- `/art/:tokenSlug/:tokenId.zip` - downloadable package, everything, including sprites & layers with preset resizes
-- `/art/:tokenSlug/:tokenId.png` - regular image of the wizard add default size 400px
-- `/art/:tokenSlug/:tokenId/spritesheet.png` - full spritesheet
-- `/art/:tokenSlug/:tokenId/spritesheet.json` - full spritesheet.json
-- `/art/:tokenSlug/:tokenId/:width/frame/:animationTag/:frameName.png` - full layers for an animation position - e.g. "Kobald 0 facing left"
-- `/art/:tokenSlug/:tokenId/:width/frame/:animationTag/:frameName/:traitName.png` - e.g. "head of kobald 0 facing left"
-- `/art/:tokenSlug/:tokenId/:width/:style.png` - stylized image
-- `/art/:tokenSlug/:tokenId/:width/:traitSlug.png` - a "wizard's" trait layer
+- [+] `/art/:tokenSlug/trait/:traitSlug/:traitName.png` - the trait layer for the collection (e.g. "Wizzy Head.png")
+- [-] `/art/:tokenSlug/:tokenId.zip` - downloadable package, everything, including sprites & layers with preset resizes
+- [+] `/art/:tokenSlug/:tokenId.png` - regular image of the wizard add default size 400px
+- [-] `/art/:tokenSlug/:tokenId/spritesheet.png` - full spritesheet
+- [-] `/art/:tokenSlug/:tokenId/spritesheet.json` - full spritesheet.json
+- [+] `/art/:tokenSlug/:tokenId/trait/:traitSlug.png` - a "wizard's" trait layer
+- [+] `/art/:tokenSlug/:tokenId/:style.png` - stylized image
+- [-] `/art/:tokenSlug/:tokenId/frame/:animationTag/:frameName.png` - full layers for an anim pos: "Kobald 0 left"
+- [-] `/art/:tokenSlug/:tokenId/frame/:animationTag/:frameName/:traitName.png` - e.g. "head of kobald 0 facing left"
   head, walk, up
 
 ### With Parameters:
@@ -32,6 +31,15 @@ For the Wizard NFT character packs, we have:
 - `animationTag` - `{std,walk,swing,...}`
 - `frameName` - `{default,up,r,...}`
 
-### Examples:
+### Examples
 
-- http://localhost:3005/api/art/wizards/487/400/head.png
+- http://localhost:3005/api/art/wizards/487/trait/head.png
+- http://localhost:3005/api/art/wizards/107/default.png
+- http://localhost:3005/api/art/wizards/107/nobg.png?width=700
+- http://localhost:3005/api/art/wizards/108.png
+- http://localhost:3005/api/art/wizards/108/sepia.png
+- http://localhost:3005/api/art/wizards/trait/head/Prophet.png?trim=true
+
+### Exporting Spritesheets
+
+`{title}-{layer}-{tag}-{frame}.{extension}`
