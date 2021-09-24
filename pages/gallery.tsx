@@ -13,18 +13,9 @@ const WizardMapLeaflet = dynamic(
 const WizardGalleryPage = ({ wizardsWithLore }: { wizardsWithLore: any }) => {
   return (
     <Layout title="Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
-      <WizardMapLeaflet wizardsWithLore={wizardsWithLore} bookOfLore={false} />
+      <WizardMapLeaflet bookOfLore={false} />
     </Layout>
   );
 };
-
-export async function getStaticProps() {
-  return {
-    props: {
-      wizardsWithLore: await getWizardsWithLore(),
-    },
-    revalidate: 2 * 60, // 2 minutes, no point having the gallery ultra real-time
-  };
-}
 
 export default WizardGalleryPage;

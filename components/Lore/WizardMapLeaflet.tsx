@@ -77,10 +77,10 @@ const WizardPopup = ({
 };
 
 const Layers = ({
-  wizardsWithLore = {},
+  wizardsWithLore,
   bookOfLore,
 }: {
-  wizardsWithLore: { [key: number]: boolean };
+  wizardsWithLore?: { [key: number]: boolean };
   bookOfLore: boolean;
 }) => {
   console.log(wizardsWithLore);
@@ -117,11 +117,10 @@ const Layers = ({
 
       const featureGeoJson = background.toGeoJSON();
 
-      const hasLore = wizardsWithLore[i];
+      const hasLore = wizardsWithLore === undefined || wizardsWithLore[i];
 
       featureGeoJson.properties.style = {
-        color: hasLore ? `#${wizData[i].background_color}` : "lightgrey",
-        // color: `#${wizData[i].background_color}`,
+        color: `#${wizData[i].background_color}`,
         stroke: false,
         fillOpacity: hasLore ? 1 : 0.2,
       };
@@ -192,10 +191,10 @@ const Layers = ({
 };
 
 const WizardMapLeaflet = ({
-  wizardsWithLore,
+  wizardsWithLore = undefined,
   bookOfLore = false,
 }: {
-  wizardsWithLore: { [key: number]: boolean };
+  wizardsWithLore?: { [key: number]: boolean };
   bookOfLore: boolean;
 }) => {
   return (
