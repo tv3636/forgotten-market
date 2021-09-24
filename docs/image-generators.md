@@ -43,3 +43,13 @@ For the Wizard NFT character packs, we have:
 ### Exporting Spritesheets
 
 Use the `export-layers.lua` script in Aseprite
+
+### Walkcycle
+
+```
+# pay attention to the trailing slashes here:
+s3cmd sync -P --acl-public -v /path/to/MasterWalkFile/ s3://nftz.forgottenrunes.com/frames/wizards/
+```
+
+- 8900
+- 3789

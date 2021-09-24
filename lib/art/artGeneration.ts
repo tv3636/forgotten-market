@@ -389,3 +389,132 @@ export async function buildReadme({
   );
   return readme;
 }
+
+export type AsepriteRect = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
+export type AsepriteFrame = {
+  frame: AsepriteRect;
+  rotated: boolean;
+  trimmed: boolean;
+  spriteSourceSize: AsepriteRect;
+  sourceSize: { w: number; h: number };
+  duration: number;
+};
+
+export type AseSpriteFrames = {
+  [key: string]: AsepriteFrame;
+};
+
+export async function buildSpritesheet({
+  tokenSlug,
+  tokenId,
+  json,
+  image,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  json?: boolean;
+  image?: boolean;
+}) {
+  const tags = [
+    { name: "front", frames: 4 },
+    { name: "left", frames: 4 },
+    { name: "right", frames: 4 },
+    { name: "back", frames: 4 },
+  ];
+  const WIDTH = 50;
+  const HEIGHT = 50;
+  const DURATION = 200;
+  const columns = 4;
+  const rows = 4;
+  const imageWidth = columns * WIDTH;
+  const imageHeight = rows * HEIGHT;
+
+  let frames: AseSpriteFrames = {};
+  let frameTags = [];
+  let frameFromIndex = 0;
+
+  for (let t = 0; t < tags.length; t++) {
+    let tagDescription = tags[t];
+    for (let f = 0; f < tagDescription.frames; f++) {
+      let frameName = `${tagDescription.name}-${f}`;
+      let frame = {
+        frame: { x: -1, y: -1, w: WIDTH, h: HEIGHT }, // TODO
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: WIDTH, h: HEIGHT },
+        sourceSize: { w: WIDTH, h: HEIGHT },
+        duration: DURATION,
+      };
+      frames[frameName] = frame;
+    }
+
+    frameTags.push({
+      name: tagDescription.name,
+      from: frameFromIndex,
+      to: frameFromIndex + tagDescription.frames - 1,
+      direction: "forward",
+    });
+    frameFromIndex += tagDescription.frames;
+  }
+
+  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
+  const bodyLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "body",
+  });
+  const headLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "head",
+  });
+
+  const meta = {
+    app: "http://www.aseprite.org/",
+    version: "1.2.27",
+    image: `${tokenSlug}-${tokenId}-spritesheet.png`,
+    format: "RGBA8888",
+    tokenSlug,
+    tokenId,
+    tokenName: wizardLayerData.name,
+    size: { w: imageWidth, h: imageHeight },
+    scale: "1",
+    frameTags,
+    layers: [
+      { name: bodyLayer?.label, opacity: 255, blendMode: "normal" },
+      { name: headLayer?.label, opacity: 255, blendMode: "normal" },
+    ],
+    slices: [],
+  };
+
+  return { meta, frames };
+}
+
+export async function getTokenTraitLayerDescription({
+  tokenSlug,
+  tokenId,
+  traitSlug,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  traitSlug: string;
+}): Promise<TraitsLayerDescription | null> {
+  const frameNum = await getTokenFrameNumber({
+    tokenSlug: tokenSlug as string,
+    tokenId,
+    traitSlug,
+  });
+  if (frameNum < 0 || frameNum == 7777) {
+    return null;
+  }
+
+  const layerDescription =
+    tokenTraitsByIndex[tokenSlug as string][frameNum.toString()];
+  return layerDescription;
+}
