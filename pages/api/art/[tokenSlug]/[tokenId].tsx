@@ -2,13 +2,27 @@ import { NextApiRequest, NextApiResponse } from "next";
 import request from "request";
 import fs from "fs";
 import * as os from "os";
-import stream from "stream";
+import stream, { PassThrough } from "stream";
 import {
+  buildReadme,
   getStyledTokenBuffer,
   GetStyledTokenBufferProps,
+  getTokenFrameNumber,
+  getTokenLayersData,
+  getTraitLayerBufferForTokenId,
+  slugify,
   stripExtension,
+  tokenLayerNames,
+  tokenTraitsByIndex,
 } from "../../../../lib/art/artGeneration";
-import archiver from "archiver";
+import archiver from "archiver"; // https://github.com/archiverjs/node-archiver
+import { forEach } from "lodash";
+
+function bufferToStream(buffer: Buffer) {
+  var bufferStream = new stream.PassThrough();
+  bufferStream.end(buffer);
+  return bufferStream;
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,55 +38,115 @@ export default async function handler(
   let widthOption = !width ? 400 : parseInt(width as string);
   let isZip = false;
 
-  console.log("tokenId: ", tokenId);
   if ((tokenId as string).match(/\.zip$/)) {
     isZip = true;
   }
+  tokenId = stripExtension(tokenId as string);
+  const tokenData = await getTokenLayersData({
+    tokenSlug: tokenSlug as string,
+    tokenId: tokenId as string,
+  });
 
-  console.log("isZip: ", isZip);
+  // single token buffer
+  let genOptions: GetStyledTokenBufferProps = {
+    tokenSlug: tokenSlug as string,
+    tokenId: tokenId as string,
+    width: widthOption,
+    trim: trimOption,
+  };
+  const singleTokenBuffer = await getStyledTokenBuffer(genOptions);
+
+  let zipFiles = [
+    [
+      bufferToStream(singleTokenBuffer),
+      { name: `${tokenId}-${slugify(tokenData.name)}.png` },
+    ],
+  ];
+
   if (isZip) {
-    // var bufferStream = new stream.PassThrough();
-    // bufferStream.end(buffer);
-    // return bufferStream.pipe(res);
-
-    // Tell the browser that this is a zip file.
-    res.writeHead(200, {
-      "Content-Type": "application/zip",
-      "Content-disposition": "attachment; filename=myFile.zip",
+    // build readme
+    const readmeText = await buildReadme({
+      tokenSlug: tokenSlug as string,
+      tokenId: tokenId as string,
     });
 
-    const zip = archiver("zip");
+    // build layers
+    const tokenTraitLayerNames = tokenLayerNames[tokenSlug as string];
+    for (let i = 0; i < tokenTraitLayerNames.length; i++) {
+      const traitSlug = tokenTraitLayerNames[i];
+      const frameNum = await getTokenFrameNumber({
+        tokenSlug: tokenSlug as string,
+        tokenId,
+        traitSlug,
+      });
+      if (frameNum < 0 || frameNum == 7777) {
+        continue;
+      }
 
-    // Send the file to the page output.
-    zip.pipe(res);
+      const layerDescription =
+        tokenTraitsByIndex[tokenSlug as string][frameNum.toString()];
+      const layerBuffer = await getTraitLayerBufferForTokenId({
+        tokenSlug: tokenSlug as string,
+        tokenId: tokenId as string,
+        width: widthOption,
+        traitSlug: traitSlug,
+        trim: trimOption,
+      });
+      zipFiles.push([
+        bufferToStream(layerBuffer),
+        { name: `${traitSlug}-${slugify(layerDescription.label)}.png` },
+      ]);
+    }
 
-    // https://github.com/archiverjs/node-archiver
-    // archive.append(fs.createReadStream(file1), { name: 'file1.txt' });
-
-    // Create zip with some files. Two dynamic, one static. Put #2 in a sub folder.
-    zip
-      .append("Some text to go in file 1.", { name: "1.txt" })
-      .append("Some text to go in file 2. I go in a folder!", {
-        name: "somefolder/2.txt",
-      })
-      .file("staticFiles/3.txt", { name: "3.txt" })
-      .finalize();
-    return;
-  } else {
-    tokenId = stripExtension(tokenId as string);
-
-    let genOptions: GetStyledTokenBufferProps = {
+    // build nobg
+    let noBgGenOptions: GetStyledTokenBufferProps = {
       tokenSlug: tokenSlug as string,
       tokenId: tokenId as string,
       width: widthOption,
-      style: "default",
       trim: trimOption,
+      noBg: true,
     };
+    const noBgTokenBuffer = await getStyledTokenBuffer(noBgGenOptions);
 
-    const buffer = await getStyledTokenBuffer(genOptions);
+    zipFiles.push([
+      bufferToStream(noBgTokenBuffer),
+      { name: `${tokenId}-${slugify(tokenData.name)}-nobg.png` },
+    ]);
 
-    var bufferStream = new stream.PassThrough();
-    bufferStream.end(buffer);
+    // build sepia
+    let parchmentGenOptions: GetStyledTokenBufferProps = {
+      tokenSlug: tokenSlug as string,
+      tokenId: tokenId as string,
+      width: widthOption,
+      trim: trimOption,
+      sepia: true,
+    };
+    const parchmentTokenBuffer = await getStyledTokenBuffer(
+      parchmentGenOptions
+    );
+    zipFiles.push([
+      bufferToStream(parchmentTokenBuffer),
+      { name: `${tokenId}-${slugify(tokenData.name)}-parchment.png` },
+    ]);
+
+    res.writeHead(200, {
+      // Tell the browser that this is a zip file.
+      "Content-Type": "application/zip",
+      "Content-disposition": `attachment; filename=${tokenId}.zip`,
+    });
+
+    // create the zipfile
+    const zip = archiver("zip");
+    zip.pipe(res); // Pipe the zip file to the response
+    zip.append(readmeText, { name: "README.md" });
+    forEach(zipFiles, ([buffer, opts]) => {
+      zip.append(buffer as stream.Readable, opts as any);
+    });
+    zip.finalize();
+  } else {
+    // show the single Wizard token
+    const bufferStream = new stream.PassThrough();
+    bufferStream.end(singleTokenBuffer);
     return bufferStream.pipe(res);
   }
 }

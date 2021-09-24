@@ -3,6 +3,7 @@ import path from "path";
 import wizardLayers from "../../public/static/nfts/wizards/wizards-layers.json";
 import wizardTraits from "../../public/static/nfts/wizards/wizards-traits.json";
 import { groupBy, keyBy, map } from "lodash";
+import fs from "fs";
 
 // public/static/nfts/wizards/forgotten-runes-wizards-cult-traits.png
 
@@ -44,6 +45,11 @@ import { groupBy, keyBy, map } from "lodash";
 export const ROOT_PATH = path.join(process.cwd());
 
 export const stripExtension = (s: string) => s.replace(/\.[^/.]+$/, "");
+export const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "");
 
 // Wizard-specific configs
 export const wizardLayersIdx: { [key: string]: any } = keyBy(
@@ -96,13 +102,24 @@ function doubleKeyBy(collection: any[], key1: string, key2: string) {
 const wizardsTraitsLayerDescriptionByLabel: {
   [trait: string]: { [label: string]: TraitsLayerDescription };
 } = doubleKeyBy(wizardTraits, "trait", "label");
-
 export const tokenTraitsByLabel: {
   [tokenSlug: string]: {
     [trait: string]: { [label: string]: TraitsLayerDescription };
   };
 } = {
   wizards: wizardsTraitsLayerDescriptionByLabel,
+};
+
+const wizardTraitsLayerDescriptionByIndex: {
+  [idx: string]: TraitsLayerDescription;
+} = keyBy(wizardTraits, "idx");
+
+export const tokenTraitsByIndex: {
+  [tokenSlug: string]: {
+    [idx: string]: TraitsLayerDescription;
+  };
+} = {
+  wizards: wizardTraitsLayerDescriptionByIndex,
 };
 
 export async function extractWizardFrame({
@@ -163,6 +180,25 @@ export async function getTokenLayersData({
   }
 }
 
+export async function getTokenFrameNumber({
+  tokenSlug,
+  tokenId,
+  traitSlug,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  traitSlug: string;
+}): Promise<number> {
+  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
+
+  const frameNum: number =
+    wizardLayerData[traitSlug]?.length > 0
+      ? parseInt(wizardLayerData[traitSlug])
+      : -1;
+
+  return frameNum;
+}
+
 // --------
 
 export async function getTraitLayerBufferForTokenId({
@@ -179,13 +215,8 @@ export async function getTraitLayerBufferForTokenId({
   trim?: boolean;
 }) {
   const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
-  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
-
-  // todo generalize
-  const frameNum: number =
-    wizardLayerData[traitSlug]?.length > 0
-      ? parseInt(wizardLayerData[traitSlug])
-      : -1;
+  //   const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
+  const frameNum = await getTokenFrameNumber({ tokenSlug, tokenId, traitSlug });
 
   if (frameNum < 0) {
     throw new Error(`Unknown trait ${traitSlug}`);
@@ -252,7 +283,7 @@ export type GetStyledTokenBufferProps = {
   tokenSlug: string;
   tokenId: string;
   width: number;
-  style: string;
+  //   style?: string;
   trim?: boolean;
   noBg?: boolean;
   sepia?: boolean;
@@ -263,7 +294,7 @@ export async function getStyledTokenBuffer({
   tokenSlug,
   tokenId,
   width,
-  style,
+  //   style,
   trim,
   noBg,
   sepia,
@@ -277,10 +308,11 @@ export async function getStyledTokenBuffer({
 
   for (let i = 0; i < layerNames.length; i++) {
     const traitSlug = layerNames[i];
-    const frameNum: number =
-      wizardLayerData[traitSlug]?.length > 0
-        ? parseInt(wizardLayerData[traitSlug])
-        : -1;
+    const frameNum = await getTokenFrameNumber({
+      tokenSlug,
+      tokenId,
+      traitSlug,
+    });
 
     if (frameNum < 0 || frameNum == 7777) {
       continue;
@@ -338,4 +370,22 @@ export async function getStyledTokenBuffer({
   }
 
   return buffer;
+}
+
+export async function buildReadme({
+  tokenSlug,
+  tokenId,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+}) {
+  const tokenData = await getTokenLayersData({ tokenSlug, tokenId });
+  let readme = fs
+    .readFileSync(path.join(ROOT_PATH, "data/DOWNLOAD_LICENSE.md"))
+    .toString();
+  readme = readme.replace(
+    /\*\*WIZARD_NAME\*\*/g,
+    `#${tokenId} ${tokenData.name}`
+  );
+  return readme;
 }

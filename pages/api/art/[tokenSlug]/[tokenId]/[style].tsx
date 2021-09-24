@@ -34,7 +34,7 @@ export default async function handler(
     tokenSlug: tokenSlug as string,
     tokenId: tokenId as string,
     width: widthOption,
-    style: styleSlug,
+    // style: styleSlug,
     trim: trimOption,
   };
 

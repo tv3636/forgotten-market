@@ -42,4 +42,4 @@ For the Wizard NFT character packs, we have:
 
 ### Exporting Spritesheets
 
-`{title}-{layer}-{tag}-{frame}.{extension}`
+Use the `export-layers.lua` script in Aseprite
