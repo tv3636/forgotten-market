@@ -1,0 +1,279 @@
+{ "frames": {
+   "MasterWalkFile-body_puffshirt_green-front-0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-front-1.aseprite": {
+    "frame": { "x": 50, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-front-2.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-front-3.aseprite": {
+    "frame": { "x": 100, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-front-0.aseprite": {
+    "frame": { "x": 150, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-front-1.aseprite": {
+    "frame": { "x": 200, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-front-2.aseprite": {
+    "frame": { "x": 150, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-front-3.aseprite": {
+    "frame": { "x": 200, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-left-0.aseprite": {
+    "frame": { "x": 0, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-left-1.aseprite": {
+    "frame": { "x": 50, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-left-2.aseprite": {
+    "frame": { "x": 0, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-left-3.aseprite": {
+    "frame": { "x": 100, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-left-0.aseprite": {
+    "frame": { "x": 150, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-left-1.aseprite": {
+    "frame": { "x": 200, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-left-2.aseprite": {
+    "frame": { "x": 150, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-left-3.aseprite": {
+    "frame": { "x": 200, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-back-0.aseprite": {
+    "frame": { "x": 0, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-back-1.aseprite": {
+    "frame": { "x": 50, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-back-2.aseprite": {
+    "frame": { "x": 0, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-back-3.aseprite": {
+    "frame": { "x": 100, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-back-0.aseprite": {
+    "frame": { "x": 150, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-back-1.aseprite": {
+    "frame": { "x": 200, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-back-2.aseprite": {
+    "frame": { "x": 150, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-back-3.aseprite": {
+    "frame": { "x": 200, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-right-0.aseprite": {
+    "frame": { "x": 0, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-right-1.aseprite": {
+    "frame": { "x": 50, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-right-2.aseprite": {
+    "frame": { "x": 0, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-body_puffshirt_green-right-3.aseprite": {
+    "frame": { "x": 100, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-right-0.aseprite": {
+    "frame": { "x": 150, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-right-1.aseprite": {
+    "frame": { "x": 200, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-right-2.aseprite": {
+    "frame": { "x": 150, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile-head_Aden-right-3.aseprite": {
+    "frame": { "x": 200, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "MasterWalkFile.png",
+  "format": "RGBA8888",
+  "size": { "w": 250, "h": 200 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "front", "from": 0, "to": 3, "direction": "forward" },
+   { "name": "left", "from": 4, "to": 7, "direction": "forward" },
+   { "name": "back", "from": 8, "to": 11, "direction": "forward" },
+   { "name": "right", "from": 12, "to": 15, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "body_puffshirt_green", "opacity": 255, "blendMode": "normal" },
+   { "name": "head_Aden", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
