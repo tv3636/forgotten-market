@@ -77,12 +77,13 @@ const WizardPopup = ({
 };
 
 const Layers = ({
-  wizardLore,
+  wizardsWithLore = {},
   bookOfLore,
 }: {
-  wizardLore: any;
+  wizardsWithLore: { [key: number]: boolean };
   bookOfLore: boolean;
 }) => {
+  console.log(wizardsWithLore);
   const map = useMap();
   const router = useRouter();
   const { id } = router.query;
@@ -116,13 +117,13 @@ const Layers = ({
 
       const featureGeoJson = background.toGeoJSON();
 
-      const hasLore = wizardLore[i]; // TODO:
+      const hasLore = wizardsWithLore[i];
 
       featureGeoJson.properties.style = {
-        // color: hasLore ? `#${wizData[i].background_color}` : "grey",
-        color: `#${wizData[i].background_color}`,
+        color: hasLore ? `#${wizData[i].background_color}` : "lightgrey",
+        // color: `#${wizData[i].background_color}`,
         stroke: false,
-        fillOpacity: 1,
+        fillOpacity: hasLore ? 1 : 0.2,
       };
 
       featureGeoJson.properties.wizardData = wizData[i];
@@ -191,10 +192,10 @@ const Layers = ({
 };
 
 const WizardMapLeaflet = ({
-  wizardLore,
+  wizardsWithLore,
   bookOfLore = false,
 }: {
-  wizardLore: object;
+  wizardsWithLore: { [key: number]: boolean };
   bookOfLore: boolean;
 }) => {
   return (
@@ -210,7 +211,7 @@ const WizardMapLeaflet = ({
           attributionControl={false}
           zoomSnap={0.25}
         >
-          <Layers wizardLore={wizardLore} bookOfLore={bookOfLore} />
+          <Layers wizardsWithLore={wizardsWithLore} bookOfLore={bookOfLore} />
         </MapContainer>
       </MapStyles>
     </MapWrapper>

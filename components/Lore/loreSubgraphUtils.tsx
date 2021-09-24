@@ -166,6 +166,30 @@ export async function getFirstAvailableWizardLoreUrl() {
   return getLoreUrl("wizards", 0, 0);
 }
 
+export async function getWizardsWithLore(): Promise<{
+  [key: number]: boolean;
+}> {
+  const { data } = await client.query({
+    query: gql`
+        query WizardLore {
+            loreTokens(orderBy: tokenId, where: {tokenContract: "${LORE_CONTRACTS.wizards}"}) {
+                tokenId
+            }
+        }
+    `,
+  });
+
+  return (data?.loreTokens ?? []).reduce(
+    (
+      result: {
+        [key: number]: boolean;
+      },
+      token: any
+    ) => ((result[token.tokenId] = true), result),
+    {}
+  );
+}
+
 export async function getPreAndNextPageRoutes(
   loreTokenSlug: string,
   tokenId: number,

@@ -35,9 +35,9 @@ let nextConfig = {
     localeDetection: true,
   },
   images: {
-    domains: ["nftz.forgottenrunes.com"],
+    domains: ["nftz.forgottenrunes.com", "cloudflare-ipfs.com"],
   },
-
+  experimental: { esmExternals: true },
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
 };
 

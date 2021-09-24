@@ -56,6 +56,7 @@ const NextPageContainer = styled.div`
 export const WriteButton = styled(Button)`
   background-color: #27222f;
   border-radius: 5px;
+  cursor: pointer;
   @media (max-width: 768px) {
     margin-top: 30px;
   }
