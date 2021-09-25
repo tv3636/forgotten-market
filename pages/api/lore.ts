@@ -3,9 +3,6 @@ import pinataSDK from "@pinata/sdk";
 import { utils } from "ethers";
 import { getProvider } from "../../hooks/useProvider";
 import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
-import replaceAsync from "string-replace-async";
-import fs from "fs";
-import * as os from "os";
 
 const pinata = pinataSDK(
   process.env.PINATA_ID || "",
@@ -21,13 +18,17 @@ export default async function handler(
   }
 
   if (!req.body?.signature || !req.body?.wizard_id) {
+    console.error(
+      `No signature ${req.body?.signature} or wizard_id ${req.body?.wizard_id}`
+    );
     return res.status(400).json({
       error:
         "You must supply both a signature and a wizard id that was signed...",
     });
   }
 
-  // console.log("signature", req.body.signature);
+  console.log("Signature:", req.body.signature);
+  console.log("Wizard ID:", req.body.wizard_id);
 
   const signingAddress = await utils.verifyMessage(
     req.body.wizard_id,
@@ -38,7 +39,8 @@ export default async function handler(
   const wizardOwner = await wizardContract.ownerOf(req.body.wizard_id);
 
   if (wizardOwner !== signingAddress) {
-    return res.status(400).json({
+    console.log("Wizard is not owner");
+    return res.status(403).json({
       error: `Address ${signingAddress} does not own wizard ${req.body.wizard_id}, ${wizardOwner} does instead.`,
     });
   }
