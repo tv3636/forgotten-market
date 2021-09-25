@@ -4,6 +4,8 @@ import wizardLayers from "../../public/static/nfts/wizards/wizards-layers.json";
 import wizardTraits from "../../public/static/nfts/wizards/wizards-traits.json";
 import { groupBy, keyBy, map } from "lodash";
 import fs from "fs";
+import fetch from "node-fetch";
+import fileType from "file-type";
 
 // public/static/nfts/wizards/forgotten-runes-wizards-cult-traits.png
 
@@ -410,6 +412,7 @@ export type AseSpriteFrames = {
   [key: string]: AsepriteFrame;
 };
 
+const frameBaseURL = `https://nftz.forgottenrunes.com/frames`;
 export async function buildSpritesheet({
   tokenSlug,
   tokenId,
@@ -424,8 +427,8 @@ export async function buildSpritesheet({
   const tags = [
     { name: "front", frames: 4 },
     { name: "left", frames: 4 },
-    { name: "right", frames: 4 },
     { name: "back", frames: 4 },
+    { name: "right", frames: 4 },
   ];
   const WIDTH = 50;
   const HEIGHT = 50;
@@ -434,34 +437,6 @@ export async function buildSpritesheet({
   const rows = 4;
   const imageWidth = columns * WIDTH;
   const imageHeight = rows * HEIGHT;
-
-  let frames: AseSpriteFrames = {};
-  let frameTags = [];
-  let frameFromIndex = 0;
-
-  for (let t = 0; t < tags.length; t++) {
-    let tagDescription = tags[t];
-    for (let f = 0; f < tagDescription.frames; f++) {
-      let frameName = `${tagDescription.name}-${f}`;
-      let frame = {
-        frame: { x: -1, y: -1, w: WIDTH, h: HEIGHT }, // TODO
-        rotated: false,
-        trimmed: false,
-        spriteSourceSize: { x: 0, y: 0, w: WIDTH, h: HEIGHT },
-        sourceSize: { w: WIDTH, h: HEIGHT },
-        duration: DURATION,
-      };
-      frames[frameName] = frame;
-    }
-
-    frameTags.push({
-      name: tagDescription.name,
-      from: frameFromIndex,
-      to: frameFromIndex + tagDescription.frames - 1,
-      direction: "forward",
-    });
-    frameFromIndex += tagDescription.frames;
-  }
 
   const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
   const bodyLayer = await getTokenTraitLayerDescription({
@@ -474,6 +449,94 @@ export async function buildSpritesheet({
     tokenId,
     traitSlug: "head",
   });
+
+  let img = sharp({
+    create: {
+      width: imageWidth,
+      height: imageHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  });
+
+  let frames: AseSpriteFrames = {};
+  let frameTags = [];
+  let frameFromIndex = 0;
+  let frameBuffers = [];
+
+  let row = 0;
+
+  for (let t = 0; t < tags.length; t++) {
+    let column = 0;
+    let tagDescription = tags[t];
+    for (let f = 0; f < tagDescription.frames; f++) {
+      let frameName = `${tagDescription.name}-${f}`;
+      let frame = {
+        frame: { x: column * WIDTH, y: row * HEIGHT, w: WIDTH, h: HEIGHT },
+        rotated: false,
+        trimmed: false,
+        spriteSourceSize: { x: 0, y: 0, w: WIDTH, h: HEIGHT },
+        sourceSize: { w: WIDTH, h: HEIGHT },
+        duration: DURATION,
+      };
+      frames[frameName] = frame;
+
+      // body
+      const bodyFrameBasename = path.basename(
+        bodyLayer?.filename || "",
+        ".png"
+      );
+      const bodyFrameUrl = `${frameBaseURL}/${tokenSlug}/${bodyFrameBasename}_${
+        tagDescription.name
+      }_${f + 1}.png`;
+      const bodyFrameResponse = await fetch(bodyFrameUrl, { compress: false });
+      if (bodyFrameResponse.status !== 200) {
+        throw new Error(
+          `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
+        );
+      }
+      const bodyFrameBuffer = await bodyFrameResponse.buffer();
+      frameBuffers.push({
+        top: row * HEIGHT,
+        left: column * WIDTH,
+        input: bodyFrameBuffer,
+      });
+
+      // head
+      const headFrameBasename = path.basename(
+        headLayer?.filename || "",
+        ".png"
+      );
+      const headFrameUrl = `${frameBaseURL}/${tokenSlug}/${headFrameBasename}_${
+        tagDescription.name
+      }_${f + 1}.png`;
+
+      const headFrameResponse = await fetch(headFrameUrl, { compress: false });
+      if (headFrameResponse.status !== 200) {
+        throw new Error(
+          `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
+        );
+      }
+      const headFrameBuffer = await headFrameResponse.buffer();
+      frameBuffers.push({
+        top: row * HEIGHT,
+        left: column * WIDTH,
+        input: headFrameBuffer,
+      });
+
+      column += 1;
+    }
+
+    frameTags.push({
+      name: tagDescription.name,
+      from: frameFromIndex,
+      to: frameFromIndex + tagDescription.frames - 1,
+      direction: "forward",
+    });
+    frameFromIndex += tagDescription.frames;
+
+    row += 1;
+  }
 
   const meta = {
     app: "http://www.aseprite.org/",
@@ -493,8 +556,13 @@ export async function buildSpritesheet({
     slices: [],
   };
 
-  return { meta, frames };
+  img = img.composite(frameBuffers);
+  const buffer = await img.png().toBuffer();
+
+  return { sheet: { meta, frames }, buffer };
 }
+
+// https://nftz.forgottenrunes.com/frames/wizards/body_diamondPattern_back_1.png
 
 export async function getTokenTraitLayerDescription({
   tokenSlug,
