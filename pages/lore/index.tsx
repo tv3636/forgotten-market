@@ -4,17 +4,19 @@ import React from "react";
 import Layout from "../../components/Layout";
 import BookCover from "../../components/Lore/BookCover";
 import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
-import productionWizardData from "../../data/nfts-prod.json";
 import OgImage from "../../components/OgImage";
-
-const wizData = productionWizardData as { [wizardId: string]: any };
+import { GetStaticPropsContext } from "next";
+import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
+import { useMedia } from "react-use";
 
 const WizardMapLeaflet = dynamic(
   () => import("../../components/Lore/WizardMapLeaflet"),
   { ssr: false }
 );
 
-const BookOfLoreIndexPage = ({}: {}) => {
+const BookOfLoreIndexPage = ({ wizardsWithLore }: { wizardsWithLore: any }) => {
+  const isWide = useMedia("(min-width: 900px)");
+
   return (
     <Layout title={`The Forgotten Runes Book of Lore`}>
       <OgImage
@@ -35,9 +37,20 @@ const BookOfLoreIndexPage = ({}: {}) => {
       <LoreSharedLayout>
         <BookCover />
       </LoreSharedLayout>
-      <WizardMapLeaflet wizardLore={{}} bookOfLore={true} />
+      {isWide && (
+        <WizardMapLeaflet wizardsWithLore={wizardsWithLore} bookOfLore={true} />
+      )}
     </Layout>
   );
 };
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  return {
+    props: {
+      wizardsWithLore: await getWizardsWithLore(),
+    },
+    revalidate: 20,
+  };
+}
 
 export default BookOfLoreIndexPage;

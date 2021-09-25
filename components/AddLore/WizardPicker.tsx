@@ -171,6 +171,7 @@ const WizardPickerElement = styled.div`
 
 const StyledPickWizardButton = styled(Button)`
   margin-top: 1em;
+  cursor: pointer;
 `;
 
 /**
