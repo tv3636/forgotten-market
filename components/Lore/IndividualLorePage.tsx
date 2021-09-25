@@ -4,12 +4,14 @@ import productionWizardData from "../../data/nfts-prod.json";
 import ReactMarkdown, { uriTransformer } from "react-markdown";
 import { WriteButton } from "./BookOfLoreControls";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
-import { IPFS_SERVER } from "../../constants";
 import { loreTextStyles } from "./loreStyles";
 import { getContrast } from "../../lib/colorUtils";
 import { isNumber } from "lodash";
+import { IPFS_SERVER } from "../../constants";
+import { Box } from "rebass";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -136,9 +138,14 @@ export default function IndividualLorePage({
           transformImageUri={(src: string, alt: string, title) => {
             if (src.startsWith("ipfs://")) {
               src = src.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
+            } else if (src.startsWith("data")) {
+              return src;
             }
             return uriTransformer(src);
           }}
+          // components={{
+          //   img: ({ node, ...props }) => <Image {...props} layout="fill" />,
+          // }}
         >
           {story}
         </ReactMarkdown>

@@ -10,17 +10,20 @@ import {
 import LoreSharedLayout from "../../../../components/Lore/LoreSharedLayout";
 import OgImage from "../../../../components/OgImage";
 import dynamic from "next/dynamic";
-import { IPFS_SERVER } from "../../../../constants";
 import productionWizardData from "../../../../data/nfts-prod.json";
 import { flatMap } from "lodash";
 import {
   getCurrentWizardData,
+  getFirstAvailableWizardLoreUrl,
   getPreAndNextPageRoutes,
+  getWizardsWithLore,
 } from "../../../../components/Lore/loreSubgraphUtils";
 import { LORE_CONTRACTS } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { getLoreUrl } from "../../../../components/Lore/loreUtils";
 import { promises as fs } from "fs";
 import path from "path";
+import { useMedia } from "react-use";
+import { hydratePageDataFromMetadata } from "../../../../components/Lore/markdownUtils";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -33,11 +36,15 @@ const LorePage = ({
   loreTokenSlug,
   tokenId,
   lorePageData,
+  wizardsWithLore,
 }: {
   loreTokenSlug: string;
   tokenId: number;
   lorePageData: LorePageData;
+  wizardsWithLore: { [key: number]: boolean };
 }) => {
+  const isWide = useMedia("(min-width: 900px)");
+
   let title = "The Book of Lore";
 
   if (loreTokenSlug === "wizards") {
@@ -61,46 +68,12 @@ const LorePage = ({
           lorePageData={lorePageData}
         />
       </LoreSharedLayout>
-      <WizardMapLeaflet wizardLore={{}} bookOfLore={true} />
+      {isWide && (
+        <WizardMapLeaflet wizardsWithLore={wizardsWithLore} bookOfLore={true} />
+      )}
     </Layout>
   );
 };
-
-async function fetchLoreMetadata(loreMetadataURI: string | null): Promise<any> {
-  if (!loreMetadataURI) return null;
-
-  const ipfsURL = `${IPFS_SERVER}/${
-    loreMetadataURI.match(/^ipfs:\/\/(.*)$/)?.[1]
-  }`;
-  // console.log("ipfsURL: ", ipfsURL);
-
-  if (!ipfsURL || ipfsURL === "undefined") {
-    return null;
-  }
-
-  //TODO: retries?
-  return await fetch(ipfsURL).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      console.error("Bad IPFS request: " + res.statusText);
-      return {};
-    }
-  });
-}
-
-async function hydratePageDataFromMetadata(
-  loreMetadataURI: string
-): Promise<IndividualLorePageData> {
-  const metadata = await fetchLoreMetadata(loreMetadataURI);
-
-  return {
-    isEmpty: false,
-    bgColor: metadata?.background_color ?? "#000000",
-    title: metadata?.name ?? "Untitled",
-    story: metadata?.description ?? "",
-  };
-}
 
 const NARRATIVE_DIR = path.join(process.cwd(), "posts", "narrative");
 
@@ -162,7 +135,7 @@ async function getNarrativePageData(pageNum: number, loreTokenSlug: string) {
         previousPageRoute: leftPageNum >= 1 ? leftPageNum - 1 : null,
         nextPageRoute: nextNarrativeExists
           ? rightPageNum + 1
-          : getLoreUrl("wizards", 0, 0), //TODO: do graph query to get first wizard's first lore
+          : await getFirstAvailableWizardLoreUrl(),
       },
     },
     revalidate: 2,
@@ -299,6 +272,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         previousPageRoute,
         nextPageRoute,
       },
+      wizardsWithLore: await getWizardsWithLore(),
     },
     revalidate: 2,
   };
@@ -311,21 +285,7 @@ export async function getStaticPaths() {
     LORE_CONTRACTS
   )) {
     console.log(`Generating paths for ${loreTokenSlug} ${loreTokenContract}`);
-    // console.log(`
-    //     query WizardLore {
-    //       loreTokens(orderBy: tokenId, where: {tokenContract: "${loreTokenContract}"}) {
-    //         tokenContract
-    //         tokenId
-    //         lore(
-    //           where: { struck: false, nsfw: false }
-    //           orderBy: id
-    //           orderDirection: asc
-    //         ) {
-    //           id
-    //         }
-    //       }
-    //     }
-    //   `);
+
     const { data } = await client.query({
       query: gql`
           query WizardLore {

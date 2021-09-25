@@ -3,48 +3,19 @@ import Layout from "../components/Layout";
 import dynamic from "next/dynamic";
 import client from "../lib/graphql";
 import { gql } from "@apollo/client";
+import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
 
 const WizardMapLeaflet = dynamic(
   () => import("../components/Lore/WizardMapLeaflet"),
   { ssr: false }
 );
 
-const WizardGalleryPage = ({ wizardLore }: { wizardLore: object }) => {
+const WizardGalleryPage = ({ wizardsWithLore }: { wizardsWithLore: any }) => {
   return (
     <Layout title="Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
-      <WizardMapLeaflet wizardLore={wizardLore} bookOfLore={false} />
+      <WizardMapLeaflet bookOfLore={false} />
     </Layout>
   );
 };
-
-export async function getStaticProps() {
-  // const { data } = await client.query({
-  //   query: gql`
-  //     query Lore {
-  //       wizards {
-  //         id
-  //       }
-  //     }
-  //   `
-  // });
-
-  // // Note: due to the way we index our subgraph we assume existence of wizard = has lore (yes, edge case if wizard only has struck lore etc)
-  // const wizardLore = data.wizards.reduce(
-  //   (acc: object, { id }: { id: string }) => ({
-  //     ...acc,
-  //     [parseInt(id)]: true
-  //   }),
-  //   {}
-  // );
-
-  const wizardLore = {};
-
-  return {
-    props: {
-      wizardLore,
-    },
-    revalidate: 60 * 30, //30 mins
-  };
-}
 
 export default WizardGalleryPage;

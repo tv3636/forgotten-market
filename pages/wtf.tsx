@@ -9,19 +9,13 @@ import path from "path";
 import { POSTS_PATH } from "../lib/mdxUtils";
 import InfoPageLayout from "../components/InfoPageLayout";
 import { ResponsiveImg } from "../components/ResponsivePixelImg";
-import dynamic from "next/dynamic";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-
-const WizardMap = dynamic(() => import("../components/Lore/WizardMapLeaflet"), {
-  ssr: false,
-});
 
 const components = {
   Head,
   InfoPageLayout,
   ResponsiveImg,
-  WizardMap,
 };
 
 export default function WtfPage({

@@ -10,6 +10,7 @@ type Props = {};
 
 const ConnectButton = styled(Button)`
   background-color: #3f2b20;
+  cursor: pointer;
 `;
 
 export function ConnectWalletButton() {

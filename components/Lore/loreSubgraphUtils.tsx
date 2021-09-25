@@ -161,6 +161,35 @@ export async function getCurrentWizardData(
   };
 }
 
+export async function getFirstAvailableWizardLoreUrl() {
+  // We used to fetch this from subgraph but now we know wizard 0 always has lore so no need :)
+  return getLoreUrl("wizards", 0, 0);
+}
+
+export async function getWizardsWithLore(): Promise<{
+  [key: number]: boolean;
+}> {
+  const { data } = await client.query({
+    query: gql`
+        query WizardLore {
+            loreTokens(orderBy: tokenId, where: {tokenContract: "${LORE_CONTRACTS.wizards}"}) {
+                tokenId
+            }
+        }
+    `,
+  });
+
+  return (data?.loreTokens ?? []).reduce(
+    (
+      result: {
+        [key: number]: boolean;
+      },
+      token: any
+    ) => ((result[token.tokenId] = true), result),
+    {}
+  );
+}
+
 export async function getPreAndNextPageRoutes(
   loreTokenSlug: string,
   tokenId: number,

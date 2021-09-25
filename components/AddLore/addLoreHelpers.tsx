@@ -109,6 +109,23 @@ export const onSubmitAddLoreForm = async ({
     return false;
   }
 
+  if (currentStory.indexOf("Delete this text and write your Lore here") > -1) {
+    toast.error(
+      `Please remove the "Delete this text..." sentence from the start of your lore`,
+      {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      }
+    );
+    setErrorMessage("Need a story to be present");
+    return false;
+  }
+
   setSubmitting(true);
 
   const provider = web3Settings.injectedProvider;

@@ -16,10 +16,11 @@ Below we've included the artist, some example artworks, how you can contact them
 - [Ozzz](#ozzz) - pixel art with backgrounds
 - [Trevor Jones](#trev) - 3D models
 - [Tad Major](#tad) - pixel art animations
+- [Dr. Slurp](#slurp) - Music
 
 ---
 
-## Artist: Wise Sam
+## <a name="wise-sam"></a>Artist: Wise Sam
 
 - Twitter: [@wisesametheviper](https://twitter.com/wisesamtheviper)
 - Instructions: [Commission details](https://hackmd.io/@fireninjadarkness/wizard-animations)
@@ -35,7 +36,7 @@ Below we've included the artist, some example artworks, how you can contact them
 
 ---
 
-## Artist: bread
+## <a name="bread"></a>Artist: bread
 
 - Twitter: [@sweetbread.eth](https://twitter.com/sweetbread_eth)
 - Status: Active
@@ -48,7 +49,7 @@ Below we've included the artist, some example artworks, how you can contact them
 
 ---
 
-## Artist: Margret Corvid
+## <a name="margret"></a>Artist: Margret Corvid
 
 Our resident bard
 
@@ -61,7 +62,7 @@ Our resident bard
 
 ---
 
-## Artist: Trevor Jones
+## <a name="trev"></a>Artist: Trevor Jones
 
 - Twitter: [@Yebkamin](https://twitter.com/yebkamin)
 - Status: Active
@@ -74,7 +75,7 @@ Our resident bard
 
 ---
 
-## Artist: John Bivens
+## <a name="jb"></a>Artist: John Bivens
 
 - Twitter: [@John_bivens](https://twitter.com/John_Bivens)
 - Status: Active
@@ -83,7 +84,7 @@ Our resident bard
 
 ---
 
-## Artist: Ozzz
+## <a name="ozzz"></a>Artist: Ozzz
 
 - Twitter: [@ozzzmabro](https://twitter.com/ozzzmabro)
 - Status: Active
@@ -94,7 +95,7 @@ Our resident bard
 
 ---
 
-## Artist: Tadmajor
+## <a name="tad"></a>Artist: Tadmajor
 
 - Twitter: [@tadmajor](https://twitter.com/tadmajor)
 - Status: active
@@ -105,7 +106,7 @@ Our resident bard
 
 ---
 
-## Artist: Dr. Slurp
+## <a name="slurp"></a>Artist: Dr. Slurp
 
 - Style: Music
 - Twitter: [@dr*slurp*](https://twitter.com/dr_slurp_)
