@@ -481,48 +481,54 @@ export async function buildSpritesheet({
       };
       frames[frameName] = frame;
 
-      // body
-      const bodyFrameBasename = path.basename(
-        bodyLayer?.filename || "",
-        ".png"
-      );
-      const bodyFrameUrl = `${frameBaseURL}/${tokenSlug}/${bodyFrameBasename}_${
-        tagDescription.name
-      }_${f + 1}.png`;
-      const bodyFrameResponse = await fetch(bodyFrameUrl, { compress: false });
-      if (bodyFrameResponse.status !== 200) {
-        throw new Error(
-          `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
+      if (image) {
+        // body
+        const bodyFrameBasename = path.basename(
+          bodyLayer?.filename || "",
+          ".png"
         );
-      }
-      const bodyFrameBuffer = await bodyFrameResponse.buffer();
-      frameBuffers.push({
-        top: row * HEIGHT,
-        left: column * WIDTH,
-        input: bodyFrameBuffer,
-      });
+        const bodyFrameUrl = `${frameBaseURL}/${tokenSlug}/${bodyFrameBasename}_${
+          tagDescription.name
+        }_${f + 1}.png`;
+        const bodyFrameResponse = await fetch(bodyFrameUrl, {
+          compress: false,
+        });
+        if (bodyFrameResponse.status !== 200) {
+          throw new Error(
+            `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
+          );
+        }
+        const bodyFrameBuffer = await bodyFrameResponse.buffer();
+        frameBuffers.push({
+          top: row * HEIGHT,
+          left: column * WIDTH,
+          input: bodyFrameBuffer,
+        });
 
-      // head
-      const headFrameBasename = path.basename(
-        headLayer?.filename || "",
-        ".png"
-      );
-      const headFrameUrl = `${frameBaseURL}/${tokenSlug}/${headFrameBasename}_${
-        tagDescription.name
-      }_${f + 1}.png`;
-
-      const headFrameResponse = await fetch(headFrameUrl, { compress: false });
-      if (headFrameResponse.status !== 200) {
-        throw new Error(
-          `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
+        // head
+        const headFrameBasename = path.basename(
+          headLayer?.filename || "",
+          ".png"
         );
+        const headFrameUrl = `${frameBaseURL}/${tokenSlug}/${headFrameBasename}_${
+          tagDescription.name
+        }_${f + 1}.png`;
+
+        const headFrameResponse = await fetch(headFrameUrl, {
+          compress: false,
+        });
+        if (headFrameResponse.status !== 200) {
+          throw new Error(
+            `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
+          );
+        }
+        const headFrameBuffer = await headFrameResponse.buffer();
+        frameBuffers.push({
+          top: row * HEIGHT,
+          left: column * WIDTH,
+          input: headFrameBuffer,
+        });
       }
-      const headFrameBuffer = await headFrameResponse.buffer();
-      frameBuffers.push({
-        top: row * HEIGHT,
-        left: column * WIDTH,
-        input: headFrameBuffer,
-      });
 
       column += 1;
     }
@@ -556,8 +562,9 @@ export async function buildSpritesheet({
     slices: [],
   };
 
-  img = img.composite(frameBuffers);
-  const buffer = await img.png().toBuffer();
+  const buffer = image
+    ? await img.composite(frameBuffers).png().toBuffer()
+    : null;
 
   return { sheet: { meta, frames }, buffer };
 }
