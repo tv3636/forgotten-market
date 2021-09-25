@@ -1,0 +1,151 @@
+{ "frames": {
+   "MasterWalkFile--front-0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--front-1.aseprite": {
+    "frame": { "x": 50, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--front-2.aseprite": {
+    "frame": { "x": 100, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--front-3.aseprite": {
+    "frame": { "x": 150, "y": 0, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--left-0.aseprite": {
+    "frame": { "x": 0, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--left-1.aseprite": {
+    "frame": { "x": 50, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--left-2.aseprite": {
+    "frame": { "x": 100, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--left-3.aseprite": {
+    "frame": { "x": 150, "y": 50, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--back-0.aseprite": {
+    "frame": { "x": 0, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--back-1.aseprite": {
+    "frame": { "x": 50, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--back-2.aseprite": {
+    "frame": { "x": 100, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--back-3.aseprite": {
+    "frame": { "x": 150, "y": 100, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--right-0.aseprite": {
+    "frame": { "x": 0, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--right-1.aseprite": {
+    "frame": { "x": 50, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--right-2.aseprite": {
+    "frame": { "x": 100, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   },
+   "MasterWalkFile--right-3.aseprite": {
+    "frame": { "x": 150, "y": 150, "w": 50, "h": 50 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 50, "h": 50 },
+    "sourceSize": { "w": 50, "h": 50 },
+    "duration": 200
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "MasterWalkFile.png",
+  "format": "RGBA8888",
+  "size": { "w": 200, "h": 200 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "front", "from": 0, "to": 3, "direction": "forward" },
+   { "name": "left", "from": 4, "to": 7, "direction": "forward" },
+   { "name": "back", "from": 8, "to": 11, "direction": "forward" },
+   { "name": "right", "from": 12, "to": 15, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "body_puffshirt_green", "opacity": 255, "blendMode": "normal" },
+   { "name": "head_Aden", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
