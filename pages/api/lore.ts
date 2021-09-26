@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK from "@pinata/sdk";
-import { ethers, utils } from "ethers";
+import { utils } from "ethers";
 import { getProvider } from "../../hooks/useProvider";
 import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
-import { recoverAddress } from "@ethersproject/transactions/src.ts/index";
 
 const pinata = pinataSDK(
   process.env.PINATA_ID || "",
