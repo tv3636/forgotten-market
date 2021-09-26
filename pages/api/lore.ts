@@ -36,7 +36,9 @@ export default async function handler(
   );
 
   const wizardContract = getWizardsContract({ provider: getProvider(true) });
-  const wizardOwner = await wizardContract.ownerOf(req.body.wizard_id);
+  const wizardOwner = await wizardContract.ownerOf(
+    parseInt(req.body.wizard_id)
+  );
 
   if (wizardOwner !== signingAddress) {
     console.error(

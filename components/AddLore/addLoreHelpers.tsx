@@ -173,7 +173,7 @@ export const onSubmitAddLoreForm = async ({
   let signature: string;
 
   try {
-    signature = await signer.signMessage(currentWizard.tokenId);
+    signature = await signer.signMessage(parseInt(currentWizard.tokenId));
   } catch (err: any) {
     console.log("err: ", err);
     toast.error(`Sorry, there was a problem when signing: ${err.message}`, {
@@ -221,15 +221,18 @@ export const onSubmitAddLoreForm = async ({
   } catch (err: any) {
     console.log("err: ", err);
     toast.dismiss();
-    toast.error(`Sorry, there was a problem when signing: ${err.message}`, {
-      position: "top-right",
-      autoClose: false,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-      progress: undefined,
-    });
+    toast.error(
+      `Sorry, there was a problem when uploading images to IPFS: ${err.message}`,
+      {
+        position: "top-right",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      }
+    );
     setSubmitting(false);
     return false;
   }
