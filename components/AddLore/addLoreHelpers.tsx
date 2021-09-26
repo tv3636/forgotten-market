@@ -6,7 +6,6 @@ import parseDataUrl from "parse-data-url";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { NORMALIZED_WIZARD_CONTRACT_ADDRESS } from "../Lore/loreSubgraphUtils";
-import { getLoreUrl } from "../Lore/loreUtils";
 import { NETWORK } from "../../constants";
 import replaceAsync from "string-replace-async";
 import axios from "axios";
@@ -176,7 +175,9 @@ export const onSubmitAddLoreForm = async ({
   try {
     // Note: we can't use signer.signMessage as it doesn't work consistently across wallets: https://github.com/ethers-io/ethers.js/issues/1840
     signature = await provider.send("personal_sign", [
-      ethers.utils.toUtf8Bytes(currentWizard.tokenId),
+      ethers.utils.hexlify(
+        ethers.utils.toUtf8Bytes(currentWizard.tokenId.toString())
+      ),
       (await signer.getAddress()).toLowerCase(),
     ]);
   } catch (err: any) {

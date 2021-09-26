@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK from "@pinata/sdk";
-import { utils } from "ethers";
+import { ethers, utils } from "ethers";
 import { getProvider } from "../../hooks/useProvider";
 import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+import { recoverAddress } from "@ethersproject/transactions/src.ts/index";
 
 const pinata = pinataSDK(
   process.env.PINATA_ID || "",
@@ -31,14 +32,12 @@ export default async function handler(
   console.log("Wizard ID:", req.body.wizard_id);
 
   const signingAddress = await utils.verifyMessage(
-    req.body.wizard_id,
+    req.body.wizard_id.toString(),
     req.body.signature
   );
 
   const wizardContract = getWizardsContract({ provider: getProvider(true) });
-  const wizardOwner = await wizardContract.ownerOf(
-    parseInt(req.body.wizard_id)
-  );
+  const wizardOwner = await wizardContract.ownerOf(req.body.wizard_id);
 
   if (wizardOwner.toLowerCase() !== signingAddress.toLowerCase()) {
     console.error(
