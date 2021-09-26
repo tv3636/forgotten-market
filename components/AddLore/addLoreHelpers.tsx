@@ -6,11 +6,11 @@ import parseDataUrl from "parse-data-url";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { NORMALIZED_WIZARD_CONTRACT_ADDRESS } from "../Lore/loreSubgraphUtils";
-import { getLoreUrl } from "../Lore/loreUtils";
 import { NETWORK } from "../../constants";
 import replaceAsync from "string-replace-async";
 import axios from "axios";
 import { Flex } from "rebass";
+import { ethers } from "ethers";
 
 export const pinFileToIPFS = async (
   base64string: string,
@@ -173,7 +173,13 @@ export const onSubmitAddLoreForm = async ({
   let signature: string;
 
   try {
-    signature = await signer.signMessage(currentWizard.tokenId);
+    // Note: we can't use signer.signMessage as it doesn't work consistently across wallets: https://github.com/ethers-io/ethers.js/issues/1840
+    signature = await provider.send("personal_sign", [
+      ethers.utils.hexlify(
+        ethers.utils.toUtf8Bytes(currentWizard.tokenId.toString())
+      ),
+      (await signer.getAddress()).toLowerCase(),
+    ]);
   } catch (err: any) {
     console.log("err: ", err);
     toast.error(`Sorry, there was a problem when signing: ${err.message}`, {
@@ -221,15 +227,18 @@ export const onSubmitAddLoreForm = async ({
   } catch (err: any) {
     console.log("err: ", err);
     toast.dismiss();
-    toast.error(`Sorry, there was a problem when signing: ${err.message}`, {
-      position: "top-right",
-      autoClose: false,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-      progress: undefined,
-    });
+    toast.error(
+      `Sorry, there was a problem when uploading images to IPFS: ${err.message}`,
+      {
+        position: "top-right",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      }
+    );
     setSubmitting(false);
     return false;
   }
