@@ -39,7 +39,9 @@ export default async function handler(
   const wizardOwner = await wizardContract.ownerOf(req.body.wizard_id);
 
   if (wizardOwner !== signingAddress) {
-    console.log("Wizard is not owner");
+    console.error(
+      `Wizard signature address ${signingAddress} is not owner ${wizardOwner}`
+    );
     return res.status(403).json({
       error: `Address ${signingAddress} does not own wizard ${req.body.wizard_id}, ${wizardOwner} does instead.`,
     });
