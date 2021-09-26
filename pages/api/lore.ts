@@ -40,7 +40,7 @@ export default async function handler(
     parseInt(req.body.wizard_id)
   );
 
-  if (wizardOwner !== signingAddress) {
+  if (wizardOwner.toLowerCase() !== signingAddress.toLowerCase()) {
     console.error(
       `Wizard signature address ${signingAddress} is not owner ${wizardOwner}`
     );

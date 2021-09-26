@@ -173,7 +173,12 @@ export const onSubmitAddLoreForm = async ({
   let signature: string;
 
   try {
-    signature = await signer.signMessage(parseInt(currentWizard.tokenId));
+    // signature = await signer.signMessage(parseInt(currentWizard.tokenId));
+    // Note: we can't use signer.signMessage as it doesn't work consistently across wallets: https://github.com/ethers-io/ethers.js/issues/1840
+    await provider.send("personal_sign", [
+      parseInt(currentWizard.tokenId),
+      (await signer.getAddress()).toLowerCase(),
+    ]);
   } catch (err: any) {
     console.log("err: ", err);
     toast.error(`Sorry, there was a problem when signing: ${err.message}`, {
