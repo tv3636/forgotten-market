@@ -27,6 +27,7 @@ export type Lore = {
 export type LorePage = {};
 
 export type IndividualLorePageData = {
+  firstImage: string | null;
   bgColor?: string;
   isEmpty: boolean;
   title?: string;

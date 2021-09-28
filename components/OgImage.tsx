@@ -3,30 +3,41 @@ import { isNumber } from "lodash";
 
 import Head from "next/head";
 
-const ogImageBaseURL = `https://og.forgottenrunes.com/`;
+const ogImageBaseURL =
+  process.env.NEXT_PUBLIC_OG_IMAGE_BASE ?? `https://og.forgottenrunes.com/`;
 
 type Props = {
   wizard?: string | number;
   fontSize?: string;
   title: string;
-  images?: string;
+  images?: string | null;
+  bgColor?: string;
 };
 
 // https://og.forgottenrunes.com/6001.png?wizard=6001&fontSize=128px
-export default function OgImage({ title, fontSize, wizard, images }: Props) {
+export default function OgImage({
+  title,
+  fontSize,
+  wizard,
+  images,
+  bgColor,
+}: Props) {
   const filename = encodeURIComponent(title);
   let params: any = {};
   if (fontSize) {
     params.fontSize = fontSize;
   }
-  if (isNumber(wizard)) {
+  if (isNumber(wizard) && !images) {
     params.wizard = wizard;
   }
   if (images) {
     params.images = images;
   }
+  if (bgColor) {
+    params.bgColor = bgColor;
+  }
   const queryString = Object.keys(params)
-    .map((key) => key + "=" + params[key])
+    .map((key) => key + "=" + encodeURIComponent(params[key]))
     .join("&");
   const ogImageUrl = [ogImageBaseURL, filename, ".png", "?", queryString].join(
     ""
