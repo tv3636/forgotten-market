@@ -100,6 +100,10 @@ const SocialItem = styled.div`
   a:active {
     opacity: 0.3;
   }
+
+  .gm-img {
+    height: 30px;
+  }
 `;
 
 const LoreSocialContainer = ({
@@ -120,6 +124,7 @@ const LoreSocialContainer = ({
     `The Lore of ${wizardData.name} (#${tokenId})`
   )}&url=${encodeURIComponent(url)}`;
 
+  const gmUrl = `/scenes/gm/${tokenId}`;
   const downloadUrl = `/api/art/wizards/${tokenId}.zip`;
 
   return (
@@ -136,6 +141,14 @@ const LoreSocialContainer = ({
       <SocialItem>
         <a href={tweetUrl} className="icon-link" target="_blank">
           <ResponsivePixelImg src="/static/img/icons/social_twitter_default_w.png" />
+        </a>
+      </SocialItem>
+      <SocialItem>
+        <a href={gmUrl} className="icon-link gm" target="_blank">
+          <ResponsivePixelImg
+            src="/static/img/icons/gm.png"
+            className="gm-img"
+          />
         </a>
       </SocialItem>
       <SocialItem>
