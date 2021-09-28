@@ -93,6 +93,13 @@ const SocialItem = styled.div`
   display: flex;
   align-items: center;
   padding: 0.4em;
+
+  a:hover {
+    opacity: 0.5;
+  }
+  a:active {
+    opacity: 0.3;
+  }
 `;
 
 const LoreSocialContainer = ({
@@ -113,6 +120,8 @@ const LoreSocialContainer = ({
     `The Lore of ${wizardData.name} (#${tokenId})`
   )}&url=${encodeURIComponent(url)}`;
 
+  const downloadUrl = `/api/art/wizards/${tokenId}.zip`;
+
   return (
     <SocialContainer>
       <SocialItem>
@@ -127,6 +136,11 @@ const LoreSocialContainer = ({
       <SocialItem>
         <a href={tweetUrl} className="icon-link" target="_blank">
           <ResponsivePixelImg src="/static/img/icons/social_twitter_default_w.png" />
+        </a>
+      </SocialItem>
+      <SocialItem>
+        <a href={downloadUrl} className="icon-link" target="_blank">
+          <ResponsivePixelImg src="/static/img/icons/social_download_default_w.png" />
         </a>
       </SocialItem>
     </SocialContainer>
