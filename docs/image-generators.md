@@ -39,6 +39,7 @@ For the Wizard NFT character packs, we have:
 - http://localhost:3005/api/art/wizards/108.png
 - http://localhost:3005/api/art/wizards/108/sepia.png
 - http://localhost:3005/api/art/wizards/trait/head/Prophet.png?trim=true
+- https://www.forgottenrunes.com/api/art/wizards/trait/head/Bippadotta.png?trim=true&width=800
 
 ### Exporting Spritesheets
 
@@ -49,6 +50,7 @@ Use the `export-layers.lua` script in Aseprite
 ```
 # pay attention to the trailing slashes here:
 s3cmd sync -P --acl-public -v /path/to/MasterWalkFile/ s3://nftz.forgottenrunes.com/frames/wizards/
+s3cmd sync -P --acl-public -v /path/to/turnExports/ s3://nftz.forgottenrunes.com/turnarounds/wizards/
 ```
 
 - 8900

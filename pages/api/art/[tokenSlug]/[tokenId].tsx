@@ -5,6 +5,7 @@ import * as os from "os";
 import stream, { PassThrough } from "stream";
 import {
   buildReadme,
+  getAllTurnaroundFrameBuffers,
   getStyledTokenBuffer,
   GetStyledTokenBufferProps,
   getTokenFrameNumber,
@@ -16,7 +17,7 @@ import {
   tokenTraitsByIndex,
 } from "../../../../lib/art/artGeneration";
 import archiver from "archiver"; // https://github.com/archiverjs/node-archiver
-import { forEach } from "lodash";
+import { forEach, size } from "lodash";
 
 function bufferToStream(buffer: Buffer) {
   var bufferStream = new stream.PassThrough();
@@ -128,6 +129,19 @@ export default async function handler(
         bufferToStream(parchmentTokenBuffer),
         { name: `${size}/${tokenId}-${slugify(tokenData.name)}-parchment.png` },
       ]);
+
+      // build turnarounds
+      const turnarounds = await getAllTurnaroundFrameBuffers({
+        tokenId,
+        tokenSlug: tokenSlug as string,
+        size,
+      });
+      turnarounds.forEach(({ name, buffer }) => {
+        zipFiles.push([
+          bufferToStream(buffer),
+          { name: `${size}/turnarounds/${name}` },
+        ]);
+      });
     }
 
     // build readme
