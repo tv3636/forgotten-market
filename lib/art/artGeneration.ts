@@ -603,12 +603,12 @@ export async function getAllTurnaroundFrameBuffers({
   tokenSlug: string;
   size?: number;
 }) {
-  let directions = ["front", "back", "left", "right"];
+  let directions = ["front", "left", "back", "right"];
   let buffers = [];
   for (let i = 0; i < directions.length; i++) {
     let direction = directions[i];
     buffers.push({
-      name: `${tokenSlug}-${tokenId}-${direction}.png`,
+      name: `${tokenSlug}-${tokenId}-${i}-${direction}.png`,
       buffer: await getTurnaroundFrameBuffer({
         tokenId,
         tokenSlug,
