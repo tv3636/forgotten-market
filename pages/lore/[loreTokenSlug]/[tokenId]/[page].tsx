@@ -48,13 +48,23 @@ const LorePage = ({
   let title = "The Book of Lore";
 
   if (loreTokenSlug === "wizards") {
-    title = `The Lore of ${wizData[tokenId.toString()].name} #${tokenId})`;
+    title = `The Lore of ${wizData[tokenId.toString()].name} (#${tokenId})`;
   }
 
   const og = loreTokenSlug === "wizards" && (
     <OgImage
-      title={`The Lore of ${wizData[tokenId.toString()].name} #${tokenId})`}
+      title={`The Lore of ${wizData[tokenId.toString()].name} (#${tokenId})`}
       wizard={tokenId}
+      images={
+        lorePageData.leftPage?.firstImage ?? lorePageData.rightPage?.firstImage
+      }
+      bgColor={
+        lorePageData.leftPage?.firstImage
+          ? lorePageData.leftPage?.bgColor
+          : lorePageData.rightPage?.firstImage
+          ? lorePageData.rightPage?.bgColor
+          : undefined
+      }
     />
   );
 
@@ -222,6 +232,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     leftPage = {
       isEmpty: true,
       bgColor: `#${wizData[tokenId.toString()].background_color}`,
+      firstImage: null,
     };
   }
   leftPage.pageNumber = leftPageNum;
@@ -237,6 +248,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     rightPage = {
       isEmpty: true,
       bgColor: "#000000",
+      firstImage: null,
     };
   }
 

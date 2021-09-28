@@ -31,8 +31,18 @@ export async function hydratePageDataFromMetadata(
 ): Promise<IndividualLorePageData> {
   const metadata = await fetchLoreMetadata(loreMetadataURI);
 
+  // We use first image for og metadata, and yes regex not the coolest method but it works :)
+  let firstImage = metadata?.description?.match(
+    /!\[(?:.*?)\]\((ipfs.*?)\)/im
+  )?.[1];
+
+  if (firstImage) {
+    firstImage = firstImage.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
+  }
+
   // result.data
   return {
+    firstImage: firstImage ?? null,
     isEmpty: false,
     bgColor: metadata?.background_color ?? "#000000",
     title: metadata?.name ?? "Untitled",
