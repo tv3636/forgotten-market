@@ -103,6 +103,7 @@ const SocialItem = styled.div`
 
   .gm-img {
     height: 30px;
+    width: 33px;
   }
 `;
 
