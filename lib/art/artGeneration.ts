@@ -413,6 +413,7 @@ export type AseSpriteFrames = {
 };
 
 const frameBaseURL = `https://nftz.forgottenrunes.com/frames`;
+const turnaroundsBaseURL = `https://nftz.forgottenrunes.com/turnarounds`;
 export async function buildSpritesheet({
   tokenSlug,
   tokenId,
@@ -592,4 +593,120 @@ export async function getTokenTraitLayerDescription({
   const layerDescription =
     tokenTraitsByIndex[tokenSlug as string][frameNum.toString()];
   return layerDescription;
+}
+export async function getAllTurnaroundFrameBuffers({
+  tokenId,
+  tokenSlug,
+  size,
+}: {
+  tokenId: string;
+  tokenSlug: string;
+  size?: number;
+}) {
+  let directions = ["front", "back", "left", "right"];
+  let buffers = [];
+  for (let i = 0; i < directions.length; i++) {
+    let direction = directions[i];
+    buffers.push({
+      name: `${tokenSlug}-${tokenId}-${direction}.png`,
+      buffer: await getTurnaroundFrameBuffer({
+        tokenId,
+        tokenSlug,
+        direction,
+        size,
+      }),
+    });
+  }
+  return buffers;
+}
+
+export async function getTurnaroundFrameBuffer({
+  tokenId,
+  tokenSlug,
+  direction,
+  size,
+}: {
+  tokenId: string;
+  tokenSlug: string;
+  direction: string;
+  size?: number;
+}) {
+  let imageWidth = 50;
+  let imageHeight = 50;
+
+  let directionSuffix: { [key: string]: string } = {
+    front: "ft",
+    back: "bk",
+    left: "L_sd",
+    right: "R_sd",
+  };
+
+  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
+  const bodyLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "body",
+  });
+  const headLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "head",
+  });
+
+  let img = sharp({
+    create: {
+      width: imageWidth,
+      height: imageHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  });
+
+  let frameBuffers = [];
+
+  // body
+  const bodyFrameBasename = path.basename(bodyLayer?.filename || "", ".png");
+  const bodyFrameUrl = `${turnaroundsBaseURL}/${tokenSlug}/${bodyFrameBasename}_${directionSuffix[direction]}.png`;
+  const bodyFrameResponse = await fetch(bodyFrameUrl, {
+    compress: false,
+  });
+  if (bodyFrameResponse.status !== 200) {
+    throw new Error(
+      `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
+    );
+  }
+  const bodyFrameBuffer = await bodyFrameResponse.buffer();
+  frameBuffers.push({
+    input: bodyFrameBuffer,
+  });
+
+  // head
+  const headFrameBasename = path.basename(headLayer?.filename || "", ".png");
+  const headFrameUrl = `${turnaroundsBaseURL}/${tokenSlug}/${headFrameBasename}_${directionSuffix[direction]}.png`;
+
+  const headFrameResponse = await fetch(headFrameUrl, {
+    compress: false,
+  });
+  if (headFrameResponse.status !== 200) {
+    throw new Error(
+      `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
+    );
+  }
+  const headFrameBuffer = await headFrameResponse.buffer();
+  frameBuffers.push({
+    input: headFrameBuffer,
+  });
+
+  let buffer = await img.composite(frameBuffers).png().toBuffer();
+
+  // resize it
+  buffer = await sharp(buffer)
+    .resize(size, size, {
+      fit: sharp.fit.fill,
+      kernel: sharp.kernel.nearest,
+    })
+    .png()
+    .toBuffer();
+
+  return buffer;
 }
