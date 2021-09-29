@@ -8,8 +8,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     redirect: {
       destination: getLoreUrl(
-        "wizards",
-        parseInt(context?.query?.wizardId as string),
+        context.query?.loreTokenSlug as string,
+        parseInt(context.query?.tokenId as string),
         0
       ),
     },

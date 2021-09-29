@@ -143,12 +143,20 @@ export default function IndividualLorePage({
             }
             return uriTransformer(src);
           }}
-          // components={{
-          //   img: ({ node, ...props }) => <Image {...props} layout="fill" />,
-          // }}
-        >
-          {story}
-        </ReactMarkdown>
+          children={story}
+          components={{
+            pre: ({ node, children, ...props }) => (
+              <pre {...props} style={{ whiteSpace: "pre-line" }}>
+                {children}
+              </pre>
+            ),
+            p: ({ node, children, ...props }) => (
+              <p {...props} style={{ wordWrap: "break-word" }}>
+                {children}
+              </p>
+            ),
+          }}
+        />
       )}
     </TextPage>
   );
