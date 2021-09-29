@@ -121,6 +121,10 @@ export const EmptyLorePage = ({
   );
 };
 
+const IPFS_HTTP_SERVER = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD
+  ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD}/image/fetch/f_auto/${IPFS_SERVER}/`
+  : `${IPFS_SERVER}/`;
+
 export default function IndividualLorePage({
   bgColor,
   title,
@@ -137,7 +141,7 @@ export default function IndividualLorePage({
         <ReactMarkdown
           transformImageUri={(src: string, alt: string, title) => {
             if (src.startsWith("ipfs://")) {
-              src = src.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
+              src = src.replace(/^ipfs:\/\//, IPFS_HTTP_SERVER);
             } else if (src.startsWith("data")) {
               return src;
             }

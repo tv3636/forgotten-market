@@ -24,6 +24,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { useMedia } from "react-use";
 import { hydratePageDataFromMetadata } from "../../../../components/Lore/markdownUtils";
+import { useEffect, useState } from "react";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -44,6 +45,17 @@ const LorePage = ({
   wizardsWithLore: { [key: number]: boolean };
 }) => {
   const isWide = useMedia("(min-width: 900px)");
+
+  const [showGallery, setShowGallery] = useState(false);
+
+  useEffect(() => {
+    // We use a small timeout before showing gallery as it fires image fetching that can often block/queue lore book image fetching
+    const timeout = window.setTimeout(() => setShowGallery(true), 200);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, []);
 
   let title = "The Book of Lore";
 
@@ -78,7 +90,7 @@ const LorePage = ({
           lorePageData={lorePageData}
         />
       </LoreSharedLayout>
-      {isWide && (
+      {isWide && showGallery && (
         <WizardMapLeaflet wizardsWithLore={wizardsWithLore} bookOfLore={true} />
       )}
     </Layout>

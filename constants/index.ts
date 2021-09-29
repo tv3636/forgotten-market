@@ -46,4 +46,3 @@ export const OPENSEA_BASE_URL =
 
 export const IPFS_SERVER =
   process.env.NEXT_PUBLIC_IPFS_SERVER ?? "https://nfts.forgottenrunes.com/ipfs";
-console.log(IPFS_SERVER);
