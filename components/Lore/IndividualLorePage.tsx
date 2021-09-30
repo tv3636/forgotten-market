@@ -4,14 +4,13 @@ import productionWizardData from "../../data/nfts-prod.json";
 import ReactMarkdown, { uriTransformer } from "react-markdown";
 import { WriteButton } from "./BookOfLoreControls";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { loreTextStyles } from "./loreStyles";
 import { getContrast } from "../../lib/colorUtils";
 import { isNumber } from "lodash";
 import { IPFS_SERVER } from "../../constants";
-import { Box } from "rebass";
+import { useState } from "react";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -139,14 +138,6 @@ export default function IndividualLorePage({
     <TextPage style={{ color: textColor }}>
       {story && (
         <ReactMarkdown
-          transformImageUri={(src: string, alt: string, title) => {
-            if (src.startsWith("ipfs://")) {
-              src = src.replace(/^ipfs:\/\//, IPFS_HTTP_SERVER);
-            } else if (src.startsWith("data")) {
-              return src;
-            }
-            return uriTransformer(src);
-          }}
           children={story}
           components={{
             pre: ({ node, children, ...props }) => (
@@ -159,6 +150,25 @@ export default function IndividualLorePage({
                 {children}
               </p>
             ),
+            img: ({ node, src, ...props }) => {
+              let fallbackSrc: string;
+              let newSrc: string;
+              if (src?.startsWith("ipfs://")) {
+                newSrc = src.replace(/^ipfs:\/\//, IPFS_HTTP_SERVER);
+                // We fall back to IPFS CDN if we get error (e.g. in case being over limit with Cloudinary)
+                fallbackSrc = src.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
+              } else if (src?.startsWith("data")) {
+                newSrc = src;
+                fallbackSrc = src;
+              } else {
+                newSrc = uriTransformer(src as string);
+                fallbackSrc = newSrc;
+              }
+
+              const [imgSrc, setImgSrc] = useState<string>(newSrc);
+              const onError = () => setImgSrc(fallbackSrc);
+              return <img {...props} src={imgSrc} onError={onError} />;
+            },
           }}
         />
       )}
