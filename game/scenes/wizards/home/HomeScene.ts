@@ -769,8 +769,8 @@ export class HomeScene extends Phaser.Scene {
       y: 380,
     };
 
-    const radius = 50;
-    const speed = 0.01;
+    const radius = 90;
+    const speed = 0.005;
     const timeScale = 1;
 
     const moveBat = ({
