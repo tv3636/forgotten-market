@@ -9,7 +9,8 @@ import TextTypingPlugin from "phaser3-rex-plugins/plugins/texttyping-plugin";
 
 export default {
   pixelArt: true,
-  backgroundColor: "007872",
+  backgroundColor: "000000",
+  // backgroundColor: "007872",
 
   scene: [BootScene, HomeScene, BuyScene, ShowScene, InteriorScene],
 

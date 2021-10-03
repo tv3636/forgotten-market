@@ -4,6 +4,8 @@ import { getWeb3Controller, Web3Controller } from "../home/Web3Controller";
 
 const BREAKPOINT = 768;
 
+const NIGHT = true;
+
 export class BootScene extends Phaser.Scene {
   gameScene: any;
   layer: any;
@@ -19,14 +21,46 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.path = "/static/game/wizards/";
-    this.load.image("pinkBG", "pinkBG.png");
-    this.load.image("cloudsPinkBack", "cloudsPinkBack.png");
-    this.load.image("cloudsMountains", "cloudsMountains.png");
-    this.load.image("cloudsPinkFront", "cloudsPinkFront.png");
-    this.load.image("moon", "moon.png");
-    this.load.image("stars", "stars.png");
-    this.load.image("darkGradientStrip", "darkGradientStrip.png");
+    if (NIGHT) {
+      this.load.path = "/static/game/wizards/souls/sky/";
+      this.load.image("dark_moon_1", "castle_Souls_skyBG_dark_moon_1.png");
+      this.load.image(
+        "dark_moon_copy_1",
+        "castle_Souls_skyBG_dark_moon_copy_1.png"
+      );
+
+      this.load.image(
+        "cloudspinkfront_1",
+        "castle_Souls_skyBG_dark_cloudspinkfront_1.png"
+      );
+      this.load.image(
+        "dark_layer_2_1",
+        "castle_Souls_skyBG_dark_layer_2_1.png"
+      );
+      this.load.image(
+        "dark_cloudsmountains1",
+        "castle_Souls_skyBG_dark_cloudsmountains_1.png"
+      );
+      this.load.image(
+        "cloudspinkback",
+        "castle_Souls_skyBG_dark_cloudspinkback_1.png"
+      );
+      this.load.image("dark_stars_1", "castle_Souls_skyBG_dark_stars_1.png");
+      this.load.image(
+        "dark_layer_1_1",
+        "castle_Souls_skyBG_dark_layer_1_1.png"
+      );
+      this.load.image("pinkBG", "castle_Souls_skyBG_dark_sky_1.png");
+    } else {
+      this.load.path = "/static/game/wizards/";
+      this.load.image("pinkBG", "pinkBG.png");
+      this.load.image("cloudsPinkBack", "cloudsPinkBack.png");
+      this.load.image("cloudsMountains", "cloudsMountains.png");
+      this.load.image("cloudsPinkFront", "cloudsPinkFront.png");
+      this.load.image("moon", "moon.png");
+      this.load.image("stars", "stars.png");
+      this.load.image("darkGradientStrip", "darkGradientStrip.png");
+    }
     this.load.addFile(new WebFontFile(this.load, ["Press Start 2P"]));
   }
 
@@ -36,8 +70,9 @@ export class BootScene extends Phaser.Scene {
     this.cameras.main.setRoundPixels(true);
     this.layer = this.add.container();
 
-    const textureManager = this.scene.systems.textures;
-    const pinkBGFrame = textureManager.getFrame("pinkBG");
+    // this is used below
+    // const textureManager = this.scene.systems.textures;
+    // const pinkBGFrame = textureManager.getFrame("pinkBG");
 
     const tileBgWidth = this.cameras.main.width;
 
@@ -62,45 +97,68 @@ export class BootScene extends Phaser.Scene {
     pinkBG.setOrigin(0, 0);
     this.landscape.add(pinkBG);
 
-    const cloudsPinkBack = this.add.tileSprite(
-      0,
-      0,
-      tileBgWidth,
-      this.cameras.main.height,
-      "cloudsPinkBack"
-    );
-    cloudsPinkBack.setOrigin(0, 0);
-    this.landscape.add(cloudsPinkBack);
+    const addToLandscape = ({ name }: { name: string }) => {
+      const layer = this.add.tileSprite(
+        0,
+        0,
+        tileBgWidth,
+        this.cameras.main.height,
+        name
+      );
+      layer.setOrigin(0, 0);
+      this.landscape.add(layer);
+    };
 
-    const cloudsMountains = this.add.tileSprite(
-      0,
-      0,
-      tileBgWidth,
-      this.cameras.main.height,
-      "cloudsMountains"
-    );
-    cloudsMountains.setOrigin(0, 0);
-    this.landscape.add(cloudsMountains);
+    if (NIGHT) {
+      addToLandscape({ name: "dark_layer_1_1" });
+      addToLandscape({ name: "dark_stars_1" });
+      addToLandscape({ name: "cloudspinkback" });
+      addToLandscape({ name: "dark_cloudsmountains1" });
+      addToLandscape({ name: "dark_layer_2_1" });
+      addToLandscape({ name: "cloudspinkfront_1" });
+      addToLandscape({ name: "dark_moon_copy_1" });
+      addToLandscape({ name: "dark_moon_1" });
+    } else {
+      const cloudsPinkBack = this.add.tileSprite(
+        0,
+        0,
+        tileBgWidth,
+        this.cameras.main.height,
+        "cloudsPinkBack"
+      );
+      cloudsPinkBack.setOrigin(0, 0);
+      this.landscape.add(cloudsPinkBack);
 
-    const cloudsPinkFront = this.add.tileSprite(
-      0,
-      0,
-      tileBgWidth,
-      this.cameras.main.height,
-      "cloudsPinkFront"
-    );
-    cloudsPinkFront.setOrigin(0, 0);
-    this.landscape.add(cloudsPinkFront);
+      const cloudsMountains = this.add.tileSprite(
+        0,
+        0,
+        tileBgWidth,
+        this.cameras.main.height,
+        "cloudsMountains"
+      );
+      cloudsMountains.setOrigin(0, 0);
+      this.landscape.add(cloudsMountains);
 
-    const stars = this.add.tileSprite(
-      0,
-      0,
-      this.cameras.main.width,
-      this.cameras.main.height,
-      "stars"
-    );
-    stars.setOrigin(0, 0);
-    this.landscape.add(stars);
+      const cloudsPinkFront = this.add.tileSprite(
+        0,
+        0,
+        tileBgWidth,
+        this.cameras.main.height,
+        "cloudsPinkFront"
+      );
+      cloudsPinkFront.setOrigin(0, 0);
+      this.landscape.add(cloudsPinkFront);
+
+      const stars = this.add.tileSprite(
+        0,
+        0,
+        this.cameras.main.width,
+        this.cameras.main.height,
+        "stars"
+      );
+      stars.setOrigin(0, 0);
+      this.landscape.add(stars);
+    }
 
     //  We launch this Scene first because we can't use `getZoom` otherwise
     this.scene.launch("HomeScene");
