@@ -22,35 +22,38 @@ export class BootScene extends Phaser.Scene {
 
   preload() {
     if (NIGHT) {
-      this.load.path = "/static/game/wizards/souls/sky/";
-      this.load.image("dark_moon_1", "castle_Souls_skyBG_dark_moon_1.png");
+      this.load.path = "/static/game/wizards/souls/";
+      this.load.image("dark_moon_1", "sky/castle_Souls_skyBG_dark_moon_1.png");
       this.load.image(
         "dark_moon_copy_1",
-        "castle_Souls_skyBG_dark_moon_copy_1.png"
+        "sky/castle_Souls_skyBG_dark_moon_copy_1.png"
       );
 
       this.load.image(
         "cloudspinkfront_1",
-        "castle_Souls_skyBG_dark_cloudspinkfront_1.png"
+        "sky/castle_Souls_skyBG_dark_cloudspinkfront_1.png"
       );
       this.load.image(
         "dark_layer_2_1",
-        "castle_Souls_skyBG_dark_layer_2_1.png"
+        "sky/castle_Souls_skyBG_dark_layer_2_1.png"
       );
       this.load.image(
         "dark_cloudsmountains1",
-        "castle_Souls_skyBG_dark_cloudsmountains_1.png"
+        "sky/castle_Souls_skyBG_dark_cloudsmountains_1.png"
       );
       this.load.image(
         "cloudspinkback",
-        "castle_Souls_skyBG_dark_cloudspinkback_1.png"
+        "sky/castle_Souls_skyBG_dark_cloudspinkback_1.png"
       );
-      this.load.image("dark_stars_1", "castle_Souls_skyBG_dark_stars_1.png");
+      this.load.image(
+        "dark_stars_1",
+        "sky/castle_Souls_skyBG_dark_stars_1.png"
+      );
       this.load.image(
         "dark_layer_1_1",
-        "castle_Souls_skyBG_dark_layer_1_1.png"
+        "sky/castle_Souls_skyBG_dark_layer_1_1.png"
       );
-      this.load.image("pinkBG", "castle_Souls_skyBG_dark_sky_1.png");
+      this.load.image("pinkBG", "sky/castle_Souls_skyBG_dark_sky_1.png");
     } else {
       this.load.path = "/static/game/wizards/";
       this.load.image("pinkBG", "pinkBG.png");

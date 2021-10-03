@@ -1,0 +1,318 @@
+{ "frames": {
+   "tower_dark-0": {
+    "frame": { "x": 1, "y": 1, "w": 265, "h": 608 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 218, "y": 175, "w": 265, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "tower_dark-1": {
+    "frame": { "x": 1, "y": 1, "w": 265, "h": 608 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "tower_dark-2": {
+    "frame": { "x": 1, "y": 1, "w": 265, "h": 608 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "tower_dark_doors-0": {
+    "frame": { "x": 469, "y": 568, "w": 109, "h": 174 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 297, "y": 248, "w": 109, "h": 174 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "tower_dark_doors-1": {
+    "frame": { "x": 1, "y": 610, "w": 109, "h": 174 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 297, "y": 248, "w": 109, "h": 174 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "tower_dark_doors-2": {
+    "frame": { "x": 111, "y": 610, "w": 109, "h": 174 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 297, "y": 248, "w": 109, "h": 174 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerLines_red-0": {
+    "frame": { "x": 267, "y": 382, "w": 201, "h": 265 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 240, "y": 176, "w": 201, "h": 265 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerLines_red-1": {
+    "frame": { "x": 267, "y": 382, "w": 201, "h": 265 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerLines_red-2": {
+    "frame": { "x": 267, "y": 382, "w": 201, "h": 265 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "boards-0": {
+    "frame": { "x": 469, "y": 382, "w": 122, "h": 185 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 289, "y": 243, "w": 122, "h": 185 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "boards-1": {
+    "frame": { "x": 469, "y": 382, "w": 122, "h": 185 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "boards-2": {
+    "frame": { "x": 469, "y": 382, "w": 122, "h": 185 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "plants-0": {
+    "frame": { "x": 267, "y": 1, "w": 302, "h": 380 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 275, "w": 302, "h": 380 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "plants-1": {
+    "frame": { "x": 267, "y": 1, "w": 302, "h": 380 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "plants-2": {
+    "frame": { "x": 267, "y": 1, "w": 302, "h": 380 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "pumpkin-0": {
+    "frame": { "x": 588, "y": 1, "w": 15, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 411, "y": 417, "w": 15, "h": 13 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "pumpkin-1": {
+    "frame": { "x": 588, "y": 1, "w": 15, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "pumpkin-2": {
+    "frame": { "x": 588, "y": 1, "w": 15, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "pumpkin Copy-0": {
+    "frame": { "x": 570, "y": 40, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 420, "y": 424, "w": 10, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "pumpkin Copy-1": {
+    "frame": { "x": 570, "y": 40, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "pumpkin Copy-2": {
+    "frame": { "x": 570, "y": 40, "w": 10, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerBandRed-0": {
+    "frame": { "x": 221, "y": 648, "w": 139, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 292, "y": 332, "w": 139, "h": 31 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerBandRed-1": {
+    "frame": { "x": 221, "y": 648, "w": 139, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerBandRed-2": {
+    "frame": { "x": 221, "y": 648, "w": 139, "h": 31 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "palms-0": {
+    "frame": { "x": 221, "y": 743, "w": 286, "h": 62 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 198, "y": 343, "w": 286, "h": 62 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "palms-1": {
+    "frame": { "x": 221, "y": 743, "w": 286, "h": 62 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "palms-2": {
+    "frame": { "x": 221, "y": 743, "w": 286, "h": 62 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTileTower-0": {
+    "frame": { "x": 1, "y": 806, "w": 265, "h": 4 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 218, "y": 779, "w": 265, "h": 4 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTileTower-1": {
+    "frame": { "x": 1, "y": 806, "w": 265, "h": 4 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTileTower-2": {
+    "frame": { "x": 1, "y": 806, "w": 265, "h": 4 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 195, "y": 175, "w": 302, "h": 608 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomDoor-0": {
+    "frame": { "x": 570, "y": 1, "w": 17, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 404, "y": 724, "w": 17, "h": 38 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomDoor-1": {
+    "frame": { "x": 570, "y": 1, "w": 17, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 404, "y": 724, "w": 17, "h": 38 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomDoor-2": {
+    "frame": { "x": 570, "y": 1, "w": 17, "h": 38 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 404, "y": 724, "w": 17, "h": 38 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "doorGlow-0": {
+    "frame": { "x": 588, "y": 15, "w": 7, "h": 18 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 413, "y": 727, "w": 7, "h": 18 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "doorGlow-1": {
+    "frame": { "x": 596, "y": 15, "w": 7, "h": 18 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 413, "y": 727, "w": 7, "h": 18 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "doorGlow-2": {
+    "frame": { "x": 588, "y": 34, "w": 7, "h": 18 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 413, "y": 727, "w": 7, "h": 18 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "castle_Souls.png",
+  "format": "RGBA8888",
+  "size": { "w": 603, "h": 810 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "play", "from": 0, "to": 2, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "tower_dark", "opacity": 255, "blendMode": "normal" },
+   { "name": "tower_dark_doors", "opacity": 255, "blendMode": "normal" },
+   { "name": "towerLines_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "boards", "opacity": 255, "blendMode": "normal" },
+   { "name": "plants", "opacity": 255, "blendMode": "normal" },
+   { "name": "pumpkin", "opacity": 255, "blendMode": "normal" },
+   { "name": "pumpkin Copy", "opacity": 255, "blendMode": "normal" },
+   { "name": "towerBandRed", "opacity": 255, "blendMode": "normal" },
+   { "name": "palms", "opacity": 255, "blendMode": "normal" },
+   { "name": "bottomTileTower", "opacity": 255, "blendMode": "normal" },
+   { "name": "bottomDoor", "opacity": 255, "blendMode": "normal" },
+   { "name": "doorGlow", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

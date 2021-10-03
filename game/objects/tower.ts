@@ -3,6 +3,9 @@ import { buildAnimationParticleClass } from "./animation-particles";
 import { ImageButton } from "./ImageButton";
 
 const maxRunes = 18;
+
+const NIGHT = true;
+
 export class Tower {
   scene: Phaser.Scene;
   runes: any[] = [];
@@ -14,9 +17,19 @@ export class Tower {
 
   preload() {
     const scene = this.scene;
-    scene.load.aseprite("castleParts", "castle_v2.png", "castle_v2.json");
     scene.load.aseprite("buttons", "buttons.png", "buttons.json");
-    scene.load.image("towerTile", "towerTile.png");
+
+    if (NIGHT) {
+      scene.load.aseprite(
+        "castleParts",
+        "souls/castle_Souls.png",
+        "souls/castle_Souls.json"
+      );
+      scene.load.image("towerTile", "souls/castle_Souls_tile.png");
+    } else {
+      scene.load.aseprite("castleParts", "castle_v2.png", "castle_v2.json");
+      scene.load.image("towerTile", "towerTile.png");
+    }
   }
 
   create() {
@@ -38,7 +51,9 @@ export class Tower {
     );
 
     const towerY = 0;
-    const tower = scene.add.sprite(centerX, towerY, "castleParts", "tower-0");
+    const tower = NIGHT
+      ? scene.add.sprite(centerX, towerY, "castleParts", "tower_dark-0")
+      : scene.add.sprite(centerX, towerY, "castleParts", "tower-0");
     tower.setOrigin(originX, originY);
 
     const towerTile = scene.add.tileSprite(
@@ -50,71 +65,74 @@ export class Tower {
     );
     towerTile.setOrigin(originX, originY);
 
-    const faqButton = new ImageButton(
-      scene,
-      centerX - 90,
-      towerY + tower.height + 700,
-      "buttons",
-      "faq_default.png",
-      "faq_hover.png",
-      () => {
-        let location: string = window.location.toString();
-        if (location[location.length - 1] !== "/") {
-          location += "/";
+    {
+      // buttons
+      const faqButton = new ImageButton(
+        scene,
+        centerX - 90,
+        towerY + tower.height + 700,
+        "buttons",
+        "faq_default.png",
+        "faq_hover.png",
+        () => {
+          let location: string = window.location.toString();
+          if (location[location.length - 1] !== "/") {
+            location += "/";
+          }
+          window.open(location + "wtf", "_blank");
         }
-        window.open(location + "wtf", "_blank");
-      }
-    );
-    faqButton.setScale(0.5);
-    scene.add.existing(faqButton);
+      );
+      faqButton.setScale(0.5);
+      scene.add.existing(faqButton);
 
-    const discordButton = new ImageButton(
-      scene,
-      centerX - 90,
-      towerY + tower.height + 725,
-      "buttons",
-      "social_discord_default.png",
-      "social_discord_hover.png",
-      () => {
-        console.log("discord");
-        window.open("https://discord.com/invite/F7WbxwJuZC", "_blank");
-      }
-    );
-    discordButton.setScale(0.5);
-    scene.add.existing(discordButton);
+      const discordButton = new ImageButton(
+        scene,
+        centerX - 90,
+        towerY + tower.height + 725,
+        "buttons",
+        "social_discord_default.png",
+        "social_discord_hover.png",
+        () => {
+          console.log("discord");
+          window.open("https://discord.com/invite/F7WbxwJuZC", "_blank");
+        }
+      );
+      discordButton.setScale(0.5);
+      scene.add.existing(discordButton);
 
-    const twitterButton = new ImageButton(
-      scene,
-      centerX - 90,
-      towerY + tower.height + 750,
-      "buttons",
-      "social_twitter_default.png",
-      "social_twitter_hover.png",
-      () => {
-        window.open("https://twitter.com/forgottenrunes", "_blank");
-      }
-    );
-    twitterButton.setScale(0.5);
-    scene.add.existing(twitterButton);
+      const twitterButton = new ImageButton(
+        scene,
+        centerX - 90,
+        towerY + tower.height + 750,
+        "buttons",
+        "social_twitter_default.png",
+        "social_twitter_hover.png",
+        () => {
+          window.open("https://twitter.com/forgottenrunes", "_blank");
+        }
+      );
+      twitterButton.setScale(0.5);
+      scene.add.existing(twitterButton);
 
-    const openSeaButton = new ImageButton(
-      scene,
-      centerX - 90,
-      towerY + tower.height + 775,
-      "buttons",
-      "social_opensea_default.png",
-      "social_opensea_hover.png",
-      () => {
-        const contractAddress =
-          process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS;
-        window.open(
-          `https://opensea.io/collection/forgottenruneswizardscult`,
-          "_blank"
-        );
-      }
-    );
-    openSeaButton.setScale(0.5);
-    scene.add.existing(openSeaButton);
+      const openSeaButton = new ImageButton(
+        scene,
+        centerX - 90,
+        towerY + tower.height + 775,
+        "buttons",
+        "social_opensea_default.png",
+        "social_opensea_hover.png",
+        () => {
+          const contractAddress =
+            process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS;
+          window.open(
+            `https://opensea.io/collection/forgottenruneswizardscult`,
+            "_blank"
+          );
+        }
+      );
+      openSeaButton.setScale(0.5);
+      scene.add.existing(openSeaButton);
+    }
 
     // DEBUG
     // this.startLoadingRunes();
@@ -124,6 +142,60 @@ export class Tower {
     //     this.stopLoadingRunes();
     //   }
     // });
+  }
+
+  createSoulsLife() {
+    const scene = this.scene;
+    const width = scene.scale.gameSize.width;
+    const height = scene.scale.gameSize.height;
+    const centerY = height / 2;
+    const worldView = this.scene.cameras.main.worldView;
+    const centerX = worldView.centerX;
+
+    var data = scene.game.cache.json.get("castleParts");
+
+    const originX = 0.5 + 0.015; /* fudge center */
+    const originY = 0 + 0.001;
+
+    const lines = scene.add.sprite(
+      centerX,
+      0,
+      "castleParts",
+      "towerLines_red-0"
+    );
+    fadeIn(scene, lines);
+    lines.setOrigin(originX, originY);
+    lines.depth = 1;
+    this.lines = lines;
+
+    const boards = scene.add.sprite(centerX, 0, "castleParts", "boards-0");
+    fadeIn(scene, boards);
+    boards.depth = 2;
+    boards.setOrigin(originX, originY);
+
+    const addNormalThing = ({ name }: { name: string }) => {
+      const thing = scene.add.sprite(centerX, 0, "castleParts", name);
+      fadeIn(scene, thing);
+      thing.setOrigin(originX, originY);
+    };
+
+    addNormalThing({ name: "plants-0" });
+    addNormalThing({ name: "pumpkin-0" });
+    addNormalThing({ name: "pumpkin Copy-0" });
+    addNormalThing({ name: "palms-0" });
+
+    // this.addRunes({ n: 18, originX, originY });
+
+    const band2 = scene.add.sprite(centerX, 0, "castleParts", "towerBandRed-0");
+    band2.setOrigin(originX, originY);
+    band2.setAlpha(0);
+
+    scene.tweens.add({
+      targets: band2,
+      alpha: { value: 0.7, duration: 8000, ease: "Power1" },
+      yoyo: true,
+      repeat: -1,
+    });
   }
 
   createLife() {

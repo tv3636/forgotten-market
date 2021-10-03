@@ -23,12 +23,15 @@ import { AlagardFontMetrics } from "../../../fontSettings";
 
 //  This Scene is aspect ratio locked at 640 x 960 (and scaled and centered accordingly)
 
+const NIGHT = true;
+
 export class HomeScene extends Phaser.Scene {
   backgroundScene: any;
   wolf: any;
   cat: any;
   crow: any;
   doorguy: any;
+  owl: any;
   metamaskButtonZone: any;
 
   graphics: any;
@@ -59,6 +62,15 @@ export class HomeScene extends Phaser.Scene {
 
   blocksTillSummoningText: any;
 
+  bat1: any;
+  bat2: any;
+
+  bat1center: any;
+  bat2center: any;
+
+  bati: number = 0;
+  bati2: number = 0;
+
   constructor() {
     super("HomeScene");
     this.store = getStore();
@@ -83,6 +95,11 @@ export class HomeScene extends Phaser.Scene {
     this.load.aseprite("crow", "crow.png", "crow.json");
     this.load.aseprite("doorguy", "doorguy.png", "doorguy.json");
     // this.load.bitmapFont("Pixel-NES", "Pixel-NES.png", "Pixel-NES.xml");
+
+    if (NIGHT) {
+      this.load.aseprite("owl", "souls/owl.png", "souls/owl.json");
+      this.load.aseprite("bat", "souls/bat.png", "souls/bat.json");
+    }
 
     this.tower.preload();
     this.towerBeams.preload();
@@ -130,12 +147,13 @@ export class HomeScene extends Phaser.Scene {
     this.tower.create();
     this.towerBeams.create();
 
-    if (this.summoningBegun) {
-      this.configureSummoningBegunWorld();
-    } else {
-      this.showTooEarly();
-      this.checkForSummoningBegunAtIntervals();
-    }
+    this.configureSoulsWorld();
+    // if (this.summoningBegun) {
+    //   this.configureSummoningBegunWorld();
+    // } else {
+    //   this.showTooEarly();
+    //   this.checkForSummoningBegunAtIntervals();
+    // }
 
     this.createDebugs();
 
@@ -221,6 +239,13 @@ export class HomeScene extends Phaser.Scene {
     this.createCharacters();
   }
 
+  configureSoulsWorld() {
+    console.log("configureSoulsWorld");
+    this.hideTooEarly();
+    this.tower.createSoulsLife();
+    this.createSoulsCharacters();
+  }
+
   launchBuyScene() {
     if (this.buyScene) {
       this.scene.launch("BuyScene");
@@ -260,7 +285,9 @@ export class HomeScene extends Phaser.Scene {
   createCharacters() {
     const width = this.scale.gameSize.width;
     const height = this.scale.gameSize.height;
-    const centerX = Math.floor(this.cameras.main.width / 2);
+    // const centerX = Math.floor(this.cameras.main.width / 2);
+    const worldView = this.cameras.main.worldView;
+    const centerX = worldView.centerX;
     const centerY = height / 2;
 
     // characters
@@ -335,6 +362,46 @@ export class HomeScene extends Phaser.Scene {
         this.hideCrow();
       }
     );
+  }
+
+  createSoulsCharacters() {
+    const width = this.scale.gameSize.width;
+    const height = this.scale.gameSize.height;
+    // const centerX = Math.floor(this.cameras.main.width / 2);
+    const worldView = this.cameras.main.worldView;
+    const centerX = worldView.centerX;
+    const centerY = height / 2;
+
+    (this as any).myAasepriteLoader?.createFromAseprite("owl");
+    this.owl = this.add.sprite(centerX - 8, 390, "owl", 0);
+    this.owl.depth = 2;
+    fadeIn(this, this.owl);
+    this.owl.play({
+      key: "play",
+      delay: 2000,
+      repeatDelay: 5000,
+      repeat: -1,
+    });
+
+    (this as any).myAasepriteLoader?.createFromAseprite("bat");
+    this.bat1 = this.add.sprite(centerX - 8, 390, "bat", 0);
+    this.bat1.depth = 2;
+    fadeIn(this, this.bat1);
+    this.bat1.play({
+      key: "play-bat",
+      repeatDelay: 0,
+      repeat: -1,
+      startFrame: 1,
+    });
+
+    this.bat2 = this.add.sprite(centerX + 10, 380, "bat", 0);
+    this.bat2.depth = 2;
+    fadeIn(this, this.bat2);
+    this.bat2.play({
+      key: "play-bat",
+      repeatDelay: 0,
+      repeat: -1,
+    });
   }
 
   showCrow() {
@@ -417,10 +484,11 @@ export class HomeScene extends Phaser.Scene {
     });
   }
 
-  update() {
+  update(delta: number) {
     this.towerBeams.update();
     this.tower.update();
     this.updateTooEarly();
+    this.moveBats(delta);
   }
 
   updateTooEarly() {
@@ -585,19 +653,21 @@ export class HomeScene extends Phaser.Scene {
     // zoneGraphics.strokeRect(centerX - 70, 363, 20, 30);
     // zoneGraphics.strokeRect(centerX + 32, 398, 20, 30);
 
-    const doorZone1 = this.add.zone(centerX - 70, 363, 20, 30);
-    doorZone1.setOrigin(0, 0);
-    doorZone1.setPosition(centerX - 70, 363);
-    doorZone1.setInteractive({ useHandCursor: true }).on("pointerup", () => {
-      this.launchInteriorScene();
-    });
+    if (!NIGHT) {
+      const doorZone1 = this.add.zone(centerX - 70, 363, 20, 30);
+      doorZone1.setOrigin(0, 0);
+      doorZone1.setPosition(centerX - 70, 363);
+      doorZone1.setInteractive({ useHandCursor: true }).on("pointerup", () => {
+        this.launchInteriorScene();
+      });
 
-    const doorZone2 = this.add.zone(centerX + 32, 398, 20, 30);
-    doorZone2.setOrigin(0, 0);
-    doorZone2.setPosition(centerX + 32, 398);
-    doorZone2.setInteractive({ useHandCursor: true }).on("pointerup", () => {
-      this.launchInteriorScene();
-    });
+      const doorZone2 = this.add.zone(centerX + 32, 398, 20, 30);
+      doorZone2.setOrigin(0, 0);
+      doorZone2.setPosition(centerX + 32, 398);
+      doorZone2.setInteractive({ useHandCursor: true }).on("pointerup", () => {
+        this.launchInteriorScene();
+      });
+    }
   }
 
   startLoading() {
@@ -683,5 +753,77 @@ export class HomeScene extends Phaser.Scene {
     if (this.blocksTillSummoningText) {
       this.blocksTillSummoningText.destroy();
     }
+  }
+
+  moveBats(delta: number) {
+    const worldView = this.cameras.main.worldView;
+    const centerX = worldView.centerX;
+
+    let batBase1 = {
+      x: centerX - 8,
+      y: 390,
+    };
+
+    let batBase2 = {
+      x: centerX + 10,
+      y: 380,
+    };
+
+    const radius = 50;
+    const speed = 0.01;
+    const timeScale = 1;
+
+    const moveBat = ({
+      bat,
+      batCenter,
+      base,
+    }: {
+      bat: any;
+      batCenter: { x: number; y: number };
+      base: { x: number; y: number };
+    }) => {
+      if (bat && batCenter?.x) {
+        const targetX = base.x + batCenter.x;
+        const targetY = base.y + batCenter.y;
+        const curX = bat.x;
+        const curY = bat.y;
+
+        let dt = (delta * timeScale) / 1000;
+        let movingDist = speed * dt;
+        let distToTarget = Phaser.Math.Distance.Between(
+          curX,
+          curY,
+          targetX,
+          targetY
+        );
+
+        let newX, newY;
+        var t = movingDist / distToTarget;
+        newX = Phaser.Math.Linear(curX, targetX, t);
+        newY = Phaser.Math.Linear(curY, targetY, t);
+        bat.setPosition(newX, newY);
+      }
+    };
+
+    moveBat({ bat: this.bat1, batCenter: this.bat1center, base: batBase1 });
+    moveBat({ bat: this.bat2, batCenter: this.bat2center, base: batBase2 });
+
+    if (!this.bat1center || this.bati % 71 === 0) {
+      const g = new Phaser.Math.RandomDataGenerator();
+      this.bat1center = {
+        x: g.between(-1 * radius, radius),
+        y: g.between(-1 * radius, radius),
+      };
+    }
+
+    if (!this.bat2center || this.bati % 53 === 0) {
+      const g = new Phaser.Math.RandomDataGenerator();
+      this.bat2center = {
+        x: g.between(-1 * radius, radius),
+        y: g.between(-1 * radius, radius),
+      };
+    }
+
+    this.bati += 1;
   }
 }
