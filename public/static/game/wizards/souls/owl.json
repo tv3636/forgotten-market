@@ -22,6 +22,14 @@
     "spriteSourceSize": { "x": 236, "y": 327, "w": 23, "h": 23 },
     "sourceSize": { "w": 700, "h": 783 },
     "duration": 100
+   },
+   "3": {
+    "frame": { "x": 25, "y": 1, "w": 20, "h": 26 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 236, "y": 324, "w": 20, "h": 26 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
    }
  },
  "meta": {
@@ -32,7 +40,7 @@
   "size": { "w": 45, "h": 49 },
   "scale": "1",
   "frameTags": [
-   { "name": "play", "from": 0, "to": 2, "direction": "forward" }
+   { "name": "play", "from": 0, "to": 3, "direction": "forward" }
   ]
  }
 }
