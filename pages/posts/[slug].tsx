@@ -64,7 +64,7 @@ export default function PostPage({
       <MDXRemote {...source} components={components} />
       <style jsx>{`
         .post-header h1 {
-          margin-bottom: 0;
+          margin-bottom: 0.5em;
         }
         .description {
           opacity: 0.6;
