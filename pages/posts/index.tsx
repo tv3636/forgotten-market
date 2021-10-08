@@ -25,7 +25,6 @@ const Description = styled.div``;
 const BlogEntries = styled.ul`
   list-style: none;
   padding-inline-start: 0;
-  margin-top: 3em;
 `;
 const BlogEntry = styled.li`
   margin: 2em 0;

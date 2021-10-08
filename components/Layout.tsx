@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import SiteNav from "./SiteNav";
+import Footer from "./Footer";
 
 type Props = {
   children?: ReactNode;
@@ -38,7 +39,7 @@ const Layout = ({
     <SiteNav />
     <header></header>
     {children}
-    <footer></footer>
+    <Footer />
   </div>
 );
 

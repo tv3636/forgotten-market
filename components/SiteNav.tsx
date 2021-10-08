@@ -7,6 +7,14 @@ import Link from "next/link";
 type Props = {};
 
 const SiteNavElement = styled.nav`
+  font-family: "Roboto Mono", system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   padding: 0 15px;
 
   a {
@@ -36,7 +44,7 @@ const SiteNavElement = styled.nav`
   .logo {
     font-size: 20px;
     padding: 7.5px 10px 7.5px 0;
-    max-width: 256px;
+    max-width: 80vw;
   }
   .item {
     padding: 10px;
@@ -90,7 +98,8 @@ const SiteNavElement = styled.nav`
   /* Tablet menu */
   @media (min-width: 700px) {
     .menu {
-      justify-content: center;
+      /* justify-content: center; */
+      justify-content: flex-end;
     }
     .logo {
       flex: 1;
@@ -115,6 +124,7 @@ const SiteNavElement = styled.nav`
       align-items: center;
       flex-wrap: nowrap;
       background: none;
+      justify-content: flex-end;
     }
     .logo {
       order: 0;
@@ -132,82 +142,117 @@ const SiteNavElement = styled.nav`
   }
 `;
 
+const SiteNavRow = styled.div`
+  .menu {
+    justify-content: center;
+  }
+  .logo {
+    @media (min-width: 960px) {
+      max-width: 360px;
+    }
+  }
+`;
+
+const SiteNavTopRow = styled(SiteNavRow)`
+  display: flex;
+  justify-content: space-between;
+  max-width: 1100px;
+  min-width: 80vw;
+  flex-direction: column;
+
+  @media (min-width: 960px) {
+    flex-direction: row;
+  }
+
+  .menu {
+    justify-content: flex-end;
+  }
+`;
+
 export default function SiteNav({}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen(!isOpen);
 
   return (
     <SiteNavElement>
-      <ul className={"menu" + (isOpen ? " active" : "")}>
-        <li className="logo">
-          <ResponsivePixelImg src="/static/img/forgotten-runes-logo.png" />
-        </li>
-        <li className="item">
-          <a href="/">The Secret Tower</a>
-        </li>
-        <li className="item">
-          <Link as={"/wtf"} href={"/wtf"} passHref={true}>
-            wtf?
-          </Link>
-        </li>
-        <li className="item">
-          <Link as={"/posts"} href={"/posts"} passHref={true}>
-            <a>Resources</a>
-          </Link>
-        </li>
+      <SiteNavTopRow>
+        <ResponsivePixelImg
+          src="/static/img/forgotten-runes-logo.png"
+          className="logo"
+          width="360"
+          height="118"
+        />
+        <ul className={"menu" + (isOpen ? " active" : "")}>
+          <li className="item">
+            <a
+              href="https://opensea.io/collection/forgottenruneswizardscult"
+              className="icon-link"
+            >
+              <ResponsivePixelImg src="/static/img/icons/nav/opensea_default.png" />
+            </a>
+          </li>
+          <li className="item">
+            <a href="https://twitter.com/forgottenrunes" className="icon-link">
+              <ResponsivePixelImg src="/static/img/icons/nav/twitter_default.png" />
+            </a>
+          </li>
+          <li className="item">
+            <a
+              href="https://www.instagram.com/forgotten_runes/"
+              className="icon-link"
+            >
+              <ResponsivePixelImg src="/static/img/icons/nav/ig_default.png" />
+            </a>
+          </li>
+          <li className="item">
+            <a href="https://discord.gg/forgottenrunes" className="icon-link">
+              <ResponsivePixelImg src="/static/img/icons/nav/discord_default.png" />
+            </a>
+          </li>
 
-        <li className="item">
-          <Link as={"/lore"} href={"/lore"} passHref={true}>
-            <a>Lore</a>
-          </Link>
-        </li>
+          <li className="toggle">
+            <a onClick={() => toggleIsOpen()}>
+              <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
+            </a>
+          </li>
+        </ul>
+      </SiteNavTopRow>
+      <SiteNavRow>
+        <ul className={"menu" + (isOpen ? " active" : "")}>
+          <li className="item">
+            <a href="/">The Secret Tower</a>
+          </li>
+          <li className="item">
+            <Link as={"/wtf"} href={"/wtf"} passHref={true}>
+              wtf?
+            </Link>
+          </li>
 
-        <li className="item">
-          <Link as={"/map"} href={"/map"} passHref={true}>
-            <a>Map</a>
-          </Link>
-        </li>
-        <li className="item">
-          <Link as={"/gallery"} href={"/gallery"} passHref={true}>
-            <a>Gallery</a>
-          </Link>
-        </li>
-        {/* <li className="item">
-          <a href="/blog">Blog</a>
-        </li> */}
-        <li className="item">
-          <a
-            href="https://opensea.io/collection/forgottenruneswizardscult"
-            className="icon-link"
-          >
-            <ResponsivePixelImg src="/static/img/icons/social_opensea_default_w.png" />
-          </a>
-        </li>
-        <li className="item">
-          <a href="https://twitter.com/forgottenrunes" className="icon-link">
-            <ResponsivePixelImg src="/static/img/icons/social_twitter_default_w.png" />
-          </a>
-        </li>
-        <li className="item">
-          <a
-            href="https://www.instagram.com/forgotten_runes/"
-            className="icon-link"
-          >
-            <ResponsivePixelImg src="/static/img/icons/social_ig_default_w.png" />
-          </a>
-        </li>
-        <li className="item">
-          <a href="https://discord.gg/forgottenrunes" className="icon-link">
-            <ResponsivePixelImg src="/static/img/icons/social_discord_default_w.png" />
-          </a>
-        </li>
+          <li className="item">
+            <Link as={"/lore"} href={"/lore"} passHref={true}>
+              <a>Book of Lore</a>
+            </Link>
+          </li>
 
-        <li className="toggle">
-          <a onClick={() => toggleIsOpen()}>
-            <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
-          </a>
-        </li>
-      </ul>
+          <li className="item">
+            <Link as={"/map"} href={"/map"} passHref={true}>
+              <a>Map</a>
+            </Link>
+          </li>
+
+          <li className="item">
+            <Link as={"/gallery"} href={"/gallery"} passHref={true}>
+              <a>All Wizards</a>
+            </Link>
+          </li>
+
+          <li className="item">
+            <Link as={"/posts"} href={"/posts"} passHref={true}>
+              <a>Blog</a>
+            </Link>
+          </li>
+        </ul>
+      </SiteNavRow>
     </SiteNavElement>
   );
 }

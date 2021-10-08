@@ -33,7 +33,7 @@ In short, your Wizard is 100% decentralized and will live forever on the Ethereu
 
 ## The World and Lore
 
-<ResponsiveImg className="full-bleed" src="/static/img/map/map.png" />
+<ResponsiveImg className="full-bleed" src="/static/img/map/map2.png" />
 
 Ownership of a Forgotten Runes Wizard is adoption of a _character_. Wizards create Lore to tell their stories.
 

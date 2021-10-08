@@ -25,7 +25,7 @@ const MapStyles = styled.div`
   }
   .leaflet-bar a,
   .leaflet-bar a:hover {
-    background-color: #393245;
+    background-color: #000000;
     color: #ececec;
   }
   .leaflet-bar a:hover {
@@ -54,7 +54,7 @@ const Map = ({}: Props) => (
         style={{ height: "100%", width: "100%" }}
         attributionControl={false}
       >
-        <ImageOverlay bounds={bounds} url="/static/img/map/map.png" />
+        <ImageOverlay bounds={bounds} url="/static/img/map/map2.png" />
       </MapContainer>
     </MapStyles>
   </MapWrapper>
