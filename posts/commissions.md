@@ -1,6 +1,7 @@
 ---
 title: Commissions for Wizard Art
 description: Our community has a vibrant culture of creating artwork from their Wizards. This document is a directory of folks who take commissions to create artwork of the Wizards
+ogWizardImage: 4640
 ---
 
 Below we've included the artist, some example artworks, how you can contact them for your own commissions.

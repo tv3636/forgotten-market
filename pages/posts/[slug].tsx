@@ -45,9 +45,19 @@ export default function PostPage({
   frontMatter: any;
 }) {
   const title = `${frontMatter.title} | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs`;
+  let ogImageProps: any = {
+    title: frontMatter.title,
+  };
+  if (frontMatter.ogWizardImage) {
+    ogImageProps.wizardImage = parseInt(frontMatter.ogWizardImage);
+  }
+  if (frontMatter.ogImage) {
+    ogImageProps.images = frontMatter.ogImage;
+  }
+
   return (
     <Layout title={title} description={frontMatter.description}>
-      <OgImage title={frontMatter.title} />
+      <OgImage {...ogImageProps} />
       <header>
         {/* <nav>
           <Link href="/posts">

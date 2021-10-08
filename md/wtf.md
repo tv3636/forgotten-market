@@ -5,6 +5,68 @@ import { ResponsiveImg } from "../components/ResponsivePixelImg";
 
 # Welcome to the Cult
 
+# FAQ
+
+## **What is this?**
+
+Forgotten Runes Wizard's Cult is collection of 10k Wizard NFTs. Each Wizard is totally unique and has it's own name. Additionally, all of the Wizard art is fully encoded on-chain.
+
+The World of Forgotten Runes is growing everyday as our Cult contributes art, animation, stories, memes, and lore to social media and to our one-of-a-kind [Book of Lore](/lore).
+
+There is limitless potential in this decentralized approach to world-building. We call it a "Collaborative Legendarium." Most who participate in this world-building experiment join the Cult which starts by owning a Wizard NFT.
+
+<img src="https://nftz.forgottenrunes.com/website/cdn/gifSMALL.gif" width="300" height="168" style={{"margin": "0 auto"}}/>
+
+## **How do I get a Wizard?**
+
+Our launch sale occurred on June 30th, 2021. The minting price was 0.07 ETH and we sold all 10k Wizards in 28 minutes.
+
+But you can still buy a Wizard from the secondary market on [OpenSea](https://opensea.io/collection/forgottenruneswizardscult) or any NFT marketplace.
+
+> TIP: If you are new to NFTs, see [this guide "How to Buy and Sell NFTs on OpenSea"](https://www.inputmag.com/guides/how-to-buy-sell-nfts-on-opensea).
+>
+> Also, [join our super friendly Discord](https://discord.gg/forgottenrunes) and ask around! Wizards are always ready to help.
+
+## **Why should I become a Wizard?**
+
+Because when you become a Wizard you take part in the co-creation of the stories, Lore, art, and community that is The Forgotten Runes Wizard Cult.
+
+## **What benefits come with owning a Wizard?**
+
+In addition to exclusive membership into our mysterious-but-friendly cult, owning a Wizard NFT gives you access to many other treasures such as full turnarounds and walk cycles of your wizard, [a GM generator](/scenes/gm/7846), airdrops such as our recent ["Sacred Flame" for _Forgotten Souls_](/posts/forgotten-souls) (["Sacred Flame on OpenSea"](https://opensea.io/assets/0x31158181b4b91a423bfdc758fc3bf8735711f9c5/0)), and build out your character in [The Book of Lore](/lore).
+
+We have many more surprises coming to the Cult soon, join us.
+
+## **What should I do once I become a Wizard?**
+
+- Write in [The Book of Lore](/lore)
+- Join [a Guild](/posts/guilds)
+
+## **What does it mean to be a Wizard?**
+
+## **Can you talk more about this concept of "decentralized world-building?"**
+
+This blog post explains it in depth, but the top level explanation is that all of our Cult members contribute daily to expanding the world of Forgotten Runes. These contributions come in the form of art, animation, stories, poems, and other media. This work is collected in the Book of Lore, which is an every growing compendium of every Wizard in the collection.
+
+## **Is there merch available?**
+
+Merch is coming soon!
+
+## **What are your future plans for this project?**
+
+See our [Roadmap](https://forgottenrunes-5ji0zuc41-forgottenrunes.vercel.app/posts/roadmap)!
+
+## **Who is the team behind this project?**
+
+Forgotten Runes was created by
+[@ElfJTrul](https://twitter.com/ElfJTrul): Pixel Pushing Art Wizard
+[@dotta](https://twitter.com/dotta): 1337 Smart Contract Wizard
+[@bearsnake_21](https://twitter.com/bearsnake_21): Wizard who opens doors
+[@LachnessMonsta](https://twitter.com/LachnessMonsta): Memelord Wizard
+[@Acryllic4](https://twitter.com/Acryllic4) Wizard who eats too many mushrooms
+
+You can contact us at oracle@magicmachine.co
+
 ## The Wizard's Summary
 
 The Wizard's Cult is a collaborative legendarium. There are 10,000 unique Wizard NFTs.

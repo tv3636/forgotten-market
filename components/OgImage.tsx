@@ -8,6 +8,7 @@ const ogImageBaseURL =
 
 type Props = {
   wizard?: string | number;
+  wizardImage?: string | number;
   fontSize?: string;
   title: string;
   images?: string | null;
@@ -19,6 +20,7 @@ export default function OgImage({
   title,
   fontSize,
   wizard,
+  wizardImage,
   images,
   bgColor,
 }: Props) {
@@ -29,6 +31,9 @@ export default function OgImage({
   }
   if (isNumber(wizard) && !images) {
     params.wizard = wizard;
+  }
+  if (isNumber(wizardImage) && !images) {
+    params.wizardImage = wizardImage;
   }
   if (images) {
     params.images = images;
