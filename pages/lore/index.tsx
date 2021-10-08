@@ -6,7 +6,10 @@ import BookCover from "../../components/Lore/BookCover";
 import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
 import OgImage from "../../components/OgImage";
 import { GetStaticPropsContext } from "next";
-import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
+import {
+  bustLoreCache,
+  getWizardsWithLore,
+} from "../../components/Lore/loreSubgraphUtils";
 import { useMedia } from "react-use";
 
 const WizardMapLeaflet = dynamic(
@@ -45,11 +48,12 @@ const BookOfLoreIndexPage = ({ wizardsWithLore }: { wizardsWithLore: any }) => {
 };
 
 export async function getStaticProps(context: GetStaticPropsContext) {
+  await bustLoreCache(); // Important as this clears any prior cache at new deploy/build time ...
   return {
     props: {
       wizardsWithLore: await getWizardsWithLore(),
     },
-    revalidate: 20,
+    revalidate: 5 * 60,
   };
 }
 

@@ -3,6 +3,10 @@ import { gql } from "@apollo/client";
 import { LORE_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
 import { getLoreUrl } from "./loreUtils";
 import path from "path";
+import { IndividualLorePageData } from "./types";
+import { hydratePageDataFromMetadata } from "./markdownUtils";
+import { promises as fs } from "fs";
+import * as os from "os";
 
 const COMMON_LORE_FIELDS = `
   id
@@ -10,12 +14,9 @@ const COMMON_LORE_FIELDS = `
   creator
   tokenContract
   loreMetadataURI
-  parentLoreId
   tokenId
   struck
   nsfw
-  createdAtBlock
-  createdAtTimestamp
 `;
 
 export const GRAPH_ID_MATCHER = /^((?:0x).*)-(\d+)-(\d+)$/;
@@ -29,136 +30,187 @@ function getWizardLoreId(wizardNum: number, loreIndex: number) {
     .padStart(10, "0")}-${loreIndex.toString().padStart(10, "0")}`;
 }
 
-export async function getPreviousAndNextPageData(
-  tokenId: number,
-  leftPageData: any,
-  rightPageData: any
-) {
-  let queryString = "";
+const LORE_CACHE = path.join(os.tmpdir(), ".lore_cache");
 
-  // Add previous page if we in middle of book
-  if (leftPageData) {
-    queryString = `${queryString}
-      prevRightPage: lores(first: 1, where: {id_lt: "${leftPageData.id}", struck: false, nsfw: false}, orderBy: id, orderDirection:desc) {
-        id
-      }
-    `;
-  } else {
-    queryString = `${queryString}
-      prevRightPage: lores(first: 1, where: {id_lt: "${getWizardLoreId(
-        tokenId,
-        0
-      )}", struck: false, nsfw: false}, orderBy: id, orderDirection:desc) {
-        id
-      }
-    `;
-  }
-
-  if (rightPageData) {
-    queryString = `${queryString}
-      nextLeftPage: lores(first: 1, where: {id_gt: "${rightPageData.id}", struck: false, nsfw: false}, orderBy: id, orderDirection:asc) {
-        id
-      }
-    `;
-  } else if (leftPageData) {
-    queryString = `${queryString}
-      nextLeftPage: lores(first: 1, where: {id_gt: "${leftPageData.id}", struck: false, nsfw: false}, orderBy: id, orderDirection:asc) {
-        id
-      }
-    `;
-  } else {
-    queryString = `${queryString}
-      nextLeftPage: lores(first: 1, where: {id_gt: "${getWizardLoreId(
-        tokenId,
-        0
-      )}", struck: false, nsfw: false}, orderBy: id, orderDirection:asc) {
-        id
-      }
-    `;
-  }
-
-  // console.log(queryString);
-  const { data: prevAndNextPageData } = await client.query({
-    query: gql`
-        query WizardLore {
-            ${queryString}
-        }
-    `,
-    fetchPolicy: "no-cache",
-  });
-
-  const nextLeftPageData = prevAndNextPageData?.nextLeftPage?.[0] ?? null;
-  const prevRightPageData = prevAndNextPageData?.prevRightPage?.[0] ?? null;
-
-  let previousWizardPageCount = 0;
-
-  if (prevRightPageData) {
-    // get previous wiz page count we can figure out the page number
-    const prevRightPageWizardNum = parseInt(
-      prevRightPageData.id.match(GRAPH_ID_MATCHER)[2] ?? "0"
+export async function bustLoreCache() {
+  try {
+    await fs.unlink(LORE_CACHE);
+    console.info(`Busted lore cache at ${LORE_CACHE}....`);
+  } catch (_) {
+    console.warn(
+      `Cache file ${LORE_CACHE} not deleted, probably didn't exist in first place...`
     );
+  }
+}
 
-    if (prevRightPageWizardNum !== tokenId) {
-      const { data: prevWizardPageCount } = await client.query({
-        query: gql`
-            query WizardLore {
-                lores( where: {tokenId: "${prevRightPageWizardNum}", tokenContract: "${NORMALIZED_WIZARD_CONTRACT_ADDRESS}", struck: false, nsfw: false}) {
-                    id
+export async function getLoreInChapterForm(
+  tokenContract: string,
+  updateCache: boolean = false
+) {
+  const cacheFile = `${LORE_CACHE}`;
+  let results;
+
+  try {
+    const cachedData = JSON.parse(await fs.readFile(cacheFile, "utf8"));
+    if (
+      Math.floor((new Date().getTime() - cachedData.timestamp) / 1000 / 60) <= 2
+    ) {
+      results = cachedData.data;
+      console.log("Using cached data for lore yay!");
+    }
+  } catch (e) {
+    /* not fatal */
+    console.warn("Cache file didn't exist or we couldn't open it");
+  }
+
+  if (!results) {
+    console.log("No cached lore data - fetching from graph");
+    const { data } = await client.query({
+      query: gql`
+        query WizardLore {
+            loreTokens(orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${tokenContract}"}) {
+                tokenContract
+                tokenId
+                lore(
+                    where: { struck: false, nsfw: false }
+                    orderBy: id
+                    orderDirection: asc
+                ) {
+                    ${COMMON_LORE_FIELDS}
                 }
             }
-        `,
-        fetchPolicy: "no-cache",
-      });
+        }
+    `,
+      fetchPolicy: "no-cache",
+    });
 
-      previousWizardPageCount = (prevWizardPageCount?.lores ?? []).length;
+    results = data.loreTokens.map((loreTokenEntry: any) => {
+      return {
+        tokenId: parseInt(loreTokenEntry.tokenId),
+        lore: loreTokenEntry.lore.map(
+          (loreEntry: any) => loreEntry.loreMetadataURI
+        ),
+      };
+    });
+
+    if (updateCache) {
+      await fs.writeFile(
+        cacheFile,
+        JSON.stringify({ timestamp: new Date().getTime(), data: results }),
+        "utf-8"
+      );
     }
   }
 
-  // console.log({
-  //   nextLeftPageGraphData: nextLeftPageData,
-  //   prevRightPageGraphData: prevRightPageData,
-  //   previousWizardPageCount,
-  // });
-  return {
-    nextLeftPageGraphData: nextLeftPageData,
-    prevRightPageGraphData: prevRightPageData,
-    previousTokenPageCount: previousWizardPageCount,
-  };
+  return results;
 }
 
-export async function getCurrentWizardData(
-  rightPageNum: number,
-  wizardNum: number,
-  leftPageNum: number
+export async function getIndexForToken(
+  tokenId: number,
+  paginatedLore: { tokenId: number; lore: any[] }[]
 ) {
-  let currentWizAndPagequeryString = `
-      rightPage: lores(skip: ${rightPageNum}, first: 1, orderBy: id, orderDirection: asc, where: {tokenId: "${wizardNum}", tokenContract: "${NORMALIZED_WIZARD_CONTRACT_ADDRESS}", struck: false, nsfw: false}) {
-        ${COMMON_LORE_FIELDS}
-      }
-  `;
+  return paginatedLore.findIndex((element) => element.tokenId === tokenId);
+}
 
-  // Add left page to query unless we on very first page (instead wiz is shown)
-  if (leftPageNum >= 0) {
-    currentWizAndPagequeryString = `${currentWizAndPagequeryString}
-         leftPage: lores(skip: ${leftPageNum}, first: 1, orderBy: id, orderDirection: asc, where: {tokenId: "${wizardNum}", tokenContract: "${NORMALIZED_WIZARD_CONTRACT_ADDRESS}", struck: false, nsfw: false}) {
-            ${COMMON_LORE_FIELDS}
-          }
-     `;
+export async function getLeftRightPages(
+  loreTokenSlug: string,
+  tokenId: number,
+  leftPageNum: number,
+  rightPageNum: number
+) {
+  const tokenContract = LORE_CONTRACTS.wizards;
+  const loreInChapterForm = await getLoreInChapterForm(tokenContract);
+
+  const chapterIndexForToken = await getIndexForToken(
+    tokenId,
+    loreInChapterForm
+  );
+
+  let leftPage: IndividualLorePageData;
+  let rightPage: IndividualLorePageData;
+
+  if (chapterIndexForToken === -1) {
+    leftPage = {
+      isEmpty: true,
+      bgColor: `#000000`,
+      firstImage: null,
+      pageNumber: leftPageNum,
+    };
+
+    rightPage = {
+      isEmpty: true,
+      bgColor: "#000000",
+      firstImage: null,
+      pageNumber: rightPageNum,
+    };
+  } else {
+    const lore = loreInChapterForm[chapterIndexForToken]?.lore ?? [];
+
+    if (leftPageNum >= 0 && leftPageNum < lore.length) {
+      leftPage = await hydratePageDataFromMetadata(lore[leftPageNum]);
+    } else {
+      // Would end up showing wizard
+      leftPage = {
+        isEmpty: true,
+        bgColor: `#000000`,
+        firstImage: null,
+      };
+    }
+    leftPage.pageNumber = leftPageNum;
+
+    if (rightPageNum < lore.length) {
+      rightPage = await hydratePageDataFromMetadata(lore[rightPageNum]);
+    } else {
+      // Would end showing add lore
+      rightPage = {
+        isEmpty: true,
+        bgColor: "#000000",
+        firstImage: null,
+      };
+    }
+    rightPage.pageNumber = rightPageNum;
   }
 
-  const { data: currentWizLoreData } = await client.query({
-    query: gql`
-        query WizardLore {
-            ${currentWizAndPagequeryString}
-        }
-    `,
-    fetchPolicy: "no-cache",
-  });
+  //------
+  // Figure out previous route
+  let previousPageRoute = null;
+  if (chapterIndexForToken > 0) {
+    if (leftPageNum - 1 >= 0) {
+      previousPageRoute = getLoreUrl(
+        loreTokenSlug,
+        loreInChapterForm[chapterIndexForToken].tokenId,
+        leftPageNum - 1
+      );
+    } else {
+      previousPageRoute = getLoreUrl(
+        loreTokenSlug,
+        loreInChapterForm[chapterIndexForToken - 1].tokenId,
+        (loreInChapterForm[chapterIndexForToken - 1]?.lore ?? []).length - 1
+      );
+    }
+  } else {
+    //No previous pages implies this is first wizard in the book, so before it comes lore
+    previousPageRoute = getLoreUrl("narrative", 0, 0);
+  }
 
-  return {
-    leftPageGraphData: currentWizLoreData?.leftPage?.[0] ?? null,
-    rightPageGraphData: currentWizLoreData?.rightPage?.[0] ?? null,
-  };
+  // Figure out next route
+  let nextPageRoute = null;
+  if (
+    rightPageNum <
+    (loreInChapterForm[chapterIndexForToken]?.lore ?? []).length - 1
+  ) {
+    nextPageRoute = getLoreUrl(loreTokenSlug, tokenId, rightPageNum + 2);
+  } else {
+    if (chapterIndexForToken + 1 < loreInChapterForm.length) {
+      nextPageRoute = getLoreUrl(
+        loreTokenSlug,
+        loreInChapterForm[chapterIndexForToken + 1].tokenId,
+        0
+      );
+    }
+  }
+
+  return [leftPage, rightPage, previousPageRoute, nextPageRoute];
 }
 
 export async function getFirstAvailableWizardLoreUrl() {
@@ -188,55 +240,4 @@ export async function getWizardsWithLore(): Promise<{
     ) => ((result[token.tokenId] = true), result),
     {}
   );
-}
-
-export async function getPreAndNextPageRoutes(
-  loreTokenSlug: string,
-  tokenId: number,
-  pageNum: number,
-  leftPageGraphData: any,
-  rightPageGraphData: any,
-  narrativePageCount: number
-) {
-  const {
-    nextLeftPageGraphData,
-    prevRightPageGraphData,
-    previousTokenPageCount,
-  } = await getPreviousAndNextPageData(
-    tokenId,
-    leftPageGraphData,
-    rightPageGraphData
-  );
-
-  // Figure out previous route
-  let previousPageRoute = null;
-  if (prevRightPageGraphData) {
-    // Previous page could be this wizards or previous wizard's last
-    const previousIdMatcher = prevRightPageGraphData.id.match(GRAPH_ID_MATCHER);
-    const previousPageTokenId = parseInt(previousIdMatcher?.[2] ?? "0");
-    const previousPagePageNum =
-      previousPageTokenId === tokenId
-        ? pageNum - 2
-        : previousTokenPageCount > 0
-        ? previousTokenPageCount - 1
-        : 0;
-    previousPageRoute = getLoreUrl(
-      loreTokenSlug,
-      previousPageTokenId,
-      previousPagePageNum
-    );
-  } else {
-    //No previous pages implies this is first wizard in the book, so before it comes lore
-    previousPageRoute = getLoreUrl("narrative", 0, narrativePageCount - 1);
-  }
-
-  // Figure out next route
-  let nextPageRoute = null;
-  if (nextLeftPageGraphData) {
-    const nextIdMatcher = nextLeftPageGraphData.id.match(GRAPH_ID_MATCHER);
-    const nextPageTokenId = parseInt(nextIdMatcher?.[2] ?? "0");
-    const nextPagePageNum = nextPageTokenId === tokenId ? pageNum + 2 : 0;
-    nextPageRoute = getLoreUrl(loreTokenSlug, nextPageTokenId, nextPagePageNum);
-  }
-  return { previousPageRoute, nextPageRoute };
 }

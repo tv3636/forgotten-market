@@ -1,7 +1,5 @@
 import { IndividualLorePageData } from "./types";
 import { IPFS_SERVER } from "../../constants";
-import matter from "gray-matter";
-import { serialize } from "next-mdx-remote/serialize";
 
 async function fetchLoreMetadata(loreMetadataURI: string | null): Promise<any> {
   if (!loreMetadataURI) return null;

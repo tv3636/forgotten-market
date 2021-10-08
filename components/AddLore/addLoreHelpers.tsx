@@ -5,12 +5,16 @@ import Bluebird from "bluebird";
 import parseDataUrl from "parse-data-url";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import { NORMALIZED_WIZARD_CONTRACT_ADDRESS } from "../Lore/loreSubgraphUtils";
+import {
+  bustLoreCache,
+  NORMALIZED_WIZARD_CONTRACT_ADDRESS,
+} from "../Lore/loreSubgraphUtils";
 import { NETWORK } from "../../constants";
 import replaceAsync from "string-replace-async";
 import axios from "axios";
 import { Flex } from "rebass";
 import { ethers } from "ethers";
+import { getLoreUrl } from "../Lore/loreUtils";
 
 export const pinFileToIPFS = async (
   base64string: string,
@@ -535,11 +539,15 @@ export const getPendingLoreTxHashRedirection = async ({
 
     const pageNum = (wizardPageCount?.lores).length - 1;
 
+    await bustLoreCache();
+
     return {
       redirect: {
-        destination: `/lore/add?lorePageToPrefetch=${
+        destination: getLoreUrl(
+          "wizards",
+          parseInt(wizardId),
           pageNum % 2 === 0 ? pageNum : pageNum + 1
-        }&wizardId=${wizardId}&client=true`,
+        ),
       },
     };
   }

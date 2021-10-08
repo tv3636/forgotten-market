@@ -25,19 +25,10 @@ import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
 import { EditorState } from "draft-js";
 import { Flex } from "rebass";
 import OgImage from "../../components/OgImage";
-import { getLoreUrl } from "../../components/Lore/loreUtils";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
-const AddLoreWrapper = styled.div`
-  /* padding: 1em;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  background-color: #0e0e0e;
-  min-height: 90vh;
-  padding-bottom: 300px; */
-`;
+const AddLoreWrapper = styled.div``;
 
 export type LoreAPISubmitParams = {
   wizard_id: string;
@@ -62,18 +53,8 @@ const WaitingForGraphPage = () => {
   useEffect(() => {
     let reloadTimer: number;
 
-    if (router.query?.lorePageToPrefetch) {
-      // The idea here is that we ask Next.js to prefetch (and therefore ideally re-generate) the specific lore page
-      const pageNum = parseInt(router.query?.lorePageToPrefetch as string);
-      const url = getLoreUrl(
-        "wizards",
-        parseInt(router.query?.wizardId as string),
-        pageNum
-      );
-      router.prefetch(url);
-      reloadTimer = window.setTimeout(() => router.push(url), 4 * 1000);
-    } else {
-      reloadTimer = window.setTimeout(
+    async function logic() {
+      window.setTimeout(
         () =>
           router.push(
             `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&wizardId=${router.query?.wizardId}`
@@ -82,9 +63,7 @@ const WaitingForGraphPage = () => {
       );
     }
 
-    return () => {
-      window.clearTimeout(reloadTimer);
-    };
+    logic();
   }, []);
 
   return (
