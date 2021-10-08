@@ -19,6 +19,7 @@ const AboutWrapper = styled.div`
   grid-template-columns: 1fr min(60ch, calc(100% - 32px)) 1fr;
   grid-column-gap: 16px;
   grid-auto-rows: max-content;
+  padding-bottom: 2em;
 
   & > * {
     grid-column: 2;
