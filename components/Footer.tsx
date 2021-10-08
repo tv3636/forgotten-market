@@ -229,8 +229,8 @@ export default function Footer({}: Props) {
             src="https://discord.com/widget?id=853432452181262346&theme=dark"
             width="350"
             height="200"
-            allowTransparency="true"
-            frameborder="0"
+            allowTransparency={true}
+            frameBorder={0}
             sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
             className="discord-widget"
           ></iframe>
