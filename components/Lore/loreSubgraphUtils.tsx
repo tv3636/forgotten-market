@@ -68,7 +68,7 @@ export async function getLoreInChapterForm(
     const { data } = await client.query({
       query: gql`
         query WizardLore {
-            loreTokens(orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${tokenContract}"}) {
+            loreTokens(first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${tokenContract}"}) {
                 tokenContract
                 tokenId
                 lore(

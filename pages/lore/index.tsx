@@ -48,7 +48,6 @@ const BookOfLoreIndexPage = ({ wizardsWithLore }: { wizardsWithLore: any }) => {
 };
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  await bustLoreCache(); // Important as this clears any prior cache at new deploy/build time ...
   return {
     props: {
       wizardsWithLore: await getWizardsWithLore(),
