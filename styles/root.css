@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=New+Rocker&family=Roboto+Mono:ital,wght@0,300;0,400;0,700;1,300;1,700&family=Roboto:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=New+Rocker&family=Roboto+Mono:ital,wght@0,400;1,300;1,700&display=swap");
 
 html,
 body {
@@ -22,7 +22,7 @@ html {
 
 body {
   /* font-family: "Roboto Mono", system-ui, -apple-system, */
-  font-family: system-ui, -apple-system,
+  font-family: "Inter", system-ui, -apple-system,
     /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   color: #d1c8bf;

@@ -188,7 +188,7 @@ export default function Footer({}: Props) {
           </ul>
         </li>
         <li className="nav__item nav__item--extra">
-          <h2 className="nav__title">Social</h2>
+          <h2 className="nav__title">Resources</h2>
           <ul className="nav__ul nav__ul--extra">
             <li className="item">
               <a href="/">The Secret Tower</a>
