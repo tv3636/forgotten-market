@@ -3,9 +3,7 @@ import { ResponsiveImg } from "../components/ResponsivePixelImg";
 
 <InfoPageLayout title="wtf | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs" headerImgUrl={"/static/img/header.png"}>
 
-# Welcome to the Cult
-
-# FAQ
+# Welcome to the Cult - Start Here
 
 ## **What is this?**
 
@@ -41,11 +39,13 @@ Wizards come from every walk, age, and alignment of life. We have Wizards who ar
 
 ## **What benefits come with owning a Wizard?**
 
-In addition to membership into our mysterious-but-friendly cult, owning a Wizard NFT gives you access to many other treasures such:
+In addition to membership into our mysterious-but-friendly cult, owning a Wizard NFT gives you access to many other treasures such as:
+
+<img src="https://nftz.forgottenrunes.com/website/cdn/bodyTurn.gif" width="100%" height="auto" style={{"margin": "0 auto", "image-rendering": "pixelated"}}/>
 
 - as full turnarounds and walk cycles of your wizard
 - [a GM generator](/scenes/gm/7846)
-- potential airdrops such as our recent ["Sacred Flame" for _Forgotten Souls_](/posts/forgotten-souls) (["Sacred Flame on OpenSea"](https://opensea.io/assets/0x31158181b4b91a423bfdc758fc3bf8735711f9c5/0))
+- potential airdrops such as our recent ["Sacred Flame" for _Forgotten Souls_](/posts/forgotten-souls) ([OpenSea](https://opensea.io/assets/0x31158181b4b91a423bfdc758fc3bf8735711f9c5/0))
 - building out your character and scribe it into the [The Book of Lore](/lore)
 - make friends and play games
 
@@ -56,14 +56,18 @@ We have many more surprises coming to the Cult soon, join us.
 - Be sure to [join the Discord](https://discord.gg/forgottenrunes) (if you haven't already)
 - Write in [The Book of Lore](/lore)
 - Join [a Guild](/posts/guilds)
+- Listen in on [Wizard Wednesdays](/posts/wizard-wednesdays)
+- Take a picture with a [mural IRL](/posts/murals)
 
 ## **Can you talk more about this concept of "decentralized world-building?"**
 
 <ResponsiveImg className="full-bleed" src="/static/img/map/map2.png" />
 
-This blog post explains it in depth, but the top level explanation is that all of our Cult members contribute daily to expanding the world of Forgotten Runes. These contributions come in the form of art, animation, stories, poems, and other media. This work is collected in the Book of Lore, which is an every growing compendium of every Wizard in the collection.
+All of our Cult members contribute daily to expanding the world of Forgotten Runes. These contributions come in the form of art, animation, stories, poems, and other media. This work is collected in the Book of Lore, which is an every growing compendium of every Wizard in the collection.
 
 ## **What if I'm not a great artist?**
+
+<WizardArt wizard="4853" url="https://i.imgur.com/5KacfZT.png" pixelArt={false}  />
 
 We have so many talented artists in our community and many of them take commissions!
 
@@ -72,6 +76,12 @@ If you'd like to have someone create Lore for you -- or offer to create Lore for
 ## **What are your future plans for this project?**
 
 See our [Roadmap](/posts/roadmap)!
+
+## **Where can I hear from the Founders?**
+
+The founders Elf and Dotta and team give a weekly "AmA" dubbed _Wizard Wednesdays_ **every week** on Twitter Spaces. To listen in, follow [@forgottenrunes](https://twitter.com/forgottenrunes) on Twitter.
+
+We also have recordings of all past weeks [on our Soundcloud](https://soundcloud.com/forgottenrunes)
 
 ## **Who is the team behind this project?**
 
@@ -120,10 +130,6 @@ The technical among you might notice that we do host a mirror of our images and 
 
 Forgotten Runes will grant Wizard NFT owners non-exclusive commercial rights to the image in their NFT. That said, commercial rights are an involved, nuanced, and even regional topic and we will outline more the specifics of these rights soon.
 
-# Q: Where can I learn more about the Wizards?
-
-Head over to our other [blog posts](/posts) to learn [how to get commissions made](/posts/commissions), the [roadmap](/posts/roadmap), how to [find our murals](/posts/murals), and much, much more.
-
 # Special Thanks
 
 We'd like to offer our thanks to our beta testers and folks who gave us feedback early in the project. We especially want to thank [Owen (0xmons)](https://twitter.com/0xmons) for his guidance and technical feedback on the project.
@@ -135,5 +141,6 @@ We'd like to offer our thanks to our beta testers and folks who gave us feedback
 - [Twitter](https://twitter.com/forgottenrunes)
 - [Discord](https://discord.com/invite/F7WbxwJuZC)
 - [Forgotten Runes Contract on Etherscan](https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42)
+- [AmAs on Soundcloud](https://soundcloud.com/forgottenrunes)
 
 </InfoPageLayout>

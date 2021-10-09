@@ -185,6 +185,11 @@ export default function Footer({}: Props) {
             <li>
               <a href="https://discord.gg/forgottenrunes">Discord</a>
             </li>
+            <li>
+              <a href="https://soundcloud.com/forgottenrunes">
+                Soundcloud (AmAs)
+              </a>
+            </li>
           </ul>
         </li>
         <li className="nav__item nav__item--extra">

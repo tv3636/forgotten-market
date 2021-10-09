@@ -17,6 +17,12 @@ const SiteNavElement = styled.nav`
 
   padding: 0 15px;
 
+  li.highlighted a {
+    background-color: #1f200d;
+    border-radius: 5px;
+    padding: 5px 8px !important;
+  }
+
   a {
     color: white;
     text-decoration: none;
@@ -222,9 +228,9 @@ export default function SiteNav({}: Props) {
           <li className="item">
             <a href="/">The Secret Tower</a>
           </li>
-          <li className="item">
+          <li className="item highlighted">
             <Link as={"/wtf"} href={"/wtf"} passHref={true}>
-              wtf?
+              Start here
             </Link>
           </li>
 

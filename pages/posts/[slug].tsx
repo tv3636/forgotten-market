@@ -13,6 +13,7 @@ import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { ResponsiveImg } from "../../components/ResponsivePixelImg";
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -26,6 +27,7 @@ const components = {
   //   TestComponent: dynamic(() => import("../../components/TestComponent")),
   Head,
   WizardArt,
+  ResponsiveImg,
 };
 
 const NavAnchor = styled.a`

@@ -42,11 +42,11 @@ Below we've included the artist, some example artworks, how you can contact them
 - Twitter: [@sweetbread.eth](https://twitter.com/sweetbread_eth)
 - Status: Active
 
-<WizardArt wizard="2922" url="https://i.imgur.com/IP0y4rF.png" />
+<WizardArt wizard="2922" url="https://i.imgur.com/IP0y4rF.png" pixelArt={false} />
 
-<WizardArt wizard="9745" url="https://i.imgur.com/PqBudpO.jpg" />
+<WizardArt wizard="9745" url="https://i.imgur.com/PqBudpO.jpg" pixelArt={false}  />
 
-<WizardArt wizard="4853" url="https://i.imgur.com/5KacfZT.png" />
+<WizardArt wizard="4853" url="https://i.imgur.com/5KacfZT.png" pixelArt={false}  />
 
 ---
 
@@ -81,7 +81,7 @@ Our resident bard
 - Twitter: [@John_bivens](https://twitter.com/John_Bivens)
 - Status: Active
 
-<WizardArt wizard="8664" url="https://i.imgur.com/sRMJy5l.jpg" />
+<WizardArt wizard="8664" url="https://i.imgur.com/sRMJy5l.jpg" pixelArt={false} />
 
 ---
 
