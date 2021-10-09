@@ -11,11 +11,13 @@ import InfoPageLayout from "../components/InfoPageLayout";
 import { ResponsiveImg } from "../components/ResponsivePixelImg";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import WizardArt from "../components/WizardArt";
 
 const components = {
   Head,
   InfoPageLayout,
   ResponsiveImg,
+  WizardArt,
 };
 
 export default function WtfPage({

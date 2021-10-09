@@ -23,3 +23,6 @@ start-graph:
 	--ethereum-rpc rinkeby:https://rinkeby.infura.io \
 	--ipfs 127.0.0.1:5001 \
 	--debug
+
+cdn-images:
+	s3cmd sync -P --acl-public -v ./public/static/cdn/ s3://nftz.forgottenrunes.com/website/cdn/

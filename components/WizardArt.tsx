@@ -2,12 +2,13 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../data/nfts-prod.json";
-import { ResponsivePixelImg } from "./ResponsivePixelImg";
+import { ResponsiveImg, ResponsivePixelImg } from "./ResponsivePixelImg";
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 type Props = {
   wizard: string;
   url: string;
+  pixelArt?: boolean;
 };
 
 const WizardArtWrapper = styled.div<{ color: string }>`
@@ -18,7 +19,8 @@ const WizardArtWrapper = styled.div<{ color: string }>`
   background-color: ${(props) => `#${props.color}`};
   margin: 1em 0;
   width: 100%;
-  grid-column: 1 / 4;
+  /* grid-column: 1 / 4; */ /* use this for full bleed */
+  border-radius: 5px;
 `;
 
 const Original = styled.div`
@@ -36,7 +38,16 @@ const SideBySide = styled.div`
   }
 `;
 
-export default function WizardArt({ wizard, url }: Props) {
+const Caption = styled.p`
+  display: flex;
+  font-size: 0.6em !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+`;
+
+export default function WizardArt({ wizard, url, pixelArt = true }: Props) {
   const wd = wizData[wizard];
   const wizardTitle = `${wd.name} (#${wizard})`;
   const wizardImageUrl = `https://nftz.forgottenrunes.com/wizards/${wizard}.png`;
@@ -46,10 +57,12 @@ export default function WizardArt({ wizard, url }: Props) {
       <h2>{wizardTitle}</h2>
       <SideBySide>
         <Original>
+          <Caption>Original NFT</Caption>
           <ResponsivePixelImg src={wizardImageUrl} />
         </Original>
         <Derivative>
-          <ResponsivePixelImg src={url} />
+          <Caption>Artist Interpretation</Caption>
+          <ResponsiveImg src={url} pixelArt={pixelArt} />
         </Derivative>
       </SideBySide>
     </WizardArtWrapper>

@@ -1,6 +1,7 @@
 ---
 title: Wizard Murals
 description: "See a Wizard in physical paint in your neighborhood. Here's a list of murals that exist or have existed and instructions on how to commission your own"
+ogImage: https://i.imgur.com/fg29jza.jpg
 ---
 
 ## Austin, Texas, USA

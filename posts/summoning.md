@@ -1,6 +1,7 @@
 ---
 title: The Summoning
 description: The Summoning was when Wizards came into being. This page describes the occasion and mechanics of that day
+ogWizardImage: 5724
 ---
 
 On July 30th, at roughly 8:30 am, a crow perched upon the Secret Tower, and the Tower came alive. Within a frenzied timespan of 20 minutes, our community had summoned all ten thousand Wizards, and the Secret Tower closed once again.

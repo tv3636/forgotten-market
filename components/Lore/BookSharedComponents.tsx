@@ -17,4 +17,5 @@ export const LoreNameWrapper = styled(motion.div)<{ layoutId: string }>`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  color: black;
 `;
