@@ -79,6 +79,8 @@ See our [Roadmap](/posts/roadmap)!
 
 ## **Where can I hear from the Founders?**
 
+<ResponsiveImg src="/static/img/wizard-wednesday.jpg" pixelArt={true} />
+
 The founders Elf and Dotta and team give a weekly "AmA" dubbed _Wizard Wednesdays_ **every week** on Twitter Spaces. To listen in, follow [@forgottenrunes](https://twitter.com/forgottenrunes) on Twitter.
 
 We also have recordings of all past weeks [on our Soundcloud](https://soundcloud.com/forgottenrunes)
@@ -98,38 +100,6 @@ Elf is a Los Angeles, California-based Artist. He has worked in the entertainmen
 
 Dotta deployed one of the earliest ERC721 contracts, [Dotlicence](https://etherscan.io/address/0xb5da84cdc928765c15a8192bf3c6649e7802772b), in April 2018.
 
-## The Wizard's Summary
-
-The Wizard's Cult is a collaborative legendarium. There are 10,000 unique Wizard NFTs.
-
-The NFT holder is considered the Wizard owner and they hold not only the _image_, but the _character_ of that Wizard.
-
-Wizards create [stories, animations, artwork, poems, and songs](/posts/commissions) about their character and together we're world-building.
-
-The image of each Wizard is 50x50 pixels, scaled to 400x400. Each Wizard has a unique name and configuration of traits. But the Wizard character is so much more than their pixels. Come visit [our community](https://discord.gg/forgottenrunes) and see.
-
-## Provenance: Encoded Fully On-Chain
-
-Most NFT projects merely store their images on IPFS, and the owners of such NFTs only hold a pointer to that image. Not so with us.
-
-Our Wizards are fully encoded on-chain. The provenance of the Wizard images and data are recorded wholly within the Ethereum blockchain, attached to our [custom contract](https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42). Which means ownership of a Wizard, and the image itself, is fully on-chain.
-
-This on-chain provenance puts Wizards in a small cohort of on-chain NFTs including [0xmons](https://0xmons.xyz/) and [Mooncats](https://mooncatrescue.com/).
-
-In short, your Wizard is 100% decentralized and will live forever on the Ethereum blockchain.
-
-# Q: Tell me more about on-chain encoding?
-
-Unlike most other NFT projects, Forgotten Rune's Wizards are fully encoded on-chain. This means that they do not depend on any external or centralized hosting service to exist.
-
-We do not wish to leak the attributes of the Wizards before the Summoning has started, therefore, the Decoding Ring (script) for generating the Wizards from on-chain data will be released on Github 96 hours after The Summoning has begun.
-
-The technical among you might notice that we do host a mirror of our images and data on IPFS and centralized services. This is only a mirror and is for convenience of tools like OpenSea and not requirement for the provenance or persistence of the Wizards.
-
-# Q: Tell me more about the commercial rights?
-
-Forgotten Runes will grant Wizard NFT owners non-exclusive commercial rights to the image in their NFT. That said, commercial rights are an involved, nuanced, and even regional topic and we will outline more the specifics of these rights soon.
-
 # Special Thanks
 
 We'd like to offer our thanks to our beta testers and folks who gave us feedback early in the project. We especially want to thank [Owen (0xmons)](https://twitter.com/0xmons) for his guidance and technical feedback on the project.
@@ -142,5 +112,15 @@ We'd like to offer our thanks to our beta testers and folks who gave us feedback
 - [Discord](https://discord.com/invite/F7WbxwJuZC)
 - [Forgotten Runes Contract on Etherscan](https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42)
 - [AmAs on Soundcloud](https://soundcloud.com/forgottenrunes)
+
+# What Next?
+
+We suggest that you:
+
+- [read the Book of Lore](/lore)
+- [join the Discord](https://discord.gg/forgottenrunes)
+- and [pick a Wizard](/gallery)
+
+**Welcome to the Cult**!
 
 </InfoPageLayout>
