@@ -7,7 +7,7 @@ import { ResponsiveImg } from "../components/ResponsivePixelImg";
 
 ## **What is this?**
 
-Forgotten Runes Wizard's Cult is collection of 10k Wizard NFTs. Each Wizard is totally unique and has it's own name. Additionally, all of the Wizard art is fully encoded on-chain.
+Forgotten Runes Wizard's Cult is collection of 10k Wizard NFTs. Each Wizard is totally unique and has it's own name. Additionally, all of the Wizard art is [fully encoded on-chain](/posts/on-chain).
 
 The World of Forgotten Runes is growing everyday as our Cult contributes art, animation, stories, memes, and lore to social media and to our one-of-a-kind [Book of Lore](/lore).
 

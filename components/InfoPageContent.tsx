@@ -65,8 +65,8 @@ const AboutWrapper = styled.div`
   p {
     line-height: 1.6em;
     font-size: 19px;
-    margin-top: 0;
-    margin-bottom: 32px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 
     img {
       margin: 0.5em auto;
@@ -107,6 +107,13 @@ const AboutWrapper = styled.div`
     padding: 2px 4px;
     border-radius: 2px;
     margin: -2px 0px;
+  }
+
+  pre {
+    overflow: scroll;
+    background-color: hsl(262deg 20% 16%);
+    padding: 1em 1em;
+    border-radius: 5px;
   }
 
   .embed-container {
