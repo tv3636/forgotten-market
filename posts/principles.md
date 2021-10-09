@@ -6,9 +6,13 @@ ogWizardImage: 284
 
 ## "Wizards are for Everyone"
 
+<ResponsiveImg src="/static/img/posts/Wizards-are-for-Everyone.png" pixelArt={true} />
+
 Wizards come from every walk, age, and alignment of life. We have Wizards who are [kids and Wizards over 60](https://twitter.com/dotta/status/1445919395939819526). Our community is a place to make friends, tell stories, write Lore, and share art.
 
 ## "Like Wizard, Buy Wizard"
+
+<ResponsiveImg src="/static/img/posts/Like-Wizard-Buy-Wizard.png" pixelArt={true} />
 
 In the world of NFTs there's an over-emphasis on "rarity" of traits. Flippers look to strict rankings like rarity tools to tell them "what's valuable and what's not".
 
@@ -17,6 +21,8 @@ In Forgotten Runes, we eschew the idea that a Wizard's _traits_ alone give them 
 "Like Wizard, Buy Wizard" encapsulates the idea that it's important to focus on a wizard you vibe with. Worry less about _rarity_ and more about if you feel a personal connection.
 
 ## "Lore not Floor"
+
+<ResponsiveImg src="/static/img/posts/Lore-not-Floor.png" pixelArt={true} />
 
 a.k.a. Proof-of-Lore
 a.k.a. "Live, Laugh, Lore"
@@ -34,6 +40,8 @@ If you see something you love, but can't make it yourself you can [checkout our 
 Everyone has a story to tell. And when you're having fun sharing Lore, the floor takes care of itself.
 
 ## "Ours over Official"
+
+<ResponsiveImg src="/static/img/posts/Ours-over-Official.png" pixelArt={true} />
 
 Or: Authenticity over Authority, Community over Clergy
 
