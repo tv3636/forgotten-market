@@ -59,6 +59,15 @@ We have many more surprises coming to the Cult soon, join us.
 - Listen in on [Wizard Wednesdays](/posts/wizard-wednesdays)
 - Take a picture with a [mural IRL](/posts/murals)
 
+## What are the Principles of the Cult?
+
+- "Wizards are for Everyone"
+- "Lore not Floor"
+- "Ours over Official"
+- ... and many more
+
+We've written up [more about our principles here](/posts/principles).
+
 ## **Can you talk more about this concept of "decentralized world-building?"**
 
 <ResponsiveImg className="full-bleed" src="/static/img/map/map2.png" />
@@ -73,10 +82,6 @@ We have so many talented artists in our community and many of them take commissi
 
 If you'd like to have someone create Lore for you -- or offer to create Lore for others -- [see the commissions page here](/posts/commissions)
 
-## **What are your future plans for this project?**
-
-See our [Roadmap](/posts/roadmap)!
-
 ## **Where can I hear from the Founders?**
 
 <ResponsiveImg src="/static/img/wizard-wednesday.jpg" pixelArt={true} />
@@ -84,6 +89,10 @@ See our [Roadmap](/posts/roadmap)!
 The founders Elf and Dotta and team give a weekly "AmA" dubbed _Wizard Wednesdays_ **every week** on Twitter Spaces. To listen in, follow [@forgottenrunes](https://twitter.com/forgottenrunes) on Twitter.
 
 We also have recordings of all past weeks [on our Soundcloud](https://soundcloud.com/forgottenrunes)
+
+## **What are your future plans for this project?**
+
+See our [Roadmap](/posts/roadmap)!
 
 ## **Who is the team behind this project?**
 
