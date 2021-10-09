@@ -1,6 +1,6 @@
 ---
-title: Principles of The Forgotten Runes Wizard's Cult
-description: Our community has many principles that we live by. This document captures some of them.
+title: "Principles of The Forgotten Runes Wizard's Cult"
+description: "Our community has many principles that we live by. This document captures some of them."
 ogWizardImage: 283
 ---
 
