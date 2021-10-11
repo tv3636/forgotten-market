@@ -4,10 +4,10 @@ description: "See a Wizard in physical paint in your neighborhood. Here's a list
 ogImage: https://i.imgur.com/fg29jza.jpg
 ---
 
-## Austin, Texas, USA
+## Austin, Texas, USA - 3101 Speedway
 
 - Status: Active
-- Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
+- Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709)
 - Dates: August 2021 - Present
 - Address: Arcade UFO, 3101 Speedway, Austin,TX 78705
 
@@ -16,6 +16,18 @@ Photos:
 ![](https://i.imgur.com/fg29jza.jpg)
 ![](https://i.imgur.com/xVPav6m.jpg)
 ![](https://i.imgur.com/fBYzhXN.jpg)
+
+## Austin, Texas, USA - 2716 Guadalupe St
+
+- Status: Active
+- Wizards: [#6170](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/6170)
+- Dates: September 2021 - Present
+- Address: 2716 Guadalupe St, Austin, TX 7870
+
+Photos:
+
+![](https://i.imgur.com/q0R3j8h.jpg)
+
 
 ## Miami, Florida, USA
 
