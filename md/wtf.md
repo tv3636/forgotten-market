@@ -72,11 +72,11 @@ We've written up [more about our principles here](/posts/principles).
 
 <ResponsiveImg className="full-bleed" src="/static/img/map/map2.png" />
 
-All of our Cult members contribute daily to expanding the world of Forgotten Runes. These contributions come in the form of art, animation, stories, poems, and other media. This work is collected in the Book of Lore, which is an every growing compendium of every Wizard in the collection.
+All of our Cult members contribute daily to expanding the world of Forgotten Runes. These contributions come in the form of art, animation, stories, poems, and other media. This work is collected in the Book of Lore, which is an ever-growing compendium of every Wizard in the collection.
 
 ## **What if I'm not a great artist?**
 
-<WizardArt wizard="4853" url="https://i.imgur.com/5KacfZT.png" pixelArt={false}  />
+<ResponsiveImg className="full-bleed" src="https://nftz.forgottenrunes.com/website/cdn/derivativegallery.png" />
 
 We have so many talented artists in our community and many of them take commissions!
 
