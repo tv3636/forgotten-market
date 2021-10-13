@@ -57,7 +57,7 @@ To qualify for a Guild position, one must be a Verified Wizard. (We may allow un
 
 ## The Art and Lore Guild
 
-The Art and Lore Guild is for those who wish to write stores, draw pictures, and create animations about Wizards and their world.
+The Art and Lore Guild is for those who wish to write stories, draw pictures, and create animations about Wizards and their world.
 
 The Art and Lore Guild is good fit for you if you:
 

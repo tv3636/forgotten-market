@@ -1,6 +1,7 @@
 ---
 title: Aseprite(or Photoshop)ではじめるWizard編集
 description: このガイドでは、Wizard達をAsepriteでロードし、アートリミックス、アニメーション、その他Asepriteが可能にするあらゆることに使用する方法を紹介します。
+ogWizardImage: 5335
 ---
 
 まずはじめに、ウィザードを各レイヤーに分けます。おそらく頭、ボディ、小物、使い魔、ルーンなどになるでしょう。

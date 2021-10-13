@@ -1,6 +1,7 @@
 ---
 title: Wizardの壁画
 description: "物理的なペイントで描かれたWizardを、あなたの近所で見てみませんか？ここでは、現存する壁画や過去に存在した壁画のリストに加え、自分の壁画を依頼する方法を紹介します。"
+ogImage: https://i.imgur.com/fg29jza.jpg
 ---
 
 ## Austin, Texas, USA
