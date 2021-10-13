@@ -1,6 +1,7 @@
 ---
 title: Wizardアートの制作委託
 description: 私たちのコミュニティには、自分たちのWizard達のアートワークを作成する活発なカルチャーがあります。このドキュメントは、Wizard達のアートワーク作成の依頼を受けている人達をまとめたものです。
+ogWizardImage: 4640
 ---
 
 以下に、アーティスト、作品例、依頼のための連絡方法などを紹介します。
@@ -41,11 +42,11 @@ description: 私たちのコミュニティには、自分たちのWizard達の�
 - Twitter: [@sweetbread.eth](https://twitter.com/sweetbread_eth)
 - ステータス: アクティブ
 
-<WizardArt wizard="2922" url="https://i.imgur.com/IP0y4rF.png" />
+<WizardArt wizard="2922" url="https://i.imgur.com/IP0y4rF.png" pixelArt={false}  />
 
-<WizardArt wizard="9745" url="https://i.imgur.com/PqBudpO.jpg" />
+<WizardArt wizard="9745" url="https://i.imgur.com/PqBudpO.jpg" pixelArt={false}  />
 
-<WizardArt wizard="4853" url="https://i.imgur.com/5KacfZT.png" />
+<WizardArt wizard="4853" url="https://i.imgur.com/5KacfZT.png" pixelArt={false}  />
 
 ---
 
@@ -80,7 +81,7 @@ Our resident bard
 - Twitter: [@John_bivens](https://twitter.com/John_Bivens)
 - ステータス: アクティブ
 
-<WizardArt wizard="8664" url="https://i.imgur.com/sRMJy5l.jpg" />
+<WizardArt wizard="8664" url="https://i.imgur.com/sRMJy5l.jpg" pixelArt={false} />
 
 ---
 
