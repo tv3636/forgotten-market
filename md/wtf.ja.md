@@ -3,111 +3,134 @@ import { ResponsiveImg } from "../components/ResponsivePixelImg";
 
 <InfoPageLayout title="wtf | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs" headerImgUrl={"/static/img/header.png"}>
 
-# カルトへようこそ
+# カルトへようこそ - はじめに
 
-## Wizard について
+## **これは何？**
 
-Wizard のカルトは共同で紡がれた幾多の伝説であり、そこには 1 万の唯一無二の Wizard NTF が存在しています。
+Forgotten Runes Wizard's Cultは、10,000のWizard NFTのコレクションです。全てのWizardは完全にユニークで、それぞれに名前が付けられています。また、Wizardの画像は[全てオンチェーン上に保存されています](/posts/on-chain)。
 
-NFT の所有者は、Wizard の所有者とみなされ、その Wizard の _画像_ だけでなく、その _キャラクター_ も所有しています。
+Forgotten Runesの世界は、私たちカルトがアート、アニメーション、ストーリー、ミーム、そして伝承(Lore)をソーシャルメディアや独自の[Book of Lore](/lore)に投稿することで日々成長しています。
 
-Wizards 達は自分のキャラクターの[物語やアニメーション、アートワーク、ポエム、歌](/posts/commissions)を作成し、一緒に世界を築き上げていきます。
+このような分散型の世界創造には無限の可能性があり、私たちはそれを"コラボレーティブ・レジェンダリウム"と呼んでいます。この世界想像の実験に参加する人の多くは、Wizard NFTを所有しカルトに参加します。
 
-各 Wizard の画像は 50x50 ピクセルで、それが 400x400 に拡大されています。そしてそれぞれの Wizard は、独自の名前と特徴（traits）の組み合わせを持っています。しかし、Wizard のキャラクターは、そのピクセル以上のものなのです。ぜひ[私たちのコミュニティ](https://discord.gg/forgottenrunes)に来て、それを確認してみてください。
+<img src="https://nftz.forgottenrunes.com/website/cdn/gifSMALL.gif" width="300" height="168" style={{"margin": "0 auto"}}/>
 
-## Wizard の取得
+## **どうやってWizardを手に入れるの？**
 
-召喚の儀式は 2021 年 6 月 30 日、[Ethereum ブロック 12736300](https://etherscan.io/block/countdown/12736300)に始まりました. Wizard NFT はオンチェーンに全てエンコードされています。
+私たちのローンチセールは2021 年 6 月 30 日に行われました。ミント価格は0.07ETHで28分で10,000のWizardは完売しました。
 
-現在、Wizard を入手するにはセカンダリーマーケット([OpenSea](https://opensea.io/collection/forgottenruneswizardscult))を利用するしかありません
+しかし、今でも[OpenSea](https://opensea.io/collection/forgottenruneswizardscult) などのセカンダリーマーケットでWizardを購入することは可能です。
 
-## 来歴: フルオンチェーンエンコーディング
+> TIP: もしNFTを買うのが初めてならば、[このOpenSeaでのNFTの売買方法](https://www.inputmag.com/guides/how-to-buy-sell-nfts-on-opensea)を確認してください。
+>
+> また、[私たちのとてもフレンドリーなDiscordに参加](https://discord.gg/forgottenrunes)して、色々聞いてみてください。コミュニティのWizards達がいつでもお手伝いします。
 
-ほとんどの NFT プロジェクトでは、IPFS 上に画像を保存し、NFT の所有者はその画像への参照を持っているだけです。しかし、私たちはそうではありません。
 
-我々の Wizard 達は全てがオンチェーンにエンコードされて保存されています。Wizard の画像のとデータの来歴は完全に Ethereum ブロックチェーン内に記録され、私たちの[カスタムコントラクト](https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42)に紐付けられています。
-これは Wizard の所有権だけでなくその画像自身もが全てオンチェーンにエンコーディングされていることを意味します。
+## **なぜWizardになる必要があるの？**
 
-このフルオンチェーンという特徴により、Wizard 達は[0xmons](https://0xmons.xyz/)や[Mooncats](https://mooncatrescue.com/)を含むオンチェーン NFT という小さなコホートに入ります。
+Wizardになるということは、物語、Lore(伝承)、アートの共同制作、そしてThe Forgotten Runes Wizard Cultのコミュニティに参加するということを意味します。
 
-要するに、あなたの Wizard は 100%分散化されており、Ethereum ブロックチェーン上で永遠に生き続けるのです。
+Forgotten Runes Wizardを所有することは、そのWizardの _キャラクター_ を受け入れるということと同意です。Wizard達は自分の物語を語るために「Lore(伝承)」を作ります。(そしてWizardの所有者は、その _キャラクター_ に対していくつかの非独占的な商業的権利を得ることができます)。
 
-## 世界と伝承
+## **どんな人がウィザードになるべき？**
+
+**Wizardsはみんなのものです。**
+
+Wizards達は、多様な職業、年齢、その他のバックグラウンドを持っています。[子供や60歳以上のウィザード](https://twitter.com/dotta/status/1445919395939819526)のWizardもいます。もしあなたが、ファイナル・ファンタジー、ロード・オブ・ザ・リング、ハリー・ポッター、ダンジョン＆ドラゴンズ、マジック・ザ・ギャザリングのようなものが好きで、それらの周りに生まれる物語、楽しみ、そして友情を愛しているなら、The Forgotten Runes Wizard Cultはあなたにぴったりでしょう。
+
+## **Wizardを保有するメリットはありますか？**
+
+Wizard NFTの保有者は、謎めきながらもフレンドリーなカルトのメンバーになれるだけでなく、以下のような様々な特典を受けることができます：
+
+<img src="https://nftz.forgottenrunes.com/website/cdn/bodyTurn.gif" width="100%" height="auto" style={{"margin": "0 auto", "image-rendering": "pixelated"}}/>
+
+- 上のイメージのような、あなたのWizardの回転パーツとウォークサイクル
+- [GM画像生成アプリ](/scenes/gm/7846)
+- ["Sacred Flame" for _Forgotten Souls_](/posts/forgotten-souls) ([OpenSea](https://opensea.io/assets/0x31158181b4b91a423bfdc758fc3bf8735711f9c5/0))のようなAirDropが貰える可能性
+- あなたのキャラクターを作り上げ、[The Book of Lore](/lore)に書き込む権利
+- 友達を作って、一緒にゲームをしたりする機会
+
+近いうちにカルトにはたくさんのサプライズが起こるでしょう、ぜひご参加ください。
+
+## **Wizardになったら何をすれば良いですか？**
+
+- 必ず[Discordに参加しましょう](https://discord.gg/forgottenrunes)(もしまだなら)
+- [The Book of Lore](/lore)を書きましょう
+- [ギルド](/posts/guilds)に参加しましょう
+- [Wizard Wednesdays](/posts/wizard-wednesdays)を聴きましょう
+- [現実世界の壁画](/posts/murals)の写真を撮りましょう
+
+## カルトの理念はなんですか？
+
+- "Wizards are for Everyone" (Wizardはみんなのもの)
+- "Lore not Floor" (価格ではなくLore)
+- "Ours over Official" (公式よりも私達)
+- などなど...
+
+理念については[こちらで詳しく説明しています](/posts/principles).
+
+## **"分散型の世界創造"というコンセプトについて、もう少し詳しく説明してもらえますか？**
 
 <ResponsiveImg className="full-bleed" src="/static/img/map/map2.png" />
 
-Forgotten Runes の Wizard を所有することは、*character*を受け入れることと同義です。Wizard 達は自分の物語を伝えるため伝承(Lore)を作成します。
+日々、カルトのメンバー達はForgotten Runesの世界を拡張しており、それらは主に、アート、アニメーション、ストーリー、ポエムなどのメディアを通して行われています。日々増え続けるそれらの作品は、すべてのWizardを網羅する抄録"Book of Lore"に集められています。
 
-その Wizard 達のための伝承は、近々作成される Book of Lore (2021 年 9 月予定)にオンチェーンで不変的に保存することが可能です。
+## **私が素晴らしいアーティストではなかったら？**
 
-> 誰かに自分のための伝承を作ってもらいたい、もしくは他の人のために伝承を作ってあげたいという方は、[こちらのコミッションページをご覧ください](/posts/commissions)。
+<ResponsiveImg className="full-bleed" src="https://nftz.forgottenrunes.com/website/cdn/derivativegallery.png" />
 
-ここでは、この精神に基づいてコミュニティが作成したアートワークの例をいくつかご紹介します。
+私たちのコミュニティには才能豊かなアーティスト達がたくさんいて、その多くがコミッションを受け付けています。
 
-## Magus Devon of The Quantum Downs ([#6001](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/6001))
+誰かにLoreを作ってもらいたい、あるいは他の人にLoreを作ることを提案したいという方は、[こちらのコミッションのページを見てみてください](/posts/commissions)。
 
-[Source Tweet](https://twitter.com/magusdevon/status/1413215538046701574?s=21)
+## **ファウンダー達の声はどこで聞けますか？**
 
-<ResponsiveImg className="full-bleed" src="/static/img/wtf/magus-6001.png" />
+<ResponsiveImg src="/static/img/wizard-wednesday.jpg" pixelArt={true} />
 
-## Enchanter Orbus of the Road ([#8664](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/8664))
+プロジェクトのファウンダーElfとDotta、として彼らのチームは"AmA"(Ask me anything, なんでも聞いて)、通称 _Wizard Wednesday_ を **毎週** TwitterのSpace上で開催しています。聴きたい方は、Twitterdで[@forgottenrunes](https://twitter.com/forgottenrunes)をフォローしてください。
 
-[Source Tweet](https://twitter.com/EnchanterOrbus/status/1422362480383193091)
+また、過去の放送の録音は[プロジェクトのSoundcloudでも聴くことができます](https://soundcloud.com/forgottenrunes)。
 
-<ResponsiveImg
-  className="full-bleed"
-  src="/static/img/wtf/enchanter-orbus-8664.png"
-/>
+## **このプロジェクトの今後の予定は？**
 
-## Story with Pyromancer Tengu of the Wold ([#3193](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/3193)) and Spellsinger Rumpleskin of Avalon ([#6148](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/6148))
+[ロードマップ](/posts/roadmap)を見てください！
 
-[_Full story in Tweets_](https://twitter.com/forgottenrunes/status/1429813751922913280)
+## **プロジェクトのチームメンバは?**
 
-<ResponsiveImg
-  className="full-bleed"
-  src="/static/img/wtf/story-thread-3193-6148.png"
-/>
+Forgotten Runesは以下のメンバによって作られました：
+``[@ElfJTrul](https://twitter.com/ElfJTrul)
+[@dotta](https://twitter.com/dotta)
+[@bearsnake_21](https://twitter.com/bearsnake_21)
+[@LachnessMonsta](https://twitter.com/LachnessMonsta)
+[@Acryllic4](https://twitter.com/Acryllic4)
 
-## 我々のチーム
-
-我々のチームは[ElfJTrul](https://twitter.com/ElfJTrul)、[Dotta](https://twitter.com/dotta)、そして[Bearsnake](https://twitter.com/bearsnake).
+私たちには[oracle@magicmachine.co](mailto:oracle@magicmachine.co)からコンタクトすることができます。
 
 Elf はカリフォルニア州ロサンゼルスを拠点とするアーティストで、ディズニーやニコロデオンといったスタジオで 10 年以上にわたり、エンターテインメント業界で活躍しています。
 
-Dotta は 2018 年 4 月に、最初期の ERC721 コントラクトの 1 つである[Dotlicence](https://etherscan.io/address/0xb5da84cdc928765c15a8192bf3c6649e7802772b)をデプロイしました。
-
-アートそしてコード、どちらも私たちの手によるものです。
-
-## ロードマップ
-
-より詳細な情報については[このページのロードマップを参照してください](/roadmap)
-
-# Q: オンチェーンエンコーディングについて詳しく教えてください
-
-他の多くの NFT プロジェクトとは異なり、Forgotten Rune の Wizard 達は全てオンチェーンにエンコードされています。つまり、これは Wizard 達が外部のセントラライズされたホスティングサービスに依存せずに存在しているということです。
-
-召喚の儀式の開始前に Wizard の属性を漏らしたくないため、オンチェーンデータからウィザードを生成するための Decoding Ring（スクリプト）は、召喚の儀式の開始から 96 時間後に Github で公開します。
-
-技術系の方はお気づきかもしれませんが、私たちは画像やデータのミラーを IPFS やセントラライズされたサービスでホストしています。これはあくまでもミラーであり、OpenSea のようなツールの利便性のためにのみ使われ、Wizards の来歴や永続性のために必要なものではありません
-
-# Q: 商用権について詳しく教えてください
-
-Forgotten Runes は、Wizard NFT の所有者に対し、その NFT に含まれる画像の非独占的な商用権を付与します。ただし、商業的な権利は、複雑で微妙な問題であり、地域的な問題でもあります。この権利の詳細については、2021 年 9 月に発表する予定です。
-
-# Q: Wizard 達についてもっと知りたいのですが
-
-ぜひ私たちの[ブログ](/posts)で[コミッションの作ってもらい方](/posts/commissions)、 [ロードマップ](/posts/roadmap)、 [壁画の探し方](/posts/murals)、などなどを学んでみてください。
+Dottaは最初期のERC721コントラクトの一つである, [Dotlicence](https://etherscan.io/address/0xb5da84cdc928765c15a8192bf3c6649e7802772b), を2018年4月にデプロイしました。
 
 # Special Thanks
 
 ベータテスターの皆様、プロジェクトの初期段階でフィードバックをいただいた皆様に感謝いたします。特に、このプロジェクトを進めるにあたって、ご指導ならびに技術的なフィードバックをいただいた[Owen (0xmons)](https://twitter.com/0xmons)に深く感謝しています。
 
-# Resources
+# その他のリソース
 
-- [Forgotten Runes Minting Website](https://forgottenrunes.com)
+- [Forgotten Runesのミントページ](https://forgottenrunes.com)
 - [OpenSea](https://opensea.io/collection/forgottenruneswizardscult)
 - [Twitter](https://twitter.com/forgottenrunes)
 - [Discord](https://discord.com/invite/F7WbxwJuZC)
 - [Forgotten Runes Contract on Etherscan](https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42)
+- [AmAs on Soundcloud](https://soundcloud.com/forgottenrunes)
+- 
+# 次に何をしたら良いですか？
+
+以下のようなことをしてみてはどうでしょう:
+
+- [Book of Loreを読む](/lore)
+- [Discordに参加する](https://discord.gg/forgottenrunes)
+- [Wizardを選ぶ](/gallery)
+
+**ようこそカルトへ！**!
 
 </InfoPageLayout>
