@@ -4,10 +4,10 @@ description: "物理的なペイントで描かれたWizardを、あなたの近
 ogImage: https://i.imgur.com/fg29jza.jpg
 ---
 
-## Austin, Texas, USA
+## Austin, Texas, USA - 3101 Speedway
 
 - ステータス: アクティブ
-- Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709), and _to be revealed_
+- Wizards: [#4709](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/4709)
 - 日付: August 2021 - Present
 - 住所: Arcade UFO, 3101 Speedway, Austin,TX 78705
 
@@ -16,6 +16,17 @@ Photos:
 ![](https://i.imgur.com/fg29jza.jpg)
 ![](https://i.imgur.com/xVPav6m.jpg)
 ![](https://i.imgur.com/fBYzhXN.jpg)
+
+## Austin, Texas, USA - 2716 Guadalupe St
+
+- ステータス: アクティブ
+- Wizards: [#6170](https://opensea.io/assets/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/6170)
+- 日付: September 2021 - Present
+- 住所: 2716 Guadalupe St, Austin, TX 7870
+
+Photos:
+
+![](https://i.imgur.com/q0R3j8h.jpg)
 
 ## Miami, Florida, USA
 
