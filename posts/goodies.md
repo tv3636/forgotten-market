@@ -54,16 +54,21 @@ One such thing is the Mugshot Bot. This fun tool was coded by spz [@SorcererIlya
 To use this fun tool and get a "mugshot" of your Wizard, simply follow these steps:
 
 1. Join our [Discord](https://t.co/maMRpMaVhJ?amp=1)!
-   2.Go into the #wiz-bots channel
+
+2. Go into the #wiz-bots channel
+   
    ![](https://i.imgur.com/7qD2f6I.png)
-2. Type !mugshot [your wizard number] into the chat. For example, if your Wizards serial number is #32, type in !mugshot 32
+   
+3. Type `!mugshot [your wizard number]` into the chat. For example, if your Wizards serial number is #32, type in `!mugshot 32`
+
    ![](https://i.imgur.com/6EGvDn9.png)
+
    When you type this in and press Enter, your Wizard in a beautiful frame should immediately pop up! You can now use this image wherever you want!
 
 If you don't know the serial number of your Wizard, just go to their page on OpenSea, click open the Stats, and there it is:
 ![](https://i.imgur.com/9U0cc12.png)
 
-**BONUS:** You can also type in !gif [wizard number], !gifbig [wizard number], or !pic [wizard number] to get a gif turnaround or a simple image of your wizard. Have fun!
+**BONUS:** You can also type in `!gif [wizard number]`, `!gifbig [wizard number]`, or `!pic [wizard number]` to get a gif turnaround or a simple image of your wizard. Have fun!
 
 ✨✨✨
 
