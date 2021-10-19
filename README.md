@@ -26,6 +26,3 @@ Join the [Discord Channel](https://discord.com/invite/forgottenrunes) and chat w
   <img src="./public/static/img/OSbanner.png" title="Forgotten Runes Wizard's Cult">
 </p>
 
-
-
-
