@@ -52,6 +52,8 @@ export class PyreScene extends Phaser.Scene {
     const worldView = this.cameras.main.worldView;
     const centerX = worldView.centerX;
 
+    this.scale.on("resize", this.resize, this);
+
     this.initialWidth = width; // store for responsive
 
     (this as any).myAasepriteLoader?.createFromAsepriteWithLayers(
@@ -100,7 +102,7 @@ export class PyreScene extends Phaser.Scene {
       const layerMeta = soulsLayersByName[name];
       if (layerMeta?.opacity !== 255) {
         const alphaValue = linearmap(layerMeta.opacity, 0, 255, 0, 1);
-        console.log("alpha", name, alphaValue);
+        // console.log("alpha", name, alphaValue);
         // for some reason our value needs scaled up a bit
         sprite.setAlpha(alphaValue * 1.3);
       }
@@ -169,37 +171,25 @@ export class PyreScene extends Phaser.Scene {
     const centerY = height / 2;
     const camera = this.cameras.main;
     const desktop = this.scale.gameSize.width >= BREAKPOINT;
-
     const mobile = !desktop;
-    if (mobile) {
-      const zoom = 1;
-      camera.setZoom(zoom);
-      // camera.setPosition(0, 0);
-      camera.scrollY = 0;
-    } else {
-      const zoom = 1.5;
-      camera.setZoom(zoom);
-      // camera.setPosition(0, 0);
-      // camera.scrollY = -height / 4; // TODO this isn't quite right
-      // camera.scrollY = 0; // TODO this isn't quite right
-    }
 
-    // const mobile = !desktop;
     if (camera) {
-      // const centerX = camera.width / 2;
+      const centerX = camera.width / 2;
 
       const initialCenterX = this.initialWidth / 2;
-      camera.scrollX = centerX - initialCenterX;
-      console.log("scrollx", camera.scrollX);
+      camera.scrollX = (centerX - initialCenterX) * -1;
 
-      // if (width < 520) {
-      //   this.cameras.main.setZoom(0.5);
-      // } else {
-      //   this.cameras.main.setZoom(1.5);
-      // }
+      if (width < BREAKPOINT) {
+        camera.scrollY = 250;
+        this.cameras.main.setZoom(1);
+      } else {
+        camera.scrollY = 75;
+        this.cameras.main.setZoom(1.5);
+      }
     }
   }
   resize(gameSize: any, baseSize: any, displaySize: any, resolution: any) {
+    console.log("resize");
     this.updateCamera();
   }
   dismissScene() {

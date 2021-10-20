@@ -102,7 +102,7 @@ export class AsepriteLayersAnimationLoaderPlugin extends Phaser.Plugins
 
           //  Create the animation
           var configKey = `${layerName}-${frameName}`;
-          console.log("animation: ", configKey);
+          // console.log("animation: ", configKey);
           var createConfig = {
             key: configKey,
             frames: animFrames,
