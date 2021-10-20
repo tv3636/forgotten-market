@@ -177,12 +177,22 @@ export class Tower {
       const thing = scene.add.sprite(centerX, 0, "castleParts", name);
       fadeIn(scene, thing);
       thing.setOrigin(originX, originY);
+      return thing;
     };
 
     addNormalThing({ name: "plants-0" });
     addNormalThing({ name: "pumpkin-0" });
     addNormalThing({ name: "pumpkin Copy-0" });
     addNormalThing({ name: "palms-0" });
+    const towerDoorGlowSprite = addNormalThing({ name: "tower_dark_doors-0" });
+    // addNormalThing({ name: "bottomDoor-0" });
+    // addNormalThing({ name: "doorGlow-0" });
+
+    towerDoorGlowSprite.play({
+      key: "tower_dark_doors-play",
+      repeat: -1,
+      delay: 0,
+    });
 
     // this.addRunes({ n: 18, originX, originY });
 
