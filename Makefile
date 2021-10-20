@@ -13,6 +13,7 @@ remix-open:
 get-abis:
 	cp ../wizards-contracts/artifacts/contracts/ForgottenRunesWizardsCult.sol/ForgottenRunesWizardsCult.json contracts/ForgottenRunesWizardsCult.json
 	cp ../wizards-contracts/artifacts/contracts/BookOfLore.sol/BookOfLore.json contracts/BookOfLore.json
+	cp ../wizards-contracts/artifacts/contracts/ForgottenSouls.sol/ForgottenSouls.json contracts/ForgottenSouls.json
 
 start-ipfs:
 	ipfs daemon

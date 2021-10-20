@@ -18,6 +18,11 @@ const BOOK_OF_LORE_ADDRESS: { [chainId: number]: string } = {
   1: `0x4218948D1Da133CF4B0758639a8C065Dbdccb2BB`,
 };
 
+const FORGOTTEN_SOULS_ADDRESS: { [chainId: number]: string } = {
+  4: `0x0b1ef23959ED9D1ba61BBd1b977946dEc816b732`,
+  1: ``,
+};
+
 export async function getBookOfLoreContract({ provider }: { provider: any }) {
   const { chainId } = await provider.getNetwork();
   return new ethers.Contract(

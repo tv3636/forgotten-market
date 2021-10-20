@@ -4,6 +4,7 @@ import { HomeScene } from "./scenes/wizards/home/HomeScene";
 import { BuyScene } from "./scenes/wizards/buy/BuyScene";
 import { ShowScene } from "./scenes/wizards/show/ShowScene";
 import { InteriorScene } from "./scenes/wizards/interior/InteriorScene";
+import { PyreScene } from "./scenes/wizards/pyre/PyreScene";
 import WebFontLoaderPlugin from "phaser3-rex-plugins/plugins/webfontloader-plugin";
 import TextTypingPlugin from "phaser3-rex-plugins/plugins/texttyping-plugin";
 
@@ -12,7 +13,15 @@ export default {
   backgroundColor: "000000",
   // backgroundColor: "007872",
 
-  scene: [BootScene, HomeScene, BuyScene, ShowScene, InteriorScene],
+  scene: [
+    PyreScene,
+    BootScene,
+    HomeScene,
+    BuyScene,
+    ShowScene,
+    InteriorScene,
+    // PyreScene,
+  ],
 
   scale: {
     mode: Phaser.Scale.RESIZE,

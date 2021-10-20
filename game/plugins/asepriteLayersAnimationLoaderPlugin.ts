@@ -5,7 +5,7 @@ const GetValue = Phaser.Utils.Objects.GetValue;
 /*
  * Creates animations from aseprite exports but scoped to layers.
  *
- * This loader requires that you have an animation tag. E.g. just right click and add a frame "play".
+ * This loader requires that you have an animation tag. E.g. just right click and add a tag "play".
  *
  * For export settings, use the same as recommended, except use the name:
  *
@@ -102,7 +102,7 @@ export class AsepriteLayersAnimationLoaderPlugin extends Phaser.Plugins
 
           //  Create the animation
           var configKey = `${layerName}-${frameName}`;
-          // console.log("animation: ", configKey);
+          console.log("animation: ", configKey);
           var createConfig = {
             key: configKey,
             frames: animFrames,
