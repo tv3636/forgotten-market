@@ -60,6 +60,7 @@ export class MetamaskSoul {
     web3Controller.emitter.on(
       Web3ControllerEvents.WEB3_CONNECTED,
       (evt: any) => {
+        console.log("WEB3 Connected");
         self.onConnected();
       }
     );

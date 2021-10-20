@@ -174,29 +174,30 @@ export class PyreScene extends Phaser.Scene {
     if (mobile) {
       const zoom = 1;
       camera.setZoom(zoom);
-      camera.setPosition(0, 0);
+      // camera.setPosition(0, 0);
       camera.scrollY = 0;
     } else {
       const zoom = 1.5;
       camera.setZoom(zoom);
-      camera.setPosition(0, 0);
+      // camera.setPosition(0, 0);
       // camera.scrollY = -height / 4; // TODO this isn't quite right
-      camera.scrollY = 0; // TODO this isn't quite right
+      // camera.scrollY = 0; // TODO this isn't quite right
     }
 
     // const mobile = !desktop;
-    // if (camera) {
-    //   const centerX = camera.width / 2;
+    if (camera) {
+      // const centerX = camera.width / 2;
 
-    //   const initialCenterX = this.initialWidth / 2;
-    //   camera.scrollX = (centerX - initialCenterX) * -1;
+      const initialCenterX = this.initialWidth / 2;
+      camera.scrollX = centerX - initialCenterX;
+      console.log("scrollx", camera.scrollX);
 
-    //   if (width < 520) {
-    //     this.cameras.main.setZoom(0.5);
-    //   } else {
-    //     this.cameras.main.setZoom(1.5);
-    //   }
-    // }
+      // if (width < 520) {
+      //   this.cameras.main.setZoom(0.5);
+      // } else {
+      //   this.cameras.main.setZoom(1.5);
+      // }
+    }
   }
   resize(gameSize: any, baseSize: any, displaySize: any, resolution: any) {
     this.updateCamera();
