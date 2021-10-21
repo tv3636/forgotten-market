@@ -193,7 +193,7 @@ export class HomeScene extends Phaser.Scene {
 
   async fetchIfSummoningBegan() {
     const provider = this.getProvider() as JsonRpcProvider;
-    const contract = getWizardsContract({ provider });
+    const contract = await getWizardsContract({ provider });
 
     const summonStartBlock = await contract.summonStartBlock();
     const currentBlock = BigNumber.from(await provider.getBlockNumber());

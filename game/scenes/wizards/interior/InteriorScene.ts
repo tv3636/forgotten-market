@@ -105,7 +105,7 @@ export class InteriorScene extends Phaser.Scene {
     this.summonText.depth = 4;
 
     const provider = this.getProvider();
-    const contract = getWizardsContract({ provider });
+    const contract = await getWizardsContract({ provider });
 
     const MAX_WIZARDS = 10000;
 

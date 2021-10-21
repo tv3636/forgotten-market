@@ -218,7 +218,7 @@ export class BuyScene extends Phaser.Scene {
     }
 
     const signer = injectedProvider.getSigner();
-    const contract = getWizardsContract({ provider: injectedProvider });
+    const contract = await getWizardsContract({ provider: injectedProvider });
     const tx = await contract.populateTransaction.summon(howMany, {
       value: PRICE.mul(howMany),
     });
@@ -254,7 +254,7 @@ export class BuyScene extends Phaser.Scene {
     try {
       const web3Controller = getWeb3Controller(this.game);
       const provider = web3Controller.provider;
-      const contract = getWizardsContract({ provider });
+      const contract = await getWizardsContract({ provider });
       const numMinted = await contract.totalSupply();
 
       const wizardsRemaining = numMinted && numMinted.lt(10000);

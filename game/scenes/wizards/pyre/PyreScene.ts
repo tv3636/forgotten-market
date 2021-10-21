@@ -131,15 +131,18 @@ export class PyreScene extends Phaser.Scene {
 
     this.startIdle();
 
-    let metamaskSoul = new MetamaskSoul();
+    let metamaskSoul = new MetamaskSoul({
+      onConnect: () => {
+        console.log("metamaskSoul onConnect");
+        this.openWizardPicker();
+      },
+    });
     metamaskSoul = metamaskSoul.create({ scene: this });
-    metamaskSoul.onConnect = () => {
-      this.openWizardPicker();
-    };
 
     this.burnModal = new BurnModal({ scene: this });
 
-    this.burnModal.show({ wizardId: 0 });
+    // TMP
+    // this.burnModal.show({ wizardId: 78 });
 
     // this.wizardPicker = new WizardPicker();
     // this.wizardPicker.create({ scene: this });
@@ -235,7 +238,7 @@ export class PyreScene extends Phaser.Scene {
     const onWizardPicked = ({ nftId }: { nftId: any }) => {
       console.log("wizard: ", nftId);
       self.scene.stop("ShowScene");
-      self.burnModal?.show();
+      self.burnModal?.show({ wizardId: nftId });
     };
 
     // TMP

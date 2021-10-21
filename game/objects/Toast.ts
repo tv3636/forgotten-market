@@ -17,7 +17,7 @@ export class Toast {
     const rightX = worldView.width;
     const centerX = worldView.centerX;
 
-    console.log("Message:", message);
+    console.log("Toast Message:", message);
 
     const summonText = scene.add.text(0, 0, message, {
       fontFamily: "Pixel-NES",

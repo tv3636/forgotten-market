@@ -11,7 +11,9 @@ export class MetamaskSoul {
   metamaskButtonZone: any;
   onConnect: any;
 
-  constructor() {}
+  constructor({ onConnect }: { onConnect: any }) {
+    this.onConnect = onConnect;
+  }
   create({ scene }: { scene: Phaser.Scene }) {
     const self = this;
     this.scene = scene;
@@ -21,6 +23,15 @@ export class MetamaskSoul {
     const rightX = worldView.width;
     const centerX = worldView.centerX;
     (scene as any).myAasepriteLoader?.createFromAsepriteWithLayers("MMFoxSoul");
+
+    const web3Controller = getWeb3Controller(scene.game);
+    web3Controller.emitter.on(
+      Web3ControllerEvents.WEB3_CONNECTED,
+      (evt: any) => {
+        console.log("MetamaskSoul WEB3 Connected");
+        self.onConnected();
+      }
+    );
 
     const fadeInTime = 500;
 
@@ -55,15 +66,6 @@ export class MetamaskSoul {
         this.connectMetamask();
       });
 
-    const web3Controller = getWeb3Controller(scene.game);
-    web3Controller.emitter.on(
-      Web3ControllerEvents.WEB3_CONNECTED,
-      (evt: any) => {
-        console.log("WEB3 Connected");
-        self.onConnected();
-      }
-    );
-
     scene.tweens.add({
       targets: this.sprite,
       alpha: { value: 1, duration: 2000, ease: "Power1", delay: 500 },
@@ -94,8 +96,8 @@ export class MetamaskSoul {
           this.metamaskButtonZone.destroy();
           this.metamaskButtonZone = null;
         }
-        if (this.onConnected) {
-          this.onConnected();
+        if (this.onConnect) {
+          this.onConnect();
         }
       },
     });

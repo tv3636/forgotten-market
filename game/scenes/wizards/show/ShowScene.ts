@@ -189,7 +189,7 @@ export class ShowScene extends Phaser.Scene {
     try {
       const injectedProvider = web3Controller.injectedProvider as Web3Provider;
       const provider = web3Controller.provider;
-      const contract = getWizardsContract({ provider });
+      const contract = await getWizardsContract({ provider });
       const signer = injectedProvider.getSigner();
       const address = await signer.getAddress();
       console.log("address: ", address);
