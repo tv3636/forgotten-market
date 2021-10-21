@@ -45,7 +45,7 @@ export async function hydratePageDataFromMetadata(
     bgColor: metadata?.background_color ?? "#000000",
     title: metadata?.name ?? "Untitled",
     story: (metadata?.description ?? "")
-      .replace(/([^\s]+)\n/gi, "$1  \n") // Markdown needs two spaces before a \n for line break but our editor doesn't do this if you c/p content into it...
+      // .replace(/([^\s]+)\n/gi, "$1  \n") // Markdown needs two spaces before a \n for line break but our editor doesn't do this if you c/p content into it...
       .replace("Delete this text and write your Lore here", ""),
   };
 }
