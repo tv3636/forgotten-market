@@ -9,6 +9,8 @@ export class MetamaskSoul {
   scene: Phaser.Scene | undefined;
 
   metamaskButtonZone: any;
+  onConnect: any;
+
   constructor() {}
   create({ scene }: { scene: Phaser.Scene }) {
     const self = this;
@@ -18,10 +20,7 @@ export class MetamaskSoul {
     const centerY = worldView.height / 2;
     const rightX = worldView.width;
     const centerX = worldView.centerX;
-    console.log("create");
-
     (scene as any).myAasepriteLoader?.createFromAsepriteWithLayers("MMFoxSoul");
-    console.log("bob");
 
     const fadeInTime = 500;
 
@@ -91,6 +90,12 @@ export class MetamaskSoul {
         if (this.sprite) {
           this.sprite.destroy();
           this.sprite = null;
+
+          this.metamaskButtonZone.destroy();
+          this.metamaskButtonZone = null;
+        }
+        if (this.onConnected) {
+          this.onConnected();
         }
       },
     });

@@ -20,19 +20,27 @@ export class NftCard {
   container: any;
   frame: any;
 
+  onNftPicked: any;
+  showSocials: boolean = true;
   idx: number;
   constructor({
     nftId,
     scene,
     idx,
+    onNftPicked,
+    showSocials,
   }: {
     nftId: number;
     scene: Phaser.Scene;
     idx: number;
+    showSocials: boolean;
+    onNftPicked?: any;
   }) {
     this.nftId = nftId;
     this.scene = scene;
     this.idx = idx;
+    this.onNftPicked = onNftPicked;
+    this.showSocials = showSocials;
   }
 
   create() {
@@ -106,6 +114,18 @@ export class NftCard {
       img.setScale(0.5);
       img.setOrigin(0.5, 0.5);
 
+      if (this.onNftPicked) {
+        img
+          .setInteractive({ useHandCursor: true })
+          .on("pointerover", () => img.setAlpha(0.8))
+          .on("pointerout", () => img.setAlpha(1))
+          .on("pointerdown", () => img.setAlpha(0.5))
+          .on("pointerup", () => {
+            img.setAlpha(1);
+            this.onNftPicked({ wizardId: this.nftId });
+          });
+      }
+
       this.container.add(img);
     });
     scene.load.start(); // start loading
@@ -132,7 +152,9 @@ export class NftCard {
     //   typing.start(this.nft.description);
     // }
 
-    this.createSocials({ nftName, nftImageUrl });
+    if (this.showSocials) {
+      this.createSocials({ nftName, nftImageUrl });
+    }
   }
 
   setPosition(x: number, y: number) {

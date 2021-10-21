@@ -2,6 +2,8 @@ import { keyBy } from "lodash";
 import { getWizardsContract } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { linearmap } from "../../../gameUtils";
 import { MetamaskSoul } from "../../../objects/MetamaskSoul";
+import { WizardPicker } from "../../../objects/WizardPicker";
+import { ShowScene } from "../show/ShowScene";
 
 const BREAKPOINT = 768;
 
@@ -14,6 +16,9 @@ export class PyreScene extends Phaser.Scene {
   summonText: any;
 
   sprites: any;
+
+  // wizardPicker: WizardPicker;
+  showScene: any;
 
   constructor(parentScene: Phaser.Scene) {
     super("PyreScene");
@@ -43,6 +48,9 @@ export class PyreScene extends Phaser.Scene {
       },
     };
     (this.load as any).rexWebFont(webfont);
+
+    // WizardPicker.preloadStatic(this);
+    ShowScene.preloadStatic(this);
   }
 
   create() {
@@ -117,6 +125,16 @@ export class PyreScene extends Phaser.Scene {
 
     let metamaskSoul = new MetamaskSoul();
     metamaskSoul = metamaskSoul.create({ scene: this });
+    metamaskSoul.onConnect = () => {
+      this.openWizardPicker();
+    };
+
+    // this.wizardPicker = new WizardPicker();
+    // this.wizardPicker.create({ scene: this });
+
+    // // TMP
+    // / this.wizardPicker.open();
+    this.openWizardPicker();
 
     this.updateCamera();
   }
@@ -191,8 +209,26 @@ export class PyreScene extends Phaser.Scene {
   resize(gameSize: any, baseSize: any, displaySize: any, resolution: any) {
     console.log("resize");
     this.updateCamera();
+
+    if (this.showScene) {
+      this.showScene.resize(gameSize, baseSize, displaySize, resolution);
+    }
   }
   dismissScene() {
     this.parentScene.scene.stop("PyreScene");
+  }
+
+  openWizardPicker() {
+    const onWizardPicked = ({ wizardId }: { wizardId: any }) => {
+      console.log("wizard: ", wizardId);
+    };
+
+    if (this.showScene) {
+      this.scene.launch("ShowScene", { onWizardPicked, showSocials: false });
+    } else {
+      this.scene.launch("ShowScene", { onWizardPicked, showSocials: false });
+      this.showScene = this.scene.get("ShowScene");
+      this.showScene.parentScene = this;
+    }
   }
 }

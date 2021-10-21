@@ -10,6 +10,10 @@ export class ShowScene extends Phaser.Scene {
   parentScene: Phaser.Scene;
 
   initialWidth: number = 0;
+
+  onWizardPicked: any;
+  showSocials: boolean = true;
+
   constructor(parentScene: Phaser.Scene) {
     super("ShowScene");
     this.parentScene = parentScene;
@@ -30,6 +34,17 @@ export class ShowScene extends Phaser.Scene {
 
   preload() {}
 
+  init({
+    onWizardPicked,
+    showSocials,
+  }: {
+    onWizardPicked: any;
+    showSocials: boolean;
+  }) {
+    this.onWizardPicked = onWizardPicked;
+    this.showSocials = showSocials;
+  }
+
   create() {
     const width = this.scale.gameSize.width;
     const height = this.scale.gameSize.height;
@@ -47,7 +62,7 @@ export class ShowScene extends Phaser.Scene {
 
     const closeButton = this.add.sprite(
       centerX + 215,
-      130,
+      80,
       "buttons",
       "button_exit_default.png"
     );
@@ -137,7 +152,7 @@ export class ShowScene extends Phaser.Scene {
     const centerX = Math.floor(this.cameras.main.width / 2);
     const centerY = height / 2;
     const padding = 20;
-    const baseTop = 330;
+    const baseTop = 270;
 
     for (let i = 0; i < indexes.length; i++) {
       // HERE: just pass in the index and have the card load the stuff. it's wizard specific so just go with it
@@ -148,7 +163,13 @@ export class ShowScene extends Phaser.Scene {
       //   description:
       //     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting"
       // };
-      const card = new NftCard({ scene: this, idx: i, nftId: indexes[i] });
+      const card = new NftCard({
+        scene: this,
+        idx: i,
+        nftId: indexes[i],
+        onNftPicked: this.onWizardPicked,
+        showSocials: this.showSocials,
+      });
       card.create();
       card.setPosition(
         centerX,
@@ -172,23 +193,18 @@ export class ShowScene extends Phaser.Scene {
 
       if (tokenIndexes?.length > 0) {
         const maxWizards = 10000;
-        // const totalSupply = await contract.totalSupply();
 
-        // just grab the first 200, if you bought more than that use a better tool for now
         // last minute shortcuts
-        const maxTokens = 100;
         const wizardIndexes = tokenIndexes
           .map((idx: BigNumber) => idx.toNumber())
           .sort(function (a: number, b: number) {
             return a - b;
-          })
-          .reverse()
-          .slice(0, maxTokens);
+          });
         console.log("wizardIndexes: ", wizardIndexes);
 
         // https://nftz.forgottenrunes.com/wizards-staging/0.png
 
-        this.showSummonAgain();
+        // this.showSummonAgain();
 
         this.showWizards({ indexes: wizardIndexes });
       } else {
