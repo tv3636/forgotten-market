@@ -1,6 +1,7 @@
 import {
   FORGOTTEN_SOULS_ADDRESS,
   getInfinityVeilContract,
+  getWizardsContract,
   INFINITY_VEIL_ADDRESS,
 } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { Toast } from "../../../objects/Toast";
@@ -64,14 +65,13 @@ export class BurnModal {
     const web3Controller = getWeb3Controller(this.scene.game);
     const injectedProvider = web3Controller.injectedProvider;
     if (!injectedProvider) {
-      console.log(
-        "ERROR: Couldn't find Metamask. This is bad. Real bad. Go back and connect."
-      );
+      console.log("ERROR: Couldn't find Metamask. Go back and connect.");
       const toast = new Toast();
       toast.create({
         scene: this.scene,
         message: "Can't find Metamask",
         duration: 3000,
+        color: "#ffffff",
       });
       return;
     }
@@ -88,6 +88,13 @@ export class BurnModal {
       txHash = txResponse.hash;
       console.log("txResponse: ", txResponse);
       onPending({ hash: txHash });
+
+      const receipt = await injectedProvider.waitForTransaction(
+        txHash,
+        1, // confirmations
+        60 * 1000 * 10
+      );
+      onConfirm({ hash: txHash, receipt });
     } catch (err) {
       onError({ hash: txHash });
       console.log("err toast: ", err);
@@ -98,6 +105,7 @@ export class BurnModal {
           (err as Error)?.message?.substr(0, 200) ||
           "Sorry, there was a problem",
         duration: 3000,
+        color: "#ffffff",
       });
     }
   }
@@ -132,39 +140,102 @@ export class BurnModal {
     let flamesApproved = false;
     let wizardsApproved = false;
 
+    const approveFlames = new ProgressBullet({
+      scene,
+      container: approveFlamesContainer,
+      msg: "Approve your flame",
+      enabled: true,
+    });
+
+    const approveWizards = new ProgressBullet({
+      scene,
+      container: approveWizardsContainer,
+      msg: "Approve your wizard",
+      enabled: true,
+    });
+
+    const burnBoth = new ProgressBullet({
+      scene,
+      container: burnBothContainer,
+      msg: "Burn them both",
+      enabled: false,
+    });
+
     const onClickBurnBoth = () => {
       console.log("burn both clicked");
       if (!flamesApproved) {
         const toast = new Toast();
         toast.create({
           scene,
-          message: "Approve Flames before trying to burn",
+          message: "Please approve Flames before trying to burn",
           duration: 3000,
+          color: "#ffffff",
         });
       }
       if (!wizardsApproved) {
         const toast = new Toast();
         toast.create({
           scene,
-          message: "Approve Wizards before trying to burn",
+          message: "Please approve Wizards before trying to burn",
           duration: 3000,
+          color: "#ffffff",
         });
       }
     };
 
-    const burnBoth = new ProgressBullet({
-      scene,
-      container: burnBothContainer,
-      msg: "Burn them both",
-      onClick: onClickBurnBoth,
-      enabled: false,
-    });
     burnBoth.setEnabled(false);
+    burnBoth.setOnClick(onClickBurnBoth);
+
+    const checkBothApproved = () => {
+      if (flamesApproved && wizardsApproved) {
+        burnBoth.setEnabled(true);
+      }
+    };
+
+    const checkFlamesApprovedAlready = async () => {
+      const web3Controller = getWeb3Controller(scene.game);
+      const injectedProvider = web3Controller.injectedProvider;
+      if (!injectedProvider) return;
+      const { chainId } = await injectedProvider.getNetwork();
+      const signer = injectedProvider.getSigner();
+      const contract = await getInfinityVeilContract({
+        provider: injectedProvider,
+      });
+      const isApproved = await contract.isApprovedForAll(
+        await signer.getAddress(),
+        FORGOTTEN_SOULS_ADDRESS[chainId]
+      );
+      console.log("isApproved: ", isApproved);
+      if (isApproved) {
+        flamesApproved = true;
+        checkBothApproved();
+        approveFlames.setCurrentStatus({ newStatus: "COMPLETE" });
+      }
+    };
+
+    const checkWizardsApprovedAlready = async () => {
+      const web3Controller = getWeb3Controller(scene.game);
+      const injectedProvider = web3Controller.injectedProvider;
+      if (!injectedProvider) return;
+      const { chainId } = await injectedProvider.getNetwork();
+      const signer = injectedProvider.getSigner();
+      const contract = await getWizardsContract({
+        provider: injectedProvider,
+      });
+      const isApproved = await contract.isApprovedForAll(
+        await signer.getAddress(),
+        FORGOTTEN_SOULS_ADDRESS[chainId]
+      );
+      console.log("isApproved: ", isApproved);
+      if (isApproved) {
+        wizardsApproved = true;
+        checkBothApproved();
+        approveWizards.setCurrentStatus({ newStatus: "COMPLETE" });
+      }
+    };
 
     const onClickApproveFlames = (parent: ProgressBullet) => {
-      console.log("approve flames");
-      console.log("metamask pops up");
-
+      console.log("Approving flames");
       this.sendTx({
         buildTx: async ({ injectedProvider, chainId }: any) => {
           const contract = await getInfinityVeilContract({
@@ -179,32 +250,62 @@ export class BurnModal {
         onPending: ({ hash }: { hash: string }) => {
           parent.onPendingTx({ hash });
         },
-        onConfirm: () => {
+        onConfirm: ({ hash, receipt }: { hash: string; receipt: any }) => {
+          const toast = new Toast();
+          toast.create({
+            scene,
+            message: "Flames Approved",
+            duration: 3000,
+            color: "#ffffff",
+          });
           parent.onPendingTxConfirmed();
+          flamesApproved = true;
+          checkBothApproved();
         },
         onError: () => {
           parent.onPendingTxError();
         },
       });
     };
-    const onClickApproveWizards = () => {
-      console.log("approve wizards");
+    const onClickApproveWizards = (parent: ProgressBullet) => {
+      console.log("Approving Wizards");
+      this.sendTx({
+        buildTx: async ({ injectedProvider, chainId }: any) => {
+          const contract = await getWizardsContract({
+            provider: injectedProvider,
+          });
+          const tx = await contract.populateTransaction.setApprovalForAll(
+            FORGOTTEN_SOULS_ADDRESS[chainId],
+            true
+          );
+          return tx;
+        },
+        onPending: ({ hash }: { hash: string }) => {
+          parent.onPendingTx({ hash });
+        },
+        onConfirm: ({ hash, receipt }: { hash: string; receipt: any }) => {
+          const toast = new Toast();
+          toast.create({
+            scene,
+            message: "Wizard Approved",
+            duration: 3000,
+            color: "#ffffff",
+          });
+          parent.onPendingTxConfirmed();
+          wizardsApproved = true;
+          checkBothApproved();
+        },
+        onError: () => {
+          parent.onPendingTxError();
+        },
+      });
     };
-    const approveFlames = new ProgressBullet({
-      scene,
-      container: approveFlamesContainer,
-      msg: "Approve your flame",
-      onClick: onClickApproveFlames,
-      enabled: true,
-    });
-    const approveWizards = new ProgressBullet({
-      scene,
-      container: approveWizardsContainer,
-      msg: "Approve your wizard",
-      onClick: onClickApproveWizards,
-      enabled: true,
-    });
+    approveFlames.setOnClick(onClickApproveFlames);
+    approveWizards.setOnClick(onClickApproveWizards);
     const delay = 101;
+
+    checkFlamesApprovedAlready();
+    checkWizardsApprovedAlready();
 
     // approveFlames.show();
     // approveWizards.show();

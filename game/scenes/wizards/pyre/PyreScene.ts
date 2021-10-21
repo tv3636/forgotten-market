@@ -2,6 +2,7 @@ import { keyBy } from "lodash";
 import { getWizardsContract } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { linearmap } from "../../../gameUtils";
 import { MetamaskSoul } from "../../../objects/MetamaskSoul";
+import { Toast } from "../../../objects/Toast";
 import { WizardPicker } from "../../../objects/WizardPicker";
 import { ShowScene } from "../show/ShowScene";
 import { BurnModal } from "./BurnModal";
@@ -22,6 +23,8 @@ export class PyreScene extends Phaser.Scene {
   showScene: any;
 
   burnModal: BurnModal | undefined;
+
+  container: any;
 
   constructor(parentScene: Phaser.Scene) {
     super("PyreScene");
@@ -146,12 +149,21 @@ export class PyreScene extends Phaser.Scene {
 
     // this.wizardPicker = new WizardPicker();
     // this.wizardPicker.create({ scene: this });
+    this.updateCamera();
 
     // // TMP
     // / this.wizardPicker.open();
     // this.openWizardPicker();
 
-    this.updateCamera();
+    // setTimeout(() => {
+    //   const toast = new Toast();
+    //   toast.create({
+    //     scene: this,
+    //     message: "Testing toast",
+    //     duration: 3000,
+    //     color: "#ffffff",
+    //   });
+    // }, 100);
   }
 
   getProvider() {
@@ -202,21 +214,21 @@ export class PyreScene extends Phaser.Scene {
     const height = this.scale.gameSize.height;
     const centerX = width / 2;
     const centerY = height / 2;
-    const camera = this.cameras.main;
+    // const camera = this.cameras.main;
     const desktop = this.scale.gameSize.width >= BREAKPOINT;
     const mobile = !desktop;
 
-    if (camera) {
-      const centerX = camera.width / 2;
+    if (this.cameras.main) {
+      const centerX = this.cameras.main.width / 2;
 
       const initialCenterX = this.initialWidth / 2;
-      camera.scrollX = (centerX - initialCenterX) * -1;
+      this.cameras.main.scrollX = (centerX - initialCenterX) * -1;
 
       if (width < BREAKPOINT) {
-        camera.scrollY = 250;
+        this.cameras.main.scrollY = 250;
         this.cameras.main.setZoom(1);
       } else {
-        camera.scrollY = 75;
+        this.cameras.main.scrollY = 75;
         this.cameras.main.setZoom(1.5);
       }
     }

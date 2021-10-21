@@ -6,10 +6,12 @@ export class Toast {
     scene,
     message,
     duration,
+    color = "#440C1D",
   }: {
     scene: Phaser.Scene;
     message: string;
     duration: number;
+    color?: string;
   }) {
     const worldView: Phaser.Geom.Rectangle = scene.cameras.main.worldView;
     const bottomY = worldView.height;
@@ -17,12 +19,17 @@ export class Toast {
     const rightX = worldView.width;
     const centerX = worldView.centerX;
 
+    console.log("worldView: ", worldView, scene.scale);
+
+    const width = scene.scale.gameSize.width;
+    const height = scene.scale.gameSize.height;
+
     console.log("Toast Message:", message);
 
     const summonText = scene.add.text(0, 0, message, {
       fontFamily: "Pixel-NES",
       fontSize: "24px",
-      color: "#440C1D",
+      color: color || "#440C1D",
       wordWrap: { width: 300, useAdvancedWrap: true },
       align: "right",
       metrics: {
@@ -34,7 +41,11 @@ export class Toast {
 
     summonText.setScale(0.5);
     summonText.setOrigin(1, 0);
-    summonText.setPosition(worldView.right - 10, 20);
+    summonText.setPosition(worldView.right - 50, worldView.top + 10);
+
+    // summonText.setScale(0.5);
+    // summonText.setOrigin(1, 0);
+    // summonText.setPosition(centerX, centerY);
 
     summonText.depth = 2;
     summonText.setAlpha(0);

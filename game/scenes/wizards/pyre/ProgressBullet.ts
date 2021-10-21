@@ -23,20 +23,17 @@ export class ProgressBullet {
     scene,
     container,
     msg,
-    onClick,
     enabled = true,
   }: {
     scene: Phaser.Scene;
     container: any;
     msg: string;
-    onClick: any;
     enabled: boolean;
   }) {
     this.scene = scene;
     this.container = container;
     this.msg = msg;
     this.currentStatus = "INCOMPLETE";
-    this.onClick = onClick;
     this.enabled = enabled;
   }
   show() {
@@ -54,11 +51,16 @@ export class ProgressBullet {
     this.writeMessage({
       msg: this.msg,
     });
-    this.addInteractionZone();
+    // this.addInteractionZone();
 
     this.setEnabled(this.enabled);
 
     return this;
+  }
+
+  setOnClick(onClick: any) {
+    this.onClick = onClick;
+    this.addInteractionZone();
   }
 
   addInteractionZone() {
@@ -86,13 +88,6 @@ export class ProgressBullet {
       .on("pointerup", () => {
         self.onHoverOut();
         // this.onClick();
-
-        const toast = new Toast();
-        toast.create({
-          scene: this.scene as any,
-          message: "Sorry, there was a problem",
-          duration: 3000,
-        });
 
         if (this.enabled) {
           this.onClick(this);
