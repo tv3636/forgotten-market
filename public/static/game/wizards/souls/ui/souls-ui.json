@@ -1,0 +1,146 @@
+{
+	"textures": [
+		{
+			"image": "souls-ui.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 549,
+				"h": 606
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "star.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 34
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 34
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 34,
+						"h": 34
+					}
+				},
+				{
+					"filename": "pick_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 191,
+						"h": 41
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 191,
+						"h": 41
+					},
+					"frame": {
+						"x": 37,
+						"y": 1,
+						"w": 191,
+						"h": 41
+					}
+				},
+				{
+					"filename": "pick_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 191,
+						"h": 41
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 191,
+						"h": 41
+					},
+					"frame": {
+						"x": 230,
+						"y": 1,
+						"w": 191,
+						"h": 41
+					}
+				},
+				{
+					"filename": "circle.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 43
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 43
+					},
+					"frame": {
+						"x": 423,
+						"y": 1,
+						"w": 44,
+						"h": 43
+					}
+				},
+				{
+					"filename": "starComplete.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 43
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 43
+					},
+					"frame": {
+						"x": 469,
+						"y": 1,
+						"w": 44,
+						"h": 43
+					}
+				},
+				{
+					"filename": "box.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 547,
+						"h": 559
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 547,
+						"h": 559
+					},
+					"frame": {
+						"x": 1,
+						"y": 46,
+						"w": 547,
+						"h": 559
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:81b5608542cdd281502e60ecccaeb33c:bc7c2acfcd8872778b19884b6ebcb9fd:214529339e8800576d3f355e600a6096$"
+	}
+}

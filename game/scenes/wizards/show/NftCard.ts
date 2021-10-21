@@ -22,6 +22,8 @@ export class NftCard {
 
   onNftPicked: any;
   showSocials: boolean = true;
+
+  addSelectButton: any;
   idx: number;
   constructor({
     nftId,
@@ -29,18 +31,21 @@ export class NftCard {
     idx,
     onNftPicked,
     showSocials,
+    addSelectButton,
   }: {
     nftId: number;
     scene: Phaser.Scene;
     idx: number;
     showSocials: boolean;
     onNftPicked?: any;
+    addSelectButton?: any;
   }) {
     this.nftId = nftId;
     this.scene = scene;
     this.idx = idx;
     this.onNftPicked = onNftPicked;
     this.showSocials = showSocials;
+    this.addSelectButton = addSelectButton;
   }
 
   create() {
@@ -122,11 +127,20 @@ export class NftCard {
           .on("pointerdown", () => img.setAlpha(0.5))
           .on("pointerup", () => {
             img.setAlpha(1);
-            this.onNftPicked({ wizardId: this.nftId });
+            this.onNftPicked({ nftId: this.nftId });
           });
       }
-
       this.container.add(img);
+
+      if (this.addSelectButton) {
+        this.addSelectButton({
+          nftName,
+          nftImageUrl,
+          nftId: this.nftId,
+          scene,
+          container: this.container,
+        });
+      }
     });
     scene.load.start(); // start loading
 

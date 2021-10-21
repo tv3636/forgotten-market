@@ -13,6 +13,7 @@ export class ShowScene extends Phaser.Scene {
 
   onWizardPicked: any;
   showSocials: boolean = true;
+  addSelectButton: any;
 
   constructor(parentScene: Phaser.Scene) {
     super("ShowScene");
@@ -37,12 +38,15 @@ export class ShowScene extends Phaser.Scene {
   init({
     onWizardPicked,
     showSocials,
+    addSelectButton,
   }: {
     onWizardPicked: any;
     showSocials: boolean;
+    addSelectButton: any;
   }) {
     this.onWizardPicked = onWizardPicked;
     this.showSocials = showSocials;
+    this.addSelectButton = addSelectButton;
   }
 
   create() {
@@ -169,6 +173,7 @@ export class ShowScene extends Phaser.Scene {
         nftId: indexes[i],
         onNftPicked: this.onWizardPicked,
         showSocials: this.showSocials,
+        addSelectButton: this.addSelectButton,
       });
       card.create();
       card.setPosition(

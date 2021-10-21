@@ -4,6 +4,7 @@ import { linearmap } from "../../../gameUtils";
 import { MetamaskSoul } from "../../../objects/MetamaskSoul";
 import { WizardPicker } from "../../../objects/WizardPicker";
 import { ShowScene } from "../show/ShowScene";
+import { BurnModal } from "./BurnModal";
 
 const BREAKPOINT = 768;
 
@@ -19,6 +20,8 @@ export class PyreScene extends Phaser.Scene {
 
   // wizardPicker: WizardPicker;
   showScene: any;
+
+  burnModal: BurnModal | undefined;
 
   constructor(parentScene: Phaser.Scene) {
     super("PyreScene");
@@ -39,6 +42,11 @@ export class PyreScene extends Phaser.Scene {
       "MMFoxSoul",
       "souls/MMFoxSoul.png",
       "souls/MMFoxSoul.json"
+    );
+    this.load.atlas(
+      "soulsUI",
+      "souls/ui/souls-ui.png",
+      "souls/ui/souls-ui.json"
     );
 
     const webfont = {
@@ -129,12 +137,16 @@ export class PyreScene extends Phaser.Scene {
       this.openWizardPicker();
     };
 
+    this.burnModal = new BurnModal({ scene: this });
+
+    this.burnModal.show({ wizardId: 0 });
+
     // this.wizardPicker = new WizardPicker();
     // this.wizardPicker.create({ scene: this });
 
     // // TMP
     // / this.wizardPicker.open();
-    this.openWizardPicker();
+    // this.openWizardPicker();
 
     this.updateCamera();
   }
@@ -219,14 +231,62 @@ export class PyreScene extends Phaser.Scene {
   }
 
   openWizardPicker() {
-    const onWizardPicked = ({ wizardId }: { wizardId: any }) => {
-      console.log("wizard: ", wizardId);
+    const self = this;
+    const onWizardPicked = ({ nftId }: { nftId: any }) => {
+      console.log("wizard: ", nftId);
+      self.scene.stop("ShowScene");
+      self.burnModal?.show();
+    };
+
+    // TMP
+    // setTimeout(() => {
+    //   onWizardPicked({ nftId: 0 });
+    // }, 2000);
+
+    const showSceneOpts = {
+      onWizardPicked,
+      showSocials: false,
+      addSelectButton: ({
+        scene,
+        container,
+        nftId,
+      }: {
+        scene: Phaser.Scene;
+        container: any;
+        nftId: any;
+      }) => {
+        const summonButton = scene.add.sprite(
+          0,
+          110,
+          "soulsUI",
+          "pick_default.png"
+        );
+        summonButton.setOrigin(0.5, 0);
+        summonButton.setScale(1);
+        summonButton
+          .setInteractive({ useHandCursor: true })
+          .on("pointerover", () => {
+            summonButton.setFrame("pick_hover.png");
+          })
+          .on("pointerout", () => {
+            summonButton.setFrame("pick_default.png");
+          })
+          .on("pointerdown", () => {
+            summonButton.setAlpha(0.6);
+          })
+          .on("pointerup", () => {
+            summonButton.setAlpha(1);
+            onWizardPicked({ nftId });
+          });
+
+        container.add(summonButton);
+      },
     };
 
     if (this.showScene) {
-      this.scene.launch("ShowScene", { onWizardPicked, showSocials: false });
+      this.scene.launch("ShowScene", showSceneOpts);
     } else {
-      this.scene.launch("ShowScene", { onWizardPicked, showSocials: false });
+      this.scene.launch("ShowScene", showSceneOpts);
       this.showScene = this.scene.get("ShowScene");
       this.showScene.parentScene = this;
     }
