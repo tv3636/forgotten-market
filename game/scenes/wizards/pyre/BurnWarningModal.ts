@@ -14,11 +14,11 @@ const nftData: {
   [nftId: string]: { name: string; image: string; background_color: string };
 } = productionWizardData;
 
-const SECONDS = 1000;
-const TYPING_SPEED = 45;
+// const SECONDS = 1000;
+// const TYPING_SPEED = 45;
 
-// const SECONDS = 10;
-// const TYPING_SPEED = 1;
+const SECONDS = 10;
+const TYPING_SPEED = 1;
 
 export class BurnWarningModal {
   sprite: any;
@@ -55,32 +55,32 @@ export class BurnWarningModal {
         btn: "yes_default.png",
         btnHover: "yes_hover.png",
       },
-      {
-        msg: "Dark Magic is unpredictable and you may receive An Undesirable. Do you understand?",
-        btn: "understand_default.png",
-        btnHover: "understand_hover.png",
-      },
-      {
-        msg: "Hmm... It seems you cannot be dissuaded.",
-        pause: 4 * SECONDS,
-      },
-      {
-        msg: "You will submit 1 Sacred Flame and 1 Wizard. Both burned and neither returned to you. Do you submit?",
-        btn: "submit_default.png",
-        btnHover: "submit_hover.png",
-      },
-      {
-        msg: "Alright then.",
-        pause: 1 * SECONDS,
-      },
-      {
-        msg: "You've made your choice.\n\nThere's no turning back now.",
-        pause: 5 * SECONDS,
-      },
-      {
-        msg: `${nftName} will be no more\n\nOne final entry in their Lore`,
-        pause: 7 * SECONDS,
-      },
+      // {
+      //   msg: "Dark Magic is unpredictable and you may receive An Undesirable. Do you understand?",
+      //   btn: "understand_default.png",
+      //   btnHover: "understand_hover.png",
+      // },
+      // {
+      //   msg: "Hmm... It seems you cannot be dissuaded.",
+      //   pause: 4 * SECONDS,
+      // },
+      // {
+      //   msg: "You will submit 1 Sacred Flame and 1 Wizard. Both burned and neither returned to you. Do you submit?",
+      //   btn: "submit_default.png",
+      //   btnHover: "submit_hover.png",
+      // },
+      // {
+      //   msg: "Alright then.",
+      //   pause: 1 * SECONDS,
+      // },
+      // {
+      //   msg: "You've made your choice.\n\nThere's no turning back now.",
+      //   pause: 5 * SECONDS,
+      // },
+      // {
+      //   msg: `${nftName} will be no more,\n\none final entry in their Lore`,
+      //   pause: 7 * SECONDS,
+      // },
       {
         msg: "May the Flame burn favorably through your Soul",
         pause: 4 * SECONDS,

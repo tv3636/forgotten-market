@@ -79,7 +79,7 @@ export class MetamaskSoul {
     });
   }
 
-  onConnected() {
+  hide() {
     if (!this.sprite) return;
     if (!this.scene) return;
     this.scene.tweens.add({
@@ -96,6 +96,17 @@ export class MetamaskSoul {
           this.metamaskButtonZone.destroy();
           this.metamaskButtonZone = null;
         }
+      },
+    });
+  }
+
+  onConnected() {
+    if (!this.sprite) return;
+    if (!this.scene) return;
+    this.hide();
+    this.scene.time.addEvent({
+      delay: 501,
+      callback: () => {
         if (this.onConnect) {
           this.onConnect();
         }

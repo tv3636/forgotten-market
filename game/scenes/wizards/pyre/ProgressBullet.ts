@@ -59,6 +59,26 @@ export class ProgressBullet {
     return this;
   }
 
+  hide() {
+    if (this.container) {
+      this.scene?.tweens.add({
+        targets: this.container,
+        alpha: { value: 0, duration: 500, ease: "Power1" },
+        delay: 0,
+      });
+      this.scene?.time.addEvent({
+        delay: 500 + 10,
+        callback: () => {
+          this.container.destroy();
+        },
+      });
+    }
+  }
+
+  destroy() {
+    this.container?.destroy();
+  }
+
   setOnClick(onClick: any) {
     this.onClick = onClick;
     this.addInteractionZone();
@@ -254,6 +274,8 @@ export class ProgressBullet {
       tween.stop();
       tween.remove();
     });
+
+    if (!this.statusIcon) return;
 
     switch (this.currentStatus) {
       case "INCOMPLETE": {

@@ -1,3 +1,4 @@
+import { values } from "lodash";
 import {
   FORGOTTEN_SOULS_ADDRESS,
   getInfinityVeilContract,
@@ -12,6 +13,32 @@ import { BurnWarningModal } from "./BurnWarningModal";
 import { ProgressBullet } from "./ProgressBullet";
 
 const SECONDS = 1000;
+
+export type OnBurnInitiatedFn = ({
+  hash,
+  wizardId,
+}: {
+  hash: string;
+  wizardId: number;
+}) => void;
+
+export type OnBurnConfirmedFn = ({
+  hash,
+  wizardId,
+  receipt,
+}: {
+  hash: string;
+  wizardId: number;
+  receipt: any;
+}) => void;
+
+export type OnBurnErrorFn = ({
+  hash,
+  wizardId,
+}: {
+  hash: string;
+  wizardId: number;
+}) => void;
 
 export class BurnModal {
   sprite: any;
@@ -29,6 +56,9 @@ export class BurnModal {
 
   wizardId: any;
 
+  onBurnInitiated: OnBurnInitiatedFn = () => null;
+  onBurnConfirmed: OnBurnConfirmedFn = () => null;
+  onBurnError: OnBurnErrorFn = () => null;
   constructor({ scene }: { scene: Phaser.Scene }) {
     this.scene = scene;
   }
@@ -56,6 +86,29 @@ export class BurnModal {
     this.addHelp();
 
     return this;
+  }
+
+  hide() {
+    if (this.container) {
+      this.scene?.tweens.add({
+        targets: [this.container, ...values(this.bullets)],
+        alpha: { value: 0, duration: 500, ease: "Power1" },
+        delay: 0,
+      });
+
+      values(this.bullets).map((bullet) => {
+        if (bullet) {
+          bullet.hide();
+        }
+      });
+
+      this.scene?.time.addEvent({
+        delay: 500 + 10,
+        callback: () => {
+          this.container.destroy();
+        },
+      });
+    }
   }
 
   async sendTx({
@@ -213,6 +266,7 @@ export class BurnModal {
           onPending: ({ hash }: { hash: string }) => {
             warningModal.hide();
             parent.onPendingTx({ hash });
+            this.onBurnInitiated({ hash, wizardId: this.wizardId });
           },
           onConfirm: ({ hash, receipt }: { hash: string; receipt: any }) => {
             const toast = new Toast();
@@ -223,10 +277,12 @@ export class BurnModal {
               color: "#ffffff",
             });
             parent.onPendingTxConfirmed();
+            this.onBurnConfirmed({ hash, wizardId: this.wizardId, receipt });
           },
-          onError: () => {
+          onError: ({ hash }: { hash: any }) => {
             warningModal.hide();
             parent.onPendingTxError();
+            this.onBurnError({ hash, wizardId: this.wizardId });
           },
         });
       };
@@ -555,7 +611,4 @@ export class BurnModal {
       delay: 2000,
     });
   }
-}
-function getForgottenSoulsContract(arg0: { provider: any }) {
-  throw new Error("Function not implemented.");
 }
