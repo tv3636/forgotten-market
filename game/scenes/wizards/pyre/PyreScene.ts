@@ -148,12 +148,12 @@ export class PyreScene extends Phaser.Scene {
     (this.cameras.main as any).preRender(1);
     this.updateCamera();
 
-    const warningModal = new BurnWarningModal({ scene: this });
-    warningModal.show({ wizardId: 72 });
-    warningModal.onComplete = () => {
-      console.log("on complete");
-      warningModal.hide();
-    };
+    // const warningModal = new BurnWarningModal({ scene: this });
+    // warningModal.show({ wizardId: 72 });
+    // warningModal.onComplete = () => {
+    //   console.log("on complete");
+    //   warningModal.hide();
+    // };
 
     // TMP
     // this.burnModal.show({ wizardId: 78 });
@@ -190,7 +190,7 @@ export class PyreScene extends Phaser.Scene {
       "room_hiLit",
       "flameBurst",
       "ExplodeBits",
-      "vignette",
+      // "vignette",
     ];
     hides.forEach((hideName) => {
       this.sprites[hideName].setAlpha(0);
@@ -203,6 +203,7 @@ export class PyreScene extends Phaser.Scene {
       "fireSmall_1",
       "Glow_02",
       "Glow_03",
+      // "vignette",
     ];
     plays.forEach((playName) => {
       this.sprites[playName].play({

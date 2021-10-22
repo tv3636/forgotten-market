@@ -1,8 +1,10 @@
 import {
   FORGOTTEN_SOULS_ADDRESS,
   getInfinityVeilContract,
+  getSoulsContract,
   getWizardsContract,
   INFINITY_VEIL_ADDRESS,
+  WIZARDS_CONTRACT_ADDRESS,
 } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { Toast } from "../../../objects/Toast";
 import { getWeb3Controller } from "../home/Web3Controller";
@@ -167,7 +169,7 @@ export class BurnModal {
       enabled: false,
     });
 
-    const onClickBurnBoth = () => {
+    const onClickBurnBoth = (parent: ProgressBullet) => {
       console.log("burn both clicked");
       if (!this.scene) return;
       if (!flamesApproved) {
@@ -191,9 +193,40 @@ export class BurnModal {
 
       const warningModal = new BurnWarningModal({ scene: this.scene });
       warningModal.show({ wizardId: this.wizardId });
+
       warningModal.onComplete = () => {
-        console.log("on complete");
+        console.log("on warnings complete");
         warningModal.hide();
+
+        console.log("Burning. May the gods have mercy on your Soul");
+        this.sendTx({
+          buildTx: async ({ injectedProvider, chainId }: any) => {
+            const contract = await getSoulsContract({
+              provider: injectedProvider,
+            });
+            const tx = await contract.populateTransaction.mint(
+              WIZARDS_CONTRACT_ADDRESS[chainId],
+              this.wizardId
+            );
+            return tx;
+          },
+          onPending: ({ hash }: { hash: string }) => {
+            parent.onPendingTx({ hash });
+          },
+          onConfirm: ({ hash, receipt }: { hash: string; receipt: any }) => {
+            const toast = new Toast();
+            toast.create({
+              scene,
+              message: "Burning Complete",
+              duration: 3000,
+              color: "#ffffff",
+            });
+            parent.onPendingTxConfirmed();
+          },
+          onError: () => {
+            parent.onPendingTxError();
+          },
+        });
       };
     };
 
@@ -520,4 +553,7 @@ export class BurnModal {
       delay: 2000,
     });
   }
+}
+function getForgottenSoulsContract(arg0: { provider: any }) {
+  throw new Error("Function not implemented.");
 }
