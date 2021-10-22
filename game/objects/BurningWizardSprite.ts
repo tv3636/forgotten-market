@@ -7,6 +7,8 @@ export class BurningWizardSprite extends Phaser.GameObjects.Sprite {
 
   wizardId: number = -1;
 
+  burnAnimationTimer: any;
+
   static fromWizardId({
     scene,
     wizardId,
@@ -110,6 +112,11 @@ export class BurningWizardSprite extends Phaser.GameObjects.Sprite {
     this.wizardId = wizardId;
   }
 
+  destroy() {
+    this.burnAnimationTimer.remove();
+    super.destroy();
+  }
+
   playBurn() {
     const wizardImageKeyBlack = `wizard:nobg:${this.wizardId}:black`;
     const wizardImageKeyRed = `wizard:nobg:${this.wizardId}:red`;
@@ -118,11 +125,17 @@ export class BurningWizardSprite extends Phaser.GameObjects.Sprite {
     let frames = [wizardImageKeyBlack, wizardImageKeyRed, wizardImageKeyWhite];
     let currentFrame = 0;
 
-    this.scene.time.addEvent({
+    this.burnAnimationTimer = this.scene.time.addEvent({
       delay: 70,
       callback: () => {
-        this.setTexture(frames[currentFrame % frames.length]);
-        // currentFrame += 1;
+        try {
+          this.setTexture(frames[currentFrame % frames.length]);
+          // currentFrame += 1;
+        } catch (err) {
+          console.log("err: ", err);
+          //
+          // idk why
+        }
       },
       startAt: 0,
       loop: true,

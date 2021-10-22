@@ -137,7 +137,7 @@ export class PyreScene extends Phaser.Scene {
         const alphaValue = linearmap(layerMeta.opacity, 0, 255, 0, 1);
         // console.log("alpha", name, alphaValue);
         // for some reason our value needs scaled up a bit
-        sprite.setAlpha(alphaValue * 1.3);
+        sprite.setAlpha(alphaValue * 1.7);
       }
       if (layerMeta?.blendMode === "lighten") {
         sprite.blendMode = Phaser.BlendModes.LIGHTEN;
@@ -145,6 +145,15 @@ export class PyreScene extends Phaser.Scene {
 
       return acc;
     }, {});
+
+    this.sprites["circuitsTop"] = this.add.sprite(
+      centerX,
+      centerY,
+      "SoulsInterior",
+      `circuits-0`
+    );
+    this.sprites["circuitsTop"].setAlpha(0);
+    this.sprites["circuitsTop"].blendMode = Phaser.BlendModes.LIGHTEN;
 
     this.startIdle();
 
@@ -175,6 +184,8 @@ export class PyreScene extends Phaser.Scene {
     this.burnModal.onBurnConfirmed = ({ hash, wizardId }) => {
       console.log("hash, wizardId: ", hash, wizardId);
       this.hideEtherscanPendingMessage();
+      this.setConfirmedBurn();
+
       // ---------------
       // TODO right here
       // --------------
@@ -242,13 +253,25 @@ export class PyreScene extends Phaser.Scene {
       "no_hover.png",
       ({ btn }: { btn: ImageButton }) => {
         console.log("no");
+        this.setConfirmedBurn();
       }
     );
     testButton2.setScale(0.5);
     this.add.existing(testButton2);
 
-    // this.showConfirmingSoul();
+    // this.showConfirmingSoul({ wizardId: 44 });
     // this.addEtherscanPendingMessage({ hash: "abc123" });
+
+    this.setConfirmedBurn();
+  }
+
+  setConfirmedBurn() {
+    this.startIdle();
+
+    let burningWizardSprite = this.sprites["burningWizard"];
+    if (burningWizardSprite) {
+      burningWizardSprite.destroy();
+    }
   }
 
   getProvider() {
@@ -287,6 +310,13 @@ export class PyreScene extends Phaser.Scene {
         repeatDelay: 0,
         repeat: -1,
       });
+    });
+
+    this.sprites["circuitsTop"].setAlpha(0);
+    const tweens = this.tweens.getTweensOf(this.sprites["circuitsTop"]);
+    tweens.forEach((tween) => {
+      tween.stop();
+      tween.remove();
     });
   }
 
@@ -334,10 +364,19 @@ export class PyreScene extends Phaser.Scene {
       alpha: { value: 0.6, duration: 500, ease: "Power1" },
     });
 
+    this.tweens.add({
+      targets: this.sprites["circuitsTop"],
+      alpha: { value: 0.7, duration: 1400, ease: "Linear" },
+      delay: 0,
+      yoyo: true,
+      repeat: -1,
+    });
+
     BurningWizardSprite.fromWizardId({
       scene: this,
       wizardId,
       cb: ({ sprite }: { sprite: BurningWizardSprite }) => {
+        this.sprites["burningWizard"] = sprite;
         this.add.existing(sprite);
         sprite.setScale(0.33);
         sprite.setOrigin(0.5, 0.5);
