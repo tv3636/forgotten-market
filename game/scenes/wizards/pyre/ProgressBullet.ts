@@ -54,6 +54,7 @@ export class ProgressBullet {
     // this.addInteractionZone();
 
     this.setEnabled(this.enabled);
+    this.setCurrentStatus({ newStatus: this.currentStatus });
 
     return this;
   }
@@ -246,6 +247,8 @@ export class ProgressBullet {
 
   updateIcon() {
     if (!this.scene) return;
+    if (!this.statusIcon) return;
+
     const tweens = this.scene.tweens.getTweensOf(this.statusIcon);
     tweens.forEach((tween) => {
       tween.stop();

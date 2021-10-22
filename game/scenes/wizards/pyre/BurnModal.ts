@@ -6,7 +6,10 @@ import {
 } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { Toast } from "../../../objects/Toast";
 import { getWeb3Controller } from "../home/Web3Controller";
+import { BurnWarningModal } from "./BurnWarningModal";
 import { ProgressBullet } from "./ProgressBullet";
+
+const SECONDS = 1000;
 
 export class BurnModal {
   sprite: any;
@@ -21,6 +24,8 @@ export class BurnModal {
   instructionText: any;
 
   bullets: any;
+
+  wizardId: any;
 
   constructor({ scene }: { scene: Phaser.Scene }) {
     this.scene = scene;
@@ -39,6 +44,7 @@ export class BurnModal {
     this.addCloseButton();
     this.addInstructionText();
     this.addWizardImage({ wizardId });
+    this.wizardId = wizardId;
 
     this.writeMessage({
       msg: "To burn your Wizard, complete the spells below",
@@ -163,6 +169,7 @@ export class BurnModal {
 
     const onClickBurnBoth = () => {
       console.log("burn both clicked");
+      if (!this.scene) return;
       if (!flamesApproved) {
         const toast = new Toast();
         toast.create({
@@ -181,6 +188,13 @@ export class BurnModal {
           color: "#ffffff",
         });
       }
+
+      const warningModal = new BurnWarningModal({ scene: this.scene });
+      warningModal.show({ wizardId: this.wizardId });
+      warningModal.onComplete = () => {
+        console.log("on complete");
+        warningModal.hide();
+      };
     };
 
     burnBoth.setEnabled(false);
@@ -302,23 +316,15 @@ export class BurnModal {
     };
     approveFlames.setOnClick(onClickApproveFlames);
     approveWizards.setOnClick(onClickApproveWizards);
-    const delay = 101;
+    const delay = 500;
 
     checkFlamesApprovedAlready();
     checkWizardsApprovedAlready();
-
-    // approveFlames.show();
-    // approveWizards.show();
-    // burnBoth.show();
 
     scene.time.addEvent({
       delay: delay * 1,
       callback: () => {
         approveFlames.show();
-        // onClickApproveFlames(approveFlames);
-        // setTimeout(() => {
-        //   approveFlames.onPendingTxConfirmed();
-        // }, 2000);
       },
       startAt: 0,
     });

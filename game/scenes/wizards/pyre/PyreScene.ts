@@ -6,6 +6,7 @@ import { Toast } from "../../../objects/Toast";
 import { WizardPicker } from "../../../objects/WizardPicker";
 import { ShowScene } from "../show/ShowScene";
 import { BurnModal } from "./BurnModal";
+import { BurnWarningModal } from "./BurnWarningModal";
 
 const BREAKPOINT = 768;
 
@@ -72,8 +73,8 @@ export class PyreScene extends Phaser.Scene {
     const centerX = worldView.centerX;
 
     this.scale.on("resize", this.resize, this);
-
     this.initialWidth = width; // store for responsive
+    this.updateCamera();
 
     (this as any).myAasepriteLoader?.createFromAsepriteWithLayers(
       "SoulsInterior"
@@ -144,9 +145,18 @@ export class PyreScene extends Phaser.Scene {
 
     this.burnModal = new BurnModal({ scene: this });
 
+    (this.cameras.main as any).preRender(1);
+    this.updateCamera();
+
+    const warningModal = new BurnWarningModal({ scene: this });
+    warningModal.show({ wizardId: 72 });
+    warningModal.onComplete = () => {
+      console.log("on complete");
+      warningModal.hide();
+    };
+
     // TMP
     // this.burnModal.show({ wizardId: 78 });
-
     // this.wizardPicker = new WizardPicker();
     // this.wizardPicker.create({ scene: this });
     this.updateCamera();

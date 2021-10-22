@@ -2,6 +2,8 @@ export class ImageButton extends Phaser.GameObjects.Sprite {
   defaultFrame: string;
   hoverFrame: string;
 
+  enabled: boolean = true;
+
   constructor(
     scene: any,
     x: number,
@@ -17,17 +19,25 @@ export class ImageButton extends Phaser.GameObjects.Sprite {
 
     this.setInteractive({ useHandCursor: true })
       .on("pointerover", () => {
-        this.setFrame(hoverFrame);
+        if (this.enabled) {
+          this.setFrame(hoverFrame);
+        }
       })
       .on("pointerout", () => {
-        this.setFrame(defaultFrame);
+        if (this.enabled) {
+          this.setFrame(defaultFrame);
+        }
       })
       .on("pointerdown", () => {
-        this.setAlpha(0.6);
+        if (this.enabled) {
+          this.setAlpha(0.6);
+        }
       })
       .on("pointerup", () => {
-        this.setAlpha(1);
-        callback();
+        if (this.enabled) {
+          this.setAlpha(1);
+          callback({ btn: this });
+        }
       });
   }
 }
