@@ -191,13 +191,13 @@ export class BurnModal {
         });
       }
 
-      const warningModal = new BurnWarningModal({ scene: this.scene });
+      const warningModal = new BurnWarningModal({
+        scene: this.scene,
+        wizardId: this.wizardId,
+      });
       warningModal.show({ wizardId: this.wizardId });
 
       warningModal.onComplete = () => {
-        console.log("on warnings complete");
-        warningModal.hide();
-
         console.log("Burning. May the gods have mercy on your Soul");
         this.sendTx({
           buildTx: async ({ injectedProvider, chainId }: any) => {
@@ -211,6 +211,7 @@ export class BurnModal {
             return tx;
           },
           onPending: ({ hash }: { hash: string }) => {
+            warningModal.hide();
             parent.onPendingTx({ hash });
           },
           onConfirm: ({ hash, receipt }: { hash: string; receipt: any }) => {
@@ -224,6 +225,7 @@ export class BurnModal {
             parent.onPendingTxConfirmed();
           },
           onError: () => {
+            warningModal.hide();
             parent.onPendingTxError();
           },
         });
@@ -349,7 +351,7 @@ export class BurnModal {
     };
     approveFlames.setOnClick(onClickApproveFlames);
     approveWizards.setOnClick(onClickApproveWizards);
-    const delay = 500;
+    const delay = 750;
 
     checkFlamesApprovedAlready();
     checkWizardsApprovedAlready();
