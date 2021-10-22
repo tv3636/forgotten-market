@@ -9,16 +9,17 @@ import { Toast } from "../../../objects/Toast";
 import { getWeb3Controller } from "../home/Web3Controller";
 import { ProgressBullet } from "./ProgressBullet";
 import productionWizardData from "../../../../data/nfts-prod.json";
+import { IMAGE_NOBG_BASE_URL } from "../../../../constants";
 
 const nftData: {
   [nftId: string]: { name: string; image: string; background_color: string };
 } = productionWizardData;
 
-// const SECONDS = 1000;
-// const TYPING_SPEED = 45;
+const SECONDS = 1000;
+const TYPING_SPEED = 45;
 
-const SECONDS = 10;
-const TYPING_SPEED = 1;
+// const SECONDS = 10;
+// const TYPING_SPEED = 1;
 
 export class BurnWarningModal {
   sprite: any;
@@ -55,32 +56,32 @@ export class BurnWarningModal {
         btn: "yes_default.png",
         btnHover: "yes_hover.png",
       },
-      // {
-      //   msg: "Dark Magic is unpredictable and you may receive An Undesirable. Do you understand?",
-      //   btn: "understand_default.png",
-      //   btnHover: "understand_hover.png",
-      // },
-      // {
-      //   msg: "Hmm... It seems you cannot be dissuaded.",
-      //   pause: 4 * SECONDS,
-      // },
-      // {
-      //   msg: "You will submit 1 Sacred Flame and 1 Wizard. Both burned and neither returned to you. Do you submit?",
-      //   btn: "submit_default.png",
-      //   btnHover: "submit_hover.png",
-      // },
-      // {
-      //   msg: "Alright then.",
-      //   pause: 1 * SECONDS,
-      // },
-      // {
-      //   msg: "You've made your choice.\n\nThere's no turning back now.",
-      //   pause: 5 * SECONDS,
-      // },
-      // {
-      //   msg: `${nftName} will be no more,\n\none final entry in their Lore`,
-      //   pause: 7 * SECONDS,
-      // },
+      {
+        msg: "Dark Magic is unpredictable and you may receive An Undesirable.\n\nDo you understand?",
+        btn: "understand_default.png",
+        btnHover: "understand_hover.png",
+      },
+      {
+        msg: "Hmm... It seems you cannot be dissuaded.",
+        pause: 4 * SECONDS,
+      },
+      {
+        msg: "You will submit 1 Sacred Flame and 1 Wizard. Both burned and neither returned to you.\nDo you submit?",
+        btn: "submit_default.png",
+        btnHover: "submit_hover.png",
+      },
+      {
+        msg: "Alright then.",
+        pause: 1 * SECONDS,
+      },
+      {
+        msg: "You've made your choice.\n\nThere's no turning back now.",
+        pause: 5 * SECONDS,
+      },
+      {
+        msg: `${nftName} will be no more,\n\none final entry in their Lore`,
+        pause: 7 * SECONDS,
+      },
       {
         msg: "May the Flame burn favorably through your Soul",
         pause: 4 * SECONDS,
@@ -206,12 +207,8 @@ export class BurnWarningModal {
   addWizardImage({ wizardId }: { wizardId: number }) {
     const scene = this.scene;
     if (!scene) return;
-    const nftImageUrl =
-      process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL +
-      `/${wizardId}.png`;
-
-    const wizardImageKey = `wizard:${wizardId}`;
-
+    const nftImageUrl = `${IMAGE_NOBG_BASE_URL}${wizardId}.png`;
+    const wizardImageKey = `wizard:nobg:${wizardId}`;
     scene.load.image(wizardImageKey, nftImageUrl); // add task
     scene.load.once("complete", () => {
       const img = scene.add.sprite(0, 24, wizardImageKey);

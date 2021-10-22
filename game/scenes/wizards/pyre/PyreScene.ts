@@ -10,6 +10,7 @@ import { WizardPicker } from "../../../objects/WizardPicker";
 import { ShowScene } from "../show/ShowScene";
 import { BurnModal } from "./BurnModal";
 import { BurnWarningModal } from "./BurnWarningModal";
+import { SoulModal } from "./SoulModal";
 
 const BREAKPOINT = 768;
 
@@ -242,7 +243,7 @@ export class PyreScene extends Phaser.Scene {
       }
     );
     testButton.setScale(0.5);
-    this.add.existing(testButton);
+    // this.add.existing(testButton);
 
     const testButton2 = new ImageButton(
       this,
@@ -257,12 +258,12 @@ export class PyreScene extends Phaser.Scene {
       }
     );
     testButton2.setScale(0.5);
-    this.add.existing(testButton2);
+    // this.add.existing(testButton2);
 
     // this.showConfirmingSoul({ wizardId: 44 });
     // this.addEtherscanPendingMessage({ hash: "abc123" });
 
-    this.setConfirmedBurn();
+    // this.setConfirmedBurn();
   }
 
   setConfirmedBurn() {
@@ -272,6 +273,9 @@ export class PyreScene extends Phaser.Scene {
     if (burningWizardSprite) {
       burningWizardSprite.destroy();
     }
+
+    const soulModal = new SoulModal({ scene: this });
+    soulModal.show({ wizardId: 44 });
   }
 
   getProvider() {

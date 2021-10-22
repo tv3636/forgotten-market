@@ -1,4 +1,5 @@
 import { values } from "lodash";
+import { IMAGE_NOBG_BASE_URL } from "../../../../constants";
 import {
   FORGOTTEN_SOULS_ADDRESS,
   getInfinityVeilContract,
@@ -446,12 +447,8 @@ export class BurnModal {
   addWizardImage({ wizardId }: { wizardId: number }) {
     const scene = this.scene;
     if (!scene) return;
-    const nftImageUrl =
-      process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL +
-      `/${wizardId}.png`;
-
-    const wizardImageKey = `wizard:${wizardId}`;
-
+    const nftImageUrl = `${IMAGE_NOBG_BASE_URL}${wizardId}.png`;
+    const wizardImageKey = `wizard:nobg:${wizardId}`;
     scene.load.image(wizardImageKey, nftImageUrl); // add task
     scene.load.once("complete", () => {
       const img = scene.add.sprite(0, -78, wizardImageKey);
