@@ -35,7 +35,9 @@ export default async function handler(
     req.body.signature
   );
 
-  const wizardContract = getWizardsContract({ provider: getProvider(true) });
+  const wizardContract = await getWizardsContract({
+    provider: getProvider(true),
+  });
   const wizardOwner = await wizardContract.ownerOf(req.body.wizard_id);
 
   if (wizardOwner.toLowerCase() !== signingAddress.toLowerCase()) {

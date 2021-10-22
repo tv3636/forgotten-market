@@ -126,11 +126,11 @@ export class BurningWizardSprite extends Phaser.GameObjects.Sprite {
     let currentFrame = 0;
 
     this.burnAnimationTimer = this.scene.time.addEvent({
-      delay: 70,
+      delay: 90,
       callback: () => {
         try {
           this.setTexture(frames[currentFrame % frames.length]);
-          // currentFrame += 1;
+          currentFrame += 1;
         } catch (err) {
           console.log("err: ", err);
           //

@@ -112,7 +112,7 @@ function WizardList({
       const tokens: any = [];
       try {
         const address = injectedProvider.provider.selectedAddress;
-        const contract = getWizardsContract({
+        const contract = await getWizardsContract({
           provider: injectedProvider,
         });
         const result = await contract.tokensOfOwner(address);
