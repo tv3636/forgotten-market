@@ -153,6 +153,7 @@ export class SoulModal {
         },
       },
     });
+    // this.instructionText.setResolution(2);
     this.instructionText.setOrigin(0.5, 0);
     this.instructionText.setPosition(0, -180);
     this.container.add(this.instructionText);
@@ -168,7 +169,7 @@ export class SoulModal {
     const centerX = worldView.centerX;
 
     this.container = scene.add.container(centerX, centerY - 50);
-    this.container.setScale(1);
+    this.container.setScale(0.5);
 
     const frame = scene.add.sprite(0, 0, "soulsUI", "box.png");
     frame.setScale(0.75);
@@ -176,12 +177,20 @@ export class SoulModal {
     frame.setInteractive({ useHandCursor: false });
     this.frame = frame;
     this.container.add(frame);
+    this.container.setAlpha(0);
 
     scene.tweens.add({
       targets: this.container,
       scale: 1,
       ease: "Back.easeOut",
-      duration: 100,
+      duration: 2000,
+      delay: 0,
+    });
+    scene.tweens.add({
+      targets: this.container,
+      alpha: 1,
+      ease: "Back.easeOut",
+      duration: 2000,
       delay: 0,
     });
   }

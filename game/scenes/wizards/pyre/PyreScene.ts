@@ -34,6 +34,8 @@ export class PyreScene extends Phaser.Scene {
 
   pendingText: any;
 
+  initialScrollY: any;
+
   constructor(parentScene: Phaser.Scene) {
     super("PyreScene");
     this.parentScene = parentScene;
@@ -98,11 +100,13 @@ export class PyreScene extends Phaser.Scene {
 
     const layers = [
       "BG",
+      "eyes",
       "columns_red",
       "circuits",
       "Fire_Large",
       "ray",
       "pyre",
+      "circuits_pyre",
       "bottomTile",
       "Glow_01",
       "room_hiLit",
@@ -131,6 +135,7 @@ export class PyreScene extends Phaser.Scene {
         "SoulsInterior",
         `${name}-0`
       );
+      // sprite.setOrigin(0.5, 0);
       acc[name] = sprite;
 
       const layerMeta = soulsLayersByName[name];
@@ -147,6 +152,8 @@ export class PyreScene extends Phaser.Scene {
       return acc;
     }, {});
 
+    this.sprites["eyes"].setAlpha(0);
+
     this.sprites["circuitsTop"] = this.add.sprite(
       centerX,
       centerY,
@@ -157,6 +164,9 @@ export class PyreScene extends Phaser.Scene {
     this.sprites["circuitsTop"].blendMode = Phaser.BlendModes.LIGHTEN;
 
     this.startIdle();
+    this.scrollToTop();
+
+    this.addControls();
 
     let metamaskSoul = new MetamaskSoul({
       onConnect: () => {
@@ -175,7 +185,6 @@ export class PyreScene extends Phaser.Scene {
       this.time.addEvent({
         delay: 1500,
         callback: () => {
-          this.playExplosion();
           this.showConfirmingSoul({ wizardId: wizardId });
           this.addEtherscanPendingMessage({ hash });
         },
@@ -184,8 +193,15 @@ export class PyreScene extends Phaser.Scene {
 
     this.burnModal.onBurnConfirmed = ({ hash, wizardId }) => {
       console.log("hash, wizardId: ", hash, wizardId);
+      this.playExplosion();
       this.hideEtherscanPendingMessage();
-      this.setConfirmedBurn();
+
+      this.time.addEvent({
+        delay: 2500,
+        callback: () => {
+          this.setConfirmedBurn();
+        },
+      });
 
       // ---------------
       // TODO right here
@@ -238,12 +254,11 @@ export class PyreScene extends Phaser.Scene {
       ({ btn }: { btn: ImageButton }) => {
         console.log("yes");
         this.metamaskSoul?.hide();
-        this.playExplosion();
         this.showConfirmingSoul({ wizardId: 44 });
       }
     );
     testButton.setScale(0.5);
-    // this.add.existing(testButton);
+    this.add.existing(testButton);
 
     const testButton2 = new ImageButton(
       this,
@@ -254,11 +269,19 @@ export class PyreScene extends Phaser.Scene {
       "no_hover.png",
       ({ btn }: { btn: ImageButton }) => {
         console.log("no");
-        this.setConfirmedBurn();
+        this.playExplosion();
+        this.hideEtherscanPendingMessage();
+
+        this.time.addEvent({
+          delay: 1500,
+          callback: () => {
+            this.setConfirmedBurn();
+          },
+        });
       }
     );
     testButton2.setScale(0.5);
-    // this.add.existing(testButton2);
+    this.add.existing(testButton2);
 
     // this.showConfirmingSoul({ wizardId: 44 });
     // this.addEtherscanPendingMessage({ hash: "abc123" });
@@ -272,6 +295,10 @@ export class PyreScene extends Phaser.Scene {
     let burningWizardSprite = this.sprites["burningWizard"];
     if (burningWizardSprite) {
       burningWizardSprite.destroy();
+    }
+
+    if (this.sprites["eyes"]) {
+      this.sprites["eyes"].stopAfterRepeat();
     }
 
     const soulModal = new SoulModal({ scene: this });
@@ -289,6 +316,7 @@ export class PyreScene extends Phaser.Scene {
     const hides = [
       "Fire_Large",
       "ray",
+      // "eyes", // deal w/ this outside
       "room_hiLit",
       "flameBurst",
       "ExplodeBits",
@@ -343,15 +371,10 @@ export class PyreScene extends Phaser.Scene {
       });
     });
 
-    const playsLoop = ["Fire_Large"];
-    playsLoop.forEach((playName) => {
-      this.sprites[playName].setAlpha(1);
-      this.sprites[playName].play({
-        key: `${playName}-play`,
-        delay: 0,
-        repeatDelay: 0,
-        repeat: -1,
-      });
+    // add ray
+    this.tweens.add({
+      targets: this.sprites["ray"],
+      alpha: { value: 0.6, duration: 500, ease: "Power1" },
     });
   }
 
@@ -362,18 +385,36 @@ export class PyreScene extends Phaser.Scene {
     const worldView = this.cameras.main.worldView;
     const centerX = worldView.centerX;
 
-    // add ray
-    this.tweens.add({
-      targets: this.sprites["ray"],
-      alpha: { value: 0.6, duration: 500, ease: "Power1" },
-    });
-
     this.tweens.add({
       targets: this.sprites["circuitsTop"],
       alpha: { value: 0.7, duration: 1400, ease: "Linear" },
       delay: 0,
       yoyo: true,
       repeat: -1,
+    });
+
+    this.tweens.add({
+      targets: this.sprites["eyes"],
+      alpha: { value: 1, duration: 500, ease: "Power1" },
+    });
+
+    this.sprites["eyes"].play({
+      key: `eyes-play`,
+      delay: 0,
+      repeatDelay: 0,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    const playsLoop = ["Fire_Large"];
+    playsLoop.forEach((playName) => {
+      this.sprites[playName].setAlpha(1);
+      this.sprites[playName].play({
+        key: `${playName}-play`,
+        delay: 0,
+        repeatDelay: 0,
+        repeat: -1,
+      });
     });
 
     BurningWizardSprite.fromWizardId({
@@ -403,6 +444,26 @@ export class PyreScene extends Phaser.Scene {
     //   this.summonText.setText(`${this.numRemaining}`);
     // }
   }
+
+  scrollToTop() {
+    const height = this.scale.gameSize.height;
+    // set initial camera scroll
+    const bgHeight = this.sprites["BG"].height;
+    // console.log(
+    //   "bgHeight: ",
+    //   height,
+    //   bgHeight,
+    //   height - bgHeight,
+    //   (height - bgHeight) / 2,
+    //   this.cameras.main.zoom,
+    //   (height - bgHeight) / 2 / this.cameras.main.zoom,
+    //   -bgHeight / 2 / this.cameras.main.zoom
+    // );
+    this.cameras.main.scrollY =
+      ((height - bgHeight) / 2) * this.cameras.main.zoom;
+    console.log("this.cameras.main.scrollY: ", this.cameras.main.scrollY);
+  }
+
   updateCamera() {
     const width = this.scale.gameSize.width;
     const height = this.scale.gameSize.height;
@@ -419,16 +480,19 @@ export class PyreScene extends Phaser.Scene {
       this.cameras.main.scrollX = (centerX - initialCenterX) * -1;
 
       if (width < BREAKPOINT) {
-        this.cameras.main.scrollY = 250;
+        this.cameras.main.scrollY = 260;
         this.cameras.main.setZoom(1);
       } else {
-        this.cameras.main.scrollY = 75;
+        // this.cameras.main.scrollY = 0;
+        // this.cameras.main.setZoom(1.5);
+        this.cameras.main.scrollY = 60;
         this.cameras.main.setZoom(1.5);
       }
     }
   }
   resize(gameSize: any, baseSize: any, displaySize: any, resolution: any) {
-    console.log("resize");
+    console.log("resize", gameSize, baseSize, displaySize, resolution);
+    // this.resize(gameSize, baseSize, displaySize, resolution);
     this.updateCamera();
 
     if (this.showScene) {
@@ -560,5 +624,48 @@ export class PyreScene extends Phaser.Scene {
       this.pendingText.destroy();
       this.pendingText = null;
     }
+  }
+
+  addControls() {
+    const width = this.scale.gameSize.width;
+    const height = this.scale.gameSize.height;
+    const centerY = height / 2;
+    const worldView = this.cameras.main.worldView;
+    const centerX = worldView.centerX;
+    const camera = this.cameras.main;
+    this.initialScrollY = camera.scrollY;
+    const maxScroll = 300;
+
+    this.input.on(
+      "wheel",
+      (
+        pointer: any,
+        gameObjects: any,
+        deltaX: number,
+        deltaY: number,
+        deltaZ: number
+      ) => {
+        const camera = this.cameras.main;
+        camera.scrollY += deltaY * 0.5 * 1;
+        camera.scrollY = Math.max(-50, camera.scrollY);
+        camera.scrollY = Math.min(camera.scrollY, maxScroll);
+        console.log(" camera.scrollY: ", camera.scrollY);
+      }
+    );
+
+    const rayZone = this.add.zone((width / 2) * -1, 0, width * 3, height * 100);
+    rayZone.setOrigin(0, 0);
+    rayZone
+      .setInteractive({ draggable: true, useHandCursor: false })
+      .on("pointerup", () => {
+        // console.log("drag zone up", this.parentScene);
+      })
+      .on("drag", (pointer: any, dragX: number, dragY: number) => {
+        // console.log("drag zone drag", this.parentScene);
+        const camera = this.cameras.main;
+        camera.scrollY += dragY * 0.5 * -1;
+        camera.scrollY = Math.max(-50, camera.scrollY);
+        camera.scrollY = Math.min(camera.scrollY, maxScroll);
+      });
   }
 }

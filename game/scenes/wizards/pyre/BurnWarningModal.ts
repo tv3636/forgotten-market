@@ -57,7 +57,7 @@ export class BurnWarningModal {
         btnHover: "yes_hover.png",
       },
       {
-        msg: "Dark Magic is unpredictable and you may receive An Undesirable.\n\nDo you understand?",
+        msg: "Dark Magic is unpredictable and you may receive an Undesirable.\n\nDo you understand?",
         btn: "understand_default.png",
         btnHover: "understand_hover.png",
       },
