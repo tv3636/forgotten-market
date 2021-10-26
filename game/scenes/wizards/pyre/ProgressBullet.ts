@@ -136,23 +136,25 @@ export class ProgressBullet {
   }
 
   addInstructionText() {
+    const zoom = this.scene?.cameras?.main?.zoom || 1;
     this.instructionText = this.scene?.make.text({
       x: 0,
       y: 0,
       text: "",
       style: {
         fontFamily: "Alagard",
-        fontSize: "16px",
+        fontSize: Math.floor(16 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 220 },
+        wordWrap: { width: 250 * zoom },
         align: "center",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
+    this.instructionText.setScale(1 / zoom);
     this.instructionText.setOrigin(0, 0.5);
     this.instructionText.setPosition(18, 0);
     this.container.add(this.instructionText);
@@ -200,23 +202,25 @@ export class ProgressBullet {
   }
 
   addEtherscanPendingMessage({ hash }: { hash: string }) {
+    const zoom = this.scene?.cameras?.main?.zoom || 1;
     this.pendingText = this.scene?.make.text({
       x: 0,
       y: 0,
       text: "Pending. View on Etherscan...",
       style: {
         fontFamily: "Alagard",
-        fontSize: "12px",
+        fontSize: Math.floor(8 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 220 },
+        wordWrap: { width: 220 * zoom },
         align: "center",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
+    this.instructionText.setScale(1 / zoom);
     this.pendingText.setOrigin(0, 0.5);
     this.pendingText.setPosition(24, 16);
     this.container.add(this.pendingText);

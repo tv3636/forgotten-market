@@ -54,6 +54,7 @@ export class NftCard {
     const height = scene.scale.gameSize.height;
     const centerX = Math.floor(scene.cameras.main.width / 2);
     const centerY = height / 2;
+    const zoom = this.scene?.cameras?.main?.zoom || 1;
 
     this.container = scene.add.container(0, 0);
     this.container.setScale(0.8);
@@ -83,17 +84,18 @@ export class NftCard {
       text: nftNameUp,
       style: {
         fontFamily: "Alagard",
-        fontSize: "20px",
+        fontSize: Math.floor(20 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 210 },
+        wordWrap: { width: 210 * zoom },
         align: "center",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
+    summonText.setScale(1 / zoom);
     summonText.setOrigin(0.5, 0.5);
     summonText.setPosition(0, -155);
     this.container.add(summonText);

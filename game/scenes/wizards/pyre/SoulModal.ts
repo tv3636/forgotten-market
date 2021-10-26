@@ -136,24 +136,26 @@ export class SoulModal {
   }
 
   addInstructionText() {
+    const zoom = this.scene?.cameras?.main?.zoom || 1;
     this.instructionText = this.scene?.make.text({
       x: 0,
       y: 0,
       text: "",
       style: {
         fontFamily: "Alagard",
-        fontSize: "22px",
+        fontSize: Math.floor(22 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 320 },
+        wordWrap: { width: 320 * zoom },
         align: "center",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
     // this.instructionText.setResolution(2);
+    this.instructionText.setScale(1 / zoom);
     this.instructionText.setOrigin(0.5, 0);
     this.instructionText.setPosition(0, -180);
     this.container.add(this.instructionText);

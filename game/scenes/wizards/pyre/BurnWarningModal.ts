@@ -220,26 +220,28 @@ export class BurnWarningModal {
   }
 
   addInstructionText() {
+    const zoom = this.scene?.cameras?.main?.zoom || 1;
     this.instructionText = this.scene?.make.text({
       x: 0,
       y: 0,
       text: "",
       style: {
         fontFamily: "Alagard",
-        fontSize: "16px",
+        fontSize: Math.floor(16 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 220 },
+        wordWrap: { width: 220 * zoom },
         align: "left",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
+    this.instructionText.setScale(1 / zoom);
     this.instructionText.setOrigin(0.5, 0);
     this.instructionText.setPosition(0, -120);
-    this.instructionText.setFixedSize(220, 300);
+    this.instructionText.setFixedSize(220 * zoom, 300 * zoom);
     this.container.add(this.instructionText);
   }
 

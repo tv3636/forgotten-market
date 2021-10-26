@@ -217,12 +217,12 @@ export class PyreScene extends Phaser.Scene {
     (this.cameras.main as any).preRender(1);
     this.updateCamera();
 
-    // const warningModal = new BurnWarningModal({ scene: this });
-    // warningModal.show({ wizardId: 72 });
-    // warningModal.onComplete = () => {
-    //   console.log("on complete");
-    //   warningModal.hide();
-    // };
+    const warningModal = new BurnWarningModal({ scene: this, wizardId: 72 });
+    warningModal.show({ wizardId: 72 });
+    warningModal.onComplete = () => {
+      console.log("on complete");
+      warningModal.hide();
+    };
 
     // TMP
     // this.burnModal.show({ wizardId: 78 });
@@ -571,6 +571,7 @@ export class PyreScene extends Phaser.Scene {
     const centerY = height / 2;
     const worldView = this.cameras.main.worldView;
     const centerX = worldView.centerX;
+    const zoom = this.cameras?.main?.zoom || 1;
 
     this.pendingText = this.make.text({
       x: 0,
@@ -578,17 +579,18 @@ export class PyreScene extends Phaser.Scene {
       text: "Pending. View on Etherscan...",
       style: {
         fontFamily: "Alagard",
-        fontSize: "16px",
+        fontSize: Math.floor(16 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 220 },
+        wordWrap: { width: 220 * zoom },
         align: "center",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
+    this.pendingText.setScale(1 / zoom);
     this.pendingText.setOrigin(0.5, 0.5);
     this.pendingText.setPosition(centerX, centerY + 270);
     this.add.existing(this.pendingText);

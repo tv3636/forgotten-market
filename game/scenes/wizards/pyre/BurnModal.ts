@@ -460,23 +460,26 @@ export class BurnModal {
   }
 
   addInstructionText() {
+    const zoom = this.scene?.cameras?.main?.zoom || 1;
+
     this.instructionText = this.scene?.make.text({
       x: 0,
       y: 0,
       text: "",
       style: {
         fontFamily: "Alagard",
-        fontSize: "16px",
+        fontSize: Math.floor(16 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 220 },
+        wordWrap: { width: 220 * zoom },
         align: "center",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
+    this.instructionText.setScale(1 / zoom);
     this.instructionText.setOrigin(0.5, 0);
     this.instructionText.setPosition(0, -120);
     this.container.add(this.instructionText);
@@ -558,6 +561,7 @@ export class BurnModal {
   }
   addHelp() {
     if (!this.scene) return;
+    const zoom = this.scene?.cameras?.main?.zoom || 1;
     const helpText = this.scene.make.text({
       x: 0,
       y: 0,
@@ -565,17 +569,18 @@ export class BurnModal {
       alpha: 0,
       style: {
         fontFamily: "Alagard",
-        fontSize: "12px",
+        fontSize: Math.floor(12 * zoom) + "px",
         color: "#E1DECD",
-        wordWrap: { width: 220 },
+        wordWrap: { width: 220 * zoom },
         align: "center",
         metrics: {
-          fontSize: 20,
-          ascent: 15,
-          descent: 2,
+          fontSize: 20 * zoom,
+          ascent: 15 * zoom,
+          descent: 2 * zoom,
         },
       },
     });
+    helpText.setScale(1 / zoom);
     helpText.setOrigin(1, 1);
     helpText.setPosition(112, 130);
     this.container.add(helpText);
