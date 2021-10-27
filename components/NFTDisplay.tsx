@@ -96,7 +96,7 @@ export async function fetchERC721TokenMetadata({
     }
   }
   const httpTokenURI = await httpifyUrl(tokenURI, tokenId);
-  console.log(`Fething: ${httpTokenURI}`);
+
   const response = await fetch(httpTokenURI);
   const metadata: any = await response.json();
 
