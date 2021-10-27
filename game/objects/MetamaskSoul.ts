@@ -18,6 +18,10 @@ export class MetamaskSoul {
     const self = this;
     this.scene = scene;
     const worldView: Phaser.Geom.Rectangle = scene.cameras.main.worldView;
+    const zoom = scene.cameras.main.zoom;
+    const height = scene.scale.gameSize.height;
+    const centerYg = height / 2;
+
     const bottomY = worldView.height;
     const centerY = worldView.height / 2;
     const rightX = worldView.width;
@@ -37,7 +41,7 @@ export class MetamaskSoul {
 
     this.sprite = scene.add.sprite(
       centerX,
-      centerY - 100,
+      centerYg + -75, //(zoom === 1 ? -75 : 100),
       "MMFoxSoul",
       `MMFoxSoulWave-0`
     );
@@ -54,7 +58,7 @@ export class MetamaskSoul {
     // zoneGraphics.strokeRect(centerX - 35, centerY - 140, 70, 70);
     this.metamaskButtonZone = this.scene.add.zone(
       centerX - 35,
-      centerY - 140,
+      centerYg + -120, //(zoom === 1 ? -120 : 60),
       70,
       70
     );
@@ -65,6 +69,7 @@ export class MetamaskSoul {
         console.log("connecting to web3");
         this.connectMetamask();
       });
+    // scene.input.enableDebug(this.metamaskButtonZone);
 
     scene.tweens.add({
       targets: this.sprite,

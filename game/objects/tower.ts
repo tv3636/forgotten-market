@@ -151,6 +151,7 @@ export class Tower {
     const centerY = height / 2;
     const worldView = this.scene.cameras.main.worldView;
     const centerX = worldView.centerX;
+    const centerYW = worldView.centerY;
 
     var data = scene.game.cache.json.get("castleParts");
 
@@ -237,7 +238,7 @@ export class Tower {
 
     const pyreDoorZone = this.scene.add.zone(
       centerX + 38,
-      centerY + 1350,
+      centerYW + 1630,
       36,
       50
     );
@@ -245,6 +246,7 @@ export class Tower {
     pyreDoorZone.setInteractive({ useHandCursor: true }).on("pointerup", () => {
       (this.scene as any).launchPyreScene();
     });
+    // scene.input.enableDebug(pyreDoorZone);
   }
 
   createLife() {

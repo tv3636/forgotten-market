@@ -30,6 +30,9 @@ export class PyreScene extends Phaser.Scene {
   burnModal: BurnModal | undefined;
 
   metamaskSoul: MetamaskSoul | undefined;
+
+  burnAgain: any;
+
   container: any;
 
   pendingText: any;
@@ -101,9 +104,13 @@ export class PyreScene extends Phaser.Scene {
     this.updateCamera();
 
     const zoneGraphics = this.add.graphics();
-    // zoneGraphics.lineStyle(2, 0xff0000, 1);
-    zoneGraphics.fillStyle(0x000000);
-    zoneGraphics.fillRect(centerX, centerY, width * 10, height * 10);
+    zoneGraphics.fillStyle(0x000000, 1);
+    zoneGraphics.fillRect(
+      centerX - width * 5,
+      centerY - height * 5,
+      width * 10,
+      height * 10
+    );
 
     (this as any).myAasepriteLoader?.createFromAsepriteWithLayers(
       "SoulsInterior"
@@ -181,13 +188,10 @@ export class PyreScene extends Phaser.Scene {
 
     this.addControls();
 
-    let metamaskSoul = new MetamaskSoul({
-      onConnect: () => {
-        console.log("metamaskSoul onConnect");
-        this.openWizardPicker();
-      },
-    });
-    this.metamaskSoul = metamaskSoul.create({ scene: this });
+    (this.cameras.main as any).preRender(1);
+    this.updateCamera();
+
+    this.addMetamaskButton();
 
     this.burnModal = new BurnModal({ scene: this });
     this.burnModal.onBurnInitiated = ({ hash, wizardId }) => {
@@ -300,6 +304,39 @@ export class PyreScene extends Phaser.Scene {
     // this.addEtherscanPendingMessage({ hash: "abc123" });
 
     // this.setConfirmedBurn();
+  }
+
+  addMetamaskButton() {
+    let metamaskSoul = new MetamaskSoul({
+      onConnect: () => {
+        console.log("metamaskSoul onConnect");
+        this.openWizardPicker();
+      },
+    });
+    this.metamaskSoul = metamaskSoul.create({ scene: this });
+  }
+
+  addBurnAgainButton() {
+    const width = this.scale.gameSize.width;
+    const height = this.scale.gameSize.height;
+    const centerY = height / 2;
+    const worldView = this.cameras.main.worldView;
+    const centerX = worldView.centerX;
+
+    const testButton = new ImageButton(
+      this,
+      centerX,
+      centerY,
+      "soulsUI",
+      "yes_default.png",
+      "yes_hover.png",
+      ({ btn }: { btn: ImageButton }) => {
+        this.metamaskSoul?.hide();
+        this.showConfirmingSoul({ wizardId: 44 });
+      }
+    );
+    testButton.setScale(0.5);
+    this.add.existing(testButton);
   }
 
   setConfirmedBurn() {
@@ -474,7 +511,7 @@ export class PyreScene extends Phaser.Scene {
     // );
     this.cameras.main.scrollY =
       ((height - bgHeight) / 2) * this.cameras.main.zoom;
-    console.log("this.cameras.main.scrollY: ", this.cameras.main.scrollY);
+    // console.log("this.cameras.main.scrollY: ", this.cameras.main.scrollY);
   }
 
   updateCamera() {
@@ -493,7 +530,7 @@ export class PyreScene extends Phaser.Scene {
       this.cameras.main.scrollX = (centerX - initialCenterX) * -1;
 
       if (width < BREAKPOINT) {
-        this.cameras.main.scrollY = 260;
+        this.cameras.main.scrollY = 60;
         this.cameras.main.setZoom(1);
       } else {
         // this.cameras.main.scrollY = 0;
@@ -518,6 +555,8 @@ export class PyreScene extends Phaser.Scene {
 
   openWizardPicker() {
     const self = this;
+    this.metamaskSoul?.hide();
+
     const onWizardPicked = ({ nftId }: { nftId: any }) => {
       console.log("wizard: ", nftId);
       self.scene.stop("ShowScene");
@@ -567,13 +606,18 @@ export class PyreScene extends Phaser.Scene {
 
         container.add(summonButton);
       },
+      onCloseButtonPushed: () => {
+        this.addMetamaskButton();
+      },
     };
 
     if (this.showScene) {
       this.scene.launch("ShowScene", showSceneOpts);
+      this.showScene.scene.bringToTop();
     } else {
       this.scene.launch("ShowScene", showSceneOpts);
       this.showScene = this.scene.get("ShowScene");
+      this.showScene.scene.bringToTop();
       this.showScene.parentScene = this;
     }
   }
@@ -664,7 +708,7 @@ export class PyreScene extends Phaser.Scene {
         camera.scrollY += deltaY * 0.5 * 1;
         camera.scrollY = Math.max(-50, camera.scrollY);
         camera.scrollY = Math.min(camera.scrollY, maxScroll);
-        console.log(" camera.scrollY: ", camera.scrollY);
+        // console.log(" camera.scrollY: ", camera.scrollY);
       }
     );
 

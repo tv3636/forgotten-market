@@ -14,6 +14,7 @@ export class ShowScene extends Phaser.Scene {
   onWizardPicked: any;
   showSocials: boolean = true;
   addSelectButton: any;
+  onCloseButtonPushed: any;
 
   constructor(parentScene: Phaser.Scene) {
     super("ShowScene");
@@ -39,14 +40,17 @@ export class ShowScene extends Phaser.Scene {
     onWizardPicked,
     showSocials,
     addSelectButton,
+    onCloseButtonPushed,
   }: {
     onWizardPicked: any;
     showSocials: boolean;
     addSelectButton: any;
+    onCloseButtonPushed: any;
   }) {
     this.onWizardPicked = onWizardPicked;
     this.showSocials = showSocials;
     this.addSelectButton = addSelectButton;
+    this.onCloseButtonPushed = onCloseButtonPushed;
   }
 
   create() {
@@ -84,6 +88,9 @@ export class ShowScene extends Phaser.Scene {
         closeButton.setAlpha(0.6);
       })
       .on("pointerup", () => {
+        if (this.onCloseButtonPushed) {
+          this.onCloseButtonPushed();
+        }
         closeButton.setAlpha(1);
         console.log("clicked");
         this.dismissScene();

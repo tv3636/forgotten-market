@@ -97,6 +97,7 @@ export class HomeScene extends Phaser.Scene {
     this.load.aseprite("crow", "crow.png", "crow.json");
     this.load.aseprite("doorguy", "doorguy.png", "doorguy.json");
     // this.load.bitmapFont("Pixel-NES", "Pixel-NES.png", "Pixel-NES.xml");
+    this.input.topOnly = false;
 
     if (NIGHT) {
       this.load.aseprite("owl", "souls/owl.png", "souls/owl.json");
@@ -146,6 +147,9 @@ export class HomeScene extends Phaser.Scene {
 
     this.createEnvironment();
 
+    this.updateCamera();
+    (this.cameras.main as any).preRender();
+
     this.tower.create();
     this.towerBeams.create();
 
@@ -157,7 +161,7 @@ export class HomeScene extends Phaser.Scene {
     //   this.checkForSummoningBegunAtIntervals();
     // }
 
-    this.createDebugs();
+    // this.createDebugs();
 
     this.updateCamera();
     (this.cameras.main as any).preRender();
@@ -698,7 +702,7 @@ export class HomeScene extends Phaser.Scene {
         // console.log("drag zone drag", this.parentScene);
         const camera = this.cameras.main;
         camera.scrollY += dragY * 0.5 * -1;
-        camera.scrollY = Math.max(-50, camera.scrollY);
+        camera.scrollY = Math.max(this.initialScrollY, camera.scrollY);
         camera.scrollY = Math.min(camera.scrollY, maxScroll);
       });
   }
