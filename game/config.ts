@@ -14,13 +14,13 @@ export default {
   // backgroundColor: "007872",
 
   scene: [
-    PyreScene,
+    // PyreScene,
     BootScene,
     HomeScene,
     BuyScene,
     InteriorScene,
     ShowScene,
-    // PyreScene,
+    PyreScene,
   ],
 
   scale: {

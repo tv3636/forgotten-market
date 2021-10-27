@@ -99,6 +99,7 @@ export class BurnWarningModal {
     const scene = this.scene;
     if (!scene) return;
     const worldView: Phaser.Geom.Rectangle = scene.cameras.main.worldView;
+    const height = scene.scale.gameSize.height;
     const bottomY = worldView.height;
     const centerY = worldView.height / 2;
     const rightX = worldView.width;
@@ -169,15 +170,17 @@ export class BurnWarningModal {
     const self = this;
 
     const worldView: Phaser.Geom.Rectangle = this.scene.cameras.main.worldView;
+    const height = this.scene.scale.gameSize.height;
     const bottomY = worldView.height;
     const rightX = worldView.width;
-    const centerY = worldView.centerY;
+    // const centerY = worldView.centerY;
+    const centerY = height / 2;
     const centerX = worldView.centerX;
 
     this.confirmButton = new ImageButton(
       this.scene,
       centerX,
-      centerY - 160,
+      centerY - 94,
       "soulsUI",
       this.messages[this.msgIdx].btn,
       this.messages[this.msgIdx].btnHover,
