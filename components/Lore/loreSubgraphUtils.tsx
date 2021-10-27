@@ -1,6 +1,6 @@
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import { LORE_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
+import { CHARACTER_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
 import { getLoreUrl } from "./loreUtils";
 import path from "path";
 
@@ -14,7 +14,6 @@ const COMMON_LORE_FIELDS = `
   tokenId
   struck
   nsfw
-  createdAtBlock
   createdAtTimestamp
 `;
 
@@ -24,7 +23,7 @@ export const NORMALIZED_WIZARD_CONTRACT_ADDRESS =
   process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS?.toLowerCase();
 
 function getWizardLoreId(wizardNum: number, loreIndex: number) {
-  return `${LORE_CONTRACTS.wizards}-${wizardNum
+  return `${CHARACTER_CONTRACTS.wizards}-${wizardNum
     .toString()
     .padStart(10, "0")}-${loreIndex.toString().padStart(10, "0")}`;
 }
@@ -172,7 +171,7 @@ export async function getWizardsWithLore(): Promise<{
   const { data } = await client.query({
     query: gql`
         query WizardLore {
-            loreTokens(orderBy: tokenId, where: {tokenContract: "${LORE_CONTRACTS.wizards}"}) {
+            loreTokens(orderBy: tokenId, where: {tokenContract: "${CHARACTER_CONTRACTS.wizards}"}) {
                 tokenId
             }
         }

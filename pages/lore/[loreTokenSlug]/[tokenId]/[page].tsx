@@ -18,7 +18,7 @@ import {
   getPreAndNextPageRoutes,
   getWizardsWithLore,
 } from "../../../../components/Lore/loreSubgraphUtils";
-import { LORE_CONTRACTS } from "../../../../contracts/ForgottenRunesWizardsCultContract";
+import { CHARACTER_CONTRACTS } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { getLoreUrl } from "../../../../components/Lore/loreUtils";
 import { promises as fs } from "fs";
 import path from "path";
@@ -237,7 +237,10 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   if (leftPageGraphData) {
     leftPage = await hydratePageDataFromMetadata(
-      leftPageGraphData.loreMetadataURI
+      leftPageGraphData.loreMetadataURI,
+      leftPageGraphData.createdAtTimestamp,
+      leftPageGraphData.creator,
+      tokenId
     );
   } else {
     // Would end up showing wizard
@@ -253,7 +256,10 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   if (rightPageGraphData) {
     rightPage = await hydratePageDataFromMetadata(
-      rightPageGraphData.loreMetadataURI
+      rightPageGraphData.loreMetadataURI,
+      rightPageGraphData.createdAtTimestamp,
+      rightPageGraphData.creator,
+      tokenId
     );
   } else {
     // Would end showing add lore
@@ -306,7 +312,7 @@ export async function getStaticPaths() {
   const paths = [];
 
   for (const [loreTokenSlug, loreTokenContract] of Object.entries(
-    LORE_CONTRACTS
+    CHARACTER_CONTRACTS
   )) {
     console.log(`Generating paths for ${loreTokenSlug} ${loreTokenContract}`);
 

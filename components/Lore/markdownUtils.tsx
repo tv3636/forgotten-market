@@ -1,7 +1,8 @@
 import { IndividualLorePageData } from "./types";
 import { IPFS_SERVER } from "../../constants";
-import matter from "gray-matter";
-import { serialize } from "next-mdx-remote/serialize";
+import productionWizardData from "../../data/nfts-prod.json";
+import dayjs from "dayjs";
+const wizData = productionWizardData as { [wizardId: string]: any };
 
 async function fetchLoreMetadata(loreMetadataURI: string | null): Promise<any> {
   if (!loreMetadataURI) return null;
@@ -27,8 +28,33 @@ async function fetchLoreMetadata(loreMetadataURI: string | null): Promise<any> {
 }
 
 export async function hydratePageDataFromMetadata(
-  loreMetadataURI: string
+  loreMetadataURI: string,
+  createdAtTimestamp: number,
+  creator: string,
+  tokenId: number
 ): Promise<IndividualLorePageData> {
+  if (
+    creator.toLowerCase() ===
+    (
+      process.env.NEXT_PUBLIC_REACT_APP_SOULS_CONTRACT_ADDRESS as string
+    ).toLowerCase()
+  ) {
+    // assume burnt
+    const wizard = wizData[tokenId];
+
+    return {
+      firstImage: `${process.env.SOULS_API}/api/souls/img/${tokenId}`,
+      isEmpty: false,
+      bgColor: "#000000", //TODO: Hmm wiz colour, or some reddish hue?
+      title: `Wizard ${tokenId} Burned`,
+      story: `On ${dayjs.unix(createdAtTimestamp).format("D MMMM YYYY")}, ${
+        wizard.name
+      } passed through The Sacred Flame and became a Soul \n\n![Soul Image](${
+        process.env.SOULS_API
+      }/api/souls/img/${tokenId})`,
+    };
+  }
+
   const metadata = await fetchLoreMetadata(loreMetadataURI);
 
   // We use first image for og metadata, and yes regex not the coolest method but it works :)

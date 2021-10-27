@@ -1,9 +1,6 @@
 import React from "react";
 import Layout from "../components/Layout";
 import dynamic from "next/dynamic";
-import client from "../lib/graphql";
-import { gql } from "@apollo/client";
-import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
 
 const WizardMapLeaflet = dynamic(
   () => import("../components/Lore/WizardMapLeaflet"),
