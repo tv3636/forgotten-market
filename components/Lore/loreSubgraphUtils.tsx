@@ -88,9 +88,11 @@ export async function getLoreInChapterForm(
     results = data.loreTokens.map((loreTokenEntry: any) => {
       return {
         tokenId: parseInt(loreTokenEntry.tokenId),
-        lore: loreTokenEntry.lore.map(
-          (loreEntry: any) => loreEntry.loreMetadataURI
-        ),
+        lore: loreTokenEntry.lore.map((loreEntry: any) => ({
+          loreMetadataURI: loreEntry.loreMetadataURI,
+          createdAtTimestamp: loreEntry.createdAtTimestamp,
+          creator: loreEntry.creator,
+        })),
       };
     });
 
@@ -119,7 +121,7 @@ export async function getLeftRightPages(
   leftPageNum: number,
   rightPageNum: number
 ) {
-  const tokenContract = LORE_CONTRACTS.wizards;
+  const tokenContract = CHARACTER_CONTRACTS.wizards;
   const loreInChapterForm = await getLoreInChapterForm(tokenContract);
 
   const chapterIndexForToken = await getIndexForToken(
@@ -148,7 +150,13 @@ export async function getLeftRightPages(
     const lore = loreInChapterForm[chapterIndexForToken]?.lore ?? [];
 
     if (leftPageNum >= 0 && leftPageNum < lore.length) {
-      leftPage = await hydratePageDataFromMetadata(lore[leftPageNum]);
+      const loreElement = lore[leftPageNum];
+      leftPage = await hydratePageDataFromMetadata(
+        loreElement.loreMetadataURI,
+        loreElement.createdAtTimestamp,
+        loreElement.creator,
+        tokenId
+      );
     } else {
       // Would end up showing wizard
       leftPage = {
@@ -160,7 +168,13 @@ export async function getLeftRightPages(
     leftPage.pageNumber = leftPageNum;
 
     if (rightPageNum < lore.length) {
-      rightPage = await hydratePageDataFromMetadata(lore[rightPageNum]);
+      const loreElement = lore[rightPageNum];
+      rightPage = await hydratePageDataFromMetadata(
+        loreElement.loreMetadataURI,
+        loreElement.createdAtTimestamp,
+        loreElement.creator,
+        tokenId
+      );
     } else {
       // Would end showing add lore
       rightPage = {

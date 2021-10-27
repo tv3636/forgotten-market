@@ -33,24 +33,25 @@ export async function hydratePageDataFromMetadata(
   creator: string,
   tokenId: number
 ): Promise<IndividualLorePageData> {
+  // Check if special burn page
   if (
     creator.toLowerCase() ===
     (
       process.env.NEXT_PUBLIC_REACT_APP_SOULS_CONTRACT_ADDRESS as string
     ).toLowerCase()
   ) {
-    // assume burnt
     const wizard = wizData[tokenId];
 
+    //Note: we use the SOULS_API for images directly rather than lookup tokenURI from contract to ensure fast builds. In the future we can update this to be the IPFS base url etc
     return {
-      firstImage: `${process.env.SOULS_API}/api/souls/img/${tokenId}`,
+      firstImage: `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/img/${tokenId}`,
       isEmpty: false,
-      bgColor: "#000000", //TODO: Hmm wiz colour, or some reddish hue?
+      bgColor: `#${wizard.background_color}`, //TODO: Hmm wiz colour, or some reddish hue?
       title: `Wizard ${tokenId} Burned`,
       story: `On ${dayjs.unix(createdAtTimestamp).format("D MMMM YYYY")}, ${
         wizard.name
       } passed through The Sacred Flame and became a Soul \n\n![Soul Image](${
-        process.env.SOULS_API
+        process.env.NEXT_PUBLIC_SOULS_API
       }/api/souls/img/${tokenId})`,
     };
   }

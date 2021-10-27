@@ -1,9 +1,8 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import useProvider, { getProvider } from "../hooks/useProvider";
+import { getProvider } from "../hooks/useProvider";
 import { getERC721Contract } from "../contracts/ERC721Contract";
-import Image from "next/image";
 import { ethers } from "ethers";
 import { IPFS_SERVER } from "../constants";
 

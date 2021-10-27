@@ -3,11 +3,9 @@ import { abi as ForgottenRunesWizardsCultAbi } from "./ForgottenRunesWizardsCult
 import { abi as BookOfLoreAbi } from "./BookOfLore.json";
 import { abi as ForgottenSoulsAbi } from "./ForgottenSouls.json";
 import { abi as InfinityVeilAbi } from "./ForgottenRunesInfinityVeil.json";
-import { BigNumber } from "ethers/lib/ethers";
-import { Web3Provider } from "@ethersproject/providers";
 
 export const WIZARDS_CONTRACT_ADDRESS: { [chainId: number]: string } = {
-  4: `0x7947251053537aD8745d8E27ac3384BA2097d76c`,
+  4: `0x7947251053537ad8745d8e27ac3384ba2097d76c`,
   1: `0x521f9C7505005CFA19A8E5786a9c3c9c9F5e6f42`,
 };
 
@@ -22,7 +20,7 @@ export const INFINITY_VEIL_ADDRESS: { [chainId: number]: string } = {
 };
 
 export const FORGOTTEN_SOULS_ADDRESS: { [chainId: number]: string } = {
-  4: `0x0b1ef23959ED9D1ba61BBd1b977946dEc816b732`,
+  4: `0x3683db8d494ecaf92239d2483302bbd184abe83e`,
   1: ``,
 };
 
@@ -73,32 +71,4 @@ export async function getInfinityVeilContract({ provider }: { provider: any }) {
     InfinityVeilAbi,
     provider
   );
-}
-
-export async function getMyNfts(injectedProvider: Web3Provider): {} {
-  const addressTokens: { [key: string]: any[] } = {};
-
-  try {
-    const address = injectedProvider.provider.selectedAddress;
-
-    // TODO: parallelise awaits
-    for (const [contractName, conractAddress] of Object.entries(
-      CHARACTER_CONTRACTS
-    )) {
-      const contract = new ethers.Contract(
-        conractAddress,
-        ForgottenRunesWizardsCultAbi,
-        injectedProvider
-      );
-
-      addressTokens[contractName] = (await contract.tokensOfOwner(address)).map(
-        (id: BigNumber) => id.toNumber()
-      );
-    }
-
-    return addressTokens;
-  } catch (err) {
-    console.log("err: ", err);
-    throw err;
-  }
 }
