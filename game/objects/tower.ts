@@ -60,7 +60,7 @@ export class Tower {
       centerX - 6,
       towerY + tower.height,
       265,
-      1200,
+      1800,
       "towerTile"
     );
     towerTile.setOrigin(originX, originY);
@@ -70,7 +70,7 @@ export class Tower {
       const faqButton = new ImageButton(
         scene,
         centerX - 90,
-        towerY + tower.height + 700,
+        towerY + tower.height + 700 - 100,
         "buttons",
         "faq_default.png",
         "faq_hover.png",
@@ -88,7 +88,7 @@ export class Tower {
       const discordButton = new ImageButton(
         scene,
         centerX - 90,
-        towerY + tower.height + 725,
+        towerY + tower.height + 725 - 100,
         "buttons",
         "social_discord_default.png",
         "social_discord_hover.png",
@@ -103,7 +103,7 @@ export class Tower {
       const twitterButton = new ImageButton(
         scene,
         centerX - 90,
-        towerY + tower.height + 750,
+        towerY + tower.height + 750 - 100,
         "buttons",
         "social_twitter_default.png",
         "social_twitter_hover.png",
@@ -117,7 +117,7 @@ export class Tower {
       const openSeaButton = new ImageButton(
         scene,
         centerX - 90,
-        towerY + tower.height + 775,
+        towerY + tower.height + 775 - 100,
         "buttons",
         "social_opensea_default.png",
         "social_opensea_hover.png",
@@ -185,9 +185,6 @@ export class Tower {
     addNormalThing({ name: "pumpkin Copy-0" });
     addNormalThing({ name: "palms-0" });
     const towerDoorGlowSprite = addNormalThing({ name: "tower_dark_doors-0" });
-    // addNormalThing({ name: "bottomDoor-0" });
-    // addNormalThing({ name: "doorGlow-0" });
-
     towerDoorGlowSprite.play({
       key: "tower_dark_doors-play",
       repeat: -1,
@@ -205,6 +202,48 @@ export class Tower {
       alpha: { value: 0.7, duration: 8000, ease: "Power1" },
       yoyo: true,
       repeat: -1,
+    });
+
+    // add the door
+    // addNormalThing({ name: "bottomDoor-0" });
+    // addNormalThing({ name: "doorGlow-0" });
+    const bottomDoorY = 1200;
+    const bottomDoor = scene.add.sprite(
+      centerX,
+      0 + bottomDoorY,
+      "castleParts",
+      "bottomDoor-0"
+    );
+    fadeIn(scene, bottomDoor);
+    bottomDoor.setOrigin(originX, originY);
+
+    const bottomDoorGlow = scene.add.sprite(
+      centerX,
+      0 + bottomDoorY,
+      "castleParts",
+      "doorGlow-0"
+    );
+    fadeIn(scene, bottomDoorGlow);
+    bottomDoorGlow.setOrigin(originX, originY);
+    bottomDoorGlow.play({
+      key: "doorGlow-play",
+      repeat: -1,
+      delay: 0,
+    });
+
+    // const zoneGraphics = scene.add.graphics();
+    // zoneGraphics.lineStyle(2, 0xff0000, 1);
+    // zoneGraphics.strokeRect(centerX + 38, centerY + 1350, 36, 50);
+
+    const pyreDoorZone = this.scene.add.zone(
+      centerX + 38,
+      centerY + 1350,
+      36,
+      50
+    );
+    pyreDoorZone.setOrigin(0, 0);
+    pyreDoorZone.setInteractive({ useHandCursor: true }).on("pointerup", () => {
+      (this.scene as any).launchPyreScene();
     });
   }
 

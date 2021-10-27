@@ -176,6 +176,21 @@ const SiteNavTopRow = styled(SiteNavRow)`
   }
 `;
 
+export const BrandedLogoImg = styled.img`
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+`;
+
+export const LogoToggleRow = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  .toggle-menu {
+    min-width: 40px;
+  }
+`;
+
 export default function SiteNav({}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen(!isOpen);
@@ -183,12 +198,21 @@ export default function SiteNav({}: Props) {
   return (
     <SiteNavElement>
       <SiteNavTopRow>
-        <ResponsivePixelImg
-          src="/static/img/forgotten-runes-logo.png"
-          className="logo"
-          width="360"
-          height="118"
-        />
+        <LogoToggleRow>
+          <BrandedLogoImg
+            src="/static/img/forgotten-runes-logo.png"
+            className="logo"
+            width="360"
+            height="118"
+          />
+          <ul className={"menu toggle-menu" + (isOpen ? " active" : "")}>
+            <li className="toggle">
+              <a onClick={() => toggleIsOpen()}>
+                <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
+              </a>
+            </li>
+          </ul>
+        </LogoToggleRow>
         <ul className={"menu" + (isOpen ? " active" : "")}>
           <li className="item">
             <a
@@ -214,12 +238,6 @@ export default function SiteNav({}: Props) {
           <li className="item">
             <a href="https://discord.gg/forgottenrunes" className="icon-link">
               <ResponsivePixelImg src="/static/img/icons/nav/discord_default.png" />
-            </a>
-          </li>
-
-          <li className="toggle">
-            <a onClick={() => toggleIsOpen()}>
-              <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
             </a>
           </li>
         </ul>

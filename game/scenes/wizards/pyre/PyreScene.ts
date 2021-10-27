@@ -100,6 +100,11 @@ export class PyreScene extends Phaser.Scene {
     this.initialWidth = width; // store for responsive
     this.updateCamera();
 
+    const zoneGraphics = this.add.graphics();
+    // zoneGraphics.lineStyle(2, 0xff0000, 1);
+    zoneGraphics.fillStyle(0x000000);
+    zoneGraphics.fillRect(centerX, centerY, width * 10, height * 10);
+
     (this as any).myAasepriteLoader?.createFromAsepriteWithLayers(
       "SoulsInterior"
     );
@@ -266,7 +271,7 @@ export class PyreScene extends Phaser.Scene {
       }
     );
     testButton.setScale(0.5);
-    this.add.existing(testButton);
+    // this.add.existing(testButton);
 
     const testButton2 = new ImageButton(
       this,
@@ -289,7 +294,7 @@ export class PyreScene extends Phaser.Scene {
       }
     );
     testButton2.setScale(0.5);
-    this.add.existing(testButton2);
+    // this.add.existing(testButton2);
 
     // this.showConfirmingSoul({ wizardId: 44 });
     // this.addEtherscanPendingMessage({ hash: "abc123" });

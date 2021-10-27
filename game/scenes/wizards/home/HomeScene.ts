@@ -24,6 +24,7 @@ import { AlagardFontMetrics } from "../../../fontSettings";
 //  This Scene is aspect ratio locked at 640 x 960 (and scaled and centered accordingly)
 
 const NIGHT = true;
+const BREAKPOINT = 768;
 
 export class HomeScene extends Phaser.Scene {
   backgroundScene: any;
@@ -45,6 +46,7 @@ export class HomeScene extends Phaser.Scene {
   buyScene: any;
   showScene: any;
   interiorScene: any;
+  pyreScene: any;
   darkSky: any;
 
   initialScrollY: number = 0;
@@ -275,6 +277,18 @@ export class HomeScene extends Phaser.Scene {
       this.scene.launch("InteriorScene");
       this.interiorScene = this.scene.get("InteriorScene");
       this.interiorScene.parentScene = this;
+    }
+  }
+
+  launchPyreScene() {
+    if (this.pyreScene) {
+      this.scene.launch("PyreScene");
+      this.pyreScene = this.scene.get("PyreScene");
+      this.pyreScene.parentScene = this;
+    } else {
+      this.scene.launch("PyreScene");
+      this.pyreScene = this.scene.get("PyreScene");
+      this.pyreScene.parentScene = this;
     }
   }
 
@@ -626,9 +640,13 @@ export class HomeScene extends Phaser.Scene {
   }
 
   addControls() {
+    const width = this.scale.gameSize.width;
+    const height = this.scale.gameSize.height;
     const camera = this.cameras.main;
     this.initialScrollY = camera.scrollY;
-    const maxScroll = 800;
+    const desktop = this.scale.gameSize.width >= BREAKPOINT;
+
+    const maxScroll = desktop ? 1400 : 1800;
 
     this.input.on(
       "wheel",
@@ -668,6 +686,21 @@ export class HomeScene extends Phaser.Scene {
         this.launchInteriorScene();
       });
     }
+
+    const rayZone = this.add.zone((width / 2) * -1, 0, width * 3, height * 100);
+    rayZone.setOrigin(0, 0);
+    rayZone
+      .setInteractive({ draggable: true, useHandCursor: false })
+      // .on("pointerup", () => {
+      //   // console.log("drag zone up", this.parentScene);
+      // })
+      .on("drag", (pointer: any, dragX: number, dragY: number) => {
+        // console.log("drag zone drag", this.parentScene);
+        const camera = this.cameras.main;
+        camera.scrollY += dragY * 0.5 * -1;
+        camera.scrollY = Math.max(-50, camera.scrollY);
+        camera.scrollY = Math.min(camera.scrollY, maxScroll);
+      });
   }
 
   startLoading() {
