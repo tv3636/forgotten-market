@@ -66,6 +66,14 @@ export class PyreScene extends Phaser.Scene {
     this.load.audio("angelic_chord", "souls/audio/angelic_chord.mp3");
     this.load.audio("explosion", "souls/audio/explosion.mp3");
 
+    for (let i = 0; i < 4; i++) {
+      this.load.audio(`click0${i}`, `souls/audio/click/click_0${i}.mp3`);
+      this.load.audio(
+        `hover0${i}`,
+        `souls/audio/mouse_over_loops/mouse_over_0${i}.mp3`
+      );
+    }
+
     const webfont = {
       custom: {
         families: ["Pixel-NES", "Alagard"],
@@ -217,12 +225,12 @@ export class PyreScene extends Phaser.Scene {
     (this.cameras.main as any).preRender(1);
     this.updateCamera();
 
-    const warningModal = new BurnWarningModal({ scene: this, wizardId: 72 });
-    warningModal.show({ wizardId: 72 });
-    warningModal.onComplete = () => {
-      console.log("on complete");
-      warningModal.hide();
-    };
+    // const warningModal = new BurnWarningModal({ scene: this, wizardId: 72 });
+    // warningModal.show({ wizardId: 72 });
+    // warningModal.onComplete = () => {
+    //   console.log("on complete");
+    //   warningModal.hide();
+    // };
 
     // TMP
     // this.burnModal.show({ wizardId: 78 });

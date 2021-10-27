@@ -95,7 +95,7 @@ export class SoulModal {
       this.scene?.time.addEvent({
         delay: 3500,
         callback: () => {
-          angels.play({ volume: 6 });
+          angels.play({ volume: 4 });
         },
       });
       this.container.add(img);

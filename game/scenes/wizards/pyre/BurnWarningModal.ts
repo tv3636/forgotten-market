@@ -55,11 +55,15 @@ export class BurnWarningModal {
         msg: "Do not be too eager to deal out death and judgement... Are you sure you want to burn this Wizard?",
         btn: "yes_default.png",
         btnHover: "yes_hover.png",
+        btnClickSnd: "click01",
+        btnHoverSnd: "hover01",
       },
       {
         msg: "Dark Magic is unpredictable and you may receive an Undesirable.\n\nDo you understand?",
         btn: "understand_default.png",
         btnHover: "understand_hover.png",
+        btnClickSnd: "click02",
+        btnHoverSnd: "hover02",
       },
       {
         msg: "Hmm... It seems you cannot be dissuaded.",
@@ -69,6 +73,8 @@ export class BurnWarningModal {
         msg: "You will submit 1 Sacred Flame and 1 Wizard. Both burned and neither returned to you.\nDo you submit?",
         btn: "submit_default.png",
         btnHover: "submit_hover.png",
+        btnClickSnd: "click03",
+        btnHoverSnd: "hover03",
       },
       {
         msg: "Alright then.",
@@ -171,7 +177,7 @@ export class BurnWarningModal {
     this.confirmButton = new ImageButton(
       this.scene,
       centerX,
-      centerY - 170,
+      centerY - 160,
       "soulsUI",
       this.messages[this.msgIdx].btn,
       this.messages[this.msgIdx].btnHover,
@@ -191,6 +197,10 @@ export class BurnWarningModal {
           });
         }
         self.goToNextStep();
+      },
+      {
+        clickSound: this.messages[this.msgIdx].btnClickSnd,
+        hoverSound: this.messages[this.msgIdx].btnHoverSnd,
       }
     );
     this.confirmButton.setScale(0.8);

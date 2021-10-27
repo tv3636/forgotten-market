@@ -241,27 +241,6 @@
 					}
 				},
 				{
-					"filename": "star.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 34,
-						"h": 34
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 34,
-						"h": 34
-					},
-					"frame": {
-						"x": 702,
-						"y": 345,
-						"w": 34,
-						"h": 34
-					}
-				},
-				{
 					"filename": "yes_default.png",
 					"rotated": false,
 					"trimmed": false,
@@ -325,7 +304,7 @@
 					}
 				},
 				{
-					"filename": "starComplete.png",
+					"filename": "star.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -344,6 +323,27 @@
 						"w": 44,
 						"h": 43
 					}
+				},
+				{
+					"filename": "starComplete.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 43
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 43
+					},
+					"frame": {
+						"x": 596,
+						"y": 431,
+						"w": 44,
+						"h": 43
+					}
 				}
 			]
 		}
@@ -351,6 +351,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:dd85778877f1c240a230d95516346c87:34eca50a52c48389f203d06060edf351:214529339e8800576d3f355e600a6096$"
+		"smartupdate": "$TexturePacker:SmartUpdate:e6fcac25e8170b0177a59d13483426c4:ce987deb9d602853093e2470c8a398ac:214529339e8800576d3f355e600a6096$"
 	}
 }
