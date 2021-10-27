@@ -74,6 +74,7 @@
     "color-convert": "^2.0.1",
     "copy-to-clipboard": "^3.3.1",
     "data-urls": "^3.0.0",
+    "dayjs": "^1.10.7",
     "draft-js": "^0.11.7",
     "draft-js-markdown-shortcuts-plugin": "^0.6.1",
     "eth-hooks": "^1.1.2",
