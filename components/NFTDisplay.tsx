@@ -1,9 +1,8 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import useProvider, { getProvider } from "../hooks/useProvider";
+import { getProvider } from "../hooks/useProvider";
 import { getERC721Contract } from "../contracts/ERC721Contract";
-import Image from "next/image";
 import { ethers } from "ethers";
 import { IPFS_SERVER } from "../constants";
 
@@ -80,14 +79,6 @@ export async function fetchERC721TokenMetadata({
   provider: any;
 }) {
   let tokenURI = null;
-  // const cacheKey = `${contractAddress}:::${tokenId}`;
-  // if (
-  //   erc721MetadataCache[cacheKey] &&
-  //   erc721MetadataCache[cacheKey][0] &&
-  //   erc721MetadataCache[cacheKey][1]
-  // ) {
-  //   return erc721MetadataCache[cacheKey];
-  // }
 
   // try fetching regular ERC721, but if it doesn't work, then try OpenSea's weird-ass way directly
   try {
@@ -105,6 +96,7 @@ export async function fetchERC721TokenMetadata({
     }
   }
   const httpTokenURI = await httpifyUrl(tokenURI, tokenId);
+
   const response = await fetch(httpTokenURI);
   const metadata: any = await response.json();
 
@@ -204,6 +196,7 @@ export default function NFTDisplay({
   tokenId,
   pixelArt,
 }: Props) {
+  console.log(`${contractAddress} - ${tokenId}`);
   // TODO this needs some caching as it's being called way way too often.
   const { loading, nftData, error } = useNFTInfo({ contractAddress, tokenId });
 

@@ -5,7 +5,7 @@ import { abi as ForgottenSoulsAbi } from "./ForgottenSouls.json";
 import { abi as InfinityVeilAbi } from "./ForgottenRunesInfinityVeil.json";
 
 export const WIZARDS_CONTRACT_ADDRESS: { [chainId: number]: string } = {
-  4: `0x7947251053537aD8745d8E27ac3384BA2097d76c`,
+  4: `0x2BC27A0786B0b07b6061710C59FcF6Ce91D77080`,
   1: `0x521f9C7505005CFA19A8E5786a9c3c9c9F5e6f42`,
 };
 
@@ -20,7 +20,7 @@ export const INFINITY_VEIL_ADDRESS: { [chainId: number]: string } = {
 };
 
 export const FORGOTTEN_SOULS_ADDRESS: { [chainId: number]: string } = {
-  4: `0x0b1ef23959ED9D1ba61BBd1b977946dEc816b732`,
+  4: `0x95082b505c0752eEf1806aEf2b6b2d55eEa77e4E`,
   1: ``,
 };
 
@@ -46,11 +46,13 @@ export async function getBookOfLoreContract({ provider }: { provider: any }) {
   );
 }
 
-export const LORE_CONTRACTS = {
+export const CHARACTER_CONTRACTS = {
   wizards:
     process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS?.toLowerCase() ??
     "0x",
-  // souls...
+  souls:
+    process.env.NEXT_PUBLIC_REACT_APP_SOULS_CONTRACT_ADDRESS?.toLowerCase() ??
+    "0x",
 };
 
 export async function getSoulsContract({ provider }: { provider: any }) {
