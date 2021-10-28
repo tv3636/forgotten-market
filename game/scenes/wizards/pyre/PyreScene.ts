@@ -216,7 +216,7 @@ export class PyreScene extends Phaser.Scene {
       this.time.addEvent({
         delay: 2500,
         callback: () => {
-          this.setConfirmedBurn();
+          this.setConfirmedBurn({ wizardId });
         },
       });
 
@@ -226,9 +226,15 @@ export class PyreScene extends Phaser.Scene {
       // hide your burning wizard
       // now show the soul
     };
-    this.burnModal.onBurnError = ({ hash, wizardId }) => {
-      console.log("hash, wizardId: ", hash, wizardId);
-      // hide your burning wizard
+    this.burnModal.onBurnError = ({ hash, wizardId, err }) => {
+      console.log("hash, wizardId: ", hash, wizardId, err);
+      const toast = new Toast();
+      toast.create({
+        scene: this,
+        message: err?.message?.substr(0, 200) || "There was a problem",
+        duration: 3000,
+        color: "#ffffff",
+      });
     };
 
     (this.cameras.main as any).preRender(1);
@@ -261,43 +267,43 @@ export class PyreScene extends Phaser.Scene {
     //   });
     // }, 100);
 
-    const testButton = new ImageButton(
-      this,
-      centerX - 400,
-      centerY + 200,
-      "soulsUI",
-      "yes_default.png",
-      "yes_hover.png",
-      ({ btn }: { btn: ImageButton }) => {
-        console.log("yes");
-        this.metamaskSoul?.hide();
-        this.showConfirmingSoul({ wizardId: 44 });
-      }
-    );
-    testButton.setScale(0.5);
+    // const testButton = new ImageButton(
+    //   this,
+    //   centerX - 400,
+    //   centerY + 200,
+    //   "soulsUI",
+    //   "yes_default.png",
+    //   "yes_hover.png",
+    //   ({ btn }: { btn: ImageButton }) => {
+    //     console.log("yes");
+    //     this.metamaskSoul?.hide();
+    //     this.showConfirmingSoul({ wizardId: 44 });
+    //   }
+    // );
+    // testButton.setScale(0.5);
     // this.add.existing(testButton);
 
-    const testButton2 = new ImageButton(
-      this,
-      centerX - 400,
-      centerY + 240,
-      "soulsUI",
-      "no_default.png",
-      "no_hover.png",
-      ({ btn }: { btn: ImageButton }) => {
-        console.log("no");
-        this.playExplosion();
-        this.hideEtherscanPendingMessage();
+    // const testButton2 = new ImageButton(
+    //   this,
+    //   centerX - 400,
+    //   centerY + 240,
+    //   "soulsUI",
+    //   "no_default.png",
+    //   "no_hover.png",
+    //   ({ btn }: { btn: ImageButton }) => {
+    //     console.log("no");
+    //     this.playExplosion();
+    //     this.hideEtherscanPendingMessage();
 
-        this.time.addEvent({
-          delay: 1500,
-          callback: () => {
-            this.setConfirmedBurn();
-          },
-        });
-      }
-    );
-    testButton2.setScale(0.5);
+    //     this.time.addEvent({
+    //       delay: 1500,
+    //       callback: () => {
+    //         this.setConfirmedBurn();
+    //       },
+    //     });
+    //   }
+    // );
+    // testButton2.setScale(0.5);
     // this.add.existing(testButton2);
 
     // this.showConfirmingSoul({ wizardId: 44 });
@@ -323,23 +329,23 @@ export class PyreScene extends Phaser.Scene {
     const worldView = this.cameras.main.worldView;
     const centerX = worldView.centerX;
 
-    const testButton = new ImageButton(
-      this,
-      centerX,
-      centerY,
-      "soulsUI",
-      "yes_default.png",
-      "yes_hover.png",
-      ({ btn }: { btn: ImageButton }) => {
-        this.metamaskSoul?.hide();
-        this.showConfirmingSoul({ wizardId: 44 });
-      }
-    );
-    testButton.setScale(0.5);
-    this.add.existing(testButton);
+    // const testButton = new ImageButton(
+    //   this,
+    //   centerX,
+    //   centerY,
+    //   "soulsUI",
+    //   "yes_default.png",
+    //   "yes_hover.png",
+    //   ({ btn }: { btn: ImageButton }) => {
+    //     this.metamaskSoul?.hide();
+    //     this.showConfirmingSoul({ wizardId: 44 });
+    //   }
+    // );
+    // testButton.setScale(0.5);
+    // this.add.existing(testButton);
   }
 
-  setConfirmedBurn() {
+  setConfirmedBurn({ wizardId }: { wizardId: number }) {
     this.startIdle();
 
     let burningWizardSprite = this.sprites["burningWizard"];
@@ -352,7 +358,7 @@ export class PyreScene extends Phaser.Scene {
     }
 
     const soulModal = new SoulModal({ scene: this });
-    soulModal.show({ wizardId: 44 });
+    soulModal.show({ wizardId });
   }
 
   getProvider() {

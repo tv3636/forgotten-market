@@ -61,3 +61,9 @@ export function linearmap(
 ) {
   return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
 }
+
+export function sleep(time: number) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, time);
+  });
+}

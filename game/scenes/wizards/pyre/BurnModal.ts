@@ -9,6 +9,7 @@ import {
   WIZARDS_CONTRACT_ADDRESS,
 } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { Toast } from "../../../objects/Toast";
+import { fetchSoulsMetadataWithRetry } from "../../../portal";
 import { getWeb3Controller } from "../home/Web3Controller";
 import { BurnWarningModal } from "./BurnWarningModal";
 import { ProgressBullet } from "./ProgressBullet";
@@ -36,9 +37,11 @@ export type OnBurnConfirmedFn = ({
 export type OnBurnErrorFn = ({
   hash,
   wizardId,
+  err,
 }: {
   hash: string;
   wizardId: number;
+  err?: any;
 }) => void;
 
 export class BurnModal {
@@ -153,7 +156,7 @@ export class BurnModal {
 
       const receipt = await injectedProvider.waitForTransaction(
         txHash,
-        1, // confirmations
+        2, // confirmations
         60 * 1000 * 10
       );
       onConfirm({ hash: txHash, receipt });
@@ -278,7 +281,22 @@ export class BurnModal {
               color: "#ffffff",
             });
             parent.onPendingTxConfirmed();
-            this.onBurnConfirmed({ hash, wizardId: this.wizardId, receipt });
+
+            // right here...
+            // check our API server for the title and image
+            const soulData = fetchSoulsMetadataWithRetry({
+              soulId: this.wizardId,
+            })
+              .then(() => {
+                this.onBurnConfirmed({
+                  hash,
+                  wizardId: this.wizardId,
+                  receipt,
+                });
+              })
+              .catch((err) => {
+                this.onBurnError({ hash, wizardId: this.wizardId, err });
+              });
           },
           onError: ({ hash }: { hash: any }) => {
             warningModal.hide();

@@ -1,5 +1,6 @@
 import { SOULS_IMAGES_BASE_URL } from "../../../../constants";
 import { ImageButton } from "../../../objects/ImageButton";
+import { fetchSoulsMetadataWithRetry } from "../../../portal";
 
 const SECONDS = 1000;
 
@@ -34,12 +35,17 @@ export class SoulModal {
     this.addFrame();
     this.addCloseButton();
     this.addInstructionText();
-    this.addWizardImage({ wizardId });
     this.wizardId = wizardId;
 
-    const nftTitle = `The Soul of Wizzy of the Shadow`;
-    this.writeMessage({
-      msg: `The Quantum Shadow has returned to you:\n\n${nftTitle}`,
+    fetchSoulsMetadataWithRetry({
+      soulId: this.wizardId,
+    }).then((soulData) => {
+      // this is more like soulId
+      this.addWizardImage({ wizardId });
+      const nftTitle = soulData.name;
+      this.writeMessage({
+        msg: `The Quantum Shadow has returned to you:\n\n${nftTitle}`,
+      });
     });
 
     return this;
@@ -68,7 +74,7 @@ export class SoulModal {
     const angels = scene.sound.add("angelic_chord");
     const nftImageUrl = `${SOULS_IMAGES_BASE_URL}${wizardId}`;
     console.log(nftImageUrl);
-    const wizardImageKey = `wizard:nobg:${wizardId}`;
+    const wizardImageKey = `soul:${wizardId}`;
     scene.load.image(wizardImageKey, nftImageUrl); // add task
     scene.load.once("complete", () => {
       const img = scene.add.sprite(0, -50, wizardImageKey);
