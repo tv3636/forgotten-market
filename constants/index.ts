@@ -46,3 +46,6 @@ export const OPENSEA_BASE_URL =
 
 export const IPFS_SERVER =
   process.env.NEXT_PUBLIC_IPFS_SERVER ?? "https://nfts.forgottenrunes.com/ipfs";
+
+export const SOULS_IMAGES_BASE_URL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/img/`;
+export const SOULS_METADATA_BASE_URL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/data/`;

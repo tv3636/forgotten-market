@@ -5,7 +5,7 @@ import { abi as ForgottenSoulsAbi } from "./ForgottenSouls.json";
 import { abi as InfinityVeilAbi } from "./ForgottenRunesInfinityVeil.json";
 
 export const WIZARDS_CONTRACT_ADDRESS: { [chainId: number]: string } = {
-  4: `0x7947251053537ad8745d8e27ac3384ba2097d76c`,
+  4: `0x2BC27A0786B0b07b6061710C59FcF6Ce91D77080`,
   1: `0x521f9C7505005CFA19A8E5786a9c3c9c9F5e6f42`,
 };
 
@@ -20,7 +20,7 @@ export const INFINITY_VEIL_ADDRESS: { [chainId: number]: string } = {
 };
 
 export const FORGOTTEN_SOULS_ADDRESS: { [chainId: number]: string } = {
-  4: `0x3683db8d494ecaf92239d2483302bbd184abe83e`,
+  4: `0x95082b505c0752eEf1806aEf2b6b2d55eEa77e4E`,
   1: ``,
 };
 
