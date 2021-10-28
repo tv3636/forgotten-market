@@ -13,12 +13,12 @@ import {
   getLoreInChapterForm,
   getWizardsWithLore,
 } from "../../../../components/Lore/loreSubgraphUtils";
+import { CHARACTER_CONTRACTS } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { getLoreUrl } from "../../../../components/Lore/loreUtils";
 import { promises as fs } from "fs";
 import path from "path";
 import { useMedia } from "react-use";
 import { useEffect, useState } from "react";
-import { LORE_CONTRACTS } from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import flatMap from "lodash/flatMap";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
@@ -194,6 +194,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     return {
       redirect: {
         destination: getLoreUrl(loreTokenSlug, tokenId, pageNum + 1),
+        revalidate: 2,
       },
     };
   }
@@ -240,7 +241,7 @@ export async function getStaticPaths() {
   await bustLoreCache();
 
   for (const [loreTokenSlug, loreTokenContract] of Object.entries(
-    LORE_CONTRACTS
+    CHARACTER_CONTRACTS
   )) {
     console.log(`Generating paths for ${loreTokenSlug} ${loreTokenContract}`);
 

@@ -1,18 +1,5 @@
-import { values } from "lodash";
-import { IMAGE_NOBG_BASE_URL } from "../../../../constants";
-import {
-  FORGOTTEN_SOULS_ADDRESS,
-  getInfinityVeilContract,
-  getSoulsContract,
-  getWizardsContract,
-  INFINITY_VEIL_ADDRESS,
-  WIZARDS_CONTRACT_ADDRESS,
-} from "../../../../contracts/ForgottenRunesWizardsCultContract";
+import { SOULS_IMAGES_BASE_URL } from "../../../../constants";
 import { ImageButton } from "../../../objects/ImageButton";
-import { Toast } from "../../../objects/Toast";
-import { getWeb3Controller } from "../home/Web3Controller";
-import { BurnWarningModal } from "./BurnWarningModal";
-import { ProgressBullet } from "./ProgressBullet";
 
 const SECONDS = 1000;
 
@@ -79,7 +66,8 @@ export class SoulModal {
     const scene = this.scene;
     if (!scene) return;
     const angels = scene.sound.add("angelic_chord");
-    const nftImageUrl = `${IMAGE_NOBG_BASE_URL}${wizardId}.png`;
+    const nftImageUrl = `${SOULS_IMAGES_BASE_URL}${wizardId}`;
+    console.log(nftImageUrl);
     const wizardImageKey = `wizard:nobg:${wizardId}`;
     scene.load.image(wizardImageKey, nftImageUrl); // add task
     scene.load.once("complete", () => {
