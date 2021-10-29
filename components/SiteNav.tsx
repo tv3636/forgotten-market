@@ -154,8 +154,8 @@ const SiteNavRow = styled.div`
   }
   .logo {
     @media (min-width: 960px) {
-      max-width: 360px;
-      width: 360px;
+      max-width: 260px;
+      width: 260px;
     }
   }
 `;

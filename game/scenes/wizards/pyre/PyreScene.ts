@@ -313,13 +313,15 @@ export class PyreScene extends Phaser.Scene {
   }
 
   addMetamaskButton() {
-    let metamaskSoul = new MetamaskSoul({
-      onConnect: () => {
-        console.log("metamaskSoul onConnect");
-        this.openWizardPicker();
-      },
-    });
-    this.metamaskSoul = metamaskSoul.create({ scene: this });
+    if (!this.metamaskSoul) {
+      this.metamaskSoul = new MetamaskSoul({
+        onConnect: () => {
+          console.log("metamaskSoul onConnect");
+          this.openWizardPicker();
+        },
+      });
+    }
+    this.metamaskSoul.createIfNeeded({ scene: this });
   }
 
   addBurnAgainButton() {

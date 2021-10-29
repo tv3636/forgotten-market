@@ -14,6 +14,13 @@ export class MetamaskSoul {
   constructor({ onConnect }: { onConnect: any }) {
     this.onConnect = onConnect;
   }
+
+  createIfNeeded({ scene }: { scene: Phaser.Scene }) {
+    if (!this.sprite) {
+      return this.create({ scene });
+    }
+  }
+
   create({ scene }: { scene: Phaser.Scene }) {
     const self = this;
     this.scene = scene;

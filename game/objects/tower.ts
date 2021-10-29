@@ -238,7 +238,7 @@ export class Tower {
 
     const pyreDoorZone = this.scene.add.zone(
       centerX + 38,
-      centerYW + 1630,
+      0 + bottomDoorY + 720,
       36,
       50
     );

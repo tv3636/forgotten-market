@@ -218,6 +218,7 @@ export class SoulModal {
       .on("pointerup", () => {
         closeButton.setAlpha(1);
         console.log("clicked");
+        (scene as any).addMetamaskButton();
         this.hide();
       });
 
