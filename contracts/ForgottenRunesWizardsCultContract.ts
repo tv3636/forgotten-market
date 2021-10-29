@@ -21,7 +21,7 @@ export const INFINITY_VEIL_ADDRESS: { [chainId: number]: string } = {
 
 export const FORGOTTEN_SOULS_ADDRESS: { [chainId: number]: string } = {
   4: `0x95082b505c0752eEf1806aEf2b6b2d55eEa77e4E`,
-  1: ``,
+  1: `0x251b5F14A825C537ff788604eA1b58e49b70726f`,
 };
 
 export async function getWizardsContract({ provider }: { provider: any }) {
