@@ -12,6 +12,15 @@ import {
   WIZARDS_CONTRACT_ADDRESS,
 } from "../contracts/ForgottenRunesWizardsCultContract";
 import { Box } from "rebass";
+import styled from "@emotion/styled";
+
+const NFTGrid = styled.div`
+  display: grid;
+  grid-auto-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 0px 0px;
+`;
+const NFTItem = styled.div``;
 
 const MyNftsGrid = () => {
   const { web3Settings } = useMst();
@@ -21,29 +30,33 @@ const MyNftsGrid = () => {
   return (
     <>
       <h1>Wizards</h1>
-      {myWizards &&
-        wizardsContract &&
-        myWizards.map((value) => (
-          <React.Fragment key={value.toNumber()}>
-            <NFTDisplay
-              contractAddress={wizardsContract}
-              tokenId={value.toNumber().toString()}
-              pixelArt={true}
-            />
-          </React.Fragment>
-        ))}
+      <NFTGrid>
+        {myWizards &&
+          wizardsContract &&
+          myWizards.map((value) => (
+            <NFTItem key={value.toNumber()}>
+              <NFTDisplay
+                contractAddress={wizardsContract}
+                tokenId={value.toNumber().toString()}
+                pixelArt={true}
+              />
+            </NFTItem>
+          ))}
+      </NFTGrid>
       <h1>Souls</h1>
-      {mySouls &&
-        soulsContract &&
-        mySouls.map((value) => (
-          <React.Fragment key={value.toNumber()}>
-            <NFTDisplay
-              contractAddress={soulsContract}
-              tokenId={value.toNumber().toString()}
-              pixelArt={true}
-            />
-          </React.Fragment>
-        ))}
+      <NFTGrid>
+        {mySouls &&
+          soulsContract &&
+          mySouls.map((value) => (
+            <NFTItem key={value.toNumber()}>
+              <NFTDisplay
+                contractAddress={soulsContract}
+                tokenId={value.toNumber().toString()}
+                pixelArt={true}
+              />
+            </NFTItem>
+          ))}
+      </NFTGrid>
     </>
   );
 };

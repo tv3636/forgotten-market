@@ -326,13 +326,14 @@ export class PyreScene extends Phaser.Scene {
       centerX,
       0 + 1200,
       "soulsUI",
-      "yes_default.png",
-      "yes_hover.png",
+      "exit1.png",
+      "exit1.png",
       ({ btn }: { btn: ImageButton }) => {
         console.log("exit");
         this.dismissScene();
       }
     );
+    exitButton.setOrigin(0.5, 0);
     exitButton.setScale(0.5);
     this.add.existing(exitButton);
   }
