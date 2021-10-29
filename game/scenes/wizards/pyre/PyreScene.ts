@@ -237,6 +237,8 @@ export class PyreScene extends Phaser.Scene {
       });
     };
 
+    this.addExitScene();
+
     (this.cameras.main as any).preRender(1);
     this.updateCamera();
 
@@ -310,6 +312,29 @@ export class PyreScene extends Phaser.Scene {
     // this.addEtherscanPendingMessage({ hash: "abc123" });
 
     // this.setConfirmedBurn();
+  }
+
+  addExitScene() {
+    const width = this.scale.gameSize.width;
+    const height = this.scale.gameSize.height;
+    const centerY = height / 2;
+    const worldView = this.cameras.main.worldView;
+    const centerX = worldView.centerX;
+
+    const exitButton = new ImageButton(
+      this,
+      centerX,
+      0 + 1200,
+      "soulsUI",
+      "yes_default.png",
+      "yes_hover.png",
+      ({ btn }: { btn: ImageButton }) => {
+        console.log("exit");
+        this.dismissScene();
+      }
+    );
+    exitButton.setScale(0.5);
+    this.add.existing(exitButton);
   }
 
   addMetamaskButton() {

@@ -1,4 +1,12 @@
+import { BigNumber } from "@ethersproject/bignumber";
+import { JsonRpcProvider } from "@ethersproject/providers";
+import {
+  getSoulsContract,
+  WIZARDS_CONTRACT_ADDRESS,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
+import { bigNumberSubSafe } from "../../lib/web3Utils";
 import { fadeIn } from "../gameUtils";
+import { getWeb3Controller } from "../scenes/wizards/home/Web3Controller";
 import { buildAnimationParticleClass } from "./animation-particles";
 import { ImageButton } from "./ImageButton";
 
@@ -10,6 +18,10 @@ export class Tower {
   scene: Phaser.Scene;
   runes: any[] = [];
   lines: any;
+
+  burningBegan: boolean = false;
+  burningStartBlock: number = 111111111111111111111111111111111;
+  currentBlock: number = 0;
 
   constructor({ scene }: { scene: Phaser.Scene }) {
     this.scene = scene;
@@ -134,6 +146,29 @@ export class Tower {
       scene.add.existing(openSeaButton);
     }
 
+    // check if we're ready
+    try {
+      this.fetchIfBurningBegan().then(
+        ({ burningBegan, burningStartBlock, currentBlock, diffBlock }) => {
+          this.burningBegan = burningBegan;
+          this.burningStartBlock = burningStartBlock;
+          console.log(
+            "burningStartBlock: ",
+            burningBegan,
+            currentBlock.toString(),
+            burningStartBlock.toString()
+          );
+          if (burningBegan) {
+            this.addPyreDoor();
+          } else {
+            this.checkForBurningBegunAtIntervals();
+          }
+        }
+      );
+    } catch (err) {
+      console.log("Error fetching start summoning block:", err);
+    }
+
     // DEBUG
     // this.startLoadingRunes();
     // this.scene.time.addEvent({
@@ -142,6 +177,51 @@ export class Tower {
     //     this.stopLoadingRunes();
     //   }
     // });
+  }
+
+  getProvider() {
+    return getWeb3Controller(this.scene.game).provider;
+  }
+  checkForBurningBegunAtIntervals() {
+    let handle = setInterval(async () => {
+      console.log("checkForBurningBegunAtIntervals");
+      const { burningBegan, burningStartBlock } =
+        await this.fetchIfBurningBegan();
+      this.burningBegan = burningBegan;
+      this.burningStartBlock = burningStartBlock;
+      if (this.burningBegan) {
+        clearInterval(handle);
+        this.addPyreDoor();
+      }
+    }, 60 * 1000);
+  }
+
+  async fetchIfBurningBegan() {
+    const provider = this.getProvider() as JsonRpcProvider;
+    const contract = await getSoulsContract({ provider });
+    const { chainId } = await provider.getNetwork();
+    const wizardsAddress = WIZARDS_CONTRACT_ADDRESS[chainId];
+
+    const [offset, burningStartBlock] = await contract.flammables(
+      wizardsAddress
+    );
+    const currentBlock = BigNumber.from(await provider.getBlockNumber());
+    const diffBlock = bigNumberSubSafe(
+      burningStartBlock,
+      BigNumber.from(currentBlock)
+    );
+
+    let burningBegan = false;
+    if (BigNumber.from(currentBlock).gte(burningStartBlock)) {
+      burningBegan = true;
+    }
+
+    return {
+      burningBegan,
+      burningStartBlock,
+      currentBlock,
+      diffBlock,
+    };
   }
 
   createSoulsLife() {
@@ -205,6 +285,23 @@ export class Tower {
       repeat: -1,
     });
 
+    // scene.input.enableDebug(pyreDoorZone);
+  }
+
+  addPyreDoor() {
+    const scene = this.scene;
+    const width = scene.scale.gameSize.width;
+    const height = scene.scale.gameSize.height;
+    const centerY = height / 2;
+    const worldView = this.scene.cameras.main.worldView;
+    const centerX = worldView.centerX;
+    const centerYW = worldView.centerY;
+
+    var data = scene.game.cache.json.get("castleParts");
+
+    const originX = 0.5 + 0.015; /* fudge center */
+    const originY = 0 + 0.001;
+
     // add the door
     // addNormalThing({ name: "bottomDoor-0" });
     // addNormalThing({ name: "doorGlow-0" });
@@ -246,7 +343,6 @@ export class Tower {
     pyreDoorZone.setInteractive({ useHandCursor: true }).on("pointerup", () => {
       (this.scene as any).launchPyreScene();
     });
-    // scene.input.enableDebug(pyreDoorZone);
   }
 
   createLife() {
