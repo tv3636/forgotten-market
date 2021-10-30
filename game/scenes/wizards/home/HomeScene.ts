@@ -73,6 +73,8 @@ export class HomeScene extends Phaser.Scene {
   bati: number = 0;
   bati2: number = 0;
 
+  lastDelta: number = 1;
+
   constructor() {
     super("HomeScene");
     this.store = getStore();
@@ -506,7 +508,8 @@ export class HomeScene extends Phaser.Scene {
     this.towerBeams.update();
     this.tower.update();
     this.updateTooEarly();
-    this.moveBats(delta);
+    this.moveBats(delta - this.lastDelta);
+    this.lastDelta = delta;
   }
 
   updateTooEarly() {
@@ -807,7 +810,8 @@ export class HomeScene extends Phaser.Scene {
     };
 
     const radius = 90;
-    const speed = 0.005;
+    // const speed = 0.005;
+    const speed = 20;
     const timeScale = 1;
 
     const moveBat = ({
@@ -833,11 +837,13 @@ export class HomeScene extends Phaser.Scene {
           targetX,
           targetY
         );
+        // console.log("movingDist: ", movingDist, distToTarget);
 
         let newX, newY;
         var t = movingDist / distToTarget;
         newX = Phaser.Math.Linear(curX, targetX, t);
         newY = Phaser.Math.Linear(curY, targetY, t);
+        // console.log("newX, newY: ", newX, newY);
         bat.setPosition(newX, newY);
       }
     };
@@ -845,7 +851,7 @@ export class HomeScene extends Phaser.Scene {
     moveBat({ bat: this.bat1, batCenter: this.bat1center, base: batBase1 });
     moveBat({ bat: this.bat2, batCenter: this.bat2center, base: batBase2 });
 
-    if (!this.bat1center || this.bati % 71 === 0) {
+    if (!this.bat1center || this.bati % 91 === 0) {
       const g = new Phaser.Math.RandomDataGenerator();
       this.bat1center = {
         x: g.between(-1 * radius, radius),
@@ -853,7 +859,7 @@ export class HomeScene extends Phaser.Scene {
       };
     }
 
-    if (!this.bat2center || this.bati % 53 === 0) {
+    if (!this.bat2center || this.bati % 73 === 0) {
       const g = new Phaser.Math.RandomDataGenerator();
       this.bat2center = {
         x: g.between(-1 * radius, radius),
@@ -862,5 +868,6 @@ export class HomeScene extends Phaser.Scene {
     }
 
     this.bati += 1;
+    this.bati = this.bati % 2056;
   }
 }
