@@ -653,7 +653,7 @@ export class HomeScene extends Phaser.Scene {
     this.initialScrollY = camera.scrollY;
     const desktop = this.scale.gameSize.width >= BREAKPOINT;
 
-    const maxScroll = desktop ? 1400 : 1800;
+    const maxScroll = desktop ? 1600 : 1900;
 
     this.input.on(
       "wheel",

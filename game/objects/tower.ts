@@ -72,7 +72,7 @@ export class Tower {
       centerX - 6,
       towerY + tower.height,
       265,
-      1800,
+      2800,
       "towerTile"
     );
     towerTile.setOrigin(originX, originY);

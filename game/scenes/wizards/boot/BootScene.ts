@@ -105,7 +105,7 @@ export class BootScene extends Phaser.Scene {
         0,
         0,
         tileBgWidth,
-        this.cameras.main.height,
+        this.cameras.main.height * 2,
         name
       );
       layer.setOrigin(0, 0);
@@ -121,6 +121,28 @@ export class BootScene extends Phaser.Scene {
       addToLandscape({ name: "cloudspinkfront_1" });
       addToLandscape({ name: "dark_moon_copy_1" });
       addToLandscape({ name: "dark_moon_1" });
+
+      const blackBG = this.add.tileSprite(
+        0,
+        300,
+        tileBgWidth,
+        this.cameras.main.height * 2,
+        "cloudspinkback"
+      );
+      blackBG.setOrigin(0, 0);
+      this.landscape.add(blackBG);
+
+      // addToLandscape({ name: "cloudspinkback" });
+      // add a cover at the bottom
+      // const blackBG = this.add.tileSprite(
+      //   0,
+      //   300,
+      //   tileBgWidth,
+      //   this.cameras.main.height,
+      //   "cloudspinkback"
+      // );
+      // blackBG.setOrigin(0, 0);
+      // this.landscape.add(blackBG);
     } else {
       const cloudsPinkBack = this.add.tileSprite(
         0,
@@ -163,6 +185,10 @@ export class BootScene extends Phaser.Scene {
       this.landscape.add(stars);
     }
 
+    const width = this.scale.gameSize.width;
+    const height = this.scale.gameSize.height;
+    const centerX = width / 2;
+    const centerY = height / 2;
     //  We launch this Scene first because we can't use `getZoom` otherwise
     this.scene.launch("HomeScene");
     this.gameScene = this.scene.get("HomeScene");
@@ -233,11 +259,18 @@ export class BootScene extends Phaser.Scene {
     // console.log("scrollY: ", scrollY);
 
     let i = 0;
+    const numLandscapes = this.landscape.length;
     this.landscape.each((tile: any, idx: number) => {
+      const isLast = i === numLandscapes - 1;
       // tile.tilePositionY -= scrollY * 0.0005 * i;
       tile.tilePositionY = _scrollY * 0.035 * i;
+      if (isLast) {
+        tile.tilePositionY = _scrollY * 0.02 * i;
+      }
       // console.log("tile.tilePositionY: ", tile.tilePositionY);
-      const maxTileY = i * 20;
+      // const maxTileY = i * 13;
+      // console.log("maxTileY: ", maxTileY);
+      // console.log("tile.tilePositionY: ", tile.tilePositionY);
       // tile.tilePositionY = Phaser.Math.Clamp(tile.tilePositionY, 0, maxTileY);
       i++;
     });
@@ -280,6 +313,12 @@ export class BootScene extends Phaser.Scene {
       tile.tilePositionX = tilePosX;
       tile.tilePositionY = tilePosY;
     });
+
+    // const zoneGraphics = this.add.graphics();
+    // zoneGraphics.fillStyle(0x0000ff, 1);
+    // zoneGraphics.fillRect(0, 600, width, pinkBGFrame.height);
+    // tileBgWidth,
+    // this.cameras.main.height,
   }
 
   update() {
