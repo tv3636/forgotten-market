@@ -14,6 +14,8 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { ResponsiveImg } from "../../components/ResponsivePixelImg";
+import { TwitterTweetEmbed } from "react-twitter-embed";
+
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
 // Since the MDX files aren't loaded by webpack, they have no knowledge of how
@@ -28,6 +30,7 @@ const components = {
   Head,
   WizardArt,
   ResponsiveImg,
+  TwitterTweetEmbed,
 };
 
 const NavAnchor = styled.a`
