@@ -227,6 +227,22 @@ export class BootScene extends Phaser.Scene {
     );
   }
 
+  updateParallax({ scrollY }: { scrollY: number }): void {
+    let maxScrollY = 1650; // just cheating
+    let _scrollY = Math.min(maxScrollY, scrollY);
+    // console.log("scrollY: ", scrollY);
+
+    let i = 0;
+    this.landscape.each((tile: any, idx: number) => {
+      // tile.tilePositionY -= scrollY * 0.0005 * i;
+      tile.tilePositionY = _scrollY * 0.035 * i;
+      // console.log("tile.tilePositionY: ", tile.tilePositionY);
+      const maxTileY = i * 20;
+      // tile.tilePositionY = Phaser.Math.Clamp(tile.tilePositionY, 0, maxTileY);
+      i++;
+    });
+  }
+
   updateCamera() {
     const width = this.scale.gameSize.width;
     const height = this.scale.gameSize.height;

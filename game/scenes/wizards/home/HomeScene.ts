@@ -669,6 +669,13 @@ export class HomeScene extends Phaser.Scene {
         // console.log("camera.scrollY: ", camera.scrollY);
         camera.scrollY = Math.max(this.initialScrollY, camera.scrollY);
         camera.scrollY = Math.min(camera.scrollY, maxScroll);
+        // this.updateCamera();
+
+        const scrollYDiff = Math.abs(camera.scrollY - this.initialScrollY); // 0
+        // console.log("camera.scrollY: ", camera.scrollY, scrollYDiff);
+        this.backgroundScene.updateParallax({
+          scrollY: scrollYDiff,
+        });
       }
     );
 
@@ -707,6 +714,11 @@ export class HomeScene extends Phaser.Scene {
         camera.scrollY += dragY * 0.5 * -1;
         camera.scrollY = Math.max(this.initialScrollY, camera.scrollY);
         camera.scrollY = Math.min(camera.scrollY, maxScroll);
+
+        const scrollYDiff = Math.abs(camera.scrollY - this.initialScrollY); // 0
+        this.backgroundScene.updateParallax({
+          scrollY: scrollYDiff,
+        });
       });
   }
 
