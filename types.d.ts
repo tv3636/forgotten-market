@@ -10,3 +10,4 @@ declare module "parse-data-url";
 
 declare module "draft-js-markdown-shortcuts-plugin";
 declare module "string-replace-async";
+declare module "react-twitter-embed";
