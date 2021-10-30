@@ -324,7 +324,7 @@ export class PyreScene extends Phaser.Scene {
     const exitButton = new ImageButton(
       this,
       centerX,
-      0 + 900,
+      centerY + 400,
       "soulsUI",
       "exit1.png",
       "exit1.png",

@@ -104,7 +104,7 @@ export class SoulModal {
       hover: "social_opensea_hover.png",
       cb: () => {
         console.log("opensea");
-        const openSeaURL = `https://opensea.io/collection/forgottensouls/${soulId}`;
+        const openSeaURL = `https://opensea.io/assets/0x251b5F14A825C537ff788604eA1b58e49b70726f/${soulId}`;
         window.open(openSeaURL, "_blank");
       },
     };
