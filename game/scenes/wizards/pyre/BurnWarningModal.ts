@@ -189,7 +189,7 @@ export class BurnWarningModal {
           btn.enabled = false;
           self.scene.tweens.add({
             targets: btn,
-            alpha: { value: 0, duration: 500, ease: "Power1" },
+            alpha: { value: 0, duration: 1000, ease: "Power1" },
             delay: 0,
           });
           self.scene.time.addEvent({
