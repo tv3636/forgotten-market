@@ -20,6 +20,8 @@ So choose wisely.
 - For the wizards concerned with rate of return, the risk of an “undesirable” result is roughly 1 in 10.
 - No time limit on using the flames. We wanted to avoid a gas war + a limited time window and we don’t want people to rush this decision.
 
+> We've also written more about the _Forgotten Souls_ collection which you can read about in the [Forgotten Souls Collectors Guide](/posts/forgotten-souls-collectors-guide)
+
 ## The Sacred Flame
 
 ![Sacred Flame](https://nfts.forgottenrunes.com/ipfs/QmWG5jc3spgFGPfiX3Rd4YLNSxDjXRSxeBQsS9TytVL1YD)
@@ -72,8 +74,12 @@ The Sacred Flame is an ERC1155 token which [you can find on OpenSea here](https:
 
 The [official contract](https://etherscan.io/address/0x31158181b4b91a423bfdc758fc3bf8735711f9c5#code)
 
-You may find the whitelist, motiviation, and auditable Dune SQL Query used [to generate the whitelist here](https://gist.github.com/cryppadotta/df2e29112ab131fa371336b417278d3c)
+You may find the whitelist, motivation, and auditable Dune SQL Query used [to generate the whitelist here](https://gist.github.com/cryppadotta/df2e29112ab131fa371336b417278d3c)
 
 💀 The Great Burning will be held on All Hallows Eve 💀
 
 May the gods look favorably on your choices
+
+## More Resources
+
+We've also written more about the _Forgotten Souls_ collection which you can read about in the [Forgotten Souls Collectors Guide](/posts/forgotten-souls-collectors-guide)

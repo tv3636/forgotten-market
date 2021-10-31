@@ -620,7 +620,7 @@ export class BurnModal {
         if (location[location.length - 1] !== "/") {
           location += "/";
         }
-        window.open(location + "posts/how-to-burn", "_blank");
+        window.open(location + "posts/forgotten-souls", "_blank");
       });
 
     this.scene.tweens.add({
