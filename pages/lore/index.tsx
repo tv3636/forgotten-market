@@ -33,7 +33,7 @@ const BookOfLoreIndexPage = ({ wizardsWithLore }: { wizardsWithLore: any }) => {
         styles={css`
           html,
           body {
-            background: radial-gradient(#3c324c, #0a080c);
+            /* background: radial-gradient(#3c324c, #0a080c); */
           }
         `}
       />

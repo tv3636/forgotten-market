@@ -50,6 +50,8 @@ const Map = ({}: Props) => (
       <MapContainer
         center={[0, 0]}
         zoom={7}
+        maxZoom={9}
+        minZoom={6}
         scrollWheelZoom={true}
         style={{ height: "100%", width: "100%" }}
         attributionControl={false}

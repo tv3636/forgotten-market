@@ -247,9 +247,9 @@ export default function SiteNav({}: Props) {
           <li className="item">
             <a href="/">The Secret Tower</a>
           </li>
-          <li className="item highlighted">
+          <li className="item">
             <Link as={"/wtf"} href={"/wtf"} passHref={true}>
-              Start here
+              Start Here
             </Link>
           </li>
 

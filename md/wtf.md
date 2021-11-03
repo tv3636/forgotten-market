@@ -43,7 +43,7 @@ In addition to membership into our mysterious-but-friendly cult, owning a Wizard
 
 <img src="https://nftz.forgottenrunes.com/website/cdn/bodyTurn.gif" width="100%" height="auto" style={{"margin": "0 auto", "image-rendering": "pixelated"}}/>
 
-- as full turnarounds and walk cycles of your wizard
+- as [full turnarounds](/posts/goodies) and walk cycles of your wizard
 - [a GM generator](/scenes/gm/7846)
 - potential airdrops such as our recent ["Sacred Flame" for _Forgotten Souls_](/posts/forgotten-souls) ([OpenSea](https://opensea.io/assets/0x31158181b4b91a423bfdc758fc3bf8735711f9c5/0))
 - building out your character and scribe it into the [The Book of Lore](/lore)
@@ -121,6 +121,7 @@ We'd like to offer our thanks to our beta testers and folks who gave us feedback
 - [Discord](https://discord.com/invite/F7WbxwJuZC)
 - [Forgotten Runes Contract on Etherscan](https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42)
 - [AmAs on Soundcloud](https://soundcloud.com/forgottenrunes)
+- [YouTube](https://www.youtube.com/channel/UCK8UOUpF8XPcc3Ynhmchcxg)
 
 # What Next?
 
