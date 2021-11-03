@@ -2,30 +2,9 @@ import { IndividualLorePageData } from "./types";
 import { IPFS_SERVER } from "../../constants";
 import productionWizardData from "../../data/nfts-prod.json";
 import dayjs from "dayjs";
+import { fetchFromIpfs } from "../../lib/web3Utils";
+
 const wizData = productionWizardData as { [wizardId: string]: any };
-
-async function fetchLoreMetadata(loreMetadataURI: string | null): Promise<any> {
-  if (!loreMetadataURI) return null;
-
-  const ipfsURL = `${IPFS_SERVER}/${
-    loreMetadataURI.match(/^ipfs:\/\/(.*)$/)?.[1]
-  }`;
-  // console.log("ipfsURL: ", ipfsURL);
-
-  if (!ipfsURL || ipfsURL === "undefined") {
-    return null;
-  }
-
-  //TODO: retries?
-  return await fetch(ipfsURL).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      console.error("Bad IPFS request: " + res.statusText);
-      return {};
-    }
-  });
-}
 
 export async function hydratePageDataFromMetadata(
   loreMetadataURI: string,
@@ -56,7 +35,7 @@ export async function hydratePageDataFromMetadata(
     };
   }
 
-  const metadata = await fetchLoreMetadata(loreMetadataURI);
+  const metadata = await fetchFromIpfs(loreMetadataURI);
 
   // We use first image for og metadata, and yes regex not the coolest method but it works :)
   let firstImage = metadata?.description?.match(
