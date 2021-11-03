@@ -20,6 +20,11 @@ const StyledAnchor = styled.a`
   margin-bottom: 0.3em;
   display: inline-block;
   cursor: pointer;
+  text-decoration: none;
+
+  &:hover > h2 {
+    text-decoration: underline;
+  }
 `;
 const Description = styled.div``;
 const BlogEntries = styled.ul`
@@ -45,11 +50,13 @@ export default function Index({ posts }: { posts: Post[] }) {
               href={`/posts/[slug]`}
               passHref={true}
             >
-              <StyledAnchor>{post.data.title}</StyledAnchor>
+              <StyledAnchor>
+                <h2>{post.data.title}</h2>
+                {post.data.description && (
+                  <Description>{post.data.description}</Description>
+                )}
+              </StyledAnchor>
             </Link>
-            {post.data.description && (
-              <Description>{post.data.description}</Description>
-            )}
           </BlogEntry>
         ))}
       </BlogEntries>
