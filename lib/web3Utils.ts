@@ -1,5 +1,9 @@
 import { getAddress } from "@ethersproject/address";
 import { BigNumber } from "@ethersproject/bignumber";
+import { BaseProvider } from "@ethersproject/providers";
+import { Contract, Provider } from "ethcall";
+import { abi as ForgottenRunesWizardsCultAbi } from "../contracts/ForgottenRunesWizardsCult.json";
+import { IPFS_SERVER } from "../constants";
 
 export const getAddressSafe = (x: string | null) => {
   try {
@@ -54,4 +58,46 @@ export function bigNumberSubSafe(a: BigNumber, b: BigNumber) {
   } catch (err) {
     return BigNumber.from(0);
   }
+}
+
+export async function fetchTokenUrisViaMultiCall(
+  mainProvider: BaseProvider,
+  contractAddress: string,
+  ids: BigNumber[]
+) {
+  const ethcallProvider = new Provider();
+  await ethcallProvider.init(mainProvider);
+
+  const contract = new Contract(contractAddress, ForgottenRunesWizardsCultAbi);
+
+  const data = await ethcallProvider.all(
+    ids.map((id: BigNumber) => contract.tokenURI(id))
+  );
+
+  return data;
+}
+
+export async function fetchFromIpfs(
+  loreMetadataURI: string | null
+): Promise<any> {
+  if (!loreMetadataURI) return null;
+
+  const ipfsURL = `${IPFS_SERVER}/${
+    loreMetadataURI.match(/^ipfs:\/\/(.*)$/)?.[1]
+  }`;
+  // console.log("ipfsURL: ", ipfsURL);
+
+  if (!ipfsURL || ipfsURL === "undefined") {
+    return null;
+  }
+
+  //TODO: retries?
+  return await fetch(ipfsURL).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      console.error("Bad IPFS request: " + res.statusText);
+      return {};
+    }
+  });
 }

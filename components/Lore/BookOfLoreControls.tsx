@@ -89,7 +89,7 @@ const SocialContainer = styled.div`
   }
 `;
 
-const SocialItem = styled.div`
+export const SocialItem = styled.div`
   display: flex;
   align-items: center;
   padding: 0.4em;
@@ -125,7 +125,8 @@ const LoreSocialContainer = ({
     `The Lore of ${wizardData.name} (#${tokenId})`
   )}&url=${encodeURIComponent(url)}`;
 
-  const gmUrl = `/scenes/gm/${tokenId}`;
+  //TODO: diff link per collection
+  const gmUrl = `/scenes/gm/wizards/${tokenId}`;
   const downloadUrl = `/api/art/wizards/${tokenId}.zip`;
 
   return (

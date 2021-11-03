@@ -1,12 +1,12 @@
-import Layout from "../../../components/Layout";
+import Layout from "../../../../components/Layout";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import styled from "@emotion/styled";
-import Book from "../../../components/Lore/Book";
+import Book from "../../../../components/Lore/Book";
 import { useRouter } from "next/router";
-import productionWizardData from "../../../data/nfts-prod.json";
+import productionWizardData from "../../../../data/nfts-prod.json";
 import { GetServerSidePropsContext } from "next";
-import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
+import { ResponsivePixelImg } from "../../../../components/ResponsivePixelImg";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -42,11 +42,19 @@ const GmImage = styled.img`
   image-rendering: pixelated;
 `;
 
-const GmPage = () => {
-  const router = useRouter();
-  const { wizardId, page } = router.query;
-  const wizardData: any = wizData[wizardId.toString()];
-  const bg = "#" + wizardData.background_color;
+const GmPage = ({
+  tokenId,
+  collection,
+}: {
+  tokenId: string;
+  collection: string;
+}) => {
+  let bg = "#000000";
+
+  if (collection === "wizards") {
+    const wizardData: any = wizData[tokenId];
+    bg = "#" + wizardData.background_color;
+  }
 
   return (
     <Layout title="wtf | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
@@ -60,7 +68,11 @@ const GmPage = () => {
             />
           </GmContainer>
           <ResponsivePixelImg
-            src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
+            src={
+              collection === "wizards"
+                ? `https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${tokenId}.png`
+                : `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/img/${tokenId}`
+            }
           />
         </WizardImageContainer>
       </GmWrapper>
@@ -70,7 +82,10 @@ const GmPage = () => {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
-    props: { wizardId: context?.query?.wizardId },
+    props: {
+      tokenId: context?.query?.tokenId,
+      collection: context?.query?.collection,
+    },
   };
 }
 

@@ -54,7 +54,7 @@ export async function getLoreInChapterForm(
   try {
     const cachedData = JSON.parse(await fs.readFile(cacheFile, "utf8"));
     if (
-      Math.floor((new Date().getTime() - cachedData.timestamp) / 1000 / 60) <= 2
+      Math.floor((new Date().getTime() - cachedData.timestamp) / 1000 / 60) <= 5 // For 5 minutes during a deploy we keep using the file caache for lore
     ) {
       results = cachedData.data;
       console.log("Using cached data for lore yay!");

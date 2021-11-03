@@ -4,19 +4,11 @@ import styled from "@emotion/styled";
 import { getProvider } from "../hooks/useProvider";
 import { getERC721Contract } from "../contracts/ERC721Contract";
 import { ethers } from "ethers";
-import { IPFS_SERVER } from "../constants";
-
-// move to lib/nftUtils.ts
-export async function httpifyUrl(url: string, tokenId: string) {
-  url = url.replace(/0x\{id\}/, tokenId); // OpenSea
-  if (url.match(/^http/)) {
-    return url;
-  } else if (url.match(/^ipfs/)) {
-    return url.replace(/^ipfs:\/\//, `${IPFS_SERVER}/`);
-  } else {
-    return url;
-  }
-}
+import { httpifyUrl } from "../lib/nftUtilis";
+import { Flex, Text } from "rebass";
+import { useFetchDataFromTokenUri } from "../hooks/useMyNfts";
+import { SocialItem } from "./Lore/BookOfLoreControls";
+import { ResponsivePixelImg } from "./ResponsivePixelImg";
 
 const storefrontABI = [
   {
@@ -164,7 +156,7 @@ export function useNFTInfo({
       if (!contractAddress) {
         return;
       }
-      if (tokenId == null || tokenId == undefined) {
+      if (tokenId == undefined) {
         return;
       }
       console.log("fetching data", contractAddress, tokenId);
@@ -214,3 +206,118 @@ export default function NFTDisplay({
     </NFTDisplayElement>
   );
 }
+
+const NFTGrid = styled.div`
+  padding: 16px;
+  display: grid;
+  grid-auto-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 16px 16px;
+`;
+
+const NftItem = ({
+  tokenId,
+  tokenUri,
+  collection,
+}: {
+  collection: string;
+  tokenId: number;
+  tokenUri: string;
+}) => {
+  const { loading, metadata, image } = useFetchDataFromTokenUri(
+    tokenUri,
+    tokenId
+  );
+  return (
+    <Flex flexDirection={"column"} alignItems={"center"} maxWidth={"220px"}>
+      <h4 style={{ textAlign: "center" }}>#{tokenId}</h4>
+      {loading && <Text color={"greay"}>Loading...</Text>}
+      {!loading && image && (
+        <ResponsiveMaybePixelImg
+          src={image}
+          alt={metadata?.name}
+          pixelArt={true}
+        />
+      )}
+
+      <h4 style={{ textAlign: "center" }}>{metadata?.name}</h4>
+      <Flex flexDirection={"row"}>
+        <SocialItem>
+          <a
+            href={`/scenes/gm/${collection}/${tokenId}`}
+            className="icon-link gm"
+            target="_blank"
+          >
+            <ResponsivePixelImg
+              src="/static/img/icons/gm.png"
+              className="gm-img"
+            />
+          </a>
+        </SocialItem>
+        {collection === "wizards" && (
+          <SocialItem>
+            <a
+              href={`/api/art/wizards/${tokenId}.zip`}
+              className="icon-link"
+              target="_blank"
+            >
+              <ResponsivePixelImg src="/static/img/icons/social_download_default_w.png" />
+            </a>
+          </SocialItem>
+        )}
+      </Flex>
+
+      {/*{error && <ErrorMessage>{error}</ErrorMessage>}*/}
+    </Flex>
+  );
+};
+
+export const HoldingsGrid = ({
+  address,
+  tokenData,
+}: {
+  address: string;
+  tokenData: any;
+}) => {
+  return (
+    <Flex p={4} flexDirection={"column"} alignItems={"center"}>
+      <h2 style={{ color: "#fbff86" }}>Holdings of {address}</h2>
+      <h2>Wizards</h2>
+      {tokenData.wizards.length === 0 && (
+        <h3 style={{ textAlign: "center" }}>
+          <i>No wizards found</i>
+          <br />
+          <br />
+          ¯\_(ツ)_/¯
+        </h3>
+      )}
+      <NFTGrid>
+        {tokenData.wizards.map((item: any[]) => (
+          <NftItem
+            collection={"wizards"}
+            tokenId={item[0] as number}
+            tokenUri={item[1] as string}
+          />
+        ))}
+      </NFTGrid>
+      <h2>Souls</h2>
+      {tokenData.souls.length === 0 && (
+        <h3 style={{ textAlign: "center" }}>
+          <i>No souls found</i>
+          <br />
+          <br />
+          ¯\_(ツ)_/¯
+        </h3>
+      )}
+      <NFTGrid>
+        {tokenData.souls.map((item: any[]) => (
+          <NftItem
+            collection={"souls"}
+            tokenId={item[0] as number}
+            tokenUri={item[1] as string}
+          />
+        ))}
+      </NFTGrid>
+    </Flex>
+  );
+};

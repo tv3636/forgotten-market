@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useMst } from "../store";
 import { EmptyWell } from "../components/ui/EmptyWell";
@@ -6,13 +6,11 @@ import { ConnectWalletButton } from "../components/web3/ConnectWalletButton";
 import { observer } from "mobx-react-lite";
 import useMyNfts from "../hooks/useMyNfts";
 import { Web3Provider } from "@ethersproject/providers";
-import NFTDisplay from "../components/NFTDisplay";
-import {
-  CHARACTER_CONTRACTS,
-  WIZARDS_CONTRACT_ADDRESS,
-} from "../contracts/ForgottenRunesWizardsCultContract";
+import NFTDisplay, { HoldingsGrid } from "../components/NFTDisplay";
 import { Box } from "rebass";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { getTokenDataForAllCollections } from "../lib/nftUtilis";
 
 const NFTGrid = styled.div`
   display: grid;
@@ -64,18 +62,39 @@ const MyNftsGrid = () => {
 const MyNfts = observer(() => {
   const { web3Settings } = useMst();
   const walletConnected = web3Settings.connected;
+  const [tokenData, setTokenData] = useState<any>();
+
+  const selectedAddress =
+    // @ts-ignore
+    web3Settings?.injectedProvider?.provider?.selectedAddress;
+
+  useEffect(() => {
+    async function fetchTokenData() {
+      if (web3Settings.injectedProvider && selectedAddress) {
+        setTokenData(
+          await getTokenDataForAllCollections(
+            web3Settings.injectedProvider,
+            selectedAddress
+          )
+        );
+      }
+    }
+
+    fetchTokenData();
+  }, [web3Settings.injectedProvider, selectedAddress]);
 
   return (
     <Layout title="Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
-      <Box p={4}>
-        {!walletConnected ? (
+      {!walletConnected && (
+        <Box p={4}>
           <EmptyWell>
             <ConnectWalletButton />
           </EmptyWell>
-        ) : (
-          <MyNftsGrid />
-        )}
-      </Box>
+        </Box>
+      )}
+      {tokenData && (
+        <HoldingsGrid address={selectedAddress} tokenData={tokenData} />
+      )}
     </Layout>
   );
 });
