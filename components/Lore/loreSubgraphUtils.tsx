@@ -103,7 +103,7 @@ export async function getLoreInChapterForm(
       fetchPolicy: "no-cache",
     });
 
-    results = data.loreTokens.map((loreTokenEntry: any) => {
+    results = (data?.loreTokens ?? []).map((loreTokenEntry: any) => {
       return {
         tokenId: parseInt(loreTokenEntry.tokenId),
         lore: loreTokenEntry.lore.map((loreEntry: any) => ({
