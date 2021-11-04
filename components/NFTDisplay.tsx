@@ -9,6 +9,12 @@ import { Flex, Text } from "rebass";
 import { useFetchDataFromTokenUri } from "../hooks/useMyNfts";
 import { SocialItem } from "./Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "./ResponsivePixelImg";
+import {
+  WizardFrame,
+  WizardImage,
+  WizardImageContainer,
+  WizardName,
+} from "./WizardCard";
 
 const storefrontABI = [
   {
@@ -229,18 +235,28 @@ const NftItem = ({
     tokenId
   );
   return (
-    <Flex flexDirection={"column"} alignItems={"center"} maxWidth={"220px"}>
-      <h4 style={{ textAlign: "center" }}>#{tokenId}</h4>
-      {loading && <Text color={"greay"}>Loading...</Text>}
-      {!loading && image && (
-        <ResponsiveMaybePixelImg
-          src={image}
-          alt={metadata?.name}
-          pixelArt={true}
-        />
-      )}
-
-      <h4 style={{ textAlign: "center" }}>{metadata?.name}</h4>
+    <Flex flexDirection={"column"} alignItems={"center"}>
+      <WizardFrame className="wizardFrame">
+        <WizardName>
+          {loading && <Text color={"greay"}>Loading...</Text>}
+          {!loading && (
+            <h3>
+              {metadata?.name} (#{tokenId})
+            </h3>
+          )}
+        </WizardName>
+        {!loading && (
+          <WizardImageContainer>
+            <WizardImage
+              src={
+                collection === "wizards"
+                  ? `https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${tokenId}.png`
+                  : image
+              }
+            />
+          </WizardImageContainer>
+        )}
+      </WizardFrame>
       <Flex flexDirection={"row"}>
         <SocialItem>
           <a
@@ -266,7 +282,6 @@ const NftItem = ({
           </SocialItem>
         )}
       </Flex>
-
       {/*{error && <ErrorMessage>{error}</ErrorMessage>}*/}
     </Flex>
   );

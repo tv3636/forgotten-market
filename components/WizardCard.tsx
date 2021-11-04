@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { WizardConfiguration } from "./AddLore/WizardPicker";
-import { motion, AnimateSharedLayout } from "framer-motion";
+import { motion } from "framer-motion";
 
 const CardStyle = styled.div<{ isHovering: boolean }>`
   /* opacity: ${(props) => (props.isHovering ? 1 : 0.7)}; */
@@ -16,7 +16,7 @@ const CardStyle = styled.div<{ isHovering: boolean }>`
   }
 `;
 
-const WizardFrame = styled.div`
+export const WizardFrame = styled.div`
   position: relative;
   background-image: url("/static/img/wizard_frame.png");
   background-repeat: no-repeat;
@@ -29,14 +29,14 @@ const WizardFrame = styled.div`
   justify-content: center;
 `;
 
-const WizardImageContainer = styled.div`
+export const WizardImageContainer = styled.div`
   width: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
-const WizardImage = styled(motion.img)`
+export const WizardImage = styled(motion.img)`
   width: 100%;
   height: auto;
   image-rendering: pixelated;
@@ -44,7 +44,7 @@ const WizardImage = styled(motion.img)`
   margin-bottom: 13%;
 `;
 
-const WizardName = styled.div`
+export const WizardName = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;

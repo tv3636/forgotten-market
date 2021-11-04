@@ -83,9 +83,9 @@ export async function getLoreInChapterForm(
 
   if (!results) {
     console.log("No cached lore data - fetching from graph");
-    try {
-      const { data } = await client.query({
-        query: gql`
+
+    const { data } = await client.query({
+      query: gql`
         query WizardLore {
             loreTokens(first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${tokenContract}"}) {
                 tokenContract
@@ -100,33 +100,26 @@ export async function getLoreInChapterForm(
             }
         }
     `,
-        fetchPolicy: "no-cache",
-      });
+      fetchPolicy: "no-cache",
+    });
 
-      results = data.loreTokens.map((loreTokenEntry: any) => {
-        return {
-          tokenId: parseInt(loreTokenEntry.tokenId),
-          lore: loreTokenEntry.lore.map((loreEntry: any) => ({
-            loreMetadataURI: loreEntry.loreMetadataURI,
-            createdAtTimestamp: loreEntry.createdAtTimestamp,
-            creator: loreEntry.creator,
-          })),
-        };
-      });
+    results = data.loreTokens.map((loreTokenEntry: any) => {
+      return {
+        tokenId: parseInt(loreTokenEntry.tokenId),
+        lore: loreTokenEntry.lore.map((loreEntry: any) => ({
+          loreMetadataURI: loreEntry.loreMetadataURI,
+          createdAtTimestamp: loreEntry.createdAtTimestamp,
+          creator: loreEntry.creator,
+        })),
+      };
+    });
 
-      if (updateCache) {
-        await fs.writeFile(
-          cacheFile,
-          JSON.stringify({ timestamp: new Date().getTime(), data: results }),
-          "utf-8"
-        );
-      }
-    } catch (e) {
-      console.error(
-        "We had a fatal error when trying to fetch lore from subgraph. Can't continue"
+    if (updateCache) {
+      await fs.writeFile(
+        cacheFile,
+        JSON.stringify({ timestamp: new Date().getTime(), data: results }),
+        "utf-8"
       );
-      console.error(e);
-      throw Error();
     }
   }
 
