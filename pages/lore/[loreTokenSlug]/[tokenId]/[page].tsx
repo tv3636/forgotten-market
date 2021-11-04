@@ -231,7 +231,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       },
       wizardsWithLore: await getWizardsWithLore(),
     },
-    revalidate: 1,
+    revalidate: 2,
   };
 }
 

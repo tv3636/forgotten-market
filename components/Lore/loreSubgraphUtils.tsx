@@ -32,6 +32,10 @@ function getWizardLoreId(wizardNum: number, loreIndex: number) {
 }
 
 const LORE_CACHE = path.join(os.tmpdir(), ".lore_cache");
+const WIZARDS_THAT_HAVE_LORE_CACHE = path.join(
+  os.tmpdir(),
+  ".wizards_that_have_lore_cache"
+);
 
 export async function bustLoreCache() {
   try {
@@ -42,7 +46,19 @@ export async function bustLoreCache() {
       `Cache file ${LORE_CACHE} not deleted, probably didn't exist in first place...`
     );
   }
+
+  try {
+    await fs.unlink(WIZARDS_THAT_HAVE_LORE_CACHE);
+    console.info(`Busted lore cache at ${WIZARDS_THAT_HAVE_LORE_CACHE}....`);
+  } catch (_) {
+    console.warn(
+      `Cache file ${WIZARDS_THAT_HAVE_LORE_CACHE} not deleted, probably didn't exist in first place...`
+    );
+  }
 }
+
+const LORE_CACHE_STALE_AFTER_MINUTES = 5;
+const WIZARDS_THAT_HAVE_LORE_CACHE_STALE_AFTER_MINUTES = 10;
 
 export async function getLoreInChapterForm(
   tokenContract: string,
@@ -54,7 +70,8 @@ export async function getLoreInChapterForm(
   try {
     const cachedData = JSON.parse(await fs.readFile(cacheFile, "utf8"));
     if (
-      Math.floor((new Date().getTime() - cachedData.timestamp) / 1000 / 60) <= 5 // For 5 minutes during a deploy we keep using the file caache for lore
+      Math.floor((new Date().getTime() - cachedData.timestamp) / 1000 / 60) <=
+      LORE_CACHE_STALE_AFTER_MINUTES // For x minutes during a deploy we keep using the file cache for lore
     ) {
       results = cachedData.data;
       console.log("Using cached data for lore yay!");
@@ -66,8 +83,9 @@ export async function getLoreInChapterForm(
 
   if (!results) {
     console.log("No cached lore data - fetching from graph");
-    const { data } = await client.query({
-      query: gql`
+    try {
+      const { data } = await client.query({
+        query: gql`
         query WizardLore {
             loreTokens(first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${tokenContract}"}) {
                 tokenContract
@@ -82,26 +100,33 @@ export async function getLoreInChapterForm(
             }
         }
     `,
-      fetchPolicy: "no-cache",
-    });
+        fetchPolicy: "no-cache",
+      });
 
-    results = data.loreTokens.map((loreTokenEntry: any) => {
-      return {
-        tokenId: parseInt(loreTokenEntry.tokenId),
-        lore: loreTokenEntry.lore.map((loreEntry: any) => ({
-          loreMetadataURI: loreEntry.loreMetadataURI,
-          createdAtTimestamp: loreEntry.createdAtTimestamp,
-          creator: loreEntry.creator,
-        })),
-      };
-    });
+      results = data.loreTokens.map((loreTokenEntry: any) => {
+        return {
+          tokenId: parseInt(loreTokenEntry.tokenId),
+          lore: loreTokenEntry.lore.map((loreEntry: any) => ({
+            loreMetadataURI: loreEntry.loreMetadataURI,
+            createdAtTimestamp: loreEntry.createdAtTimestamp,
+            creator: loreEntry.creator,
+          })),
+        };
+      });
 
-    if (updateCache) {
-      await fs.writeFile(
-        cacheFile,
-        JSON.stringify({ timestamp: new Date().getTime(), data: results }),
-        "utf-8"
+      if (updateCache) {
+        await fs.writeFile(
+          cacheFile,
+          JSON.stringify({ timestamp: new Date().getTime(), data: results }),
+          "utf-8"
+        );
+      }
+    } catch (e) {
+      console.error(
+        "We had a fatal error when trying to fetch lore from subgraph. Can't continue"
       );
+      console.error(e);
+      throw Error();
     }
   }
 
@@ -236,23 +261,59 @@ export async function getFirstAvailableWizardLoreUrl() {
 export async function getWizardsWithLore(): Promise<{
   [key: number]: boolean;
 }> {
-  const { data } = await client.query({
-    query: gql`
-        query WizardLore {
-            loreTokens(orderBy: tokenId, where: {tokenContract: "${CHARACTER_CONTRACTS.wizards}"}) {
-                tokenId
-            }
-        }
-    `,
-  });
+  const cacheFile = `${WIZARDS_THAT_HAVE_LORE_CACHE}`;
 
-  return (data?.loreTokens ?? []).reduce(
-    (
-      result: {
-        [key: number]: boolean;
-      },
-      token: any
-    ) => ((result[token.tokenId] = true), result),
-    {}
-  );
+  let results;
+
+  try {
+    const cachedData = JSON.parse(await fs.readFile(cacheFile, "utf8"));
+    if (
+      Math.floor((new Date().getTime() - cachedData.timestamp) / 1000 / 60) <=
+      WIZARDS_THAT_HAVE_LORE_CACHE_STALE_AFTER_MINUTES // For x minutes during a deploy we keep using the file cache for lore
+    ) {
+      results = cachedData.data;
+      console.log("Using cached data for 'wizards that have lore' yay!");
+    }
+  } catch (e) {
+    /* not fatal */
+    console.warn(
+      "'Wizards that have lore' cache file didn't exist or we couldn't open it"
+    );
+  }
+
+  if (!results) {
+    try {
+      const { data } = await client.query({
+        query: gql`
+          query WizardLore {
+              loreTokens(first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${CHARACTER_CONTRACTS.wizards}"}) {
+                  tokenId
+              }
+          }`,
+      });
+
+      results = (data?.loreTokens ?? []).reduce(
+        (
+          result: {
+            [key: number]: boolean;
+          },
+          token: any
+        ) => ((result[token.tokenId] = true), result),
+        {}
+      );
+
+      await fs.writeFile(
+        cacheFile,
+        JSON.stringify({ timestamp: new Date().getTime(), data: results }),
+        "utf-8"
+      );
+    } catch (e) {
+      console.error(
+        "We couldn't get 'wizards that have lore' from subgraph. Continuing anyway as its non-fatal..."
+      );
+      results = [];
+    }
+  }
+
+  return results;
 }
