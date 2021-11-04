@@ -24,11 +24,11 @@ let nextConfig = {
       react$: path.resolve(root, "./node_modules/react"),
     };
 
-    if (!options.isServer) {
-      config.node = {
-        fs: "empty",
-      };
-    }
+    // if (!options.isServer) {
+    //   config.node = {
+    //     fs: "empty",
+    //   };
+    // }
     return config;
   },
   i18n: {
@@ -72,7 +72,7 @@ nextConfig = withImages(nextConfig);
 nextConfig = withSvgr(nextConfig);
 nextConfig = withMDX(nextConfig);
 nextConfig = withTM({
-  webpack5: false,
+  webpack5: true,
   ...nextConfig,
 });
 

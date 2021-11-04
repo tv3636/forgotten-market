@@ -4,6 +4,8 @@ import { BaseProvider } from "@ethersproject/providers";
 import { Contract, Provider } from "ethcall";
 import { abi as ForgottenRunesWizardsCultAbi } from "../contracts/ForgottenRunesWizardsCult.json";
 import { IPFS_SERVER } from "../constants";
+import axiosRetry from "axios-retry";
+import axios from "axios";
 
 export const getAddressSafe = (x: string | null) => {
   try {
@@ -85,19 +87,24 @@ export async function fetchFromIpfs(
   const ipfsURL = `${IPFS_SERVER}/${
     loreMetadataURI.match(/^ipfs:\/\/(.*)$/)?.[1]
   }`;
+
   // console.log("ipfsURL: ", ipfsURL);
 
   if (!ipfsURL || ipfsURL === "undefined") {
     return null;
   }
 
-  //TODO: retries?
-  return await fetch(ipfsURL).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      console.error("Bad IPFS request: " + res.statusText);
-      return {};
-    }
+  axiosRetry(axios, {
+    retries: 3,
+    retryDelay: () => 80,
   });
+
+  try {
+    const response = await axios.get(ipfsURL);
+    return response.data;
+  } catch (e) {
+    console.error("Failed IPFS fetch for: " + ipfsURL);
+    console.error(e);
+    return {};
+  }
 }
