@@ -213,12 +213,12 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   console.log(
     `Regenerated ${tokenId} pages ${leftPageNum} and ${rightPageNum}`
   );
-  console.log({
-    // leftPage,
-    // rightPage,
-    previousPageRoute,
-    nextPageRoute,
-  });
+  // console.log({
+  //   // leftPage,
+  //   // rightPage,
+  //   previousPageRoute,
+  //   nextPageRoute,
+  // });
   return {
     props: {
       loreTokenSlug,
