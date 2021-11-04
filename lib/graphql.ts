@@ -3,7 +3,7 @@ import { RetryLink } from "@apollo/client/link/retry";
 import { onError } from "@apollo/client/link/error";
 
 const client = new ApolloClient({
-  // defaultOptions: { query: { errorPolicy: "all" } },
+  defaultOptions: { query: { errorPolicy: "all" } },
   cache: new InMemoryCache(),
   link: from([
     onError(({ graphQLErrors, networkError, operation, forward }) => {

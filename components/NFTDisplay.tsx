@@ -260,7 +260,7 @@ const NftItem = ({
       <Flex flexDirection={"row"}>
         <SocialItem>
           <a
-            href={`/scenes/gm/${collection}/${tokenId}`}
+            href={`/scenes/gm/${tokenId}`}
             className="icon-link gm"
             target="_blank"
           >

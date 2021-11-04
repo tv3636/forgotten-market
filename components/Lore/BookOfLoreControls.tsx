@@ -126,7 +126,7 @@ const LoreSocialContainer = ({
   )}&url=${encodeURIComponent(url)}`;
 
   //TODO: diff link per collection
-  const gmUrl = `/scenes/gm/wizards/${tokenId}`;
+  const gmUrl = `/scenes/gm/${tokenId}`;
   const downloadUrl = `/api/art/wizards/${tokenId}.zip`;
 
   return (
