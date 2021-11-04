@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { abi as ForgottenRunesWizardsCultAbi } from "./ForgottenRunesWizardsCult.json";
+import { WIZARDS_ABI } from "./abis";
 
 export function getERC721Contract({
   contractAddress,
@@ -10,7 +10,7 @@ export function getERC721Contract({
 }) {
   return new ethers.Contract(
     contractAddress,
-    ForgottenRunesWizardsCultAbi, // :joy: - it _is_ an ERC721, so close enough for now
+    WIZARDS_ABI, // :joy: - it _is_ an ERC721, so close enough for now
     provider
   );
 }

@@ -2,10 +2,11 @@ import { getAddress } from "@ethersproject/address";
 import { BigNumber } from "@ethersproject/bignumber";
 import { BaseProvider } from "@ethersproject/providers";
 import { Contract, Provider } from "ethcall";
-import { abi as ForgottenRunesWizardsCultAbi } from "../contracts/ForgottenRunesWizardsCult.json";
+
 import { IPFS_SERVER } from "../constants";
 import axiosRetry from "axios-retry";
 import axios from "axios";
+import { WIZARDS_ABI } from "../contracts/abis";
 
 export const getAddressSafe = (x: string | null) => {
   try {
@@ -70,7 +71,7 @@ export async function fetchTokenUrisViaMultiCall(
   const ethcallProvider = new Provider();
   await ethcallProvider.init(mainProvider);
 
-  const contract = new Contract(contractAddress, ForgottenRunesWizardsCultAbi);
+  const contract = new Contract(contractAddress, WIZARDS_ABI); //Using Wizards as standin for generic ERC721
 
   const data = await ethcallProvider.all(
     ids.map((id: BigNumber) => contract.tokenURI(id))

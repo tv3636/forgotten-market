@@ -1,8 +1,10 @@
 import { ethers } from "ethers";
-import { abi as ForgottenRunesWizardsCultAbi } from "./ForgottenRunesWizardsCult.json";
-import { abi as BookOfLoreAbi } from "./BookOfLore.json";
-import { abi as ForgottenSoulsAbi } from "./ForgottenSouls.json";
-import { abi as InfinityVeilAbi } from "./ForgottenRunesInfinityVeil.json";
+import {
+  BOOK_OF_LORE_ABI,
+  INFINITY_VEIL_ABI,
+  SOULS_ABI,
+  WIZARDS_ABI,
+} from "./abis";
 
 export const WIZARDS_CONTRACT_ADDRESS: { [chainId: number]: string } = {
   4: `0x2BC27A0786B0b07b6061710C59FcF6Ce91D77080`,
@@ -30,18 +32,14 @@ export async function getWizardsContract({ provider }: { provider: any }) {
   if (!wizardsAddress) {
     throw new Error("Specify contract address");
   }
-  return new ethers.Contract(
-    wizardsAddress,
-    ForgottenRunesWizardsCultAbi,
-    provider
-  );
+  return new ethers.Contract(wizardsAddress, WIZARDS_ABI, provider);
 }
 
 export async function getBookOfLoreContract({ provider }: { provider: any }) {
   const { chainId } = await provider.getNetwork();
   return new ethers.Contract(
     BOOK_OF_LORE_ADDRESS[chainId as number],
-    BookOfLoreAbi,
+    BOOK_OF_LORE_ABI,
     provider
   );
 }
@@ -59,7 +57,7 @@ export async function getSoulsContract({ provider }: { provider: any }) {
   const { chainId } = await provider.getNetwork();
   return new ethers.Contract(
     FORGOTTEN_SOULS_ADDRESS[chainId as number],
-    ForgottenSoulsAbi,
+    SOULS_ABI,
     provider
   );
 }
@@ -68,7 +66,7 @@ export async function getInfinityVeilContract({ provider }: { provider: any }) {
   const { chainId } = await provider.getNetwork();
   return new ethers.Contract(
     INFINITY_VEIL_ADDRESS[chainId as number],
-    InfinityVeilAbi,
+    INFINITY_VEIL_ABI,
     provider
   );
 }

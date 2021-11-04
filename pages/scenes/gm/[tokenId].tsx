@@ -1,12 +1,10 @@
-import Layout from "../../../../components/Layout";
-import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
+import { GetStaticPropsContext } from "next";
+import { getSoulsContract } from "../../../contracts/ForgottenRunesWizardsCultContract";
+import { getProvider } from "../../../hooks/useProvider";
+import Layout from "../../../components/Layout";
+import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
+import productionWizardData from "../../../data/nfts-prod.json";
 import styled from "@emotion/styled";
-import Book from "../../../../components/Lore/Book";
-import { useRouter } from "next/router";
-import productionWizardData from "../../../../data/nfts-prod.json";
-import { GetServerSidePropsContext } from "next";
-import { ResponsivePixelImg } from "../../../../components/ResponsivePixelImg";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -80,13 +78,34 @@ const GmPage = ({
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const tokenId = context.params?.tokenId;
+
+  const soulsContract = await getSoulsContract({
+    provider: getProvider(true),
+  });
+
+  console.log(`GM. Checking if soul or wizard for token ${tokenId}`);
+
+  let collection;
+  try {
+    await soulsContract.ownerOf(tokenId);
+    collection = "souls";
+  } catch (e) {
+    collection = "wizards";
+  }
+
   return {
     props: {
-      tokenId: context?.query?.tokenId,
-      collection: context?.query?.collection,
+      collection,
+      tokenId: tokenId,
     },
+    revalidate: 60 * 60 * 24, //A day long invalidation is ok for GM
   };
+}
+
+export async function getStaticPaths() {
+  return { paths: [], fallback: "blocking" };
 }
 
 export default GmPage;
