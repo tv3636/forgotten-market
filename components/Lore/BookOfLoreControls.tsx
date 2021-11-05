@@ -169,11 +169,6 @@ export default function BookOfLoreControls({
 }: Props) {
   const router = useRouter();
 
-  useEffect(() => {
-    if (nextPageRoute) router.prefetch(nextPageRoute);
-    if (previousPageRoute) router.prefetch(previousPageRoute);
-  }, []);
-
   useHotkeys(
     "left",
     () => {
