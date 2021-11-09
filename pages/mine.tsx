@@ -63,6 +63,7 @@ const MyNfts = observer(() => {
   const { web3Settings } = useMst();
   const walletConnected = web3Settings.connected;
   const [tokenData, setTokenData] = useState<any>();
+  const router = useRouter();
 
   const selectedAddress =
     // @ts-ignore
@@ -71,12 +72,13 @@ const MyNfts = observer(() => {
   useEffect(() => {
     async function fetchTokenData() {
       if (web3Settings.injectedProvider && selectedAddress) {
-        setTokenData(
-          await getTokenDataForAllCollections(
-            web3Settings.injectedProvider,
-            selectedAddress
-          )
-        );
+        router.push(`/address/${selectedAddress}`);
+        // setTokenData(
+        //   await getTokenDataForAllCollections(
+        //     web3Settings.injectedProvider,
+        //     selectedAddress
+        //   )
+        // );
       }
     }
 
@@ -92,9 +94,9 @@ const MyNfts = observer(() => {
           </EmptyWell>
         </Box>
       )}
-      {tokenData && (
-        <HoldingsGrid address={selectedAddress} tokenData={tokenData} />
-      )}
+      {/*{tokenData && (*/}
+      {/*  <HoldingsGrid address={selectedAddress} tokenData={tokenData} />*/}
+      {/*)}*/}
     </Layout>
   );
 });

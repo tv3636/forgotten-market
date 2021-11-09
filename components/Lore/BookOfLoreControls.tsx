@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect } from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
 import Link from "next/link";
@@ -9,6 +8,8 @@ import Image from "next/image";
 import Button from "../ui/Button";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { LoreNameWrapper } from "./BookSharedComponents";
+import { Flex } from "rebass";
+import truncateEthAddress from "truncate-eth-address";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -125,7 +126,6 @@ const LoreSocialContainer = ({
     `The Lore of ${wizardData.name} (#${tokenId})`
   )}&url=${encodeURIComponent(url)}`;
 
-  //TODO: diff link per collection
   const gmUrl = `/scenes/gm/${tokenId}`;
   const downloadUrl = `/api/art/wizards/${tokenId}.zip`;
 

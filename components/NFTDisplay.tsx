@@ -15,6 +15,7 @@ import {
   WizardImageContainer,
   WizardName,
 } from "./WizardCard";
+import truncateEthAddress from "truncate-eth-address";
 
 const storefrontABI = [
   {
@@ -281,6 +282,11 @@ const NftItem = ({
             </a>
           </SocialItem>
         )}
+        <SocialItem>
+          <a href={`/lore/wizards/${tokenId}/0`} className="icon-link">
+            <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
+          </a>
+        </SocialItem>
       </Flex>
       {/*{error && <ErrorMessage>{error}</ErrorMessage>}*/}
     </Flex>
@@ -296,7 +302,10 @@ export const HoldingsGrid = ({
 }) => {
   return (
     <Flex p={4} flexDirection={"column"} alignItems={"center"}>
-      <h2 style={{ color: "#fbff86" }}>Holdings of {address}</h2>
+      <h2 style={{ color: "#fbff86" }}>
+        Holdings of {truncateEthAddress(address)}
+      </h2>
+      <SocialItem></SocialItem>
       <h2>Wizards</h2>
       {tokenData.wizards.length === 0 && (
         <h3 style={{ textAlign: "center" }}>
