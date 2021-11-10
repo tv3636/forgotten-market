@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { WizardConfiguration } from "./AddLore/WizardPicker";
 import { motion } from "framer-motion";
+import { isWizardsContract } from "../contracts/ForgottenRunesWizardsCultContract";
 
 const CardStyle = styled.div<{ isHovering: boolean }>`
   /* opacity: ${(props) => (props.isHovering ? 1 : 0.7)}; */
@@ -64,10 +65,12 @@ export const WizardName = styled.div`
 `;
 
 const WizardCard = ({
+  tokenAddress,
   id,
   name,
   onWizardPicked,
 }: {
+  tokenAddress: string;
   id: string;
   name: string;
   onWizardPicked?: (wizardConfiguration: WizardConfiguration) => void;
@@ -86,8 +89,9 @@ const WizardCard = ({
           onWizardPicked
             ? () => {
                 const wizardPicked: WizardConfiguration = {
+                  tokenAddress: tokenAddress,
                   tokenId: id,
-                  name: name,
+                  name: name ?? id,
                 };
                 console.log("wizardPicked: ", wizardPicked);
                 onWizardPicked(wizardPicked);
@@ -104,7 +108,11 @@ const WizardCard = ({
           <WizardImage
             layoutId={`wizard-image-${id}`}
             key={`wizard-image-${id}`}
-            src={`${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL}/alt/400-nobg/wizard-${id}.png`}
+            src={
+              isWizardsContract(tokenAddress)
+                ? `${process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_WEB_IMG_BASE_URL}/alt/400-nobg/wizard-${id}.png`
+                : `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/img/${id}.png`
+            }
           />
         </WizardImageContainer>
       </WizardFrame>

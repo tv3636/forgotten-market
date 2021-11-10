@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
-import productionWizardData from "../../data/nfts-prod.json";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { BookElement, Carousel } from "./BookStyles";
 import Link from "next/link";
-import { getLoreUrl } from "./loreUtils";
 
 export type Props = {};
 

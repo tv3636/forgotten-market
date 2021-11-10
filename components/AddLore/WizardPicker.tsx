@@ -5,11 +5,16 @@ import { EmptyWell } from "../ui/EmptyWell";
 import { ConnectWalletButton } from "../web3/ConnectWalletButton";
 import { useMst } from "../../store";
 import { observer } from "mobx-react-lite";
-import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+import {
+  CHARACTER_CONTRACTS,
+  getSoulsContract,
+  getWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
 import Button from "../ui/Button";
 import StyledModal from "./StyledModal";
 import WizardCard from "../WizardCard";
 import productionWizardData from "../../data/nfts-prod.json";
+import { BigNumber } from "ethers";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -70,30 +75,47 @@ export type onWizardPickedFn = (
 ) => void;
 
 function WizardGrid({
-  wizards,
+  tokens,
   onWizardPicked,
 }: {
-  wizards: any[];
+  tokens: { [tokenAddress: string]: any[] };
   onWizardPicked: onWizardPickedFn;
 }) {
+  console.log(tokens);
+  console.log(CHARACTER_CONTRACTS);
   return (
     <WizardGridElement>
       <WizardGridLayout>
-        {wizards.map((wizard: any) => (
-          <WizardCard
-            key={wizard.id}
-            id={wizard.id}
-            name={wizard.name}
-            onWizardPicked={onWizardPicked}
-          />
-        ))}
+        {(tokens?.[CHARACTER_CONTRACTS.wizards] ?? []).map((token: any) => {
+          return (
+            <WizardCard
+              key={"wizards-" + token.id}
+              tokenAddress={CHARACTER_CONTRACTS.wizards}
+              id={token.id}
+              name={token.name}
+              onWizardPicked={onWizardPicked}
+            />
+          );
+        })}
+        {(tokens?.[CHARACTER_CONTRACTS.souls] ?? []).map((token: any) => {
+          return (
+            <WizardCard
+              key={"souls-" + token.id}
+              tokenAddress={CHARACTER_CONTRACTS.souls}
+              id={token.id}
+              name={token.id}
+              onWizardPicked={onWizardPicked}
+            />
+          );
+        })}
       </WizardGridLayout>
-      {wizards.length === 0 && (
-        <NoWizards>
-          The connected wallet doesn't hold any Wizards. Perhaps try another
-          wallet?
-        </NoWizards>
-      )}
+      {tokens?.[CHARACTER_CONTRACTS.souls]?.length === 0 &&
+        tokens?.[CHARACTER_CONTRACTS.wizards]?.length === 0 && (
+          <NoWizards>
+            The connected wallet doesn't hold any Wizards or Souls. Perhaps try
+            another wallet?
+          </NoWizards>
+        )}
     </WizardGridElement>
   );
 }
@@ -105,39 +127,44 @@ function WizardList({
   injectedProvider: any;
   onWizardPicked: onWizardPickedFn;
 }) {
-  const [wizards, setWizards] = useState([]);
+  const [tokens, setTokens] = useState<{ [tokenAddress: string]: any[] }>({});
 
   useEffect(() => {
     async function run() {
-      const tokens: any = [];
       try {
         const address = injectedProvider.provider.selectedAddress;
-        const contract = await getWizardsContract({
+        const wizardsContract = await getWizardsContract({
           provider: injectedProvider,
         });
-        const result = await contract.tokensOfOwner(address);
+        const wizardTokens = await wizardsContract.tokensOfOwner(address);
 
-        result.forEach((element: any) => {
-          let thisWiz = wizData[Number(element._hex)];
-          thisWiz["id"] = Number(element._hex).toString();
-          tokens.push(thisWiz);
+        const soulsContract = await getSoulsContract({
+          provider: injectedProvider,
         });
 
-        // tmp
-        // const devon = wizData[6001];
-        // devon.id = "6001";
-        // tokens.push(devon);
+        const soulsTokens = await soulsContract.tokensOfOwner(address);
 
-        //
+        setTokens({
+          [wizardsContract.address.toLowerCase()]: wizardTokens.map(
+            (id: BigNumber) => ({
+              ...wizData[id.toNumber()],
+              ["id"]: id.toNumber().toString(),
+            })
+          ),
+          [soulsContract.address.toLowerCase()]: soulsTokens.map(
+            (id: BigNumber) => ({
+              id: id.toNumber().toString(),
+            })
+          ),
+        });
       } catch (err) {
         console.log("err: ", err);
       }
-      setWizards(tokens);
     }
     run();
   });
 
-  return <WizardGrid wizards={wizards} onWizardPicked={onWizardPicked} />;
+  return <WizardGrid tokens={tokens} onWizardPicked={onWizardPicked} />;
 }
 
 function WizardPickerModal({
@@ -147,7 +174,7 @@ function WizardPickerModal({
 }: any) {
   return (
     <WizardPickerModalElement>
-      <h1>Pick a Wizard</h1>
+      <h1>Pick a Character</h1>
       <WizardPickerFormContainer>
         <WizardList
           injectedProvider={injectedProvider}
@@ -182,6 +209,7 @@ const StyledPickWizardButton = styled(Button)`
  **/
 
 export type WizardConfiguration = {
+  tokenAddress: string;
   tokenId: string;
   name: string;
 };
@@ -217,10 +245,14 @@ const WizardPicker = observer(({ onWizardPicked }: Props) => {
     <WizardPickerElement>
       <EmptyWell noBorder={currentWizard ? true : false}>
         {currentWizard && (
-          <WizardCard id={currentWizard.tokenId} name={currentWizard.name} />
+          <WizardCard
+            tokenAddress={currentWizard.tokenAddress}
+            id={currentWizard.tokenId}
+            name={currentWizard.name}
+          />
         )}
         <StyledPickWizardButton onClick={() => setModalIsOpen(!modalIsOpen)}>
-          Pick {currentWizard ? "another" : "a"} Wizard
+          Pick {currentWizard ? "another" : "a"} character
         </StyledPickWizardButton>
         <StyledModal
           isOpen={modalIsOpen}

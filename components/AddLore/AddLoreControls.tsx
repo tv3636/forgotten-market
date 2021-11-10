@@ -4,6 +4,10 @@ import productionWizardData from "../../data/nfts-prod.json";
 import Button from "../ui/Button";
 import { BackgroundColorPickerField, NSFWField } from "./AddLoreFields";
 import { LoreNameWrapper } from "../Lore/BookSharedComponents";
+import {
+  isSoulsContract,
+  isWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -102,67 +106,43 @@ const RightControls = styled.div`
 `;
 
 type Props = {
-  wizardId?: string;
+  tokenAddress?: string;
+  tokenId?: string;
   onSubmit: any;
   onBackgroundColorChanged: (color?: string | null | undefined) => void;
   currentBackgroundColor: string | null | undefined;
   onNsfwChanged: (newNsfw: boolean) => void;
 };
 export default function AddLoreControls({
-  wizardId,
+  tokenAddress,
+  tokenId,
   onSubmit,
   currentBackgroundColor,
   onBackgroundColorChanged,
   onNsfwChanged,
 }: Props) {
-  const wizardData: any = wizardId ? wizData[wizardId.toString()] : {};
-  const wizardNum = parseInt(wizardId || "0");
+  let name;
+  if (tokenAddress && isWizardsContract(tokenAddress)) {
+    const wizardData: any = tokenId ? wizData[tokenId.toString()] : {};
+    name = wizardData?.name;
+  } else if (tokenAddress && isSoulsContract(tokenAddress)) {
+    name = "Soul";
+  } else {
+    name = "Unknown";
+  }
 
   return (
     <BookOfLoreControlsElement>
       <PaginationContainer>
-        <PreviousPageContainer>
-          {/* {prevPageUrl ? (
-            <Link href={prevPageUrl} passHref>
-              <a>
-                <Image
-                  src={"/static/lore/book/arrow_L.png"}
-                  width={"12px"}
-                  height={"25px"}
-                />
-              </a>
-            </Link>
-          ) : (
-            <NoPageSpacer />
-          )} */}
-        </PreviousPageContainer>
+        <PreviousPageContainer />
         <LoreNameWrapper layout layoutId="wizardName">
-          {wizardData?.name && (
-            <>
-              <span>{wizardData.name}</span> <span>(#{wizardId})</span>
-            </>
-          )}
+          <>
+            <span>{name}</span> <span>(#{tokenId})</span>
+          </>
         </LoreNameWrapper>
-        <NextPageContainer>
-          {/* {nextPageUrl ? (
-            <Link href={nextPageUrl} passHref>
-              <a>
-                <Image
-                  src={"/static/lore/book/arrow_R.png"}
-                  width={"12px"}
-                  height={"25px"}
-                />
-              </a>
-            </Link>
-          ) : (
-            <NoPageSpacer />
-          )} */}
-        </NextPageContainer>
+        <NextPageContainer />
       </PaginationContainer>
       <WriteContainer>
-        {/* <Link href={"/lore/63/0"} passHref>
-          <a>test visiting lore</a>
-        </Link> */}
         <MidControls>
           <BackgroundColorPickerField
             name="bgColor"

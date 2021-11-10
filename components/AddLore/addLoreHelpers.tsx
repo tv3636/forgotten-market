@@ -1,14 +1,14 @@
 import { toast } from "react-toastify";
-import { getBookOfLoreContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+import {
+  getBookOfLoreContract,
+  isWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
 import { LoreAPISubmitParams } from "../../pages/lore/add";
 import Bluebird from "bluebird";
 import parseDataUrl from "parse-data-url";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import {
-  bustLoreCache,
-  NORMALIZED_WIZARD_CONTRACT_ADDRESS,
-} from "../Lore/loreSubgraphUtils";
+import { bustLoreCache } from "../Lore/loreSubgraphUtils";
 import { NETWORK } from "../../constants";
 import replaceAsync from "string-replace-async";
 import axios from "axios";
@@ -222,8 +222,7 @@ export const onSubmitAddLoreForm = async ({
           base64image,
           signature,
           currentWizard.tokenId,
-          process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS as string
-          // TODO: obvs will have to refactor above to more generic tokens/contracts
+          currentWizard.tokenAddress
         );
         return `![${alt}](ipfs://${res.IpfsHash})`; // leaving as ipfs://  so we can use as-is, can always replace on frontend to another provider
       }
@@ -260,7 +259,8 @@ export const onSubmitAddLoreForm = async ({
   });
 
   let loreBody: LoreAPISubmitParams = {
-    wizard_id: currentWizard.tokenId,
+    token_address: currentWizard.tokenAddress,
+    token_id: currentWizard.tokenId,
     signature: signature,
     title: currentTitle,
     story: storyWithUploadedImages,
@@ -332,7 +332,7 @@ export const onSubmitAddLoreForm = async ({
       //@ts-ignore
       .connect(signer)
       .addLore(
-        process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS,
+        currentWizard.tokenAddress,
         currentWizard.tokenId,
         0,
         values.nsfw,
@@ -369,7 +369,7 @@ export const onSubmitAddLoreForm = async ({
     // pass waiting for indexing / confetti
     if (receipt.status === 1) {
       await router.push(
-        `/lore/add?waitForTxHash=${receipt.transactionHash}&wizardId=${currentWizard.tokenId}`
+        `/lore/add?waitForTxHash=${receipt.transactionHash}&tokenId=${currentWizard.tokenId}&tokenAddress=${currentWizard.tokenAddress}`
       );
       //
     } else {
@@ -489,28 +489,18 @@ export async function uploadBookOfLoreImages({
   });
   toast.done(toastId);
 }
-export const titlePrompts = [
-  "The Lore of",
-  // "The Untold story of",
-  // "The Adventures of",
-  // "The Downfall of",
-  // ??? ideas?
-];
+export const titlePrompts = ["The Lore of"];
 
-export const storyPrompts = [
-  `Delete this text and write your Lore here`,
-  //  `## Part 1
-  // Our hero finds themselves surrounded by a...`,
-  // `They weren't always a solitary Wizard until...`,
-  // ??? ideas?
-];
+export const storyPrompts = [`Delete this text and write your Lore here`];
 
 export const getPendingLoreTxHashRedirection = async ({
   waitForTxHash,
-  wizardId,
+  tokenAddress,
+  tokenId,
 }: {
   waitForTxHash: string;
-  wizardId: string;
+  tokenAddress: string;
+  tokenId: string;
 }) => {
   const { data } = await client.query({
     query: gql`
@@ -529,7 +519,7 @@ export const getPendingLoreTxHashRedirection = async ({
     const { data: wizardPageCount } = await client.query({
       query: gql`
           query Lore {
-              lores( where: {tokenId: "${wizardId}", tokenContract: "${NORMALIZED_WIZARD_CONTRACT_ADDRESS}", struck: false, nsfw: false}) {
+              lores( where: {tokenId: "${tokenId}", tokenContract: "${tokenAddress.toLowerCase()}", struck: false, nsfw: false}) {
                   id
               }
           }
@@ -544,8 +534,8 @@ export const getPendingLoreTxHashRedirection = async ({
     return {
       redirect: {
         destination: getLoreUrl(
-          "wizards",
-          parseInt(wizardId),
+          isWizardsContract(tokenAddress) ? "wizards" : "souls",
+          parseInt(tokenId),
           pageNum % 2 === 0 ? pageNum : pageNum + 1
         ),
       },
@@ -554,7 +544,7 @@ export const getPendingLoreTxHashRedirection = async ({
 
   return {
     redirect: {
-      destination: `/lore/add?waitForTxHash=${waitForTxHash}&wizardId=${wizardId}&client=true`,
+      destination: `/lore/add?waitForTxHash=${waitForTxHash}&tokenId=${tokenId}&tokenAddress=${tokenAddress}&client=true`,
     },
   };
 };

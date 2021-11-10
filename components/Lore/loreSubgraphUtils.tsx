@@ -1,6 +1,9 @@
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import { CHARACTER_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
+import {
+  CHARACTER_CONTRACTS,
+  isWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
 import { getLoreUrl } from "./loreUtils";
 import path from "path";
 import { IndividualLorePageData } from "./types";
@@ -25,35 +28,29 @@ export const GRAPH_ID_MATCHER = /^((?:0x).*)-(\d+)-(\d+)$/;
 export const NORMALIZED_WIZARD_CONTRACT_ADDRESS =
   process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS?.toLowerCase();
 
-function getWizardLoreId(wizardNum: number, loreIndex: number) {
-  return `${CHARACTER_CONTRACTS.wizards}-${wizardNum
-    .toString()
-    .padStart(10, "0")}-${loreIndex.toString().padStart(10, "0")}`;
-}
-
 const LORE_CACHE = path.join(os.tmpdir(), ".lore_cache");
+const WIZARDS_LORE_CACHE = LORE_CACHE + "_wizards";
+const SOULS_LORE_CACHE = LORE_CACHE + "_souls";
+
 const WIZARDS_THAT_HAVE_LORE_CACHE = path.join(
   os.tmpdir(),
   ".wizards_that_have_lore_cache"
 );
 
 export async function bustLoreCache() {
-  try {
-    await fs.unlink(LORE_CACHE);
-    console.info(`Busted lore cache at ${LORE_CACHE}....`);
-  } catch (_) {
-    console.warn(
-      `Cache file ${LORE_CACHE} not deleted, probably didn't exist in first place...`
-    );
-  }
-
-  try {
-    await fs.unlink(WIZARDS_THAT_HAVE_LORE_CACHE);
-    console.info(`Busted lore cache at ${WIZARDS_THAT_HAVE_LORE_CACHE}....`);
-  } catch (_) {
-    console.warn(
-      `Cache file ${WIZARDS_THAT_HAVE_LORE_CACHE} not deleted, probably didn't exist in first place...`
-    );
+  for (let file in [
+    WIZARDS_LORE_CACHE,
+    SOULS_LORE_CACHE,
+    WIZARDS_THAT_HAVE_LORE_CACHE,
+  ]) {
+    try {
+      await fs.unlink(file);
+      console.info(`Busted cache at ${file}....`);
+    } catch (_) {
+      console.warn(
+        `Cache file ${file} not deleted, probably didn't exist in first place...`
+      );
+    }
   }
 }
 
@@ -64,7 +61,9 @@ export async function getLoreInChapterForm(
   tokenContract: string,
   updateCache: boolean = false
 ) {
-  const cacheFile = `${LORE_CACHE}`;
+  const cacheFile = isWizardsContract(tokenContract)
+    ? WIZARDS_LORE_CACHE
+    : SOULS_LORE_CACHE;
   let results;
 
   try {
@@ -139,7 +138,10 @@ export async function getLeftRightPages(
   leftPageNum: number,
   rightPageNum: number
 ) {
-  const tokenContract = CHARACTER_CONTRACTS.wizards;
+  const tokenContract =
+    loreTokenSlug === "wizards"
+      ? CHARACTER_CONTRACTS.wizards
+      : CHARACTER_CONTRACTS.souls;
   const loreInChapterForm = await getLoreInChapterForm(tokenContract);
 
   const chapterIndexForToken = await getIndexForToken(
@@ -222,7 +224,8 @@ export async function getLeftRightPages(
       );
     }
   } else {
-    //No previous pages implies this is first wizard in the book, so before it comes lore
+    // No previous pages implies this is first wizard in the book, so before it comes lore
+    // TODO: obvs have to get clever with how to do going back from first soul to last wizard
     previousPageRoute = getLoreUrl("narrative", 0, 0);
   }
 

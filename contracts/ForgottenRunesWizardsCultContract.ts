@@ -53,6 +53,14 @@ export const CHARACTER_CONTRACTS = {
     "0x",
 };
 
+export function isSoulsContract(address: string) {
+  return address.toLowerCase() === CHARACTER_CONTRACTS.souls.toLowerCase();
+}
+
+export function isWizardsContract(address: string) {
+  return address.toLowerCase() === CHARACTER_CONTRACTS.wizards.toLowerCase();
+}
+
 export async function getSoulsContract({ provider }: { provider: any }) {
   const { chainId } = await provider.getNetwork();
   return new ethers.Contract(

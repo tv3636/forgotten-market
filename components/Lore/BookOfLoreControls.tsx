@@ -8,8 +8,6 @@ import Image from "next/image";
 import Button from "../ui/Button";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { LoreNameWrapper } from "./BookSharedComponents";
-import { Flex } from "rebass";
-import truncateEthAddress from "truncate-eth-address";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -214,6 +212,8 @@ export default function BookOfLoreControls({
         <LoreNameWrapper layout layoutId="wizardName">
           {loreTokenSlug === "wizards"
             ? `${wizData[tokenId.toString()].name} (#${tokenId})`
+            : loreTokenSlug === "souls"
+            ? `Soul  (#${tokenId})`
             : "Narrative Page"}
         </LoreNameWrapper>
         <NextPageContainer>

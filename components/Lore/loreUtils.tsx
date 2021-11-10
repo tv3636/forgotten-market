@@ -1,10 +1,11 @@
 import { LorePageData } from "./types";
 
 import IndividualLorePage, {
-  CoreWizardPage,
+  CoreCharacterPage,
   EmptyLorePage,
 } from "./IndividualLorePage";
 import React from "react";
+import { CHARACTER_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 export type LoreBookPageComponents = {
   currentLeftPage: any;
@@ -22,7 +23,7 @@ export function typeSetter({
   tokenId,
   lorePageData,
 }: {
-  loreTokenSlug: string;
+  loreTokenSlug: "wizards" | "souls";
   tokenId: number;
   lorePageData: LorePageData;
 }) {
@@ -37,9 +38,12 @@ export function typeSetter({
       title={lorePageData.leftPage.title}
       story={lorePageData.leftPage.story}
     />
-  ) : loreTokenSlug === "wizards" ? (
-    <CoreWizardPage wizardId={tokenId.toString()} />
-  ) : null;
+  ) : (
+    <CoreCharacterPage
+      tokenAddress={CHARACTER_CONTRACTS[loreTokenSlug]}
+      tokenId={tokenId.toString()}
+    />
+  );
 
   components.currentRightPage = !lorePageData.rightPage.isEmpty ? (
     <IndividualLorePage
@@ -48,10 +52,7 @@ export function typeSetter({
       story={lorePageData.rightPage.story}
     />
   ) : loreTokenSlug === "wizards" ? (
-    <EmptyLorePage
-      wizardNum={tokenId}
-      pageNum={lorePageData.rightPage?.pageNumber ?? 0}
-    />
+    <EmptyLorePage pageNum={lorePageData.rightPage?.pageNumber ?? 0} />
   ) : null;
 
   return {

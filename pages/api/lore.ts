@@ -2,7 +2,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK from "@pinata/sdk";
 import { utils } from "ethers";
 import { getProvider } from "../../hooks/useProvider";
-import { getWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+import {
+  getSoulsContract,
+  getWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
+import { getERC721Contract } from "../../contracts/ERC721Contract";
 
 const pinata = pinataSDK(
   process.env.PINATA_ID || "",
@@ -17,35 +21,37 @@ export default async function handler(
     return res.status(404);
   }
 
-  if (!req.body?.signature || !req.body?.wizard_id) {
-    console.error(
-      `No signature ${req.body?.signature} or wizard_id ${req.body?.wizard_id}`
-    );
+  if (!req.body?.signature || !req.body?.token_id || !req.body?.token_address) {
+    const errorMessage = `Must have all set: signature ${req.body?.signature}, token_id ${req.body?.token_id} and token_address ${req.body?.token_address}`;
+    console.error(errorMessage);
     return res.status(400).json({
-      error:
-        "You must supply both a signature and a wizard id that was signed...",
+      error: errorMessage,
     });
   }
 
+  const tokenId = req.body.token_id;
+  const tokenAdddress = req.body.token_address;
   console.log("Signature:", req.body.signature);
-  console.log("Wizard ID:", req.body.wizard_id);
+  console.log("Token ID:", tokenAdddress);
+  console.log("Token ID:", tokenId);
 
-  const signingAddress = await utils.verifyMessage(
-    req.body.wizard_id.toString(),
+  const signingAddress = utils.verifyMessage(
+    tokenId.toString(),
     req.body.signature
   );
 
-  const wizardContract = await getWizardsContract({
+  const contract = await getERC721Contract({
+    contractAddress: tokenAdddress,
     provider: getProvider(true),
   });
-  const wizardOwner = await wizardContract.ownerOf(req.body.wizard_id);
 
-  if (wizardOwner.toLowerCase() !== signingAddress.toLowerCase()) {
-    console.error(
-      `Wizard signature address ${signingAddress} is not owner ${wizardOwner}`
-    );
+  const owner = await contract.ownerOf(tokenId);
+
+  if (owner.toLowerCase() !== signingAddress.toLowerCase()) {
+    const error_message = `Signature address ${signingAddress} is not the owner of token ${tokenId} in contract ${contract.address}`;
+    console.error(error_message);
     return res.status(403).json({
-      error: `Address ${signingAddress} does not own wizard ${req.body.wizard_id}, ${wizardOwner} does instead.`,
+      error: error_message,
     });
   }
 
@@ -56,7 +62,8 @@ export default async function handler(
       description: req.body?.story,
       background_color: req.body?.bg_color,
       attributes: [
-        { trait_type: "Wizard ID", value: req.body.wizard_id },
+        { trait_type: "Token Address", value: tokenAdddress },
+        { trait_type: "Token ID", value: tokenId },
         { trait_type: "Creator", value: signingAddress },
       ],
     });

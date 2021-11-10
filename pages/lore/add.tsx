@@ -31,10 +31,9 @@ const wizData = productionWizardData as { [wizardId: string]: any };
 const AddLoreWrapper = styled.div``;
 
 export type LoreAPISubmitParams = {
-  wizard_id: string;
+  token_address: string;
+  token_id: string;
   signature: string;
-  address?: string;
-  token_id?: string;
   title: string | null;
   story: string | null;
   pixel_art: boolean;
@@ -57,7 +56,7 @@ const WaitingForGraphPage = () => {
       window.setTimeout(
         () =>
           router.push(
-            `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&wizardId=${router.query?.wizardId}`
+            `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&tokenId=${router.query?.tokenId}&tokenAddress=${router.query?.tokenAddress}`
           ),
         1.5 * 1000
       );
@@ -101,7 +100,7 @@ const AddLorePage = () => {
 
   if (
     (router.query?.waitForTxHash || router.query?.lorePageToPrefetch) &&
-    router.query?.wizardId
+    router.query?.tokenId
   ) {
     return <WaitingForGraphPage />;
   }
@@ -160,7 +159,8 @@ const AddLorePage = () => {
 
   const controls = (
     <AddLoreControls
-      wizardId={currentWizard?.tokenId}
+      tokenAddress={currentWizard?.tokenAddress}
+      tokenId={currentWizard?.tokenId}
       onSubmit={onSubmit}
       currentBackgroundColor={currentBgColor}
       onBackgroundColorChanged={onBackgroundColorChanged}
@@ -179,7 +179,8 @@ const AddLorePage = () => {
         onChange={setCurrentEditorState}
         onBgColorChanged={onEditorChangedBackgroundColor}
         bg={bg || "#000000"}
-        wizardId={currentWizard?.tokenId}
+        tokenAddress={currentWizard?.tokenAddress}
+        tokenId={currentWizard?.tokenId}
         isLoading={submitting}
       />
     </BookOfLorePage>
@@ -218,12 +219,13 @@ const AddLorePage = () => {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (
     context.query?.waitForTxHash &&
-    context.query?.wizardId &&
+    context.query?.tokenId &&
     !context.query?.client
   ) {
     const pendingLoreProps = await getPendingLoreTxHashRedirection({
       waitForTxHash: context.query.waitForTxHash as string,
-      wizardId: context.query?.wizardId as string,
+      tokenAddress: context.query?.tokenAddress as string,
+      tokenId: context.query?.tokenId as string,
     });
     return pendingLoreProps;
   }

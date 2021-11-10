@@ -211,7 +211,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     await getLeftRightPages(loreTokenSlug, tokenId, leftPageNum, rightPageNum);
 
   console.log(
-    `Regenerated ${tokenId} pages ${leftPageNum} and ${rightPageNum}`
+    `Regenerated ${loreTokenSlug} - ${tokenId} pages ${leftPageNum} and ${rightPageNum}`
   );
   // console.log({
   //   // leftPage,

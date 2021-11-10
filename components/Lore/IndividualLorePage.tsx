@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
 import ReactMarkdown, { uriTransformer } from "react-markdown";
@@ -8,9 +9,11 @@ import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { loreTextStyles } from "./loreStyles";
 import { getContrast } from "../../lib/colorUtils";
-import { isNumber } from "lodash";
 import { IPFS_SERVER } from "../../constants";
-import { useState } from "react";
+import {
+  isSoulsContract,
+  isWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -79,34 +82,35 @@ export function BookOfLorePage({ bg, children }: BookOfLorePageProps) {
   return <BookOfLorePageWrapper bg={bg}>{children}</BookOfLorePageWrapper>;
 }
 
-export const CoreWizardPage = ({ wizardId }: { wizardId: string }) => {
-  const wizardData: any = wizData[wizardId.toString()];
-  const bg = "#" + wizardData.background_color;
+export const CoreCharacterPage = ({
+  tokenId,
+  tokenAddress,
+}: {
+  tokenId: string;
+  tokenAddress: string;
+}) => {
+  let bg;
+  let imageUrl;
+  if (isWizardsContract(tokenAddress)) {
+    const wizardData: any = wizData[tokenId.toString()];
+    bg = "#" + wizardData.background_color;
+    imageUrl = `https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${tokenId}.png`;
+  } else if (isSoulsContract(tokenAddress)) {
+    bg = "#000000";
+    imageUrl = `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/img/${tokenId}.png`;
+  }
 
   return (
-    <BookOfLorePage bg={bg}>
-      <ResponsivePixelImg
-        src={`https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${wizardId}.png`}
-        style={{ maxWidth: "480px" }}
-      />
+    <BookOfLorePage bg={bg as string}>
+      <ResponsivePixelImg src={imageUrl} style={{ maxWidth: "480px" }} />
     </BookOfLorePage>
   );
 };
 
-export const EmptyLorePage = ({
-  wizardNum,
-  pageNum,
-}: {
-  wizardNum: number;
-  pageNum: number;
-}) => {
+export const EmptyLorePage = ({ pageNum }: { pageNum: number }) => {
   const furtherOrAny = pageNum < 1 ? "" : " further";
 
-  const noMoreLore = isNumber(wizardNum)
-    ? `No${furtherOrAny} Lore has been recorded for ${
-        wizData[wizardNum.toString()].name
-      }...`
-    : `No${furtherOrAny} Lore has been recorded...`;
+  const noMoreLore = `No${furtherOrAny} Lore has been recorded...`;
 
   return (
     <BookOfLorePage bg={"#000000"}>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
@@ -12,11 +12,14 @@ import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import { getContrast } from "../../lib/colorUtils";
 import productionWizardData from "../../data/nfts-prod.json";
 import { storyPrompts, titlePrompts } from "./addLoreHelpers";
-import { sample } from "lodash";
 import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
 import { css, keyframes } from "@emotion/react";
 import { loreTextStyles } from "../Lore/loreStyles";
 import { useExtractColors } from "../../hooks/useExtractColors";
+import {
+  isSoulsContract,
+  isWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 
@@ -129,7 +132,8 @@ type Props = {
   onChange: (editorState: any) => void;
   onBgColorChanged: (newColor?: string | null | undefined) => void;
   bg: string;
-  wizardId: string | undefined;
+  tokenId: string | undefined;
+  tokenAddress: string | undefined;
   isLoading: boolean;
 };
 
@@ -138,11 +142,10 @@ export default function AddLoreEditor({
   onChange,
   onBgColorChanged,
   bg,
-  wizardId,
+  tokenId,
+  tokenAddress,
   isLoading,
 }: Props) {
-  const ref = useRef<Editor>(null);
-
   // https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
   const [editorState, setEditorState] = useState(
     markdownToDraftState(defaultPrompt)
@@ -154,11 +157,17 @@ export default function AddLoreEditor({
   };
 
   useEffect(() => {
-    const titlePrompt = sample(titlePrompts);
-    const storyPrompt = sample(storyPrompts);
-    const defaultText = wizardId
-      ? `# ${titlePrompt} ${wizData[wizardId].name}\n${storyPrompt}`
-      : defaultPrompt;
+    const titlePrompt = titlePrompts[0];
+    const storyPrompt = storyPrompts[0];
+
+    let defaultText = defaultPrompt;
+
+    if (tokenId && tokenAddress && isWizardsContract(tokenAddress)) {
+      defaultText = `# ${titlePrompt} ${wizData[tokenId].name}\n${storyPrompt}`;
+    } else if (tokenId && tokenAddress && isSoulsContract(tokenAddress)) {
+      defaultText = `# ${titlePrompt} a Soul\n${storyPrompt}`;
+    }
+
     const newEditorState = markdownToDraftState(defaultText);
 
     // lame, I know
@@ -168,7 +177,7 @@ export default function AddLoreEditor({
     // if (text.match(/Please pick a Wizard/)) {
     performOnChange(newEditorState);
     // }
-  }, [wizardId]);
+  }, [tokenId, tokenAddress]);
 
   // extract the background color of the first image uploaded
   const [firstImageUrl, setFirstImageUrl] = useState<string | undefined>();
@@ -194,25 +203,6 @@ export default function AddLoreEditor({
 
   const plugins = [...topLevelPlugins, dragNDropFileUploadPlugin];
 
-  // I don't understand why this needs to be in a useMemo, but it's part of the docs
-  /*
-  const [open, setOpen] = useState(false);
-  const [suggestions, setSuggestions] = useState(mentions);
-  const { MentionSuggestions, plugins } = useMemo(() => {
-    const mentionPlugin = createMentionPlugin();
-    const { MentionSuggestions } = mentionPlugin;
-    const plugins = [...topLevelPlugins, mentionPlugin];
-    return { plugins, MentionSuggestions };
-  }, []);
-
-  const onOpenChange = useCallback((_open: boolean) => {
-    setOpen(_open);
-  }, []);
-  const onSearchChange = useCallback(({ value }: { value: string }) => {
-    setSuggestions(defaultSuggestionsFilter(value, mentions));
-  }, []);
-  */
-
   return (
     <AddLoreEditorElement bg={bg} isLoading={isLoading}>
       <Editor
@@ -224,15 +214,6 @@ export default function AddLoreEditor({
         // contentEditable={false}
         plugins={plugins}
       />
-      {/* <MentionSuggestions
-        open={open}
-        onOpenChange={onOpenChange}
-        suggestions={suggestions}
-        onSearchChange={onSearchChange}
-        onAddMention={() => {
-          // get the mention object selected
-        }}
-      /> */}
     </AddLoreEditorElement>
   );
 }
