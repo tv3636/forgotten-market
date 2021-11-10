@@ -7,7 +7,7 @@ import BookFrame from "./BookFrame";
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 export type Props = {
-  loreTokenSlug: string;
+  loreTokenSlug: "wizards" | "souls";
   tokenId: number;
   lorePageData: LorePageData;
 };

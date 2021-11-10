@@ -34,7 +34,7 @@ const LorePage = ({
   lorePageData,
   wizardsWithLore,
 }: {
-  loreTokenSlug: string;
+  loreTokenSlug: "wizards" | "souls";
   tokenId: number;
   lorePageData: LorePageData;
   wizardsWithLore: { [key: number]: boolean };
