@@ -243,6 +243,14 @@ export async function getLeftRightPages(
         loreInChapterForm[chapterIndexForToken + 1].tokenId,
         0
       );
+    } else if (loreTokenSlug === "wizards") {
+      const soulsChapters = await getLoreInChapterForm(
+        CHARACTER_CONTRACTS.souls
+      );
+
+      if (soulsChapters.length > 0) {
+        nextPageRoute = getLoreUrl("souls", soulsChapters[0].tokenId, 0);
+      }
     }
   }
 
