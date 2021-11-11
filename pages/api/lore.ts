@@ -32,7 +32,7 @@ export default async function handler(
   const tokenId = req.body.token_id;
   const tokenAdddress = req.body.token_address;
   console.log("Signature:", req.body.signature);
-  console.log("Token ID:", tokenAdddress);
+  console.log("Token Address:", tokenAdddress);
   console.log("Token ID:", tokenId);
 
   const signingAddress = utils.verifyMessage(
@@ -48,7 +48,9 @@ export default async function handler(
   const owner = await contract.ownerOf(tokenId);
 
   if (owner.toLowerCase() !== signingAddress.toLowerCase()) {
-    const error_message = `Signature address ${signingAddress} is not the owner of token ${tokenId} in contract ${contract.address}`;
+    const error_message = `Signature address ${signingAddress.toLowerCase()} is not the owner of token ${tokenId} in contract ${
+      contract.address
+    }. Real owner is: ${owner.toLowerCase()}`;
     console.error(error_message);
     return res.status(403).json({
       error: error_message,
