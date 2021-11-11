@@ -51,9 +51,9 @@ export function typeSetter({
       title={lorePageData.rightPage.title}
       story={lorePageData.rightPage.story}
     />
-  ) : loreTokenSlug === "wizards" ? (
+  ) : (
     <EmptyLorePage pageNum={lorePageData.rightPage?.pageNumber ?? 0} />
-  ) : null;
+  );
 
   return {
     components,
