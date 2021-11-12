@@ -18,6 +18,7 @@ Below we've included the artist, some example artworks, how you can contact them
 - [Trevor Jones](#trev) - 3D models
 - [Tad Major](#tad) - pixel art animations
 - [Dr. Slurp](#slurp) - Music
+- [spz](#spz) - Lore
 
 ---
 
@@ -117,6 +118,23 @@ Examples:
 
 - [#4159 Party Music for Artificer Horace](https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/9013605400530109520503820491760377436763154446583357164055150077560695554049)
 - [#76 Study Music for Wise Sam](https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/90136054005301095205038204917603774367631544465833571640551500786602071818250)
+
+
+--
+
+## <a name="slurp"></a>Artist: Spz
+
+- Style: Lore
+- Discord: `spz#2819`
+
+Examples:
+
+- [#8679](https://www.forgottenrunes.com/lore/wizards/8679/0)
+- [#7164](https://www.forgottenrunes.com/lore/wizards/7163/0)
+- [#4098](https://www.forgottenrunes.com/lore/wizards/4098/0)
+- [#3220](https://www.forgottenrunes.com/lore/wizards/3220/0)
+
+--
 
 ## Like Wizard, Commission Wizard
 
