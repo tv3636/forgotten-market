@@ -538,7 +538,7 @@ export async function buildSpritesheet({
     }
 
     frameTags.push({
-      name: tagDescription.name,
+      name: `${tokenSlug}-${tokenId}-${tagDescription.name}`,
       from: frameFromIndex,
       to: frameFromIndex + tagDescription.frames - 1,
       direction: "forward",
