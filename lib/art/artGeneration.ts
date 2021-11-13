@@ -465,13 +465,13 @@ export async function buildSpritesheet({
   let frameFromIndex = 0;
   let frameBuffers = [];
 
+  let idx = 0;
   let row = 0;
 
   for (let t = 0; t < tags.length; t++) {
     let column = 0;
     let tagDescription = tags[t];
     for (let f = 0; f < tagDescription.frames; f++) {
-      let frameName = `${tagDescription.name}-${f}`;
       let frame = {
         frame: { x: column * WIDTH, y: row * HEIGHT, w: WIDTH, h: HEIGHT },
         rotated: false,
@@ -480,6 +480,8 @@ export async function buildSpritesheet({
         sourceSize: { w: WIDTH, h: HEIGHT },
         duration: DURATION,
       };
+      // let frameName = `${tagDescription.name}-${f}`;
+      let frameName = idx.toString();
       frames[frameName] = frame;
 
       if (image) {
@@ -531,11 +533,12 @@ export async function buildSpritesheet({
         });
       }
 
+      idx += 1;
       column += 1;
     }
 
     frameTags.push({
-      name: tagDescription.name,
+      name: `${tokenSlug}-${tokenId}-${tagDescription.name}`,
       from: frameFromIndex,
       to: frameFromIndex + tagDescription.frames - 1,
       direction: "forward",
