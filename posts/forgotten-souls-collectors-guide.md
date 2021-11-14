@@ -133,7 +133,7 @@ However for us, that isn't far enough and so:
 
 ### Full on-chain archiving
 
-Just like wizards, we will, eventually, put them on chain. Again, the contact is built to support loading the Souls on-chain, in chunks, when enough have been minted and gas is favorable.
+Just like wizards, we will, eventually, put them on chain. Again, the contract is built to support loading the Souls on-chain, in chunks, when enough have been minted and gas is favorable.
 
 ### On-chain Summary
 
