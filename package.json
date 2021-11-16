@@ -122,6 +122,7 @@
     "qrcode.react": "^1.0.1",
     "react": "16.14.0",
     "react-blockies": "^1.4.1",
+    "react-codepen-embed": "^1.0.2",
     "react-color": "^2.19.3",
     "react-colorful": "^5.3.0",
     "react-css-theme-switcher": "^0.2.3",

@@ -15,6 +15,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { ResponsiveImg } from "../../components/ResponsivePixelImg";
 import { TwitterTweetEmbed } from "react-twitter-embed";
+import Codepen from "react-codepen-embed";
 
 // import CustomLink from "../../components/CustomLink";
 // Custom components/renderers to pass to MDX.
@@ -31,6 +32,7 @@ const components = {
   WizardArt,
   ResponsiveImg,
   TwitterTweetEmbed,
+  Codepen,
 };
 
 const NavAnchor = styled.a`
