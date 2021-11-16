@@ -1,6 +1,6 @@
 ---
-title: Metaverse-ready Spritesheets for Forgotten Runes Wizards
-description: Walk around with 10,000 Forgotten Runes Wizards with our new spritesheets
+title: Metaverse-ready Walkcycles for Forgotten Runes Wizards
+description: Walk around with 10,000 Forgotten Runes Wizards with our new walkcycle spritesheets
 ogImage: https://i.imgur.com/6pSQbuE.png
 ---
 
