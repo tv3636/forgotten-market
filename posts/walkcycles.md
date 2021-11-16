@@ -14,11 +14,25 @@ We've created an open API so that Wizards can exist in **any metaverse or game t
 
 > If you're developer, read to the end of this post for details on how you can integrate these sprites into your game.
 
+## How to Use the Walk Cycles
+
+### WORLDWIDE WEBB Metaverse
+
 <ResponsiveImg src="https://i.imgur.com/hwIlXYT.jpg" pixelArt={true} />
 
 Forgotten Runes Wizards are already available for use in the [WORLDWIDE WEBB Metaverse](https://worldwideweb3.com/).
 
+### Book of Lore Files
+
 If you'd like to make derivative art, you can find the individual frames for your Wizard by going to your Wizard's page [in the Book of Lore](https://www.forgottenrunes.com/lore/wizards/0/0) and clicking the download link. You can [read more about the Wizard Goodies here](https://www.forgottenrunes.com/posts/goodies)
+
+### Walkcycle Bot
+
+Thanks to community member [SorcererIlyas "spz"](https://twitter.com/SorcererIlyas) has created a Discord bot that shows an animated gif of your wizard walking. Just use the
+
+`!walk :wizardId` command in our discord
+
+![](https://i.imgur.com/RTAoGjH.gif)
 
 ## What is a "Spritesheet"?
 
@@ -65,6 +79,21 @@ Or [try your own wizard by clicking here](https://codepen.io/cryppadotta/full/Yz
 Q: Are there walkcycles for [Forgotten Souls](https://www.forgottenrunes.com/posts/forgotten-souls-collectors-guide).
 
 A: Not yet, but they will be created eventually.
+
+## Thanks
+
+This was a _massive_ effort by Elf and some artist Wizards who contributed to the project.
+
+Huge props to Elf who drew all of the heads and initial turnarounds for **all wizards**.
+
+We also have contributions of artwork by:
+
+- [Ozz](https://twitter.com/ozzzmabro)
+- [Tadmajor](https://twitter.com/Tadmajor)
+- [Good Boy Good Time](https://twitter.com/goodboygoodtime)
+- [Young Wizzie](https://twitter.com/youngwhizzie)
+
+Thank you _so much_ for your help.
 
 ## Summary
 
