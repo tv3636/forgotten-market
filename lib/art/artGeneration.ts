@@ -464,6 +464,7 @@ export async function buildSpritesheet({
   let frameTags = [];
   let frameFromIndex = 0;
   let frameBuffers = [];
+  let frameFiles: { filename: string; buffer: Buffer }[] = [];
 
   let idx = 0;
   let row = 0;
@@ -490,9 +491,10 @@ export async function buildSpritesheet({
           bodyLayer?.filename || "",
           ".png"
         );
-        const bodyFrameUrl = `${frameBaseURL}/${tokenSlug}/${bodyFrameBasename}_${
-          tagDescription.name
-        }_${f + 1}.png`;
+        const bodyFrameBaseUrl = `${bodyFrameBasename}_${tagDescription.name}_${
+          f + 1
+        }.png`;
+        const bodyFrameUrl = `${frameBaseURL}/${tokenSlug}/${bodyFrameBaseUrl}`;
         const bodyFrameResponse = await fetch(bodyFrameUrl, {
           compress: false,
         });
@@ -507,15 +509,20 @@ export async function buildSpritesheet({
           left: column * WIDTH,
           input: bodyFrameBuffer,
         });
+        frameFiles.push({
+          filename: `body/${bodyFrameBaseUrl}`,
+          buffer: bodyFrameBuffer,
+        });
 
         // head
         const headFrameBasename = path.basename(
           headLayer?.filename || "",
           ".png"
         );
-        const headFrameUrl = `${frameBaseURL}/${tokenSlug}/${headFrameBasename}_${
-          tagDescription.name
-        }_${f + 1}.png`;
+        const headFrameBaseUrl = `${headFrameBasename}_${tagDescription.name}_${
+          f + 1
+        }.png`;
+        const headFrameUrl = `${frameBaseURL}/${tokenSlug}/${headFrameBaseUrl}`;
 
         const headFrameResponse = await fetch(headFrameUrl, {
           compress: false,
@@ -530,6 +537,29 @@ export async function buildSpritesheet({
           top: row * HEIGHT,
           left: column * WIDTH,
           input: headFrameBuffer,
+        });
+        frameFiles.push({
+          filename: `head/${headFrameBaseUrl}`,
+          buffer: headFrameBuffer,
+        });
+
+        // create a frame that is the head and body combined
+        let bothFrameBuffer = await sharp({
+          create: {
+            width: WIDTH,
+            height: HEIGHT,
+            channels: 4,
+            background: "rgba(0,0,0,0)",
+          },
+        })
+          .composite(
+            [bodyFrameBuffer, headFrameBuffer].map((b) => ({ input: b }))
+          )
+          .png()
+          .toBuffer();
+        frameFiles.push({
+          filename: `frames/${tokenId}-frame-${frameName}.png`,
+          buffer: bothFrameBuffer,
         });
       }
 
@@ -570,7 +600,14 @@ export async function buildSpritesheet({
     ? await img.composite(frameBuffers).png().toBuffer()
     : null;
 
-  return { sheet: { meta, frames }, buffer };
+  if (buffer) {
+    frameFiles.push({
+      filename: `${tokenSlug}-${tokenId}.png`,
+      buffer: buffer,
+    });
+  }
+
+  return { sheet: { meta, frames }, buffer, frameFiles };
 }
 
 // https://nftz.forgottenrunes.com/frames/wizards/body_diamondPattern_back_1.png

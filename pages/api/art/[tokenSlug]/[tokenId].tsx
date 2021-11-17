@@ -5,6 +5,7 @@ import * as os from "os";
 import stream, { PassThrough } from "stream";
 import {
   buildReadme,
+  buildSpritesheet,
   getAllTurnaroundFrameBuffers,
   getStyledTokenBuffer,
   GetStyledTokenBufferProps,
@@ -18,6 +19,7 @@ import {
 } from "../../../../lib/art/artGeneration";
 import archiver from "archiver"; // https://github.com/archiverjs/node-archiver
 import { forEach, size } from "lodash";
+import sharp from "sharp";
 
 function bufferToStream(buffer: Buffer) {
   var bufferStream = new stream.PassThrough();
@@ -50,6 +52,7 @@ export default async function handler(
 
   if (isZip) {
     const sizes = [50, 400, 1024];
+    const scales = [1, 8, 20.48];
 
     let zipFiles = [];
 
@@ -91,6 +94,7 @@ export default async function handler(
           traitSlug: traitSlug,
           trim: trimOption,
         });
+
         zipFiles.push([
           bufferToStream(layerBuffer),
           {
@@ -129,19 +133,41 @@ export default async function handler(
         bufferToStream(parchmentTokenBuffer),
         { name: `${size}/${tokenId}-${slugify(tokenData.name)}-parchment.png` },
       ]);
+    }
 
-      // build turnarounds
-      const turnarounds = await getAllTurnaroundFrameBuffers({
-        tokenId,
-        tokenSlug: tokenSlug as string,
-        size,
-      });
-      turnarounds.forEach(({ name, buffer }) => {
+    // build spritesheet
+    let genOptions = {
+      tokenSlug: tokenSlug as string,
+      tokenId: tokenId as string,
+      width: 50,
+      image: true,
+    };
+    const { buffer, frameFiles } = await buildSpritesheet(genOptions);
+
+    // resize here
+    for (let i = 0; i < sizes.length; i++) {
+      const size = sizes[i];
+      for (let f = 0; f < frameFiles.length; f++) {
+        const frameFile = frameFiles[f];
+        const { filename, buffer: frameFileBuffer } = frameFile;
+
+        const imgSharp = await sharp(frameFileBuffer);
+        const imgMetadata = await imgSharp.metadata();
+        const newImgWidth = Math.floor((imgMetadata.width || 50) * scales[i]);
+        const newImgHeight = Math.floor((imgMetadata.height || 50) * scales[i]);
+
+        const resizedBuffer = await imgSharp
+          .resize(newImgWidth, newImgHeight, {
+            fit: sharp.fit.fill,
+            kernel: sharp.kernel.nearest,
+          })
+          .toBuffer();
+
         zipFiles.push([
-          bufferToStream(buffer),
-          { name: `${size}/turnarounds/${name}` },
+          bufferToStream(resizedBuffer),
+          { name: `${size}/spritesheet/${filename}` },
         ]);
-      });
+      }
     }
 
     // build readme
