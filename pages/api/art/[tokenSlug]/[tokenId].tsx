@@ -133,6 +133,19 @@ export default async function handler(
         bufferToStream(parchmentTokenBuffer),
         { name: `${size}/${tokenId}-${slugify(tokenData.name)}-parchment.png` },
       ]);
+
+      // build turnarounds
+      const turnarounds = await getAllTurnaroundFrameBuffers({
+        tokenId,
+        tokenSlug: tokenSlug as string,
+        size,
+      });
+      turnarounds.forEach(({ name, buffer }) => {
+        zipFiles.push([
+          bufferToStream(buffer),
+          { name: `${size}/turnarounds/${name}` },
+        ]);
+      });
     }
 
     // build spritesheet
