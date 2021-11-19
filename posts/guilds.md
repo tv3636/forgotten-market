@@ -2,6 +2,7 @@
 title: The Guilds of Forgotten Runes
 description: Guilds are functional subgroups within the Cult that collaborate to contribute in unique ways. Through the power of nimble, effective Guilds, the Wizards can combine their affinities for action and create magic for the community.
 ogWizardImage: 283
+index: 10
 ---
 
 There are four operational Guilds, which are open to _any_ Wizard holder with the requisite skills:

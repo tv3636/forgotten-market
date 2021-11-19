@@ -2,6 +2,7 @@
 title: Metaverse-ready Walkcycles for Forgotten Runes Wizards
 description: Walk around with 10,000 Forgotten Runes Wizards with our new walkcycle spritesheets
 ogImage: https://i.imgur.com/6pSQbuE.png
+index: 18
 ---
 
 Owning a [Forgotten Runes Wizard](https://www.forgottenrunes.com/gallery) NFT is more than the original 50x50 pixels: it's ownership of a character, and now that character can come to life in any pixel-art metaverse.

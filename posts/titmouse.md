@@ -2,6 +2,7 @@
 title: "Magic Machine Partners with Titmouse on Forgotten Runes Wizards Cult Animated Show"
 description: "We're partnering with Titmouse to develop and produce The Forgotten Runes Wizard Cult show"
 ogImage: https://i.imgur.com/w8e8an3.jpg
+index: 13
 ---
 
 ![](https://i.imgur.com/w8e8an3.jpg)

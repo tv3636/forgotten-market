@@ -2,6 +2,7 @@
 title: The Great Burning, The Sacred Flames, and the Infinity Veil
 description: On All Hallows Eve, 2021 the Great Burning will be held at The Secret Tower.
 ogWizardImage: 0
+index: 14
 ---
 
 At this event, a Wizard and a Flame may be burned to receive a Forgotten Soul.

@@ -2,6 +2,7 @@
 title: "Coinbase highlights Forgotten Runes as one of the first 4 creators on Coinbase NFT"
 description: "Coinbase is launching an NFT platform and listed Forgotten Runes as a featured creator"
 ogImage: https://i.imgur.com/MWCNIZi.png
+index: 12
 ---
 
 ![](https://i.imgur.com/MWCNIZi.png)
