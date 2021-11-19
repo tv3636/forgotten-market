@@ -38,11 +38,11 @@ const BlogEntry = styled.li`
 
 export default function Index({ posts }: { posts: Post[] }) {
   // sort the blog posts by their index in the descending order
-  posts.sort((a:Post, b:Post) => {
+  posts.sort((a: Post, b: Post) => {
     const indexA = a.data.index ? a.data.index : 99999;
     const indexB = b.data.index ? b.data.index : 99999;
     return indexB - indexA;
-  })
+  });
   return (
     <InfoPageLayout title="Blog Posts: Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
       <h1>Forgotten Blog Posts</h1>
@@ -58,7 +58,9 @@ export default function Index({ posts }: { posts: Post[] }) {
               passHref={true}
             >
               <StyledAnchor>
-                <h2>{post.data.index}. {post.data.title}</h2>
+                <h2>
+                  {post.data.index}. {post.data.title}
+                </h2>
                 {post.data.description && (
                   <Description>{post.data.description}</Description>
                 )}
