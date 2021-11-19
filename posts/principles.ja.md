@@ -2,6 +2,7 @@
 title: "The Forgotten Runes Wizard's Cultの理念"
 description: "私たちのコミュニティには、私たちが拠り所とする多くの理念があります。この文書では、その一部を紹介しています。"
 ogWizardImage: 284
+index: 7
 ---
 
 ## "Wizards are for Everyone" (Wizardはみんなのもの)

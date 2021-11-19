@@ -2,6 +2,7 @@
 title: "Writing in the Book of Lore: A How-to"
 description: If you're looking for specific instructions on how to write in the Book of Lore, this post is for you
 ogWizardImage: 7951
+index: 11
 ---
 
 The [_Forgotten Runes Book of Lore_](/lore) contains the stories, legends, and myths of thousands of Wizards. This tome is ever-growing, always evolving, but forever immutable once a Wizard changes hands.

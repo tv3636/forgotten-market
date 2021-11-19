@@ -2,6 +2,7 @@
 title: "The Book of Loreへの書き込み方について"
 description: もしあなたがThe Book of Loreへの具体的な書き込み方を知りたいならば、この記事が役に立つでしょう。
 ogWizardImage: 7951
+index: 11
 ---
 
 [_Forgotten Runes Book of Lore_](/lore) には、何千ものWizard達のLore（物語、伝説、神話など）が収められています。この書物は常に成長、進化を続けますが、一度ウィザードの保有者が変わるとそれまでに紡がれたLoreは永遠に不変となります。

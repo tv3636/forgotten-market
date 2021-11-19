@@ -2,6 +2,7 @@
 title: The Lore of Forgotten Runes Souls
 description: On All Hallow’s Eve, the Great Burning commenced. Over 400 Wizards have stepped to the Flame thus far, and we’ve seen all sorts of abominations return. Let’s go over some of the lore behind these new undead beings that have come to the Runiverse.
 ogImage: https://forgottenrunes.com/static/img/souls/OSFeatureSouls.png
+index: 16
 ---
 
 ![](/static/img/souls/OSFeatureSouls.png)

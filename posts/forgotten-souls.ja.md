@@ -2,6 +2,7 @@
 title: Great Burning、Sacred Flames、そして Infinity Veil
 description: 2021年のAll Hallowsの夜には、The Secret TowerでGreat Burningが開催されます。
 ogWizardImage: 0
+index: 14
 ---
 
 このイベントでは、WizardをFlameで燃やすことでForgotten Soulを受け取ることができるかもしれません。

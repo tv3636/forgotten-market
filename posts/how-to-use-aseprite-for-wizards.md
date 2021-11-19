@@ -2,6 +2,7 @@
 title: How to get started with Aseprite (or Photoshop) for Wizards
 description: This guide will show you how to get your Wizard into Aseprite to use for art remixes, animation, or anything Aseprite will allow you to do.
 ogWizardImage: 5335
+index: 4
 ---
 
 First, you'll want your Wizard broken into it's separate layers, which will likely include the head, body, prop, familiar, and rune.
