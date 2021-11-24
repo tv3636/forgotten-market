@@ -34,4 +34,3 @@ export const useFetchDataFromTokenUri = (tokenUri: string, tokenId: number) => {
 
   return { loading, metadata, image };
 };
-
