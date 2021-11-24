@@ -24,19 +24,6 @@ let nextConfig = {
       react$: path.resolve(root, "./node_modules/react"),
     };
 
-    if (isServer) {
-      return {
-        ...config,
-        entry() {
-          return config.entry().then((entry) => {
-            return Object.assign({}, entry, {
-              lorebackup: "./scripts/book-of-lore-backup.ts",
-            });
-          });
-        },
-      };
-    }
-
     // if (!options.isServer) {
     //   config.node = {
     //     fs: "empty",
