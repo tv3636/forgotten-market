@@ -15,7 +15,6 @@ import Layout from "../../components/Layout";
 import BookFrame from "../../components/Lore/BookFrame";
 import { BookOfLorePage } from "../../components/Lore/IndividualLorePage";
 import StyledToastContainer from "../../components/StyledToastContainer";
-import productionWizardData from "../../data/nfts-prod.json";
 import { useMst } from "../../store";
 import {
   getPendingLoreTxHashRedirection,
@@ -26,6 +25,17 @@ import { EditorState } from "draft-js";
 import { Flex } from "rebass";
 import OgImage from "../../components/OgImage";
 
+import productionWizardData from "../../data/nfts-prod.json";
+import productionSoulsData from "../../data/souls-prod.json";
+import stagingSoulsData from "../../data/souls-staging.json";
+
+import { isWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const AddLoreWrapper = styled.div``;
@@ -105,9 +115,13 @@ const AddLorePage = () => {
     return <WaitingForGraphPage />;
   }
 
-  const wizardBg = currentWizard?.tokenId
-    ? "#" + wizData[currentWizard?.tokenId?.toString()].background_color
-    : "#000000";
+  const tokenId = currentWizard?.tokenId;
+  const wizardBg =
+    currentWizard && tokenId
+      ? isWizardsContract(currentWizard.tokenAddress)
+        ? wizData[tokenId.toString()].background_color
+        : soulsData?.[tokenId.toString()]?.background_color ?? "000000"
+      : "#000000";
 
   const onSubmit = async () => {
     console.log("currentEditorState: ", currentEditorState);

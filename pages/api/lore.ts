@@ -2,10 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import pinataSDK from "@pinata/sdk";
 import { utils } from "ethers";
 import { getProvider } from "../../hooks/useProvider";
-import {
-  getSoulsContract,
-  getWizardsContract,
-} from "../../contracts/ForgottenRunesWizardsCultContract";
 import { getERC721Contract } from "../../contracts/ERC721Contract";
 
 const pinata = pinataSDK(

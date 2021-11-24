@@ -2,6 +2,9 @@ import * as React from "react";
 import { useState } from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
+import productionSoulsData from "../../data/souls-prod.json";
+import stagingSoulsData from "../../data/souls-staging.json";
+
 import ReactMarkdown, { uriTransformer } from "react-markdown";
 import { WriteButton } from "./BookOfLoreControls";
 import Link from "next/link";
@@ -16,6 +19,11 @@ import {
 } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 
 export const TextPage = styled.div<{
   alignSelf?: string;
@@ -96,7 +104,8 @@ export const CoreCharacterPage = ({
     bg = "#" + wizardData.background_color;
     imageUrl = `https://nftz.forgottenrunes.com/wizards/alt/400-nobg/wizard-${tokenId}.png`;
   } else if (isSoulsContract(tokenAddress)) {
-    bg = "#000000";
+    const soulData: any = soulsData[tokenId.toString()];
+    bg = "#" + +soulData?.background_color ?? "000000";
     imageUrl = `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/img/${tokenId}.png`;
   }
 

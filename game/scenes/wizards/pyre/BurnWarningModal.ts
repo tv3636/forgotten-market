@@ -1,13 +1,4 @@
-import {
-  FORGOTTEN_SOULS_ADDRESS,
-  getInfinityVeilContract,
-  getWizardsContract,
-  INFINITY_VEIL_ADDRESS,
-} from "../../../../contracts/ForgottenRunesWizardsCultContract";
 import { ImageButton } from "../../../objects/ImageButton";
-import { Toast } from "../../../objects/Toast";
-import { getWeb3Controller } from "../home/Web3Controller";
-import { ProgressBullet } from "./ProgressBullet";
 import productionWizardData from "../../../../data/nfts-prod.json";
 import { IMAGE_NOBG_BASE_URL } from "../../../../constants";
 

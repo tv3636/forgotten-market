@@ -1,10 +1,5 @@
 import styled from "@emotion/styled";
-import BookOfLoreControls from "./BookOfLoreControls";
-import { AnimatePresence, motion } from "framer-motion";
-import { LorePageData } from "./types";
-import { typeSetter } from "./loreUtils";
-import productionWizardData from "../../data/nfts-prod.json";
-import LoreAnimations from "./LoreAnimations";
+import { motion } from "framer-motion";
 
 export const BookElement = styled(motion.div)``;
 

@@ -1,6 +1,5 @@
 import * as React from "react";
 import styled from "@emotion/styled";
-import productionWizardData from "../../data/nfts-prod.json";
 import Link from "next/link";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useRouter } from "next/router";
@@ -9,7 +8,16 @@ import Button from "../ui/Button";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
 import { LoreNameWrapper } from "./BookSharedComponents";
 
+import productionWizardData from "../../data/nfts-prod.json";
+import productionSoulsData from "../../data/souls-prod.json";
+import stagingSoulsData from "../../data/souls-staging.json";
+
 const wizData = productionWizardData as { [wizardId: string]: any };
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 
 type Props = {
   loreTokenSlug: string;
@@ -96,6 +104,7 @@ export const SocialItem = styled.div`
   a:hover {
     opacity: 0.5;
   }
+
   a:active {
     opacity: 0.3;
   }
@@ -117,11 +126,14 @@ const LoreSocialContainer = ({
     return null;
   }
 
-  const wizardData: any = wizData[tokenId.toString()];
+  const data: any =
+    loreTokenSlug == "wizards"
+      ? wizData[tokenId.toString()]
+      : soulsData?.[tokenId.toString()] ?? {};
   const url = typeof window !== "undefined" ? window?.location?.href : "";
 
   const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    `The Lore of ${wizardData.name} (#${tokenId})`
+    `The Lore of ${data?.name ?? "a Soul"} (#${tokenId})`
   )}&url=${encodeURIComponent(url)}`;
 
   const gmUrl = `/scenes/gm/${tokenId}`;
@@ -213,7 +225,9 @@ export default function BookOfLoreControls({
           {loreTokenSlug === "wizards"
             ? `${wizData[tokenId.toString()].name} (#${tokenId})`
             : loreTokenSlug === "souls"
-            ? `Soul  (#${tokenId})`
+            ? `${
+                soulsData?.[tokenId.toString()]?.name ?? "Soul"
+              }  (#${tokenId})`
             : "Narrative Page"}
         </LoreNameWrapper>
         <NextPageContainer>

@@ -1,0 +1,110 @@
+{
+ "2": {
+  "id": 2,
+  "name": "Soul of Archmagus Poppy of the Moors for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/2"
+ },
+ "5": {
+  "id": 5,
+  "name": "Soul of Runecaster Hadrien of Mu for Testing",
+  "background_color": "09071B",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/5"
+ },
+ "6": {
+  "id": 6,
+  "name": "Soul of Wild Mage Rowena of El Dorado for Testing",
+  "background_color": "09071B",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/6"
+ },
+ "10": {
+  "id": 10,
+  "name": "Soul of Edge Arcanist Artchick for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/10"
+ },
+ "11": {
+  "id": 11,
+  "name": "Red X of Testing number 2",
+  "background_color": "040D04",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/11"
+ },
+ "12": {
+  "id": 12,
+  "name": "Soul of The Wizard Empress for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/12"
+ },
+ "14": {
+  "id": 14,
+  "name": "Soul of Cat Wizard El Crypto Ball for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/14"
+ },
+ "16": {
+  "id": 16,
+  "name": "Soul of Sorcerer Alessar of the Moors for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/16"
+ },
+ "93": {
+  "id": 93,
+  "name": "Soul of Druid Diana of Avalon for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/93"
+ },
+ "94": {
+  "id": 94,
+  "name": "Red X of Testing number 3",
+  "background_color": "040D04",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/94"
+ },
+ "105": {
+  "id": 105,
+  "name": "Soul of Shaman Ivy of Elysium for Testing",
+  "background_color": "09071B",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/105"
+ },
+ "121": {
+  "id": 121,
+  "name": "Soul of Sorcerer Zafar of the Havens for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/121"
+ },
+ "122": {
+  "id": 122,
+  "name": "Red X of Testing number 1",
+  "background_color": "040D04",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/122"
+ },
+ "123": {
+  "id": 123,
+  "name": "Soul of Charmer Circe of the Fey for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/123"
+ },
+ "124": {
+  "id": 124,
+  "name": "Soul of Archmagus Salvatore of the Toadstools for Testing",
+  "background_color": "000000",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/124"
+ },
+ "125": {
+  "id": 125,
+  "name": "Soul of  Eden of the Thorn for Testing",
+  "background_color": "1E0200",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/125"
+ },
+ "126": {
+  "id": 126,
+  "name": "Soul of Arch-Magician Asphodel of the Grotto for Testing",
+  "background_color": "040D04",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/126"
+ },
+ "131": {
+  "id": 131,
+  "name": "Soul of Shadow Mage Alessar of the Inferno for Testing",
+  "background_color": "040D04",
+  "image": "https://quantum-portal-gpdgj6xwd-forgottenrunes.vercel.app/api/souls/img/131"
+ }
+}

@@ -5,7 +5,7 @@ import { LorePageData } from "../../../../components/Lore/types";
 import LoreSharedLayout from "../../../../components/Lore/LoreSharedLayout";
 import OgImage from "../../../../components/OgImage";
 import dynamic from "next/dynamic";
-import productionWizardData from "../../../../data/nfts-prod.json";
+
 import {
   bustLoreCache,
   getFirstAvailableWizardLoreUrl,
@@ -21,6 +21,15 @@ import { useMedia } from "react-use";
 import { useEffect, useState } from "react";
 import flatMap from "lodash/flatMap";
 
+import productionWizardData from "../../../../data/nfts-prod.json";
+import productionSoulsData from "../../../../data/souls-prod.json";
+import stagingSoulsData from "../../../../data/souls-staging.json";
+
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 const WizardMapLeaflet = dynamic(
@@ -56,15 +65,24 @@ const LorePage = ({
 
   if (loreTokenSlug === "wizards") {
     title = `The Lore of ${wizData[tokenId.toString()].name} (#${tokenId})`;
+  } else if (loreTokenSlug === "souls") {
+    title = `The Lore of ${
+      soulsData?.[tokenId.toString()]?.name ?? "a Soul"
+    } (#${tokenId})`;
   }
 
-  const og = loreTokenSlug === "wizards" && (
+  let ogImage =
+    lorePageData.leftPage?.firstImage ?? lorePageData.rightPage?.firstImage;
+
+  if (!ogImage && loreTokenSlug === "souls") {
+    // Hack to prevent modifying of image api
+    ogImage = `${process.env.NEXT_PUBLIC_SOULS_API}/api/souls/img/${tokenId}`;
+  }
+  const og = (
     <OgImage
-      title={`The Lore of ${wizData[tokenId.toString()].name} (#${tokenId})`}
+      title={title}
       wizard={tokenId}
-      images={
-        lorePageData.leftPage?.firstImage ?? lorePageData.rightPage?.firstImage
-      }
+      images={ogImage}
       bgColor={
         lorePageData.leftPage?.firstImage
           ? lorePageData.leftPage?.bgColor

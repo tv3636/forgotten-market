@@ -3,10 +3,19 @@ import { getSoulsContract } from "../../../contracts/ForgottenRunesWizardsCultCo
 import { getProvider } from "../../../hooks/useProvider";
 import Layout from "../../../components/Layout";
 import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
+
 import productionWizardData from "../../../data/nfts-prod.json";
+import productionSoulsData from "../../../data/souls-prod.json";
+import stagingSoulsData from "../../../data/souls-staging.json";
+
 import styled from "@emotion/styled";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 
 const GmWrapper = styled.div<{ bg: string }>`
   min-height: 100vh;
@@ -47,12 +56,9 @@ const GmPage = ({
   tokenId: string;
   collection: string;
 }) => {
-  let bg = "#000000";
-
-  if (collection === "wizards") {
-    const wizardData: any = wizData[tokenId];
-    bg = "#" + wizardData.background_color;
-  }
+  const data: any =
+    collection === "wizards" ? wizData[tokenId] : soulsData?.[tokenId] ?? {};
+  const bg = "#" + (data?.background_color ?? "000000");
 
   return (
     <Layout title="wtf | Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">

@@ -14,9 +14,17 @@ import Button from "../ui/Button";
 import StyledModal from "./StyledModal";
 import WizardCard from "../WizardCard";
 import productionWizardData from "../../data/nfts-prod.json";
+import productionSoulsData from "../../data/souls-prod.json";
+import stagingSoulsData from "../../data/souls-staging.json";
+
 import { BigNumber } from "ethers";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 
 const WizardPickerModalElement = styled.div`
   display: flex;
@@ -103,7 +111,7 @@ function WizardGrid({
               key={"souls-" + token.id}
               tokenAddress={CHARACTER_CONTRACTS.souls}
               id={token.id}
-              name={token.id}
+              name={token?.name ?? token.id}
               onWizardPicked={onWizardPicked}
             />
           );
@@ -153,6 +161,7 @@ function WizardList({
           ),
           [soulsContract.address.toLowerCase()]: soulsTokens.map(
             (id: BigNumber) => ({
+              ...soulsData[id.toNumber()],
               id: id.toNumber().toString(),
             })
           ),

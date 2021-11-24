@@ -38,11 +38,13 @@ const WIZARDS_THAT_HAVE_LORE_CACHE = path.join(
 );
 
 export async function bustLoreCache() {
-  for (let file in [
+  const files = [
     WIZARDS_LORE_CACHE,
     SOULS_LORE_CACHE,
     WIZARDS_THAT_HAVE_LORE_CACHE,
-  ]) {
+  ];
+  for (let index in files) {
+    const file = files[index];
     try {
       await fs.unlink(file);
       console.info(`Busted cache at ${file}....`);
@@ -64,6 +66,7 @@ export async function getLoreInChapterForm(
   const cacheFile = isWizardsContract(tokenContract)
     ? WIZARDS_LORE_CACHE
     : SOULS_LORE_CACHE;
+
   let results;
 
   try {
