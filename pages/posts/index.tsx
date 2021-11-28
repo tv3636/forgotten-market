@@ -59,7 +59,7 @@ export default function Index({ posts }: { posts: Post[] }) {
             >
               <StyledAnchor>
                 <h2>
-                  {post.data.index}. {post.data.title}
+                  {post.data.title}
                 </h2>
                 {post.data.description && (
                   <Description>{post.data.description}</Description>
