@@ -58,9 +58,7 @@ export default function Index({ posts }: { posts: Post[] }) {
               passHref={true}
             >
               <StyledAnchor>
-                <h2>
-                  {post.data.title}
-                </h2>
+                <h2>{post.data.title}</h2>
                 {post.data.description && (
                   <Description>{post.data.description}</Description>
                 )}
