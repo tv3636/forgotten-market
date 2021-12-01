@@ -46,6 +46,7 @@ export class Tower {
         "souls/castle_Souls.png",
         "souls/castle_Souls.json"
       );
+      scene.load.aseprite("castlePartsOrig", "castle_v2.png", "castle_v2.json");
     } else if (NIGHT) {
       scene.load.aseprite(
         "castleParts",
@@ -359,18 +360,18 @@ export class Tower {
     //   delay: 0,
     // });
 
-    // // this.addRunes({ n: 18, originX, originY });
+    this.addRunes({ n: 18, originX, originY });
 
-    // const band2 = scene.add.sprite(centerX, 0, "castleParts", "towerBandRed-0");
-    // band2.setOrigin(originX, originY);
-    // band2.setAlpha(0);
+    const band2 = scene.add.sprite(centerX, 0, "castleParts", "towerBand-0");
+    band2.setOrigin(originX, originY);
+    band2.setAlpha(0);
 
-    // scene.tweens.add({
-    //   targets: band2,
-    //   alpha: { value: 0.7, duration: 8000, ease: "Power1" },
-    //   yoyo: true,
-    //   repeat: -1,
-    // });
+    scene.tweens.add({
+      targets: band2,
+      alpha: { value: 0.7, duration: 8000, ease: "Power1" },
+      yoyo: true,
+      repeat: -1,
+    });
 
     // scene.input.enableDebug(pyreDoorZone);
   }

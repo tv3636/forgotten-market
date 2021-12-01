@@ -1,9 +1,9 @@
 { "frames": {
    "sky-0": {
-    "frame": { "x": 1, "y": 1, "w": 700, "h": 741 },
+    "frame": { "x": 1, "y": 1, "w": 700, "h": 783 },
     "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 42, "w": 700, "h": 741 },
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 700, "h": 783 },
     "sourceSize": { "w": 700, "h": 783 },
     "duration": 100
    },
@@ -48,7 +48,7 @@
     "duration": 100
    },
    "cloudsBack-0": {
-    "frame": { "x": 1, "y": 743, "w": 700, "h": 458 },
+    "frame": { "x": 1, "y": 785, "w": 700, "h": 458 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 0, "y": 282, "w": 700, "h": 458 },
@@ -164,6 +164,438 @@
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 1 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-18-0": {
+    "frame": { "x": 2000, "y": 42, "w": 8, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 270, "w": 8, "h": 12 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-18-1": {
+    "frame": { "x": 2000, "y": 42, "w": 8, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 270, "w": 8, "h": 12 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-18-2": {
+    "frame": { "x": 2000, "y": 42, "w": 8, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 270, "w": 8, "h": 12 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-17-0": {
+    "frame": { "x": 2000, "y": 55, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 296, "y": 276, "w": 6, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-17-1": {
+    "frame": { "x": 2000, "y": 55, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 296, "y": 276, "w": 6, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-17-2": {
+    "frame": { "x": 2000, "y": 55, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 296, "y": 276, "w": 6, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-13-0": {
+    "frame": { "x": 1973, "y": 59, "w": 5, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 328, "y": 286, "w": 5, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-13-1": {
+    "frame": { "x": 1973, "y": 59, "w": 5, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 328, "y": 286, "w": 5, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-13-2": {
+    "frame": { "x": 1973, "y": 59, "w": 5, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 328, "y": 286, "w": 5, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-14-0": {
+    "frame": { "x": 2033, "y": 42, "w": 6, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 320, "y": 283, "w": 6, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-14-1": {
+    "frame": { "x": 2033, "y": 42, "w": 6, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 320, "y": 283, "w": 6, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-14-2": {
+    "frame": { "x": 2033, "y": 42, "w": 6, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 320, "y": 283, "w": 6, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-15-0": {
+    "frame": { "x": 2032, "y": 64, "w": 5, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 312, "y": 281, "w": 5, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-15-1": {
+    "frame": { "x": 2032, "y": 64, "w": 5, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 312, "y": 281, "w": 5, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-15-2": {
+    "frame": { "x": 2032, "y": 64, "w": 5, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 312, "y": 281, "w": 5, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-16-0": {
+    "frame": { "x": 1979, "y": 59, "w": 7, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 303, "y": 278, "w": 7, "h": 7 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-16-1": {
+    "frame": { "x": 1979, "y": 59, "w": 7, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 303, "y": 278, "w": 7, "h": 7 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-16-2": {
+    "frame": { "x": 1979, "y": 59, "w": 7, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 303, "y": 278, "w": 7, "h": 7 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-01-0": {
+    "frame": { "x": 2038, "y": 64, "w": 4, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 431, "y": 272, "w": 4, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-01-1": {
+    "frame": { "x": 2038, "y": 64, "w": 4, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 431, "y": 272, "w": 4, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-01-2": {
+    "frame": { "x": 2038, "y": 64, "w": 4, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 431, "y": 272, "w": 4, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-02-0": {
+    "frame": { "x": 2009, "y": 54, "w": 6, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 422, "y": 273, "w": 6, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-02-1": {
+    "frame": { "x": 2009, "y": 54, "w": 6, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 422, "y": 273, "w": 6, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-02-2": {
+    "frame": { "x": 2009, "y": 54, "w": 6, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 422, "y": 273, "w": 6, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-03-0": {
+    "frame": { "x": 2025, "y": 42, "w": 7, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 413, "y": 277, "w": 7, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-03-1": {
+    "frame": { "x": 2025, "y": 42, "w": 7, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 413, "y": 277, "w": 7, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-03-2": {
+    "frame": { "x": 2025, "y": 42, "w": 7, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 413, "y": 277, "w": 7, "h": 10 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-04-0": {
+    "frame": { "x": 1994, "y": 61, "w": 5, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 406, "y": 281, "w": 5, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-04-1": {
+    "frame": { "x": 1994, "y": 61, "w": 5, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 406, "y": 281, "w": 5, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-04-2": {
+    "frame": { "x": 1994, "y": 61, "w": 5, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 406, "y": 281, "w": 5, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-05-0": {
+    "frame": { "x": 2032, "y": 54, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 398, "y": 282, "w": 6, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-05-1": {
+    "frame": { "x": 2032, "y": 54, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 398, "y": 282, "w": 6, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-05-2": {
+    "frame": { "x": 2032, "y": 54, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 398, "y": 282, "w": 6, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-06-0": {
+    "frame": { "x": 2016, "y": 54, "w": 7, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 389, "y": 285, "w": 7, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-06-1": {
+    "frame": { "x": 2016, "y": 54, "w": 7, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 389, "y": 285, "w": 7, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-06-2": {
+    "frame": { "x": 2016, "y": 54, "w": 7, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 389, "y": 285, "w": 7, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-07-0": {
+    "frame": { "x": 2016, "y": 63, "w": 6, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 381, "y": 289, "w": 6, "h": 7 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-07-1": {
+    "frame": { "x": 2016, "y": 63, "w": 6, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 381, "y": 289, "w": 6, "h": 7 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-07-2": {
+    "frame": { "x": 2016, "y": 63, "w": 6, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 381, "y": 289, "w": 6, "h": 7 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-08-0": {
+    "frame": { "x": 1987, "y": 61, "w": 6, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 374, "y": 292, "w": 6, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-08-1": {
+    "frame": { "x": 1987, "y": 61, "w": 6, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 374, "y": 292, "w": 6, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-08-2": {
+    "frame": { "x": 1987, "y": 61, "w": 6, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 374, "y": 292, "w": 6, "h": 8 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-09-0": {
+    "frame": { "x": 2017, "y": 42, "w": 7, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 366, "y": 292, "w": 7, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-09-1": {
+    "frame": { "x": 2017, "y": 42, "w": 7, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 366, "y": 292, "w": 7, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-09-2": {
+    "frame": { "x": 2017, "y": 42, "w": 7, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 366, "y": 292, "w": 7, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-10-0": {
+    "frame": { "x": 2039, "y": 54, "w": 4, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 354, "y": 295, "w": 4, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-10-1": {
+    "frame": { "x": 2039, "y": 54, "w": 4, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 354, "y": 295, "w": 4, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-10-2": {
+    "frame": { "x": 2039, "y": 54, "w": 4, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 354, "y": 295, "w": 4, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-11-0": {
+    "frame": { "x": 2025, "y": 53, "w": 6, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 345, "y": 291, "w": 6, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-11-1": {
+    "frame": { "x": 2025, "y": 53, "w": 6, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 345, "y": 291, "w": 6, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-11-2": {
+    "frame": { "x": 2025, "y": 53, "w": 6, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 345, "y": 291, "w": 6, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-12-0": {
+    "frame": { "x": 2009, "y": 42, "w": 7, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 335, "y": 288, "w": 7, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-12-1": {
+    "frame": { "x": 2009, "y": 42, "w": 7, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 335, "y": 288, "w": 7, "h": 11 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-12-2": {
+    "frame": { "x": 2009, "y": 42, "w": 7, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 335, "y": 288, "w": 7, "h": 11 },
     "sourceSize": { "w": 700, "h": 783 },
     "duration": 100
    },
@@ -336,7 +768,7 @@
     "duration": 100
    },
    "snowman-0": {
-    "frame": { "x": 1973, "y": 1, "w": 34, "h": 40 },
+    "frame": { "x": 2008, "y": 1, "w": 34, "h": 40 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 366, "y": 417, "w": 34, "h": 40 },
@@ -352,7 +784,7 @@
     "duration": 100
    },
    "snowman-2": {
-    "frame": { "x": 2008, "y": 1, "w": 34, "h": 40 },
+    "frame": { "x": 1973, "y": 1, "w": 34, "h": 40 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 366, "y": 417, "w": 34, "h": 40 },
@@ -360,7 +792,7 @@
     "duration": 100
    },
    "snowParticleBig-0": {
-    "frame": { "x": 2000, "y": 42, "w": 5, "h": 5 },
+    "frame": { "x": 2000, "y": 65, "w": 5, "h": 5 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 360, "y": 200, "w": 5, "h": 5 },
@@ -408,7 +840,7 @@
     "duration": 100
    },
    "snowParticleSmall-0": {
-    "frame": { "x": 2006, "y": 42, "w": 2, "h": 2 },
+    "frame": { "x": 2040, "y": 42, "w": 2, "h": 2 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 363, "y": 191, "w": 2, "h": 2 },
@@ -430,6 +862,54 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 1 },
     "sourceSize": { "w": 700, "h": 783 },
     "duration": 100
+   },
+   "bottomTile_tower-0": {
+    "frame": { "x": 1403, "y": 610, "w": 265, "h": 2 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 218, "y": 781, "w": 265, "h": 2 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTile_tower-1": {
+    "frame": { "x": 2098, "y": 1, "w": 1, "h": 1 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 1 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTile_tower-2": {
+    "frame": { "x": 2098, "y": 1, "w": 1, "h": 1 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 1 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTile_sky-0": {
+    "frame": { "x": 702, "y": 1004, "w": 700, "h": 2 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 781, "w": 700, "h": 2 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTile_sky-1": {
+    "frame": { "x": 2098, "y": 1, "w": 1, "h": 1 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 1 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTile_sky-2": {
+    "frame": { "x": 2098, "y": 1, "w": 1, "h": 1 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 1, "h": 1 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
    }
  },
  "meta": {
@@ -437,9 +917,10 @@
   "version": "1.2.27",
   "image": "castle_v3.png",
   "format": "RGBA8888",
-  "size": { "w": 2099, "h": 1201 },
+  "size": { "w": 2099, "h": 1243 },
   "scale": "1",
   "frameTags": [
+   { "name": "play", "from": 0, "to": 2, "direction": "forward" }
   ],
   "layers": [
    { "name": "skyBG_dark" },
@@ -450,6 +931,25 @@
    { "name": "cloudsFront", "group": "skyBG_dark", "opacity": 255, "blendMode": "normal" },
    { "name": "tower", "opacity": 255, "blendMode": "normal" },
    { "name": "towerLines_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "towerRunes_red" },
+   { "name": "rune-18", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-17", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-13", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-14", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-15", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-16", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-01", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-02", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-03", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-04", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-05", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-06", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-07", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-08", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-09", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-10", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-11", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-12", "group": "towerRunes_red", "opacity": 255, "blendMode": "normal" },
    { "name": "towerBand", "opacity": 255, "blendMode": "normal" },
    { "name": "palms", "opacity": 255, "blendMode": "normal" },
    { "name": "bottomDoor", "opacity": 255, "blendMode": "normal" },
@@ -460,7 +960,9 @@
    { "name": "snowman", "opacity": 255, "blendMode": "normal" },
    { "name": "snowParticleBig", "opacity": 255, "blendMode": "normal" },
    { "name": "snowParticleMed", "opacity": 255, "blendMode": "normal" },
-   { "name": "snowParticleSmall", "opacity": 255, "blendMode": "normal" }
+   { "name": "snowParticleSmall", "opacity": 255, "blendMode": "normal" },
+   { "name": "bottomTile_tower", "opacity": 255, "blendMode": "normal" },
+   { "name": "bottomTile_sky", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
   ]
