@@ -12,7 +12,8 @@ import { ImageButton } from "./ImageButton";
 
 const maxRunes = 18;
 
-const NIGHT = true;
+const NIGHT = false;
+const WINTER = true;
 
 export class Tower {
   scene: Phaser.Scene;
@@ -31,7 +32,21 @@ export class Tower {
     const scene = this.scene;
     scene.load.aseprite("buttons", "buttons.png", "buttons.json");
 
-    if (NIGHT) {
+    if (WINTER) {
+      scene.load.aseprite(
+        "castleParts",
+        "winter/castle_v3.png",
+        "winter/castle_v3.json"
+      );
+      scene.load.image("towerTile", "winter/castle_Snow_tile.png");
+
+      // we have some animations in souls too
+      scene.load.aseprite(
+        "castlePartsSouls",
+        "souls/castle_Souls.png",
+        "souls/castle_Souls.json"
+      );
+    } else if (NIGHT) {
       scene.load.aseprite(
         "castleParts",
         "souls/castle_Souls.png",
@@ -61,6 +76,12 @@ export class Tower {
     (scene as any).myAasepriteLoader?.createFromAsepriteWithLayers(
       "castleParts"
     );
+
+    if (WINTER) {
+      (scene as any).myAasepriteLoader?.createFromAsepriteWithLayers(
+        "castlePartsSouls"
+      );
+    }
 
     const towerY = 0;
     const tower = NIGHT
@@ -288,6 +309,72 @@ export class Tower {
     // scene.input.enableDebug(pyreDoorZone);
   }
 
+  createWinterLife() {
+    const scene = this.scene;
+    const width = scene.scale.gameSize.width;
+    const height = scene.scale.gameSize.height;
+    const centerY = height / 2;
+    const worldView = this.scene.cameras.main.worldView;
+    const centerX = worldView.centerX;
+    const centerYW = worldView.centerY;
+
+    var data = scene.game.cache.json.get("castleParts");
+
+    const originX = 0.5 + 0.015; /* fudge center */
+    const originY = 0 + 0.001;
+
+    const lines = scene.add.sprite(
+      centerX,
+      0,
+      "castleParts",
+      "towerLines_red-0"
+    );
+    fadeIn(scene, lines);
+    lines.setOrigin(originX, originY);
+    lines.depth = 0;
+    this.lines = lines;
+
+    // const boards = scene.add.sprite(centerX, 0, "castleParts", "boards-0");
+    // fadeIn(scene, boards);
+    // boards.depth = 2;
+    // boards.setOrigin(originX, originY);
+
+    const addNormalThing = ({ name }: { name: string }) => {
+      const thing = scene.add.sprite(centerX, 0, "castleParts", name);
+      fadeIn(scene, thing);
+      thing.setOrigin(originX, originY);
+      return thing;
+    };
+
+    addNormalThing({ name: "palms-0" });
+    addNormalThing({ name: "snow-0" });
+
+    // addNormalThing({ name: "pumpkin-0" });
+    // addNormalThing({ name: "pumpkin Copy-0" });
+    // addNormalThing({ name: "palms-0" });
+    // const towerDoorGlowSprite = addNormalThing({ name: "tower_dark_doors-0" });
+    // towerDoorGlowSprite.play({
+    //   key: "tower_dark_doors-play",
+    //   repeat: -1,
+    //   delay: 0,
+    // });
+
+    // // this.addRunes({ n: 18, originX, originY });
+
+    // const band2 = scene.add.sprite(centerX, 0, "castleParts", "towerBandRed-0");
+    // band2.setOrigin(originX, originY);
+    // band2.setAlpha(0);
+
+    // scene.tweens.add({
+    //   targets: band2,
+    //   alpha: { value: 0.7, duration: 8000, ease: "Power1" },
+    //   yoyo: true,
+    //   repeat: -1,
+    // });
+
+    // scene.input.enableDebug(pyreDoorZone);
+  }
+
   addPyreDoor() {
     const scene = this.scene;
     const width = scene.scale.gameSize.width;
@@ -305,12 +392,13 @@ export class Tower {
     // add the door
     // addNormalThing({ name: "bottomDoor-0" });
     // addNormalThing({ name: "doorGlow-0" });
+
     const bottomDoorY = 1200;
     const bottomDoor = scene.add.sprite(
       centerX,
       0 + bottomDoorY,
       "castleParts",
-      "bottomDoor-0"
+      "bottomDoor-with-snow-0" // WINTER ? "bottomDoor-with-snow-0" : "bottomDoor-0"
     );
     fadeIn(scene, bottomDoor);
     bottomDoor.setOrigin(originX, originY);
@@ -318,7 +406,7 @@ export class Tower {
     const bottomDoorGlow = scene.add.sprite(
       centerX,
       0 + bottomDoorY,
-      "castleParts",
+      "castlePartsSouls",
       "doorGlow-0"
     );
     fadeIn(scene, bottomDoorGlow);
@@ -332,7 +420,6 @@ export class Tower {
     // const zoneGraphics = scene.add.graphics();
     // zoneGraphics.lineStyle(2, 0xff0000, 1);
     // zoneGraphics.strokeRect(centerX + 38, centerY + 1350, 36, 50);
-
     const pyreDoorZone = this.scene.add.zone(
       centerX + 38,
       0 + bottomDoorY + 720,

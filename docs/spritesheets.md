@@ -6,6 +6,8 @@
 
 Has individual images for background.
 
+You export them using the original layers export plugin.
+
 ## The Tower Itself
 
 `tower.ts`

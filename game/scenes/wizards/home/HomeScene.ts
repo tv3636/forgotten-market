@@ -23,7 +23,8 @@ import { AlagardFontMetrics } from "../../../fontSettings";
 
 //  This Scene is aspect ratio locked at 640 x 960 (and scaled and centered accordingly)
 
-const NIGHT = true;
+const NIGHT = false;
+const WINTER = true;
 const BREAKPOINT = 768;
 
 export class HomeScene extends Phaser.Scene {
@@ -101,6 +102,10 @@ export class HomeScene extends Phaser.Scene {
     // this.load.bitmapFont("Pixel-NES", "Pixel-NES.png", "Pixel-NES.xml");
     this.input.topOnly = false;
 
+    if (WINTER) {
+      //
+    }
+
     if (NIGHT) {
       this.load.aseprite("owl", "souls/owl.png", "souls/owl.json");
       this.load.aseprite("bat", "souls/bat.png", "souls/bat.json");
@@ -155,7 +160,13 @@ export class HomeScene extends Phaser.Scene {
     this.tower.create();
     this.towerBeams.create();
 
-    this.configureSoulsWorld();
+    if (NIGHT) {
+      this.configureSoulsWorld();
+    }
+
+    if (WINTER) {
+      this.configureWinterWonderland();
+    }
     // if (this.summoningBegun) {
     //   this.configureSummoningBegunWorld();
     // } else {
@@ -252,6 +263,12 @@ export class HomeScene extends Phaser.Scene {
     this.hideTooEarly();
     this.tower.createSoulsLife();
     this.createSoulsCharacters();
+  }
+
+  configureWinterWonderland() {
+    this.hideTooEarly();
+    this.tower.createWinterLife();
+    // this.createSoulsCharacters();
   }
 
   launchBuyScene() {

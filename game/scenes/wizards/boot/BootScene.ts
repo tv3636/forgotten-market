@@ -4,7 +4,8 @@ import { getWeb3Controller, Web3Controller } from "../home/Web3Controller";
 
 const BREAKPOINT = 768;
 
-const NIGHT = true;
+const NIGHT = false;
+const WINTER = true;
 
 export class BootScene extends Phaser.Scene {
   gameScene: any;
@@ -21,7 +22,27 @@ export class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    if (NIGHT) {
+    if (WINTER) {
+      this.load.path = "/static/game/wizards/winter/";
+      this.load.image("dark_moon_1", "sky/castle_v3_skyBG_dark_moon_1.png");
+      this.load.image(
+        "dark_moon_copy_1",
+        "sky/castle_v3_skyBG_dark_moon_1.png"
+      );
+      this.load.image(
+        "cloudspinkfront_1",
+        "sky/castle_v3_skyBG_dark_cloudsfront_1.png"
+      );
+      this.load.image(
+        "dark_cloudsmountains1",
+        "sky/castle_v3_skyBG_dark_cloudsmountains_1.png"
+      );
+      this.load.image(
+        "cloudspinkback",
+        "sky/castle_v3_skyBG_dark_cloudsback_1.png"
+      );
+      this.load.image("pinkBG", "sky/castle_v3_skyBG_dark_sky_1.png");
+    } else if (NIGHT) {
       this.load.path = "/static/game/wizards/souls/";
       this.load.image("dark_moon_1", "sky/castle_Souls_skyBG_dark_moon_1.png");
       this.load.image(
@@ -112,7 +133,26 @@ export class BootScene extends Phaser.Scene {
       this.landscape.add(layer);
     };
 
-    if (NIGHT) {
+    if (WINTER) {
+      // addToLandscape({ name: "dark_layer_1_1" });
+      // addToLandscape({ name: "dark_stars_1" });
+      addToLandscape({ name: "cloudspinkback" });
+      addToLandscape({ name: "dark_cloudsmountains1" });
+      // addToLandscape({ name: "dark_layer_2_1" });
+      addToLandscape({ name: "cloudspinkfront_1" });
+      // addToLandscape({ name: "dark_moon_copy_1" });
+      addToLandscape({ name: "dark_moon_1" });
+
+      const blackBG = this.add.tileSprite(
+        0,
+        300,
+        tileBgWidth,
+        this.cameras.main.height * 2,
+        "cloudspinkback"
+      );
+      blackBG.setOrigin(0, 0);
+      this.landscape.add(blackBG);
+    } else if (NIGHT) {
       addToLandscape({ name: "dark_layer_1_1" });
       addToLandscape({ name: "dark_stars_1" });
       addToLandscape({ name: "cloudspinkback" });
