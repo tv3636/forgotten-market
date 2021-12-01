@@ -34,6 +34,9 @@ export class HomeScene extends Phaser.Scene {
   crow: any;
   doorguy: any;
   owl: any;
+  snowman: any;
+  snowmanLastChange: any = 0;
+  snowmanDirection: any = -1;
   metamaskButtonZone: any;
 
   graphics: any;
@@ -103,7 +106,11 @@ export class HomeScene extends Phaser.Scene {
     this.input.topOnly = false;
 
     if (WINTER) {
-      //
+      this.load.aseprite(
+        "snowman",
+        "winter/snowman.png",
+        "winter/snowman.json"
+      );
     }
 
     if (NIGHT) {
@@ -268,6 +275,7 @@ export class HomeScene extends Phaser.Scene {
   configureWinterWonderland() {
     this.hideTooEarly();
     this.tower.createWinterLife();
+    this.createSnowCharacters();
     // this.createSoulsCharacters();
   }
 
@@ -441,6 +449,25 @@ export class HomeScene extends Phaser.Scene {
     });
   }
 
+  createSnowCharacters() {
+    const width = this.scale.gameSize.width;
+    const height = this.scale.gameSize.height;
+    // const centerX = Math.floor(this.cameras.main.width / 2);
+    const worldView = this.cameras.main.worldView;
+    const centerX = worldView.centerX;
+    const centerY = height / 2;
+
+    (this as any).myAasepriteLoader?.createFromAseprite("snowman");
+    this.snowman = this.add.sprite(centerX - 8, 390, "snowman", 0);
+    this.snowman.depth = 2;
+    fadeIn(this, this.snowman);
+    // this.snowman.play({
+    //   key: "play-snowman-left",
+    //   delay: 2000,
+    //   repeatDelay: 5000,
+    // });
+  }
+
   showCrow() {
     const width = this.scale.gameSize.width;
     const height = this.scale.gameSize.height;
@@ -527,6 +554,7 @@ export class HomeScene extends Phaser.Scene {
     this.updateTooEarly();
     this.moveBats(delta - this.lastDelta);
     this.lastDelta = delta;
+    this.updateSnowman();
   }
 
   updateTooEarly() {
@@ -569,6 +597,48 @@ export class HomeScene extends Phaser.Scene {
     this.backgroundScene.updateCamera();
 
     this.updateDarkSkySize();
+  }
+
+  updateSnowman() {
+    if (!this.snowman) return;
+    //
+    // worldX: self.input.activePointer.worldX,
+    // worldY: self.input.activePointer.worldY,
+    // worldXRel: centerX - self.input.activePointer.worldX,
+    const timeout = 1000;
+    const enoughTimePassed =
+      new Date().valueOf() - this.snowmanLastChange > timeout;
+    const facingLeft = this.snowmanDirection == -1 ? true : false;
+
+    if (
+      this.input.activePointer.worldX < this.snowman.x - 10 &&
+      enoughTimePassed &&
+      !facingLeft
+    ) {
+      console.log("turning left");
+      this.snowman.play({
+        key: "play-snowman-left",
+        delay: 0,
+      });
+
+      this.snowmanDirection = -1;
+      this.snowmanLastChange = new Date().valueOf();
+    }
+
+    if (
+      this.input.activePointer.worldX > this.snowman.x - 10 &&
+      enoughTimePassed &&
+      facingLeft
+    ) {
+      console.log("turning right");
+      this.snowman.play({
+        key: "play-snowman-right",
+        delay: 0,
+      });
+
+      this.snowmanDirection = 1;
+      this.snowmanLastChange = new Date().valueOf();
+    }
   }
 
   getZoom() {

@@ -42,6 +42,13 @@ export class BootScene extends Phaser.Scene {
         "sky/castle_v3_skyBG_dark_cloudsback_1.png"
       );
       this.load.image("pinkBG", "sky/castle_v3_skyBG_dark_sky_1.png");
+
+      this.load.atlas(
+        "snowflakes",
+        "snow/snowflakes.png",
+        "snow/snowflakes.json"
+      );
+      this.load.text("snow-particle-effect", "snow/snow.json");
     } else if (NIGHT) {
       this.load.path = "/static/game/wizards/souls/";
       this.load.image("dark_moon_1", "sky/castle_Souls_skyBG_dark_moon_1.png");
@@ -152,6 +159,7 @@ export class BootScene extends Phaser.Scene {
       );
       blackBG.setOrigin(0, 0);
       this.landscape.add(blackBG);
+      this.letItSnow();
     } else if (NIGHT) {
       addToLandscape({ name: "dark_layer_1_1" });
       addToLandscape({ name: "dark_stars_1" });
@@ -363,6 +371,24 @@ export class BootScene extends Phaser.Scene {
 
   update() {
     this.game.events.emit(events.ON_UPDATE);
+  }
+
+  letItSnow() {
+    const width = this.cameras.main.width;
+    console.log("let it snow");
+
+    const base = JSON.parse(this.cache.text.get("snow-particle-effect"));
+    console.log("base: ", base);
+    let emitterConfig = {
+      ...base,
+      emitZone: {
+        source: new Phaser.Geom.Rectangle(0, 0, width, 1),
+        type: "random",
+      },
+    };
+    const snowParticles = this.add.particles("snowflakes", [emitterConfig]);
+    // snowParticles.depth = 10;
+    this.landscape.add(snowParticles);
   }
 
   resize() {
