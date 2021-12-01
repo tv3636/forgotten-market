@@ -91,7 +91,8 @@ export class Tower {
     tower.setOrigin(originX, originY);
 
     const towerTile = scene.add.tileSprite(
-      centerX - 6,
+      // centerX - 6,
+      centerX - 6.5,
       towerY + tower.height,
       265,
       2800,
