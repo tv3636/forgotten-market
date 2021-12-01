@@ -2,6 +2,7 @@
 title: How to access all the extra Wizard goodies
 description: Forgotten Runes Wizards come with all kinds of extras, beyond the NFT itself. This guide will show you how to access your Wizard’s art, turnarounds of that Wizard, the GM generator, and many other upcoming treats such as walk cycles.
 ogWizardImage: 777
+index: 9
 ---
 
 Forgotten Runes Wizards come with all kinds of extras, beyond the NFT itself. Many of these extras come from our team, and some come from our cult members.

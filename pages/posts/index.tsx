@@ -1,13 +1,14 @@
+import { POSTS_PATH, postFilePaths } from "../../lib/mdxUtils";
+import { fileLocale, pickBestByLocale } from "../../lib/localeTools";
+
+import { GetStaticProps } from "next";
+import InfoPageLayout from "../../components/InfoPageLayout";
+import Link from "next/link";
+import compact from "lodash/compact";
 import fs from "fs";
 import matter from "gray-matter";
-import Link from "next/link";
 import path from "path";
-import InfoPageLayout from "../../components/InfoPageLayout";
-import { postFilePaths, POSTS_PATH } from "../../lib/mdxUtils";
-import { fileLocale, pickBestByLocale } from "../../lib/localeTools";
 import styled from "@emotion/styled";
-import compact from "lodash/compact";
-import { GetStaticProps } from "next";
 
 export type Post = {
   content: string;
@@ -36,6 +37,12 @@ const BlogEntry = styled.li`
 `;
 
 export default function Index({ posts }: { posts: Post[] }) {
+  // sort the blog posts by their index in the descending order
+  posts.sort((a: Post, b: Post) => {
+    const indexA = a.data.index ? a.data.index : 99999;
+    const indexB = b.data.index ? b.data.index : 99999;
+    return indexB - indexA;
+  });
   return (
     <InfoPageLayout title="Blog Posts: Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
       <h1>Forgotten Blog Posts</h1>

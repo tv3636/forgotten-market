@@ -2,6 +2,7 @@
 title: "Magic MachineはForgotten Runes Wizards Cultのアニメ番組制作についてTitmouse社との提携を発表"
 description: "私たちはForgotten Runes Wizard Cultの番組制作に向けTitmouse社と提携します"
 ogImage: https://i.imgur.com/w8e8an3.jpg
+index: 13
 ---
 
 ![](https://i.imgur.com/w8e8an3.jpg)

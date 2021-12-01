@@ -1,14 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import request from "request";
-import fs from "fs";
-import * as os from "os";
-import stream from "stream";
 import {
   buildSpritesheet,
-  getStyledTokenBuffer,
-  GetStyledTokenBufferProps,
-  getTraitLayerBuffer,
-  getWizardPartsBuffer,
   stripExtension,
   VALID_TOKEN_STYLES,
 } from "../../../../../lib/art/artGeneration";

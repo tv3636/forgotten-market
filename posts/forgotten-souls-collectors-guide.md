@@ -2,6 +2,7 @@
 title: A Collectors Guide to Forgotten Souls
 description: "Should I burn my Wizard? This document is a guide to Forgotten Souls for collectors."
 ogImage: https://i.imgur.com/hnfqCgs.jpg
+index: 15
 ---
 
 ![](https://i.imgur.com/hnfqCgs.jpg)

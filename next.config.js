@@ -18,7 +18,7 @@ const withTM = require("next-transpile-modules")([
 
 // https://gist.github.com/diachedelic/6ded48f5c6442482fa69e91ec7ab1742
 let nextConfig = {
-  webpack: (config, options) => {
+  webpack: (config, { isServer }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       react$: path.resolve(root, "./node_modules/react"),

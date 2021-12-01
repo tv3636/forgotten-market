@@ -11,6 +11,8 @@ import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import { getContrast } from "../../lib/colorUtils";
 import productionWizardData from "../../data/nfts-prod.json";
+import productionSoulsData from "../../data/souls-prod.json";
+import stagingSoulsData from "../../data/souls-staging.json";
 import { storyPrompts, titlePrompts } from "./addLoreHelpers";
 import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
 import { css, keyframes } from "@emotion/react";
@@ -22,6 +24,11 @@ import {
 } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 
 const pulse = keyframes`
   0% { opacity: 0.3; }
@@ -165,7 +172,9 @@ export default function AddLoreEditor({
     if (tokenId && tokenAddress && isWizardsContract(tokenAddress)) {
       defaultText = `# ${titlePrompt} ${wizData[tokenId].name}\n${storyPrompt}`;
     } else if (tokenId && tokenAddress && isSoulsContract(tokenAddress)) {
-      defaultText = `# ${titlePrompt} a Soul\n${storyPrompt}`;
+      defaultText = `# ${titlePrompt} ${
+        soulsData?.[tokenId]?.name ?? "a Soul"
+      }\n${storyPrompt}`;
     }
 
     const newEditorState = markdownToDraftState(defaultText);

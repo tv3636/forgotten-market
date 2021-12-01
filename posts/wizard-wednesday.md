@@ -2,6 +2,7 @@
 title: Wizard Wednesday, Forgotten Runes Weekly AmA on Twitter Spaces
 description: Each week, we gather for a Cult meeting on Twitter Spaces
 ogImage: https://forgottenrunes.com/static/img/wizard-wednesday.jpg
+index: 6
 ---
 
 <ResponsiveImg src="/static/img/wizard-wednesday.jpg" pixelArt={true} />

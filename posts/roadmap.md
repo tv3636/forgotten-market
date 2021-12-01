@@ -2,6 +2,7 @@
 title: Forgotten Runes Wizard’s Cult Roadmap 2.0
 description: Sprite sheets, Metaverse, Book of Lore, and more
 ogWizardImage: 1
+index: 2
 ---
 
 On July 30th, at roughly 8:30 am, a crow perched upon the Secret Tower, and the Tower came alive. Within a frenzied timespan of 20 minutes, our community had summoned all ten thousand Wizards, and the Secret Tower closed once again. It was an historic moment in NFT history, and our team suddenly realized we had become Cult leaders, with a Discord full of passionate Wizards. Over the following weeks, we studiously knocked off each item on our Roadmap 1.0, and with every milestone our ambitions grew larger.

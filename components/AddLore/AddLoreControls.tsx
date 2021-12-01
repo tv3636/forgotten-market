@@ -1,6 +1,9 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../../data/nfts-prod.json";
+import productionSoulsData from "../../data/souls-prod.json";
+import stagingSoulsData from "../../data/souls-staging.json";
+
 import Button from "../ui/Button";
 import { BackgroundColorPickerField, NSFWField } from "./AddLoreFields";
 import { LoreNameWrapper } from "../Lore/BookSharedComponents";
@@ -10,6 +13,11 @@ import {
 } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
+const soulsData = (
+  parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
+    ? stagingSoulsData
+    : productionSoulsData
+) as { [soulId: string]: any };
 
 const BookOfLoreControlsElement = styled.div`
   position: relative;
@@ -126,7 +134,8 @@ export default function AddLoreControls({
     const wizardData: any = tokenId ? wizData[tokenId.toString()] : {};
     name = wizardData?.name;
   } else if (tokenAddress && isSoulsContract(tokenAddress)) {
-    name = "Soul";
+    const soulData: any = tokenId ? soulsData?.[tokenId.toString()] ?? {} : {};
+    name = soulData?.name ?? "Soul";
   } else {
     name = "Unknown";
   }

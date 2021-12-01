@@ -1,8 +1,8 @@
 import * as React from "react";
-import { useState } from "react";
 import styled from "@emotion/styled";
 import productionWizardData from "../data/nfts-prod.json";
 import { ResponsiveImg, ResponsivePixelImg } from "./ResponsivePixelImg";
+
 const wizData = productionWizardData as { [wizardId: string]: any };
 
 type Props = {

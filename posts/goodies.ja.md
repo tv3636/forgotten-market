@@ -2,6 +2,7 @@
 title: Wizardの特典へのアクセス方法
 description: Forgotten RunesのWizardには、NFT本体の他にも様々な特典が付いています。このガイドでは、Wizardの画像へのアクセス方法、Wizardの回転パーツ、GM画像生成アプリなどに加え、ウォークサイクルなどの今後の配布が予定されている特典についてもご紹介します。
 ogWizardImage: 777
+index: 9
 ---
 
 Forgotten RunesのWizardには、NFT本体の他にも様々な特典が付いています。これらの特典の多くは、私たちのチームによるもので、中にはカルトメンバーによって作成されたものもあります。
