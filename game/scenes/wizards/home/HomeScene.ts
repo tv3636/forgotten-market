@@ -78,6 +78,7 @@ export class HomeScene extends Phaser.Scene {
   bati2: number = 0;
 
   lastDelta: number = 1;
+  snowParticles: any;
 
   constructor() {
     super("HomeScene");
@@ -596,6 +597,10 @@ export class HomeScene extends Phaser.Scene {
 
     if (mainZoom > 1) {
       camera.scrollY = -height / mainZoom / 2;
+
+      // if (this.snowParticles) {
+      // this.snowParticles.y = camera.scrollY;
+      // }
     }
 
     // scroll based on whatever we initially had
@@ -986,11 +991,11 @@ export class HomeScene extends Phaser.Scene {
     let emitterConfig = {
       ...base,
       emitZone: {
-        source: new Phaser.Geom.Rectangle(0, -50, width, 1),
+        source: new Phaser.Geom.Rectangle(0, -20, width, 1),
         type: "random",
       },
     };
-    const snowParticles = this.add.particles("snowflakes", [emitterConfig]);
+    this.snowParticles = this.add.particles("snowflakes", [emitterConfig]);
     // snowParticles.depth = 10;
     // this.landscape.add(snowParticles);
   }

@@ -20,7 +20,7 @@
         "frequency": 1,
         "gravityX": 0,
         "gravityY": 10,
-        "maxParticles": 5000,
+        "maxParticles": 60000,
         "timeScale": 2,
         "blendMode": 3,
         "accelerationX": {
@@ -45,7 +45,7 @@
         },
         "bounce": 0,
         "delay": 0,
-        "lifespan": 20000,
+        "lifespan": 45000,
         "maxVelocityX": 10,
         "maxVelocityY": 25,
         "moveToX": 0,
