@@ -159,7 +159,7 @@ export class BootScene extends Phaser.Scene {
       );
       blackBG.setOrigin(0, 0);
       this.landscape.add(blackBG);
-      this.letItSnow();
+      // this.letItSnow();
     } else if (NIGHT) {
       addToLandscape({ name: "dark_layer_1_1" });
       addToLandscape({ name: "dark_stars_1" });
@@ -373,23 +373,23 @@ export class BootScene extends Phaser.Scene {
     this.game.events.emit(events.ON_UPDATE);
   }
 
-  letItSnow() {
-    const width = this.cameras.main.width;
-    console.log("let it snow");
+  // letItSnow() {
+  //   const width = this.cameras.main.width;
+  //   console.log("let it snow");
 
-    const base = JSON.parse(this.cache.text.get("snow-particle-effect"));
-    console.log("base: ", base);
-    let emitterConfig = {
-      ...base,
-      emitZone: {
-        source: new Phaser.Geom.Rectangle(0, 0, width, 1),
-        type: "random",
-      },
-    };
-    const snowParticles = this.add.particles("snowflakes", [emitterConfig]);
-    // snowParticles.depth = 10;
-    this.landscape.add(snowParticles);
-  }
+  //   const base = JSON.parse(this.cache.text.get("snow-particle-effect"));
+  //   console.log("base: ", base);
+  //   let emitterConfig = {
+  //     ...base,
+  //     emitZone: {
+  //       source: new Phaser.Geom.Rectangle(0, -50, width, 1),
+  //       type: "random",
+  //     },
+  //   };
+  //   const snowParticles = this.add.particles("snowflakes", [emitterConfig]);
+  //   // snowParticles.depth = 10;
+  //   this.landscape.add(snowParticles);
+  // }
 
   resize() {
     this.updateCamera();

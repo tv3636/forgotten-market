@@ -111,6 +111,12 @@ export class HomeScene extends Phaser.Scene {
         "winter/snowman.png",
         "winter/snowman.json"
       );
+      this.load.atlas(
+        "snowflakes",
+        "snow/snowflakes.png",
+        "snow/snowflakes.json"
+      );
+      this.load.text("snow-particle-effect", "snow/snow.json");
     }
 
     if (NIGHT) {
@@ -173,6 +179,7 @@ export class HomeScene extends Phaser.Scene {
 
     if (WINTER) {
       this.configureWinterWonderland();
+      this.letItSnow();
     }
     // if (this.summoningBegun) {
     //   this.configureSummoningBegunWorld();
@@ -968,5 +975,23 @@ export class HomeScene extends Phaser.Scene {
 
     this.bati += 1;
     this.bati = this.bati % 2056;
+  }
+
+  letItSnow() {
+    const width = this.cameras.main.width;
+    console.log("let it snow");
+
+    const base = JSON.parse(this.cache.text.get("snow-particle-effect"));
+    console.log("base: ", base);
+    let emitterConfig = {
+      ...base,
+      emitZone: {
+        source: new Phaser.Geom.Rectangle(0, -50, width, 1),
+        type: "random",
+      },
+    };
+    const snowParticles = this.add.particles("snowflakes", [emitterConfig]);
+    // snowParticles.depth = 10;
+    // this.landscape.add(snowParticles);
   }
 }
