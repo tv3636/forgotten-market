@@ -1,13 +1,7 @@
-import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { INFURA_ID } from "../constants";
-import {
-  StaticJsonRpcProvider,
-  JsonRpcProvider,
-  Web3Provider,
-} from "@ethersproject/providers";
+import { Web3Provider } from "@ethersproject/providers";
 
 const useWeb3Modal = (setInjectedProvider: any) => {
   const [web3Modal, setWeb3Modal] = useState<any>();

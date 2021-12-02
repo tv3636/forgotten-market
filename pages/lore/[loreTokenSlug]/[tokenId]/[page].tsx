@@ -24,6 +24,13 @@ import flatMap from "lodash/flatMap";
 import productionWizardData from "../../../../data/nfts-prod.json";
 import productionSoulsData from "../../../../data/souls-prod.json";
 import stagingSoulsData from "../../../../data/souls-staging.json";
+import {
+  ChainId,
+  DAppProvider,
+  useEtherBalance,
+  useEthers,
+  Config,
+} from "@usedapp/core";
 
 const soulsData = (
   parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
@@ -48,7 +55,7 @@ const LorePage = ({
   lorePageData: LorePageData;
   wizardsWithLore: { [key: number]: boolean };
 }) => {
-  const isWide = useMedia("(min-width: 900px)");
+  const isWide = useMedia("(min-width: 1000px)");
 
   const [showGallery, setShowGallery] = useState(false);
 
@@ -92,17 +99,22 @@ const LorePage = ({
       }
     />
   );
+  const config: Config = {
+    readOnlyChainId: parseInt(
+      process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID as string
+    ),
+  };
 
   return (
     <Layout title={title}>
       {og}
-      <LoreSharedLayout>
+      <>
         <Book
           loreTokenSlug={loreTokenSlug}
           tokenId={tokenId}
           lorePageData={lorePageData}
         />
-      </LoreSharedLayout>
+      </>
       {isWide && showGallery && (
         <WizardMapLeaflet wizardsWithLore={wizardsWithLore} bookOfLore={true} />
       )}

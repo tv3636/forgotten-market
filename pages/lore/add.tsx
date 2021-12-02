@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AddLoreControls from "../../components/AddLore/AddLoreControls";
 import AddLoreEditor, {
   convertDraftStateToMarkdown,
+  markdownToDraftState,
 } from "../../components/AddLore/AddLoreEditor";
 import WizardPicker, {
   WizardConfiguration,
@@ -15,10 +16,11 @@ import Layout from "../../components/Layout";
 import BookFrame from "../../components/Lore/BookFrame";
 import { BookOfLorePage } from "../../components/Lore/IndividualLorePage";
 import StyledToastContainer from "../../components/StyledToastContainer";
-import { useMst } from "../../store";
 import {
   getPendingLoreTxHashRedirection,
   onSubmitAddLoreForm,
+  storyPrompts,
+  titlePrompts,
 } from "../../components/AddLore/addLoreHelpers";
 import LoreSharedLayout from "../../components/Lore/LoreSharedLayout";
 import { EditorState } from "draft-js";
@@ -29,7 +31,14 @@ import productionWizardData from "../../data/nfts-prod.json";
 import productionSoulsData from "../../data/souls-prod.json";
 import stagingSoulsData from "../../data/souls-staging.json";
 
-import { isWizardsContract } from "../../contracts/ForgottenRunesWizardsCultContract";
+import {
+  getBookOfLoreContract,
+  isSoulsContract,
+  isWizardsContract,
+} from "../../contracts/ForgottenRunesWizardsCultContract";
+import { fetchFromIpfs } from "../../lib/web3Utils";
+import { useEthers } from "@usedapp/core";
+import { useTimeoutFn } from "react-use";
 
 const soulsData = (
   parseInt(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID ?? "1") === 4
@@ -59,21 +68,10 @@ export const WaitingText = styled.div`
 `;
 const WaitingForGraphPage = () => {
   const router = useRouter();
-  useEffect(() => {
-    let reloadTimer: number;
-
-    async function logic() {
-      window.setTimeout(
-        () =>
-          router.push(
-            `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&tokenId=${router.query?.tokenId}&tokenAddress=${router.query?.tokenAddress}`
-          ),
-        1.5 * 1000
-      );
-    }
-
-    logic();
-  }, []);
+  useTimeoutFn(() => {
+    // @ts-ignore
+    window.location = `/lore/add?waitForTxHash=${router.query?.waitForTxHash}&tokenId=${router.query?.tokenId}&tokenAddress=${router.query?.tokenAddress}&waited=true`;
+  }, 5 * 1000);
 
   return (
     <Flex
@@ -87,15 +85,19 @@ const WaitingForGraphPage = () => {
   );
 };
 
+const defaultPrompt = "_Please pick a Wizard on the other page_";
+
 const AddLorePage = () => {
-  const { web3Settings } = useMst();
+  const { library } = useEthers();
   const [currentTitle, setCurrentTitle] = useState<string | null>(null);
   const [currentStory, setCurrentStory] = useState<string | null>(null);
   const [currentNsfw, setNsfw] = useState<boolean>(false);
   const [currentBgColor, setCurrentBgColor] = useState<
     string | null | undefined
   >(null);
-  const [currentEditorState, setCurrentEditorState] = useState<EditorState>();
+  const [currentEditorState, setCurrentEditorState] = useState<EditorState>(
+    EditorState.createEmpty()
+  );
 
   const [currentWizard, setCurrentWizard] = useState<WizardConfiguration>();
 
@@ -107,6 +109,92 @@ const AddLorePage = () => {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const router = useRouter();
+
+  const loreIndex = router.query?.loreIndex;
+  const isEditing = loreIndex !== undefined;
+
+  useEffect(() => {
+    if (!isEditing) {
+      const titlePrompt = titlePrompts[0];
+      const storyPrompt = storyPrompts[0];
+
+      let defaultText = defaultPrompt;
+
+      if (
+        currentWizard &&
+        currentWizard.tokenAddress &&
+        isWizardsContract(currentWizard.tokenAddress)
+      ) {
+        defaultText = `# ${titlePrompt} ${
+          wizData[currentWizard.tokenId].name
+        }\n${storyPrompt}`;
+      } else if (
+        currentWizard &&
+        currentWizard.tokenAddress &&
+        isSoulsContract(currentWizard.tokenAddress)
+      ) {
+        defaultText = `# ${titlePrompt} ${
+          soulsData?.[currentWizard.tokenId]?.name ?? "a Soul"
+        }\n${storyPrompt}`;
+      }
+
+      const newEditorState = markdownToDraftState(defaultText);
+
+      setCurrentEditorState(newEditorState);
+    }
+  }, [isEditing, currentWizard]);
+
+  useEffect(() => {
+    async function fetchCurrentLore() {
+      console.log("Fetching lore");
+      console.log(currentWizard);
+      console.log(library);
+      if (!currentWizard || !library) return;
+
+      const contract = await getBookOfLoreContract({
+        provider: library,
+      });
+
+      const loreEntry = await contract.tokenLore(
+        currentWizard.tokenAddress,
+        currentWizard.tokenId,
+        loreIndex
+      );
+      console.log(loreEntry);
+      const loreMetadataURI = loreEntry?.loreMetadataURI;
+
+      if (!loreMetadataURI) return;
+
+      const loreData = await fetchFromIpfs(loreMetadataURI);
+
+      if (loreData && loreData?.description) {
+        setCurrentEditorState(markdownToDraftState(loreData?.description));
+        setCurrentBgColor(loreData?.background_color ?? "#000000");
+      }
+    }
+    const isEmpty = currentEditorState?.isEmpty;
+
+    if (isEditing && (isEmpty || isEmpty === undefined)) {
+      fetchCurrentLore();
+    }
+  }, [isEditing, currentEditorState?.isEmpty, library]);
+
+  console.log(`isEmpty ${currentEditorState?.isEmpty}`);
+
+  if (
+    !currentWizard &&
+    router.query?.tokenId &&
+    router.query?.tokenAddress &&
+    loreIndex
+  ) {
+    setCurrentWizard({
+      tokenId: router.query.tokenId as string,
+      tokenAddress: router.query.tokenAddress as string,
+      name: isWizardsContract(router.query.tokenAddress as string)
+        ? wizData[router.query.tokenId as string].name
+        : soulsData[router.query.tokenId as string].name,
+    });
+  }
 
   if (
     (router.query?.waitForTxHash || router.query?.lorePageToPrefetch) &&
@@ -139,12 +227,13 @@ const AddLorePage = () => {
     await onSubmitAddLoreForm({
       values: { bg_color: currentBgColor, nsfw: currentNsfw },
       currentWizard,
+      loreIndex: isEditing ? loreIndex : undefined,
       setErrorMessage,
       setSubmitting,
       currentStory: _currentStory,
       currentTitle: _currentTitle,
       currentBgColor,
-      web3Settings,
+      provider: library,
       router,
     });
   };
@@ -179,22 +268,25 @@ const AddLorePage = () => {
       currentBackgroundColor={currentBgColor}
       onBackgroundColorChanged={onBackgroundColorChanged}
       onNsfwChanged={onNsfwChanged}
+      isEditing={isEditing}
     />
   );
 
   const currentLeftPage = (
     <BookOfLorePage bg={wizardBg}>
-      <WizardPicker onWizardPicked={onWizardPicked} />
+      <WizardPicker
+        currentWizard={currentWizard}
+        setCurrentWizard={setCurrentWizard}
+      />
     </BookOfLorePage>
   );
   const currentRightPage = (
     <BookOfLorePage bg={bg || "#000000"}>
       <AddLoreEditor
-        onChange={setCurrentEditorState}
+        currentEditorState={currentEditorState}
+        setCurrentEditorState={setCurrentEditorState}
         onBgColorChanged={onEditorChangedBackgroundColor}
         bg={bg || "#000000"}
-        tokenAddress={currentWizard?.tokenAddress}
-        tokenId={currentWizard?.tokenId}
         isLoading={submitting}
       />
     </BookOfLorePage>
@@ -236,10 +328,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     context.query?.tokenId &&
     !context.query?.client
   ) {
+    console.log("Server side checking pending...");
     const pendingLoreProps = await getPendingLoreTxHashRedirection({
       waitForTxHash: context.query.waitForTxHash as string,
       tokenAddress: context.query?.tokenAddress as string,
       tokenId: context.query?.tokenId as string,
+      waitedOneRound: Boolean(context.query?.waited) ?? false,
     });
     return pendingLoreProps;
   }

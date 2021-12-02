@@ -18,6 +18,7 @@ import productionSoulsData from "../../data/souls-prod.json";
 import stagingSoulsData from "../../data/souls-staging.json";
 
 import { BigNumber } from "ethers";
+import { useEthers } from "@usedapp/core";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 const soulsData = (
@@ -139,6 +140,7 @@ function WizardList({
 
   useEffect(() => {
     async function run() {
+      console.log("getting characters");
       try {
         const address = injectedProvider.provider.selectedAddress;
         const wizardsContract = await getWizardsContract({
@@ -196,7 +198,8 @@ function WizardPickerModal({
 }
 
 type Props = {
-  onWizardPicked: (WizardConfiguration: WizardConfiguration) => void;
+  currentWizard?: WizardConfiguration;
+  setCurrentWizard: (WizardConfiguration: WizardConfiguration) => void;
 };
 
 const WizardPickerElement = styled.div`
@@ -223,21 +226,17 @@ export type WizardConfiguration = {
   name: string;
 };
 
-const WizardPicker = observer(({ onWizardPicked }: Props) => {
-  const { web3Settings } = useMst();
-  const walletConnected = web3Settings.connected;
+const WizardPicker = ({ currentWizard, setCurrentWizard }: Props) => {
+  const { library, account } = useEthers();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const closeModal = () => setModalIsOpen(false);
-  const [currentWizard, setCurrentWizard] =
-    useState<WizardConfiguration | null>(null);
 
   const onWizardModalPicked = (wizardConfiguration: WizardConfiguration) => {
     setCurrentWizard(wizardConfiguration);
-    onWizardPicked(wizardConfiguration);
   };
 
-  if (!walletConnected) {
+  if (!account) {
     return (
       <EmptyWell>
         <NotConnected />
@@ -260,9 +259,11 @@ const WizardPicker = observer(({ onWizardPicked }: Props) => {
             name={currentWizard.name}
           />
         )}
-        <StyledPickWizardButton onClick={() => setModalIsOpen(!modalIsOpen)}>
-          Pick {currentWizard ? "another" : "a"} character
-        </StyledPickWizardButton>
+        {!currentWizard && (
+          <StyledPickWizardButton onClick={() => setModalIsOpen(!modalIsOpen)}>
+            Pick {currentWizard ? "another" : "a"} character
+          </StyledPickWizardButton>
+        )}
         <StyledModal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
@@ -271,12 +272,12 @@ const WizardPicker = observer(({ onWizardPicked }: Props) => {
           <WizardPickerModal
             onRequestClose={closeModal}
             onWizardPicked={wizardPicked}
-            injectedProvider={web3Settings.injectedProvider}
+            injectedProvider={library}
           />
         </StyledModal>
       </EmptyWell>
     </WizardPickerElement>
   );
-});
+};
 
 export default WizardPicker;

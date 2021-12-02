@@ -33,6 +33,8 @@ export type IndividualLorePageData = {
   title?: string;
   story?: string;
   pageNumber?: number;
+  loreIndex?: number;
+  creator?: string;
 };
 
 export type LorePageData = {

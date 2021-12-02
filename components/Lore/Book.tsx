@@ -41,6 +41,10 @@ const Book = ({ loreTokenSlug, tokenId, lorePageData }: Props) => {
       tokenId={tokenId}
       previousPageRoute={lorePageData.previousPageRoute}
       nextPageRoute={lorePageData.nextPageRoute}
+      leftPageLoreIndex={lorePageData.leftPage?.loreIndex}
+      rightPageLoreIndex={lorePageData.rightPage?.loreIndex}
+      leftPageCreator={lorePageData.leftPage.creator}
+      rightPageCreator={lorePageData.rightPage.creator}
     />
   );
 

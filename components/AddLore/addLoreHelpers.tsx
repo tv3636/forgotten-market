@@ -71,12 +71,13 @@ export const pinFileToIPFS = async (
 export const onSubmitAddLoreForm = async ({
   values,
   currentWizard,
+  loreIndex,
   setErrorMessage,
   setSubmitting,
   currentStory,
   currentTitle,
   currentBgColor,
-  web3Settings,
+  provider,
   router,
 }: any) => {
   console.log("onSubmit", currentWizard, values);
@@ -132,7 +133,6 @@ export const onSubmitAddLoreForm = async ({
 
   setSubmitting(true);
 
-  const provider = web3Settings.injectedProvider;
   const { chainId } = await provider.getNetwork();
   const appChainId = process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID || 4; // Rinkeby default
   const network = NETWORK(parseInt(appChainId as string));
@@ -327,18 +327,24 @@ export const onSubmitAddLoreForm = async ({
       closeOnClick: false,
       progress: 0,
     });
-
-    const tx = await loreContract
+    const connectedLoreContract = await loreContract
       //@ts-ignore
-      .connect(signer)
-      .addLore(
-        currentWizard.tokenAddress,
-        currentWizard.tokenId,
-        0,
-        values.nsfw,
-        `ipfs://${apiResponse.hash}`,
-        { gasLimit: 300000 } //TODO: actual gas limit
-      );
+      .connect(signer);
+    const tx = loreIndex
+      ? await connectedLoreContract.updateLoreMetadataURI(
+          currentWizard.tokenAddress,
+          currentWizard.tokenId,
+          loreIndex,
+          `ipfs://${apiResponse.hash}`
+        )
+      : await connectedLoreContract.addLore(
+          currentWizard.tokenAddress,
+          currentWizard.tokenId,
+          0,
+          values.nsfw,
+          `ipfs://${apiResponse.hash}`,
+          { gasLimit: 300000 } //TODO: actual gas limit
+        );
 
     console.log("tx: ", tx);
     // TODO: this should read the connected network and use that block explorer, not an environment variable
@@ -497,10 +503,12 @@ export const getPendingLoreTxHashRedirection = async ({
   waitForTxHash,
   tokenAddress,
   tokenId,
+  waitedOneRound,
 }: {
   waitForTxHash: string;
   tokenAddress: string;
   tokenId: string;
+  waitedOneRound: boolean;
 }) => {
   const { data } = await client.query({
     query: gql`
@@ -514,21 +522,8 @@ export const getPendingLoreTxHashRedirection = async ({
       `,
     fetchPolicy: "no-cache",
   });
-
-  if (data?.lores[0]) {
-    const { data: wizardPageCount } = await client.query({
-      query: gql`
-          query Lore {
-              lores( where: {tokenId: "${tokenId}", tokenContract: "${tokenAddress.toLowerCase()}", struck: false, nsfw: false}) {
-                  id
-              }
-          }
-      `,
-      fetchPolicy: "no-cache",
-    });
-
-    const pageNum = (wizardPageCount?.lores).length - 1;
-
+  console.log(data);
+  if (waitedOneRound || data?.lores[0]) {
     await bustLoreCache();
 
     return {
@@ -536,7 +531,7 @@ export const getPendingLoreTxHashRedirection = async ({
         destination: getLoreUrl(
           isWizardsContract(tokenAddress) ? "wizards" : "souls",
           parseInt(tokenId),
-          pageNum % 2 === 0 ? pageNum : pageNum + 1
+          0
         ),
       },
     };

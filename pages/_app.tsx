@@ -8,6 +8,7 @@ import NextNprogress from "nextjs-progressbar";
 
 import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";
+import { ChainId, DAppProvider } from "@usedapp/core";
 
 function App({ Component, pageProps }: { Component: any; pageProps: any }) {
   useGTag();
@@ -88,19 +89,24 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
           key="ogdesc"
         />
       </Head>
-
-      <MobxStateTreeProvider value={store}>
-        <AnimateSharedLayout>
-          <Component {...pageProps} />
-          <NextNprogress
-            color="darkgrey"
-            startPosition={0.1}
-            stopDelayMs={200}
-            height={3}
-            showOnShallow={false}
-          />
-        </AnimateSharedLayout>
-      </MobxStateTreeProvider>
+      <DAppProvider
+        config={{
+          readOnlyChainId: ChainId.Mainnet,
+        }}
+      >
+        <MobxStateTreeProvider value={store}>
+          <AnimateSharedLayout>
+            <Component {...pageProps} />
+            <NextNprogress
+              color="darkgrey"
+              startPosition={0.1}
+              stopDelayMs={200}
+              height={3}
+              showOnShallow={false}
+            />
+          </AnimateSharedLayout>
+        </MobxStateTreeProvider>
+      </DAppProvider>
     </>
   );
 }

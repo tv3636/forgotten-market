@@ -11,6 +11,10 @@ import { LoreNameWrapper } from "./BookSharedComponents";
 import productionWizardData from "../../data/nfts-prod.json";
 import productionSoulsData from "../../data/souls-prod.json";
 import stagingSoulsData from "../../data/souls-staging.json";
+import { useEthers } from "@usedapp/core";
+import { ConnectWalletButton } from "../web3/ConnectWalletButton";
+import { CHARACTER_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
+import { Flex } from "rebass";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 const soulsData = (
@@ -20,33 +24,41 @@ const soulsData = (
 ) as { [soulId: string]: any };
 
 type Props = {
-  loreTokenSlug: string;
+  loreTokenSlug: "wizards" | "souls";
   tokenId: number;
   nextPageRoute: string | null;
   previousPageRoute: string | null;
+  leftPageLoreIndex?: number;
+  rightPageLoreIndex?: number;
+  leftPageCreator?: string;
+  rightPageCreator?: string;
 };
 
 const BookOfLoreControlsElement = styled.div`
   position: relative;
   margin: 10px 40px; // this x-margin should match the outer container of Book.tsx
   padding: 10px 10px;
-  padding-bottom: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-bottom: 10px;
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
 
   @media (max-width: 768px) {
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 `;
 const WriteContainer = styled.div`
-  position: absolute;
-  right: 0px;
-  top: 10px;
-
-  @media (max-width: 768px) {
-    position: relative;
-  }
+  //position: absolute;
+  //right: 0px;
+  //top: 10px;
+  //
+  //@media (max-width: 768px) {
+  //  position: relative;
+  //}
+  padding-bottom: 12px;
+  display: flex;
 `;
 
 const PreviousPageContainer = styled.div`
@@ -81,19 +93,20 @@ const NoPageSpacer = styled.div`
 `;
 
 const SocialContainer = styled.div`
-  position: absolute;
-  left: 0px;
-  top: 10px;
+  //position: absolute;
+  //left: 0px;
+  //top: 10px;
 
   display: flex;
   flex-direction: row;
   align-items: center;
+  align-self: center;
 
-  @media (max-width: 768px) {
-    position: relative;
-    top: 0;
-    margin-bottom: 15px;
-  }
+  //@media (max-width: 768px) {
+  //  position: relative;
+  //  top: 0;
+  //  margin-bottom: 15px;
+  //}
 `;
 
 export const SocialItem = styled.div`
@@ -176,6 +189,10 @@ export default function BookOfLoreControls({
   tokenId,
   nextPageRoute,
   previousPageRoute,
+  leftPageLoreIndex,
+  rightPageLoreIndex,
+  leftPageCreator,
+  rightPageCreator,
 }: Props) {
   const router = useRouter();
 
@@ -201,56 +218,104 @@ export default function BookOfLoreControls({
     [nextPageRoute, router]
   );
 
-  return (
-    <BookOfLoreControlsElement>
-      <LoreSocialContainer loreTokenSlug={loreTokenSlug} tokenId={tokenId} />
+  // const { web3Settings } = useMst();
+  // const walletConnected = web3Settings.injectedProvider;
+  const { account } = useEthers();
+  console.log(
+    `creator ${rightPageCreator?.toLowerCase()} ${account?.toLowerCase()}`
+  );
 
-      <PaginationContainer>
-        <PreviousPageContainer>
-          {previousPageRoute ? (
-            <Link href={previousPageRoute} passHref>
-              <a>
-                <Image
-                  src={"/static/lore/book/arrow_L.png"}
-                  width={"12px"}
-                  height={"25px"}
-                />
-              </a>
-            </Link>
-          ) : (
-            <NoPageSpacer />
+  const canEditRightPage =
+    account &&
+    rightPageLoreIndex &&
+    rightPageCreator?.toLowerCase() === account?.toLowerCase();
+  const writeNewLoreButton = (
+    <Link href="/lore/add" passHref={true}>
+      <WriteButton size="medium">Write New Lore</WriteButton>
+    </Link>
+  );
+
+  return (
+    <Flex flexDirection={"column"} pb={4}>
+      <BookOfLoreControlsElement>
+        <WriteContainer style={{ justifyContent: "flex-start" }}>
+          {!leftPageLoreIndex && (
+            <LoreSocialContainer
+              loreTokenSlug={loreTokenSlug}
+              tokenId={tokenId}
+            />
           )}
-        </PreviousPageContainer>
-        <LoreNameWrapper layout layoutId="wizardName">
-          {loreTokenSlug === "wizards"
-            ? `${wizData[tokenId.toString()].name} (#${tokenId})`
-            : loreTokenSlug === "souls"
-            ? `${
-                soulsData?.[tokenId.toString()]?.name ?? "Soul"
-              }  (#${tokenId})`
-            : "Narrative Page"}
-        </LoreNameWrapper>
-        <NextPageContainer>
-          {nextPageRoute ? (
-            <Link href={nextPageRoute} passHref>
-              <a>
-                <Image
-                  src={"/static/lore/book/arrow_R.png"}
-                  width={"12px"}
-                  height={"25px"}
-                />
-              </a>
+          {account &&
+            leftPageLoreIndex &&
+            leftPageCreator?.toLowerCase() === account.toLowerCase() && (
+              <Link
+                href={`/lore/add?tokenId=${tokenId}&tokenAddress=${CHARACTER_CONTRACTS[loreTokenSlug]}&loreIndex=${leftPageLoreIndex}`}
+                passHref={true}
+              >
+                <WriteButton size="medium">Edit Left Page</WriteButton>
+              </Link>
+            )}
+        </WriteContainer>
+        <PaginationContainer>
+          <PreviousPageContainer>
+            {previousPageRoute ? (
+              <Link href={previousPageRoute} passHref>
+                <a>
+                  <Image
+                    src={"/static/lore/book/arrow_L.png"}
+                    width={"12px"}
+                    height={"25px"}
+                  />
+                </a>
+              </Link>
+            ) : (
+              <NoPageSpacer />
+            )}
+          </PreviousPageContainer>
+          <LoreNameWrapper layout layoutId="wizardName">
+            {loreTokenSlug === "wizards"
+              ? `${wizData[tokenId.toString()].name} (#${tokenId})`
+              : loreTokenSlug === "souls"
+              ? `${
+                  soulsData?.[tokenId.toString()]?.name ?? "Soul"
+                }  (#${tokenId})`
+              : "Narrative Page"}
+          </LoreNameWrapper>
+          <NextPageContainer>
+            {nextPageRoute ? (
+              <Link href={nextPageRoute} passHref>
+                <a>
+                  <Image
+                    src={"/static/lore/book/arrow_R.png"}
+                    width={"12px"}
+                    height={"25px"}
+                  />
+                </a>
+              </Link>
+            ) : (
+              <NoPageSpacer />
+            )}
+          </NextPageContainer>
+        </PaginationContainer>
+
+        <WriteContainer style={{ justifyContent: "flex-end" }}>
+          {!account && <ConnectWalletButton />}
+          {canEditRightPage && (
+            <Link
+              href={`/lore/add?tokenId=${tokenId}&tokenAddress=${CHARACTER_CONTRACTS[loreTokenSlug]}&loreIndex=${rightPageLoreIndex}`}
+              passHref={true}
+            >
+              <WriteButton size="medium">Edit Right Page</WriteButton>
             </Link>
-          ) : (
-            <NoPageSpacer />
           )}
-        </NextPageContainer>
-      </PaginationContainer>
-      <WriteContainer>
-        <Link href="/lore/add" passHref={true}>
-          <WriteButton size="medium">Write Your Lore</WriteButton>
-        </Link>
-      </WriteContainer>
-    </BookOfLoreControlsElement>
+          {account && !canEditRightPage && writeNewLoreButton}
+        </WriteContainer>
+      </BookOfLoreControlsElement>
+      {canEditRightPage && (
+        <WriteContainer style={{ alignSelf: "center" }}>
+          {writeNewLoreButton}
+        </WriteContainer>
+      )}
+    </Flex>
   );
 }

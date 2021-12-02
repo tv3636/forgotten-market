@@ -133,7 +133,7 @@ export const EmptyLorePage = ({ pageNum }: { pageNum: number }) => {
   );
 };
 
-const IPFS_HTTP_SERVER = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD
+export const IPFS_HTTP_SERVER = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD
   ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD}/image/fetch/f_auto/${IPFS_SERVER}/`
   : `${IPFS_SERVER}/`;
 

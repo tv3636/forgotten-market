@@ -112,6 +112,7 @@ export async function getLoreInChapterForm(
           loreMetadataURI: loreEntry.loreMetadataURI,
           createdAtTimestamp: loreEntry.createdAtTimestamp,
           creator: loreEntry.creator,
+          index: loreEntry.index,
         })),
       };
     });
@@ -180,6 +181,8 @@ export async function getLeftRightPages(
         loreElement.creator,
         tokenId
       );
+      leftPage.creator = loreElement.creator;
+      leftPage.loreIndex = loreElement.index;
     } else {
       // Would end up showing wizard
       leftPage = {
@@ -198,6 +201,8 @@ export async function getLeftRightPages(
         loreElement.creator,
         tokenId
       );
+      rightPage.creator = loreElement.creator;
+      rightPage.loreIndex = loreElement.index;
     } else {
       // Would end showing add lore
       rightPage = {

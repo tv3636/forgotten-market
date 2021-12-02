@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
@@ -13,15 +13,12 @@ import { getContrast } from "../../lib/colorUtils";
 import productionWizardData from "../../data/nfts-prod.json";
 import productionSoulsData from "../../data/souls-prod.json";
 import stagingSoulsData from "../../data/souls-staging.json";
-import { storyPrompts, titlePrompts } from "./addLoreHelpers";
-import { draftToMarkdown, markdownToDraft } from "markdown-draft-js";
+import { draftToMarkdown } from "markdown-draft-js";
+import markdownToDraft from "./customMarkdownToDraft";
 import { css, keyframes } from "@emotion/react";
 import { loreTextStyles } from "../Lore/loreStyles";
 import { useExtractColors } from "../../hooks/useExtractColors";
-import {
-  isSoulsContract,
-  isWizardsContract,
-} from "../../contracts/ForgottenRunesWizardsCultContract";
+import { IPFS_SERVER } from "../../constants";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 const soulsData = (
@@ -91,8 +88,45 @@ const topLevelPlugins = [
   imagePlugin,
 ];
 
-const markdownToDraftState = (text: string) => {
-  const rawData = markdownToDraft(text);
+export const markdownToDraftState = (text: string) => {
+  const rawData = markdownToDraft(text, {
+    blockTypes: {
+      image: function (item: any) {
+        return {
+          type: "atomic",
+          text: " ",
+          entityRanges: [],
+          inlineStyleRanges: [],
+        };
+      },
+    },
+
+    blockEntities: {
+      image: function (item: any) {
+        console.log(item);
+        let newSrc: string;
+        const src = item.src;
+        if (src?.startsWith("ipfs://")) {
+          newSrc = src.replace(/^ipfs:\/\//, IPFS_SERVER);
+        } else {
+          newSrc = src;
+        }
+
+        console.log(newSrc);
+
+        return {
+          type: "IMAGE",
+          mutability: "IMMUTABLE",
+          data: {
+            src: newSrc,
+          },
+        };
+      },
+    },
+  });
+  console.log(rawData);
+
+  // @ts-ignore
   const contentState = convertFromRaw(rawData);
   return EditorState.createWithContent(contentState);
 };
@@ -136,58 +170,20 @@ export const convertDraftStateToMarkdown = (
 };
 
 type Props = {
-  onChange: (editorState: any) => void;
+  currentEditorState: EditorState;
+  setCurrentEditorState: (editorState: EditorState) => void;
   onBgColorChanged: (newColor?: string | null | undefined) => void;
   bg: string;
-  tokenId: string | undefined;
-  tokenAddress: string | undefined;
   isLoading: boolean;
 };
 
-const defaultPrompt = "_Please pick a Wizard on the other page_";
 export default function AddLoreEditor({
-  onChange,
+  currentEditorState,
+  setCurrentEditorState,
   onBgColorChanged,
   bg,
-  tokenId,
-  tokenAddress,
   isLoading,
 }: Props) {
-  // https://github.com/facebook/draft-js/issues/2332#issuecomment-761573306
-  const [editorState, setEditorState] = useState(
-    markdownToDraftState(defaultPrompt)
-  );
-
-  const performOnChange = (newEditorState: any) => {
-    setEditorState(newEditorState);
-    onChange(newEditorState);
-  };
-
-  useEffect(() => {
-    const titlePrompt = titlePrompts[0];
-    const storyPrompt = storyPrompts[0];
-
-    let defaultText = defaultPrompt;
-
-    if (tokenId && tokenAddress && isWizardsContract(tokenAddress)) {
-      defaultText = `# ${titlePrompt} ${wizData[tokenId].name}\n${storyPrompt}`;
-    } else if (tokenId && tokenAddress && isSoulsContract(tokenAddress)) {
-      defaultText = `# ${titlePrompt} ${
-        soulsData?.[tokenId]?.name ?? "a Soul"
-      }\n${storyPrompt}`;
-    }
-
-    const newEditorState = markdownToDraftState(defaultText);
-
-    // lame, I know
-    // dirty tracking is hard. ideally we want to update with any new wizard
-    // picked, as long as the _user_ didn't type in the Draft field
-    const text = editorState.getCurrentContent().getPlainText("\u0001");
-    // if (text.match(/Please pick a Wizard/)) {
-    performOnChange(newEditorState);
-    // }
-  }, [tokenId, tokenAddress]);
-
   // extract the background color of the first image uploaded
   const [firstImageUrl, setFirstImageUrl] = useState<string | undefined>();
   const backgroundColor = useExtractColors(firstImageUrl);
@@ -195,30 +191,40 @@ export default function AddLoreEditor({
     onBgColorChanged(backgroundColor.bgColor);
   }
 
-  const dragNDropFileUploadPlugin = createDragNDropUploadPlugin({
-    handleUpload: mockUpload,
-    // @ts-ignore
-    addImage: (
-      editorState: EditorState,
-      url: string,
-      extraData: Record<string, unknown>
-    ) => {
-      if (!firstImageUrl) {
-        setFirstImageUrl(url);
-      }
-      return imagePlugin.addImage(editorState, url, extraData);
-    },
-  });
+  const dragNDropFileUploadPlugin = useMemo(
+    () =>
+      createDragNDropUploadPlugin({
+        handleUpload: mockUpload,
+        // @ts-ignore
+        addImage: (
+          editorState: EditorState,
+          url: string,
+          extraData: Record<string, unknown>
+        ) => {
+          console.log("imagine");
+          if (!firstImageUrl) {
+            setFirstImageUrl(url);
+          }
+          const state = imagePlugin.addImage(editorState, url, extraData);
+          console.log(state);
+          return state;
+        },
+      }),
+    [setFirstImageUrl]
+  );
 
-  const plugins = [...topLevelPlugins, dragNDropFileUploadPlugin];
+  const plugins = useMemo(
+    () => [...topLevelPlugins, dragNDropFileUploadPlugin],
+    [dragNDropFileUploadPlugin]
+  );
 
   return (
     <AddLoreEditorElement bg={bg} isLoading={isLoading}>
       <Editor
         editorKey={"key-here"}
-        editorState={editorState}
+        editorState={currentEditorState}
         // onChange={setEditorState}
-        onChange={performOnChange}
+        onChange={setCurrentEditorState}
         // userSelect="none"
         // contentEditable={false}
         plugins={plugins}

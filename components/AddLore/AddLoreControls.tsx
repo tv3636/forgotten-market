@@ -120,6 +120,7 @@ type Props = {
   onBackgroundColorChanged: (color?: string | null | undefined) => void;
   currentBackgroundColor: string | null | undefined;
   onNsfwChanged: (newNsfw: boolean) => void;
+  isEditing?: boolean;
 };
 export default function AddLoreControls({
   tokenAddress,
@@ -128,6 +129,7 @@ export default function AddLoreControls({
   currentBackgroundColor,
   onBackgroundColorChanged,
   onNsfwChanged,
+  isEditing,
 }: Props) {
   let name;
   if (tokenAddress && isWizardsContract(tokenAddress)) {
@@ -158,7 +160,7 @@ export default function AddLoreControls({
             onChange={onBackgroundColorChanged}
             currentBackgroundColor={currentBackgroundColor}
           />
-          <NSFWField name="isNsfw" onChange={onNsfwChanged} />
+          {!isEditing && <NSFWField name="isNsfw" onChange={onNsfwChanged} />}
         </MidControls>
         <RightControls>
           <WriteButton size="medium" onClick={onSubmit}>
