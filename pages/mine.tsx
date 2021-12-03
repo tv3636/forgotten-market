@@ -6,29 +6,25 @@ import { ConnectWalletButton } from "../components/web3/ConnectWalletButton";
 import { observer } from "mobx-react-lite";
 import { Box } from "rebass";
 import { useRouter } from "next/router";
+import { useEthers } from "@usedapp/core";
 
 const MyNfts = observer(() => {
-  const { web3Settings } = useMst();
-  const walletConnected = web3Settings.connected;
+  const { account, library } = useEthers();
   const router = useRouter();
-
-  const selectedAddress =
-    // @ts-ignore
-    web3Settings?.injectedProvider?.provider?.selectedAddress;
 
   useEffect(() => {
     async function fetchTokenData() {
-      if (web3Settings.injectedProvider && selectedAddress) {
-        router.push(`/address/${selectedAddress}`);
+      if (account) {
+        router.push(`/address/${account}`);
       }
     }
 
     fetchTokenData();
-  }, [web3Settings.injectedProvider, selectedAddress]);
+  }, [account]);
 
   return (
     <Layout title="Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
-      {!walletConnected && (
+      {!account && (
         <Box p={4}>
           <EmptyWell>
             <ConnectWalletButton />

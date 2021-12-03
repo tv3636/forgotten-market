@@ -318,6 +318,7 @@ export const HoldingsGrid = ({
       <NFTGrid>
         {tokenData.wizards.map((item: any[]) => (
           <NftItem
+            key={`wizards-${item[0]}`}
             collection={"wizards"}
             tokenId={item[0] as number}
             tokenUri={item[1] as string}
@@ -336,6 +337,7 @@ export const HoldingsGrid = ({
       <NFTGrid>
         {tokenData.souls.map((item: any[]) => (
           <NftItem
+            key={`souls-${item[0]}`}
             collection={"souls"}
             tokenId={item[0] as number}
             tokenUri={item[1] as string}

@@ -1,16 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { getProvider } from "../../hooks/useProvider";
 import Layout from "../../components/Layout";
-import { Flex, Text } from "rebass";
-import styled from "@emotion/styled";
 import * as React from "react";
-import {
-  HoldingsGrid,
-  ResponsiveMaybePixelImg,
-} from "../../components/NFTDisplay";
-import { useFetchDataFromTokenUri } from "../../hooks/useMyNfts";
-import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
-import { SocialItem } from "../../components/Lore/BookOfLoreControls";
+import { HoldingsGrid } from "../../components/NFTDisplay";
 import { getTokenDataForAllCollections } from "../../lib/nftUtilis";
 
 const Address = ({
