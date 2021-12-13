@@ -5,8 +5,6 @@ ogImage: https://i.imgur.com/2yOZx8n.jpg
 index: 23
 ---
 
-Story featuring **Pyromancer Tegu of the Wold** and **Spellsinger Rumplskin of Avalon**
-
 ![](https://i.imgur.com/xLVdBqT.png)
 
 _The problem with magic is that it can drive its users insane. Pyromancers, in particular, often become utterly consumed by their Fire_
