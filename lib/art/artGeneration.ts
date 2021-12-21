@@ -2,7 +2,7 @@ import sharp from "sharp";
 import path from "path";
 import wizardLayers from "../../public/static/nfts/wizards/wizards-layers.json";
 import wizardTraits from "../../public/static/nfts/wizards/wizards-traits.json";
-import { groupBy, keyBy, map } from "lodash";
+import { compact, groupBy, keyBy, map } from "lodash";
 import fs from "fs";
 import fetch from "node-fetch";
 import fileType from "file-type";
@@ -821,11 +821,13 @@ export async function getRiderOnMountImageBuffer({
     tokenId,
   });
 
-  const canvas = await sharp(buffer).composite([
-    { input: bodyBuffer, top: 0, left: 3 },
-    { input: propBuffer, top: 0, left: 6 },
-    { input: headBuffer, top: 0, left: 6 },
-  ]);
+  const canvas = await sharp(buffer).composite(
+    compact([
+      { input: bodyBuffer, top: 0, left: 3 },
+      propBuffer ? { input: propBuffer, top: 0, left: 7 } : null,
+      { input: headBuffer, top: 0, left: 6 },
+    ])
+  );
 
   return canvas.toBuffer();
 }
