@@ -825,7 +825,7 @@ export async function getRiderOnMountImageBuffer({
     compact([
       { input: bodyBuffer, top: 0, left: 3 },
       propBuffer ? { input: propBuffer, top: 0, left: 7 } : null,
-      { input: headBuffer, top: 0, left: 6 },
+      headBuffer ? { input: headBuffer, top: 0, left: 6 } : null,
     ])
   );
 
