@@ -146,6 +146,9 @@ export default async function handler(
           { name: `${size}/turnarounds/${name}` },
         ]);
       });
+
+      // build rider
+      // right here
     }
 
     // build spritesheet

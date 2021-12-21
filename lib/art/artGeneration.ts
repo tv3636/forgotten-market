@@ -750,3 +750,105 @@ export async function getTurnaroundFrameBuffer({
 
   return buffer;
 }
+
+export async function extractRidingBodyBuffer({
+  tokenSlug,
+  tokenId,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+}) {
+  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
+  const bodyLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "body",
+  });
+  const bodyFrameBasename = path.basename(bodyLayer?.filename || "", ".png");
+  const ridingFrameBasename = `${bodyFrameBasename}_rider.png`;
+  const ridingFrameFullname = path.join(
+    ROOT_PATH,
+    `public/static/nfts/wizards/wiz_body_rider/${ridingFrameBasename}`
+  );
+
+  console.log("ridingFrameFullname: ", ridingFrameFullname);
+
+  const buffer = await sharp(ridingFrameFullname).png().toBuffer();
+  return buffer;
+}
+
+export async function getRiderOnMountImageBuffer({
+  tokenSlug,
+  tokenId,
+  ridingTokenSlug,
+  ridingTokenId,
+  width,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  ridingTokenSlug: string;
+  ridingTokenId: string;
+  width: number;
+  trim?: boolean;
+}) {
+  let buffer = await getMountImageBuffer({
+    tokenId: ridingTokenId,
+    tokenSlug: ridingTokenSlug,
+  });
+
+  const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
+  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
+  const frameNum = await getTokenFrameNumber({
+    tokenSlug,
+    tokenId,
+    traitSlug: "head",
+  });
+  const headBuffer = await extractWizardFrame({
+    partsBuffer,
+    frameNum,
+  });
+  const propFrameNum = await getTokenFrameNumber({
+    tokenSlug,
+    tokenId,
+    traitSlug: "prop",
+  });
+  const propBuffer = await extractWizardFrame({
+    partsBuffer,
+    frameNum: propFrameNum,
+  });
+  const bodyBuffer = await extractRidingBodyBuffer({
+    tokenSlug,
+    tokenId,
+  });
+
+  const canvas = await sharp(buffer).composite([
+    { input: bodyBuffer, top: 0, left: 3 },
+    { input: propBuffer, top: 0, left: 6 },
+    { input: headBuffer, top: 0, left: 6 },
+  ]);
+
+  return canvas.toBuffer();
+}
+
+export async function getMountImageBuffer({
+  tokenId,
+  tokenSlug,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+}) {
+  // const tokenImageURL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/ponies/img/${tokenId}.png`;
+  const tokenImageURL = `http://localhost:3005/static/nfts/ponies/pony_brown.png`;
+  const bodyFrameResponse = await fetch(tokenImageURL, {
+    compress: false,
+  });
+  if (bodyFrameResponse.status !== 200) {
+    throw new Error(
+      `Error can't find ${tokenImageURL} - ${bodyFrameResponse.status}`
+    );
+  }
+
+  const bodyFrameBuffer = await bodyFrameResponse.buffer();
+  const imgSharp = await sharp(bodyFrameBuffer).toBuffer();
+  return imgSharp;
+}
