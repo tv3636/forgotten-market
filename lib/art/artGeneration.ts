@@ -754,9 +754,11 @@ export async function getTurnaroundFrameBuffer({
 export async function extractRidingBodyBuffer({
   tokenSlug,
   tokenId,
+  isArm = false,
 }: {
   tokenSlug: string;
   tokenId: string;
+  isArm: boolean;
 }) {
   const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
   const bodyLayer = await getTokenTraitLayerDescription({
@@ -765,7 +767,9 @@ export async function extractRidingBodyBuffer({
     traitSlug: "body",
   });
   const bodyFrameBasename = path.basename(bodyLayer?.filename || "", ".png");
-  const ridingFrameBasename = `${bodyFrameBasename}_rider.png`;
+  const ridingFrameBasename = `${bodyFrameBasename}_rider${
+    isArm ? "_arm" : ""
+  }.png`;
   const ridingFrameFullname = path.join(
     ROOT_PATH,
     `public/static/nfts/wizards/wiz_body_rider/${ridingFrameBasename}`
@@ -791,7 +795,7 @@ export async function getRiderOnMountImageBuffer({
   width: number;
   trim?: boolean;
 }) {
-  let buffer = await getMountImageBuffer({
+  let mountBuffer = await getMountImageBuffer({
     tokenId: ridingTokenId,
     tokenSlug: ridingTokenSlug,
   });
@@ -819,17 +823,38 @@ export async function getRiderOnMountImageBuffer({
   const bodyBuffer = await extractRidingBodyBuffer({
     tokenSlug,
     tokenId,
+    isArm: false,
+  });
+  const armBuffer = await extractRidingBodyBuffer({
+    tokenSlug,
+    tokenId,
+    isArm: true,
   });
 
-  const canvas = await sharp(buffer).composite(
+  const mountSharp = await sharp(mountBuffer);
+  const imgMetadata = await mountSharp.metadata();
+  const newImgWidth = Math.floor(imgMetadata.width || 59);
+  const newImgHeight = Math.floor(imgMetadata.height || 59);
+
+  const canvas = await sharp({
+    create: {
+      width: newImgWidth,
+      height: newImgHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  }).composite(
     compact([
+      armBuffer ? { input: armBuffer, top: 0, left: 3 } : null,
+      propBuffer ? { input: propBuffer, top: 0, left: 6 } : null,
+      { input: mountBuffer },
       { input: bodyBuffer, top: 0, left: 3 },
-      propBuffer ? { input: propBuffer, top: 0, left: 7 } : null,
+      // bodyBuffer ? { input: bodyBuffer, top: 0, left: 7 } : null,
       headBuffer ? { input: headBuffer, top: 0, left: 6 } : null,
     ])
   );
 
-  return canvas.toBuffer();
+  return canvas.png().toBuffer();
 }
 
 export async function getMountImageBuffer({
