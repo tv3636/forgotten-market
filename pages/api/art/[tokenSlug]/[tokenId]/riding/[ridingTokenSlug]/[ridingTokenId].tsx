@@ -40,10 +40,10 @@ export default async function handler(
   });
 
   buffer = await sharp(buffer)
-    .resize(500, 500, {
-      fit: sharp.fit.fill,
-      kernel: sharp.kernel.nearest,
-    })
+    // .resize(500, 500, {
+    //   fit: sharp.fit.fill,
+    //   kernel: sharp.kernel.nearest,
+    // })
     .toBuffer();
 
   var bufferStream = new stream.PassThrough();

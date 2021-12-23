@@ -836,6 +836,46 @@ export async function getRiderOnMountImageBuffer({
   const newImgWidth = Math.floor(imgMetadata.width || 59);
   const newImgHeight = Math.floor(imgMetadata.height || 59);
 
+  const scale = 8;
+  let resizeArgs = { fit: sharp.fit.fill, kernel: sharp.kernel.nearest };
+
+  // ponies are 472x472 instead of original 59x59 so this gets more complicated
+  let buffers: any[] = [];
+
+  if (armBuffer) {
+    buffers.push({
+      input: await sharp(armBuffer).resize(472, 472, resizeArgs).toBuffer(),
+      top: 0,
+      left: 3 * scale,
+    });
+  }
+
+  if (propBuffer) {
+    buffers.push({
+      input: await sharp(propBuffer).resize(400, 400, resizeArgs).toBuffer(),
+      top: 0,
+      left: 6 * scale,
+    });
+  }
+
+  buffers.push({ input: mountBuffer });
+
+  if (bodyBuffer) {
+    buffers.push({
+      input: await sharp(bodyBuffer).resize(472, 472, resizeArgs).toBuffer(),
+      top: 0,
+      left: 3 * scale,
+    });
+  }
+
+  if (headBuffer) {
+    buffers.push({
+      input: await sharp(headBuffer).resize(400, 400, resizeArgs).toBuffer(),
+      top: 0,
+      left: 6 * scale,
+    });
+  }
+
   const canvas = await sharp({
     create: {
       width: newImgWidth,
@@ -844,14 +884,14 @@ export async function getRiderOnMountImageBuffer({
       background: "rgba(0,0,0,0)",
     },
   }).composite(
-    compact([
-      armBuffer ? { input: armBuffer, top: 0, left: 3 } : null,
-      propBuffer ? { input: propBuffer, top: 0, left: 6 } : null,
-      { input: mountBuffer },
-      { input: bodyBuffer, top: 0, left: 3 },
-      // bodyBuffer ? { input: bodyBuffer, top: 0, left: 7 } : null,
-      headBuffer ? { input: headBuffer, top: 0, left: 6 } : null,
-    ])
+    buffers
+    // compact([
+    //   armBuffer ? { input: armBuffer, top: 0, left: 3 } : null,
+    //   propBuffer ? { input: propBuffer, top: 0, left: 6 } : null,
+    //   { input: mountBuffer },
+    //   { input: bodyBuffer, top: 0, left: 3 },
+    //   headBuffer ? { input: headBuffer, top: 0, left: 6 } : null,
+    // ])
   );
 
   return canvas.png().toBuffer();
@@ -864,8 +904,10 @@ export async function getMountImageBuffer({
   tokenSlug: string;
   tokenId: string;
 }) {
-  const tokenImageURL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/shadowfax/img/${tokenId}.png?nobg=true`;
+  // const tokenImageURL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/shadowfax/img/${tokenId}.png?nobg=true`;
   // const tokenImageURL = `http://localhost:3005/static/nfts/ponies/pony_brown.png`;
+  const tokenImageURL = `https://quantum-portal-git-preview-forgottenrunes.vercel.app/api/shadowfax/img/0?nobg=true`;
+
   const bodyFrameResponse = await fetch(tokenImageURL, {
     compress: false,
   });
