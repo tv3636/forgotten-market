@@ -864,8 +864,8 @@ export async function getMountImageBuffer({
   tokenSlug: string;
   tokenId: string;
 }) {
-  // const tokenImageURL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/ponies/img/${tokenId}.png`;
-  const tokenImageURL = `http://localhost:3005/static/nfts/ponies/pony_brown.png`;
+  const tokenImageURL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/ponies/img/${tokenId}.png?nobg=true`;
+  // const tokenImageURL = `http://localhost:3005/static/nfts/ponies/pony_brown.png`;
   const bodyFrameResponse = await fetch(tokenImageURL, {
     compress: false,
   });
