@@ -19,10 +19,6 @@ export default async function handler(
   if (req.method !== "GET") {
     return res.status(404);
   }
-  console.log("req.query: ", req.query);
-
-  // TODO!!!!!!
-  // check that this pony was minted!!!!
 
   let { tokenSlug, tokenId, ridingTokenSlug, ridingTokenId, width, trim } =
     req.query;

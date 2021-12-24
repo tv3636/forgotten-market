@@ -194,7 +194,7 @@ export async function getTokenFrameNumber({
   const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
 
   const frameNum: number =
-    wizardLayerData[traitSlug]?.length > 0
+    wizardLayerData?.[traitSlug]?.length > 0
       ? parseInt(wizardLayerData[traitSlug])
       : -1;
 
@@ -801,35 +801,46 @@ export async function getRiderOnMountImageBuffer({
   });
 
   const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
-  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
   const frameNum = await getTokenFrameNumber({
     tokenSlug,
     tokenId,
     traitSlug: "head",
   });
-  const headBuffer = await extractWizardFrame({
-    partsBuffer,
-    frameNum,
-  });
+  const headBuffer =
+    frameNum >= 0
+      ? await extractWizardFrame({
+          partsBuffer,
+          frameNum,
+        })
+      : undefined;
   const propFrameNum = await getTokenFrameNumber({
     tokenSlug,
     tokenId,
     traitSlug: "prop",
   });
-  const propBuffer = await extractWizardFrame({
-    partsBuffer,
-    frameNum: propFrameNum,
-  });
-  const bodyBuffer = await extractRidingBodyBuffer({
-    tokenSlug,
-    tokenId,
-    isArm: false,
-  });
-  const armBuffer = await extractRidingBodyBuffer({
-    tokenSlug,
-    tokenId,
-    isArm: true,
-  });
+  const propBuffer =
+    propFrameNum >= 0
+      ? await extractWizardFrame({
+          partsBuffer,
+          frameNum: propFrameNum,
+        })
+      : undefined;
+  const bodyBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: false,
+        })
+      : undefined;
+  const armBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: true,
+        })
+      : undefined;
 
   const mountSharp = await sharp(mountBuffer);
   const imgMetadata = await mountSharp.metadata();
