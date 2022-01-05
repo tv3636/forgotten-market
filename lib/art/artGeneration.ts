@@ -42,6 +42,10 @@ import fileType from "file-type";
 - http://localhost:3005/api/art/wizards/108/sepia.png
 - http://localhost:3005/api/art/wizards/trait/head/Prophet.png?trim=true
 
+### TODO
+
+Every time we fetch a URL and save it to a Buffer we should just cache it because it will be way faster in number of sizes
+
 */
 
 export const ROOT_PATH = path.join(process.cwd());
@@ -495,15 +499,11 @@ export async function buildSpritesheet({
           f + 1
         }.png`;
         const bodyFrameUrl = `${frameBaseURL}/${tokenSlug}/${bodyFrameBaseUrl}`;
-        const bodyFrameResponse = await fetch(bodyFrameUrl, {
-          compress: false,
+
+        const bodyFrameBuffer = await fetchBufferFromUrlCached({
+          url: bodyFrameUrl,
         });
-        if (bodyFrameResponse.status !== 200) {
-          throw new Error(
-            `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
-          );
-        }
-        const bodyFrameBuffer = await bodyFrameResponse.buffer();
+
         frameBuffers.push({
           top: row * HEIGHT,
           left: column * WIDTH,
@@ -524,15 +524,10 @@ export async function buildSpritesheet({
         }.png`;
         const headFrameUrl = `${frameBaseURL}/${tokenSlug}/${headFrameBaseUrl}`;
 
-        const headFrameResponse = await fetch(headFrameUrl, {
-          compress: false,
+        const headFrameBuffer = await fetchBufferFromUrlCached({
+          url: headFrameUrl,
         });
-        if (headFrameResponse.status !== 200) {
-          throw new Error(
-            `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
-          );
-        }
-        const headFrameBuffer = await headFrameResponse.buffer();
+
         frameBuffers.push({
           top: row * HEIGHT,
           left: column * WIDTH,
@@ -707,15 +702,9 @@ export async function getTurnaroundFrameBuffer({
   // body
   const bodyFrameBasename = path.basename(bodyLayer?.filename || "", ".png");
   const bodyFrameUrl = `${turnaroundsBaseURL}/${tokenSlug}/${bodyFrameBasename}_${directionSuffix[direction]}.png`;
-  const bodyFrameResponse = await fetch(bodyFrameUrl, {
-    compress: false,
-  });
-  if (bodyFrameResponse.status !== 200) {
-    throw new Error(
-      `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
-    );
-  }
-  const bodyFrameBuffer = await bodyFrameResponse.buffer();
+
+  const bodyFrameBuffer = await fetchBufferFromUrlCached({ url: bodyFrameUrl });
+
   frameBuffers.push({
     input: bodyFrameBuffer,
   });
@@ -724,15 +713,7 @@ export async function getTurnaroundFrameBuffer({
   const headFrameBasename = path.basename(headLayer?.filename || "", ".png");
   const headFrameUrl = `${turnaroundsBaseURL}/${tokenSlug}/${headFrameBasename}_${directionSuffix[direction]}.png`;
 
-  const headFrameResponse = await fetch(headFrameUrl, {
-    compress: false,
-  });
-  if (headFrameResponse.status !== 200) {
-    throw new Error(
-      `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
-    );
-  }
-  const headFrameBuffer = await headFrameResponse.buffer();
+  const headFrameBuffer = await fetchBufferFromUrlCached({ url: headFrameUrl });
   frameBuffers.push({
     input: headFrameBuffer,
   });
@@ -822,13 +803,8 @@ export async function getFamiliarTurnaroundFrameBuffer({
   );
 
   const frameUrl = `${turnaroundsBaseURL}/${tokenSlug}-familiars/${familiarFrameBasename}_turn_${directionSuffix[direction]}.png`;
-  const frameResponse = await fetch(frameUrl, {
-    compress: false,
-  });
-  if (frameResponse.status !== 200) {
-    throw new Error(`Error can't find ${frameUrl} - ${frameResponse.status}`);
-  }
-  const familiarFrameBuffer = await frameResponse.buffer();
+
+  const familiarFrameBuffer = await fetchBufferFromUrlCached({ url: frameUrl });
   frameBuffers.push({
     input: familiarFrameBuffer,
   });
@@ -1015,16 +991,41 @@ export async function getMountImageBuffer({
   // const tokenImageURL = `http://localhost:3005/static/nfts/ponies/pony_brown.png`;
   // const tokenImageURL = `https://quantum-portal-git-preview-forgottenrunes.vercel.app/api/shadowfax/img/${tokenId}?nobg=true`;
 
-  const bodyFrameResponse = await fetch(tokenImageURL, {
-    compress: false,
+  const bodyFrameBuffer = await fetchBufferFromUrlCached({
+    url: tokenImageURL,
   });
-  if (bodyFrameResponse.status !== 200) {
-    throw new Error(
-      `Error can't find ${tokenImageURL} - ${bodyFrameResponse.status}`
-    );
-  }
 
-  const bodyFrameBuffer = await bodyFrameResponse.buffer();
   const imgSharp = await sharp(bodyFrameBuffer).toBuffer();
   return imgSharp;
+}
+
+// We cache these in memory because we often resize images and this helps dedup
+// the fetch. They almost never change so cache expiration isn't an issue. Also,
+// because we use pixel art below 100x100, the total size of all possible images
+// is very small - we probably could add them to the repo, but doing it this way
+// lets us have secret nft drops behind quantum API which checks for permissions
+// and making sure something is minted.
+let __frameBufferCache: { [key: string]: Buffer } = {};
+
+export async function fetchBufferFromUrlCached({
+  url,
+}: {
+  url: string;
+}): Promise<Buffer> {
+  if (__frameBufferCache[url]) {
+    // console.log("cache hit", url);
+    return __frameBufferCache[url];
+  }
+
+  // console.log("cache miss", url);
+  const frameResponse = await fetch(url, {
+    compress: false,
+  });
+  if (frameResponse.status !== 200) {
+    throw new Error(`Error can't find ${url} - ${frameResponse.status}`);
+  }
+  let buffer = await frameResponse.buffer();
+  __frameBufferCache[url] = buffer;
+
+  return buffer;
 }

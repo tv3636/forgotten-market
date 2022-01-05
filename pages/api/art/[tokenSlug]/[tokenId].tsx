@@ -51,11 +51,8 @@ export default async function handler(
   });
 
   if (isZip) {
-    // TMP
-    // const sizes = [50, 400, 1024];
-    // const scales = [1, 8, 20.48];
-    const sizes = [50];
-    const scales = [1];
+    const sizes = [50, 400, 1024];
+    const scales = [1, 8, 20.48];
 
     let zipFiles = [];
 
@@ -179,7 +176,6 @@ export default async function handler(
     }
 
     // build spritesheet
-    /*
     let genOptions = {
       tokenSlug: tokenSlug as string,
       tokenId: tokenId as string,
@@ -213,7 +209,6 @@ export default async function handler(
         ]);
       }
     }
-    */
 
     // build readme
     const readmeText = await buildReadme({
