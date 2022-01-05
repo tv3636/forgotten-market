@@ -6,6 +6,7 @@ import stream, { PassThrough } from "stream";
 import {
   buildReadme,
   buildSpritesheet,
+  getAllFamiliarTurnaroundFrameBuffers,
   getAllTurnaroundFrameBuffers,
   getStyledTokenBuffer,
   GetStyledTokenBufferProps,
@@ -18,7 +19,7 @@ import {
   tokenTraitsByIndex,
 } from "../../../../lib/art/artGeneration";
 import archiver from "archiver"; // https://github.com/archiverjs/node-archiver
-import { forEach, size } from "lodash";
+import { forEach, isNumber, size } from "lodash";
 import sharp from "sharp";
 
 function bufferToStream(buffer: Buffer) {
@@ -34,7 +35,6 @@ export default async function handler(
   if (req.method !== "GET") {
     return res.status(404);
   }
-  console.log("req.query: ", req.query);
 
   let { tokenSlug, tokenId, width, trim } = req.query;
   let trimOption = !trim || trim === "0" ? false : true;
@@ -51,8 +51,11 @@ export default async function handler(
   });
 
   if (isZip) {
-    const sizes = [50, 400, 1024];
-    const scales = [1, 8, 20.48];
+    // TMP
+    // const sizes = [50, 400, 1024];
+    // const scales = [1, 8, 20.48];
+    const sizes = [50];
+    const scales = [1];
 
     let zipFiles = [];
 
@@ -149,9 +152,34 @@ export default async function handler(
 
       // build rider
       // right here
+
+      // build familiars
+      const wizardLayerData = await getTokenLayersData({
+        tokenSlug: tokenSlug as string,
+        tokenId,
+      });
+
+      const hasFamiliar =
+        isNumber(parseInt(wizardLayerData.familiar)) &&
+        parseInt(wizardLayerData.familiar) !== 7777;
+
+      if (hasFamiliar) {
+        const familiarTurnarounds = await getAllFamiliarTurnaroundFrameBuffers({
+          tokenId,
+          tokenSlug: tokenSlug as string,
+          size,
+        });
+        familiarTurnarounds.forEach(({ name, buffer }) => {
+          zipFiles.push([
+            bufferToStream(buffer),
+            { name: `${size}/familiar-turnarounds/${name}` },
+          ]);
+        });
+      }
     }
 
     // build spritesheet
+    /*
     let genOptions = {
       tokenSlug: tokenSlug as string,
       tokenId: tokenId as string,
@@ -185,6 +213,7 @@ export default async function handler(
         ]);
       }
     }
+    */
 
     // build readme
     const readmeText = await buildReadme({

@@ -751,6 +751,102 @@ export async function getTurnaroundFrameBuffer({
   return buffer;
 }
 
+export async function getAllFamiliarTurnaroundFrameBuffers({
+  tokenId,
+  tokenSlug,
+  size,
+}: {
+  tokenId: string;
+  tokenSlug: string;
+  size?: number;
+}) {
+  let directions = ["front", "left", "back", "right"];
+  let buffers = [];
+  for (let i = 0; i < directions.length; i++) {
+    let direction = directions[i];
+    buffers.push({
+      name: `${tokenSlug}-${tokenId}-familiar-${i}-${direction}.png`,
+      buffer: await getFamiliarTurnaroundFrameBuffer({
+        tokenId,
+        tokenSlug,
+        direction,
+        size,
+      }),
+    });
+  }
+  return buffers;
+}
+
+export async function getFamiliarTurnaroundFrameBuffer({
+  tokenId,
+  tokenSlug,
+  direction,
+  size,
+}: {
+  tokenId: string;
+  tokenSlug: string;
+  direction: string;
+  size?: number;
+}) {
+  let imageWidth = 50;
+  let imageHeight = 50;
+
+  let directionSuffix: { [key: string]: string } = {
+    front: "1",
+    back: "3",
+    left: "2",
+    right: "4",
+  };
+
+  const familiarLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "familiar",
+  });
+
+  let img = sharp({
+    create: {
+      width: imageWidth,
+      height: imageHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  });
+
+  let frameBuffers = [];
+
+  // familiar
+  const familiarFrameBasename = path.basename(
+    familiarLayer?.filename || "",
+    ".png"
+  );
+
+  const frameUrl = `${turnaroundsBaseURL}/${tokenSlug}-familiars/${familiarFrameBasename}_turn_${directionSuffix[direction]}.png`;
+  const frameResponse = await fetch(frameUrl, {
+    compress: false,
+  });
+  if (frameResponse.status !== 200) {
+    throw new Error(`Error can't find ${frameUrl} - ${frameResponse.status}`);
+  }
+  const familiarFrameBuffer = await frameResponse.buffer();
+  frameBuffers.push({
+    input: familiarFrameBuffer,
+  });
+
+  let buffer = await img.composite(frameBuffers).png().toBuffer();
+
+  // resize it
+  buffer = await sharp(buffer)
+    .resize(size, size, {
+      fit: sharp.fit.fill,
+      kernel: sharp.kernel.nearest,
+    })
+    .png()
+    .toBuffer();
+
+  return buffer;
+}
+
 export async function extractRidingBodyBuffer({
   tokenSlug,
   tokenId,
