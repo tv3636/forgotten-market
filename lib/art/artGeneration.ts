@@ -980,6 +980,95 @@ export async function getRiderOnMountImageBuffer({
   return canvas.png().toBuffer();
 }
 
+export async function getRidingTokenBodyBuffer({
+  tokenSlug,
+  tokenId,
+  scale,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  scale: number;
+}) {
+  const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
+  const frameNum = await getTokenFrameNumber({
+    tokenSlug,
+    tokenId,
+    traitSlug: "head",
+  });
+  const headBuffer =
+    frameNum >= 0
+      ? await extractWizardFrame({
+          partsBuffer,
+          frameNum,
+        })
+      : undefined;
+  const bodyBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: false,
+        })
+      : undefined;
+  const armBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: true,
+        })
+      : undefined;
+
+  const newImgWidth = Math.floor(59 * scale);
+  const newImgHeight = Math.floor(59 * scale);
+
+  let resizeArgs = { fit: sharp.fit.fill, kernel: sharp.kernel.nearest };
+
+  // ponies are 472x472 instead of original 59x59 so this gets more complicated
+  let buffers: any[] = [];
+
+  if (armBuffer) {
+    buffers.push({
+      input: await sharp(armBuffer)
+        .resize(newImgWidth, newImgHeight, resizeArgs)
+        .toBuffer(),
+      top: 0,
+      left: Math.floor(3 * scale),
+    });
+  }
+
+  if (bodyBuffer) {
+    buffers.push({
+      input: await sharp(bodyBuffer)
+        .resize(newImgWidth, newImgHeight, resizeArgs)
+        .toBuffer(),
+      top: 0,
+      left: Math.floor(3 * scale),
+    });
+  }
+
+  if (headBuffer) {
+    buffers.push({
+      input: await sharp(headBuffer)
+        .resize(Math.floor(50 * scale), Math.floor(50 * scale), resizeArgs)
+        .toBuffer(),
+      top: 0,
+      left: Math.floor(6 * scale),
+    });
+  }
+
+  const canvas = await sharp({
+    create: {
+      width: newImgWidth,
+      height: newImgHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  }).composite(buffers);
+
+  return canvas.png().toBuffer();
+}
+
 export async function getMountImageBuffer({
   tokenId,
   tokenSlug,

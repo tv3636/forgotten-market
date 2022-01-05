@@ -8,6 +8,7 @@ import {
   buildSpritesheet,
   getAllFamiliarTurnaroundFrameBuffers,
   getAllTurnaroundFrameBuffers,
+  getRidingTokenBodyBuffer,
   getStyledTokenBuffer,
   GetStyledTokenBufferProps,
   getTokenFrameNumber,
@@ -58,6 +59,7 @@ export default async function handler(
 
     for (let i = 0; i < sizes.length; i++) {
       const size = sizes[i];
+      const scale = scales[i];
 
       // single token buffer
       let genOptions: GetStyledTokenBufferProps = {
@@ -148,6 +150,16 @@ export default async function handler(
       });
 
       // build rider
+      const ridingBodyBuffer = await getRidingTokenBodyBuffer({
+        tokenSlug: tokenSlug as string,
+        tokenId: tokenId as string,
+        scale,
+      });
+      zipFiles.push([
+        bufferToStream(ridingBodyBuffer),
+        { name: `${size}/${tokenId}-${slugify(tokenData.name)}-riding.png` },
+      ]);
+
       // right here
 
       // build familiars
