@@ -86,6 +86,8 @@ export async function getLoreInChapterForm(
   if (!results) {
     console.log("No cached lore data - fetching from graph");
 
+    results = [];
+
     // Not we optimistically fetch N lore pages at a time - this is a temporary hack as it's faster than waiting for results to then do another request etc
     const serverGraphPagesToFetch = 2;
     const graphResults = await Promise.all(
@@ -113,7 +115,6 @@ export async function getLoreInChapterForm(
       )
     );
     console.log(`Got ${graphResults.length} queries worth of results....`);
-    const results = [];
 
     for (let i = 0; i < graphResults.length; i++) {
       const loreTokens = graphResults[i]?.data?.loreTokens ?? [];
@@ -135,6 +136,7 @@ export async function getLoreInChapterForm(
     }
 
     if (updateCache) {
+      console.log("Updating cache file");
       await fs.writeFile(
         cacheFile,
         JSON.stringify({ timestamp: new Date().getTime(), data: results }),
