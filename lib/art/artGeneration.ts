@@ -2,7 +2,7 @@ import sharp from "sharp";
 import path from "path";
 import wizardLayers from "../../public/static/nfts/wizards/wizards-layers.json";
 import wizardTraits from "../../public/static/nfts/wizards/wizards-traits.json";
-import { groupBy, keyBy, map } from "lodash";
+import { compact, groupBy, keyBy, map } from "lodash";
 import fs from "fs";
 import fetch from "node-fetch";
 import fileType from "file-type";
@@ -41,6 +41,10 @@ import fileType from "file-type";
 - http://localhost:3005/api/art/wizards/108.png
 - http://localhost:3005/api/art/wizards/108/sepia.png
 - http://localhost:3005/api/art/wizards/trait/head/Prophet.png?trim=true
+
+### TODO
+
+Every time we fetch a URL and save it to a Buffer we should just cache it because it will be way faster in number of sizes
 
 */
 
@@ -194,7 +198,7 @@ export async function getTokenFrameNumber({
   const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
 
   const frameNum: number =
-    wizardLayerData[traitSlug]?.length > 0
+    wizardLayerData?.[traitSlug]?.length > 0
       ? parseInt(wizardLayerData[traitSlug])
       : -1;
 
@@ -495,15 +499,11 @@ export async function buildSpritesheet({
           f + 1
         }.png`;
         const bodyFrameUrl = `${frameBaseURL}/${tokenSlug}/${bodyFrameBaseUrl}`;
-        const bodyFrameResponse = await fetch(bodyFrameUrl, {
-          compress: false,
+
+        const bodyFrameBuffer = await fetchBufferFromUrlCached({
+          url: bodyFrameUrl,
         });
-        if (bodyFrameResponse.status !== 200) {
-          throw new Error(
-            `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
-          );
-        }
-        const bodyFrameBuffer = await bodyFrameResponse.buffer();
+
         frameBuffers.push({
           top: row * HEIGHT,
           left: column * WIDTH,
@@ -524,15 +524,10 @@ export async function buildSpritesheet({
         }.png`;
         const headFrameUrl = `${frameBaseURL}/${tokenSlug}/${headFrameBaseUrl}`;
 
-        const headFrameResponse = await fetch(headFrameUrl, {
-          compress: false,
+        const headFrameBuffer = await fetchBufferFromUrlCached({
+          url: headFrameUrl,
         });
-        if (headFrameResponse.status !== 200) {
-          throw new Error(
-            `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
-          );
-        }
-        const headFrameBuffer = await headFrameResponse.buffer();
+
         frameBuffers.push({
           top: row * HEIGHT,
           left: column * WIDTH,
@@ -707,15 +702,9 @@ export async function getTurnaroundFrameBuffer({
   // body
   const bodyFrameBasename = path.basename(bodyLayer?.filename || "", ".png");
   const bodyFrameUrl = `${turnaroundsBaseURL}/${tokenSlug}/${bodyFrameBasename}_${directionSuffix[direction]}.png`;
-  const bodyFrameResponse = await fetch(bodyFrameUrl, {
-    compress: false,
-  });
-  if (bodyFrameResponse.status !== 200) {
-    throw new Error(
-      `Error can't find ${bodyFrameUrl} - ${bodyFrameResponse.status}`
-    );
-  }
-  const bodyFrameBuffer = await bodyFrameResponse.buffer();
+
+  const bodyFrameBuffer = await fetchBufferFromUrlCached({ url: bodyFrameUrl });
+
   frameBuffers.push({
     input: bodyFrameBuffer,
   });
@@ -724,15 +713,7 @@ export async function getTurnaroundFrameBuffer({
   const headFrameBasename = path.basename(headLayer?.filename || "", ".png");
   const headFrameUrl = `${turnaroundsBaseURL}/${tokenSlug}/${headFrameBasename}_${directionSuffix[direction]}.png`;
 
-  const headFrameResponse = await fetch(headFrameUrl, {
-    compress: false,
-  });
-  if (headFrameResponse.status !== 200) {
-    throw new Error(
-      `Error can't find ${headFrameUrl} - ${headFrameResponse.status}`
-    );
-  }
-  const headFrameBuffer = await headFrameResponse.buffer();
+  const headFrameBuffer = await fetchBufferFromUrlCached({ url: headFrameUrl });
   frameBuffers.push({
     input: headFrameBuffer,
   });
@@ -747,6 +728,393 @@ export async function getTurnaroundFrameBuffer({
     })
     .png()
     .toBuffer();
+
+  return buffer;
+}
+
+export async function getAllFamiliarTurnaroundFrameBuffers({
+  tokenId,
+  tokenSlug,
+  size,
+}: {
+  tokenId: string;
+  tokenSlug: string;
+  size?: number;
+}) {
+  let directions = ["front", "left", "back", "right"];
+  let buffers = [];
+  for (let i = 0; i < directions.length; i++) {
+    let direction = directions[i];
+    buffers.push({
+      name: `${tokenSlug}-${tokenId}-familiar-${i}-${direction}.png`,
+      buffer: await getFamiliarTurnaroundFrameBuffer({
+        tokenId,
+        tokenSlug,
+        direction,
+        size,
+      }),
+    });
+  }
+  return buffers;
+}
+
+export async function getFamiliarTurnaroundFrameBuffer({
+  tokenId,
+  tokenSlug,
+  direction,
+  size,
+}: {
+  tokenId: string;
+  tokenSlug: string;
+  direction: string;
+  size?: number;
+}) {
+  let imageWidth = 50;
+  let imageHeight = 50;
+
+  let directionSuffix: { [key: string]: string } = {
+    front: "1",
+    back: "3",
+    left: "2",
+    right: "4",
+  };
+
+  const familiarLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "familiar",
+  });
+
+  let img = sharp({
+    create: {
+      width: imageWidth,
+      height: imageHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  });
+
+  let frameBuffers = [];
+
+  // familiar
+  const familiarFrameBasename = path.basename(
+    familiarLayer?.filename || "",
+    ".png"
+  );
+
+  const frameUrl = `${turnaroundsBaseURL}/${tokenSlug}-familiars/${familiarFrameBasename}_turn_${directionSuffix[direction]}.png`;
+
+  const familiarFrameBuffer = await fetchBufferFromUrlCached({ url: frameUrl });
+  frameBuffers.push({
+    input: familiarFrameBuffer,
+  });
+
+  let buffer = await img.composite(frameBuffers).png().toBuffer();
+
+  // resize it
+  buffer = await sharp(buffer)
+    .resize(size, size, {
+      fit: sharp.fit.fill,
+      kernel: sharp.kernel.nearest,
+    })
+    .png()
+    .toBuffer();
+
+  return buffer;
+}
+
+export async function extractRidingBodyBuffer({
+  tokenSlug,
+  tokenId,
+  isArm = false,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  isArm: boolean;
+}) {
+  const wizardLayerData = await getTokenLayersData({ tokenSlug, tokenId });
+  const bodyLayer = await getTokenTraitLayerDescription({
+    tokenSlug,
+    tokenId,
+    traitSlug: "body",
+  });
+  const bodyFrameBasename = path.basename(bodyLayer?.filename || "", ".png");
+  const ridingFrameBasename = `${bodyFrameBasename}_rider${
+    isArm ? "_arm" : ""
+  }.png`;
+  const ridingFrameFullname = path.join(
+    ROOT_PATH,
+    `public/static/nfts/wizards/wiz_body_rider/${ridingFrameBasename}`
+  );
+
+  console.log("ridingFrameFullname: ", ridingFrameFullname);
+
+  const buffer = await sharp(ridingFrameFullname).png().toBuffer();
+  return buffer;
+}
+
+export async function getRiderOnMountImageBuffer({
+  tokenSlug,
+  tokenId,
+  ridingTokenSlug,
+  ridingTokenId,
+  width,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  ridingTokenSlug: string;
+  ridingTokenId: string;
+  width: number;
+  trim?: boolean;
+}) {
+  let mountBuffer = await getMountImageBuffer({
+    tokenId: ridingTokenId,
+    tokenSlug: ridingTokenSlug,
+  });
+
+  const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
+  const frameNum = await getTokenFrameNumber({
+    tokenSlug,
+    tokenId,
+    traitSlug: "head",
+  });
+  const headBuffer =
+    frameNum >= 0
+      ? await extractWizardFrame({
+          partsBuffer,
+          frameNum,
+        })
+      : undefined;
+  const propFrameNum = await getTokenFrameNumber({
+    tokenSlug,
+    tokenId,
+    traitSlug: "prop",
+  });
+  const propBuffer =
+    propFrameNum >= 0
+      ? await extractWizardFrame({
+          partsBuffer,
+          frameNum: propFrameNum,
+        })
+      : undefined;
+  const bodyBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: false,
+        })
+      : undefined;
+  const armBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: true,
+        })
+      : undefined;
+
+  const mountSharp = await sharp(mountBuffer);
+  const imgMetadata = await mountSharp.metadata();
+  const newImgWidth = Math.floor(imgMetadata.width || 59);
+  const newImgHeight = Math.floor(imgMetadata.height || 59);
+
+  const scale = 8;
+  let resizeArgs = { fit: sharp.fit.fill, kernel: sharp.kernel.nearest };
+
+  // ponies are 472x472 instead of original 59x59 so this gets more complicated
+  let buffers: any[] = [];
+
+  if (armBuffer) {
+    buffers.push({
+      input: await sharp(armBuffer).resize(472, 472, resizeArgs).toBuffer(),
+      top: 0,
+      left: 3 * scale,
+    });
+  }
+
+  if (propBuffer) {
+    buffers.push({
+      input: await sharp(propBuffer).resize(400, 400, resizeArgs).toBuffer(),
+      top: 0,
+      left: 6 * scale,
+    });
+  }
+
+  buffers.push({ input: mountBuffer });
+
+  if (bodyBuffer) {
+    buffers.push({
+      input: await sharp(bodyBuffer).resize(472, 472, resizeArgs).toBuffer(),
+      top: 0,
+      left: 3 * scale,
+    });
+  }
+
+  if (headBuffer) {
+    buffers.push({
+      input: await sharp(headBuffer).resize(400, 400, resizeArgs).toBuffer(),
+      top: 0,
+      left: 6 * scale,
+    });
+  }
+
+  const canvas = await sharp({
+    create: {
+      width: newImgWidth,
+      height: newImgHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  }).composite(
+    buffers
+    // compact([
+    //   armBuffer ? { input: armBuffer, top: 0, left: 3 } : null,
+    //   propBuffer ? { input: propBuffer, top: 0, left: 6 } : null,
+    //   { input: mountBuffer },
+    //   { input: bodyBuffer, top: 0, left: 3 },
+    //   headBuffer ? { input: headBuffer, top: 0, left: 6 } : null,
+    // ])
+  );
+
+  return canvas.png().toBuffer();
+}
+
+export async function getRidingTokenBodyBuffer({
+  tokenSlug,
+  tokenId,
+  scale,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+  scale: number;
+}) {
+  const partsBuffer = await getTokenPartsBuffer({ tokenSlug });
+  const frameNum = await getTokenFrameNumber({
+    tokenSlug,
+    tokenId,
+    traitSlug: "head",
+  });
+  const headBuffer =
+    frameNum >= 0
+      ? await extractWizardFrame({
+          partsBuffer,
+          frameNum,
+        })
+      : undefined;
+  const bodyBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: false,
+        })
+      : undefined;
+  const armBuffer =
+    parseInt(tokenId) >= 0
+      ? await extractRidingBodyBuffer({
+          tokenSlug,
+          tokenId,
+          isArm: true,
+        })
+      : undefined;
+
+  const newImgWidth = Math.floor(59 * scale);
+  const newImgHeight = Math.floor(59 * scale);
+
+  let resizeArgs = { fit: sharp.fit.fill, kernel: sharp.kernel.nearest };
+
+  // ponies are 472x472 instead of original 59x59 so this gets more complicated
+  let buffers: any[] = [];
+
+  if (armBuffer) {
+    buffers.push({
+      input: await sharp(armBuffer)
+        .resize(newImgWidth, newImgHeight, resizeArgs)
+        .toBuffer(),
+      top: 0,
+      left: Math.floor(3 * scale),
+    });
+  }
+
+  if (bodyBuffer) {
+    buffers.push({
+      input: await sharp(bodyBuffer)
+        .resize(newImgWidth, newImgHeight, resizeArgs)
+        .toBuffer(),
+      top: 0,
+      left: Math.floor(3 * scale),
+    });
+  }
+
+  if (headBuffer) {
+    buffers.push({
+      input: await sharp(headBuffer)
+        .resize(Math.floor(50 * scale), Math.floor(50 * scale), resizeArgs)
+        .toBuffer(),
+      top: 0,
+      left: Math.floor(6 * scale),
+    });
+  }
+
+  const canvas = await sharp({
+    create: {
+      width: newImgWidth,
+      height: newImgHeight,
+      channels: 4,
+      background: "rgba(0,0,0,0)",
+    },
+  }).composite(buffers);
+
+  return canvas.png().toBuffer();
+}
+
+export async function getMountImageBuffer({
+  tokenId,
+  tokenSlug,
+}: {
+  tokenSlug: string;
+  tokenId: string;
+}) {
+  const tokenImageURL = `${process.env.NEXT_PUBLIC_SOULS_API}/api/shadowfax/img/${tokenId}.png?nobg=true`;
+  // const tokenImageURL = `http://localhost:3005/static/nfts/ponies/pony_brown.png`;
+  // const tokenImageURL = `https://quantum-portal-git-preview-forgottenrunes.vercel.app/api/shadowfax/img/${tokenId}?nobg=true`;
+
+  const bodyFrameBuffer = await fetchBufferFromUrlCached({
+    url: tokenImageURL,
+  });
+
+  const imgSharp = await sharp(bodyFrameBuffer).toBuffer();
+  return imgSharp;
+}
+
+// We cache these in memory because we often resize images and this helps dedup
+// the fetch. They almost never change so cache expiration isn't an issue. Also,
+// because we use pixel art below 100x100, the total size of all possible images
+// is very small - we probably could add them to the repo, but doing it this way
+// lets us have secret nft drops behind quantum API which checks for permissions
+// and making sure something is minted.
+let __frameBufferCache: { [key: string]: Buffer } = {};
+
+export async function fetchBufferFromUrlCached({
+  url,
+}: {
+  url: string;
+}): Promise<Buffer> {
+  if (__frameBufferCache[url]) {
+    // console.log("cache hit", url);
+    return __frameBufferCache[url];
+  }
+
+  // console.log("cache miss", url);
+  const frameResponse = await fetch(url, {
+    compress: false,
+  });
+  if (frameResponse.status !== 200) {
+    throw new Error(`Error can't find ${url} - ${frameResponse.status}`);
+  }
+  let buffer = await frameResponse.buffer();
+  __frameBufferCache[url] = buffer;
 
   return buffer;
 }

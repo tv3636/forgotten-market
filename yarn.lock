@@ -3925,10 +3925,10 @@
   resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.1.tgz#af8f508bf183204779938969e2e54043e147d425"
   integrity sha512-MtybtkUPSyysqLY2U210NBDeCHX+ltHt3oADGdjqoThZaFRDKwM6k1Nb3F0A3hk5hwuQvytFWhrWHOEq6nVJ8Q==
 
-"@usedapp/core@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-0.6.3.tgz#8e3f4d6a65d604a0276d22e83f124a0d8c2dc224"
-  integrity sha512-AhF5B398vXi9uLpYnI14YUc7xdvJmoEduQO2/KO0jefvX/95Rl5Z7H0nQczzWMJPgIPkNrx/bWJ62kGje6NgQg==
+"@usedapp/core@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-0.7.2.tgz#54a830eb21ccf5e644dc53343e0ccd268295d5a0"
+  integrity sha512-4zBbSMSzgCOAJPPSB4txQaVj47ytZPkU8gkQ9VHiQxJD/MCWzoGFn1gljirXLhdy420RffUTjG0e6kWlTYATEQ==
   dependencies:
     "@types/react" "17.0.1"
     "@uniswap/token-lists" "^1.0.0-beta.27"
@@ -11795,10 +11795,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-markdown-draft-js@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/markdown-draft-js/-/markdown-draft-js-2.4.0.tgz#164c53be05a96b3a7864cdd0fc3e51166726d01e"
-  integrity sha512-MalOqajYYaELKLPHLnUcaU7kwhIHveVdKd15SKBkDkWj1NBLHuM5uZjXQ5TDfM4rrk4tcAzIvwWhCJzdGNcmkg==
+markdown-draft-js@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/markdown-draft-js/-/markdown-draft-js-2.3.0.tgz#60d69308d77f6cbd64122fa5a23c8d98503c4deb"
+  integrity sha512-18T5AiQkp10lkPLJeNe90gbC268vAe/5tCtoSz/w2xM5PlbMSl7eX1XFd4AKJXvpM27hbW/O8C06Jin2mL32jQ==
   dependencies:
     remarkable "^2.0.1"
 
@@ -14924,6 +14924,13 @@ react-colorful@^5.1.2, react-colorful@^5.3.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.4.0.tgz#e05e602469f9768234f29c1bad9ec1f4e86145a2"
   integrity sha512-k7QJXuQGWevr/V8hoMJ1wBW9i2CVhBdDXpBf3jy/AAtzVyYtsFqEAT+y+NOGiSG1cmnGTreqm5EFLXlVaKbPLQ==
+
+react-countdown@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-countdown/-/react-countdown-2.3.2.tgz#4cc27f28f2dcd47237ee66e4b9f6d2a21fc0b0ad"
+  integrity sha512-Q4SADotHtgOxNWhDdvgupmKVL0pMB9DvoFcxv5AzjsxVhzOVxnttMbAywgqeOdruwEAmnPhOhNv/awAgkwru2w==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-css-theme-switcher@^0.2.3:
   version "0.2.3"

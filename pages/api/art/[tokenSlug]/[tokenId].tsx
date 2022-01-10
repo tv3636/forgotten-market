@@ -6,7 +6,9 @@ import stream, { PassThrough } from "stream";
 import {
   buildReadme,
   buildSpritesheet,
+  getAllFamiliarTurnaroundFrameBuffers,
   getAllTurnaroundFrameBuffers,
+  getRidingTokenBodyBuffer,
   getStyledTokenBuffer,
   GetStyledTokenBufferProps,
   getTokenFrameNumber,
@@ -18,7 +20,7 @@ import {
   tokenTraitsByIndex,
 } from "../../../../lib/art/artGeneration";
 import archiver from "archiver"; // https://github.com/archiverjs/node-archiver
-import { forEach, size } from "lodash";
+import { forEach, isNumber, size } from "lodash";
 import sharp from "sharp";
 
 function bufferToStream(buffer: Buffer) {
@@ -34,7 +36,6 @@ export default async function handler(
   if (req.method !== "GET") {
     return res.status(404);
   }
-  console.log("req.query: ", req.query);
 
   let { tokenSlug, tokenId, width, trim } = req.query;
   let trimOption = !trim || trim === "0" ? false : true;
@@ -58,6 +59,7 @@ export default async function handler(
 
     for (let i = 0; i < sizes.length; i++) {
       const size = sizes[i];
+      const scale = scales[i];
 
       // single token buffer
       let genOptions: GetStyledTokenBufferProps = {
@@ -146,6 +148,43 @@ export default async function handler(
           { name: `${size}/turnarounds/${name}` },
         ]);
       });
+
+      // build rider
+      const ridingBodyBuffer = await getRidingTokenBodyBuffer({
+        tokenSlug: tokenSlug as string,
+        tokenId: tokenId as string,
+        scale,
+      });
+      zipFiles.push([
+        bufferToStream(ridingBodyBuffer),
+        { name: `${size}/${tokenId}-${slugify(tokenData.name)}-riding.png` },
+      ]);
+
+      // right here
+
+      // build familiars
+      const wizardLayerData = await getTokenLayersData({
+        tokenSlug: tokenSlug as string,
+        tokenId,
+      });
+
+      const hasFamiliar =
+        isNumber(parseInt(wizardLayerData.familiar)) &&
+        parseInt(wizardLayerData.familiar) !== 7777;
+
+      if (hasFamiliar) {
+        const familiarTurnarounds = await getAllFamiliarTurnaroundFrameBuffers({
+          tokenId,
+          tokenSlug: tokenSlug as string,
+          size,
+        });
+        familiarTurnarounds.forEach(({ name, buffer }) => {
+          zipFiles.push([
+            bufferToStream(buffer),
+            { name: `${size}/familiar-turnarounds/${name}` },
+          ]);
+        });
+      }
     }
 
     // build spritesheet
