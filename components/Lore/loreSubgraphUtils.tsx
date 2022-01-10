@@ -129,7 +129,7 @@ export async function getLoreInChapterForm(
               loreMetadataURI: loreEntry.loreMetadataURI,
               createdAtTimestamp: loreEntry.createdAtTimestamp,
               creator: loreEntry.creator,
-          index: loreEntry.index,
+              index: loreEntry.index,
             })),
           };
         })
