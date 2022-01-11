@@ -119,10 +119,16 @@ const Layers = ({
 
       const hasLore = wizardsWithLore === undefined || wizardsWithLore[i];
 
-      featureGeoJson.properties.style = {
+      featureGeoJson.properties.backgroundStyle = {
         color: `#${wizData[i].background_color}`,
         stroke: false,
-        fillOpacity: hasLore ? 1 : 0.2,
+        fillOpacity: 1,
+      };
+
+      featureGeoJson.properties.overlayStyle = {
+        color: `gray`,
+        stroke: false,
+        fillOpacity: hasLore ? 0 : 0.3,
       };
 
       featureGeoJson.properties.wizardData = wizData[i];
@@ -132,7 +138,7 @@ const Layers = ({
       backgrounds.push(featureGeoJson);
     }
 
-    const geoJson: GeoJsonObject = {
+    const geoJsons: GeoJsonObject = {
       type: "FeatureCollection",
       // @ts-ignore
       features: backgrounds,
@@ -142,8 +148,19 @@ const Layers = ({
     // @ts-ignore
     map.getPane("underlays").style.zIndex = -1;
 
-    L.geoJSON(geoJson, {
+    L.geoJSON(geoJsons, {
       pane: "underlays",
+      style: function (feature) {
+        return feature?.properties.backgroundStyle;
+      },
+    }).addTo(map);
+    //
+    map.createPane("overlays");
+    // @ts-ignore
+    //map.getPane("overlays").style.zIndex = 600;
+
+    L.geoJSON(geoJsons, {
+      pane: "overlays",
       onEachFeature: function (feature, layer) {
         const popup = L.popup().setContent(
           renderToString(
@@ -163,7 +180,7 @@ const Layers = ({
         });
       },
       style: function (feature) {
-        return feature?.properties.style;
+        return feature?.properties.overlayStyle;
       },
     }).addTo(map);
   }, [map]);
