@@ -52,7 +52,11 @@ export function typeSetter({
       story={lorePageData.rightPage.story}
     />
   ) : (
-    <EmptyLorePage pageNum={lorePageData.rightPage?.pageNumber ?? 0} />
+    <EmptyLorePage
+      pageNum={lorePageData.rightPage?.pageNumber ?? 0}
+      loreTokenSlug={loreTokenSlug}
+      tokenId={tokenId}
+    />
   );
 
   return {

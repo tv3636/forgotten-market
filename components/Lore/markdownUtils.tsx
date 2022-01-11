@@ -31,7 +31,7 @@ export async function hydratePageDataFromMetadata(
         wizard.name
       } passed through The Sacred Flame and became a Soul \n\n![Soul Image](${
         process.env.NEXT_PUBLIC_SOULS_API
-      }/api/souls/img/${tokenId})`,
+      }/api/souls/img/${tokenId}) \n\n[Go to Lore for this Soul](/lore/souls/${tokenId}/0)`,
     };
   }
 
