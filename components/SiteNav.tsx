@@ -276,6 +276,12 @@ export default function SiteNav({}: Props) {
               <a>Blog</a>
             </Link>
           </li>
+
+          <li className="item">
+            <Link as={"/marketplace"} href={"/marketplace"} passHref={true}>
+              <a>Marketplace</a>
+            </Link>
+          </li>
         </ul>
       </SiteNavRow>
     </SiteNavElement>
