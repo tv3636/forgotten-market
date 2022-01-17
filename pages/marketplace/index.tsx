@@ -55,10 +55,16 @@ const FontTraitWrapper = styled.div`
 
 function getOptions(traits: [any]) {
   var result: any[] = [];
+
+  if (traits.length > 0 && isNaN(traits[0].value))
+  traits.sort(function(first, second) {
+    return second.count - first.count;
+   });
+
   for (var trait of traits) {
     let option: any = {};
     option.value = trait.value;
-    option.label = trait.value;
+    option.label = trait.value + (isNaN(trait.value) ? ' (' + trait.count + ')' : '');
 
     result.push(option);
   }
@@ -138,7 +144,7 @@ function TokenDisplay({
           }}
         >
           <MarketText>{name}</MarketText>
-          <MarketText style={{ fontSize: "18px" }}>{price}</MarketText>
+          <MarketText style={{ fontSize: "18px" }}>{price} Ξ</MarketText>
         </div>
       </ListingDisplay>
     </a>
