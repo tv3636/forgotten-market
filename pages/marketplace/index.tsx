@@ -29,12 +29,7 @@ const ListingDisplay = styled.div`
 `;
 
 const MarketText = styled.p`
-  @font-face {
-    font-family: "Swis721";
-    src: url("static/game/wizards/Swis721.ttf") format("truetype");
-  }
-
-  font-family: Swis721;
+  font-family: Arial;
   font-size: 15px;
   color: white;
 `;
@@ -44,12 +39,7 @@ const FontWrapper = styled.div`
 `;
 
 const FontTraitWrapper = styled.div`
-  @font-face {
-    font-family: "Swis721";
-    src: url("static/game/wizards/Swis721.ttf") format("truetype");
-  }
-
-  font-family: Swis721;
+  font-family: Arial;
   color: black;
 `;
 
@@ -69,6 +59,20 @@ function getOptions(traits: [any]) {
     result.push(option);
   }
   return result;
+}
+
+function LoadingCard() {
+    return (
+        <div style={{
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            alignContent: 'center', 
+            justifyContent: 'center',
+            height: '80vh'
+        }}>
+            <img src='/static/img/loading_card.gif' style={{maxWidth: '200px'}}/>
+        </div>)
 }
 
 function SideBar({
@@ -93,19 +97,19 @@ function SideBar({
   }, []);
 
   return (
-    <ProSidebar style={{ width: "15%", marginLeft: "20px" }}>
-      {traits.map((trait: any, index) => (
-        <FontTraitWrapper key={index} style={{ marginTop: "35px" }}>
-          <Select
-            options={getOptions(trait.values)}
-            onChange={(e) => selectionChange(e, trait.key)}
-            isClearable={true}
-            placeholder={trait.key}
-          />
-        </FontTraitWrapper>
-      ))}
-    </ProSidebar>
-  );
+        <ProSidebar style={{ width: "15%", marginLeft: "20px" }}>
+        {traits.map((trait: any, index) => (
+            <FontTraitWrapper key={index} style={{ marginTop: "35px" }}>
+            <Select
+                options={getOptions(trait.values)}
+                onChange={(e) => selectionChange(e, trait.key)}
+                isClearable={true}
+                placeholder={trait.key}
+            />
+            </FontTraitWrapper>
+        ))}
+        </ProSidebar>
+  )
 }
 
 function TokenDisplay({
@@ -144,7 +148,7 @@ function TokenDisplay({
           }}
         >
           <MarketText>{name}</MarketText>
-          <MarketText style={{ fontSize: "18px" }}>{price} Ξ</MarketText>
+          <MarketText style={{ fontSize: "18px" }}>{ price ? price + ' Ξ' : null}</MarketText>
         </div>
       </ListingDisplay>
     </a>
@@ -160,10 +164,16 @@ function Listings({
 }) {
   const [listings, setListings] = useState([]);
   const [filters, setFilters] = useState<any>({});
+  const [loaded, setLoaded] = useState(false);
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
     var url = API_BASE_URL + "tokens?" + "contract=" + contract;
+
+    setLoaded(false);
+    if (reset) {
+        setListings([]);
+    }
 
     for (var filter of Object.keys(filters)) {
       if (filters[filter].length > 0) {
@@ -176,18 +186,25 @@ function Listings({
       }
     }
 
-    for (let i = 0; i < 4; i++) {
-      var offset = reset ? i * 20 : listings.length + i * 20;
-      const page = await fetch(url + "&offset=" + offset);
-      const listingsJson = await page.json();
+    try {
+        for (let i = 0; i < 4; i++) {
+        var offset = reset ? i * 20 : listings.length + i * 20;
+        const page = await fetch(url + "&offset=" + offset);
+        const listingsJson = await page.json();
 
-      lists = lists.concat(listingsJson.tokens);
+        lists = lists.concat(listingsJson.tokens);
+        }
+    } catch (error) {
+        console.log(error);
+        setLoaded(true);
     }
+
     if (reset) {
       setListings(lists);
     } else {
       setListings(listings.concat(lists));
     }
+    setLoaded(true);
   }
 
   function selectionChange(selected: any, trait: any) {
@@ -210,37 +227,40 @@ function Listings({
     <div style={{ display: "flex", flexDirection: "row", height: "80vh" }}>
       <SideBar collection={collection} selectionChange={selectionChange} />
       <div style={{ width: "85%" }}>
-        <InfiniteScroll
-          dataLength={listings.length}
-          next={() => fetchListings(false)}
-          hasMore={true}
-          loader={null}
-          scrollThreshold={0.5}
-          height={"80vh"}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              marginLeft: "8vw",
-              marginRight: "2vw",
-              marginTop: "2vw",
-              overflow: "hidden",
-            }}
-          >
-            {listings.map((listing: any, index) => (
-              <div key={index}>
-                <TokenDisplay
-                  contract={contract}
-                  tokenId={listing.tokenId}
-                  name={listing.name}
-                  price={listing.floorSellValue}
-                />
-              </div>
-            ))}
-          </div>
-        </InfiniteScroll>
+          { listings.length > 0 || loaded ?
+            <InfiniteScroll
+            dataLength={listings.length}
+            next={() => fetchListings(false)}
+            hasMore={true}
+            loader={null}
+            scrollThreshold={0.5}
+            height={"80vh"}
+            >
+            <div
+                style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                marginLeft: "8vw",
+                marginRight: "2vw",
+                marginTop: "2vw",
+                overflow: "hidden",
+                }}
+            >
+                {listings.map((listing: any, index) => (
+                <div key={index}>
+                    <TokenDisplay
+                    contract={contract}
+                    tokenId={listing.tokenId}
+                    name={listing.name}
+                    price={listing.floorSellValue}
+                    />
+                </div>
+                ))}
+            </div>
+            </InfiniteScroll> 
+            : <LoadingCard/>
+            }
       </div>
     </div>
   );
@@ -248,7 +268,7 @@ function Listings({
 
 export default function Marketplace() {
   return (
-    <Layout title="Forgotten Runes Wizard's Cult: 10,000 on-chain Wizard NFTs">
+    <Layout title="Marketplace">
       <FontWrapper>
         <Tabs>
           <TabList>
