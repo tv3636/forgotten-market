@@ -8,6 +8,9 @@ import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUt
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
 import { SocialItem } from "../../../components/Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
+import { getProvider } from "../../../hooks/useProvider";
+import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
+import { useEthers } from "@usedapp/core";
 
 const API_BASE_URL: string = "https://indexer-v31-mainnet.up.railway.app/";
 
@@ -34,11 +37,9 @@ const MarketText = styled.p`
 `;
 
 const MarketButton = styled.button`
-  font-family: Alagard;
-  font-size: 32px;
-  color: black;
-
-  margin: 5px;
+    background: black;
+    margin-left: 1vw;
+    margin-right: 1vw;
 `;
 
 const MarketHeader2 = styled.h2`
@@ -60,14 +61,14 @@ const MarketHeader4 = styled.h4`
 
 const TraitRow = styled.div`
   text-align: start;
-  margin-left: 1vw;
-  margin-right: 1vw;
+  margin-left: 2vw;
+  margin-right: 2vw;
   font-size: 18px;
   font-family: Alagard;
 `;
 
 const Frame = styled.div`
-  background-image: url("/static/game/wizards/frame_traits.png");
+  background-image: url("/static/img/marketplace/frame_traits.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -76,13 +77,45 @@ const Frame = styled.div`
   justify-content: center;
 `;
 
+function MarketButtons({
+    account,
+    owner,
+    listValue
+}: {
+    account: string | null | undefined,
+    owner: string | null | undefined,
+    listValue: number | null | undefined
+}) {
+    if (!account) {
+        return <ConnectWalletButton/>
+    }
+
+    if (owner) {
+        if (account.toLowerCase() == owner.toLowerCase()) {
+            if (listValue) {
+                return <MarketButton>Cancel Listing</MarketButton>
+            } else {
+                return <MarketButton><img src="/static/img/marketplace/sell.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>
+            }
+        } else {
+            return (
+                <div>
+                    {listValue && <MarketButton><img src="/static/img/marketplace/buy.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>}
+                    <MarketButton><img src="/static/img/marketplace/offer.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>
+                </div>
+            )
+        }
+    }
+    return null
+}
+
 function TraitDisplay({ attributes }: { attributes: [] }) {
   if (attributes.length == 0) {
     return null;
   } else {
     return (
       <Frame>
-        <div style={{ marginTop: "50px", marginBottom: "50px", width: "93%" }}>
+        <div style={{ marginTop: "50px", marginBottom: "50px", width: "92%" }}>
           {attributes.map((attribute: any, index: number) => (
             <div key={index}>
               <div
@@ -163,6 +196,7 @@ const ListingPage = ({
   const [listing, setListing] = useState<any>({});
   const [attributes, setAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>([]);
+  const { account } = useEthers();
 
   useEffect(() => {
     async function run() {
@@ -237,7 +271,7 @@ const ListingPage = ({
           >
             <MarketHeader2>{token.name}</MarketHeader2>
             <MarketText>
-              {listing.value ? listing.value + " Ξ" : null}
+              {listing.value ? <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><img src='/static/img/marketplace/eth_alt.png' style={{height: '30px', marginRight: '10px'}}/><div>{listing.value}</div></div> : null}
             </MarketText>
             <hr />
             <div
@@ -246,10 +280,11 @@ const ListingPage = ({
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center",
+                marginTop: '2vh',
+                marginBottom: '2vh'
               }}
             >
-              {listing.value && <MarketButton>Buy Now</MarketButton>}
-              <MarketButton>Make Offer</MarketButton>
+            <MarketButtons account={account} owner={token.owner} listValue={listing.value}/>
             </div>
             <hr />
             {token.owner && (
