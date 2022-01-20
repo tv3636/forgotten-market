@@ -74,7 +74,10 @@ function LoadingCard() {
         height: "80vh",
       }}
     >
-      <img src="/static/img/marketplace/loading_card.gif" style={{ maxWidth: "200px" }} />
+      <img
+        src="/static/img/marketplace/loading_card.gif"
+        style={{ maxWidth: "200px" }}
+      />
     </div>
   );
 }
@@ -153,7 +156,19 @@ function TokenDisplay({
         >
           <MarketText>{name}</MarketText>
           <MarketText style={{ fontSize: "18px" }}>
-            {price ? <div style={{display: 'flex'}}><img src='/static/img/marketplace/eth.png' style={{height: '20px', marginRight: '8px', marginTop: '5px'}}/><div>{price}</div></div> : null}
+            {price ? (
+              <div style={{ display: "flex" }}>
+                <img
+                  src="/static/img/marketplace/eth.png"
+                  style={{
+                    height: "20px",
+                    marginRight: "8px",
+                    marginTop: "5px",
+                  }}
+                />
+                <div>{price}</div>
+              </div>
+            ) : null}
           </MarketText>
         </div>
       </ListingDisplay>

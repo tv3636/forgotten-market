@@ -37,9 +37,9 @@ const MarketText = styled.p`
 `;
 
 const MarketButton = styled.button`
-    background: black;
-    margin-left: 1vw;
-    margin-right: 1vw;
+  background: black;
+  margin-left: 1vw;
+  margin-right: 1vw;
 `;
 
 const MarketHeader2 = styled.h2`
@@ -78,35 +78,57 @@ const Frame = styled.div`
 `;
 
 function MarketButtons({
-    account,
-    owner,
-    listValue
+  account,
+  owner,
+  listValue,
 }: {
-    account: string | null | undefined,
-    owner: string | null | undefined,
-    listValue: number | null | undefined
+  account: string | null | undefined;
+  owner: string | null | undefined;
+  listValue: number | null | undefined;
 }) {
-    if (!account) {
-        return <ConnectWalletButton/>
-    }
+  if (!account) {
+    return <ConnectWalletButton />;
+  }
 
-    if (owner) {
-        if (account.toLowerCase() == owner.toLowerCase()) {
-            if (listValue) {
-                return <MarketButton>Cancel Listing</MarketButton>
-            } else {
-                return <MarketButton><img src="/static/img/marketplace/sell.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>
-            }
-        } else {
-            return (
-                <div>
-                    {listValue && <MarketButton><img src="/static/img/marketplace/buy.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>}
-                    <MarketButton><img src="/static/img/marketplace/offer.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>
-                </div>
-            )
-        }
+  if (owner) {
+    if (account.toLowerCase() == owner.toLowerCase()) {
+      if (listValue) {
+        return <MarketButton>Cancel Listing</MarketButton>;
+      } else {
+        return (
+          <MarketButton>
+            <img
+              src="/static/img/marketplace/sell.png"
+              height="80px"
+              style={{ margin: "-10px", padding: "10px" }}
+            />
+          </MarketButton>
+        );
+      }
+    } else {
+      return (
+        <div>
+          {listValue && (
+            <MarketButton>
+              <img
+                src="/static/img/marketplace/buy.png"
+                height="80px"
+                style={{ margin: "-10px", padding: "10px" }}
+              />
+            </MarketButton>
+          )}
+          <MarketButton>
+            <img
+              src="/static/img/marketplace/offer.png"
+              height="80px"
+              style={{ margin: "-10px", padding: "10px" }}
+            />
+          </MarketButton>
+        </div>
+      );
     }
-    return null
+  }
+  return null;
 }
 
 function TraitDisplay({ attributes }: { attributes: [] }) {
@@ -271,7 +293,21 @@ const ListingPage = ({
           >
             <MarketHeader2>{token.name}</MarketHeader2>
             <MarketText>
-              {listing.value ? <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><img src='/static/img/marketplace/eth_alt.png' style={{height: '30px', marginRight: '10px'}}/><div>{listing.value}</div></div> : null}
+              {listing.value ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src="/static/img/marketplace/eth_alt.png"
+                    style={{ height: "30px", marginRight: "10px" }}
+                  />
+                  <div>{listing.value}</div>
+                </div>
+              ) : null}
             </MarketText>
             <hr />
             <div
@@ -280,11 +316,15 @@ const ListingPage = ({
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: '2vh',
-                marginBottom: '2vh'
+                marginTop: "2vh",
+                marginBottom: "2vh",
               }}
             >
-            <MarketButtons account={account} owner={token.owner} listValue={listing.value}/>
+              <MarketButtons
+                account={account}
+                owner={token.owner}
+                listValue={listing.value}
+              />
             </div>
             <hr />
             {token.owner && (
