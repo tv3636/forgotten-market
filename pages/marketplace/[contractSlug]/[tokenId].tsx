@@ -20,11 +20,10 @@ const IMG_URLS: any = {
 };
 
 const COLLECTION_NAMES: any = {
-    "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": "wizards",
-    "0x251b5f14a825c537ff788604ea1b58e49b70726f": "souls",
-    "0xf55b615b479482440135ebf1b907fd4c37ed9420": "ponies",
-  };
-
+  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": "wizards",
+  "0x251b5f14a825c537ff788604ea1b58e49b70726f": "souls",
+  "0xf55b615b479482440135ebf1b907fd4c37ed9420": "ponies",
+};
 
 const MarketText = styled.p`
   font-family: Alagard;
@@ -65,7 +64,6 @@ const TraitRow = styled.div`
   margin-right: 1vw;
   font-size: 18px;
   font-family: Alagard;
-
 `;
 
 const Frame = styled.div`
@@ -73,7 +71,7 @@ const Frame = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  
+
   display: flex;
   justify-content: center;
 `;
@@ -84,70 +82,72 @@ function TraitDisplay({ attributes }: { attributes: [] }) {
   } else {
     return (
       <Frame>
-          <div style={{marginTop: '50px', marginBottom: '50px', width: '93%'}}>
-            {attributes.map((attribute: any, index: number) => (
+        <div style={{ marginTop: "50px", marginBottom: "50px", width: "93%" }}>
+          {attributes.map((attribute: any, index: number) => (
             <div key={index}>
-                <div
+              <div
                 style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    height: '40px',
-                    alignItems: 'center'
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  height: "40px",
+                  alignItems: "center",
                 }}
-                >
+              >
                 <TraitRow>{attribute.key}:</TraitRow>
                 <TraitRow>{attribute.value}</TraitRow>
-                </div>
-                {index < attributes.length - 1 ? <hr /> : null}
+              </div>
+              {index < attributes.length - 1 ? <hr /> : null}
             </div>
-            ))}
+          ))}
         </div>
       </Frame>
     );
   }
 }
 
-function Icons({ 
-    tokenId,
-    collection
-}: { 
-    tokenId: number,
-    collection: string
+function Icons({
+  tokenId,
+  collection,
+}: {
+  tokenId: number;
+  collection: string;
 }) {
-
-    return (
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-            <SocialItem>
-                <a
-                href={`/scenes/gm/${tokenId}`}
-                className="icon-link gm"
-                target="_blank"
-                >
-                <ResponsivePixelImg
-                    src="/static/img/icons/gm.png"
-                    className="gm-img"
-                />
-                </a>
-            </SocialItem>
-            {COLLECTION_NAMES[collection] == "wizards" && (
-                <SocialItem>
-                <a
-                    href={`/api/art/${COLLECTION_NAMES[collection]}/${tokenId}.zip`}
-                    className="icon-link"
-                    target="_blank"
-                >
-                    <ResponsivePixelImg src="/static/img/icons/social_download_default_w.png" />
-                </a>
-                </SocialItem>
-            )}
-            <SocialItem>
-                <a href={`/lore/${COLLECTION_NAMES[collection]}/${tokenId}/0`} className="icon-link">
-                <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
-                </a>
-            </SocialItem>
-        </div>
-    )
+  return (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <SocialItem>
+        <a
+          href={`/scenes/gm/${tokenId}`}
+          className="icon-link gm"
+          target="_blank"
+        >
+          <ResponsivePixelImg
+            src="/static/img/icons/gm.png"
+            className="gm-img"
+          />
+        </a>
+      </SocialItem>
+      {COLLECTION_NAMES[collection] == "wizards" && (
+        <SocialItem>
+          <a
+            href={`/api/art/${COLLECTION_NAMES[collection]}/${tokenId}.zip`}
+            className="icon-link"
+            target="_blank"
+          >
+            <ResponsivePixelImg src="/static/img/icons/social_download_default_w.png" />
+          </a>
+        </SocialItem>
+      )}
+      <SocialItem>
+        <a
+          href={`/lore/${COLLECTION_NAMES[collection]}/${tokenId}/0`}
+          className="icon-link"
+        >
+          <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
+        </a>
+      </SocialItem>
+    </div>
+  );
 }
 
 const ListingPage = ({
@@ -185,13 +185,14 @@ const ListingPage = ({
       if (lore.length > 0) {
         var newPages = [];
         for (var lorePage of lore) {
-            var thisPage = await hydratePageDataFromMetadata(
-                lorePage.loreMetadataURI, 
-                lorePage.createdAtTimestamp, 
-                lorePage.creator, 
-                lorePage.tokenId);
+          var thisPage = await hydratePageDataFromMetadata(
+            lorePage.loreMetadataURI,
+            lorePage.createdAtTimestamp,
+            lorePage.creator,
+            lorePage.tokenId
+          );
 
-            newPages.push(thisPage);
+          newPages.push(thisPage);
         }
         setPages(newPages);
       }
@@ -216,14 +217,14 @@ const ListingPage = ({
             style={{ textAlign: "center", marginRight: "5vw" }}
           >
             <img src={IMG_URLS[contractSlug] + tokenId + ".png"} />
-            <Icons tokenId={Number(tokenId)} collection={contractSlug}/>
+            <Icons tokenId={Number(tokenId)} collection={contractSlug} />
             <div
               style={{
                 textAlign: "center",
-                marginTop: "1vh"
+                marginTop: "1vh",
               }}
             >
-            <TraitDisplay attributes={attributes} />
+              <TraitDisplay attributes={attributes} />
             </div>
           </div>
           <div
@@ -251,14 +252,17 @@ const ListingPage = ({
               <MarketButton>Make Offer</MarketButton>
             </div>
             <hr />
-            {token.owner && 
-            (
-                <MarketHeader4>
-                    {'Owner: '}
-                    <a href={'/address/' + token.owner} target='_blank' rel='noopener noreferrer'>
-                        {token.owner.substring(0, 10)}
-                    </a>
-                </MarketHeader4>
+            {token.owner && (
+              <MarketHeader4>
+                {"Owner: "}
+                <a
+                  href={"/address/" + token.owner}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {token.owner.substring(0, 10)}
+                </a>
+              </MarketHeader4>
             )}
             <p>
               {listing.validUntil
@@ -268,16 +272,26 @@ const ListingPage = ({
                   )
                 : null}
             </p>
-            <div style={{marginTop: '8vh', maxWidth: '75%', display: 'inline-flex', flexDirection: 'column'}}>
-                {pages.length > 0 ?
-                    pages.map((page: any, index: number) => (
-                        <div key={index}>
-                            <IndividualLorePage bgColor={page.bgColor} story={page.story}/>
-                        </div>
-                    ))
-                    :
-                    <div>No Lore has been recorded...</div>
-                }
+            <div
+              style={{
+                marginTop: "8vh",
+                maxWidth: "75%",
+                display: "inline-flex",
+                flexDirection: "column",
+              }}
+            >
+              {pages.length > 0 ? (
+                pages.map((page: any, index: number) => (
+                  <div key={index}>
+                    <IndividualLorePage
+                      bgColor={page.bgColor}
+                      story={page.story}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div>No Lore has been recorded...</div>
+              )}
             </div>
           </div>
         </div>
@@ -316,12 +330,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         }`,
     });
 
-    var results = data['loreTokens'][0]['lore'];
-
+    var results = data["loreTokens"][0]["lore"];
   } catch (e) {
-    console.error(
-      "Couldn't fetch lore. Continuing anyway as its non-fatal..."
-    );
+    console.error("Couldn't fetch lore. Continuing anyway as its non-fatal...");
     results = [];
   }
 
@@ -329,7 +340,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     props: {
       contractSlug,
       tokenId: tokenId,
-      lore: results
+      lore: results,
     },
     revalidate: 3 * 60,
   };
