@@ -36,6 +36,15 @@ const MarketText = styled.p`
   margin: 15px;
 `;
 
+<<<<<<< HEAD
+=======
+const MarketButton = styled.button`
+  background: black;
+  margin-left: 1vw;
+  margin-right: 1vw;
+`;
+
+>>>>>>> 9a992b3e6ebd72566b791b342a7d8732b9d8ee33
 const MarketHeader2 = styled.h2`
   font-family: Alagard;
   font-size: 40px;
@@ -98,17 +107,17 @@ function MarketButton({
 
 
 function MarketButtons({
-    account,
-    owner,
-    listValue
+  account,
+  owner,
+  listValue,
 }: {
-    account: string | null | undefined,
-    owner: string | null | undefined,
-    listValue: number | null | undefined
+  account: string | null | undefined;
+  owner: string | null | undefined;
+  listValue: number | null | undefined;
 }) {
-    if (!account) {
-        return <ConnectWalletButton/>
-    }
+  if (!account) {
+    return <ConnectWalletButton />;
+  }
 
     if (owner) {
         if (account.toLowerCase() == owner.toLowerCase()) {
@@ -126,7 +135,8 @@ function MarketButtons({
             )
         }
     }
-    return null
+  }
+  return null;
 }
 
 function TraitDisplay({ attributes }: { attributes: [] }) {
@@ -323,7 +333,21 @@ const ListingPage = ({
           >
             <MarketHeader2>{token.name}</MarketHeader2>
             <MarketText>
-              {listing.value ? <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><img src='/static/img/marketplace/eth_alt.png' style={{height: '30px', marginRight: '10px'}}/><div>{listing.value}</div></div> : null}
+              {listing.value ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src="/static/img/marketplace/eth_alt.png"
+                    style={{ height: "30px", marginRight: "10px" }}
+                  />
+                  <div>{listing.value}</div>
+                </div>
+              ) : null}
             </MarketText>
             <hr />
             <div
@@ -332,11 +356,15 @@ const ListingPage = ({
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: '2vh',
-                marginBottom: '2vh'
+                marginTop: "2vh",
+                marginBottom: "2vh",
               }}
             >
-            <MarketButtons account={account} owner={token.owner} listValue={listing.value}/>
+              <MarketButtons
+                account={account}
+                owner={token.owner}
+                listValue={listing.value}
+              />
             </div>
             <hr />
             {token.owner && (

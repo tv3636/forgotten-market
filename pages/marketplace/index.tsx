@@ -76,7 +76,10 @@ function LoadingCard() {
         height: "80vh",
       }}
     >
-      <img src="/static/img/marketplace/loading_card.gif" style={{ maxWidth: "200px" }} />
+      <img
+        src="/static/img/marketplace/loading_card.gif"
+        style={{ maxWidth: "200px" }}
+      />
     </div>
   );
 }
