@@ -11,6 +11,7 @@ import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";
+const countdown = require('countdown');
 
 const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
 
@@ -77,6 +78,7 @@ const ButtonImage = styled.img`
   height: 60px;
 
   :active {
+    
     position: relative;
     top: 2px;
   }
@@ -242,7 +244,14 @@ const ListingPage = ({
   const [attributes, setAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>([]);
   const [ens, setEns] = useState<string | null>("");
+  const [countdownTimer, setCountdownTimer] = useState<string>('');
   const { account } = useEthers();
+
+  function increment() {
+    setCountdownTimer(countdown(new Date(listing.validUntil * 1000)).toString());
+  }
+
+  setTimeout(increment, 1000);
 
   useEffect(() => {
     async function run() {
@@ -260,11 +269,9 @@ const ListingPage = ({
         setToken(listingsJson.tokens[0].token);
         setListing(listingsJson.tokens[0].market.floorSell);
         setAttributes(listingsJson.tokens[0].token.attributes);
-
+        
         const provider = getProvider();
-        var ensName = await provider.lookupAddress(
-          listingsJson.tokens[0].token.owner
-        );
+        var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
         setEns(ensName);
       }
 
@@ -298,18 +305,14 @@ const ListingPage = ({
           style={{
             display: "flex",
             flexDirection: "row",
-            flexWrap: "wrap",
+            flexWrap: 'wrap',
             justifyContent: "center",
             margin: "4vh",
           }}
         >
           <div
             id="lefthand"
-            style={{
-              textAlign: "center",
-              marginRight: "5vw",
-              maxWidth: "500px",
-            }}
+            style={{ textAlign: "center", marginRight: "5vw", maxWidth: "500px"}}
           >
             <img src={IMG_URLS[contractSlug] + tokenId + ".png"} />
             <Icons tokenId={Number(tokenId)} collection={contractSlug} />
@@ -328,8 +331,8 @@ const ListingPage = ({
               textAlign: "center",
               marginLeft: "3vw",
               marginTop: "6vh",
-              width: "45%",
-              maxWidth: "1000px",
+              width: '45%',
+              maxWidth: "1000px"
             }}
           >
             <MarketHeader2>{token.name}</MarketHeader2>
@@ -376,20 +379,14 @@ const ListingPage = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {ens
-                    ? token.owner?.toLowerCase() != account?.toLowerCase()
-                      ? ens
-                      : "you"
-                    : token.owner.substring(0, 10)}
+                  {ens ? (token.owner?.toLowerCase() != account?.toLowerCase() ? ens : 'you') : token.owner.substring(0, 10)}
                 </a>
               </MarketHeader4>
             )}
             <p>
               {listing.validUntil
-                ? "Listing expires " +
-                  String(
-                    new Date(listing.validUntil * 1000).toLocaleDateString()
-                  )
+                ? "Listing expires in " +
+                  countdownTimer
                 : null}
             </p>
             <div
