@@ -36,15 +36,6 @@ const MarketText = styled.p`
   margin: 15px;
 `;
 
-<<<<<<< HEAD
-=======
-const MarketButton = styled.button`
-  background: black;
-  margin-left: 1vw;
-  margin-right: 1vw;
-`;
-
->>>>>>> 9a992b3e6ebd72566b791b342a7d8732b9d8ee33
 const MarketHeader2 = styled.h2`
   font-family: Alagard;
   font-size: 40px;
@@ -135,7 +126,6 @@ function MarketButtons({
             )
         }
     }
-  }
   return null;
 }
 
