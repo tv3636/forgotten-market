@@ -75,27 +75,26 @@ const ButtonImage = styled.img`
   margin-left: 0.5vw;
   margin-right: 0.5vw;
   height: 60px;
-  
-  :active { 
-    position: relative; 
-    top: 2px; 
-   }
+
+  :active {
+    position: relative;
+    top: 2px;
+  }
 `;
 
-function MarketButton({
-  text
-}: {
-  text: string
-}) {
+function MarketButton({ text }: { text: string }) {
   return (
-    <ButtonImage 
-      src={"/static/img/marketplace/" + text + ".png"} 
-      onMouseOver={e => (e.currentTarget.src = "/static/img/marketplace/" + text + "_hover.png")} 
-      onMouseOut={e => (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")} 
+    <ButtonImage
+      src={"/static/img/marketplace/" + text + ".png"}
+      onMouseOver={(e) =>
+        (e.currentTarget.src = "/static/img/marketplace/" + text + "_hover.png")
+      }
+      onMouseOut={(e) =>
+        (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")
+      }
     />
-  )
+  );
 }
-
 
 function MarketButtons({
   account,
@@ -110,22 +109,22 @@ function MarketButtons({
     return <ConnectWalletButton />;
   }
 
-    if (owner) {
-        if (account.toLowerCase() == owner.toLowerCase()) {
-            if (listValue) {
-                return <button>Cancel Listing</button>
-            } else {
-                return <MarketButton text={'sell'}/>
-            }
-        } else {
-            return (
-                <div>
-                    {listValue && <MarketButton text={'buy'}/>}
-                    <MarketButton text={'offer'}/>
-                </div>
-            )
-        }
+  if (owner) {
+    if (account.toLowerCase() == owner.toLowerCase()) {
+      if (listValue) {
+        return <button>Cancel Listing</button>;
+      } else {
+        return <MarketButton text={"sell"} />;
+      }
+    } else {
+      return (
+        <div>
+          {listValue && <MarketButton text={"buy"} />}
+          <MarketButton text={"offer"} />
+        </div>
+      );
     }
+  }
   return null;
 }
 
@@ -203,32 +202,26 @@ function Icons({
   );
 }
 
-function LoreBlock ({
-  pages
-}: {
-  pages: []
-}) {
-
+function LoreBlock({ pages }: { pages: [] }) {
   if (pages.length > 0) {
     return (
       <div>
-        {pages.map((page: any, index: number) => (
-          page.nsfw ?
-          <div>NSFW Lore Entry not shown</div> :
-          <div key={index}>
-            <IndividualLorePage
-              bgColor={page.bgColor}
-              story={page.story}
-            />
-          </div>
-        ))}
+        {pages.map((page: any, index: number) =>
+          page.nsfw ? (
+            <div>NSFW Lore Entry not shown</div>
+          ) : (
+            <div key={index}>
+              <IndividualLorePage bgColor={page.bgColor} story={page.story} />
+            </div>
+          )
+        )}
       </div>
-    )
+    );
   } else {
-    return <div>No Lore has been recorded...</div>
+    return <div>No Lore has been recorded...</div>;
   }
 
-  return null
+  return null;
 }
 
 const ListingPage = ({
@@ -275,7 +268,7 @@ const ListingPage = ({
           );
 
           if (lorePage.nsfw) {
-            newPages.push({'nsfw': true});
+            newPages.push({ nsfw: true });
           } else {
             newPages.push(thisPage);
           }
@@ -385,7 +378,7 @@ const ListingPage = ({
                 flexDirection: "column",
               }}
             >
-              <LoreBlock pages={pages}/>
+              <LoreBlock pages={pages} />
             </div>
           </div>
         </div>

@@ -88,7 +88,7 @@ function SideBar({
   collection,
   selectionChange,
   loreChange,
-  noLoreChange
+  noLoreChange,
 }: {
   collection: string;
   selectionChange: any;
@@ -111,12 +111,15 @@ function SideBar({
 
   return (
     <ProSidebar style={{ width: "15%", marginLeft: "20px" }}>
-      <form style={{display: 'flex', flexDirection: 'column', marginTop: '10px'}}>
-        <label style={{margin: '5px'}}>
-          <input type='checkbox' className='hasLore' onClick={loreChange}/> Has Lore 
+      <form
+        style={{ display: "flex", flexDirection: "column", marginTop: "10px" }}
+      >
+        <label style={{ margin: "5px" }}>
+          <input type="checkbox" className="hasLore" onClick={loreChange} /> Has
+          Lore
         </label>
-        <label style={{margin: '5px'}}>
-          <input type='checkbox' onClick={noLoreChange}/> Has No Lore
+        <label style={{ margin: "5px" }}>
+          <input type="checkbox" onClick={noLoreChange} /> Has No Lore
         </label>
       </form>
       {traits.map((trait: any, index) => (
@@ -169,8 +172,22 @@ function TokenDisplay({
           }}
         >
           <MarketText>{name}</MarketText>
-          <div style={{ fontSize: "18px", fontFamily: 'Arial', color: 'white' }}>
-            {price ? <div style={{display: 'flex'}}><img src='/static/img/marketplace/eth.png' style={{height: '20px', marginRight: '8px', marginTop: '5px'}}/><div>{price}</div></div> : null}
+          <div
+            style={{ fontSize: "18px", fontFamily: "Arial", color: "white" }}
+          >
+            {price ? (
+              <div style={{ display: "flex" }}>
+                <img
+                  src="/static/img/marketplace/eth.png"
+                  style={{
+                    height: "20px",
+                    marginRight: "8px",
+                    marginTop: "5px",
+                  }}
+                />
+                <div>{price}</div>
+              </div>
+            ) : null}
           </div>
         </div>
       </ListingDisplay>
@@ -181,7 +198,7 @@ function TokenDisplay({
 function Listings({
   contract,
   collection,
-  wizardsWithLore
+  wizardsWithLore,
 }: {
   contract: string;
   collection: string;
@@ -250,12 +267,12 @@ function Listings({
 
   function loreChange() {
     setHasLore(!hasLore);
-    console.log('sup');
+    console.log("sup");
   }
 
   function noLoreChange() {
     setHasNoLore(!hasNoLore);
-    console.log('sup no');
+    console.log("sup no");
   }
 
   useEffect(() => {
@@ -264,7 +281,12 @@ function Listings({
 
   return (
     <div style={{ display: "flex", flexDirection: "row", height: "80vh" }}>
-      <SideBar collection={collection} selectionChange={selectionChange} loreChange={loreChange} noLoreChange={noLoreChange} />
+      <SideBar
+        collection={collection}
+        selectionChange={selectionChange}
+        loreChange={loreChange}
+        noLoreChange={noLoreChange}
+      />
       <div style={{ width: "85%" }}>
         {listings.length > 0 || loaded ? (
           <InfiniteScroll
@@ -287,15 +309,24 @@ function Listings({
               }}
             >
               {listings.map((listing: any, index) => {
-                return ((!hasLore && !hasNoLore) || (hasLore && !hasNoLore && wizardsWithLore[listing.tokenId]) || (!hasLore && hasNoLore && !wizardsWithLore[listing.tokenId])) &&
-                <div key={index}>
-                  <TokenDisplay
-                    contract={contract}
-                    tokenId={listing.tokenId}
-                    name={listing.name}
-                    price={listing.floorSellValue}
-                  />
-                </div>
+                return (
+                  ((!hasLore && !hasNoLore) ||
+                    (hasLore &&
+                      !hasNoLore &&
+                      wizardsWithLore[listing.tokenId]) ||
+                    (!hasLore &&
+                      hasNoLore &&
+                      !wizardsWithLore[listing.tokenId])) && (
+                    <div key={index}>
+                      <TokenDisplay
+                        contract={contract}
+                        tokenId={listing.tokenId}
+                        name={listing.name}
+                        price={listing.floorSellValue}
+                      />
+                    </div>
+                  )
+                );
               })}
             </div>
           </InfiniteScroll>
@@ -308,7 +339,7 @@ function Listings({
 }
 
 export default function Marketplace({
-  wizardsWithLore
+  wizardsWithLore,
 }: {
   wizardsWithLore: { [key: number]: boolean };
 }) {
