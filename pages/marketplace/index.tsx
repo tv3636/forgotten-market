@@ -6,8 +6,10 @@ const { Tab, Tabs, TabList, TabPanel } = require("react-tabs");
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Select from "react-select";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
 
-const API_BASE_URL: string = "https://indexer-v31-mainnet.up.railway.app/";
+const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
 
 const IMG_URLS: any = {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": "/api/art/wizards/",
@@ -82,9 +84,13 @@ function LoadingCard() {
 function SideBar({
   collection,
   selectionChange,
+  loreChange,
+  noLoreChange
 }: {
   collection: string;
   selectionChange: any;
+  loreChange: any;
+  noLoreChange: any;
 }) {
   const [traits, setTraits] = useState([]);
 
@@ -102,8 +108,16 @@ function SideBar({
 
   return (
     <ProSidebar style={{ width: "15%", marginLeft: "20px" }}>
+      <form style={{display: 'flex', flexDirection: 'column', marginTop: '10px'}}>
+        <label style={{margin: '5px'}}>
+          <input type='checkbox' className='hasLore' onClick={loreChange}/> Has Lore 
+        </label>
+        <label style={{margin: '5px'}}>
+          <input type='checkbox' onClick={noLoreChange}/> Has No Lore
+        </label>
+      </form>
       {traits.map((trait: any, index) => (
-        <FontTraitWrapper key={index} style={{ marginTop: "35px" }}>
+        <FontTraitWrapper key={index} style={{ marginTop: "30px" }}>
           <Select
             options={getOptions(trait.values)}
             onChange={(e) => selectionChange(e, trait.key)}
@@ -152,9 +166,9 @@ function TokenDisplay({
           }}
         >
           <MarketText>{name}</MarketText>
-          <MarketText style={{ fontSize: "18px" }}>
+          <div style={{ fontSize: "18px", fontFamily: 'Arial', color: 'white' }}>
             {price ? <div style={{display: 'flex'}}><img src='/static/img/marketplace/eth.png' style={{height: '20px', marginRight: '8px', marginTop: '5px'}}/><div>{price}</div></div> : null}
-          </MarketText>
+          </div>
         </div>
       </ListingDisplay>
     </a>
@@ -164,13 +178,19 @@ function TokenDisplay({
 function Listings({
   contract,
   collection,
+  wizardsWithLore
 }: {
   contract: string;
   collection: string;
+  wizardsWithLore: { [key: number]: boolean };
 }) {
   const [listings, setListings] = useState([]);
   const [filters, setFilters] = useState<any>({});
   const [loaded, setLoaded] = useState(false);
+  const [hasLore, setHasLore] = useState(false);
+  const [hasNoLore, setHasNoLore] = useState(false);
+
+  console.log(wizardsWithLore);
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
@@ -225,13 +245,23 @@ function Listings({
     fetchListings(true);
   }
 
+  function loreChange() {
+    setHasLore(!hasLore);
+    console.log('sup');
+  }
+
+  function noLoreChange() {
+    setHasNoLore(!hasNoLore);
+    console.log('sup no');
+  }
+
   useEffect(() => {
     fetchListings(false);
   }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", height: "80vh" }}>
-      <SideBar collection={collection} selectionChange={selectionChange} />
+      <SideBar collection={collection} selectionChange={selectionChange} loreChange={loreChange} noLoreChange={noLoreChange} />
       <div style={{ width: "85%" }}>
         {listings.length > 0 || loaded ? (
           <InfiniteScroll
@@ -253,7 +283,8 @@ function Listings({
                 overflow: "hidden",
               }}
             >
-              {listings.map((listing: any, index) => (
+              {listings.map((listing: any, index) => {
+                return ((!hasLore && !hasNoLore) || (hasLore && !hasNoLore && wizardsWithLore[listing.tokenId]) || (!hasLore && hasNoLore && !wizardsWithLore[listing.tokenId])) &&
                 <div key={index}>
                   <TokenDisplay
                     contract={contract}
@@ -262,7 +293,7 @@ function Listings({
                     price={listing.floorSellValue}
                   />
                 </div>
-              ))}
+              })}
             </div>
           </InfiniteScroll>
         ) : (
@@ -273,7 +304,11 @@ function Listings({
   );
 }
 
-export default function Marketplace() {
+export default function Marketplace({
+  wizardsWithLore
+}: {
+  wizardsWithLore: { [key: number]: boolean };
+}) {
   return (
     <Layout title="Marketplace">
       <FontWrapper>
@@ -288,18 +323,21 @@ export default function Marketplace() {
             <Listings
               collection="forgottenruneswizardscult"
               contract="0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42"
+              wizardsWithLore={wizardsWithLore}
             />
           </TabPanel>
           <TabPanel>
             <Listings
               collection="forgottensouls"
               contract="0x251b5f14a825c537ff788604ea1b58e49b70726f"
+              wizardsWithLore={wizardsWithLore}
             />
           </TabPanel>
           <TabPanel>
             <Listings
               collection="forgottenrunesponies"
               contract="0xf55b615b479482440135ebf1b907fd4c37ed9420"
+              wizardsWithLore={wizardsWithLore}
             />
           </TabPanel>
         </Tabs>
@@ -307,3 +345,12 @@ export default function Marketplace() {
     </Layout>
   );
 }
+
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  return {
+    props: {
+      wizardsWithLore: await getWizardsWithLore(),
+    },
+    revalidate: 3 * 60,
+  };
+};

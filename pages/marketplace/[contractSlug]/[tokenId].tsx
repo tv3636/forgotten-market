@@ -12,7 +12,7 @@ import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";
 
-const API_BASE_URL: string = "https://indexer-v31-mainnet.up.railway.app/";
+const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
 
 const IMG_URLS: any = {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": "/api/art/wizards/",
@@ -34,12 +34,6 @@ const MarketText = styled.p`
   color: white;
 
   margin: 15px;
-`;
-
-const MarketButton = styled.button`
-    background: black;
-    margin-left: 1vw;
-    margin-right: 1vw;
 `;
 
 const MarketHeader2 = styled.h2`
@@ -77,6 +71,32 @@ const Frame = styled.div`
   justify-content: center;
 `;
 
+const ButtonImage = styled.img`
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
+  height: 60px;
+  
+  :active { 
+    position: relative; 
+    top: 2px; 
+   }
+`;
+
+function MarketButton({
+  text
+}: {
+  text: string
+}) {
+  return (
+    <ButtonImage 
+      src={"/static/img/marketplace/" + text + ".png"} 
+      onMouseOver={e => (e.currentTarget.src = "/static/img/marketplace/" + text + "_hover.png")} 
+      onMouseOut={e => (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")} 
+    />
+  )
+}
+
+
 function MarketButtons({
     account,
     owner,
@@ -93,15 +113,15 @@ function MarketButtons({
     if (owner) {
         if (account.toLowerCase() == owner.toLowerCase()) {
             if (listValue) {
-                return <MarketButton>Cancel Listing</MarketButton>
+                return <button>Cancel Listing</button>
             } else {
-                return <MarketButton><img src="/static/img/marketplace/sell.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>
+                return <MarketButton text={'sell'}/>
             }
         } else {
             return (
                 <div>
-                    {listValue && <MarketButton><img src="/static/img/marketplace/buy.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>}
-                    <MarketButton><img src="/static/img/marketplace/offer.png" height="80px" style={{margin: '-10px', padding: '10px'}}/></MarketButton>
+                    {listValue && <MarketButton text={'buy'}/>}
+                    <MarketButton text={'offer'}/>
                 </div>
             )
         }
@@ -183,6 +203,34 @@ function Icons({
   );
 }
 
+function LoreBlock ({
+  pages
+}: {
+  pages: []
+}) {
+
+  if (pages.length > 0) {
+    return (
+      <div>
+        {pages.map((page: any, index: number) => (
+          page.nsfw ?
+          <div>NSFW Lore Entry not shown</div> :
+          <div key={index}>
+            <IndividualLorePage
+              bgColor={page.bgColor}
+              story={page.story}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  } else {
+    return <div>No Lore has been recorded...</div>
+  }
+
+  return null
+}
+
 const ListingPage = ({
   contractSlug,
   tokenId,
@@ -226,7 +274,11 @@ const ListingPage = ({
             lorePage.tokenId
           );
 
-          newPages.push(thisPage);
+          if (lorePage.nsfw) {
+            newPages.push({'nsfw': true});
+          } else {
+            newPages.push(thisPage);
+          }
         }
         setPages(newPages);
       }
@@ -315,18 +367,7 @@ const ListingPage = ({
                 flexDirection: "column",
               }}
             >
-              {pages.length > 0 ? (
-                pages.map((page: any, index: number) => (
-                  <div key={index}>
-                    <IndividualLorePage
-                      bgColor={page.bgColor}
-                      story={page.story}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div>No Lore has been recorded...</div>
-              )}
+              <LoreBlock pages={pages}/>
             </div>
           </div>
         </div>
@@ -347,7 +388,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         query WizardLore {
             loreTokens(first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${contractSlug}", tokenId: "${tokenId}"}) {
                 lore(
-                    where: { struck: false, nsfw: false }
+                    where: { struck: false }
                     orderBy: id
                     orderDirection: asc
                 ) {
