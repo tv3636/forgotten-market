@@ -77,8 +77,13 @@ const ButtonImage = styled.img`
   height: 60px;
 
   :active {
+    
     position: relative;
     top: 2px;
+  }
+
+  :hover {
+    cursor: pointer;
   }
 `;
 
@@ -237,6 +242,7 @@ const ListingPage = ({
   const [listing, setListing] = useState<any>({});
   const [attributes, setAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>([]);
+  const [ens, setEns] = useState<string | null>("");
   const { account } = useEthers();
 
   useEffect(() => {
@@ -255,6 +261,10 @@ const ListingPage = ({
         setToken(listingsJson.tokens[0].token);
         setListing(listingsJson.tokens[0].market.floorSell);
         setAttributes(listingsJson.tokens[0].token.attributes);
+        
+        const provider = getProvider();
+        var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
+        setEns(ensName);
       }
 
       if (lore.length > 0) {
@@ -287,13 +297,14 @@ const ListingPage = ({
           style={{
             display: "flex",
             flexDirection: "row",
+            flexWrap: 'wrap',
             justifyContent: "center",
             margin: "4vh",
           }}
         >
           <div
             id="lefthand"
-            style={{ textAlign: "center", marginRight: "5vw" }}
+            style={{ textAlign: "center", marginRight: "5vw", maxWidth: "500px"}}
           >
             <img src={IMG_URLS[contractSlug] + tokenId + ".png"} />
             <Icons tokenId={Number(tokenId)} collection={contractSlug} />
@@ -312,6 +323,8 @@ const ListingPage = ({
               textAlign: "center",
               marginLeft: "3vw",
               marginTop: "6vh",
+              width: '45%',
+              maxWidth: "1000px"
             }}
           >
             <MarketHeader2>{token.name}</MarketHeader2>
@@ -358,7 +371,7 @@ const ListingPage = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {token.owner.substring(0, 10)}
+                  {ens ? (token.owner?.toLowerCase() != account?.toLowerCase() ? ens : 'you') : token.owner.substring(0, 10)}
                 </a>
               </MarketHeader4>
             )}

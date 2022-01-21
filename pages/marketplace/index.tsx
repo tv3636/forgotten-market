@@ -6,7 +6,7 @@ const { Tab, Tabs, TabList, TabPanel } = require("react-tabs");
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Select from "react-select";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
 
 const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
@@ -210,8 +210,6 @@ function Listings({
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
 
-  console.log(wizardsWithLore);
-
   async function fetchListings(reset: boolean) {
     var lists: any = [];
     var url = API_BASE_URL + "tokens?" + "contract=" + contract;
@@ -267,12 +265,10 @@ function Listings({
 
   function loreChange() {
     setHasLore(!hasLore);
-    console.log("sup");
   }
 
   function noLoreChange() {
     setHasNoLore(!hasNoLore);
-    console.log("sup no");
   }
 
   useEffect(() => {
