@@ -42,7 +42,7 @@ const MapPage = () => (
     <Filler>
       <MapWrapper>
         <MapStyles>
-          <DynamicMap center={[0,0]} zoom={7} height={"100%"} width={"100%"} />
+          <DynamicMap center={[0, 0]} zoom={7} height={"100%"} width={"100%"} />
         </MapStyles>
       </MapWrapper>
     </Filler>

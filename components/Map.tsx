@@ -22,10 +22,10 @@ type Props = {
 };
 
 const Map = ({
-  center = [0,0],
+  center = [0, 0],
   zoom = 7,
   height = "100%",
-  width = "100%"
+  width = "100%",
 }: Props) => (
   <MapContainer
     center={center}
