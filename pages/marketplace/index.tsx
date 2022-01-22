@@ -156,9 +156,13 @@ function TokenDisplay({
         <img
           src={IMG_URLS[contract] + tokenId + ".png"}
           style={{
-            borderColor: "white",
-            borderStyle: "solid",
-            padding: "15px",
+            borderImage: "url('/static/img/marketplace/listing_border.png')",
+            borderStyle: 'solid',
+            borderWidth: '5px',
+            borderImageRepeat: 'stretch',
+            borderImageWidth: '170px',
+            borderImageSlice: '50%',
+            padding: "5px",
             maxHeight: "50vw",
             maxWidth: "50vw",
           }}

@@ -8,10 +8,15 @@ import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUt
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
 import { SocialItem } from "../../../components/Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
+import dynamic from "next/dynamic";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";
-const countdown = require("countdown");
+const countdown = require('countdown');
+
+const DynamicMap = dynamic(() => import("../../../components/Map"), {
+  ssr: false, // leaflet doesn't like Next.js SSR
+});
 
 const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
 
@@ -28,6 +33,18 @@ const COLLECTION_NAMES: any = {
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": "souls",
   "0xf55b615b479482440135ebf1b907fd4c37ed9420": "ponies",
 };
+
+const LOCATIONS: any = {
+  "Cuckoo Land": [5.6,5.3],
+  "Psychic Leap": [5.6,5.3],
+  "Veil": [5.3,2.85],
+  "Bastion": [4.3,1.9],
+  "Realm": [5.3,0.2],
+  "Sacred Pillars": [5.4,-1.85],
+  "Tower": [3.4,-3.2],
+  "Salt": [2.1,-6.05],
+  
+}
 
 const MarketText = styled.p`
   font-family: Alagard;
@@ -63,10 +80,11 @@ const TraitRow = styled.div`
 `;
 
 const Frame = styled.div`
-  background-image: url("/static/img/marketplace/frame_traits.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  border-image: url("/static/img/marketplace/frame_traits.png");
+  border-style: solid;
+  border-width: 34px;
+  border-image-repeat: stretch;
+  border-image-slice: 6%;
 
   display: flex;
   justify-content: center;
@@ -76,14 +94,69 @@ const ButtonImage = styled.img`
   margin-left: 0.5vw;
   margin-right: 0.5vw;
   height: 60px;
+  image-rendering: pixelated;
 
   :active {
+    
     position: relative;
     top: 2px;
   }
 
   :hover {
     cursor: pointer;
+  }
+`;
+
+const LoreContainer = styled.div`
+  border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUCAYAAAAcaxDBAAAAAXNSR0IArs4c6QAAAeZJREFUeF7tm9GOgzAQA8v/fzT3ek0lrJUnVzhNX914N4M3QtAeLz8ogQN10+wlUDgEAhUoTAC2M6EChQnAdiZUoDAB2M6EChQmANuZ0LsDPc/z/N3jcRy3umi7+8M3u7vhNlC7+xMoPEECvRvQNEJJb0c4rU/1k578V71OaGoo6dOGp99P9ZM+rSdQ+K5EoN8Gmkak1acjtn6/rZ/Wp/7GCU0FWz01nPS2flqf6gt0uW0S6BKZBKTV8YTSZ1ZqsNV3A/Q+FB5xgQq0G/rHjfz0TO3w9KsT4LbC+LYpFdzdcKqf9N39CfRuj+8c+XcCeELTyP13XaDwFRaoQGECsJ0JFShMALYzoQKFCcB2JlSgMAHYzoQKFCYA25lQgcIEYDsTKlCYAGxnQgUKE4DtTKhAYQKwHZ7Q3a9p2/3v7k+gvkbuMmpCO34fq28PNDWYdJjXGCDdX32GpoaSLtCFQAKWdIEK9DID45FPiWv1NrFt/bQ+9SdQ+CfiAhXo9dClkW11fORXw90Npg0k/a/7G4+8QK8voUC//fduE7o5oVPA6czbraczta1fj7xA3wkI1AfM3VA+buS77T5/NT7yz0fS7UCgHb+P1QIVKEwAtjOhAoUJwHYmVKAwAdjOhAoUJgDbmVAY6A/yaUBzMqS0AwAAAABJRU5ErkJggg==") 28 /  28px / 0 round;
+  border-width: 28px;
+  border-style: solid;
+
+  padding: 40px;
+  width: 80%;
+
+  font-family: Alagard;
+  font-size: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+`;
+
+const MapContainer = styled.div`
+  margin-top: 2vh;  
+  max-height: 250px;
+
+`;
+
+const MapStyles = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+
+  .leaflet-container {
+    background-color: black;
+    border-style: dashed;
+    border-radius: 50%;
+
+  }
+  img.leaflet-image-layer {
+    image-rendering: pixelated;
+  }
+  .leaflet-bar a,
+  .leaflet-bar a:hover {
+    display: none;
+  }
+  .leaflet-bar a:hover {
+    background-color: #18151e;
+  }
+
+  .leaflet-touch .leaflet-control-layers,
+  .leaflet-touch .leaflet-bar {
+    border: none;
   }
 `;
 
@@ -139,7 +212,7 @@ function TraitDisplay({ attributes }: { attributes: [] }) {
   } else {
     return (
       <Frame>
-        <div style={{ marginTop: "50px", marginBottom: "50px", width: "92%" }}>
+        <div style={{}}>
           {attributes.map((attribute: any, index: number) => (
             <div key={index}>
               <div
@@ -154,7 +227,7 @@ function TraitDisplay({ attributes }: { attributes: [] }) {
                 <TraitRow>{attribute.key}:</TraitRow>
                 <TraitRow>{attribute.value}</TraitRow>
               </div>
-              {index < attributes.length - 1 ? <hr /> : null}
+              {index < attributes.length - 1 ? <hr/> : null}
             </div>
           ))}
         </div>
@@ -171,7 +244,7 @@ function Icons({
   collection: string;
 }) {
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div style={{ display: "flex", justifyContent: "center", marginTop: '1vh'}}>
       <SocialItem>
         <a
           href={`/scenes/gm/${tokenId}`}
@@ -207,23 +280,49 @@ function Icons({
   );
 }
 
+function ListingExpires({
+  timer,
+  dateString
+}: {
+  timer: any;
+  dateString: string;
+}) {
+  if (timer?.days > 1) {
+    if (dateString) {
+      return <div>Listing expires on {dateString}</div>
+    } else {
+      return null;
+    }
+  } else {
+    return <div>
+      <div>Listing expires in { timer?.days > 0 && <span style={{width: '10ch', minWidth: '10ch', textAlign: 'right'}}>{timer?.days} days, </span>}
+        <span style={{width: '10ch', minWidth: '10ch', textAlign: 'right'}}>{timer?.hours} hours, </span>
+        <span style={{width: '10ch', minWidth: '10ch', textAlign: 'right'}}>{timer?.minutes} minutes, </span>
+        <span style={{width: '10ch', minWidth: '10ch', textAlign: 'right'}}>{timer?.seconds} seconds</span>
+      </div>
+    </div>
+  }
+
+  return null;
+}
+
 function LoreBlock({ pages }: { pages: [] }) {
   if (pages.length > 0) {
     return (
-      <div>
+      <LoreContainer>
         {pages.map((page: any, index: number) =>
           page.nsfw ? (
             <div>NSFW Lore Entry not shown</div>
           ) : (
-            <div key={index}>
+            <div key={index} style={{marginTop: '6vh'}}>
               <IndividualLorePage bgColor={page.bgColor} story={page.story} />
             </div>
           )
         )}
-      </div>
+      </LoreContainer>
     );
   } else {
-    return <div>No Lore has been recorded...</div>;
+    return <LoreContainer>No Lore has been recorded...</LoreContainer>;
   }
 
   return null;
@@ -243,13 +342,11 @@ const ListingPage = ({
   const [attributes, setAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>([]);
   const [ens, setEns] = useState<string | null>("");
-  const [countdownTimer, setCountdownTimer] = useState<string>("");
+  const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const { account } = useEthers();
 
   function increment() {
-    setCountdownTimer(
-      countdown(new Date(listing.validUntil * 1000)).toString()
-    );
+    setCountdownTimer(countdown(new Date(listing.validUntil * 1000)));
   }
 
   setTimeout(increment, 1000);
@@ -270,11 +367,9 @@ const ListingPage = ({
         setToken(listingsJson.tokens[0].token);
         setListing(listingsJson.tokens[0].market.floorSell);
         setAttributes(listingsJson.tokens[0].token.attributes);
-
+        
         const provider = getProvider();
-        var ensName = await provider.lookupAddress(
-          listingsJson.tokens[0].token.owner
-        );
+        var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
         setEns(ensName);
       }
 
@@ -308,20 +403,17 @@ const ListingPage = ({
           style={{
             display: "flex",
             flexDirection: "row",
-            flexWrap: "wrap",
+            flexWrap: 'wrap',
             justifyContent: "center",
-            margin: "4vh",
+            marginTop: "4vh",
+            marginBottom: "4vh"
           }}
         >
           <div
             id="lefthand"
-            style={{
-              textAlign: "center",
-              marginRight: "5vw",
-              maxWidth: "500px",
-            }}
+            style={{ textAlign: "center", maxWidth: "500px"}}
           >
-            <img src={IMG_URLS[contractSlug] + tokenId + ".png"} />
+            <img src={IMG_URLS[contractSlug] + tokenId + ".png"}/>
             <Icons tokenId={Number(tokenId)} collection={contractSlug} />
             <div
               style={{
@@ -336,10 +428,10 @@ const ListingPage = ({
             id="righthand"
             style={{
               textAlign: "center",
-              marginLeft: "3vw",
               marginTop: "6vh",
-              width: "45%",
-              maxWidth: "1000px",
+              width: '40%',
+              maxWidth: "700px",
+              marginLeft: "3vw"
             }}
           >
             <MarketHeader2>{token.name}</MarketHeader2>
@@ -360,7 +452,7 @@ const ListingPage = ({
                 </div>
               ) : null}
             </MarketText>
-            <hr />
+            <hr style={{maxWidth: "600px"}}/>
             <div
               style={{
                 display: "flex",
@@ -377,7 +469,7 @@ const ListingPage = ({
                 listValue={listing.value}
               />
             </div>
-            <hr />
+            <hr style={{maxWidth: "600px"}}/>
             {token.owner && (
               <MarketHeader4>
                 {"Owner: "}
@@ -386,25 +478,26 @@ const ListingPage = ({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {ens
-                    ? token.owner?.toLowerCase() != account?.toLowerCase()
-                      ? ens
-                      : "you"
-                    : token.owner.substring(0, 10)}
+                  {ens ? (token.owner?.toLowerCase() != account?.toLowerCase() ? ens : 'you') : token.owner.substring(0, 10)}
                 </a>
               </MarketHeader4>
             )}
-            <p>
-              {listing.validUntil
-                ? "Listing expires in " + countdownTimer
+              {listing.validUntil 
+                ? <ListingExpires timer={countdownTimer} dateString={new Date(listing.validUntil * 1000).toLocaleString()}/>
                 : null}
-            </p>
+            
+            <MapContainer>
+              <MapStyles>
+                <DynamicMap center={[3.4,-3.22]} zoom={7} width={"250px"} height={"250px"}/>
+              </MapStyles>
+            </MapContainer>
             <div
               style={{
-                marginTop: "8vh",
-                maxWidth: "75%",
+                marginTop: "3vh",
+                minWidth: "75%",
                 display: "inline-flex",
                 flexDirection: "column",
+                alignItems: "center"
               }}
             >
               <LoreBlock pages={pages} />
