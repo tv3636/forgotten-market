@@ -125,7 +125,7 @@ const ButtonWrapper = styled.div`
   padding: 15px;
 `;
 
-const LoreWrapper  = styled.div`
+const LoreWrapper = styled.div`
   margin-top: 8vh;
   min-width: 75%;
   display: inline-flex;
@@ -162,14 +162,13 @@ const Listing = styled.div`
 `;
 
 const LeftHandDisplay = styled.div`
-  text-align: center; 
-  max-width: 400px; 
-  display: flex; 
-  flex-direction: column; 
+  text-align: center;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 
   margin-left: 3vw;
-
 `;
 
 const RightHandDisplay = styled.div`
@@ -429,9 +428,11 @@ const ListingPage = ({
           </LeftHandDisplay>
           <RightHandDisplay>
             <MarketHeader2>{token.name}</MarketHeader2>
-            <Price value={listing.value}/>
-            { token.owner && <Owner owner={token.owner} connectedAccount={account} ens={ens}/>}
-            
+            <Price value={listing.value} />
+            {token.owner && (
+              <Owner owner={token.owner} connectedAccount={account} ens={ens} />
+            )}
+
             <ButtonWrapper>
               <MarketButtons
                 account={account}
@@ -446,11 +447,11 @@ const ListingPage = ({
                   listing.validUntil * 1000
                 ).toLocaleString()}
               />
-            ) : null}       
+            ) : null}
             <LoreWrapper>
               <LoreBlock pages={pages} />
             </LoreWrapper>
-            <Minimap center={mapCenter}/>
+            <Minimap center={mapCenter} />
           </RightHandDisplay>
         </Listing>
       )}

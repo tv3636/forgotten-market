@@ -29,11 +29,11 @@ export function ListingExpiration({
   timer: any;
   dateString: string;
 }) {
-    const Timespan = styled.span`
-        width: 10ch;
-        min-width: 10ch;
-        text-align: right;
-    `;
+  const Timespan = styled.span`
+    width: 10ch;
+    min-width: 10ch;
+    text-align: right;
+  `;
 
   if (timer?.days > 1) {
     if (dateString) {
