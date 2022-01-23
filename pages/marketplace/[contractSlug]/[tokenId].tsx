@@ -6,17 +6,12 @@ import client from "../../../lib/graphql";
 import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUtils";
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
-import { SocialItem } from "../../../components/Lore/BookOfLoreControls";
-import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
-import dynamic from "next/dynamic";
+import Minimap from "../../../components/Marketplace/MiniMap";
+import { ListingExpiration, Icons } from "../../../components/Marketplace/marketplaceHelpers";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";
-const countdown = require("countdown");
-
-const DynamicMap = dynamic(() => import("../../../components/Map"), {
-  ssr: false, // leaflet doesn't like Next.js SSR
-});
+import countdown from "countdown";
 
 const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
 
@@ -26,12 +21,6 @@ const IMG_URLS: any = {
     "https://portal.forgottenrunes.com/api/souls/img/",
   "0xf55b615b479482440135ebf1b907fd4c37ed9420":
     "https://portal.forgottenrunes.com/api/shadowfax/img/",
-};
-
-const COLLECTION_NAMES: any = {
-  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": "wizards",
-  "0x251b5f14a825c537ff788604ea1b58e49b70726f": "souls",
-  "0xf55b615b479482440135ebf1b907fd4c37ed9420": "ponies",
 };
 
 const LOCATIONS: any = {
@@ -70,7 +59,7 @@ const LOCATIONS: any = {
   Wood: [1, 0.3],
 };
 
-const MarketText = styled.p`
+const MarketText = styled.div`
   font-family: Alagard;
   font-size: 32px;
   color: white;
@@ -84,7 +73,7 @@ const MarketHeader2 = styled.h2`
   color: white;
 
   margin-top: 12px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 const MarketHeader4 = styled.h4`
@@ -130,6 +119,27 @@ const ButtonImage = styled.img`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2vh;
+  min-width: 400px;
+
+  border-style: dashed;
+  border-radius: 3%;
+  padding: 20px;
+`;
+
+const LoreWrapper  = styled.div`
+  margin-top: 3vh;
+  min-width: 75%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const LoreContainer = styled.div`
   border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUCAYAAAAcaxDBAAAAAXNSR0IArs4c6QAAAeZJREFUeF7tm9GOgzAQA8v/fzT3ek0lrJUnVzhNX914N4M3QtAeLz8ogQN10+wlUDgEAhUoTAC2M6EChQnAdiZUoDAB2M6EChQmANuZ0LsDPc/z/N3jcRy3umi7+8M3u7vhNlC7+xMoPEECvRvQNEJJb0c4rU/1k578V71OaGoo6dOGp99P9ZM+rSdQ+K5EoN8Gmkak1acjtn6/rZ/Wp/7GCU0FWz01nPS2flqf6gt0uW0S6BKZBKTV8YTSZ1ZqsNV3A/Q+FB5xgQq0G/rHjfz0TO3w9KsT4LbC+LYpFdzdcKqf9N39CfRuj+8c+XcCeELTyP13XaDwFRaoQGECsJ0JFShMALYzoQKFCcB2JlSgMAHYzoQKFCYA25lQgcIEYDsTKlCYAGxnQgUKE4DtTKhAYQKwHZ7Q3a9p2/3v7k+gvkbuMmpCO34fq28PNDWYdJjXGCDdX32GpoaSLtCFQAKWdIEK9DID45FPiWv1NrFt/bQ+9SdQ+CfiAhXo9dClkW11fORXw90Npg0k/a/7G4+8QK8voUC//fduE7o5oVPA6czbraczta1fj7xA3wkI1AfM3VA+buS77T5/NT7yz0fS7UCgHb+P1QIVKEwAtjOhAoUJwHYmVKAwAdjOhAoUJgDbmVAY6A/yaUBzMqS0AwAAAABJRU5ErkJggg==")
     28 / 28px / 0 round;
@@ -149,80 +159,26 @@ const LoreContainer = styled.div`
   align-items: center;
 `;
 
-const MapContainer = styled.div`
-  margin-top: 2vh;
-  max-height: 250px;
-`;
-
-const MapStylesBlur = styled.div`
-  .leaflet-container {
-    filter: blur(5px);
-  }
-`;
-
-const MapStyles = styled.div`
-  height: 100%;
+const Listing = styled.div`
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
-  position: relative;
-
-  .leaflet-container {
-    background-color: black;
-    border-style: dashed;
-    border-radius: 50%;
-  }
-  img.leaflet-image-layer {
-    image-rendering: pixelated;
-  }
-  .leaflet-bar a,
-  .leaflet-bar a:hover {
-    display: none;
-  }
-  .leaflet-bar a:hover {
-    background-color: #18151e;
-  }
-
-  .leaflet-touch .leaflet-control-layers,
-  .leaflet-touch .leaflet-bar {
-    border: none;
-  }
+  margin-top: 4vh;
+  margin-bottom: 4vh;
 `;
 
-function MapBlur({ center }: { center: any }) {
-  if (center[0] == 0 && center[1] == 0) {
-    return (
-      <MapStylesBlur>
-        <MapStyles>
-          <div
-            style={{
-              fontFamily: "Alagard",
-              position: "absolute",
-              top: "48%",
-              zIndex: 1,
-              color: "black",
-              fontSize: "17px",
-              textShadow: "0 0 2px #e0d1a7",
-            }}
-          >
-            Location unrevealed
-          </div>
-          <DynamicMap
-            center={center}
-            zoom={7}
-            width={"250px"}
-            height={"250px"}
-          />
-        </MapStyles>
-      </MapStylesBlur>
-    );
-  } else {
-    return (
-      <MapStyles>
-        <DynamicMap center={center} zoom={7} width={"250px"} height={"250px"} />
-      </MapStyles>
-    );
-  }
-}
+const RightHandDisplay = styled.div`
+  text-align: center;
+  margin-top: 6vh;
+  width: 40%;
+  max-width: 800px;
+  margin-left: 3vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 function MarketButton({ text }: { text: string }) {
   return (
@@ -275,117 +231,53 @@ function TraitDisplay({ attributes }: { attributes: [] }) {
     return null;
   } else {
     return (
-      <Frame>
-        <div style={{}}>
-          {attributes.map((attribute: any, index: number) => (
-            <div key={index}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  height: "40px",
-                  alignItems: "center",
-                }}
-              >
-                <TraitRow>{attribute.key}:</TraitRow>
-                <TraitRow>{attribute.value}</TraitRow>
+      <div style={{ textAlign: "center", marginTop: "1vh" }}>
+        <Frame>
+          <div style={{}}>
+            {attributes.map((attribute: any, index: number) => (
+              <div key={index}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    height: "40px",
+                    alignItems: "center",
+                  }}
+                >
+                  <TraitRow>{attribute.key}:</TraitRow>
+                  <TraitRow>{attribute.value}</TraitRow>
+                </div>
+                {index < attributes.length - 1 ? <hr /> : null}
               </div>
-              {index < attributes.length - 1 ? <hr /> : null}
-            </div>
-          ))}
-        </div>
-      </Frame>
-    );
-  }
-}
-
-function Icons({
-  tokenId,
-  collection,
-}: {
-  tokenId: number;
-  collection: string;
-}) {
-  return (
-    <div
-      style={{ display: "flex", justifyContent: "center", marginTop: "1vh" }}
-    >
-      <SocialItem>
-        <a
-          href={`/scenes/gm/${tokenId}`}
-          className="icon-link gm"
-          target="_blank"
-        >
-          <ResponsivePixelImg
-            src="/static/img/icons/gm.png"
-            className="gm-img"
-          />
-        </a>
-      </SocialItem>
-      {COLLECTION_NAMES[collection] == "wizards" && (
-        <SocialItem>
-          <a
-            href={`/api/art/${COLLECTION_NAMES[collection]}/${tokenId}.zip`}
-            className="icon-link"
-            target="_blank"
-          >
-            <ResponsivePixelImg src="/static/img/icons/social_download_default_w.png" />
-          </a>
-        </SocialItem>
-      )}
-      <SocialItem>
-        <a
-          href={`/lore/${COLLECTION_NAMES[collection]}/${tokenId}/0`}
-          className="icon-link"
-        >
-          <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
-        </a>
-      </SocialItem>
-    </div>
-  );
-}
-
-function ListingExpires({
-  timer,
-  dateString,
-}: {
-  timer: any;
-  dateString: string;
-}) {
-  if (timer?.days > 1) {
-    if (dateString) {
-      return <div>Listing expires on {dateString}</div>;
-    } else {
-      return null;
-    }
-  } else {
-    return (
-      <div>
-        <div>
-          Listing expires in{" "}
-          {timer?.days > 0 && (
-            <span
-              style={{ width: "10ch", minWidth: "10ch", textAlign: "right" }}
-            >
-              {timer?.days} days,{" "}
-            </span>
-          )}
-          <span style={{ width: "10ch", minWidth: "10ch", textAlign: "right" }}>
-            {timer?.hours} hours,{" "}
-          </span>
-          <span style={{ width: "10ch", minWidth: "10ch", textAlign: "right" }}>
-            {timer?.minutes} minutes,{" "}
-          </span>
-          <span style={{ width: "10ch", minWidth: "10ch", textAlign: "right" }}>
-            {timer?.seconds} seconds
-          </span>
-        </div>
+            ))}
+          </div>
+        </Frame>
       </div>
     );
   }
+}
 
-  return null;
+function Price({ value }: { value: number }) {
+  return (
+    <MarketText>
+      {value ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src="/static/img/marketplace/eth_alt.png"
+            style={{ height: "30px", marginRight: "10px" }}
+          />
+          <div>{value}</div>
+        </div>
+      ) : null}
+    </MarketText>
+  )
 }
 
 function LoreBlock({ pages }: { pages: [] }) {
@@ -406,8 +298,33 @@ function LoreBlock({ pages }: { pages: [] }) {
   } else {
     return <LoreContainer>No Lore has been recorded...</LoreContainer>;
   }
+}
 
-  return null;
+function Owner({
+  owner,
+  connectedAccount,
+  ens
+}: {
+  owner: string;
+  connectedAccount: string | null | undefined;
+  ens: string | null;
+}) {
+  return (
+    <MarketHeader4>
+      {"Owner: "}
+      <a
+        href={"/address/" + owner}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {ens
+          ? owner?.toLowerCase() != connectedAccount?.toLowerCase()
+            ? ens
+            : "you"
+          : owner.substring(0, 10)}
+      </a>
+    </MarketHeader4>
+  )
 }
 
 const ListingPage = ({
@@ -428,10 +345,9 @@ const ListingPage = ({
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const { account } = useEthers();
 
-  function increment() {
-    setCountdownTimer(countdown(new Date(listing.validUntil * 1000)));
-  }
+  setTimeout(() => setCountdownTimer(countdown(new Date(listing.validUntil * 1000))), 1000);
 
+  // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
     var center = [0, 0];
     var nameParts = name.split(" ");
@@ -450,8 +366,6 @@ const ListingPage = ({
 
     return center;
   }
-
-  setTimeout(increment, 1000);
 
   useEffect(() => {
     async function run() {
@@ -504,114 +418,37 @@ const ListingPage = ({
   return (
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            marginTop: "4vh",
-            marginBottom: "4vh",
-          }}
-        >
+        <Listing>
           <div id="lefthand" style={{ textAlign: "center", maxWidth: "500px" }}>
             <img src={IMG_URLS[contractSlug] + tokenId + ".png"} />
-            <Icons tokenId={Number(tokenId)} collection={contractSlug} />
-            <div
-              style={{
-                textAlign: "center",
-                marginTop: "1vh",
-              }}
-            >
-              <TraitDisplay attributes={attributes} />
-            </div>
+            <Icons tokenId={Number(tokenId)} contract={contractSlug} />
+            <TraitDisplay attributes={attributes} />
           </div>
-          <div
-            id="righthand"
-            style={{
-              textAlign: "center",
-              marginTop: "6vh",
-              width: "40%",
-              maxWidth: "700px",
-              marginLeft: "3vw",
-            }}
-          >
+          <RightHandDisplay>
             <MarketHeader2>{token.name}</MarketHeader2>
-            <MarketText>
-              {listing.value ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <img
-                    src="/static/img/marketplace/eth_alt.png"
-                    style={{ height: "30px", marginRight: "10px" }}
-                  />
-                  <div>{listing.value}</div>
-                </div>
-              ) : null}
-            </MarketText>
-            <hr style={{ maxWidth: "600px" }} />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: "2vh",
-                marginBottom: "2vh",
-              }}
-            >
+            <Price value={listing.value}/>
+            <ButtonWrapper>
               <MarketButtons
                 account={account}
                 owner={token.owner}
                 listValue={listing.value}
               />
-            </div>
-            <hr style={{ maxWidth: "600px" }} />
-            {token.owner && (
-              <MarketHeader4>
-                {"Owner: "}
-                <a
-                  href={"/address/" + token.owner}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {ens
-                    ? token.owner?.toLowerCase() != account?.toLowerCase()
-                      ? ens
-                      : "you"
-                    : token.owner.substring(0, 10)}
-                </a>
-              </MarketHeader4>
-            )}
+            </ButtonWrapper>
+            { token.owner && <Owner owner={token.owner} connectedAccount={account} ens={ens}/>}
             {listing.validUntil ? (
-              <ListingExpires
+              <ListingExpiration
                 timer={countdownTimer}
                 dateString={new Date(
                   listing.validUntil * 1000
                 ).toLocaleString()}
               />
             ) : null}
-            <MapContainer>
-              <MapBlur center={mapCenter} />
-            </MapContainer>
-            <div
-              style={{
-                marginTop: "3vh",
-                minWidth: "75%",
-                display: "inline-flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+            <Minimap center={mapCenter}/>
+            <LoreWrapper>
               <LoreBlock pages={pages} />
-            </div>
-          </div>
-        </div>
+            </LoreWrapper>
+          </RightHandDisplay>
+        </Listing>
       )}
     </Layout>
   );

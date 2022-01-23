@@ -2,22 +2,15 @@ import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import "react-tabs/style/react-tabs.css";
-const { Tab, Tabs, TabList, TabPanel } = require("react-tabs");
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { ProSidebar} from "react-pro-sidebar";
 import Select from "react-select";
 import { GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
+import { CONTRACTS } from "../../components/Marketplace/marketplaceHelpers";
 
 const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
-
-const IMG_URLS: any = {
-  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": "/api/art/wizards/",
-  "0x251b5f14a825c537ff788604ea1b58e49b70726f":
-    "https://portal.forgottenrunes.com/api/souls/img/",
-  "0xf55b615b479482440135ebf1b907fd4c37ed9420":
-    "https://portal.forgottenrunes.com/api/shadowfax/img/",
-};
 
 const ListingDisplay = styled.div`
   width: 250px;
@@ -28,6 +21,28 @@ const ListingDisplay = styled.div`
 
   max-width: 50vw;
   max-height: 40vh;
+`;
+
+const ListingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 8vw;
+  margin-right: 2vw;
+  margin-top: 2vw;
+  overflow: hidden;
+`;
+
+const ListingImage = styled.img`
+  border-image: url('/static/img/marketplace/listing_border.png');
+  border-style: solid;
+  border-width: 5px;
+  border-image-repeat: stretch;
+  border-image-width: 170px;
+  border-image-slice: 50%;
+  padding: 5px;
+  max-height: 50vw;
+  max-width: 50vw;
 `;
 
 const MarketText = styled.p`
@@ -153,20 +168,7 @@ function TokenDisplay({
       style={{ textDecoration: "none" }}
     >
       <ListingDisplay>
-        <img
-          src={IMG_URLS[contract] + tokenId + ".png"}
-          style={{
-            borderImage: "url('/static/img/marketplace/listing_border.png')",
-            borderStyle: "solid",
-            borderWidth: "5px",
-            borderImageRepeat: "stretch",
-            borderImageWidth: "170px",
-            borderImageSlice: "50%",
-            padding: "5px",
-            maxHeight: "50vw",
-            maxWidth: "50vw",
-          }}
-        />
+        <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"}/>
         <div
           style={{
             display: "flex",
@@ -199,6 +201,35 @@ function TokenDisplay({
   );
 }
 
+function MarketTab({ 
+  contracts,
+  wizardsWithLore
+}: { 
+  contracts: any,
+  wizardsWithLore: any
+}) {
+  return (
+    <Tabs>
+      <TabList>
+        { contracts.map((contract: string, index: number) => {
+            return <Tab>{CONTRACTS[contract].display}</Tab>
+        })}
+      </TabList>
+      { contracts.map((contract: string, index: number) => {
+        return (
+          <TabPanel>
+            <Listings
+              collection={CONTRACTS[contract].collection}
+              contract={contract}
+              wizardsWithLore={wizardsWithLore}
+            />
+          </TabPanel>
+        )
+        })}
+    </Tabs>
+  )
+}
+
 function Listings({
   contract,
   collection,
@@ -217,8 +248,8 @@ function Listings({
   async function fetchListings(reset: boolean) {
     var lists: any = [];
     var url = API_BASE_URL + "tokens?" + "contract=" + contract;
-
     setLoaded(false);
+    
     if (reset) {
       setListings([]);
     }
@@ -267,14 +298,6 @@ function Listings({
     fetchListings(true);
   }
 
-  function loreChange() {
-    setHasLore(!hasLore);
-  }
-
-  function noLoreChange() {
-    setHasNoLore(!hasNoLore);
-  }
-
   useEffect(() => {
     fetchListings(false);
   }, []);
@@ -284,8 +307,8 @@ function Listings({
       <SideBar
         collection={collection}
         selectionChange={selectionChange}
-        loreChange={loreChange}
-        noLoreChange={noLoreChange}
+        loreChange={()=> setHasLore(!hasLore)}
+        noLoreChange={() => setHasNoLore(!hasNoLore)}
       />
       <div style={{ width: "85%" }}>
         {listings.length > 0 || loaded ? (
@@ -297,17 +320,7 @@ function Listings({
             scrollThreshold={0.5}
             height={"80vh"}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                flexWrap: "wrap",
-                marginLeft: "8vw",
-                marginRight: "2vw",
-                marginTop: "2vw",
-                overflow: "hidden",
-              }}
-            >
+            <ListingContainer>
               {listings.map((listing: any, index) => {
                 return (
                   ((!hasLore && !hasNoLore) ||
@@ -328,7 +341,7 @@ function Listings({
                   )
                 );
               })}
-            </div>
+            </ListingContainer>
           </InfiniteScroll>
         ) : (
           <LoadingCard />
@@ -346,35 +359,13 @@ export default function Marketplace({
   return (
     <Layout title="Marketplace">
       <FontWrapper>
-        <Tabs>
-          <TabList>
-            <Tab>Wizards</Tab>
-            <Tab>Souls</Tab>
-            <Tab>Ponies</Tab>
-          </TabList>
-
-          <TabPanel>
-            <Listings
-              collection="forgottenruneswizardscult"
-              contract="0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42"
-              wizardsWithLore={wizardsWithLore}
-            />
-          </TabPanel>
-          <TabPanel>
-            <Listings
-              collection="forgottensouls"
-              contract="0x251b5f14a825c537ff788604ea1b58e49b70726f"
-              wizardsWithLore={wizardsWithLore}
-            />
-          </TabPanel>
-          <TabPanel>
-            <Listings
-              collection="forgottenrunesponies"
-              contract="0xf55b615b479482440135ebf1b907fd4c37ed9420"
-              wizardsWithLore={wizardsWithLore}
-            />
-          </TabPanel>
-        </Tabs>
+        <MarketTab contracts={[
+          "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
+          "0x251b5f14a825c537ff788604ea1b58e49b70726f",
+          "0xf55b615b479482440135ebf1b907fd4c37ed9420"
+        ]}
+          wizardsWithLore={wizardsWithLore}
+        />
       </FontWrapper>
     </Layout>
   );
