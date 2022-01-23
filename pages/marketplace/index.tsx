@@ -8,9 +8,7 @@ import { ProSidebar} from "react-pro-sidebar";
 import Select from "react-select";
 import { GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
-import { CONTRACTS } from "../../components/Marketplace/marketplaceHelpers";
-
-const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
+import { CONTRACTS, API_BASE_URL } from "../../components/Marketplace/marketplaceHelpers";
 
 const ListingDisplay = styled.div`
   width: 250px;

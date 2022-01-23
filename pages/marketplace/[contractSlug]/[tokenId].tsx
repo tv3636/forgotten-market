@@ -7,21 +7,11 @@ import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUtils";
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
 import Minimap from "../../../components/Marketplace/MiniMap";
-import { ListingExpiration, Icons } from "../../../components/Marketplace/marketplaceHelpers";
+import { ListingExpiration, Icons, CONTRACTS, API_BASE_URL } from "../../../components/Marketplace/marketplaceHelpers";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
-
-const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
-
-const IMG_URLS: any = {
-  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": "/api/art/wizards/",
-  "0x251b5f14a825c537ff788604ea1b58e49b70726f":
-    "https://portal.forgottenrunes.com/api/souls/img/",
-  "0xf55b615b479482440135ebf1b907fd4c37ed9420":
-    "https://portal.forgottenrunes.com/api/shadowfax/img/",
-};
 
 const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
@@ -61,7 +51,7 @@ const LOCATIONS: any = {
 
 const MarketText = styled.div`
   font-family: Alagard;
-  font-size: 32px;
+  font-size: 45px;
   color: white;
 
   margin: 15px;
@@ -69,19 +59,21 @@ const MarketText = styled.div`
 
 const MarketHeader2 = styled.h2`
   font-family: Alagard;
-  font-size: 40px;
+  font-size: 45px;
   color: white;
 
   margin-top: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const MarketHeader4 = styled.h4`
   font-family: Arial;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: normal;
   color: white;
 
-  margin-top: 12px;
+  margin-top: -5px;
+  margin-bottom: 40px;
 `;
 
 const TraitRow = styled.div`
@@ -106,7 +98,7 @@ const Frame = styled.div`
 const ButtonImage = styled.img`
   margin-left: 0.5vw;
   margin-right: 0.5vw;
-  height: 60px;
+  height: 40px;
   image-rendering: pixelated;
 
   :active {
@@ -124,16 +116,16 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2vh;
+  margin-bottom: 1vh;
   min-width: 400px;
 
   border-style: dashed;
   border-radius: 3%;
-  padding: 20px;
+  padding: 15px;
 `;
 
 const LoreWrapper  = styled.div`
-  margin-top: 3vh;
+  margin-top: 8vh;
   min-width: 75%;
   display: inline-flex;
   flex-direction: column;
@@ -168,10 +160,21 @@ const Listing = styled.div`
   margin-bottom: 4vh;
 `;
 
+const LeftHandDisplay = styled.div`
+  text-align: center; 
+  max-width: 400px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+
+  margin-left: 3vw;
+
+`;
+
 const RightHandDisplay = styled.div`
   text-align: center;
-  margin-top: 6vh;
-  width: 40%;
+  margin-top: 5vh;
+  width: 50%;
   max-width: 800px;
   margin-left: 3vw;
 
@@ -271,7 +274,7 @@ function Price({ value }: { value: number }) {
         >
           <img
             src="/static/img/marketplace/eth_alt.png"
-            style={{ height: "30px", marginRight: "10px" }}
+            style={{ height: "37px", marginRight: "12px" }}
           />
           <div>{value}</div>
         </div>
@@ -419,14 +422,16 @@ const ListingPage = ({
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 && (
         <Listing>
-          <div id="lefthand" style={{ textAlign: "center", maxWidth: "500px" }}>
-            <img src={IMG_URLS[contractSlug] + tokenId + ".png"} />
+          <LeftHandDisplay>
+            <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
             <Icons tokenId={Number(tokenId)} contract={contractSlug} />
             <TraitDisplay attributes={attributes} />
-          </div>
+          </LeftHandDisplay>
           <RightHandDisplay>
             <MarketHeader2>{token.name}</MarketHeader2>
             <Price value={listing.value}/>
+            { token.owner && <Owner owner={token.owner} connectedAccount={account} ens={ens}/>}
+            
             <ButtonWrapper>
               <MarketButtons
                 account={account}
@@ -434,7 +439,6 @@ const ListingPage = ({
                 listValue={listing.value}
               />
             </ButtonWrapper>
-            { token.owner && <Owner owner={token.owner} connectedAccount={account} ens={ens}/>}
             {listing.validUntil ? (
               <ListingExpiration
                 timer={countdownTimer}
@@ -443,10 +447,11 @@ const ListingPage = ({
                 ).toLocaleString()}
               />
             ) : null}
-            <Minimap center={mapCenter}/>
+            
             <LoreWrapper>
               <LoreBlock pages={pages} />
             </LoreWrapper>
+            <Minimap center={mapCenter}/>
           </RightHandDisplay>
         </Listing>
       )}
