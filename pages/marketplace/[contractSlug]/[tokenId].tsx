@@ -280,7 +280,7 @@ function Price({ value }: { value: number }) {
         </div>
       ) : null}
     </MarketText>
-  )
+  );
 }
 
 function LoreBlock({ pages }: { pages: [] }) {
@@ -306,7 +306,7 @@ function LoreBlock({ pages }: { pages: [] }) {
 function Owner({
   owner,
   connectedAccount,
-  ens
+  ens,
 }: {
   owner: string;
   connectedAccount: string | null | undefined;
@@ -315,11 +315,7 @@ function Owner({
   return (
     <MarketHeader4>
       {"Owner: "}
-      <a
-        href={"/address/" + owner}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={"/address/" + owner} target="_blank" rel="noopener noreferrer">
         {ens
           ? owner?.toLowerCase() != connectedAccount?.toLowerCase()
             ? ens
@@ -327,7 +323,7 @@ function Owner({
           : owner.substring(0, 10)}
       </a>
     </MarketHeader4>
-  )
+  );
 }
 
 const ListingPage = ({
@@ -348,7 +344,10 @@ const ListingPage = ({
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const { account } = useEthers();
 
-  setTimeout(() => setCountdownTimer(countdown(new Date(listing.validUntil * 1000))), 1000);
+  setTimeout(
+    () => setCountdownTimer(countdown(new Date(listing.validUntil * 1000))),
+    1000
+  );
 
   // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
@@ -446,8 +445,7 @@ const ListingPage = ({
                   listing.validUntil * 1000
                 ).toLocaleString()}
               />
-            ) : null}
-            
+            ) : null}       
             <LoreWrapper>
               <LoreBlock pages={pages} />
             </LoreWrapper>

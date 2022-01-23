@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import dynamic from "next/dynamic";
 
 const DynamicMap = dynamic(() => import("../../components/Map"), {
-    ssr: false, // leaflet doesn't like Next.js SSR
-  });
+  ssr: false, // leaflet doesn't like Next.js SSR
+});
 
 const MapContainer = styled.div`
   margin-top: 2vh;
@@ -45,48 +45,47 @@ const MapStyles = styled.div`
 `;
 
 function MapBlur({ center }: { center: any }) {
-    if (center[0] == 0 && center[1] == 0) {
-      return (
-        <MapStylesBlur>
-          <MapStyles>
-            <div
-              style={{
-                fontFamily: "Alagard",
-                position: "absolute",
-                top: "48%",
-                zIndex: 1,
-                color: "black",
-                fontSize: "17px",
-                textShadow: "0 0 2px #e0d1a7",
-              }}
-            >
-              Location unrevealed
-            </div>
-            <DynamicMap
-              center={center}
-              zoom={7}
-              width={"200px"}
-              height={"200px"}
-            />
-          </MapStyles>
-        </MapStylesBlur>
-      );
-    } else {
-      return (
-        <MapStyles>
-          <DynamicMap center={center} zoom={7} width={"200px"} height={"200px"} />
-        </MapStyles>
-      );
-    }
-  }
-
-
-const Minimap = ({ center }: { center: [number, number]}) => {
+  if (center[0] == 0 && center[1] == 0) {
     return (
+      <MapStylesBlur>
+        <MapStyles>
+          <div
+            style={{
+              fontFamily: "Alagard",
+              position: "absolute",
+              top: "48%",
+              zIndex: 1,
+              color: "black",
+              fontSize: "17px",
+              textShadow: "0 0 2px #e0d1a7",
+            }}
+          >
+            Location unrevealed
+          </div>
+          <DynamicMap
+            center={center}
+            zoom={7}
+            width={"200px"}
+            height={"200px"}
+          />
+        </MapStyles>
+      </MapStylesBlur>
+    );
+  } else {
+    return (
+      <MapStyles>
+        <DynamicMap center={center} zoom={7} width={"200px"} height={"200px"} />
+      </MapStyles>
+    );
+  }
+}
+
+const Minimap = ({ center }: { center: [number, number] }) => {
+  return (
     <MapContainer>
-        <MapBlur center={center} />
+      <MapBlur center={center} />
     </MapContainer>
-    )
+  );
 };
 
 export default Minimap;

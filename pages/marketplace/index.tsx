@@ -4,7 +4,7 @@ import Layout from "../../components/Layout";
 import "react-tabs/style/react-tabs.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ProSidebar} from "react-pro-sidebar";
+import { ProSidebar } from "react-pro-sidebar";
 import Select from "react-select";
 import { GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
@@ -32,7 +32,7 @@ const ListingContainer = styled.div`
 `;
 
 const ListingImage = styled.img`
-  border-image: url('/static/img/marketplace/listing_border.png');
+  border-image: url("/static/img/marketplace/listing_border.png");
   border-style: solid;
   border-width: 5px;
   border-image-repeat: stretch;
@@ -166,7 +166,7 @@ function TokenDisplay({
       style={{ textDecoration: "none" }}
     >
       <ListingDisplay>
-        <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"}/>
+        <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"} />
         <div
           style={{
             display: "flex",
@@ -199,21 +199,21 @@ function TokenDisplay({
   );
 }
 
-function MarketTab({ 
+function MarketTab({
   contracts,
-  wizardsWithLore
-}: { 
-  contracts: any,
-  wizardsWithLore: any
+  wizardsWithLore,
+}: {
+  contracts: any;
+  wizardsWithLore: any;
 }) {
   return (
     <Tabs>
       <TabList>
-        { contracts.map((contract: string, index: number) => {
-            return <Tab>{CONTRACTS[contract].display}</Tab>
+        {contracts.map((contract: string, index: number) => {
+          return <Tab>{CONTRACTS[contract].display}</Tab>;
         })}
       </TabList>
-      { contracts.map((contract: string, index: number) => {
+      {contracts.map((contract: string, index: number) => {
         return (
           <TabPanel>
             <Listings
@@ -222,10 +222,10 @@ function MarketTab({
               wizardsWithLore={wizardsWithLore}
             />
           </TabPanel>
-        )
-        })}
+        );
+      })}
     </Tabs>
-  )
+  );
 }
 
 function Listings({
@@ -247,7 +247,7 @@ function Listings({
     var lists: any = [];
     var url = API_BASE_URL + "tokens?" + "contract=" + contract;
     setLoaded(false);
-    
+
     if (reset) {
       setListings([]);
     }
@@ -305,7 +305,7 @@ function Listings({
       <SideBar
         collection={collection}
         selectionChange={selectionChange}
-        loreChange={()=> setHasLore(!hasLore)}
+        loreChange={() => setHasLore(!hasLore)}
         noLoreChange={() => setHasNoLore(!hasNoLore)}
       />
       <div style={{ width: "85%" }}>
@@ -357,11 +357,12 @@ export default function Marketplace({
   return (
     <Layout title="Marketplace">
       <FontWrapper>
-        <MarketTab contracts={[
-          "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
-          "0x251b5f14a825c537ff788604ea1b58e49b70726f",
-          "0xf55b615b479482440135ebf1b907fd4c37ed9420"
-        ]}
+        <MarketTab
+          contracts={[
+            "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
+            "0x251b5f14a825c537ff788604ea1b58e49b70726f",
+            "0xf55b615b479482440135ebf1b907fd4c37ed9420",
+          ]}
           wizardsWithLore={wizardsWithLore}
         />
       </FontWrapper>
