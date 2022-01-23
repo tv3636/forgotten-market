@@ -155,9 +155,9 @@ const MapContainer = styled.div`
 `;
 
 const MapStylesBlur = styled.div`
-.leaflet-container {
-  filter: blur(5px);
-}
+  .leaflet-container {
+    filter: blur(5px);
+  }
 `;
 
 const MapStyles = styled.div`
@@ -193,7 +193,19 @@ function MapBlur({ center }: { center: any }) {
     return (
       <MapStylesBlur>
         <MapStyles>
-          <div style={{fontFamily: 'Alagard', position: 'absolute', top: '48%', zIndex: 1, color: 'black', fontSize: '17px', textShadow: "0 0 2px #e0d1a7"}}>Location unrevealed</div>
+          <div
+            style={{
+              fontFamily: "Alagard",
+              position: "absolute",
+              top: "48%",
+              zIndex: 1,
+              color: "black",
+              fontSize: "17px",
+              textShadow: "0 0 2px #e0d1a7",
+            }}
+          >
+            Location unrevealed
+          </div>
           <DynamicMap
             center={center}
             zoom={7}
@@ -202,18 +214,13 @@ function MapBlur({ center }: { center: any }) {
           />
         </MapStyles>
       </MapStylesBlur>
-    )
+    );
   } else {
     return (
       <MapStyles>
-        <DynamicMap
-          center={center}
-          zoom={7}
-          width={"250px"}
-          height={"250px"}
-        />
+        <DynamicMap center={center} zoom={7} width={"250px"} height={"250px"} />
       </MapStyles>
-    )
+    );
   }
 }
 
@@ -418,7 +425,7 @@ const ListingPage = ({
   const [pages, setPages] = useState<any>([]);
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
-  const [mapCenter, setMapCenter] = useState<any>([0,0]);
+  const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const { account } = useEthers();
 
   function increment() {
@@ -426,12 +433,13 @@ const ListingPage = ({
   }
 
   function getCenter(name: string) {
-    var center = [0,0];
-    var nameParts = name.split(' ');
+    var center = [0, 0];
+    var nameParts = name.split(" ");
 
     if (name && name.length > 1) {
       var firstTry = nameParts[nameParts.length - 1];
-      var secondTry = nameParts[nameParts.length - 2] + ' ' + nameParts[nameParts.length - 1];
+      var secondTry =
+        nameParts[nameParts.length - 2] + " " + nameParts[nameParts.length - 1];
 
       if (firstTry in LOCATIONS) {
         center = LOCATIONS[firstTry];
@@ -589,7 +597,7 @@ const ListingPage = ({
               />
             ) : null}
             <MapContainer>
-              <MapBlur center={mapCenter}/>
+              <MapBlur center={mapCenter} />
             </MapContainer>
             <div
               style={{
