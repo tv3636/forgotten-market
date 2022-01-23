@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 import { SocialItem } from "../../components/Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 
-export const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
+export const API_BASE_URL: string =
+  "https://indexer-v3-2-mainnet.up.railway.app/";
 
 export const CONTRACTS: any = {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
@@ -29,11 +30,11 @@ export function ListingExpiration({
   timer: any;
   dateString: string;
 }) {
-    const Timespan = styled.span`
-        width: 10ch;
-        min-width: 10ch;
-        text-align: right;
-    `;
+  const Timespan = styled.span`
+    width: 10ch;
+    min-width: 10ch;
+    text-align: right;
+  `;
 
   if (timer?.days > 1) {
     if (dateString) {
