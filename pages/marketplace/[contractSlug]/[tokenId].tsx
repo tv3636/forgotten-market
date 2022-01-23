@@ -37,12 +37,37 @@ const COLLECTION_NAMES: any = {
 const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
   "Psychic Leap": [5.6, 5.3],
-  Veil: [5.3, 2.85],
+  Veil: [5.1, 2.85],
   Bastion: [4.3, 1.9],
   Realm: [5.3, 0.2],
   "Sacred Pillars": [5.4, -1.85],
   Tower: [3.4, -3.2],
   Salt: [2.1, -6.05],
+  Wold: [2.7, -1.2],
+  Lake: [3.95, -0.45],
+  Wild: [2.91, 1.3],
+  Carnival: [1.6, 2.4],
+  Marsh: [0.65, 2.8],
+  Thorn: [0.5, 5.25],
+  Mist: [1.3, 6.6],
+  Toadstools: [3.3, 6.15],
+  Fey: [3.2, 3.6],
+  "Quantum Shadow": [-1.05, 6.59],
+  Valley: [-2.2, 6.7],
+  "Platonic Shadow": [-3.5, 6.7],
+  Obelisk: [-3.9, 5.2],
+  Oasis: [-4.9, 6.7],
+  Sand: [-5.7, 4.5],
+  Havens: [-3.6, 1.9],
+  Mountain: [-3, 1.45],
+  Riviera: [-3.8, -0.05],
+  Surf: [-4.6, -2.2],
+  Isle: [-4.5, -4.45],
+  Brine: [-3.6, -6.55],
+  Citadel: [-1.9, -5.6],
+  Capital: [0, -5.75],
+  Keep: [-1.9, -2.7],
+  Wood: [1, 0.3],
 };
 
 const MarketText = styled.p`
@@ -129,10 +154,17 @@ const MapContainer = styled.div`
   max-height: 250px;
 `;
 
+const MapStylesBlur = styled.div`
+.leaflet-container {
+  filter: blur(5px);
+}
+`;
+
 const MapStyles = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 
   .leaflet-container {
     background-color: black;
@@ -155,6 +187,35 @@ const MapStyles = styled.div`
     border: none;
   }
 `;
+
+function MapBlur({ center }: { center: any }) {
+  if (center[0] == 0 && center[1] == 0) {
+    return (
+      <MapStylesBlur>
+        <MapStyles>
+          <div style={{fontFamily: 'Alagard', position: 'absolute', top: '48%', zIndex: 1, color: 'black', fontSize: '17px', textShadow: "0 0 2px #e0d1a7"}}>Location unrevealed</div>
+          <DynamicMap
+            center={center}
+            zoom={7}
+            width={"250px"}
+            height={"250px"}
+          />
+        </MapStyles>
+      </MapStylesBlur>
+    )
+  } else {
+    return (
+      <MapStyles>
+        <DynamicMap
+          center={center}
+          zoom={7}
+          width={"250px"}
+          height={"250px"}
+        />
+      </MapStyles>
+    )
+  }
+}
 
 function MarketButton({ text }: { text: string }) {
   return (
@@ -357,10 +418,29 @@ const ListingPage = ({
   const [pages, setPages] = useState<any>([]);
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
+  const [mapCenter, setMapCenter] = useState<any>([0,0]);
   const { account } = useEthers();
 
   function increment() {
     setCountdownTimer(countdown(new Date(listing.validUntil * 1000)));
+  }
+
+  function getCenter(name: string) {
+    var center = [0,0];
+    var nameParts = name.split(' ');
+
+    if (name && name.length > 1) {
+      var firstTry = nameParts[nameParts.length - 1];
+      var secondTry = nameParts[nameParts.length - 2] + ' ' + nameParts[nameParts.length - 1];
+
+      if (firstTry in LOCATIONS) {
+        center = LOCATIONS[firstTry];
+      } else if (secondTry in LOCATIONS) {
+        center = LOCATIONS[secondTry];
+      }
+    }
+
+    return center;
   }
 
   setTimeout(increment, 1000);
@@ -381,6 +461,7 @@ const ListingPage = ({
         setToken(listingsJson.tokens[0].token);
         setListing(listingsJson.tokens[0].market.floorSell);
         setAttributes(listingsJson.tokens[0].token.attributes);
+        setMapCenter(getCenter(listingsJson.tokens[0].token.name));
 
         const provider = getProvider();
         var ensName = await provider.lookupAddress(
@@ -507,16 +588,8 @@ const ListingPage = ({
                 ).toLocaleString()}
               />
             ) : null}
-
             <MapContainer>
-              <MapStyles>
-                <DynamicMap
-                  center={[3.4, -3.22]}
-                  zoom={7}
-                  width={"250px"}
-                  height={"250px"}
-                />
-              </MapStyles>
+              <MapBlur center={mapCenter}/>
             </MapContainer>
             <div
               style={{
