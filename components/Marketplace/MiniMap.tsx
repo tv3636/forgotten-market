@@ -44,29 +44,33 @@ const MapStyles = styled.div`
   }
 `;
 
+const MapOverlay = styled.div`
+  position: absolute;
+  top: 48%;
+  z-index: 1;
+  
+  font-family: Alagard;
+  font-size: 17px;
+  color: black;
+  text-shadow: 0 0 2px #e0d1a7;
+`;
+
 function MapBlur({ center }: { center: any }) {
+  const zoom = 7;
+  const size = "200px";
+
   if (center[0] == 0 && center[1] == 0) {
     return (
       <MapStylesBlur>
         <MapStyles>
-          <div
-            style={{
-              fontFamily: "Alagard",
-              position: "absolute",
-              top: "48%",
-              zIndex: 1,
-              color: "black",
-              fontSize: "17px",
-              textShadow: "0 0 2px #e0d1a7",
-            }}
-          >
+          <MapOverlay>
             Location unrevealed
-          </div>
+          </MapOverlay>
           <DynamicMap
             center={center}
-            zoom={7}
-            width={"200px"}
-            height={"200px"}
+            zoom={zoom}
+            width={size}
+            height={size}
           />
         </MapStyles>
       </MapStylesBlur>
@@ -74,7 +78,7 @@ function MapBlur({ center }: { center: any }) {
   } else {
     return (
       <MapStyles>
-        <DynamicMap center={center} zoom={7} width={"200px"} height={"200px"} />
+        <DynamicMap center={center} zoom={zoom} width={size} height={size} />
       </MapStyles>
     );
   }

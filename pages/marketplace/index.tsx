@@ -8,7 +8,8 @@ import { ProSidebar } from "react-pro-sidebar";
 import Select from "react-select";
 import { GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
-import { CONTRACTS, API_BASE_URL } from "../../components/Marketplace/marketplaceHelpers";
+import { getOptions } from "../../components/Marketplace/marketplaceHelpers";
+import { API_BASE_URL, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 
 const ListingDisplay = styled.div`
   width: 250px;
@@ -57,25 +58,6 @@ const FontTraitWrapper = styled.div`
   font-family: Arial;
   color: black;
 `;
-
-function getOptions(traits: [any]) {
-  var result: any[] = [];
-
-  if (traits.length > 0 && isNaN(traits[0].value))
-    traits.sort(function (first, second) {
-      return second.count - first.count;
-    });
-
-  for (var trait of traits) {
-    let option: any = {};
-    option.value = trait.value;
-    option.label =
-      trait.value + (isNaN(trait.value) ? " (" + trait.count + ")" : "");
-
-    result.push(option);
-  }
-  return result;
-}
 
 function LoadingCard() {
   return (
@@ -128,8 +110,7 @@ function SideBar({
         style={{ display: "flex", flexDirection: "column", marginTop: "10px" }}
       >
         <label style={{ margin: "5px" }}>
-          <input type="checkbox" className="hasLore" onClick={loreChange} /> Has
-          Lore
+          <input type="checkbox" onClick={loreChange} /> Has Lore
         </label>
         <label style={{ margin: "5px" }}>
           <input type="checkbox" onClick={noLoreChange} /> Has No Lore

@@ -1,26 +1,26 @@
 import styled from "@emotion/styled";
 import { SocialItem } from "../../components/Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
+import { CONTRACTS } from "./marketplaceConstants";
 
-export const API_BASE_URL: string = "https://indexer-v3-2-mainnet.up.railway.app/";
+export function getOptions(traits: [any]) {
+  var result: any[] = [];
 
-export const CONTRACTS: any = {
-  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
-    collection: "forgottenruneswizardscult",
-    display: "Wizards",
-    image_url: "/api/art/wizards/",
-  },
-  "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
-    collection: "forgottensouls",
-    display: "Souls",
-    image_url: "https://portal.forgottenrunes.com/api/souls/img/",
-  },
-  "0xf55b615b479482440135ebf1b907fd4c37ed9420": {
-    collection: "forgottenrunesponies",
-    display: "Ponies",
-    image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
-  },
-};
+  if (traits.length > 0 && isNaN(traits[0].value))
+    traits.sort(function (first, second) {
+      return second.count - first.count;
+    });
+
+  for (var trait of traits) {
+    let option: any = {};
+    option.value = trait.value;
+    option.label =
+      trait.value + (isNaN(trait.value) ? " (" + trait.count + ")" : "");
+
+    result.push(option);
+  }
+  return result;
+}
 
 export function ListingExpiration({
   timer,
