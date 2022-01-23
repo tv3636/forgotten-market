@@ -7,7 +7,10 @@ import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUtils";
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
 import Minimap from "../../../components/Marketplace/MiniMap";
-import { ListingExpiration, Icons } from "../../../components/Marketplace/marketplaceHelpers";
+import {
+  ListingExpiration,
+  Icons,
+} from "../../../components/Marketplace/marketplaceHelpers";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";
@@ -132,7 +135,7 @@ const ButtonWrapper = styled.div`
   padding: 20px;
 `;
 
-const LoreWrapper  = styled.div`
+const LoreWrapper = styled.div`
   margin-top: 3vh;
   min-width: 75%;
   display: inline-flex;
@@ -277,7 +280,7 @@ function Price({ value }: { value: number }) {
         </div>
       ) : null}
     </MarketText>
-  )
+  );
 }
 
 function LoreBlock({ pages }: { pages: [] }) {
@@ -303,7 +306,7 @@ function LoreBlock({ pages }: { pages: [] }) {
 function Owner({
   owner,
   connectedAccount,
-  ens
+  ens,
 }: {
   owner: string;
   connectedAccount: string | null | undefined;
@@ -312,11 +315,7 @@ function Owner({
   return (
     <MarketHeader4>
       {"Owner: "}
-      <a
-        href={"/address/" + owner}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={"/address/" + owner} target="_blank" rel="noopener noreferrer">
         {ens
           ? owner?.toLowerCase() != connectedAccount?.toLowerCase()
             ? ens
@@ -324,7 +323,7 @@ function Owner({
           : owner.substring(0, 10)}
       </a>
     </MarketHeader4>
-  )
+  );
 }
 
 const ListingPage = ({
@@ -345,7 +344,10 @@ const ListingPage = ({
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const { account } = useEthers();
 
-  setTimeout(() => setCountdownTimer(countdown(new Date(listing.validUntil * 1000))), 1000);
+  setTimeout(
+    () => setCountdownTimer(countdown(new Date(listing.validUntil * 1000))),
+    1000
+  );
 
   // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
@@ -426,7 +428,7 @@ const ListingPage = ({
           </div>
           <RightHandDisplay>
             <MarketHeader2>{token.name}</MarketHeader2>
-            <Price value={listing.value}/>
+            <Price value={listing.value} />
             <ButtonWrapper>
               <MarketButtons
                 account={account}
@@ -434,7 +436,9 @@ const ListingPage = ({
                 listValue={listing.value}
               />
             </ButtonWrapper>
-            { token.owner && <Owner owner={token.owner} connectedAccount={account} ens={ens}/>}
+            {token.owner && (
+              <Owner owner={token.owner} connectedAccount={account} ens={ens} />
+            )}
             {listing.validUntil ? (
               <ListingExpiration
                 timer={countdownTimer}
@@ -443,7 +447,7 @@ const ListingPage = ({
                 ).toLocaleString()}
               />
             ) : null}
-            <Minimap center={mapCenter}/>
+            <Minimap center={mapCenter} />
             <LoreWrapper>
               <LoreBlock pages={pages} />
             </LoreWrapper>
