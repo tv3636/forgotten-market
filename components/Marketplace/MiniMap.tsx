@@ -48,7 +48,7 @@ const MapOverlay = styled.div`
   position: absolute;
   top: 48%;
   z-index: 1;
-  
+
   font-family: Alagard;
   font-size: 17px;
   color: black;
@@ -63,15 +63,8 @@ function MapBlur({ center }: { center: any }) {
     return (
       <MapStylesBlur>
         <MapStyles>
-          <MapOverlay>
-            Location unrevealed
-          </MapOverlay>
-          <DynamicMap
-            center={center}
-            zoom={zoom}
-            width={size}
-            height={size}
-          />
+          <MapOverlay>Location unrevealed</MapOverlay>
+          <DynamicMap center={center} zoom={zoom} width={size} height={size} />
         </MapStyles>
       </MapStylesBlur>
     );

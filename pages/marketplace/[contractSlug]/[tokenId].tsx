@@ -7,8 +7,14 @@ import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUtils";
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
 import Minimap from "../../../components/Marketplace/MiniMap";
-import { ListingExpiration, Icons } from "../../../components/Marketplace/marketplaceHelpers";
-import { CONTRACTS, API_BASE_URL } from "../../../components/Marketplace/marketplaceConstants";
+import {
+  ListingExpiration,
+  Icons,
+} from "../../../components/Marketplace/marketplaceHelpers";
+import {
+  CONTRACTS,
+  API_BASE_URL,
+} from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";

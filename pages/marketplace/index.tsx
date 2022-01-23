@@ -9,7 +9,10 @@ import Select from "react-select";
 import { GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
 import { getOptions } from "../../components/Marketplace/marketplaceHelpers";
-import { API_BASE_URL, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
+import {
+  API_BASE_URL,
+  CONTRACTS,
+} from "../../components/Marketplace/marketplaceConstants";
 
 const ListingDisplay = styled.div`
   width: 250px;
