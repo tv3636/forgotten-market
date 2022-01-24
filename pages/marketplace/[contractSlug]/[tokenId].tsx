@@ -19,6 +19,7 @@ import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
+import Link from "next/link";
 
 const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
@@ -83,13 +84,26 @@ const MarketHeader4 = styled.h4`
   margin-bottom: 40px;
 `;
 
-const TraitRow = styled.div`
+const TraitItem = styled.div`
   text-align: start;
   margin-left: 2vw;
   margin-right: 2vw;
   font-size: 18px;
   font-family: Alagard;
 `;
+
+const TraitRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 40px;
+  align-items: center;
+
+  :hover {
+    cursor: pointer;
+  }
+
+`
 
 const Frame = styled.div`
   border-image: url("/static/img/marketplace/frame_traits.png");
@@ -235,7 +249,13 @@ function MarketButtons({
   return null;
 }
 
-function TraitDisplay({ attributes }: { attributes: [] }) {
+function TraitDisplay({ 
+  attributes,
+  contract 
+}: { 
+  attributes: [];
+  contract: string;
+}) {
   if (attributes.length == 0) {
     return null;
   } else {
@@ -245,18 +265,12 @@ function TraitDisplay({ attributes }: { attributes: [] }) {
           <div style={{}}>
             {attributes.map((attribute: any, index: number) => (
               <div key={index}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    height: "40px",
-                    alignItems: "center",
-                  }}
-                >
-                  <TraitRow>{attribute.key}:</TraitRow>
-                  <TraitRow>{attribute.value}</TraitRow>
-                </div>
+                <Link href={`/marketplace/${contract}?${attribute.key.toLowerCase()}=${attribute.value}`}>
+                  <TraitRow>
+                      <TraitItem>{attribute.key}:</TraitItem>
+                      <TraitItem>{attribute.value}</TraitItem>
+                  </TraitRow>
+                </Link>
                 {index < attributes.length - 1 ? <hr /> : null}
               </div>
             ))}
@@ -430,7 +444,7 @@ const ListingPage = ({
           <LeftHandDisplay>
             <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
             <Icons tokenId={Number(tokenId)} contract={contractSlug} />
-            <TraitDisplay attributes={attributes} />
+            <TraitDisplay attributes={attributes} contract={contractSlug} />
           </LeftHandDisplay>
           <RightHandDisplay>
             <MarketHeader2>{token.name}</MarketHeader2>

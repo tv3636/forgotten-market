@@ -205,6 +205,7 @@ function MarketTab({
 }) {
   var router = useRouter();
   function clearRouter(selected: number) {
+    router.query = {};
     router.push(`/marketplace/${marketplaceContracts[selected]}`, undefined, {shallow: true});
   }
 
@@ -292,13 +293,14 @@ function Listings({
     } else {
       router.push('', undefined, {shallow: true});
     }
-
+    console.log('ok!!!');
     fetchListings(true);
   }
 
   useEffect(() => {
     // ensure router query is populated before fetching listings
     if ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) {
+      console.log('ok');
       fetchListings(false);
     }
   }, [router.query]);
