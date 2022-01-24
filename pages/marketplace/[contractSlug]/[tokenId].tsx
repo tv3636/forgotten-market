@@ -20,6 +20,7 @@ import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButto
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
@@ -203,7 +204,16 @@ const RightHandDisplay = styled.div`
   align-items: center;
 `;
 
+async function doMarketAction(
+  action: string,
+  router: any
+) {
+  // buy, sell, offer, delist functionality here
+  console.log(action, router);
+}
+
 function MarketButton({ text }: { text: string }) {
+  const router = useRouter();
   return (
     <ButtonImage
       src={"/static/img/marketplace/" + text + ".png"}
@@ -213,6 +223,7 @@ function MarketButton({ text }: { text: string }) {
       onMouseOut={(e) =>
         (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")
       }
+      onClick={(e) => doMarketAction(text, useRouter())}
     />
   );
 }
@@ -229,11 +240,12 @@ function MarketButtons({
   if (!account) {
     return <ConnectWalletButton />;
   }
-
+  const router = useRouter();
   if (owner) {
     if (account.toLowerCase() == owner.toLowerCase()) {
       if (listValue) {
-        return <button>Cancel Listing</button>;
+        // TODO: replace with MarketButton once drawn
+        return <button onClick={(e) => doMarketAction('delist', router)}>Cancel Listing</button>;
       } else {
         return <MarketButton text={"sell"} />;
       }
