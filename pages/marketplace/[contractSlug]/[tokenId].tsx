@@ -223,7 +223,7 @@ function MarketButton({ text }: { text: string }) {
       onMouseOut={(e) =>
         (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")
       }
-      onClick={(e) => doMarketAction(text, useRouter())}
+      onClick={(e) => doMarketAction(text, router)}
     />
   );
 }
