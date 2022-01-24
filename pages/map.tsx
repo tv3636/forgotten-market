@@ -1,6 +1,7 @@
 import Layout from "../components/Layout";
 import dynamic from "next/dynamic";
 import styled from "@emotion/styled";
+import { MapWrapper } from "../components/Map";
 
 const DynamicMap = dynamic(() => import("../components/Map"), {
   ssr: false, // leaflet doesn't like Next.js SSR
@@ -27,10 +28,6 @@ const MapStyles = styled.div`
   .leaflet-touch .leaflet-bar {
     border: none;
   }
-`;
-
-export const MapWrapper = styled.div`
-  height: 90vh;
 `;
 
 const Filler = styled.div`

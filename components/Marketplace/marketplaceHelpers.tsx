@@ -22,6 +22,34 @@ export function getOptions(traits: [any]) {
   return result;
 }
 
+function traitFormat(trait: string) {
+  var out = "";
+  for (var word of trait.split(' ')) {
+    if (word == 'in') {
+      out += word + " ";
+    } else {
+      out += word.charAt(0).toUpperCase() + word.slice(1) + " ";
+    }
+  }
+  return out.slice(0, -1);
+}
+
+export function getURLAttributes(query: any) {
+  var url_string = "";
+  for (var trait of Object.keys(query)) {
+    if (trait != 'contractSlug') {
+      var url_trait = traitFormat(trait).replace("#", "%23");
+      url_string +=
+        "&attributes[" +
+        url_trait +
+        "]=" +
+        query[trait];
+    }
+  }
+
+  return url_string;
+}
+
 export function ListingExpiration({
   timer,
   dateString,

@@ -6,13 +6,21 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ProSidebar } from "react-pro-sidebar";
 import Select from "react-select";
-import { GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
-import { getOptions } from "../../components/Marketplace/marketplaceHelpers";
+import { getOptions, getURLAttributes } from "../../components/Marketplace/marketplaceHelpers";
 import {
   API_BASE_URL,
   CONTRACTS,
 } from "../../components/Marketplace/marketplaceConstants";
+import Link from "next/link";
+import { useRouter } from 'next/router';
+
+const marketplaceContracts = [
+  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
+  "0x251b5f14a825c537ff788604ea1b58e49b70726f",
+  "0xf55b615b479482440135ebf1b907fd4c37ed9420",
+]
 
 const ListingDisplay = styled.div`
   width: 250px;
@@ -45,6 +53,10 @@ const ListingImage = styled.img`
   padding: 5px;
   max-height: 50vw;
   max-width: 50vw;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const MarketText = styled.p`
@@ -94,6 +106,7 @@ function SideBar({
   noLoreChange: any;
 }) {
   const [traits, setTraits] = useState([]);
+  const router = useRouter();
 
   async function fetchTraits() {
     const attributes = await fetch(
@@ -126,6 +139,7 @@ function SideBar({
             onChange={(e) => selectionChange(e, trait.key)}
             isClearable={true}
             placeholder={trait.key}
+            value={trait.key.toLowerCase() in router.query ? {label: router.query[trait.key.toLowerCase()]} : null}
           />
         </FontTraitWrapper>
       ))}
@@ -145,9 +159,8 @@ function TokenDisplay({
   price: number;
 }) {
   return (
-    <a
-      href={"marketplace/" + contract + "/" + tokenId}
-      style={{ textDecoration: "none" }}
+    <Link
+      href={"/marketplace/" + contract + "/" + tokenId}
     >
       <ListingDisplay>
         <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"} />
@@ -179,7 +192,7 @@ function TokenDisplay({
           </div>
         </div>
       </ListingDisplay>
-    </a>
+    </Link>
   );
 }
 
@@ -190,11 +203,16 @@ function MarketTab({
   contracts: any;
   wizardsWithLore: any;
 }) {
+  var router = useRouter();
+  function clearRouter(selected: number) {
+    router.push(`/marketplace/${marketplaceContracts[selected]}`, undefined, {shallow: true});
+  }
+
   return (
-    <Tabs>
+    <Tabs onSelect={(index: number) => clearRouter(index)} defaultIndex={marketplaceContracts.indexOf(router.query.contractSlug.toString())}>
       <TabList>
         {contracts.map((contract: string, index: number) => {
-          return <Tab>{CONTRACTS[contract].display}</Tab>;
+          return <Tab key={index}>{CONTRACTS[contract].display}</Tab>;
         })}
       </TabList>
       {contracts.map((contract: string, index: number) => {
@@ -222,10 +240,10 @@ function Listings({
   wizardsWithLore: { [key: number]: boolean };
 }) {
   const [listings, setListings] = useState([]);
-  const [filters, setFilters] = useState<any>({});
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
+  const router = useRouter();
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
@@ -236,21 +254,10 @@ function Listings({
       setListings([]);
     }
 
-    for (var filter of Object.keys(filters)) {
-      if (filters[filter].length > 0) {
-        url =
-          url +
-          "&attributes[" +
-          filter.replace("#", "%23") +
-          "]=" +
-          filters[filter][0];
-      }
-    }
-
     try {
       for (let i = 0; i < 4; i++) {
         var offset = reset ? i * 20 : listings.length + i * 20;
-        const page = await fetch(url + "&offset=" + offset);
+        const page = await fetch(url + "&offset=" + offset + getURLAttributes(router.query));
         const listingsJson = await page.json();
 
         lists = lists.concat(listingsJson.tokens);
@@ -269,20 +276,32 @@ function Listings({
   }
 
   function selectionChange(selected: any, trait: any) {
-    var newFilters = filters;
-    newFilters[trait] = [];
-
     if (selected) {
-      newFilters[trait].push(selected.value);
+      router.query[trait.toLowerCase()] = selected.value
+    } else {
+      delete router.query[trait.toLowerCase()]
     }
 
-    setFilters(newFilters);
+    var newPath = "";
+    for (var routerTrait of Object.keys(router.query)) {
+        newPath += `&${routerTrait}=${router.query[routerTrait]}`.replace('#', '%23');
+    }
+
+    if (newPath.length > 0) {
+      router.push('?' + newPath, undefined, { shallow: true });
+    } else {
+      router.push('', undefined, {shallow: true});
+    }
+
     fetchListings(true);
   }
 
   useEffect(() => {
-    fetchListings(false);
-  }, []);
+    // ensure router query is populated before fetching listings
+    if ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) {
+      fetchListings(false);
+    }
+  }, [router.query]);
 
   return (
     <div style={{ display: "flex", flexDirection: "row", height: "80vh" }}>
@@ -342,11 +361,7 @@ export default function Marketplace({
     <Layout title="Marketplace">
       <FontWrapper>
         <MarketTab
-          contracts={[
-            "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
-            "0x251b5f14a825c537ff788604ea1b58e49b70726f",
-            "0xf55b615b479482440135ebf1b907fd4c37ed9420",
-          ]}
+          contracts={marketplaceContracts}
           wizardsWithLore={wizardsWithLore}
         />
       </FontWrapper>
@@ -362,3 +377,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     revalidate: 3 * 60,
   };
 };
+
+export const getStaticPaths: GetStaticPaths = async ({}) => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+};
+

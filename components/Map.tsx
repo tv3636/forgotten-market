@@ -1,5 +1,5 @@
 import { ImageOverlay, MapContainer } from "react-leaflet";
-
+import styled from "@emotion/styled";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
@@ -13,6 +13,10 @@ const bounds = new LatLngBounds(
   [(-height / 2) * scale, (-width / 2) * scale],
   [(height / 2) * scale, (width / 2) * scale]
 );
+
+export const MapWrapper = styled.div`
+  height: 90vh;
+`;
 
 type Props = {
   center: [number, number];
