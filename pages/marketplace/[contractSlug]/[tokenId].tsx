@@ -146,7 +146,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const LoreWrapper = styled.div`
-  margin-top: 8vh;
+  margin-top: 6vh;
   min-width: 75%;
   display: inline-flex;
   flex-direction: column;
@@ -193,7 +193,7 @@ const LeftHandDisplay = styled.div`
 
 const RightHandDisplay = styled.div`
   text-align: center;
-  margin-top: 5vh;
+  margin-top: 4vh;
   width: 50%;
   max-width: 800px;
   margin-left: 3vw;
