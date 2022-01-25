@@ -8,8 +8,7 @@ import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUt
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
 import Minimap from "../../../components/Marketplace/MiniMap";
 import {
-  ListingExpiration,
-  Icons,
+  Icons
 } from "../../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
@@ -37,7 +36,7 @@ const LOCATIONS: any = {
   Carnival: [1.6, 2.4],
   Marsh: [0.65, 2.8],
   Thorn: [0.5, 5.25],
-  Mist: [1.3, 6.6],
+  Mist: [1.3, 6.9],
   Toadstools: [3.3, 6.15],
   Fey: [3.2, 3.6],
   "Quantum Shadow": [-1.05, 6.59],
@@ -58,53 +57,96 @@ const LOCATIONS: any = {
   Wood: [1, 0.3],
 };
 
-const MarketText = styled.div`
+const PriceStyle = styled.div`
+  font-family: Alagard;
+  font-size: 35px;
+  color: white;
+
+  align-self: flex-start;
+`;
+
+const NameStyle = styled.h2`
   font-family: Alagard;
   font-size: 45px;
   color: white;
 
-  margin: 15px;
+  text-align: left;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-block-start: 0px;
 `;
 
-const MarketHeader2 = styled.h2`
-  font-family: Alagard;
-  font-size: 45px;
-  color: white;
-
-  margin-top: 12px;
-  margin-bottom: 10px;
-`;
-
-const MarketHeader4 = styled.h4`
+const OwnerStyle = styled.h4`
   font-family: Arial;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: normal;
   color: white;
 
-  margin-top: -5px;
-  margin-bottom: 40px;
+  text-align: left;
+  margin-block-start: 0.5vh;
+`;
+
+const NameDisplay = styled.div`
+
+`;
+
+const PriceDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const TraitItem = styled.div`
   text-align: start;
-  margin-left: 2vw;
-  margin-right: 2vw;
-  font-size: 18px;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  font-size: 24px;
   font-family: Alagard;
+  color: black;
 `;
 
 const TraitRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  height: 40px;
+  height: 50px;
   align-items: center;
+  margin: 10px;
+
+  font-family: Arial;
+  color: black;
+  background-color: #dec898;
+  padding: 10px;
+
+  border: solid;
+  border-color: grey;
+  border-radius: 15px;
 
   :hover {
     cursor: pointer;
   }
 
-`
+  :active {
+    position: relative;
+    top: 2px;
+  }
+`;
+
+const TraitType = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 12px;
+`;
+
+const TraitWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+`;
 
 const Frame = styled.div`
   border-image: url("/static/img/marketplace/frame_traits.png");
@@ -118,9 +160,8 @@ const Frame = styled.div`
 `;
 
 const ButtonImage = styled.img`
-  margin-left: 0.5vw;
   margin-right: 0.5vw;
-  height: 40px;
+  height: 50px;
   image-rendering: pixelated;
 
   :active {
@@ -137,17 +178,18 @@ const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 1vh;
   min-width: 400px;
 
-  border-style: dashed;
-  border-radius: 3%;
-  padding: 15px;
+`;
+
+const SoftLink = styled.a`
+  text-decoration: none;
 `;
 
 const LoreWrapper = styled.div`
-  margin-top: 6vh;
+  margin-top: 1vh;
   min-width: 75%;
   display: inline-flex;
   flex-direction: column;
@@ -161,7 +203,6 @@ const LoreContainer = styled.div`
   border-style: solid;
 
   padding: 40px;
-  width: 80%;
 
   font-family: Alagard;
   font-size: 20px;
@@ -175,33 +216,66 @@ const LoreContainer = styled.div`
 
 const Listing = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
   margin-top: 4vh;
   margin-bottom: 4vh;
+  max-width: 1300px;
+
 `;
 
-const LeftHandDisplay = styled.div`
-  text-align: center;
-  max-width: 400px;
+const ListingWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+`;
+
+const ExpirationWrapper = styled.div`
+  text-align: left;
+  font-size: 14px;
+`;
+
+const TopDisplay = styled.div`
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 
   margin-left: 3vw;
 `;
 
-const RightHandDisplay = styled.div`
+const TopRight = styled.div`
+  margin-left: 50px;
+  max-width: 500px;
+  height: 400px;
+  
+  align-self: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  
+`;
+
+const MidDisplay = styled.div`
   text-align: center;
-  margin-top: 4vh;
-  width: 50%;
-  max-width: 800px;
-  margin-left: 3vw;
+  margin-right: 4vw;
+  max-width: 1000px;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
+
+  @media only screen and (max-width: 600px) {
+    flex-wrap: wrap;
+  }
+`;
+
+const BottomDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+
 `;
 
 async function doMarketAction(
@@ -261,6 +335,40 @@ function MarketButtons({
   return null;
 }
 
+function ListingExpiration({
+  timer,
+  dateString,
+}: {
+  timer: any;
+  dateString: string;
+}) {
+  const Timespan = styled.span`
+    width: 10ch;
+    min-width: 10ch;
+    text-align: right;
+  `;
+
+  if (timer?.days > 1) {
+    if (dateString) {
+      return <ExpirationWrapper>Listing expires on {dateString}</ExpirationWrapper>;
+    } else {
+      return null;
+    }
+  } else {
+    return (
+      <div>
+        <ExpirationWrapper>
+          Listing expires in{" "}
+          {timer?.days > 0 && <Timespan> {timer?.days} days, </Timespan>}
+          <Timespan> {timer?.hours} hours, </Timespan>
+          <Timespan> {timer?.minutes} minutes, </Timespan>
+          <Timespan> {timer?.seconds} seconds </Timespan>
+        </ExpirationWrapper>
+      </div>
+    );
+  }
+}
+
 function TraitDisplay({ 
   attributes,
   contract 
@@ -273,21 +381,23 @@ function TraitDisplay({
   } else {
     return (
       <div style={{ textAlign: "center", marginTop: "1vh" }}>
-        <Frame>
-          <div style={{}}>
+          <TraitWrapper>
             {attributes.map((attribute: any, index: number) => (
               <div key={index}>
-                <Link href={`/marketplace/${contract}?${attribute.key.toLowerCase()}=${attribute.value}`}>
+                <Link 
+                  href={`/marketplace/${contract}?${attribute.key.toLowerCase().replace('#', '%23')}=${attribute.value}`} 
+                  passHref={true}
+                >
+                  <SoftLink>
                   <TraitRow>
-                      <TraitItem>{attribute.key}:</TraitItem>
-                      <TraitItem>{attribute.value}</TraitItem>
+                    <TraitType>{attribute.key}</TraitType>
+                    <TraitItem>{attribute.value}</TraitItem>
                   </TraitRow>
+                  </SoftLink>
                 </Link>
-                {index < attributes.length - 1 ? <hr /> : null}
               </div>
             ))}
-          </div>
-        </Frame>
+          </TraitWrapper>
       </div>
     );
   }
@@ -295,13 +405,14 @@ function TraitDisplay({
 
 function Price({ value }: { value: number }) {
   return (
-    <MarketText>
+    <PriceStyle>
       {value ? (
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            marginBottom: "20px"
           }}
         >
           <img
@@ -311,7 +422,7 @@ function Price({ value }: { value: number }) {
           <div>{value}</div>
         </div>
       ) : null}
-    </MarketText>
+    </PriceStyle>
   );
 }
 
@@ -339,14 +450,16 @@ function Owner({
   owner,
   connectedAccount,
   ens,
+  tokenId,
 }: {
   owner: string;
   connectedAccount: string | null | undefined;
   ens: string | null;
+  tokenId: string;
 }) {
   return (
-    <MarketHeader4>
-      {"Owner: "}
+    <OwnerStyle>
+      {`#${tokenId} - Owner: `}
       <a href={"/address/" + owner} target="_blank" rel="noopener noreferrer">
         {ens
           ? owner?.toLowerCase() != connectedAccount?.toLowerCase()
@@ -354,7 +467,7 @@ function Owner({
             : "you"
           : owner.substring(0, 10)}
       </a>
-    </MarketHeader4>
+    </OwnerStyle>
   );
 }
 
@@ -397,7 +510,6 @@ const ListingPage = ({
         center = LOCATIONS[secondTry];
       }
     }
-
     return center;
   }
 
@@ -452,40 +564,51 @@ const ListingPage = ({
   return (
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 && (
+        <ListingWrapper>
         <Listing>
-          <LeftHandDisplay>
+          <TopDisplay>
             <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
-            <Icons tokenId={Number(tokenId)} contract={contractSlug} />
+            <TopRight>
+              <NameDisplay>
+                <NameStyle>{token.name}</NameStyle>
+                {token.owner && (
+                  <Owner owner={token.owner} connectedAccount={account} ens={ens} tokenId={tokenId}/>
+                )}
+              </NameDisplay>
+              <PriceDisplay>
+                <Price value={listing.value} />
+                <ButtonWrapper>
+                  <MarketButtons
+                    account={account}
+                    owner={token.owner}
+                    listValue={listing.value}
+                  />
+                </ButtonWrapper>
+                {listing.validUntil ? (
+                  <ListingExpiration
+                    timer={countdownTimer}
+                    dateString={new Date(
+                      listing.validUntil * 1000
+                    ).toLocaleString()}
+                  />
+                ) : null}
+              </PriceDisplay>
+            </TopRight>
+          </TopDisplay>
+          <hr style={{borderStyle: 'dashed', width: '90%', borderWidth: '2px', margin: '25px', alignSelf: 'center'}}/>
+          <MidDisplay>
             <TraitDisplay attributes={attributes} contract={contractSlug} />
-          </LeftHandDisplay>
-          <RightHandDisplay>
-            <MarketHeader2>{token.name}</MarketHeader2>
-            <Price value={listing.value} />
-            {token.owner && (
-              <Owner owner={token.owner} connectedAccount={account} ens={ens} />
-            )}
-
-            <ButtonWrapper>
-              <MarketButtons
-                account={account}
-                owner={token.owner}
-                listValue={listing.value}
-              />
-            </ButtonWrapper>
-            {listing.validUntil ? (
-              <ListingExpiration
-                timer={countdownTimer}
-                dateString={new Date(
-                  listing.validUntil * 1000
-                ).toLocaleString()}
-              />
-            ) : null}
+            <Minimap center={mapCenter} />
+          </MidDisplay>
+          <hr style={{borderStyle: 'dashed', width: '90%', borderWidth: '2px', margin: '25px', alignSelf: 'center'}}/>
+          <BottomDisplay>
             <LoreWrapper>
               <LoreBlock pages={pages} />
             </LoreWrapper>
-            <Minimap center={mapCenter} />
-          </RightHandDisplay>
+            <Icons tokenId={Number(tokenId)} contract={contractSlug} />
+          </BottomDisplay>
         </Listing>
+        </ListingWrapper>
       )}
     </Layout>
   );

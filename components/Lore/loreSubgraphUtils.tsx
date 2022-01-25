@@ -290,15 +290,18 @@ export async function getFirstAvailableWizardLoreUrl() {
   return getLoreUrl("wizards", 0, 0);
 }
 
-export async function getWizardsWithLore(): Promise<{
+export async function getWizardsWithLore(contract: string = CHARACTER_CONTRACTS.wizards): Promise<{
   [key: number]: boolean;
 }> {
-  const cacheFile = `${WIZARDS_THAT_HAVE_LORE_CACHE}`;
+  const cacheFile = isWizardsContract(contract)
+    ? WIZARDS_LORE_CACHE
+    : SOULS_LORE_CACHE;
 
   let results;
 
   try {
     const cachedData = JSON.parse(await fs.readFile(cacheFile, "utf8"));
+    console.log(cacheFile);
     if (
       Math.floor((new Date().getTime() - cachedData.timestamp) / 1000 / 60) <=
       WIZARDS_THAT_HAVE_LORE_CACHE_STALE_AFTER_MINUTES // For x minutes during a deploy we keep using the file cache for lore
@@ -318,7 +321,7 @@ export async function getWizardsWithLore(): Promise<{
       const { data } = await client.query({
         query: gql`
           query WizardLore {
-              loreTokens(first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${CHARACTER_CONTRACTS.wizards}"}) {
+              loreTokens(first: 1000, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${contract}"}) {
                   tokenId
               }
           }`,

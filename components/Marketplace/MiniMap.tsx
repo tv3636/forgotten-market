@@ -6,8 +6,7 @@ const DynamicMap = dynamic(() => import("../../components/Map"), {
 });
 
 const MapContainer = styled.div`
-  margin-top: 2vh;
-  max-height: 250px;
+  margin-left: 2vw;
 `;
 
 const MapStylesBlur = styled.div`
@@ -27,6 +26,7 @@ const MapStyles = styled.div`
     border-style: dashed;
     border-radius: 10%;
   }
+
   img.leaflet-image-layer {
     image-rendering: pixelated;
   }
@@ -57,7 +57,7 @@ const MapOverlay = styled.div`
 
 function MapBlur({ center }: { center: any }) {
   const zoom = 7;
-  const size = "200px";
+  const size = "250px";
 
   if (center[0] == 0 && center[1] == 0) {
     return (

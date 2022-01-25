@@ -22,6 +22,13 @@ const marketplaceContracts = [
   "0xf55b615b479482440135ebf1b907fd4c37ed9420",
 ]
 
+const MarketWrapper = styled.div`
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 2vh;
+`;
+
 const ListingDisplay = styled.div`
   width: 250px;
   height: 350px;
@@ -33,14 +40,19 @@ const ListingDisplay = styled.div`
   max-height: 40vh;
 `;
 
+const SoftLink = styled.a`
+  text-decoration: none;
+`;
+
 const ListingContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-left: 8vw;
+  margin-left: 3vw;
   margin-right: 2vw;
   margin-top: 2vw;
   overflow: hidden;
+  
 `;
 
 const ListingImage = styled.img`
@@ -63,10 +75,6 @@ const MarketText = styled.p`
   font-family: Arial;
   font-size: 15px;
   color: white;
-`;
-
-const FontWrapper = styled.div`
-  font-size: 20px;
 `;
 
 const FontTraitWrapper = styled.div`
@@ -161,7 +169,9 @@ function TokenDisplay({
   return (
     <Link
       href={"/marketplace/" + contract + "/" + tokenId}
+      passHref={true}
     >
+      <SoftLink>
       <ListingDisplay>
         <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"} />
         <div
@@ -192,6 +202,7 @@ function TokenDisplay({
           </div>
         </div>
       </ListingDisplay>
+      </SoftLink>
     </Link>
   );
 }
@@ -206,11 +217,15 @@ function MarketTab({
   var router = useRouter();
   function clearRouter(selected: number) {
     router.query = {};
-    router.push(`/marketplace/${marketplaceContracts[selected]}`, undefined, {shallow: true});
+    router.push(`/marketplace/${marketplaceContracts[selected]}`, undefined, {shallow: false});
   }
 
   return (
-    <Tabs onSelect={(index: number) => clearRouter(index)} defaultIndex={marketplaceContracts.indexOf(router.query.contractSlug.toString())}>
+    <Tabs 
+      onSelect={(index: number) => clearRouter(index)} 
+      defaultIndex={marketplaceContracts.indexOf(router.query.contractSlug.toString())} 
+      style={{width: '1300px'}}
+    >
       <TabList>
         {contracts.map((contract: string, index: number) => {
           return <Tab key={index}>{CONTRACTS[contract].display}</Tab>;
@@ -360,20 +375,22 @@ export default function Marketplace({
 }) {
   return (
     <Layout title="Marketplace">
-      <FontWrapper>
+      <MarketWrapper>
         <MarketTab
           contracts={marketplaceContracts}
           wizardsWithLore={wizardsWithLore}
         />
-      </FontWrapper>
+      </MarketWrapper>
     </Layout>
   );
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const contractSlug = params?.contractSlug as string;
+  
   return {
     props: {
-      wizardsWithLore: await getWizardsWithLore(),
+      wizardsWithLore: await getWizardsWithLore(contractSlug),
     },
     revalidate: 3 * 60,
   };

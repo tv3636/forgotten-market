@@ -50,40 +50,6 @@ export function getURLAttributes(query: any) {
   return url_string;
 }
 
-export function ListingExpiration({
-  timer,
-  dateString,
-}: {
-  timer: any;
-  dateString: string;
-}) {
-  const Timespan = styled.span`
-    width: 10ch;
-    min-width: 10ch;
-    text-align: right;
-  `;
-
-  if (timer?.days > 1) {
-    if (dateString) {
-      return <div>Listing expires on {dateString}</div>;
-    } else {
-      return null;
-    }
-  } else {
-    return (
-      <div>
-        <div>
-          Listing expires in{" "}
-          {timer?.days > 0 && <Timespan> {timer?.days} days, </Timespan>}
-          <Timespan> {timer?.hours} hours, </Timespan>
-          <Timespan> {timer?.minutes} minutes, </Timespan>
-          <Timespan> {timer?.seconds} seconds </Timespan>
-        </div>
-      </div>
-    );
-  }
-}
-
 export function Icons({
   tokenId,
   contract,

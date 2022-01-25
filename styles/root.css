@@ -78,6 +78,10 @@ p {
   width: 6px;
 }
 
+.infinite-scroll-component::-webkit-scrollbar {
+  display: none;
+}
+
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: none;
 }
