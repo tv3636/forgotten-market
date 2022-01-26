@@ -1,5 +1,5 @@
 export const API_BASE_URL: string =
-  "https://indexer-v3-2-mainnet.up.railway.app/";
+  "https://mainnet-api-v4.reservoir.tools/";
 
 export const CONTRACTS: any = {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {

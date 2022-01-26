@@ -7,6 +7,9 @@ const DynamicMap = dynamic(() => import("../../components/Map"), {
 
 const MapContainer = styled.div`
   margin-left: 2vw;
+  @media only screen and (max-width: 600px) {
+    margin-top: 3vh;
+  }
 `;
 
 const MapStylesBlur = styled.div`

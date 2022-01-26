@@ -57,6 +57,24 @@ const LOCATIONS: any = {
   Wood: [1, 0.3],
 };
 
+const SectionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  width: 100%;
+
+  align-items: flex-start;
+`;
+
+const SectionDisplay = styled.div`
+  font-family: Alagard;
+  font-size: 24px;
+  color: white;
+
+  align-self: flex-start;
+  margin-bottom: 20px;
+`
+
 const PriceStyle = styled.div`
   font-family: Alagard;
   font-size: 35px;
@@ -124,11 +142,6 @@ const TraitRow = styled.div`
   :hover {
     cursor: pointer;
   }
-
-  :active {
-    position: relative;
-    top: 2px;
-  }
 `;
 
 const TraitType = styled.div`
@@ -146,17 +159,6 @@ const TraitWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: flex-end;
 
-`;
-
-const Frame = styled.div`
-  border-image: url("/static/img/marketplace/frame_traits.png");
-  border-style: solid;
-  border-width: 34px;
-  border-image-repeat: stretch;
-  border-image-slice: 6%;
-
-  display: flex;
-  justify-content: center;
 `;
 
 const ButtonImage = styled.img`
@@ -203,6 +205,7 @@ const LoreContainer = styled.div`
   border-style: solid;
 
   padding: 40px;
+  width: 100%;
 
   font-family: Alagard;
   font-size: 20px;
@@ -259,8 +262,8 @@ const TopRight = styled.div`
 
 const MidDisplay = styled.div`
   text-align: center;
-  margin-right: 4vw;
-  max-width: 1000px;
+  margin-right: 1.5vw;
+
 
   display: flex;
   flex-direction: row;
@@ -275,18 +278,39 @@ const MidDisplay = styled.div`
 const BottomDisplay = styled.div`
   display: flex;
   flex-direction: column;
-
+  width: 100%;
 `;
 
-async function doMarketAction(
-  action: string,
-  router: any
-) {
-  // buy, sell, offer, delist functionality here
-  console.log(action, router);
+function MarketAction({ 
+  active,
+  actionType,
+}: {
+  active: boolean;
+  actionType: string;
+}) {
+  if (!active) {
+    return null
+  } else {
+    return <div style={{
+      position: 'absolute', 
+      width: '500px', 
+      height: '500px', 
+      backgroundColor: 'black'
+    }}>
+      {actionType} in progress
+    </div>
+  }
 }
 
-function MarketButton({ text }: { text: string }) {
+function MarketButton({ 
+  text,
+  setActive,
+  setActionType
+ }: { 
+   text: string;
+   setActive: any;
+   setActionType: any;
+  }) {
   const router = useRouter();
   return (
     <ButtonImage
@@ -297,7 +321,7 @@ function MarketButton({ text }: { text: string }) {
       onMouseOut={(e) =>
         (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")
       }
-      onClick={(e) => doMarketAction(text, router)}
+      onClick={(e) => { setActive(true); setActionType(text); }}
     />
   );
 }
@@ -306,10 +330,14 @@ function MarketButtons({
   account,
   owner,
   listValue,
+  setActive,
+  setActionType
 }: {
   account: string | null | undefined;
   owner: string | null | undefined;
   listValue: number | null | undefined;
+  setActive: any;
+  setActionType: any;
 }) {
   if (!account) {
     return <ConnectWalletButton />;
@@ -321,13 +349,13 @@ function MarketButtons({
         // TODO: replace with MarketButton once drawn
         return <button onClick={(e) => doMarketAction('delist', router)}>Cancel Listing</button>;
       } else {
-        return <MarketButton text={"sell"} />;
+        return <MarketButton text={"sell"} setActive={setActive} setActionType={setActionType} />;
       }
     } else {
       return (
         <div>
-          {listValue && <MarketButton text={"buy"} />}
-          <MarketButton text={"offer"} />
+          {listValue && <MarketButton text={"buy"} setActive={setActive} setActionType={setActionType} />}
+          <MarketButton text={"offer"} setActive={setActive} setActionType={setActionType} />
         </div>
       );
     }
@@ -487,6 +515,8 @@ const ListingPage = ({
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
+  const [marketActive, setMarketActive] = useState(false);
+  const [marketActionType, setMarketActionType] = useState("");
   const { account } = useEthers();
 
   setTimeout(
@@ -565,6 +595,7 @@ const ListingPage = ({
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 && (
         <ListingWrapper>
+        <MarketAction active={marketActive} actionType={marketActionType}/>
         <Listing>
           <TopDisplay>
             <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
@@ -582,6 +613,8 @@ const ListingPage = ({
                     account={account}
                     owner={token.owner}
                     listValue={listing.value}
+                    setActive={setMarketActive}
+                    setActionType={setMarketActionType}
                   />
                 </ButtonWrapper>
                 {listing.validUntil ? (
@@ -595,18 +628,24 @@ const ListingPage = ({
               </PriceDisplay>
             </TopRight>
           </TopDisplay>
-          <hr style={{borderStyle: 'dashed', width: '90%', borderWidth: '2px', margin: '25px', alignSelf: 'center'}}/>
+          <hr style={{borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'}}/>
+          <SectionWrapper>
+          <SectionDisplay>Traits</SectionDisplay>
           <MidDisplay>
             <TraitDisplay attributes={attributes} contract={contractSlug} />
             <Minimap center={mapCenter} />
           </MidDisplay>
-          <hr style={{borderStyle: 'dashed', width: '90%', borderWidth: '2px', margin: '25px', alignSelf: 'center'}}/>
+          </SectionWrapper>
+          <hr style={{borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'}}/>
+          <SectionWrapper>
+          <SectionDisplay>Lore</SectionDisplay>
           <BottomDisplay>
             <LoreWrapper>
               <LoreBlock pages={pages} />
             </LoreWrapper>
             <Icons tokenId={Number(tokenId)} contract={contractSlug} />
           </BottomDisplay>
+          </SectionWrapper>
         </Listing>
         </ListingWrapper>
       )}
