@@ -73,6 +73,10 @@ const SectionDisplay = styled.div`
 
   align-self: flex-start;
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 600px) {
+    align-self: center;
+  }
 `
 
 const PriceStyle = styled.div`
@@ -81,6 +85,10 @@ const PriceStyle = styled.div`
   color: white;
 
   align-self: flex-start;
+  @media only screen and (max-width: 600px) {
+    align-self: center;
+  }
+  
 `;
 
 const NameStyle = styled.h2`
@@ -92,6 +100,10 @@ const NameStyle = styled.h2`
   margin-top: 0px;
   margin-bottom: 0px;
   margin-block-start: 0px;
+
+  @media only screen and (max-width: 600px) {
+    text-align: center;
+  }
 `;
 
 const OwnerStyle = styled.h4`
@@ -102,6 +114,10 @@ const OwnerStyle = styled.h4`
 
   text-align: left;
   margin-block-start: 0.5vh;
+
+  @media only screen and (max-width: 600px) {
+    text-align: center;
+  }
 `;
 
 const NameDisplay = styled.div`
@@ -112,6 +128,10 @@ const PriceDisplay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+
+  @media only screen and (max-width: 600px) {
+    align-self: flex-start;
+  }
 `;
 
 const TraitItem = styled.div`
@@ -158,6 +178,10 @@ const TraitWrapper = styled.div`
   width: 100%;
   flex-wrap: wrap;
   justify-content: flex-end;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
 
 `;
 
@@ -236,6 +260,10 @@ const ListingWrapper = styled.div`
 const ExpirationWrapper = styled.div`
   text-align: left;
   font-size: 14px;
+
+  @media only screen and (max-width: 600px) {
+    text-align: center;
+  }
 `;
 
 const TopDisplay = styled.div`
@@ -257,7 +285,11 @@ const TopRight = styled.div`
   align-self: flex-start;
   display: flex;
   flex-wrap: wrap;
-  
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 0px;
+    justify-content: center;
+  }
 `;
 
 const MidDisplay = styled.div`
@@ -347,7 +379,7 @@ function MarketButtons({
     if (account.toLowerCase() == owner.toLowerCase()) {
       if (listValue) {
         // TODO: replace with MarketButton once drawn
-        return <button onClick={(e) => doMarketAction('delist', router)}>Cancel Listing</button>;
+        return <button onClick={(e) => console.log('delist')}>Cancel Listing</button>;
       } else {
         return <MarketButton text={"sell"} setActive={setActive} setActionType={setActionType} />;
       }
