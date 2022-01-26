@@ -69,9 +69,9 @@ const SectionWrapper = styled.div`
 const SectionDisplay = styled.div`
   font-family: Alagard;
   font-size: 24px;
-  color: white;
+  color: var(--white);
   align-self: flex-start;
-  margin-bottom: var(--sp0);
+  margin-bottom: var(--sp-3);
   @media only screen and (max-width: 600px) {
     align-self: center;
   }
@@ -80,7 +80,7 @@ const SectionDisplay = styled.div`
 const PriceStyle = styled.div`
   font-family: Alagard;
   font-size: 35px;
-  color: white;
+  color: var(--white);
 
   margin-bottom: var(--sp-3)
 ;  align-self: flex-start;
@@ -112,7 +112,7 @@ const OwnerStyle = styled.h4`
   font-family: Arial;
   font-size: 14px;
   font-weight: normal;
-  color: white;
+  color: var(--lightGray);
 
   text-align: left;
   margin-block-start: 0.5vh;
@@ -122,15 +122,17 @@ const OwnerStyle = styled.h4`
   }
 `;
 
+const TokenImage = styled.img`
+  border: 2px dashed var(--darkGray);
+`
 const NameDisplay = styled.div`
-
+  color: white;
 `;
 
 const PriceDisplay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
   }
@@ -151,17 +153,18 @@ const TraitRow = styled.div`
   align-items: center;
   
   font-family: Arial;
-  background: var(--mediumGray);
+  background: var(--darkGray);
   color: var(--lightGray);
-  border: 2px dashed var(--darkGray);
+  border: 2px dashed var(--mediumGray);
+  border-radius: 4px;
 
   margin: var(--sp-4);
   padding: var(--sp1) var(--sp0);
 
   :hover {
     cursor: pointer;
-    background: var(--darkGray);
-    border-color: var(--mediumGray);
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
   }
 `;
 
@@ -178,7 +181,7 @@ const TraitWrapper = styled.div`
   flex-direction: row;
   width: 100%;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  justify-content: flex-start;
 
   @media only screen and (max-width: 600px) {
     justify-content: center;
@@ -226,6 +229,7 @@ const LoreWrapper = styled.div`
 const LoreContainer = styled.div`
 
   border: 2px dashed var(--mediumGray);
+  border-radius: 4px;
   background: var(--darkGray);
   color: var(--lightGray);
 
@@ -247,8 +251,8 @@ const Listing = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: 4vh;
-  margin-bottom: 4vh;
+  margin-top: var(--sp0);
+  margin-bottom: var(--sp0);
   max-width: 1300px;
 
 `;
@@ -257,11 +261,15 @@ const ListingWrapper = styled.div`
   display: flex;
   justify-content: center;
 
+  max-width: 1000px;
+  margin: 0 auto;
+
   --black: black;
-  --white: white;
-  --lightGray: hsl(30, 30%, 70%);
-  --mediumGray: hsl(30, 30%, 25%);
-  --darkGray: hsl(30, 30%, 10%);
+  --white: hsl(260,15%, 90%);
+  --hue: 250;
+  --lightGray: hsl(var(--hue), 15%, 75%);
+  --mediumGray: hsl(var(--hue), 24%, 15%);
+  --darkGray: hsl(var(--hue), 30%, 8%);
 
   --ratio: 1.4; 
   --sp0: 1em;
@@ -280,7 +288,7 @@ const ListingWrapper = styled.div`
 const ExpirationWrapper = styled.div`
   text-align: left;
   font-size: 14px;
-
+  color: var(--lightGray);
   @media only screen and (max-width: 600px) {
     text-align: center;
   }
@@ -290,18 +298,18 @@ const TopDisplay = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: var(--s1);
+  margin-top: var(--sp1);
 `;
 
 const TopRight = styled.div`
-  margin-left: var(--sp2);
+  margin-left: var(--sp3);
   height: 400px;
   padding: var(--sp0);
-  max-width: 700px;
+  max-width: calc(100% - 460px - var(--sp3));
   align-self: flex-start;
   display: flex;
   flex-wrap: wrap;
-
+  text-align: center;
   @media only screen and (max-width: 600px) {
     margin-left: 0px;
     justify-content: center;
@@ -330,12 +338,12 @@ const BottomDisplay = styled.div`
 `;
 
 const HorizontalLine = styled.hr`
-  border-color: var(--darkGray);
+  border-color: black;
   border-style: dashed;
   width: 100%;
   border-width: 1px;
-  margin-top: var(--sp3);
-  margin-bottom: var(--sp3);
+  margin-top: var(--sp2);
+  margin-bottom: var(--sp2);
 `
 
 // borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'
@@ -655,7 +663,7 @@ const ListingPage = ({
         <MarketAction active={marketActive} actionType={marketActionType}/>
         <Listing>
           <TopDisplay>
-            <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
+            <TokenImage src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
             <TopRight>
               <NameDisplay>
                 <NameStyle>{token.name}</NameStyle>
@@ -703,6 +711,7 @@ const ListingPage = ({
             <Icons tokenId={Number(tokenId)} contract={contractSlug} />
           </BottomDisplay>
           </SectionWrapper>
+          <HorizontalLine/>
         </Listing>
         </ListingWrapper>
       )}

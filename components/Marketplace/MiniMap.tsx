@@ -29,6 +29,7 @@ const MapStyles = styled.div`
     border-weight: 10px;
     border-style: dashed;
     border-color: var(--mediumGray);
+    border-radius: 16px;
     :hover {
       border-color: var(--lightGray);
     }
