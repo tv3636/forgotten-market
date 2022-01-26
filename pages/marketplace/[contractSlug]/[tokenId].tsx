@@ -70,10 +70,8 @@ const SectionDisplay = styled.div`
   font-family: Alagard;
   font-size: 24px;
   color: white;
-
   align-self: flex-start;
-  margin-bottom: 20px;
-
+  margin-bottom: var(--sp0);
   @media only screen and (max-width: 600px) {
     align-self: center;
   }
@@ -84,7 +82,8 @@ const PriceStyle = styled.div`
   font-size: 35px;
   color: white;
 
-  align-self: flex-start;
+  margin-bottom: var(--sp-3)
+;  align-self: flex-start;
   @media only screen and (max-width: 600px) {
     align-self: center;
   }
@@ -94,6 +93,9 @@ const PriceStyle = styled.div`
 const NameStyle = styled.h2`
   font-family: Alagard;
   font-size: 45px;
+  max-width: 20ch;
+  display: inline-block;
+  
   color: white;
 
   text-align: left;
@@ -140,7 +142,6 @@ const TraitItem = styled.div`
   margin-right: 1vw;
   font-size: 24px;
   font-family: Alagard;
-  color: black;
 `;
 
 const TraitRow = styled.div`
@@ -148,19 +149,19 @@ const TraitRow = styled.div`
   flex-direction: row;
   height: 50px;
   align-items: center;
-  margin: 10px;
-
+  
   font-family: Arial;
-  color: black;
-  background-color: #dec898;
-  padding: 10px;
+  background: var(--mediumGray);
+  color: var(--lightGray);
+  border: 2px dashed var(--darkGray);
 
-  border: solid;
-  border-color: grey;
-  border-radius: 15px;
+  margin: var(--sp-4);
+  padding: var(--sp1) var(--sp0);
 
   :hover {
     cursor: pointer;
+    background: var(--darkGray);
+    border-color: var(--mediumGray);
   }
 `;
 
@@ -183,11 +184,12 @@ const TraitWrapper = styled.div`
     justify-content: center;
   }
 
+  
 `;
 
 const ButtonImage = styled.img`
-  margin-right: 0.5vw;
-  height: 50px;
+  margin-right: var(--sp-3);
+  height: var(--sp3);
   image-rendering: pixelated;
 
   :active {
@@ -215,7 +217,6 @@ const SoftLink = styled.a`
 `;
 
 const LoreWrapper = styled.div`
-  margin-top: 1vh;
   min-width: 75%;
   display: inline-flex;
   flex-direction: column;
@@ -223,10 +224,10 @@ const LoreWrapper = styled.div`
 `;
 
 const LoreContainer = styled.div`
-  border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUCAYAAAAcaxDBAAAAAXNSR0IArs4c6QAAAeZJREFUeF7tm9GOgzAQA8v/fzT3ek0lrJUnVzhNX914N4M3QtAeLz8ogQN10+wlUDgEAhUoTAC2M6EChQnAdiZUoDAB2M6EChQmANuZ0LsDPc/z/N3jcRy3umi7+8M3u7vhNlC7+xMoPEECvRvQNEJJb0c4rU/1k578V71OaGoo6dOGp99P9ZM+rSdQ+K5EoN8Gmkak1acjtn6/rZ/Wp/7GCU0FWz01nPS2flqf6gt0uW0S6BKZBKTV8YTSZ1ZqsNV3A/Q+FB5xgQq0G/rHjfz0TO3w9KsT4LbC+LYpFdzdcKqf9N39CfRuj+8c+XcCeELTyP13XaDwFRaoQGECsJ0JFShMALYzoQKFCcB2JlSgMAHYzoQKFCYA25lQgcIEYDsTKlCYAGxnQgUKE4DtTKhAYQKwHZ7Q3a9p2/3v7k+gvkbuMmpCO34fq28PNDWYdJjXGCDdX32GpoaSLtCFQAKWdIEK9DID45FPiWv1NrFt/bQ+9SdQ+CfiAhXo9dClkW11fORXw90Npg0k/a/7G4+8QK8voUC//fduE7o5oVPA6czbraczta1fj7xA3wkI1AfM3VA+buS77T5/NT7yz0fS7UCgHb+P1QIVKEwAtjOhAoUJwHYmVKAwAdjOhAoUJgDbmVAY6A/yaUBzMqS0AwAAAABJRU5ErkJggg==")
-    28 / 28px / 0 round;
-  border-width: 28px;
-  border-style: solid;
+
+  border: 2px dashed var(--mediumGray);
+  background: var(--darkGray);
+  color: var(--lightGray);
 
   padding: 40px;
   width: 100%;
@@ -255,6 +256,25 @@ const Listing = styled.div`
 const ListingWrapper = styled.div`
   display: flex;
   justify-content: center;
+
+  --black: black;
+  --white: white;
+  --lightGray: hsl(30, 30%, 70%);
+  --mediumGray: hsl(30, 30%, 25%);
+  --darkGray: hsl(30, 30%, 10%);
+
+  --ratio: 1.4; 
+  --sp0: 1em;
+  --sp1: calc(var(--ratio) * var(--sp0));
+  --sp2: calc(var(--ratio) * var(--sp1));
+  --sp3: calc(var(--ratio) * var(--sp2));
+  --sp4: calc(var(--ratio) * var(--sp3));
+  --sp5: calc(var(--ratio) * var(--sp4));
+  --sp-1:calc(var(--sp0) / var(--ratio));
+  --sp-2:calc(var(--sp-1) / var(--ratio));
+  --sp-3:calc(var(--sp-2) / var(--ratio));
+  --sp-4:calc(var(--sp-3) / var(--ratio));
+  --sp-5:calc(var(--sp-4) / var(--ratio));
 `;
 
 const ExpirationWrapper = styled.div`
@@ -267,21 +287,17 @@ const ExpirationWrapper = styled.div`
 `;
 
 const TopDisplay = styled.div`
-  text-align: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-
-  margin-left: 3vw;
+  margin-top: var(--s1);
 `;
 
 const TopRight = styled.div`
-  margin-left: 50px;
-  max-width: 500px;
+  margin-left: var(--sp2);
   height: 400px;
-  
+  padding: var(--sp0);
+  max-width: 700px;
   align-self: flex-start;
   display: flex;
   flex-wrap: wrap;
@@ -313,6 +329,16 @@ const BottomDisplay = styled.div`
   width: 100%;
 `;
 
+const HorizontalLine = styled.hr`
+  border-color: var(--darkGray);
+  border-style: dashed;
+  width: 100%;
+  border-width: 1px;
+  margin-top: var(--sp3);
+  margin-bottom: var(--sp3);
+`
+
+// borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'
 function MarketAction({ 
   active,
   actionType,
@@ -440,7 +466,7 @@ function TraitDisplay({
     return null;
   } else {
     return (
-      <div style={{ textAlign: "center", marginTop: "1vh" }}>
+      <div style={{ textAlign: "center" }}>
           <TraitWrapper>
             {attributes.map((attribute: any, index: number) => (
               <div key={index}>
@@ -472,7 +498,6 @@ function Price({ value }: { value: number }) {
             display: "flex",
             alignItems: "flex-start",
             justifyContent: "flex-start",
-            marginBottom: "20px"
           }}
         >
           <img
@@ -660,7 +685,7 @@ const ListingPage = ({
               </PriceDisplay>
             </TopRight>
           </TopDisplay>
-          <hr style={{borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'}}/>
+          <HorizontalLine/>
           <SectionWrapper>
           <SectionDisplay>Traits</SectionDisplay>
           <MidDisplay>
@@ -668,7 +693,7 @@ const ListingPage = ({
             <Minimap center={mapCenter} />
           </MidDisplay>
           </SectionWrapper>
-          <hr style={{borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'}}/>
+          <HorizontalLine/>
           <SectionWrapper>
           <SectionDisplay>Lore</SectionDisplay>
           <BottomDisplay>
