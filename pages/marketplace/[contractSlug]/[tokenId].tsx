@@ -103,6 +103,8 @@ const NameStyle = styled.h2`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
+    font-size: 35px;
+    max-width: 75%;
   }
 `;
 
@@ -117,11 +119,17 @@ const OwnerStyle = styled.h4`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
+    margin-top: 2vh;
   }
 `;
 
 const NameDisplay = styled.div`
-
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2vh;
+  }
 `;
 
 const PriceDisplay = styled.div`
@@ -131,6 +139,7 @@ const PriceDisplay = styled.div`
 
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
+    margin-top: 4vh;
   }
 `;
 
@@ -141,6 +150,10 @@ const TraitItem = styled.div`
   font-size: 24px;
   font-family: Alagard;
   color: black;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 18px;
+  }
 `;
 
 const TraitRow = styled.div`
@@ -208,6 +221,9 @@ const ButtonWrapper = styled.div`
   margin-bottom: 1vh;
   min-width: 400px;
 
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
 `;
 
 const SoftLink = styled.a`
@@ -239,6 +255,10 @@ const LoreContainer = styled.div`
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    max-width: 75%;
+  }
 `;
 
 const Listing = styled.div`
@@ -263,6 +283,9 @@ const ExpirationWrapper = styled.div`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
+    margin-left: 45px;
+    margin-right: 45px;
+    margin-top: 15px;
   }
 `;
 
@@ -630,7 +653,7 @@ const ListingPage = ({
         <MarketAction active={marketActive} actionType={marketActionType}/>
         <Listing>
           <TopDisplay>
-            <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
+            <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} style={{maxWidth: '75%'}}/>
             <TopRight>
               <NameDisplay>
                 <NameStyle>{token.name}</NameStyle>

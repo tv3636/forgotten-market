@@ -320,14 +320,14 @@ function Listings({
   }, [router.query]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", height: "80vh" }}>
+    <div style={{ display: "flex", flexDirection: "row", flexWrap: 'wrap' }}>
       <SideBar
         collection={collection}
         selectionChange={selectionChange}
         loreChange={() => setHasLore(!hasLore)}
         noLoreChange={() => setHasNoLore(!hasNoLore)}
       />
-      <div style={{ width: "85%" }}>
+      <div style={{ width: "83%" }}>
         {listings.length > 0 || loaded ? (
           <InfiniteScroll
             dataLength={listings.length}
