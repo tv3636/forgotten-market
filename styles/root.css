@@ -3,6 +3,13 @@
 html,
 body {
   background-color: #000000;
+
+  --black: black;
+  --white: hsl(260,15%, 90%);
+  --hue: 250;
+  --lightGray: hsl(var(--hue), 15%, 75%);
+  --mediumGray: hsl(var(--hue), 24%, 15%);
+  --darkGray: hsl(var(--hue), 30%, 8%);
 }
 
 div#WEB3_CONNECT_MODAL_ID {
@@ -96,4 +103,57 @@ p {
 
 #nprogress .peg {
   box-shadow: none !important;
+}
+
+.select__control {
+  background-color: var(--darkGray) !important;
+  border-color: var(--mediumGray) !important;
+  border-style: dashed !important;
+  border-width: 2px !important;
+}
+
+.select__control--is-focused {
+  border-color: var(--white) !important;
+  box-shadow: var(--white) !important;
+}
+
+.select__control:hover {
+  background: var(--mediumGray) !important;
+  border-color: var(--lightGray) !important;
+}
+
+.select__placeholder {
+  color: var(--lightGray) !important;
+  font-family: 'Arial';
+}
+
+.select__option {
+  color: var(--lightGray) !important;
+  background-color: var(--mediumGray) !important;
+  font-family: 'Arial';
+  font-size: 18px !important;
+  margin: 0px !important;
+}
+
+.select__single-value {
+  color: var(--lightGray) !important;
+  font-family: 'Arial';
+  font-size: 20px;
+}
+
+.react-tabs__tab {
+  color: var(--lightGray) !important;
+  font-family: 'Arial';
+  font-size: 20px;
+}
+
+.react-tabs__tab:hover {
+  color: var(--white) !important;
+}
+
+.react-tabs__tab--selected {
+  color: var(--white) !important;
+  background-color: var(--black) !important;
+  font-family: 'Arial';
+  font-size: 24px;
 }

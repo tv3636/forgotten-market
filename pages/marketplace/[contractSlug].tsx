@@ -36,7 +36,30 @@ const TabWrapper = styled.div`
     flex-direction: column;
     max-height: 100%;
   }
+`;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  
+  border: dashed;
+  padding: 10px;
+  border-width: 2px;
+  border-color: var(--mediumGray);
+  background-color: var(--darkGray);
+
+  :hover {
+    border-color: var(--lightGray);
+    background-color: var(--mediumGray);
+  }
+`;
+
+const Label = styled.label`
+  margin: 5px;
+
+  color: var(--lightGray);
 `;
 
 const FilterStyle = styled.div`
@@ -79,25 +102,23 @@ const ListingContainer = styled.div`
 `;
 
 const ListingImage = styled.img`
-  border-image: url("/static/img/marketplace/listing_border.png");
-  border-style: solid;
-  border-width: 5px;
-  border-image-repeat: stretch;
-  border-image-width: 170px;
-  border-image-slice: 50%;
-  padding: 5px;
+  border-style: dashed;
+  border-color: var(--darkGray);
+  border-width: 2px;
+
   max-height: 50vw;
   max-width: 50vw;
 
   :hover {
     cursor: pointer;
+    border-color: var(--mediumGray);
   }
 `;
 
 const MarketText = styled.p`
   font-family: Arial;
   font-size: 15px;
-  color: white;
+  color: var(--white);
 `;
 
 const FontTraitWrapper = styled.div`
@@ -157,16 +178,6 @@ function SideBar({
 
   return (
     <FilterStyle>
-      <form
-        style={{ display: "flex", flexDirection: "column", marginTop: "10px" }}
-      >
-        <label style={{ margin: "5px" }}>
-          <input type="checkbox" onClick={loreChange} /> Has Lore
-        </label>
-        <label style={{ margin: "5px" }}>
-          <input type="checkbox" onClick={noLoreChange} /> Has No Lore
-        </label>
-      </form>
       {traits.map((trait: any, index) => (
         <FontTraitWrapper key={index} style={{ marginTop: "30px" }}>
           <Select
@@ -175,9 +186,18 @@ function SideBar({
             isClearable={true}
             placeholder={trait.key}
             value={trait.key.toLowerCase() in router.query ? {label: router.query[trait.key.toLowerCase()]} : null}
+            classNamePrefix='select'
           />
         </FontTraitWrapper>
       ))}
+      <Form>
+        <Label>
+          <input type="checkbox" onClick={loreChange} /> Has Lore
+        </Label>
+        <Label>
+          <input type="checkbox" onClick={noLoreChange} /> Has No Lore
+        </Label>
+      </Form>
     </FilterStyle>
   );
 }
@@ -211,7 +231,7 @@ function TokenDisplay({
         >
           <MarketText>{name}</MarketText>
           <div
-            style={{ fontSize: "18px", fontFamily: "Arial", color: "white" }}
+            style={{ fontSize: "18px", fontFamily: "Arial", color: "var(--white)" }}
           >
             {price ? (
               <div style={{ display: "flex" }}>
@@ -220,7 +240,7 @@ function TokenDisplay({
                   style={{
                     height: "20px",
                     marginRight: "8px",
-                    marginTop: "5px",
+                    marginTop: "1px",
                   }}
                 />
                 <div>{price}</div>
