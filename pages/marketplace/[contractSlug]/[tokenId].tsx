@@ -49,13 +49,79 @@ const LOCATIONS: any = {
   Mountain: [-3, 1.45],
   Riviera: [-3.8, -0.05],
   Surf: [-4.6, -2.2],
-  Isle: [-4.5, -4.45],
+  Isle: [-4.5, -3.8],
   Brine: [-3.6, -6.55],
   Citadel: [-1.9, -5.6],
   Capital: [0, -5.75],
   Keep: [-1.9, -2.7],
   Wood: [1, 0.3],
 };
+
+const ListingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+
+  max-width: 1000px;
+  margin: 0 auto;
+
+  --black: black;
+  --white: hsl(260,15%, 90%);
+  --hue: 250;
+  --lightGray: hsl(var(--hue), 15%, 75%);
+  --mediumGray: hsl(var(--hue), 24%, 15%);
+  --darkGray: hsl(var(--hue), 30%, 8%);
+
+  --ratio: 1.4; 
+  --sp0: 1em;
+  --sp1: calc(var(--ratio) * var(--sp0));
+  --sp2: calc(var(--ratio) * var(--sp1));
+  --sp3: calc(var(--ratio) * var(--sp2));
+  --sp4: calc(var(--ratio) * var(--sp3));
+  --sp5: calc(var(--ratio) * var(--sp4));
+  --sp-1:calc(var(--sp0) / var(--ratio));
+  --sp-2:calc(var(--sp-1) / var(--ratio));
+  --sp-3:calc(var(--sp-2) / var(--ratio));
+  --sp-4:calc(var(--sp-3) / var(--ratio));
+  --sp-5:calc(var(--sp-4) / var(--ratio));
+`;
+
+const Listing = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: var(--sp0);
+  margin-bottom: var(--sp0);
+  max-width: 1300px;
+
+`;
+
+const TopDisplay = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: var(--sp1);
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
+`;
+
+const TopRight = styled.div`
+  margin-left: var(--sp3);
+  height: 400px;
+  padding: var(--sp0);
+  max-width: calc(100% - 460px - var(--sp3));
+  align-self: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  @media only screen and (max-width: 600px) {
+    margin-left: 0px;
+    justify-content: center;
+    max-width: 80%;
+  }
+`;
 
 const SectionWrapper = styled.div`
   display: flex;
@@ -75,19 +141,19 @@ const SectionDisplay = styled.div`
   @media only screen and (max-width: 600px) {
     align-self: center;
   }
-`
+`;
 
-const PriceStyle = styled.div`
-  font-family: Alagard;
-  font-size: 35px;
-  color: var(--white);
+const TokenImage = styled.img`
+  border: 2px dashed var(--darkGray);
 
-  margin-bottom: var(--sp-3)
-;  align-self: flex-start;
   @media only screen and (max-width: 600px) {
-    align-self: center;
+    max-width: 300px;
+    max-height: 300px;
   }
-  
+`;
+
+const NameDisplay = styled.div`
+  color: white;
 `;
 
 const NameStyle = styled.h2`
@@ -105,11 +171,12 @@ const NameStyle = styled.h2`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
+    font-size: 35px;
   }
 `;
 
 const OwnerStyle = styled.h4`
-  font-family: Arial;
+  font-family: Roboto Mono;
   font-size: 14px;
   font-weight: normal;
   color: var(--lightGray);
@@ -122,19 +189,87 @@ const OwnerStyle = styled.h4`
   }
 `;
 
-const TokenImage = styled.img`
-  border: 2px dashed var(--darkGray);
-`
-const NameDisplay = styled.div`
-  color: white;
-`;
-
 const PriceDisplay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
+  }
+`;
+
+const PriceStyle = styled.div`
+  font-family: Alagard;
+  font-size: 35px;
+  color: var(--white);
+
+  margin-bottom: var(--sp-3)
+;  align-self: flex-start;
+  @media only screen and (max-width: 600px) {
+    align-self: center;
+  }
+  
+`;
+
+const ButtonImage = styled.img`
+  margin-right: var(--sp-3);
+  height: var(--sp3);
+  image-rendering: pixelated;
+
+  :active {
+    position: relative;
+    top: 2px;
+  }
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1vh;
+  min-width: 400px;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
+`;
+
+const ExpirationWrapper = styled.div`
+  text-align: left;
+  font-size: 14px;
+  font-family: Roboto Mono;
+  color: var(--lightGray);
+  @media only screen and (max-width: 600px) {
+    text-align: center;
+  }
+`;
+
+const HorizontalLine = styled.hr`
+  border-color: black;
+  border-style: dashed;
+  width: 100%;
+  border-width: 1px;
+  margin-top: var(--sp2);
+  margin-bottom: var(--sp2);
+`;
+
+const MidDisplay = styled.div`
+  text-align: center;
+  margin-right: 1.5vw;
+
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  @media only screen and (max-width: 600px) {
+    flex-wrap: wrap;
   }
 `;
 
@@ -152,7 +287,7 @@ const TraitRow = styled.div`
   height: 50px;
   align-items: center;
   
-  font-family: Arial;
+  font-family: Roboto Mono;
   background: var(--darkGray);
   color: var(--lightGray);
   border: 2px dashed var(--mediumGray);
@@ -187,36 +322,12 @@ const TraitWrapper = styled.div`
     justify-content: center;
   }
 
-  
 `;
 
-const ButtonImage = styled.img`
-  margin-right: var(--sp-3);
-  height: var(--sp3);
-  image-rendering: pixelated;
-
-  :active {
-    position: relative;
-    top: 2px;
-  }
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const ButtonWrapper = styled.div`
+const BottomDisplay = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 1vh;
-  min-width: 400px;
-
-`;
-
-const SoftLink = styled.a`
-  text-decoration: none;
+  flex-direction: column;
+  width: 100%;
 `;
 
 const LoreWrapper = styled.div`
@@ -246,107 +357,10 @@ const LoreContainer = styled.div`
   align-items: center;
 `;
 
-const Listing = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: var(--sp0);
-  margin-bottom: var(--sp0);
-  max-width: 1300px;
-
+const SoftLink = styled.a`
+  text-decoration: none;
 `;
 
-const ListingWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-
-  max-width: 1000px;
-  margin: 0 auto;
-
-  --black: black;
-  --white: hsl(260,15%, 90%);
-  --hue: 250;
-  --lightGray: hsl(var(--hue), 15%, 75%);
-  --mediumGray: hsl(var(--hue), 24%, 15%);
-  --darkGray: hsl(var(--hue), 30%, 8%);
-
-  --ratio: 1.4; 
-  --sp0: 1em;
-  --sp1: calc(var(--ratio) * var(--sp0));
-  --sp2: calc(var(--ratio) * var(--sp1));
-  --sp3: calc(var(--ratio) * var(--sp2));
-  --sp4: calc(var(--ratio) * var(--sp3));
-  --sp5: calc(var(--ratio) * var(--sp4));
-  --sp-1:calc(var(--sp0) / var(--ratio));
-  --sp-2:calc(var(--sp-1) / var(--ratio));
-  --sp-3:calc(var(--sp-2) / var(--ratio));
-  --sp-4:calc(var(--sp-3) / var(--ratio));
-  --sp-5:calc(var(--sp-4) / var(--ratio));
-`;
-
-const ExpirationWrapper = styled.div`
-  text-align: left;
-  font-size: 14px;
-  color: var(--lightGray);
-  @media only screen and (max-width: 600px) {
-    text-align: center;
-  }
-`;
-
-const TopDisplay = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: var(--sp1);
-`;
-
-const TopRight = styled.div`
-  margin-left: var(--sp3);
-  height: 400px;
-  padding: var(--sp0);
-  max-width: calc(100% - 460px - var(--sp3));
-  align-self: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  @media only screen and (max-width: 600px) {
-    margin-left: 0px;
-    justify-content: center;
-  }
-`;
-
-const MidDisplay = styled.div`
-  text-align: center;
-  margin-right: 1.5vw;
-
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  @media only screen and (max-width: 600px) {
-    flex-wrap: wrap;
-  }
-`;
-
-const BottomDisplay = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-const HorizontalLine = styled.hr`
-  border-color: black;
-  border-style: dashed;
-  width: 100%;
-  border-width: 1px;
-  margin-top: var(--sp2);
-  margin-bottom: var(--sp2);
-`
-
-// borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'
 function MarketAction({ 
   active,
   actionType,
@@ -663,7 +677,7 @@ const ListingPage = ({
         <MarketAction active={marketActive} actionType={marketActionType}/>
         <Listing>
           <TopDisplay>
-            <TokenImage src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} />
+            <TokenImage src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />
             <TopRight>
               <NameDisplay>
                 <NameStyle>{token.name}</NameStyle>

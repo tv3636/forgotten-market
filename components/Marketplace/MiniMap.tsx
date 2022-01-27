@@ -14,7 +14,7 @@ const MapContainer = styled.div`
 
 const MapStylesBlur = styled.div`
   .leaflet-container {
-    // filter: blur(5px);
+    filter: blur(5px);
   }
 `;
 
@@ -72,7 +72,7 @@ function MapBlur({ center }: { center: any }) {
     return (
       <MapStylesBlur>
         <MapStyles>
-          <MapOverlay>Location unrevealed</MapOverlay>
+          <MapOverlay>Location not yet revealed</MapOverlay>
           <DynamicMap center={center} zoom={zoom} width={width} height={height} />
         </MapStyles>
       </MapStylesBlur>
