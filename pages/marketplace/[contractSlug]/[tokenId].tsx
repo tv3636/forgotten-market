@@ -186,6 +186,7 @@ const OwnerStyle = styled.h4`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
+    margin-top: 2vh;
   }
 `;
 
@@ -195,6 +196,7 @@ const PriceDisplay = styled.div`
   justify-content: flex-end;
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
+    margin-top: 4vh;
   }
 `;
 
@@ -202,7 +204,6 @@ const PriceStyle = styled.div`
   font-family: Alagard;
   font-size: 35px;
   color: var(--white);
-
   margin-bottom: var(--sp-3)
 ;  align-self: flex-start;
   @media only screen and (max-width: 600px) {

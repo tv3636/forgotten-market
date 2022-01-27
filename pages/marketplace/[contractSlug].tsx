@@ -354,7 +354,7 @@ function Listings({
         loreChange={() => setHasLore(!hasLore)}
         noLoreChange={() => setHasNoLore(!hasNoLore)}
       />
-      <div style={{ width: "85%" }}>
+      <div style={{ width: "83%" }}>
         {listings.length > 0 || loaded ? (
           <InfiniteScroll
             dataLength={listings.length}
