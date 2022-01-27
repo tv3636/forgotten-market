@@ -4,7 +4,6 @@ import Layout from "../../components/Layout";
 import "react-tabs/style/react-tabs.css";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ProSidebar } from "react-pro-sidebar";
 import Select from "react-select";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
@@ -29,6 +28,33 @@ const MarketWrapper = styled.div`
   margin-top: 2vh;
 `;
 
+const TabWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    max-height: 100%;
+  }
+
+`;
+
+const FilterStyle = styled.div`
+  width: 15%;
+  max-width: 200px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  
+  @media only screen and (max-width: 600px) {
+    min-width: 90%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
+`;
+
 const ListingDisplay = styled.div`
   width: 250px;
   height: 350px;
@@ -40,14 +66,11 @@ const ListingDisplay = styled.div`
   max-height: 40vh;
 `;
 
-const SoftLink = styled.a`
-  text-decoration: none;
-`;
-
 const ListingContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   margin-left: 3vw;
   margin-right: 2vw;
   margin-top: 2vw;
@@ -80,6 +103,10 @@ const MarketText = styled.p`
 const FontTraitWrapper = styled.div`
   font-family: Arial;
   color: black;
+`;
+
+const SoftLink = styled.a`
+  text-decoration: none;
 `;
 
 function LoadingCard() {
@@ -129,7 +156,7 @@ function SideBar({
   }, []);
 
   return (
-    <ProSidebar style={{ width: "15%", marginLeft: "20px" }}>
+    <FilterStyle>
       <form
         style={{ display: "flex", flexDirection: "column", marginTop: "10px" }}
       >
@@ -151,7 +178,7 @@ function SideBar({
           />
         </FontTraitWrapper>
       ))}
-    </ProSidebar>
+    </FilterStyle>
   );
 }
 
@@ -320,7 +347,7 @@ function Listings({
   }, [router.query]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", flexWrap: 'wrap' }}>
+    <TabWrapper>
       <SideBar
         collection={collection}
         selectionChange={selectionChange}
@@ -364,7 +391,7 @@ function Listings({
           <LoadingCard />
         )}
       </div>
-    </div>
+    </TabWrapper>
   );
 }
 

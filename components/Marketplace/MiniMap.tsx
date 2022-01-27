@@ -26,8 +26,13 @@ const MapStyles = styled.div`
 
   .leaflet-container {
     background-color: black;
+    border-weight: 10px;
     border-style: dashed;
-    border-radius: 10%;
+    border-color: var(--mediumGray);
+    border-radius: 16px;
+    :hover {
+      border-color: var(--lightGray);
+    }
   }
 
   img.leaflet-image-layer {
@@ -60,21 +65,22 @@ const MapOverlay = styled.div`
 
 function MapBlur({ center }: { center: any }) {
   const zoom = 7;
-  const size = "250px";
+  const width = "250px";
+  const height = "230px"
 
   if (center[0] == 0 && center[1] == 0) {
     return (
       <MapStylesBlur>
         <MapStyles>
-          <MapOverlay>Location unrevealed</MapOverlay>
-          <DynamicMap center={center} zoom={zoom} width={size} height={size} />
+          <MapOverlay>Location not yet revealed</MapOverlay>
+          <DynamicMap center={center} zoom={zoom} width={width} height={height} />
         </MapStyles>
       </MapStylesBlur>
     );
   } else {
     return (
       <MapStyles>
-        <DynamicMap center={center} zoom={zoom} width={size} height={size} />
+        <DynamicMap center={center} zoom={zoom} width={width} height={height} />
       </MapStyles>
     );
   }

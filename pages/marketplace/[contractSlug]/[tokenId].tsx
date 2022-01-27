@@ -49,13 +49,79 @@ const LOCATIONS: any = {
   Mountain: [-3, 1.45],
   Riviera: [-3.8, -0.05],
   Surf: [-4.6, -2.2],
-  Isle: [-4.5, -4.45],
+  Isle: [-4.5, -3.8],
   Brine: [-3.6, -6.55],
   Citadel: [-1.9, -5.6],
   Capital: [0, -5.75],
   Keep: [-1.9, -2.7],
   Wood: [1, 0.3],
 };
+
+const ListingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+
+  max-width: 1000px;
+  margin: 0 auto;
+
+  --black: black;
+  --white: hsl(260,15%, 90%);
+  --hue: 250;
+  --lightGray: hsl(var(--hue), 15%, 75%);
+  --mediumGray: hsl(var(--hue), 24%, 15%);
+  --darkGray: hsl(var(--hue), 30%, 8%);
+
+  --ratio: 1.4; 
+  --sp0: 1em;
+  --sp1: calc(var(--ratio) * var(--sp0));
+  --sp2: calc(var(--ratio) * var(--sp1));
+  --sp3: calc(var(--ratio) * var(--sp2));
+  --sp4: calc(var(--ratio) * var(--sp3));
+  --sp5: calc(var(--ratio) * var(--sp4));
+  --sp-1:calc(var(--sp0) / var(--ratio));
+  --sp-2:calc(var(--sp-1) / var(--ratio));
+  --sp-3:calc(var(--sp-2) / var(--ratio));
+  --sp-4:calc(var(--sp-3) / var(--ratio));
+  --sp-5:calc(var(--sp-4) / var(--ratio));
+`;
+
+const Listing = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: var(--sp0);
+  margin-bottom: var(--sp0);
+  max-width: 1300px;
+
+`;
+
+const TopDisplay = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: var(--sp1);
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
+`;
+
+const TopRight = styled.div`
+  margin-left: var(--sp3);
+  height: 400px;
+  padding: var(--sp0);
+  max-width: calc(100% - 460px - var(--sp3));
+  align-self: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  @media only screen and (max-width: 600px) {
+    margin-left: 0px;
+    justify-content: center;
+    max-width: 80%;
+  }
+`;
 
 const SectionWrapper = styled.div`
   display: flex;
@@ -69,31 +135,33 @@ const SectionWrapper = styled.div`
 const SectionDisplay = styled.div`
   font-family: Alagard;
   font-size: 24px;
-  color: white;
-
+  color: var(--white);
   align-self: flex-start;
-  margin-bottom: 20px;
-
+  margin-bottom: var(--sp-3);
   @media only screen and (max-width: 600px) {
     align-self: center;
   }
-`
+`;
 
-const PriceStyle = styled.div`
-  font-family: Alagard;
-  font-size: 35px;
-  color: white;
+const TokenImage = styled.img`
+  border: 2px dashed var(--darkGray);
 
-  align-self: flex-start;
   @media only screen and (max-width: 600px) {
-    align-self: center;
+    max-width: 300px;
+    max-height: 300px;
   }
-  
+`;
+
+const NameDisplay = styled.div`
+  color: white;
 `;
 
 const NameStyle = styled.h2`
   font-family: Alagard;
   font-size: 45px;
+  max-width: 20ch;
+  display: inline-block;
+  
   color: white;
 
   text-align: left;
@@ -104,15 +172,14 @@ const NameStyle = styled.h2`
   @media only screen and (max-width: 600px) {
     text-align: center;
     font-size: 35px;
-    max-width: 75%;
   }
 `;
 
 const OwnerStyle = styled.h4`
-  font-family: Arial;
+  font-family: Roboto Mono;
   font-size: 14px;
   font-weight: normal;
-  color: white;
+  color: var(--lightGray);
 
   text-align: left;
   margin-block-start: 0.5vh;
@@ -123,84 +190,31 @@ const OwnerStyle = styled.h4`
   }
 `;
 
-const NameDisplay = styled.div`
-  @media only screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 2vh;
-  }
-`;
-
 const PriceDisplay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-
   @media only screen and (max-width: 600px) {
     align-self: flex-start;
     margin-top: 4vh;
   }
 `;
 
-const TraitItem = styled.div`
-  text-align: start;
-  margin-left: 1vw;
-  margin-right: 1vw;
-  font-size: 24px;
+const PriceStyle = styled.div`
   font-family: Alagard;
-  color: black;
-
+  font-size: 35px;
+  color: var(--white);
+  margin-bottom: var(--sp-3)
+;  align-self: flex-start;
   @media only screen and (max-width: 600px) {
-    font-size: 18px;
+    align-self: center;
   }
-`;
-
-const TraitRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 50px;
-  align-items: center;
-  margin: 10px;
-
-  font-family: Arial;
-  color: black;
-  background-color: #dec898;
-  padding: 10px;
-
-  border: solid;
-  border-color: grey;
-  border-radius: 15px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const TraitType = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  font-size: 12px;
-  margin-right: 12px;
-`;
-
-const TraitWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-
-  @media only screen and (max-width: 600px) {
-    justify-content: center;
-  }
-
+  
 `;
 
 const ButtonImage = styled.img`
-  margin-right: 0.5vw;
-  height: 50px;
+  margin-right: var(--sp-3);
+  height: var(--sp3);
   image-rendering: pixelated;
 
   :active {
@@ -226,93 +240,23 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-const SoftLink = styled.a`
-  text-decoration: none;
-`;
-
-const LoreWrapper = styled.div`
-  margin-top: 1vh;
-  min-width: 75%;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const LoreContainer = styled.div`
-  border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUCAYAAAAcaxDBAAAAAXNSR0IArs4c6QAAAeZJREFUeF7tm9GOgzAQA8v/fzT3ek0lrJUnVzhNX914N4M3QtAeLz8ogQN10+wlUDgEAhUoTAC2M6EChQnAdiZUoDAB2M6EChQmANuZ0LsDPc/z/N3jcRy3umi7+8M3u7vhNlC7+xMoPEECvRvQNEJJb0c4rU/1k578V71OaGoo6dOGp99P9ZM+rSdQ+K5EoN8Gmkak1acjtn6/rZ/Wp/7GCU0FWz01nPS2flqf6gt0uW0S6BKZBKTV8YTSZ1ZqsNV3A/Q+FB5xgQq0G/rHjfz0TO3w9KsT4LbC+LYpFdzdcKqf9N39CfRuj+8c+XcCeELTyP13XaDwFRaoQGECsJ0JFShMALYzoQKFCcB2JlSgMAHYzoQKFCYA25lQgcIEYDsTKlCYAGxnQgUKE4DtTKhAYQKwHZ7Q3a9p2/3v7k+gvkbuMmpCO34fq28PNDWYdJjXGCDdX32GpoaSLtCFQAKWdIEK9DID45FPiWv1NrFt/bQ+9SdQ+CfiAhXo9dClkW11fORXw90Npg0k/a/7G4+8QK8voUC//fduE7o5oVPA6czbraczta1fj7xA3wkI1AfM3VA+buS77T5/NT7yz0fS7UCgHb+P1QIVKEwAtjOhAoUJwHYmVKAwAdjOhAoUJgDbmVAY6A/yaUBzMqS0AwAAAABJRU5ErkJggg==")
-    28 / 28px / 0 round;
-  border-width: 28px;
-  border-style: solid;
-
-  padding: 40px;
-  width: 100%;
-
-  font-family: Alagard;
-  font-size: 20px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-
-  @media only screen and (max-width: 600px) {
-    max-width: 75%;
-  }
-`;
-
-const Listing = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 4vh;
-  margin-bottom: 4vh;
-  max-width: 1300px;
-
-`;
-
-const ListingWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const ExpirationWrapper = styled.div`
   text-align: left;
   font-size: 14px;
-
+  font-family: Roboto Mono;
+  color: var(--lightGray);
   @media only screen and (max-width: 600px) {
     text-align: center;
-    margin-left: 45px;
-    margin-right: 45px;
-    margin-top: 15px;
   }
 `;
 
-const TopDisplay = styled.div`
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-
-  margin-left: 3vw;
-`;
-
-const TopRight = styled.div`
-  margin-left: 50px;
-  max-width: 500px;
-  height: 400px;
-  
-  align-self: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-
-  @media only screen and (max-width: 600px) {
-    margin-left: 0px;
-    justify-content: center;
-  }
+const HorizontalLine = styled.hr`
+  border-color: black;
+  border-style: dashed;
+  width: 100%;
+  border-width: 1px;
+  margin-top: var(--sp2);
+  margin-bottom: var(--sp2);
 `;
 
 const MidDisplay = styled.div`
@@ -330,10 +274,92 @@ const MidDisplay = styled.div`
   }
 `;
 
+const TraitItem = styled.div`
+  text-align: start;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  font-size: 24px;
+  font-family: Alagard;
+`;
+
+const TraitRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  align-items: center;
+  
+  font-family: Roboto Mono;
+  background: var(--darkGray);
+  color: var(--lightGray);
+  border: 2px dashed var(--mediumGray);
+  border-radius: 4px;
+
+  margin: var(--sp-4);
+  padding: var(--sp1) var(--sp0);
+
+  :hover {
+    cursor: pointer;
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
+  }
+`;
+
+const TraitType = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 12px;
+`;
+
+const TraitWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
+
+`;
+
 const BottomDisplay = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+`;
+
+const LoreWrapper = styled.div`
+  min-width: 75%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const LoreContainer = styled.div`
+
+  border: 2px dashed var(--mediumGray);
+  border-radius: 4px;
+  background: var(--darkGray);
+  color: var(--lightGray);
+
+  padding: 40px;
+  width: 100%;
+
+  font-family: Alagard;
+  font-size: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+`;
+
+const SoftLink = styled.a`
+  text-decoration: none;
 `;
 
 function MarketAction({ 
@@ -463,7 +489,7 @@ function TraitDisplay({
     return null;
   } else {
     return (
-      <div style={{ textAlign: "center", marginTop: "1vh" }}>
+      <div style={{ textAlign: "center" }}>
           <TraitWrapper>
             {attributes.map((attribute: any, index: number) => (
               <div key={index}>
@@ -495,7 +521,6 @@ function Price({ value }: { value: number }) {
             display: "flex",
             alignItems: "flex-start",
             justifyContent: "flex-start",
-            marginBottom: "20px"
           }}
         >
           <img
@@ -653,7 +678,7 @@ const ListingPage = ({
         <MarketAction active={marketActive} actionType={marketActionType}/>
         <Listing>
           <TopDisplay>
-            <img src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} style={{maxWidth: '75%'}}/>
+            <TokenImage src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />
             <TopRight>
               <NameDisplay>
                 <NameStyle>{token.name}</NameStyle>
@@ -683,7 +708,7 @@ const ListingPage = ({
               </PriceDisplay>
             </TopRight>
           </TopDisplay>
-          <hr style={{borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'}}/>
+          <HorizontalLine/>
           <SectionWrapper>
           <SectionDisplay>Traits</SectionDisplay>
           <MidDisplay>
@@ -691,7 +716,7 @@ const ListingPage = ({
             <Minimap center={mapCenter} />
           </MidDisplay>
           </SectionWrapper>
-          <hr style={{borderStyle: 'dashed', width: '100%', borderWidth: '2px', marginTop: '45px', marginBottom: '45px', alignSelf: 'center'}}/>
+          <HorizontalLine/>
           <SectionWrapper>
           <SectionDisplay>Lore</SectionDisplay>
           <BottomDisplay>
@@ -701,6 +726,7 @@ const ListingPage = ({
             <Icons tokenId={Number(tokenId)} contract={contractSlug} />
           </BottomDisplay>
           </SectionWrapper>
+          <HorizontalLine/>
         </Listing>
         </ListingWrapper>
       )}
