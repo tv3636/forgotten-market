@@ -73,7 +73,7 @@ export function Icons({
           />
         </a>
       </SocialItem>
-      {CONTRACTS[contract].collection == "Wizards" && (
+      {CONTRACTS[contract].collection == "forgottenruneswizardscult" && (
         <SocialItem>
           <a
             href={`/api/art/${CONTRACTS[contract].collection}/${tokenId}.zip`}

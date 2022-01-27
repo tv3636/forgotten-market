@@ -468,10 +468,10 @@ function ListingExpiration({
       <div>
         <ExpirationWrapper>
           Listing expires in{" "}
-          {timer?.days > 0 && <Timespan> {timer?.days} days, </Timespan>}
-          <Timespan> {timer?.hours} hours, </Timespan>
-          <Timespan> {timer?.minutes} minutes, </Timespan>
-          <Timespan> {timer?.seconds} seconds </Timespan>
+          {timer?.days > 0 && <Timespan> {timer?.days} {timer?.days && timer.days == 1 ? 'day' : 'days'}, </Timespan>}
+          <Timespan> {timer?.hours} {timer?.hours && timer.hours == 1 ? 'hour' : 'hours'}, </Timespan>
+          <Timespan> {timer?.minutes} {timer?.minutes && timer.minutes == 1 ? 'minute' : 'minutes'}, </Timespan>
+          <Timespan> {timer?.seconds} {timer?.seconds && timer.seconds == 1 ? 'second' : 'seconds'} </Timespan>
         </ExpirationWrapper>
       </div>
     );
