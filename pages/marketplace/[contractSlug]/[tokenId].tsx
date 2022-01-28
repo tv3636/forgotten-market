@@ -428,7 +428,7 @@ function MarketButtons({
     if (account.toLowerCase() == owner.toLowerCase()) {
       if (listValue) {
         // TODO: replace with MarketButton once drawn
-        return <button onClick={(e) => console.log('delist')}>Cancel Listing</button>;
+        return <MarketButton text={"cancel"} setActive={setActive} setActionType={setActionType} />;
       } else {
         return <MarketButton text={"sell"} setActive={setActive} setActionType={setActionType} />;
       }
