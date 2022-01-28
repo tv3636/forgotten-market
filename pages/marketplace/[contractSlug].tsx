@@ -58,6 +58,8 @@ const Form = styled.form`
 
 const Label = styled.label`
   margin: 5px;
+  font-family: Alagard;
+  font-size: 18px;
 
   color: var(--lightGray);
 `;
@@ -84,9 +86,6 @@ const ListingDisplay = styled.div`
   margin: 25px;
   display: flex;
   flex-direction: column;
-
-  max-width: 50vw;
-  max-height: 40vh;
 `;
 
 const ListingContainer = styled.div`
@@ -103,9 +102,12 @@ const ListingContainer = styled.div`
 
 const ListingImage = styled.img`
   border-style: dashed;
+  border-width: 3px;
   border-color: var(--darkGray);
-  border-width: 2px;
+  border-radius: 10px;
 
+  min-width: 250px;
+  min-height: 250px;
   max-height: 50vw;
   max-width: 50vw;
 
@@ -116,9 +118,17 @@ const ListingImage = styled.img`
 `;
 
 const MarketText = styled.p`
-  font-family: Arial;
-  font-size: 15px;
-  color: var(--white);
+  font-family: Alagard;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  
+  line-height: 1.3;
+  max-width: 25ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const FontTraitWrapper = styled.div`
@@ -231,14 +241,14 @@ function TokenDisplay({
         >
           <MarketText>{name}</MarketText>
           <div
-            style={{ fontSize: "18px", fontFamily: "Arial", color: "var(--white)" }}
+            style={{ fontSize: "18px", fontFamily: "Alagard", color: "var(--white)", fontWeight: 'bold', justifySelf: 'flex-end' }}
           >
             {price ? (
               <div style={{ display: "flex" }}>
                 <img
                   src="/static/img/marketplace/eth.png"
                   style={{
-                    height: "20px",
+                    height: "16px",
                     marginRight: "8px",
                     marginTop: "1px",
                   }}

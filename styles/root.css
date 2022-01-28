@@ -124,7 +124,8 @@ p {
 
 .select__placeholder {
   color: var(--lightGray) !important;
-  font-family: 'Arial';
+  font-family: 'Alagard';
+  font-size: 18px;
 }
 
 .select__option {
@@ -138,12 +139,12 @@ p {
 .select__single-value {
   color: var(--lightGray) !important;
   font-family: 'Arial';
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .react-tabs__tab {
   color: var(--lightGray) !important;
-  font-family: 'Arial';
+  font-family: 'Alagard';
   font-size: 20px;
 }
 
@@ -154,6 +155,6 @@ p {
 .react-tabs__tab--selected {
   color: var(--white) !important;
   background-color: var(--black) !important;
-  font-family: 'Arial';
+  font-family: 'Alagard';
   font-size: 24px;
 }
