@@ -93,7 +93,7 @@ const ListingContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-left: 3vw;
+  margin-left: 1vw;
   margin-right: 2vw;
   margin-top: 2vw;
   overflow: hidden;
@@ -230,7 +230,20 @@ function TokenDisplay({
     >
       <SoftLink>
       <ListingDisplay>
-        <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"} />
+        { CONTRACTS[contract].display == 'Wizards' ?
+          <ListingImage 
+            src={CONTRACTS[contract].image_url + tokenId + ".png"}
+            onMouseOver={(e) =>
+              (e.currentTarget.src = `/static/img/walkcycles/${tokenId}-walkcycle.gif`)
+            }
+            onMouseOut={(e) =>
+              (e.currentTarget.src = `${CONTRACTS[contract].image_url}${tokenId}.png`)
+            } 
+          /> :
+          <ListingImage 
+            src={CONTRACTS[contract].image_url + tokenId + ".png"}
+          />
+        }
         <div
           style={{
             display: "flex",

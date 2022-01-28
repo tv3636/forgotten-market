@@ -128,12 +128,23 @@ p {
   font-size: 18px;
 }
 
+.select__menu {
+  background-color: var(--mediumGray) !important;
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  border-width: 2px !important;
+}
+
 .select__option {
   color: var(--lightGray) !important;
   background-color: var(--mediumGray) !important;
-  font-family: 'Arial';
+  font-family: 'Alagard';
   font-size: 18px !important;
-  margin: 0px !important;
+}
+
+.select__option:hover {
+  color: var(--lightGray) !important;
+  background-color: var(--darkGray) !important;
 }
 
 .select__single-value {
