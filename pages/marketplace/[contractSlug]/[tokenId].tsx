@@ -608,6 +608,10 @@ const ListingPage = ({
   function getCenter(name: string) {
     var center = [0, 0];
     var nameParts = name.split(" ");
+    
+    if((name.indexOf('of') == -1 && name.indexOf('the') == -1) || CONTRACTS[contractSlug].display == 'Ponies') {
+      return [404, 404]; // no location
+    }
 
     if (name && name.length > 1) {
       var firstTry = nameParts[nameParts.length - 1];

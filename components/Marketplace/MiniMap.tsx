@@ -7,14 +7,23 @@ const DynamicMap = dynamic(() => import("../../components/Map"), {
 
 const MapContainer = styled.div`
   margin-left: 2vw;
+  
   @media only screen and (max-width: 600px) {
     margin-top: 3vh;
   }
 `;
 
 const MapStylesBlur = styled.div`
-  .leaflet-container {
-    filter: blur(5px);
+  width: 250px;
+  height: 230px;
+
+  background-color: var(--darkGray);
+  border-weight: 10px;
+  border-style: dashed;
+  border-color: var(--mediumGray);
+  border-radius: 16px;
+  :hover {
+    border-color: var(--lightGray);
   }
 `;
 
@@ -54,13 +63,11 @@ const MapStyles = styled.div`
 
 const MapOverlay = styled.div`
   position: absolute;
-  top: 48%;
-  z-index: 1;
+  top: 40%;
 
   font-family: Alagard;
   font-size: 17px;
-  color: black;
-  text-shadow: 0 0 2px #e0d1a7;
+  color: var(--lightGray);
 `;
 
 function MapBlur({ center }: { center: any }) {
@@ -72,8 +79,7 @@ function MapBlur({ center }: { center: any }) {
     return (
       <MapStylesBlur>
         <MapStyles>
-          <MapOverlay>Location not yet revealed</MapOverlay>
-          <DynamicMap center={center} zoom={zoom} width={width} height={height} />
+          <MapOverlay>Location not yet revealed on map</MapOverlay>
         </MapStyles>
       </MapStylesBlur>
     );
@@ -87,6 +93,10 @@ function MapBlur({ center }: { center: any }) {
 }
 
 const Minimap = ({ center }: { center: [number, number] }) => {
+  if (center[0] == 404 && center[1] == 404) {
+    return null;
+  }
+  
   return (
     <MapContainer>
       <MapBlur center={center} />
