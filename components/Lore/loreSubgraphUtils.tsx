@@ -297,7 +297,7 @@ export async function getWizardsWithLore(contract: string = CHARACTER_CONTRACTS.
     ? WIZARDS_LORE_CACHE
     : SOULS_LORE_CACHE;
 
-  let results;
+  let results: any = {};
 
   try {
     const cachedData = JSON.parse(await fs.readFile(cacheFile, "utf8"));
@@ -316,26 +316,30 @@ export async function getWizardsWithLore(contract: string = CHARACTER_CONTRACTS.
     );
   }
 
-  if (!results) {
+  if (Object.keys(results).length == 0) {
     try {
-      const { data } = await client.query({
-        query: gql`
-          query WizardLore {
-              loreTokens(first: 1000, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${contract}"}) {
-                  tokenId
-              }
-          }`,
-      });
-
-      results = (data?.loreTokens ?? []).reduce(
-        (
-          result: {
-            [key: number]: boolean;
-          },
-          token: any
-        ) => ((result[token.tokenId] = true), result),
-        {}
+      const serverGraphPagesToFetch = 2;
+      const graphResults = await Promise.all(
+        Array.from({ length: serverGraphPagesToFetch }, (_, i) => client.query({
+          query: gql`
+            query WizardLore {
+                loreTokens(skip: ${
+                  i * 999
+                }, first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${contract}"}) {
+                    tokenId
+                }
+            }`,
+          })
+        )
       );
+      
+      console.log(`Got ${graphResults.length} queries worth of results....`);
+      for (let i = 0; i < graphResults.length; i++) {
+        const loreTokens = graphResults[i]?.data?.loreTokens ?? [];
+        for (var token of loreTokens) {
+          results[token.tokenId] = true;
+        }
+      }
 
       await fs.writeFile(
         cacheFile,
@@ -346,6 +350,7 @@ export async function getWizardsWithLore(contract: string = CHARACTER_CONTRACTS.
       console.error(
         "We couldn't get 'wizards that have lore' from subgraph. Continuing anyway as its non-fatal..."
       );
+      console.log(e);
       results = [];
     }
   }

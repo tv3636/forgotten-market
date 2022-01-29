@@ -103,7 +103,7 @@ const ListingContainer = styled.div`
 const ListingImage = styled.img`
   border-style: dashed;
   border-width: 3px;
-  border-color: var(--darkGray);
+  border-color: var(--mediumGray);
   border-radius: 10px;
 
   min-width: 250px;
@@ -113,7 +113,7 @@ const ListingImage = styled.img`
 
   :hover {
     cursor: pointer;
-    border-color: var(--mediumGray);
+    border-color: var(--lightGray);
   }
 `;
 
@@ -303,7 +303,7 @@ function MarketTab({
       </TabList>
       {contracts.map((contract: string, index: number) => {
         return (
-          <TabPanel>
+          <TabPanel key={index}>
             <Listings
               collection={CONTRACTS[contract].collection}
               contract={contract}

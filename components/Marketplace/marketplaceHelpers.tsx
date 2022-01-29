@@ -6,16 +6,21 @@ import { CONTRACTS } from "./marketplaceConstants";
 export function getOptions(traits: [any]) {
   var result: any[] = [];
 
-  if (traits.length > 0 && isNaN(traits[0].value))
+  if (traits.length > 0 && isNaN(traits[0].value)) {
     traits.sort(function (first, second) {
       return second.count - first.count;
     });
+  } else if (traits.length > 0) {
+    traits.sort(function (first, second) {
+      return second.value - first.value;
+    });
+  }
 
   for (var trait of traits) {
     let option: any = {};
     option.value = trait.value;
     option.label =
-      trait.value + (isNaN(trait.value) ? " (" + trait.count + ")" : "");
+      trait.value + ( " (" + trait.count + ")");
 
     result.push(option);
   }
