@@ -156,16 +156,37 @@ p {
 .react-tabs__tab {
   color: var(--lightGray) !important;
   font-family: 'Alagard';
-  font-size: 20px;
+  font-size: 24px;
+
+  background-color: var(--darkGray) !important;
+  border-radius: 10px 10px 0px 0px !important;
+  border-style: dashed !important;
+  border-bottom: none !important;
 }
 
 .react-tabs__tab:hover {
-  color: var(--white) !important;
+  border-color: var(--lightGray) !important;
+  background-color: var(--mediumGray) !important;
 }
 
 .react-tabs__tab--selected {
   color: var(--white) !important;
-  background-color: var(--black) !important;
+  background-color: var(--darkGray) !important;
   font-family: 'Alagard';
-  font-size: 24px;
+  font-size: 30px;
+
+  border-style: dashed !important;
+  border-color: var(--mediumGray) !important;
+  border-bottom: none !important;
+}
+
+.react-tabs__tab--selected:hover {
+  border-color: var(--lightGray) !important;
+  background-color: var(--mediumGray) !important;
+}
+
+.react-tabs__tab-list {
+  border-bottom-style: dashed !important;
+  border-bottom-color: var(--mediumGray) !important;
+  border-width: 1.5px !important;
 }

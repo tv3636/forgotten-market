@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import dynamic from "next/dynamic";
+import InfoTooltip from "./InfoToolTip";
 
 const DynamicMap = dynamic(() => import("../../components/Map"), {
   ssr: false, // leaflet doesn't like Next.js SSR
@@ -10,6 +11,7 @@ const MapContainer = styled.div`
   
   @media only screen and (max-width: 600px) {
     margin-top: 3vh;
+    margin-left: 0px;
   }
 `;
 
@@ -22,15 +24,13 @@ const MapStylesBlur = styled.div`
   border-style: dashed;
   border-color: var(--mediumGray);
   border-radius: 16px;
-  :hover {
-    border-color: var(--lightGray);
-  }
 `;
 
 const MapStyles = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   position: relative;
 
   .leaflet-container {
@@ -47,6 +47,7 @@ const MapStyles = styled.div`
   img.leaflet-image-layer {
     image-rendering: pixelated;
   }
+
   .leaflet-bar a,
   .leaflet-bar a:hover {
     display: none;
@@ -62,12 +63,15 @@ const MapStyles = styled.div`
 `;
 
 const MapOverlay = styled.div`
-  position: absolute;
-  top: 40%;
-
   font-family: Alagard;
   font-size: 17px;
   color: var(--lightGray);
+`;
+
+const OverlayMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 function MapBlur({ center }: { center: any }) {
@@ -79,7 +83,14 @@ function MapBlur({ center }: { center: any }) {
     return (
       <MapStylesBlur>
         <MapStyles>
-          <MapOverlay>Location not yet revealed on map</MapOverlay>
+          <MapOverlay>
+            <OverlayMessage>
+              <InfoTooltip tooltip={'map'}/>
+              <div style={{marginTop: 'var(--sp-1'}}>
+                Location not yet charted on map
+              </div>
+            </OverlayMessage>
+          </MapOverlay>
         </MapStyles>
       </MapStylesBlur>
     );

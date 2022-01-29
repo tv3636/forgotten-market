@@ -20,6 +20,7 @@ import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Link from "next/link";
 import { useRouter } from 'next/router';
+import InfoTooltip from "../../../components/Marketplace/InfoToolTip" 
 
 const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
@@ -62,6 +63,7 @@ const ListingWrapper = styled.div`
   justify-content: center;
 
   max-width: 1000px;
+  min-height: 90vh;
   margin: 0 auto;
 
   --black: black;
@@ -130,17 +132,6 @@ const SectionWrapper = styled.div`
   width: 100%;
 
   align-items: flex-start;
-`;
-
-const SectionDisplay = styled.div`
-  font-family: Alagard;
-  font-size: 24px;
-  color: var(--white);
-  align-self: flex-start;
-  margin-bottom: var(--sp-3);
-  @media only screen and (max-width: 600px) {
-    align-self: center;
-  }
 `;
 
 const TokenImage = styled.img`
@@ -257,6 +248,24 @@ const HorizontalLine = styled.hr`
   border-width: 1px;
   margin-top: var(--sp2);
   margin-bottom: var(--sp2);
+`;
+
+const SectionDisplay = styled.div`
+  font-family: Alagard;
+  font-size: 24px;
+  color: var(--white);
+  align-self: flex-start;
+  margin-bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    align-self: center;
+  }
+`;
+
+const SectionName = styled.div`
+  margin-right: var(--sp-1);
 `;
 
 const MidDisplay = styled.div`
@@ -463,18 +472,20 @@ function ListingExpiration({
     } else {
       return null;
     }
-  } else {
+  } else if (timer) {
     return (
       <div>
         <ExpirationWrapper>
           Listing expires in{" "}
           {timer?.days > 0 && <Timespan> {timer?.days} {timer?.days && timer.days == 1 ? 'day' : 'days'}, </Timespan>}
-          <Timespan> {timer?.hours} {timer?.hours && timer.hours == 1 ? 'hour' : 'hours'}, </Timespan>
-          <Timespan> {timer?.minutes} {timer?.minutes && timer.minutes == 1 ? 'minute' : 'minutes'}, </Timespan>
+          {timer?.hours > 0 && <Timespan> {timer?.hours} {timer?.hours && timer.hours == 1 ? 'hour' : 'hours'}, </Timespan>}
+          {timer?.minutes > 0 && <Timespan> {timer?.minutes} {timer?.minutes && timer.minutes == 1 ? 'minute' : 'minutes'}, </Timespan>}
           <Timespan> {timer?.seconds} {timer?.seconds && timer.seconds == 1 ? 'second' : 'seconds'} </Timespan>
         </ExpirationWrapper>
       </div>
     );
+  } else {
+    return <ExpirationWrapper>Listing expires</ExpirationWrapper>;
   }
 }
 
@@ -599,11 +610,6 @@ const ListingPage = ({
   const [marketActionType, setMarketActionType] = useState("");
   const { account } = useEthers();
 
-  setTimeout(
-    () => setCountdownTimer(countdown(new Date(listing.validUntil * 1000))),
-    1000
-  );
-
   // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
     var center = [0, 0];
@@ -644,12 +650,18 @@ const ListingPage = ({
         setListing(listingsJson.tokens[0].market.floorSell);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setMapCenter(getCenter(listingsJson.tokens[0].token.name));
+        setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
+        setInterval(
+          () => setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000))),
+          1000
+        );
 
         const provider = getProvider();
         var ensName = await provider.lookupAddress(
           listingsJson.tokens[0].token.owner
         );
         setEns(ensName);
+        
       }
 
       if (lore.length > 0) {
@@ -677,7 +689,7 @@ const ListingPage = ({
 
   return (
     <Layout title={token.name}>
-      {Object.keys(listing).length > 0 && (
+      {Object.keys(listing).length > 0 ? 
         <ListingWrapper>
         <MarketAction active={marketActive} actionType={marketActionType}/>
         <Listing>
@@ -714,7 +726,10 @@ const ListingPage = ({
           </TopDisplay>
           <HorizontalLine/>
           <SectionWrapper>
-          <SectionDisplay>Traits</SectionDisplay>
+          <SectionDisplay>
+            <SectionName>Traits</SectionName>
+            <InfoTooltip tooltip={'traits'}/>
+            </SectionDisplay>
           <MidDisplay>
             <TraitDisplay attributes={attributes} contract={contractSlug} />
             <Minimap center={mapCenter} />
@@ -722,7 +737,10 @@ const ListingPage = ({
           </SectionWrapper>
           <HorizontalLine/>
           <SectionWrapper>
-          <SectionDisplay>Lore</SectionDisplay>
+          <SectionDisplay>
+            <SectionName>Lore</SectionName>
+            <InfoTooltip tooltip={'lore'}/>
+          </SectionDisplay>
           <BottomDisplay>
             <LoreWrapper>
               <LoreBlock pages={pages} />
@@ -732,8 +750,9 @@ const ListingPage = ({
           </SectionWrapper>
           <HorizontalLine/>
         </Listing>
-        </ListingWrapper>
-      )}
+        </ListingWrapper> :
+        <ListingWrapper></ListingWrapper>
+      }
     </Layout>
   );
 };
