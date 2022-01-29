@@ -148,8 +148,8 @@ p {
 }
 
 .select__single-value {
-  color: var(--lightGray) !important;
-  font-family: 'Arial';
+  color: var(--white) !important;
+  font-family: 'Alagard';
   font-size: 18px;
 }
 
@@ -189,4 +189,14 @@ p {
   border-bottom-style: dashed !important;
   border-bottom-color: var(--mediumGray) !important;
   border-width: 1.5px !important;
+}
+
+.__react_component_tooltip {
+  background: var(--darkGray) !important;
+  color: var(--white) !important;
+
+  border-radius: 10px !important;
+  border-style: dashed !important;
+  border-width: 1.5px !important;
+  border-color: var(--mediumGray) !important;
 }

@@ -20,7 +20,7 @@ import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import InfoTooltip from "../../../components/Marketplace/InfoToolTip" 
+import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 
 const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
@@ -191,6 +191,12 @@ const PriceDisplay = styled.div`
   }
 `;
 
+const PriceValue = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
 const PriceStyle = styled.div`
   font-family: Alagard;
   font-size: 35px;
@@ -223,7 +229,6 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 1vh;
   min-width: 400px;
 
   @media only screen and (max-width: 600px) {
@@ -236,8 +241,25 @@ const ExpirationWrapper = styled.div`
   font-size: 14px;
   font-family: Roboto Mono;
   color: var(--lightGray);
+  display: flex;
+  margin-top: 1vh;
+  
   @media only screen and (max-width: 600px) {
     text-align: center;
+  }
+`;
+
+const OfferWrapper = styled.div`
+  text-align: left;
+  font-size: 14px;
+  font-family: Roboto Mono;
+  color: var(--lightGray);
+  display: flex;
+  margin-top: 1vh;
+  
+  
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
   }
 `;
 
@@ -460,12 +482,6 @@ function ListingExpiration({
   timer: any;
   dateString: string;
 }) {
-  const Timespan = styled.span`
-    width: 10ch;
-    min-width: 10ch;
-    text-align: right;
-  `;
-
   if (timer?.days > 1) {
     if (dateString) {
       return <ExpirationWrapper>Listing expires on {dateString}</ExpirationWrapper>;
@@ -476,11 +492,11 @@ function ListingExpiration({
     return (
       <div>
         <ExpirationWrapper>
-          Listing expires in{" "}
-          {timer?.days > 0 && <Timespan> {timer?.days} {timer?.days && timer.days == 1 ? 'day' : 'days'}, </Timespan>}
-          {timer?.hours > 0 && <Timespan> {timer?.hours} {timer?.hours && timer.hours == 1 ? 'hour' : 'hours'}, </Timespan>}
-          {timer?.minutes > 0 && <Timespan> {timer?.minutes} {timer?.minutes && timer.minutes == 1 ? 'minute' : 'minutes'}, </Timespan>}
-          <Timespan> {timer?.seconds} {timer?.seconds && timer.seconds == 1 ? 'second' : 'seconds'} </Timespan>
+          <span style={{width: '18ch'}}>Listing expires in</span>
+          {timer?.days > 0 && <span style={{width: '10ch', textAlign: 'right'}}> {timer?.days} {timer?.days && timer.days == 1 ? 'day' : 'days'}, </span>}
+          {timer?.hours > 0 && <span style={{width: '10ch', textAlign: 'right'}}> {timer?.hours} {timer?.hours && timer.hours == 1 ? 'hour' : 'hours'}, </span>}
+          {timer?.minutes > 0 && <span style={{width: '12ch', textAlign: 'right'}}> {timer?.minutes} {timer?.minutes && timer.minutes == 1 ? 'minute' : 'minutes'}, </span>}
+          <span style={{width: '11ch', textAlign: 'right'}}> {timer?.seconds} {timer?.seconds && timer.seconds == 1 ? 'second' : 'seconds'} </span>
         </ExpirationWrapper>
       </div>
     );
@@ -523,30 +539,24 @@ function TraitDisplay({
   }
 }
 
-function Price({ value }: { value: number }) {
+function Price({ value }: { value: number}) {
   return (
     <PriceStyle>
       {value ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-          }}
-        >
+        <PriceValue>
           <img
             src="/static/img/marketplace/eth_alt.png"
             style={{ height: "37px", marginRight: "12px" }}
           />
           <div>{value}</div>
-        </div>
+        </PriceValue>
       ) : null}
     </PriceStyle>
   );
 }
 
 function LoreBlock({ pages }: { pages: [] }) {
-  if (pages.length > 0) {
+  if (pages?.length > 0) {
     return (
       <LoreContainer>
         {pages.map((page: any, index: number) =>
@@ -601,8 +611,9 @@ const ListingPage = ({
 }) => {
   const [token, setToken] = useState<any>({});
   const [listing, setListing] = useState<any>({});
+  const [offer, setOffer] = useState<any>({});
   const [attributes, setAttributes] = useState<any>([]);
-  const [pages, setPages] = useState<any>([]);
+  const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
@@ -648,6 +659,7 @@ const ListingPage = ({
       if (listingsJson.tokens.length > 0) {
         setToken(listingsJson.tokens[0].token);
         setListing(listingsJson.tokens[0].market.floorSell);
+        setOffer(listingsJson.tokens[0].market.topBuy);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setMapCenter(getCenter(listingsJson.tokens[0].token.name));
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
@@ -721,6 +733,17 @@ const ListingPage = ({
                     ).toLocaleString()}
                   />
                 ) : null}
+                {offer.value && 
+                  <OfferWrapper>{'Best Offer:  '}
+                    <PriceValue>
+                      <img
+                        src="/static/img/marketplace/eth_alt.png"
+                        style={{ height: "17px", marginRight: "5px", marginLeft: "7px" }}
+                      />
+                      {offer.value}
+                    </PriceValue>
+                  </OfferWrapper>
+                }
               </PriceDisplay>
             </TopRight>
           </TopDisplay>
@@ -728,7 +751,7 @@ const ListingPage = ({
           <SectionWrapper>
           <SectionDisplay>
             <SectionName>Traits</SectionName>
-            <InfoTooltip tooltip={'traits'}/>
+            <InfoTooltip tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}/>
             </SectionDisplay>
           <MidDisplay>
             <TraitDisplay attributes={attributes} contract={contractSlug} />
@@ -739,7 +762,7 @@ const ListingPage = ({
           <SectionWrapper>
           <SectionDisplay>
             <SectionName>Lore</SectionName>
-            <InfoTooltip tooltip={'lore'}/>
+            <InfoTooltip tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}/>
           </SectionDisplay>
           <BottomDisplay>
             <LoreWrapper>

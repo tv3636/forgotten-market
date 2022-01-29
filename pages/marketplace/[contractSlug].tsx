@@ -103,7 +103,7 @@ const ListingContainer = styled.div`
 const ListingImage = styled.img`
   border-style: dashed;
   border-width: 3px;
-  border-color: var(--darkGray);
+  border-color: var(--mediumGray);
   border-radius: 10px;
 
   min-width: 250px;
@@ -113,7 +113,7 @@ const ListingImage = styled.img`
 
   :hover {
     cursor: pointer;
-    border-color: var(--mediumGray);
+    border-color: var(--lightGray);
   }
 `;
 

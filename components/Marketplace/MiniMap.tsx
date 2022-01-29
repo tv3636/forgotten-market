@@ -85,7 +85,7 @@ function MapBlur({ center }: { center: any }) {
         <MapStyles>
           <MapOverlay>
             <OverlayMessage>
-              <InfoTooltip tooltip={'map'}/>
+              <InfoTooltip tooltip={'So far, only about 25% of the Runiverse has been revealed on the map. The rest remains to be seen.'}/>
               <div style={{marginTop: 'var(--sp-1'}}>
                 Location not yet charted on map
               </div>

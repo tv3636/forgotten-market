@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import ReactTooltip from 'react-tooltip'; 
 
 const InfoImage = styled.img`
 width: 15px;
@@ -15,6 +16,7 @@ export default function InfoTooltip({
   tooltip: string;
 }) {
   return (
+    <div>
     <InfoImage 
       src='/static/img/marketplace/info.png'
       onMouseOver={(e) =>
@@ -22,7 +24,10 @@ export default function InfoTooltip({
       }
       onMouseOut={(e) =>
         (e.currentTarget.src = '/static/img/marketplace/info.png')
-      } 
+      }
+      data-tip={tooltip} 
     />
+    <ReactTooltip/>
+    </div>
   );
 }
