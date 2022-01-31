@@ -14,6 +14,7 @@ import {
 } from "../../components/Marketplace/marketplaceConstants";
 import Link from "next/link";
 import { useRouter } from 'next/router';
+import CollectionOffer from "../../components/Marketplace/CollectionOffer";
 
 const marketplaceContracts = [
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
@@ -119,7 +120,7 @@ const ListingImage = styled.img`
 
 const MarketText = styled.p`
   font-family: Alagard;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: white;
   
@@ -208,6 +209,7 @@ function SideBar({
           <input type="checkbox" onClick={noLoreChange} /> Has No Lore
         </Label>
       </Form>
+      
     </FilterStyle>
   );
 }
@@ -254,16 +256,16 @@ function TokenDisplay({
         >
           <MarketText>{name}</MarketText>
           <div
-            style={{ fontSize: "18px", fontFamily: "Alagard", color: "var(--white)", fontWeight: 'bold', justifySelf: 'flex-end' }}
+            style={{ fontSize: "16px", fontFamily: "Alagard", color: "var(--white)", fontWeight: 'bold', justifySelf: 'flex-end' }}
           >
             {price ? (
               <div style={{ display: "flex" }}>
                 <img
                   src="/static/img/marketplace/eth.png"
                   style={{
-                    height: "16px",
+                    height: "14px",
                     marginRight: "8px",
-                    marginTop: "1px",
+                    marginTop: "2px",
                   }}
                 />
                 <div>{price}</div>

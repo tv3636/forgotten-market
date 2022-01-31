@@ -21,6 +21,8 @@ import countdown from "countdown";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
+import SellOrder from "../../../components/Marketplace/SellOrder";
+import { Provider } from "wagmi";
 
 const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
@@ -409,7 +411,7 @@ function MarketAction({
       height: '500px', 
       backgroundColor: 'black'
     }}>
-      {actionType} in progress
+      <SellOrder tokenId={6103} contract={'0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42'}/>
     </div>
   }
 }
@@ -493,7 +495,7 @@ function ListingExpiration({
       <div>
         <ExpirationWrapper>
           <span style={{width: '18ch'}}>Listing expires in</span>
-          {timer?.days > 0 && <span style={{width: '10ch', textAlign: 'right'}}> {timer?.days} {timer?.days && timer.days == 1 ? 'day' : 'days'}, </span>}
+          {timer?.days > 0 && <span style={{width: '7ch', textAlign: 'right'}}> {timer?.days} {timer?.days && timer.days == 1 ? 'day' : 'days'}, </span>}
           {timer?.hours > 0 && <span style={{width: '10ch', textAlign: 'right'}}> {timer?.hours} {timer?.hours && timer.hours == 1 ? 'hour' : 'hours'}, </span>}
           {timer?.minutes > 0 && <span style={{width: '12ch', textAlign: 'right'}}> {timer?.minutes} {timer?.minutes && timer.minutes == 1 ? 'minute' : 'minutes'}, </span>}
           <span style={{width: '11ch', textAlign: 'right'}}> {timer?.seconds} {timer?.seconds && timer.seconds == 1 ? 'second' : 'seconds'} </span>
