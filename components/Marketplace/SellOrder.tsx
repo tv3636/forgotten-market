@@ -306,9 +306,9 @@ export default function SellOrder({
           }}
           options={{
             "disable": [
-                function(date) {
-                    return date < new Date();
-                }
+              function(date) {
+                return date < new Date();
+              }
             ]
         }}
         />

@@ -531,7 +531,6 @@ function Owner({
   ens: string | null;
   tokenId: string;
 }) {
-  console.log( )
   return (
     <OwnerStyle>
       {`#${tokenId} - Owner: `}
