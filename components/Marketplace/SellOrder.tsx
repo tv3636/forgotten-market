@@ -1,29 +1,104 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
-import { useNetwork, useSigner } from 'wagmi';
 import { API_BASE_URL, CONTRACTS } from "./marketplaceConstants";
-import { Provider } from "wagmi";
-import OfferModal from "./OfferModal";
-import { getProvider } from "../../hooks/useProvider";
 import { Contract, ContractTransaction, ethers } from "ethers";
-import {
-  SOULS_ABI,
-  WIZARDS_ABI,
-  WYVERN_ABI
-} from "../../contracts/abis";
 import { useEthers } from "@usedapp/core";
 import { paths } from "../../interfaces/apiTypes";
 import setParams from "../../lib/params";
 import { WyvernV2 } from '@reservoir0x/sdk';
-import { DateTime } from 'luxon';
+import { WYVERN_ABI } from "../../contracts/abis";
+import "flatpickr/dist/themes/material_green.css";
+import Flatpickr from "react-flatpickr";
+import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
-async function getWizardsContract( 
+const Overlay = styled.div`
+  width: 50%;
+  height: 50%; 
+  background-color: black; 
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ListPrice = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--white);
+`;
+
+const PriceInput = styled.input`
+  background: var(--darkGray);
+  border: dashed;
+  padding: 10px;
+  color: var(--lightGray);
+  border-radius: 10px;
+  border-color: var(--mediumGray);
+
+  font-family: 'Roboto Mono';
+  text-align: center;
+
+  :hover {
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: var(--white);
+  }
+
+  :focus {
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: var(--white);
+  }
+`;
+
+const Expiration = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Title = styled.div`
+  margin: 10px;
+  font-family: Alagard;
+  font-size: 18px;
+  color: var(--white);
+
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+`;
+
+const ButtonImage = styled.img`
+  margin-top: var(--sp3);
+  height: var(--sp3);
+  image-rendering: pixelated;
+
+  :active {
+    position: relative;
+    top: 2px;
+  }
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+async function getContract( 
   provider: any, 
   contract: string 
 ) {
-  return new ethers.Contract(contract, WIZARDS_ABI, provider);
+  return new ethers.Contract(contract, CONTRACTS[contract].ABI, provider);
 }
 
 async function listTokenForSell(
@@ -151,38 +226,104 @@ export default function SellOrder({
   contract: string;
   tokenId: number;
 }) {
-  const provider = getProvider();
-  const signer = provider.getSigner();
-  const { account } = useEthers();
+  const { library, account } = useEthers();
+  const signer = library?.getSigner();
+  const [listPrice, setListPrice] = useState('');
+  const [approved, setApproved] = useState(false);
+  const [expiration, setExpiration] = useState(
+    new Date(
+      new Date().getFullYear(), 
+      new Date().getMonth(), 
+      new Date().getDate() + 7)
+    
+  );
+  console.log(library);
 
   useEffect(() => {
     async function run() {
-      const wizContract = await getWizardsContract(provider, contract);
+      const wizContract = await getContract(library, contract);
+      console.log(wizContract);
       const owner = await wizContract.ownerOf(tokenId);
-      const proxy = await getProxy(provider, owner, account ?? '');
-      const approved = await canSend(owner, wizContract, proxy, tokenId);
-
-      const query: Parameters<any>['3'] = {
-        contract,
-        maker: owner,
-        side: 'sell',
-        price: ethers.utils.parseEther('1000000000000000000000000000000000000').toString(),
-        fee: 250,
-        feeRecipient: owner,
-        tokenId: tokenId,
-        expirationTime: DateTime.now().plus({ hours: 1 }).toMillis().toString(),
-      }
-
-      console.log(query);
-
-      listTokenForSell(chainId, signer, query, approved);
-      
+      console.log(owner);
+      const proxy = await getProxy(library, owner, account ?? '');
+      console.log(proxy);
+      setApproved(await canSend(owner, wizContract, proxy, tokenId));
     }
-
     run();
   }, []);
 
+  function doSale() {
+    if (isNaN(Number(listPrice)) || Number(listPrice) < 0) {
+      console.log('invalid price'); 
+      
+      // TODO - error in UI
+    } else {
+      const query: Parameters<any>['3'] = {
+        contract,
+        maker: account,
+        side: 'sell',
+        price: ethers.utils.parseEther(listPrice).toString(),
+        fee: 250,
+        feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51',
+        tokenId: tokenId,
+        expirationTime: Date.parse(expiration.toString()) / 1000,
+      }
+
+      console.log(query);
+      listTokenForSell(chainId, signer, query, approved);
+    }
+  }
+
   return (
-    <div></div>
+    <div style={{
+      position: 'absolute', 
+      width: '100%', 
+      height: '100%', 
+      backgroundColor: 'transparent',
+      zIndex: 2000,
+      display: 'flex',
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center'
+    }}>
+    <Overlay>
+      <ListPrice>
+        <Title>Price</Title>
+        <form>
+          <PriceInput type="text" style={{marginBottom: '20px'}} value={listPrice} onChange={(e)=> setListPrice(e.target.value)}></PriceInput>
+        </form>
+      </ListPrice>
+      <Expiration>
+        <Title>
+          <div style={{marginRight: '10px', marginBottom: '5px'}}>Listing Expires</div>
+          <InfoTooltip tooltip={'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'}/>
+        </Title>
+        <Flatpickr
+          data-enable-time
+          value={expiration}
+          onChange={([date]) => {
+            setExpiration(date);
+          }}
+          options={{
+            "disable": [
+                function(date) {
+                    return date < new Date();
+                }
+            ]
+        }}
+        />
+      </Expiration>
+      <ButtonImage
+      src={"/static/img/marketplace/sell.png"}
+      onMouseOver={(e) =>
+        (e.currentTarget.src = "/static/img/marketplace/sell_hover.png")
+      }
+      onMouseOut={(e) =>
+        (e.currentTarget.src = "/static/img/marketplace/sell.png")
+      }
+      onClick={() => { doSale() }}
+    />
+    </Overlay>
+    </div>
   )
 }

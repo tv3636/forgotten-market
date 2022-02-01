@@ -13,6 +13,7 @@ import {
 import {
   CONTRACTS,
   API_BASE_URL,
+  LOCATIONS,
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
@@ -22,43 +23,6 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import SellOrder from "../../../components/Marketplace/SellOrder";
-import { Provider } from "wagmi";
-
-const LOCATIONS: any = {
-  "Cuckoo Land": [5.6, 5.3],
-  "Psychic Leap": [5.6, 5.3],
-  Veil: [5.1, 2.85],
-  Bastion: [4.3, 1.9],
-  Realm: [5.3, 0.2],
-  "Sacred Pillars": [5.4, -1.85],
-  Tower: [3.4, -3.2],
-  Salt: [2.1, -6.05],
-  Wold: [2.7, -1.2],
-  Lake: [3.95, -0.45],
-  Wild: [2.91, 1.3],
-  Carnival: [1.6, 2.4],
-  Marsh: [0.65, 2.8],
-  Thorn: [0.5, 5.25],
-  Mist: [1.3, 6.9],
-  Toadstools: [3.3, 6.15],
-  Fey: [3.2, 3.6],
-  "Quantum Shadow": [-1.05, 6.59],
-  Valley: [-2.2, 6.7],
-  "Platonic Shadow": [-3.5, 6.7],
-  Obelisk: [-3.9, 5.2],
-  Oasis: [-4.9, 6.7],
-  Sand: [-5.7, 4.5],
-  Havens: [-3.6, 1.9],
-  Mountain: [-3, 1.45],
-  Riviera: [-3.8, -0.05],
-  Surf: [-4.6, -2.2],
-  Isle: [-4.5, -3.8],
-  Brine: [-3.6, -6.55],
-  Citadel: [-1.9, -5.6],
-  Capital: [0, -5.75],
-  Keep: [-1.9, -2.7],
-  Wood: [1, 0.3],
-};
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -67,26 +31,6 @@ const ListingWrapper = styled.div`
   max-width: 1000px;
   min-height: 90vh;
   margin: 0 auto;
-
-  --black: black;
-  --white: hsl(260,15%, 90%);
-  --hue: 250;
-  --lightGray: hsl(var(--hue), 15%, 75%);
-  --mediumGray: hsl(var(--hue), 24%, 15%);
-  --darkGray: hsl(var(--hue), 30%, 8%);
-
-  --ratio: 1.4; 
-  --sp0: 1em;
-  --sp1: calc(var(--ratio) * var(--sp0));
-  --sp2: calc(var(--ratio) * var(--sp1));
-  --sp3: calc(var(--ratio) * var(--sp2));
-  --sp4: calc(var(--ratio) * var(--sp3));
-  --sp5: calc(var(--ratio) * var(--sp4));
-  --sp-1:calc(var(--sp0) / var(--ratio));
-  --sp-2:calc(var(--sp-1) / var(--ratio));
-  --sp-3:calc(var(--sp-2) / var(--ratio));
-  --sp-4:calc(var(--sp-3) / var(--ratio));
-  --sp-5:calc(var(--sp-4) / var(--ratio));
 `;
 
 const Listing = styled.div`
@@ -398,21 +342,20 @@ const SoftLink = styled.a`
 function MarketAction({ 
   active,
   actionType,
+  tokenId,
+  contract
 }: {
   active: boolean;
   actionType: string;
+  tokenId: string;
+  contract: string;
 }) {
   if (!active) {
     return null
   } else {
-    return <div style={{
-      position: 'absolute', 
-      width: '500px', 
-      height: '500px', 
-      backgroundColor: 'black'
-    }}>
-      <SellOrder tokenId={6103} contract={'0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42'}/>
-    </div>
+    return (
+      <SellOrder tokenId={Number(tokenId)} contract={contract}/>
+    )
   }
 }
 
@@ -588,15 +531,14 @@ function Owner({
   ens: string | null;
   tokenId: string;
 }) {
+  console.log( )
   return (
     <OwnerStyle>
       {`#${tokenId} - Owner: `}
       <a href={"/address/" + owner} target="_blank" rel="noopener noreferrer">
-        {ens
-          ? owner?.toLowerCase() != connectedAccount?.toLowerCase()
-            ? ens
-            : "you"
-          : owner.substring(0, 10)}
+        {owner?.toLowerCase() == connectedAccount?.toLowerCase()
+          ? "you" 
+          : ens ? ens : owner.substring(0, 10)}
       </a>
     </OwnerStyle>
   );
@@ -705,7 +647,7 @@ const ListingPage = ({
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 ? 
         <ListingWrapper>
-        <MarketAction active={marketActive} actionType={marketActionType}/>
+        <MarketAction active={marketActive} actionType={marketActionType} tokenId={tokenId} contract={contractSlug}/>
         <Listing>
           <TopDisplay>
             <TokenImage src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />
