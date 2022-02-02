@@ -23,10 +23,12 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import SellOrder from "../../../components/Marketplace/SellOrder";
+import CancelListing from "../../../components/Marketplace/CancelListing";
 
 const ListingWrapper = styled.div`
   display: flex;
   justify-content: center;
+  position: relative;
 
   max-width: 1000px;
   min-height: 90vh;
@@ -340,35 +342,46 @@ const SoftLink = styled.a`
 `;
 
 function MarketAction({ 
-  active,
+  modal,
   actionType,
   tokenId,
-  contract
+  contract,
+  name,
+  setModal
 }: {
-  active: boolean;
+  modal: boolean;
   actionType: string;
   tokenId: string;
   contract: string;
+  name: string;
+  setModal: any;
 }) {
-  if (!active) {
-    return null
-  } else {
-    return (
-      <SellOrder tokenId={Number(tokenId)} contract={contract}/>
-    )
+  if (modal) {
+    if (actionType == 'sell') {
+      return (
+        <SellOrder tokenId={Number(tokenId)} contract={contract} name={name} setModal={setModal}/>
+      )
+    } else if (actionType == 'cancel') {
+      return (
+        <CancelListing tokenId={tokenId} contract={contract} setModal={setModal}/>
+      )
+    } else {
+      return null
+    }
   }
+  
+  return null
 }
 
 function MarketButton({ 
   text,
-  setActive,
+  setModal,
   setActionType
  }: { 
    text: string;
-   setActive: any;
+   setModal: any;
    setActionType: any;
   }) {
-  const router = useRouter();
   return (
     <ButtonImage
       src={"/static/img/marketplace/" + text + ".png"}
@@ -378,7 +391,7 @@ function MarketButton({
       onMouseOut={(e) =>
         (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")
       }
-      onClick={(e) => { setActive(true); setActionType(text); }}
+      onClick={(e) => { setModal(true); setActionType(text); }}
     />
   );
 }
@@ -387,32 +400,31 @@ function MarketButtons({
   account,
   owner,
   listValue,
-  setActive,
-  setActionType
+  setModal,
+  setActionType,
 }: {
   account: string | null | undefined;
   owner: string | null | undefined;
   listValue: number | null | undefined;
-  setActive: any;
+  setModal: any;
   setActionType: any;
 }) {
   if (!account) {
     return <ConnectWalletButton />;
   }
-  const router = useRouter();
   if (owner) {
     if (account.toLowerCase() == owner.toLowerCase()) {
       if (listValue) {
         // TODO: replace with MarketButton once drawn
-        return <MarketButton text={"cancel"} setActive={setActive} setActionType={setActionType} />;
+        return <MarketButton text={"cancel"} setModal={setModal} setActionType={setActionType} />;
       } else {
-        return <MarketButton text={"sell"} setActive={setActive} setActionType={setActionType} />;
+        return <MarketButton text={"sell"} setModal={setModal} setActionType={setActionType} />;
       }
     } else {
       return (
         <div>
-          {listValue && <MarketButton text={"buy"} setActive={setActive} setActionType={setActionType} />}
-          <MarketButton text={"offer"} setActive={setActive} setActionType={setActionType} />
+          {listValue && <MarketButton text={"buy"} setModal={setModal} setActionType={setActionType} />}
+          <MarketButton text={"offer"} setModal={setModal} setActionType={setActionType} />
         </div>
       );
     }
@@ -560,7 +572,7 @@ const ListingPage = ({
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
-  const [marketActive, setMarketActive] = useState(false);
+  const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState("");
   const { account } = useEthers();
 
@@ -588,6 +600,8 @@ const ListingPage = ({
   }
 
   useEffect(() => {
+    let interval: any = null;
+
     async function run() {
       const page = await fetch(
         API_BASE_URL +
@@ -606,7 +620,7 @@ const ListingPage = ({
         setAttributes(listingsJson.tokens[0].token.attributes);
         setMapCenter(getCenter(listingsJson.tokens[0].token.name));
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
-        setInterval(
+        interval = setInterval(
           () => setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000))),
           1000
         );
@@ -623,7 +637,7 @@ const ListingPage = ({
         var newPages = [];
         for (var lorePage of lore) {
           var thisPage = await hydratePageDataFromMetadata(
-            lorePage.loreMetadataURI,
+lorePage.loreMetadataURI,
             lorePage.createdAtTimestamp,
             lorePage.creator,
             lorePage.tokenId
@@ -640,13 +654,18 @@ const ListingPage = ({
     }
 
     run();
-  }, []);
+
+    return () => {
+      clearInterval(interval);
+    }
+
+  }, [modal]);
 
   return (
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 ? 
         <ListingWrapper>
-        <MarketAction active={marketActive} actionType={marketActionType} tokenId={tokenId} contract={contractSlug}/>
+        {modal && <MarketAction modal={modal} actionType={marketActionType} tokenId={tokenId} contract={contractSlug} name={token.name} setModal={setModal}/>}
         <Listing>
           <TopDisplay>
             <TokenImage src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />
@@ -664,7 +683,7 @@ const ListingPage = ({
                     account={account}
                     owner={token.owner}
                     listValue={listing.value}
-                    setActive={setMarketActive}
+                    setModal={setModal}
                     setActionType={setMarketActionType}
                   />
                 </ButtonWrapper>
