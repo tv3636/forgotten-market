@@ -25,6 +25,7 @@ import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import SellOrder from "../../../components/Marketplace/SellOrder";
 import CancelListing from "../../../components/Marketplace/CancelListing";
 import BuyOrder from "../../../components/Marketplace/BuyOrder";
+import MakeOffer from "../../../components/Marketplace/MakeOffer";
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -369,6 +370,10 @@ function MarketAction({
     } else if (actionType == 'buy') {
       return (
         <BuyOrder tokenId={tokenId} contract={contract} name={name} setModal={setModal}/>
+      )
+    } else if (actionType == 'offer') {
+      return (
+        <MakeOffer tokenId={tokenId} contract={contract} name={name} setModal={setModal} isCollectionWide={false}/>
       )
     } else {
       return null
