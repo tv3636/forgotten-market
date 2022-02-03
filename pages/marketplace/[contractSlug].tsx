@@ -236,7 +236,7 @@ function TokenDisplay({
           <ListingImage 
             src={CONTRACTS[contract].image_url + tokenId + ".png"}
             onMouseOver={(e) =>
-              (e.currentTarget.src = `/static/img/walkcycles/${tokenId}-walkcycle.gif`)
+              (e.currentTarget.src = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`)
             }
             onMouseOut={(e) =>
               (e.currentTarget.src = `${CONTRACTS[contract].image_url}${tokenId}.png`)

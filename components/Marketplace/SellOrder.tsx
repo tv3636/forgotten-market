@@ -305,7 +305,8 @@ export default function SellOrder({
     run();
   }, []);
 
-  async function doSale() {
+  async function doSale(event: any) {
+    event.preventDefault();
     console.log(listPrice);
     if (!listPrice || isNaN(Number(listPrice)) || Number(listPrice) < 0) {
       console.log('invalid price'); 
@@ -341,7 +342,7 @@ export default function SellOrder({
         <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />
           <ListPrice>
             <Title>Price</Title>
-            <form>
+            <form onSubmit={(e) => { doSale(e) }}>
               <PriceInput type="text" style={{marginBottom: '20px'}} value={listPrice} onChange={(e)=> setListPrice(e.target.value)}></PriceInput>
             </form>
           </ListPrice>
@@ -373,7 +374,7 @@ export default function SellOrder({
           onMouseOut={(e) =>
             (e.currentTarget.src = "/static/img/marketplace/sell.png")
           }
-          onClick={() => { doSale() }}
+          onClick={(e) => { doSale(e) }}
         />
       </Overlay> : checked ?
         <Overlay>

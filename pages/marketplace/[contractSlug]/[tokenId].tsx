@@ -24,6 +24,7 @@ import { useRouter } from 'next/router';
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import SellOrder from "../../../components/Marketplace/SellOrder";
 import CancelListing from "../../../components/Marketplace/CancelListing";
+import BuyOrder from "../../../components/Marketplace/BuyOrder";
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -365,6 +366,10 @@ function MarketAction({
       return (
         <CancelListing tokenId={tokenId} contract={contract} setModal={setModal}/>
       )
+    } else if (actionType == 'buy') {
+      return (
+        <BuyOrder tokenId={tokenId} contract={contract} name={name} setModal={setModal}/>
+      )
     } else {
       return null
     }
@@ -632,6 +637,8 @@ const ListingPage = ({
         setEns(ensName);
         
       }
+
+      console.log(listingsJson);
 
       if (lore.length > 0) {
         var newPages = [];

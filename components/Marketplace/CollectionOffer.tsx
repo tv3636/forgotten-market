@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
-import { useNetwork, useSigner } from 'wagmi';
 import { API_BASE_URL, CONTRACTS } from "./marketplaceConstants";
 import { Provider } from "wagmi";
 import OfferModal from "./OfferModal";
