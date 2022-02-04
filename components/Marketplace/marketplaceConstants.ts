@@ -12,6 +12,7 @@ export const CONTRACTS: any = {
     collection: "forgottenruneswizardscult",
     display: "Wizards",
     singular: "Wizard",
+    full: "Forgotten Runes Wizard's Cult",
     image_url: "/api/art/wizards/",
     ABI: WIZARDS_ABI
   },
@@ -19,6 +20,7 @@ export const CONTRACTS: any = {
     collection: "forgottensouls",
     display: "Souls",
     singular: "Soul",
+    full: "Forgotten Souls",
     image_url: "https://portal.forgottenrunes.com/api/souls/img/",
     ABI: SOULS_ABI
   },
@@ -26,6 +28,7 @@ export const CONTRACTS: any = {
     collection: "forgottenrunesponies",
     display: "Ponies",
     singular: "Pony",
+    full: "Forgotten Runes Ponies",
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
     ABI: PONIES_ABI
   },

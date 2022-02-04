@@ -166,44 +166,6 @@ p {
   font-size: 18px;
 }
 
-.react-tabs__tab {
-  color: var(--lightGray) !important;
-  font-family: 'Alagard';
-  font-size: 24px;
-
-  background-color: var(--darkGray) !important;
-  border-radius: 10px 10px 0px 0px !important;
-  border-style: dashed !important;
-  border-bottom: none !important;
-}
-
-.react-tabs__tab:hover {
-  border-color: var(--lightGray) !important;
-  background-color: var(--mediumGray) !important;
-}
-
-.react-tabs__tab--selected {
-  color: var(--white) !important;
-  background-color: var(--darkGray) !important;
-  font-family: 'Alagard';
-  font-size: 30px;
-
-  border-style: dashed !important;
-  border-color: var(--mediumGray) !important;
-  border-bottom: none !important;
-}
-
-.react-tabs__tab--selected:hover {
-  border-color: var(--lightGray) !important;
-  background-color: var(--mediumGray) !important;
-}
-
-.react-tabs__tab-list {
-  border-bottom-style: dashed !important;
-  border-bottom-color: var(--mediumGray) !important;
-  border-width: 1.5px !important;
-}
-
 .__react_component_tooltip {
   background: var(--darkGray) !important;
   color: var(--white) !important;
@@ -230,4 +192,133 @@ p {
   background: var(--mediumGray);
   border-color: var(--lightGray);
   color: var(--white);
+}
+
+.flatpickr-month {
+  background: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+
+  font-family: Alagard !important;
+}
+
+.flatpickr-monthDropdown-months {
+  background: var(--mediumGray) !important;
+}
+
+.flatpickr-weekdays {
+  background: var(--mediumGray) !important;
+  border-bottom: dashed;
+  border-bottom-color: var(--lightGray);
+  border-bottom-width: 1px;
+}
+
+.flatpickr-weekday {
+  background: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+
+  font-family: Roboto Mono !important;
+}
+
+.flatpickr-rContainer {
+  background: var(--darkGray) !important;
+  border-bottom: dashed;
+  border-bottom-color: var(--lightGray);
+  border-bottom-width: 1px;
+}
+
+.flatpickr-day {
+  background: var(--darkGray) !important;
+  border-color: var(--darkGray) !important;
+  color: var(--lightGray) !important;
+  font-family: Roboto Mono !important;
+}
+
+.flatpickr-disabled {
+  color: var(--mediumGray) !important;
+}
+
+.selected {
+  background-color: var(--mediumGray) !important;
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  color: var(--white) !important;
+}
+
+.flatpickr-time {
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-minute {
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-am-pm {
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-hour {
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-hour:hover {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-minute:hover {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-am-pm:hover {
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-hour:focus {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-minute:focus {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-am-pm:focus {
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-next-month {
+  fill: var(--lightGray) !important;
+}
+
+.flatpickr-prev-month {
+  fill: var(--lightGray) !important;
+}
+
+.flatpickr-next-month:hover svg {
+  fill: var(--white) !important;
+}
+
+.flatpickr-prev-month:hover svg {
+  fill: var(--white) !important;
+}
+
+.flatpickr-calendar.arrowBottom:after {
+  border-top-color: var(--lightGray) !important;
+}
+
+.flatpickr-calendar.arrowTop:before {
+  border-bottom-color: var(--lightGray) !important;
 }

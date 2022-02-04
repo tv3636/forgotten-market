@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import { SocialItem } from "../../components/Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import { CONTRACTS } from "./marketplaceConstants";

@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import "react-tabs/style/react-tabs.css";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Select from "react-select";
 import { GetStaticPaths, GetStaticProps } from "next";
@@ -14,7 +12,7 @@ import {
 } from "../../components/Marketplace/marketplaceConstants";
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import CollectionOffer from "../../components/Marketplace/CollectionOffer";
+import MakeOffer from "../../components/Marketplace/MakeOffer";
 
 const marketplaceContracts = [
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
@@ -26,7 +24,84 @@ const MarketWrapper = styled.div`
   font-size: 20px;
   display: flex;
   justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
   margin-top: 2vh;
+  flex-wrap: wrap;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: row;
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 1200px;
+  margin-right: 100px;
+  margin-bottom: 5px;
+`;
+
+const Tabs = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  align-self: flex-start;
+  margin-left: 20px;
+
+`;
+
+const Tab  = styled.div`
+  background: var(--darkGray);
+  border-style: dashed;
+  border-radius: 10px 10px 0px 0px;
+  border-color: var(--mediumGray);
+  border-width: 1px;
+  border-bottom: none;
+
+  font-family: Alagard;
+  font-size: 24px;
+  color: var(--lightGray);
+
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  
+
+  :hover {
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: var(--white);
+    cursor: pointer;
+  }
+`;
+
+const TabSelected  = styled.div`
+  background: var(--darkGray);
+  border-style: dashed;
+  border-radius: 10px 10px 0px 0px;
+  border-color: var(--lightGray);
+  border-width: 1px;
+  border-bottom: none;
+
+  font-family: Alagard;
+  font-size: 24px;
+  color: var(--white);
+
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  
+
+  :hover {
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: var(--white);
+    cursor: pointer;
+  }
 `;
 
 const TabWrapper = styled.div`
@@ -37,6 +112,30 @@ const TabWrapper = styled.div`
     flex-direction: column;
     max-height: 100%;
   }
+`;
+
+const CollectionOffer = styled.div`
+  background: var(--darkGray);
+  border-style: dashed;
+  border-radius: 10px;
+  border-color: var(--mediumGray);
+  border-width: 1px;
+
+  font-family: Alagard;
+  font-size: 20px;
+  color: var(--lightGray);
+
+  padding: 10px;
+  margin-right: 10px;
+
+
+  :hover {
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: var(--white);
+    cursor: pointer;
+  }
+
 `;
 
 const Form = styled.form`
@@ -140,6 +239,26 @@ const FontTraitWrapper = styled.div`
 const SoftLink = styled.a`
   text-decoration: none;
 `;
+
+function MarketTabs() {
+  var router = useRouter();
+  return (
+    <Tabs>
+      {
+      marketplaceContracts.map((contract: string, index) => (
+        <Link 
+          href={"/marketplace/" + contract}
+          key={index}
+        >
+        {contract == router.query.contractSlug ? 
+          <TabSelected>{CONTRACTS[contract].display}</TabSelected> : 
+          <Tab>{CONTRACTS[contract].display}</Tab>
+        }
+        </Link>
+      ))}
+    </Tabs>
+  )
+}
 
 function LoadingCard() {
   return (
@@ -279,46 +398,6 @@ function TokenDisplay({
   );
 }
 
-function MarketTab({
-  contracts,
-  wizardsWithLore,
-}: {
-  contracts: any;
-  wizardsWithLore: any;
-}) {
-  var router = useRouter();
-  function clearRouter(selected: number) {
-    router.query = {};
-    router.push(`/marketplace/${marketplaceContracts[selected]}`, undefined, {shallow: false});
-  }
-
-  return (
-    <Tabs 
-      onSelect={(index: number) => clearRouter(index)} 
-      defaultIndex={marketplaceContracts.indexOf(router.query.contractSlug.toString())} 
-      style={{width: '1300px'}}
-    >
-      <TabList>
-        {contracts.map((contract: string, index: number) => {
-          return <Tab key={index}>{CONTRACTS[contract].display}</Tab>;
-        })}
-      </TabList>
-      {contracts.map((contract: string, index: number) => {
-        return (
-          <TabPanel key={index}>
-            <Listings
-              collection={CONTRACTS[contract].collection}
-              contract={contract}
-              wizardsWithLore={wizardsWithLore}
-              key={contract}
-            />
-          </TabPanel>
-        );
-      })}
-    </Tabs>
-  );
-}
-
 function Listings({
   contract,
   collection,
@@ -442,19 +521,66 @@ function Listings({
 
 export default function Marketplace({
   wizardsWithLore,
+  contract
 }: {
   wizardsWithLore: { [key: number]: boolean };
+  contract: string;
 }) {
+  const [currentOffer, setCurrentOffer] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    async function getCollectionOffer() {
+      const collection = await fetch(API_BASE_URL + "collections/" + CONTRACTS[contract].collection);
+      const collectionJson = await collection.json();
+
+      if (collectionJson.collection) {
+        setCurrentOffer(collectionJson.collection.set.market.topBuy.value);
+      }
+    }
+
+    getCollectionOffer();
+  }, [contract]);
+
+  if (contract) {
   return (
     <Layout title="Marketplace">
       <MarketWrapper>
-        <MarketTab
-          contracts={marketplaceContracts}
-          wizardsWithLore={wizardsWithLore}
-        />
+        <Header>
+        <MarketTabs/>
+        <CollectionOffer onClick={() => setShowModal(true)}>Collection Offer: <img
+                  src="/static/img/marketplace/eth.png"
+                  style={{
+                    height: "14px",
+                    marginLeft: "8px",
+                    marginTop: "2px",
+                  }}
+                />{currentOffer ? ` ${currentOffer}`: null}</CollectionOffer>
+        </Header>
+        {showModal && 
+        <MakeOffer 
+          contract={contract} 
+          tokenId={'0'} 
+          name={CONTRACTS[contract].full} 
+          isCollectionWide={true} 
+          setModal={setShowModal}/>
+        }
+        <div style={{width: '1300px'}}>
+          <Listings
+            collection={CONTRACTS[contract].collection}
+            contract={contract}
+            wizardsWithLore={wizardsWithLore}
+            key={contract}
+          />
+        </div>
       </MarketWrapper>
     </Layout>
   );
+  } else {
+    return <Layout title="Marketplace">
+      <MarketWrapper></MarketWrapper>
+    </Layout>
+  }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
@@ -463,6 +589,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       wizardsWithLore: await getWizardsWithLore(contractSlug),
+      contract: contractSlug
     },
     revalidate: 3 * 60,
   };

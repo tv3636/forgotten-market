@@ -554,14 +554,11 @@ function Owner({
   tokenId: string;
 }) {
   return (
-    <OwnerStyle>
-      {`#${tokenId} - Owner: `}
-      <a href={"/address/" + owner} target="_blank" rel="noopener noreferrer">
-        {owner?.toLowerCase() == connectedAccount?.toLowerCase()
-          ? "you" 
-          : ens ? ens : owner.substring(0, 10)}
-      </a>
-    </OwnerStyle>
+    <a href={"/address/" + owner} target="_blank" rel="noopener noreferrer">
+      {owner?.toLowerCase() == connectedAccount?.toLowerCase()
+        ? "you" 
+        : ens ? ens : owner.substring(0, 10)}
+    </a>
   );
 }
 
@@ -627,6 +624,7 @@ const ListingPage = ({
         setToken(listingsJson.tokens[0].token);
         setListing(listingsJson.tokens[0].market.floorSell);
         setOffer(listingsJson.tokens[0].market.topBuy);
+        console.log(listingsJson.tokens[0].market.topBuy);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setMapCenter(getCenter(listingsJson.tokens[0].token.name));
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
@@ -685,20 +683,25 @@ lorePage.loreMetadataURI,
               <NameDisplay>
                 <NameStyle>{token.name}</NameStyle>
                 {token.owner && (
-                  <Owner owner={token.owner} connectedAccount={account} ens={ens} tokenId={tokenId}/>
+                  <OwnerStyle>
+                    {`#${tokenId} - Owner: `}
+                    <Owner owner={token.owner} connectedAccount={account} ens={ens} tokenId={tokenId}/>
+                  </OwnerStyle>
                 )}
               </NameDisplay>
               <PriceDisplay>
                 <Price value={listing.value} />
-                <ButtonWrapper>
-                  <MarketButtons
-                    account={account}
-                    owner={token.owner}
-                    listValue={listing.value}
-                    setModal={setModal}
-                    setActionType={setMarketActionType}
-                  />
-                </ButtonWrapper>
+                {token.owner != '0x0000000000000000000000000000000000000000' &&
+                  <ButtonWrapper>
+                    <MarketButtons
+                      account={account}
+                      owner={token.owner}
+                      listValue={listing.value}
+                      setModal={setModal}
+                      setActionType={setMarketActionType}
+                    />
+                  </ButtonWrapper>
+                }
                 {listing.validUntil ? (
                   <ListingExpiration
                     timer={countdownTimer}
@@ -714,7 +717,8 @@ lorePage.loreMetadataURI,
                         src="/static/img/marketplace/eth_alt.png"
                         style={{ height: "17px", marginRight: "5px", marginLeft: "7px" }}
                       />
-                      {offer.value}
+                      {`${offer.value} from`}&nbsp;
+                      <Owner owner={offer.maker} connectedAccount={account} ens={ens} tokenId={tokenId}/>
                     </PriceValue>
                   </OfferWrapper>
                 }

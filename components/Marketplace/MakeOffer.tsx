@@ -16,22 +16,21 @@ const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
 const OverlayWrapper = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 90vw;
+  height: 90vh;
   background-color: #00000085;
   z-index: 2000;
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: flex-start;
-
-  transition-property: background-color;
-  transition-duration: 2s;
 `;
 
 const Overlay = styled.div`
   width: 60vw;
   height: 60vh;
+
+  max-width: 800px;
   background-color: var(--black); 
 
   border: dashed;
@@ -283,13 +282,14 @@ export async function checkUserBalance(
   signer: Signer,
   missingWeth: BigNumber,
   weth: Weth, 
-  setWrapping: any
+  setWrapping: any,
+  setPrompting: any,
 ) {
   // The signer has enough wETH
   if (missingWeth.isZero()) return true
 
-  setWrapping(true);
   console.log(ethers.utils.formatEther(missingWeth));
+  setPrompting(true);
 
   try {
     // The signer doesn't have enough wETH
@@ -299,6 +299,9 @@ export async function checkUserBalance(
       missingWeth
     )) as ContractTransaction
 
+    setPrompting(false);
+    setWrapping(true);
+
     // Wait for the transaction to be mined
     await wait()
 
@@ -307,6 +310,7 @@ export async function checkUserBalance(
     return true
   } catch (err) {
     setWrapping(false);
+    setPrompting(false);
     console.error(err)
   }
 
@@ -372,16 +376,6 @@ async function postBuyOrder(
   return null
 }
 
-/**
- * Make an offer
- * @param chainId
- * @param provider
- * @param input
- * @param apiBase
- * @param signer
- * @param query
- * @param missingWeth
- */
 async function makeOffer(
   chainId: number,
   provider: any,
@@ -390,7 +384,8 @@ async function makeOffer(
   signer: any,
   query: paths['/orders/build']['get']['parameters']['query'],
   missingWeth: BigNumber, 
-  setWrapping: any
+  setWrapping: any,
+  setPrompting: any,
 ) {
   try {
     // Get a wETH instance
@@ -408,7 +403,7 @@ async function makeOffer(
 
     if (!isAllowanceOk) throw new Error('Allowance is not ok')
 
-    const isBalanceOk = await checkUserBalance(signer, missingWeth, weth.weth, setWrapping)
+    const isBalanceOk = await checkUserBalance(signer, missingWeth, weth.weth, setWrapping, setPrompting)
 
     if (!isBalanceOk) throw new Error('Balance is not ok')
 
@@ -461,6 +456,7 @@ export default function MakeOffer({
   } | null>(null)
   const [ethBalance, setEthBalance] = useState<any>(null);
   const [wrapping, setWrapping] = useState(false);
+  const [prompting, setPrompting] = useState(false);
 
   useEffect(() => {
     async function loadWeth() {
@@ -531,17 +527,26 @@ export default function MakeOffer({
         signer, 
         query, 
         calculations.missingWeth, 
-        setWrapping
+        setWrapping,
+        setPrompting
       )
     }
   }
 
+  function clickOut(event: any) {
+    console.log(event.target.id);
+    if (event.target.id == 'wrapper') {
+      setModal(false);
+    }
+  }
+
   return (
-    <OverlayWrapper>
-      { !wrapping ? 
-      <Overlay>
-        <Title style={{marginBottom: "40px"}}>Submitting an offer for {name} (#{tokenId})</Title>
-        <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />
+    <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+      { !wrapping && !prompting ? 
+      <Overlay id="modal">
+        {isCollectionWide ? <Title style={{marginBottom: "40px"}}>Submitting a collection offer for {name}</Title> : 
+          <Title style={{marginBottom: "40px"}}>Submitting an offer for {name} (#{tokenId})</Title>}
+        {!isCollectionWide && <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />}
           <ListPrice>
             <Title>Price</Title>
             <form onSubmit={(e) => { doOffer(e) }}>
@@ -578,11 +583,14 @@ export default function MakeOffer({
           }
           onClick={(e) => { doOffer(e) }}
         />
-      </Overlay> :
+      </Overlay> : !prompting ?
       <Overlay>
         <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
         <Title style={{marginBottom: "40px"}}>Wrapping ETH to make offer...</Title>
-      </Overlay>
+      </Overlay> :
+      <Overlay>
+      <Title style={{marginBottom: "40px"}}>Wrap ETH to proceed with offer</Title>
+    </Overlay>
     }
     </OverlayWrapper>
   )
