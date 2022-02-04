@@ -20,12 +20,12 @@ import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButto
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Link from "next/link";
-import { useRouter } from 'next/router';
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import SellOrder from "../../../components/Marketplace/SellOrder";
 import CancelListing from "../../../components/Marketplace/CancelListing";
 import BuyOrder from "../../../components/Marketplace/BuyOrder";
 import MakeOffer from "../../../components/Marketplace/MakeOffer";
+import AcceptOffer from "../../../components/Marketplace/AcceptOffer";
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -375,6 +375,10 @@ function MarketAction({
       return (
         <MakeOffer tokenId={tokenId} contract={contract} name={name} setModal={setModal} isCollectionWide={false}/>
       )
+    } else if (actionType == 'acceptOffer') {
+      return (
+        <AcceptOffer tokenId={tokenId} contract={contract} setModal={setModal}/>
+      )
     } else {
       return null
     }
@@ -410,12 +414,14 @@ function MarketButtons({
   account,
   owner,
   listValue,
+  hasOffer,
   setModal,
   setActionType,
 }: {
   account: string | null | undefined;
   owner: string | null | undefined;
   listValue: number | null | undefined;
+  hasOffer: boolean;
   setModal: any;
   setActionType: any;
 }) {
@@ -426,9 +432,19 @@ function MarketButtons({
     if (account.toLowerCase() == owner.toLowerCase()) {
       if (listValue) {
         // TODO: replace with MarketButton once drawn
-        return <MarketButton text={"cancel"} setModal={setModal} setActionType={setActionType} />;
+        return (
+          <div>
+            <MarketButton text={"cancel"} setModal={setModal} setActionType={setActionType} />
+            {hasOffer && <MarketButton text={"acceptOffer"} setModal={setModal} setActionType={setActionType} />}
+          </div>
+        )
       } else {
-        return <MarketButton text={"sell"} setModal={setModal} setActionType={setActionType} />;
+        return (
+          <div>
+            <MarketButton text={"sell"} setModal={setModal} setActionType={setActionType} />
+            {hasOffer && <MarketButton text={"acceptOffer"} setModal={setModal} setActionType={setActionType} />}
+          </div>
+        )
       }
     } else {
       return (
@@ -624,7 +640,6 @@ const ListingPage = ({
         setToken(listingsJson.tokens[0].token);
         setListing(listingsJson.tokens[0].market.floorSell);
         setOffer(listingsJson.tokens[0].market.topBuy);
-        console.log(listingsJson.tokens[0].market.topBuy);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setMapCenter(getCenter(listingsJson.tokens[0].token.name));
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
@@ -640,8 +655,6 @@ const ListingPage = ({
         setEns(ensName);
         
       }
-
-      console.log(listingsJson);
 
       if (lore.length > 0) {
         var newPages = [];
@@ -697,6 +710,7 @@ lorePage.loreMetadataURI,
                       account={account}
                       owner={token.owner}
                       listValue={listing.value}
+                      hasOffer={offer.value != null}
                       setModal={setModal}
                       setActionType={setMarketActionType}
                     />

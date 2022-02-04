@@ -6,10 +6,10 @@ import { useEthers } from "@usedapp/core";
 import { paths } from "../../interfaces/apiTypes";
 import setParams from "../../lib/params";
 import { WyvernV2 } from '@reservoir0x/sdk';
-import { WYVERN_ABI } from "../../contracts/abis";
 import "flatpickr/dist/themes/material_green.css";
 import Flatpickr from "react-flatpickr";
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
+import { WYVERN_ABI } from "../../contracts/abis";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -134,6 +134,36 @@ const ButtonImage = styled.img`
   }
 `;
 
+async function getProxy(provider: any, owner: string, account: string, signer: any) {
+  const proxyRegistryContract = new Contract(
+    chainId === 4
+      ? '0xf57b2c51ded3a29e6891aba85459d600256cf317'
+      : '0xa5409ec958c83c3f309868babaca7c86dcb077c1',
+    WYVERN_ABI,
+    provider
+  );
+  
+  if (owner.toLowerCase() !== account?.toLowerCase()) {
+    console.error('Signer is not the token owner')
+    return null
+  } else {
+    const userProxy = await proxyRegistryContract.proxies(owner)
+
+    // Register proxy for wyvern exchange if it doesn't exist
+    if (!userProxy) {
+      let { wait } = (await proxyRegistryContract.connect(signer).registerProxy()) as ContractTransaction;
+        
+        // Wait for the transaction to get mined
+        await wait();
+        
+        // Retrieve user proxy
+        return await proxyRegistryContract.proxies(owner);
+    }
+
+    return userProxy;
+  }
+}
+
 async function getContract( 
   provider: any, 
   contract: string 
@@ -229,36 +259,6 @@ async function canSend(owner: string, collectionContract: any, userProxy: string
       console.error(error);
       return false
     }
-}
-
-async function getProxy(provider: any, owner: string, account: string, signer: any) {
-  const proxyRegistryContract = new Contract(
-    chainId === 4
-      ? '0xf57b2c51ded3a29e6891aba85459d600256cf317'
-      : '0xa5409ec958c83c3f309868babaca7c86dcb077c1',
-    WYVERN_ABI,
-    provider
-  );
-  
-  if (owner.toLowerCase() !== account?.toLowerCase()) {
-    console.error('Signer is not the token owner')
-    return null
-  } else {
-    const userProxy = await proxyRegistryContract.proxies(owner)
-
-    // Register proxy for wyvern exchange if it doesn't exist
-    if (!userProxy) {
-      let { wait } = (await proxyRegistryContract.connect(signer).registerProxy()) as ContractTransaction;
-        
-        // Wait for the transaction to get mined
-        await wait();
-        
-        // Retrieve user proxy
-        return await proxyRegistryContract.proxies(owner);
-    }
-
-    return userProxy;
-  }
 }
 
 export default function SellOrder({
