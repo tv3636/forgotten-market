@@ -193,6 +193,17 @@ export default function Order({
   } | null>(null)
   const [ethBalance, setEthBalance] = useState<any>(null);
 
+  if (chainId != library?.network.chainId) {
+    console.log('wrong network');
+    return (
+      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+      <Overlay>
+        <Title>Wrong Network - Please connect to Rinkeby to continue</Title>
+      </Overlay>
+    </OverlayWrapper>
+    )
+  }
+
   async function run() {
     let query: OrderPaths[typeof action];
 
@@ -204,14 +215,11 @@ export default function Order({
           side: 'sell',
         };
 
-        if (await instantBuy(API_BASE_URL, chainId, signer, query, setStatus)) {
-          setTimeout(
-            () => setModal(false),
-            5000
-          );
-        } else {
-          setModal(false);
-        }
+        await instantBuy(API_BASE_URL, chainId, signer, query, setStatus)
+        setTimeout(
+          () => setModal(false),
+          5000
+        );
         
         break;
 
@@ -374,11 +382,14 @@ export default function Order({
           <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>{name} (#{tokenId})</Title>
           <Title style={{marginTop: "20px"}}>Purchase successful!</Title>
-        </Section> :
+        </Section> : status == Status.FAILURE ?
         <Section>
-          <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />
-          <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})...</Title>
-        </Section>
+          <Title style={{marginTop: "20px"}}>Failed to purchase. Please ensure you have sufficient funds</Title>
+        </Section> :
+         <Section>
+         <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />
+         <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})...</Title>
+       </Section>
         }
       </Overlay> 
     </OverlayWrapper>
