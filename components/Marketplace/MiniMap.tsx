@@ -1,12 +1,21 @@
 import styled from "@emotion/styled";
-import dynamic from "next/dynamic";
 import InfoTooltip from "./InfoToolTip";
+import { ImageOverlay, MapContainer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet-defaulticon-compatibility";
+import { LatLngBounds } from "leaflet";
 
-const DynamicMap = dynamic(() => import("../../components/Map"), {
-  ssr: false, // leaflet doesn't like Next.js SSR
-});
+const width = 20;
+const height = 16;
+const scale = 1;
 
-const MapContainer = styled.div`
+const bounds = new LatLngBounds(
+  [(-height / 2) * scale, (-width / 2) * scale],
+  [(height / 2) * scale, (width / 2) * scale]
+);
+
+const Container = styled.div`
   margin-left: 2vw;
   
   @media only screen and (max-width: 600px) {
@@ -97,7 +106,17 @@ function MapBlur({ center }: { center: any }) {
   } else {
     return (
       <MapStyles>
-        <DynamicMap center={center} zoom={zoom} width={width} height={height} />
+      <MapContainer
+        center={center}
+        zoom={zoom}
+        maxZoom={9}
+        minZoom={6}
+        scrollWheelZoom={true}
+        style={{ height: height, width: width }}
+        attributionControl={false}
+      >
+        <ImageOverlay bounds={bounds} url="/static/img/map/map2.png" />
+      </MapContainer>
       </MapStyles>
     );
   }
@@ -109,9 +128,9 @@ const Minimap = ({ center }: { center: [number, number] }) => {
   }
   
   return (
-    <MapContainer>
+    <Container>
       <MapBlur center={center} />
-    </MapContainer>
+    </Container>
   );
 };
 

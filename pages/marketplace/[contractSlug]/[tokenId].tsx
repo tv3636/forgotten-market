@@ -6,7 +6,6 @@ import client from "../../../lib/graphql";
 import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUtils";
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
-import Minimap from "../../../components/Marketplace/MiniMap";
 import {
   Icons
 } from "../../../components/Marketplace/marketplaceHelpers";
@@ -23,6 +22,11 @@ import countdown from "countdown";
 import Link from "next/link";
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import Order from "../../../components/Marketplace/Order";
+import dynamic from "next/dynamic";
+
+const DynamicMap = dynamic(() => import("../../../components/Marketplace/MiniMap"), {
+  ssr: false, // leaflet doesn't like Next.js SSR
+});
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -725,7 +729,7 @@ lorePage.loreMetadataURI,
             </SectionDisplay>
           <MidDisplay>
             <TraitDisplay attributes={attributes} contract={contractSlug} />
-            <Minimap center={mapCenter} />
+            <DynamicMap center={mapCenter} />
           </MidDisplay>
           </SectionWrapper>
           <HorizontalLine/>
