@@ -16,6 +16,7 @@ import {
   makeOffer 
 } from './marketplaceHelpers';
 import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/material_green.css";
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
@@ -125,15 +126,15 @@ const Expiration = styled.div`
 `;
 
 const Description = styled.div`
-margin: 10px;
-font-family: Alagard;
-font-size: 18px;
-color: var(--white);
+  margin: 10px;
+  font-family: Alagard;
+  font-size: 18px;
+  color: var(--white);
 
-display: flex;
-justify-content: center;
-align-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 `;
 
 const ButtonImage = styled.img`
@@ -203,8 +204,15 @@ export default function Order({
           side: 'sell',
         };
 
-        await instantBuy(API_BASE_URL, chainId, signer, query, setStatus);
-        setModal(false);
+        if (await instantBuy(API_BASE_URL, chainId, signer, query, setStatus)) {
+          setTimeout(
+            () => setModal(false),
+            5000
+          );
+        } else {
+          setModal(false);
+        }
+        
         break;
 
       case OrderType.SELL:
@@ -230,7 +238,7 @@ export default function Order({
           tokenId,
           side: 'buy',
         };
-
+        console.log(status);
         await acceptOffer(API_BASE_URL, chainId, library, signer, query, setStatus);
         setModal(false);
         break;
@@ -332,8 +340,6 @@ export default function Order({
         query.tokenId = tokenId
       }
 
-      console.log(query);
-      console.log(calculations);
       await makeOffer(
         chainId, 
         library, 
@@ -347,16 +353,23 @@ export default function Order({
     }
   }
 
+  function clickOut(event: any) {
+    console.log(event.target.id);
+    if (event.target.id == 'wrapper') {
+      setModal(false);
+    }
+  }
+
   if (action == OrderType.BUY) {
     return (
-      <OverlayWrapper>
+      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
-        { Status.PROCESSING ? 
+        { status == Status.PROCESSING ? 
         <Section>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})</Title>
           <Title style={{marginTop: "20px"}}>Transaction processing...</Title>
-        </Section> : Status.SUCCESS ? 
+        </Section> : status == Status.SUCCESS ? 
         <Section>
           <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>{name} (#{tokenId})</Title>
@@ -374,7 +387,7 @@ export default function Order({
 
   if (action == OrderType.SELL) {
     return (
-    <OverlayWrapper>
+    <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       { status == Status.USER_INPUT ? <Overlay>
         <Title style={{marginBottom: "40px"}}>Listing {name} (#{tokenId}) for sale</Title>
         <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />
@@ -428,7 +441,7 @@ export default function Order({
 
   if (action == OrderType.OFFER) {
     return (
-      <OverlayWrapper id="wrapper">
+      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
         { status == Status.LOADING ? 
         <Overlay id="modal">
           {collectionWide ? <Title style={{marginBottom: "40px"}}>Submitting a collection offer for {name}</Title> : 
@@ -470,7 +483,7 @@ export default function Order({
             }
             onClick={(e) => { doOffer(e) }}
           /> 
-        </Overlay> : Status.WRAPPING ?
+        </Overlay> : status == Status.WRAPPING ?
         <Overlay>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginBottom: "40px"}}>Wrapping ETH to make offer...</Title>
@@ -485,8 +498,8 @@ export default function Order({
 
   if (action == OrderType.ACCEPT_OFFER) {
     return (
-    <OverlayWrapper>
-      { Status.PROCESSING ? 
+    <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+      { status == Status.PROCESSING ? 
         <Overlay>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>Transaction processing...</Title>
@@ -501,7 +514,7 @@ export default function Order({
 
   if (action == OrderType.CANCEL_LISTING) {
     return ( 
-    <OverlayWrapper>
+    <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
         <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
         <Title>Canceling listing...</Title>
@@ -510,11 +523,5 @@ export default function Order({
     );
   }
 
-  return (
-    <OverlayWrapper>
-      <Overlay>
-
-      </Overlay> 
-    </OverlayWrapper>
-  )
+  return null
 }

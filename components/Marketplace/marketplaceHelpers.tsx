@@ -10,6 +10,8 @@ import { formatBN } from "../../lib/numbers";
 import setParams from "../../lib/params";
 import { API_BASE_URL, CONTRACTS, Status } from "./marketplaceConstants";
 
+const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
+
 /**
  *
  * @param apiBase The Reservoir API base url
@@ -290,6 +292,7 @@ export async function makeOffer(
     if (!query.contract) throw new ReferenceError('query.contract is undefined')
   } catch (err) {
     console.error(err)
+    setStatus(Status.LOADING);
   }
 }
 
@@ -602,12 +605,13 @@ async function checkProxyApproval(
 
     if (!orders) return false
 
+    // Accepting offer flow includes sending WETH for royalty after receiving WETH, so check for proper WETH allowance
     var royalty = Number(ethers.utils.formatEther(orders.buyOrder.params.basePrice)) * (orders.buyOrder.params.takerRelayerFee / 10000);
 
     const isAllowanceOk = await hasWethAllowance(
       chainId,
       weth.weth,
-      ethers.utils.parseEther(royalty.toString()),
+      ethers.utils.parseEther(royalty.toFixed(9).toString()),
       signer
     )
 
@@ -619,8 +623,8 @@ async function checkProxyApproval(
 
     // Execute token sell
     let { wait } = await exchange.match(signer, buyOrder, sellOrder)
-
     setStatus(Status.PROCESSING);
+    
     // Wait for transaction to be mined
     await wait()
 
@@ -793,6 +797,12 @@ function traitFormat(trait: string) {
       out += word.charAt(0).toUpperCase() + word.slice(1) + " ";
     }
   }
+
+  // Rinkeby fix
+  if (chainId == 4 && ['Background ', 'Body ', 'Familiar ', 'Head ', 'Prop ', 'Rune '].includes(out)) {
+    out = out.charAt(0).toLowerCase() + out.slice(1);
+  }
+
   return out.slice(0, -1);
 }
 

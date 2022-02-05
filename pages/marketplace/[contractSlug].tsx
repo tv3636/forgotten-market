@@ -9,10 +9,11 @@ import { getOptions, getURLAttributes } from "../../components/Marketplace/marke
 import {
   API_BASE_URL,
   CONTRACTS,
+  OrderType,
 } from "../../components/Marketplace/marketplaceConstants";
 import Link from "next/link";
 import { useRouter } from 'next/router';
-import MakeOffer from "../../components/Marketplace/MakeOffer";
+import Order from "../../components/Marketplace/Order";
 
 const marketplaceContracts = [
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
@@ -558,12 +559,14 @@ export default function Marketplace({
                 />{currentOffer ? ` ${currentOffer}`: null}</CollectionOffer>
         </Header>
         {showModal && 
-        <MakeOffer 
+        <Order 
           contract={contract} 
           tokenId={'0'} 
           name={CONTRACTS[contract].full} 
-          isCollectionWide={true} 
-          setModal={setShowModal}/>
+          collectionWide={true} 
+          setModal={setShowModal}
+          action={OrderType.OFFER}
+        />
         }
         <div style={{width: '1300px'}}>
           <Listings
