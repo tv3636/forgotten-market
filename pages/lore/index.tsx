@@ -11,7 +11,6 @@ import {
   getWizardsWithLore,
 } from "../../components/Lore/loreSubgraphUtils";
 import { useMedia } from "react-use";
-import { CHARACTER_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const WizardMapLeaflet = dynamic(
   () => import("../../components/Lore/WizardMapLeaflet"),
