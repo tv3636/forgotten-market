@@ -30,8 +30,8 @@ export interface OrderPaths {
   [OrderType.CANCEL_LISTING]: paths['/orders/fill']['get']['parameters']['query']
 }
 
-export const API_BASE_URL: string =
-  "https://rinkeby-api-v4.reservoir.tools/";
+export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
+  "https://mainnet-api-v4.reservoir.tools/" : "https://rinkeby-api-v4.reservoir.tools/";
 
 export const CONTRACTS: any = {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
