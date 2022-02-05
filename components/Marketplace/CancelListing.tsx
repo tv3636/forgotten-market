@@ -1,11 +1,8 @@
 import styled from '@emotion/styled';
-import { WyvernV2 } from '@reservoir0x/sdk'
 import { useEthers } from '@usedapp/core';
-import { Signer } from 'ethers'
 import { useEffect, useState } from 'react';
-import { paths } from '../../interfaces/apiTypes'
-import setParams from "../../lib/params";
 import { API_BASE_URL, CONTRACTS } from "./marketplaceConstants";
+import { cancelOrder } from './marketplaceHelpers';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -51,49 +48,6 @@ const Title = styled.div`
   align-content: center;
   align-items: center;
 `;
-
-async function cancelOrder(
-  apiBase: string,
-  chainId: number,
-  signer: any,
-  query: paths['/orders/fill']['get']['parameters']['query'],
-) {
-  try {
-    // Get the order parameters from the Reservoir API
-    const url = new URL('/orders/fill', apiBase)
-
-    setParams(url, query)
-
-    const res = await fetch(url.href)
-
-    const { order } =
-      (await res.json()) as paths['/orders/fill']['get']['responses']['200']['schema']
-
-    if (!order?.params) {
-      console.error('There was an error fetching the order to be cancelled.')
-      return false
-    }
-    console.log(order);
-    // Instantiate a Wyvern object from the order parameters
-    // obatined from the API
-    const sellOrder = new WyvernV2.Order(chainId, order.params)
-
-    // Instantiate a Wyvern exchange object
-    const exch = new WyvernV2.Exchange(chainId)
-
-    // Execute cancellation
-    const { wait } = await exch.cancel(signer, sellOrder)
-
-    // Wait for transaction to be mined
-    await wait()
-
-    return true
-  } catch (err) {
-    console.log(err)
-  }
-
-  return false
-}
 
 export default function CancelListing({
   contract, 

@@ -3,6 +3,32 @@ import {
   WIZARDS_ABI,
   PONIES_ABI
 } from "../../contracts/abis";
+import { paths } from '../../interfaces/apiTypes';
+
+export enum Status {
+  LOADING,
+  PROCESSING,
+  WRAPPING,
+  USER_INPUT,
+  SUCCESS,
+  FAILURE,
+}
+
+export enum OrderType {
+  BUY = 'buy',
+  SELL = 'sell',
+  OFFER = 'offer',
+  ACCEPT_OFFER = 'accept',
+  CANCEL_LISTING = 'cancel',
+}
+
+export interface OrderPaths {
+  [OrderType.BUY]: paths['/orders/fill']['get']['parameters']['query'],
+  [OrderType.SELL]: paths['/orders/build']['get']['parameters']['query'],
+  [OrderType.OFFER]: paths['/orders/build']['get']['parameters']['query'],
+  [OrderType.ACCEPT_OFFER]: paths['/orders/fill']['get']['parameters']['query'],
+  [OrderType.CANCEL_LISTING]: paths['/orders/fill']['get']['parameters']['query']
+}
 
 export const API_BASE_URL: string =
   "https://rinkeby-api-v4.reservoir.tools/";

@@ -5,7 +5,8 @@ import { ethers, Signer } from 'ethers'
 import { useEffect, useState } from 'react';
 import { paths } from '../../interfaces/apiTypes'
 import setParams from '../../lib/params'
-import { API_BASE_URL, CONTRACTS } from './marketplaceConstants';
+import { API_BASE_URL, CONTRACTS, Status } from './marketplaceConstants';
+import { instantBuy } from './marketplaceHelpers';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -69,67 +70,7 @@ const Title = styled.div`
   align-items: center;
 `;
 
-/**
- *
- * @param apiBase The Reservoir API base url
- * @param chainId The Ethereum chain ID (eg: 1 - Ethereum Mainnet, 4 - Rinkeby Testnet)
- * @param signer An Ethereum signer object
- * @param contract The contract address for the collection
- * @param setWaiting Function to update waiting state as needed
- * @returns `true` if the transaction was succesful, `fasle` otherwise
- */
-async function instantBuy(
-  apiBase: string,
-  chainId: number,
-  signer: any,
-  query: paths['/orders/fill']['get']['parameters']['query'],
-  setWaiting: any
-) {
-  try {
-    // Fetch the best sell order for this token
-    let url = new URL('/orders/fill', apiBase)
-
-    setParams(url, query)
-
-    const res = await fetch(url.href)
-
-    const { order } =
-      (await res.json()) as paths['/orders/fill']['get']['responses']['200']['schema']
-
-    if (!order?.params) {
-      throw new ReferenceError('Could not retrieve order params')
-    }
-
-    // Use SDK to create order object
-    const sellOrder = new WyvernV2.Order(chainId, order.params)
-
-    const signerAddress = await signer.getAddress()
-
-    // Create a matching buy order
-    const buyOrder = sellOrder.buildMatching(
-      signerAddress,
-      order.buildMatchingArgs
-    )
-
-    const exch = new WyvernV2.Exchange(chainId)
-
-    // Execute order match
-    const { wait } = await exch.match(signer, buyOrder, sellOrder)
-    setWaiting(true);
-
-    // Wait for the transaction to be mined
-    await wait()
-    
-    setWaiting(false);
-    return true
-  } catch (err) {
-    console.error(err)
-  }
-
-  return false
-}
-
-export default function SellOrder({
+export default function BuyOrder({
   contract,
   tokenId,
   name,
@@ -141,7 +82,7 @@ export default function SellOrder({
   setModal: any;
 }) {
   const [successful, setSuccessful] = useState(false);
-  const [waiting, setWaiting] = useState(false);
+  const [status, setStatus] = useState(Status.LOADING);
   const { library, account } = useEthers();
   const signer = library?.getSigner();
 
@@ -154,7 +95,7 @@ export default function SellOrder({
           side: 'sell',
         }
 
-      if (await instantBuy(API_BASE_URL, chainId, signer, query, setWaiting)) {
+      if (await instantBuy(API_BASE_URL, chainId, signer, query, setStatus)) {
         // Listing successful, hide modal
         setSuccessful(true);
         setTimeout(
@@ -172,7 +113,7 @@ export default function SellOrder({
   return (
     <OverlayWrapper>
       <Overlay>
-        { waiting ? 
+        { Status.LOADING ? 
         <Section>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})</Title>

@@ -14,6 +14,7 @@ import {
   CONTRACTS,
   API_BASE_URL,
   LOCATIONS,
+  OrderType,
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
 import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
@@ -21,11 +22,7 @@ import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Link from "next/link";
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
-import SellOrder from "../../../components/Marketplace/SellOrder";
-import CancelListing from "../../../components/Marketplace/CancelListing";
-import BuyOrder from "../../../components/Marketplace/BuyOrder";
-import MakeOffer from "../../../components/Marketplace/MakeOffer";
-import AcceptOffer from "../../../components/Marketplace/AcceptOffer";
+import Order from "../../../components/Marketplace/Order";
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -161,8 +158,9 @@ const PriceStyle = styled.div`
 
 const ButtonImage = styled.img`
   margin-right: var(--sp-3);
-  height: var(--sp3);
+  height: 40px;
   image-rendering: pixelated;
+  margin-top: 5px;
 
   :active {
     position: relative;
@@ -352,60 +350,40 @@ function MarketAction({
   setModal
 }: {
   modal: boolean;
-  actionType: string;
+  actionType: OrderType;
   tokenId: string;
   contract: string;
   name: string;
   setModal: any;
 }) {
   if (modal) {
-    if (actionType == 'sell') {
       return (
-        <SellOrder tokenId={Number(tokenId)} contract={contract} name={name} setModal={setModal}/>
+        <Order tokenId={tokenId} contract={contract} name={name} setModal={setModal} action={actionType} collectionWide={false}/>
       )
-    } else if (actionType == 'cancel') {
-      return (
-        <CancelListing tokenId={tokenId} contract={contract} setModal={setModal}/>
-      )
-    } else if (actionType == 'buy') {
-      return (
-        <BuyOrder tokenId={tokenId} contract={contract} name={name} setModal={setModal}/>
-      )
-    } else if (actionType == 'offer') {
-      return (
-        <MakeOffer tokenId={tokenId} contract={contract} name={name} setModal={setModal} isCollectionWide={false}/>
-      )
-    } else if (actionType == 'acceptOffer') {
-      return (
-        <AcceptOffer tokenId={tokenId} contract={contract} setModal={setModal}/>
-      )
-    } else {
-      return null
-    }
-  }
-  
+    } 
+
   return null
 }
 
 function MarketButton({ 
-  text,
+  type,
   setModal,
   setActionType
  }: { 
-   text: string;
+   type: OrderType;
    setModal: any;
    setActionType: any;
   }) {
   return (
     <ButtonImage
-      src={"/static/img/marketplace/" + text + ".png"}
+      src={"/static/img/marketplace/" + type + ".png"}
       onMouseOver={(e) =>
-        (e.currentTarget.src = "/static/img/marketplace/" + text + "_hover.png")
+        (e.currentTarget.src = "/static/img/marketplace/" + type + "_hover.png")
       }
       onMouseOut={(e) =>
-        (e.currentTarget.src = "/static/img/marketplace/" + text + ".png")
+        (e.currentTarget.src = "/static/img/marketplace/" + type + ".png")
       }
-      onClick={(e) => { setModal(true); setActionType(text); }}
+      onClick={(e) => { setModal(true); setActionType(type); }}
     />
   );
 }
@@ -433,24 +411,24 @@ function MarketButtons({
       if (listValue) {
         // TODO: replace with MarketButton once drawn
         return (
-          <div>
-            <MarketButton text={"cancel"} setModal={setModal} setActionType={setActionType} />
-            {hasOffer && <MarketButton text={"acceptOffer"} setModal={setModal} setActionType={setActionType} />}
+          <div style={{display: 'flex', flexWrap: 'wrap'}}>
+            {hasOffer && <MarketButton type={OrderType.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
+            <MarketButton type={OrderType.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />
           </div>
         )
       } else {
         return (
           <div>
-            <MarketButton text={"sell"} setModal={setModal} setActionType={setActionType} />
-            {hasOffer && <MarketButton text={"acceptOffer"} setModal={setModal} setActionType={setActionType} />}
+            <MarketButton type={OrderType.SELL} setModal={setModal} setActionType={setActionType} />
+            {hasOffer && <MarketButton type={OrderType.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
           </div>
         )
       }
     } else {
       return (
         <div>
-          {listValue && <MarketButton text={"buy"} setModal={setModal} setActionType={setActionType} />}
-          <MarketButton text={"offer"} setModal={setModal} setActionType={setActionType} />
+          {listValue && <MarketButton type={OrderType.BUY} setModal={setModal} setActionType={setActionType} />}
+          <MarketButton type={OrderType.OFFER} setModal={setModal} setActionType={setActionType} />
         </div>
       );
     }
@@ -596,7 +574,7 @@ const ListingPage = ({
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
-  const [marketActionType, setMarketActionType] = useState("");
+  const [marketActionType, setMarketActionType] = useState(OrderType.BUY);
   const { account } = useEthers();
 
   // hacky workaround to grab location until it's added to metadata/stored locally

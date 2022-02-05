@@ -174,7 +174,7 @@ async function getContract(
 async function listTokenForSell(
   chainId: number,
   signer: any,
-  query: any,
+  query: paths['/orders/build']['get']['parameters']['query'],
   proxyApproved: boolean
 ) {
   if (!signer || !query.tokenId || !query.contract) {
@@ -282,7 +282,6 @@ export default function SellOrder({
       new Date().getFullYear(), 
       new Date().getMonth(), 
       new Date().getDate() + 7)
-    
   );
 
   useEffect(() => {
@@ -313,15 +312,15 @@ export default function SellOrder({
       
       // TODO - error in UI
     } else {
-      const query: Parameters<any>['3'] = {
+      const query: Parameters<typeof listTokenForSell>['2'] = {
         contract,
-        maker: account,
+        maker: account ?? '',
         side: 'sell',
         price: ethers.utils.parseEther(listPrice).toString(),
-        fee: 250,
+        fee: '250',
         feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51',
-        tokenId: tokenId,
-        expirationTime: Date.parse(expiration.toString()) / 1000,
+        tokenId: tokenId.toString(),
+        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
       }
 
       console.log(query);
