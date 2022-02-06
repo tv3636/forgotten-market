@@ -380,7 +380,9 @@ export default function Order({
         query, 
         calculations.missingWeth, 
         setStatus
-      )
+      );
+
+      setModal(false);
     }
   }
 
