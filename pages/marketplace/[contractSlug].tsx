@@ -15,11 +15,13 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import Order from "../../components/Marketplace/Order";
 
+const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 const marketplaceContracts = [
-  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
-  "0x251b5f14a825c537ff788604ea1b58e49b70726f",
-  "0xf55b615b479482440135ebf1b907fd4c37ed9420",
+  chainId == 1 ? "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42" : "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
+  chainId == 1 ? "0x251b5f14a825c537ff788604ea1b58e49b70726f" : "0x95082b505c0752eef1806aef2b6b2d55eea77e4e",
+  chainId == 1 ? "0xf55b615b479482440135ebf1b907fd4c37ed9420": "0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e"
 ]
+
 
 const MarketWrapper = styled.div`
   font-size: 20px;

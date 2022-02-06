@@ -60,6 +60,22 @@ export const CONTRACTS: any = {
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
     ABI: PONIES_ABI
   },
+  "0x95082b505c0752eef1806aef2b6b2d55eea77e4e": {
+    collection: "forgottensouls",
+    display: "Souls",
+    singular: "Soul",
+    full: "Forgotten Souls",
+    image_url: "https://portal.forgottenrunes.com/api/souls/img/",
+    ABI: SOULS_ABI
+  },
+  "0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e": {
+    collection: "forgottenrunesponies",
+    display: "Ponies",
+    singular: "Pony",
+    full: "Forgotten Runes Ponies",
+    image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
+    ABI: PONIES_ABI
+  }
 };
 
 export const LOCATIONS: any = {
