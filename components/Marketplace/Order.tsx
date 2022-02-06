@@ -18,6 +18,7 @@ import {
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
+import MarketConnect from "../../components/Marketplace/MarketConnect";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 const fee = '250';
@@ -28,7 +29,7 @@ const OverlayWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: #00000085;
-  z-index: 2000;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -141,6 +142,7 @@ const ButtonImage = styled.img`
   margin-top: var(--sp3);
   height: var(--sp3);
   image-rendering: pixelated;
+  height: 40px;
 
   :active {
     position: relative;
@@ -194,14 +196,24 @@ export default function Order({
   const [ethBalance, setEthBalance] = useState<any>(null);
 
   if (chainId != library?.network.chainId) {
-    console.log('wrong network');
-    return (
-      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-      <Overlay>
-        <Title>Wrong Network - Please connect to Rinkeby to continue</Title>
-      </Overlay>
-    </OverlayWrapper>
-    )
+    console.log(chainId, library?.network.chainId);
+    if (library?.network.chainId) {
+      return (
+        <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+        <Overlay>
+          <Title>Wrong Network - Please connect to Rinkeby to continue</Title>
+        </Overlay>
+      </OverlayWrapper>
+      )
+    } else {
+      return (
+        <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+          <Overlay>
+            <MarketConnect/>
+          </Overlay>
+        </OverlayWrapper>
+      )
+    }
   }
 
   async function run() {
@@ -256,6 +268,17 @@ export default function Order({
           contract,
           tokenId,
           side: 'sell',
+        };
+
+        await cancelOrder(API_BASE_URL, chainId, signer, query);
+        setModal(false);
+        break;
+
+      case OrderType.CANCEL_OFFER:
+        query = {
+          contract,
+          tokenId,
+          side: 'buy',
         };
 
         await cancelOrder(API_BASE_URL, chainId, signer, query);
@@ -362,7 +385,6 @@ export default function Order({
   }
 
   function clickOut(event: any) {
-    console.log(event.target.id);
     if (event.target.id == 'wrapper') {
       setModal(false);
     }
@@ -516,6 +538,7 @@ export default function Order({
           <Title style={{marginTop: "20px"}}>Transaction processing...</Title>
         </Overlay> : 
         <Overlay>
+          <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>Accepting offer for (#{tokenId})...</Title>
         </Overlay>
       }
@@ -523,12 +546,12 @@ export default function Order({
     );
   }
 
-  if (action == OrderType.CANCEL_LISTING) {
+  if (action == OrderType.CANCEL_LISTING || action == OrderType.CANCEL_OFFER) {
     return ( 
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
         <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
-        <Title>Canceling listing...</Title>
+        <Title>{ action == OrderType.CANCEL_LISTING ? 'Canceling listing...' : 'Canceling offer...'}</Title>
       </Overlay>
     </OverlayWrapper>
     );

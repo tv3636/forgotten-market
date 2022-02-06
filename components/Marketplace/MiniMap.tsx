@@ -17,6 +17,7 @@ const bounds = new LatLngBounds(
 
 const Container = styled.div`
   margin-left: 2vw;
+  z-index: 0;
   
   @media only screen and (max-width: 600px) {
     margin-top: 3vh;

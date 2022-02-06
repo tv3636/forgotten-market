@@ -19,7 +19,8 @@ export enum OrderType {
   SELL = 'sell',
   OFFER = 'offer',
   ACCEPT_OFFER = 'accept',
-  CANCEL_LISTING = 'cancel',
+  CANCEL_LISTING = 'cancel_listing',
+  CANCEL_OFFER = 'cancel_offer',
 }
 
 export interface OrderPaths {
@@ -27,7 +28,8 @@ export interface OrderPaths {
   [OrderType.SELL]: paths['/orders/build']['get']['parameters']['query'],
   [OrderType.OFFER]: paths['/orders/build']['get']['parameters']['query'],
   [OrderType.ACCEPT_OFFER]: paths['/orders/fill']['get']['parameters']['query'],
-  [OrderType.CANCEL_LISTING]: paths['/orders/fill']['get']['parameters']['query']
+  [OrderType.CANCEL_LISTING]: paths['/orders/fill']['get']['parameters']['query'],
+  [OrderType.CANCEL_OFFER]: paths['/orders/fill']['get']['parameters']['query'],
 }
 
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?

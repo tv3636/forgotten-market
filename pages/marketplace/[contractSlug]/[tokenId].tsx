@@ -16,7 +16,7 @@ import {
   OrderType,
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
-import { ConnectWalletButton } from "../../../components/web3/ConnectWalletButton";
+import MarketConnect from "../../../components/Marketplace/MarketConnect"
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Link from "next/link";
@@ -399,6 +399,7 @@ function MarketButtons({
   hasOffer,
   setModal,
   setActionType,
+  highestOffer,
 }: {
   account: string | null | undefined;
   owner: string | null | undefined;
@@ -406,9 +407,10 @@ function MarketButtons({
   hasOffer: boolean;
   setModal: any;
   setActionType: any;
+  highestOffer: boolean;
 }) {
   if (!account) {
-    return <ConnectWalletButton />;
+    return <MarketConnect />;
   }
   if (owner) {
     if (account.toLowerCase() == owner.toLowerCase()) {
@@ -430,9 +432,10 @@ function MarketButtons({
       }
     } else {
       return (
-        <div>
+        <div style={{display: 'flex', flexWrap: 'wrap'}}>
           {listValue && <MarketButton type={OrderType.BUY} setModal={setModal} setActionType={setActionType} />}
           <MarketButton type={OrderType.OFFER} setModal={setModal} setActionType={setActionType} />
+          {highestOffer && <MarketButton type={OrderType.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
         </div>
       );
     }
@@ -580,6 +583,9 @@ const ListingPage = ({
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(OrderType.BUY);
   const { account } = useEthers();
+  const [connected, setConnected] = useState(account);
+
+  console.log(connected);
 
   // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
@@ -695,6 +701,7 @@ lorePage.loreMetadataURI,
                       hasOffer={offer.value != null}
                       setModal={setModal}
                       setActionType={setMarketActionType}
+                      highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
                     />
                   </ButtonWrapper>
                 }
