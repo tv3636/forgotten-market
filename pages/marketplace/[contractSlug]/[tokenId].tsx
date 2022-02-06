@@ -188,6 +188,15 @@ const ButtonWrapper = styled.div`
   }
 `;
 
+const Buttons = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
+`;
+
 const ExpirationWrapper = styled.div`
   text-align: left;
   font-size: 14px;
@@ -417,26 +426,26 @@ function MarketButtons({
       if (listValue) {
         // TODO: replace with MarketButton once drawn
         return (
-          <div style={{display: 'flex', flexWrap: 'wrap'}}>
+          <Buttons>
             {hasOffer && <MarketButton type={OrderType.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
             <MarketButton type={OrderType.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />
-          </div>
+          </Buttons>
         )
       } else {
         return (
-          <div>
+          <Buttons>
             <MarketButton type={OrderType.SELL} setModal={setModal} setActionType={setActionType} />
             {hasOffer && <MarketButton type={OrderType.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
-          </div>
+          </Buttons>
         )
       }
     } else {
       return (
-        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Buttons>
           {listValue && <MarketButton type={OrderType.BUY} setModal={setModal} setActionType={setActionType} />}
           <MarketButton type={OrderType.OFFER} setModal={setModal} setActionType={setActionType} />
           {highestOffer && <MarketButton type={OrderType.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
-        </div>
+        </Buttons>
       );
     }
   }
@@ -584,8 +593,6 @@ const ListingPage = ({
   const [marketActionType, setMarketActionType] = useState(OrderType.BUY);
   const { account } = useEthers();
   const [connected, setConnected] = useState(account);
-
-  console.log(connected);
 
   // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
