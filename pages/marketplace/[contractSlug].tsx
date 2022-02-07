@@ -246,7 +246,10 @@ const ListingDisplay = styled.div`
   @media only screen and (max-width: 600px) {
     width: 150px;
     max-height: 250px;
-    margin: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 5px;
+    margin-top: 5px;
   }
 
 `;
@@ -288,6 +291,8 @@ const ListingImage = styled.img`
 
     min-height: 150px;
     max-height: 150px;
+
+    border-width: 1.5px;
   }
 
 `;
