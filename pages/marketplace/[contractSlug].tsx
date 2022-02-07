@@ -208,22 +208,33 @@ const Label = styled.label`
   }
 `;
 
-const FilterStyle = styled.div`
+const FilterWrapper = styled.div`
   width: 15%;
   max-width: 200px;
   margin-left: 20px;
+
+  @media only screen and (max-width: 600px) {
+    width: auto;
+    max-width: 1000px;
+    margin-left: 0px;
+  }
+`;
+
+const FilterStyle = styled.div`
   display: flex;
   flex-direction: column;
   
   @media only screen and (max-width: 600px) {
     min-width: 90%;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
     flex-wrap: wrap;
     margin-left: 5vw;
     margin-right: 5vw;
     display: none;
   }
 `;
+
 
 const ListingDisplay = styled.div`
   width: 250px;
@@ -351,7 +362,7 @@ function SideBar({
   noLoreChange: any;
 }) {
   const [traits, setTraits] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggleIsOpen = () => setIsOpen(!isOpen);
   const router = useRouter();
 
@@ -368,13 +379,13 @@ function SideBar({
   }, []);
 
   return (
-    <div>
+    <FilterWrapper>
       <ExpandButton>
         <a onClick={() => toggleIsOpen()}>
           <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
         </a>
       </ExpandButton>
-      <FilterStyle style={{display: isOpen ? 'flex' : 'none', justifyContent: 'center', flexDirection: 'column'}}>
+      <FilterStyle style={{display: isOpen ? 'flex' : 'none'}}>
         {traits.map((trait: any, index) => (
           <FontTraitWrapper key={index} style={{ marginTop: "30px" }}>
             <Select
@@ -397,7 +408,7 @@ function SideBar({
         </Form>
         
       </FilterStyle>
-    </div>
+    </FilterWrapper>
   );
 }
 
