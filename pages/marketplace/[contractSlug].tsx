@@ -243,6 +243,11 @@ const ListingDisplay = styled.div`
   display: flex;
   flex-direction: column;
 
+  @media only screen and (max-width: 600px) {
+    width: 150px;
+    max-height: 250px;
+    margin: 5px;
+  }
 
 `;
 
@@ -272,6 +277,17 @@ const ListingImage = styled.img`
   :hover {
     cursor: pointer;
     border-color: var(--lightGray);
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 150px;
+    height: 150px;
+
+    min-width: 150px;
+    max-width: 150px;
+
+    min-height: 150px;
+    max-height: 150px;
   }
 
 `;
@@ -391,7 +407,7 @@ function SideBar({
     <FilterWrapper>
       <ExpandButton>
         <a onClick={() => toggleIsOpen()}>
-          <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
+          <ResponsivePixelImg src="/static/img/icons/social_link_marketplace.png" />
         </a>
       </ExpandButton>
       <FilterStyle style={testStyle}>

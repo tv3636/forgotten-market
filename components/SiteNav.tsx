@@ -180,6 +180,11 @@ export const BrandedLogoImg = styled.img`
   width: 100%;
   height: auto;
   image-rendering: pixelated;
+
+  @media only screen and (max-width: 600px) {
+    width: 40%;
+    height: 40%;
+  }
 `;
 
 export const LogoToggleRow = styled.div`
