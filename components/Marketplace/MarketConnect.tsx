@@ -21,6 +21,10 @@ const ConnectButton = styled(Button)`
     background-color: var(--mediumGray);
     border-color: var(--lightGray);
   }
+
+  @media only screen and (max-width: 600px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export default function MarketConnect() {

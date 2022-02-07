@@ -36,6 +36,10 @@ const ListingWrapper = styled.div`
   max-width: 1000px;
   min-height: 90vh;
   margin: 0 auto;
+
+  @media only screen and (max-width: 600px) {
+    overflow-x: hidden;
+  }
 `;
 
 const Listing = styled.div`
@@ -73,6 +77,7 @@ const TopRight = styled.div`
     margin-left: 0px;
     justify-content: center;
     max-width: 80%;
+    height: auto;
   }
 `;
 
@@ -96,6 +101,9 @@ const TokenImage = styled.img`
 
 const NameDisplay = styled.div`
   color: white;
+  @media only screen and (max-width: 600px) {
+    
+  }
 `;
 
 const NameStyle = styled.h2`
@@ -113,7 +121,7 @@ const NameStyle = styled.h2`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
-    font-size: 35px;
+    font-size: 25px;
   }
 `;
 
@@ -207,6 +215,9 @@ const ExpirationWrapper = styled.div`
   
   @media only screen and (max-width: 600px) {
     text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 5%;
   }
 `;
 
@@ -225,6 +236,20 @@ const OfferWrapper = styled.div`
 `;
 
 const HorizontalLine = styled.hr`
+  border-color: black;
+  border-style: dashed;
+  width: 100%;
+  border-width: 1px;
+  margin-top: var(--sp2);
+  margin-bottom: var(--sp2);
+
+  @media only screen and (max-width: 600px) {
+    border-color: var(--darkGray);
+    width: 90%;
+  }
+`;
+
+const BottomLine = styled.hr`
   border-color: black;
   border-style: dashed;
   width: 100%;
@@ -313,6 +338,7 @@ const TraitWrapper = styled.div`
 
   @media only screen and (max-width: 600px) {
     justify-content: center;
+    padding: 20px;
   }
 
 `;
@@ -328,6 +354,11 @@ const LoreWrapper = styled.div`
   display: inline-flex;
   flex-direction: column;
   align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
 `;
 
 const LoreContainer = styled.div`
@@ -686,7 +717,7 @@ lorePage.loreMetadataURI,
         {modal && <MarketAction modal={modal} actionType={marketActionType} tokenId={tokenId} contract={contractSlug} name={token.name} setModal={setModal}/>}
         <Listing>
           <TopDisplay>
-            <TokenImage src={CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />
+            <TokenImage src={CONTRACTS[contractSlug].display == 'Wizards' ? CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />
             <TopRight>
               <NameDisplay>
                 <NameStyle>{token.name}</NameStyle>
@@ -759,7 +790,7 @@ lorePage.loreMetadataURI,
             <Icons tokenId={Number(tokenId)} contract={contractSlug} />
           </BottomDisplay>
           </SectionWrapper>
-          <HorizontalLine/>
+          <BottomLine/>
         </Listing>
         </ListingWrapper> :
         <ListingWrapper></ListingWrapper>

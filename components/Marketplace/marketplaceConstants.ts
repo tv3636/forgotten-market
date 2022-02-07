@@ -41,7 +41,7 @@ export const CONTRACTS: any = {
     display: "Wizards",
     singular: "Wizard",
     full: "Forgotten Runes Wizard's Cult",
-    image_url: "/api/art/wizards/",
+    image_url: "https://runes-turnarounds.s3.amazonaws.com/",
     ABI: WIZARDS_ABI
   },
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
