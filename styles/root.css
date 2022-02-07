@@ -166,6 +166,10 @@ p {
   font-size: 18px;
 }
 
+.select__input-container {
+  color: var(--white) !important;
+}
+
 .__react_component_tooltip {
   background: var(--darkGray) !important;
   color: var(--white) !important;
