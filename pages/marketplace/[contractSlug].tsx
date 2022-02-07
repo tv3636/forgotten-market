@@ -362,8 +362,14 @@ function SideBar({
   noLoreChange: any;
 }) {
   const [traits, setTraits] = useState([]);
-  const [isOpen, setIsOpen] = useState(true);
-  const toggleIsOpen = () => setIsOpen(!isOpen);
+  const [isOpen, setIsOpen] = useState<any>(null);
+  const toggleIsOpen = () => {
+    if (isOpen == null) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(!isOpen);
+    }
+  }
   const router = useRouter();
 
   async function fetchTraits() {
@@ -378,6 +384,9 @@ function SideBar({
     fetchTraits();
   }, []);
 
+  // Only add style on mobile if toggle is used
+  var testStyle = isOpen == null ? {} : {display: isOpen ? 'flex' : 'none'};
+
   return (
     <FilterWrapper>
       <ExpandButton>
@@ -385,7 +394,7 @@ function SideBar({
           <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
         </a>
       </ExpandButton>
-      <FilterStyle style={{display: isOpen ? 'flex' : 'none'}}>
+      <FilterStyle style={testStyle}>
         {traits.map((trait: any, index) => (
           <FontTraitWrapper key={index} style={{ marginTop: "30px" }}>
             <Select
