@@ -246,7 +246,7 @@ const ListingDisplay = styled.div`
   @media only screen and (max-width: 600px) {
     width: 150px;
     max-height: 250px;
-    margin: 5px;
+    margin: 10px;
   }
 
 `;
