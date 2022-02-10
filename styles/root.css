@@ -190,6 +190,8 @@ p {
 
   font-family: 'Roboto Mono';
   text-align: center;
+
+  transition: all 100ms;
 }
 
 .flatpickr-input:hover {

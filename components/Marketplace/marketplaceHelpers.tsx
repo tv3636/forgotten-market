@@ -211,7 +211,9 @@ const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
   bps: number
 ) {
   let fee = userInput.mul(BigNumber.from(bps)).div(BigNumber.from('10000'))
-  let total = userInput.add(fee)
+
+  let totalNum = Number(formatBN(userInput, 5)) / (1 - (bps / 10000));
+  let total = ethers.utils.parseEther(totalNum.toString());
 
   if (signerWeth.add(signerEth).lt(total)) {
     // The signer has insufficient balance
@@ -268,8 +270,6 @@ export async function makeOffer(
     const weth = await getWeth(chainId, provider, signer)
 
     if (!weth?.weth) throw new ReferenceError('wETH contract is undefined.')
-
-    console.log(input);
 
     // Check the signer's allowance
     const isAllowanceOk = await hasWethAllowance(
@@ -837,7 +837,7 @@ export function Icons({
     >
       <SocialItem>
         <a
-          href={`/scenes/gm/${tokenId}`}
+          href={`https://forgottenrunes.com/scenes/gm/${tokenId}`}
           className="icon-link gm"
           target="_blank"
         >
@@ -847,10 +847,15 @@ export function Icons({
           />
         </a>
       </SocialItem>
+      <SocialItem>
+        <a href={`https://forgottenrunes.com/lockscreen?tokenSlug=${CONTRACTS[contract].display.toLowerCase()}&tokenId=${tokenId}`} className="icon-link" target="_blank">
+          <ResponsivePixelImg src="/static/img/icons/social_phone_default.png" />
+        </a>
+      </SocialItem>
       {CONTRACTS[contract].collection == "forgottenruneswizardscult" && (
         <SocialItem>
           <a
-            href={`/api/art/${CONTRACTS[contract].collection}/${tokenId}.zip`}
+            href={`https://forgottenrunes.com/api/art/${CONTRACTS[contract].display.toLowerCase()}/${tokenId}.zip`}
             className="icon-link"
             target="_blank"
           >
@@ -860,8 +865,9 @@ export function Icons({
       )}
       <SocialItem>
         <a
-          href={`/lore/${CONTRACTS[contract].collection}/${tokenId}/0`}
+          href={`https://forgottenrunes.com/lore/${CONTRACTS[contract].display.toLowerCase()}/${tokenId}/0`}
           className="icon-link"
+          target="_blank"
         >
           <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
         </a>

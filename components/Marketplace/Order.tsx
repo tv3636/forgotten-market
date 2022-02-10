@@ -116,6 +116,8 @@ const PriceInput = styled.input`
     border-color: var(--lightGray);
     color: var(--white);
   }
+
+  transition: all 100ms;
 `;
 
 const Expiration = styled.div`
@@ -392,6 +394,8 @@ export default function Order({
     }
   }
 
+  var imageUrl = CONTRACTS[contract].display == 'Wizards' ? CONTRACTS[contract].image_url + tokenId + '/' + tokenId + '.png' : CONTRACTS[contract].image_url + tokenId + ".png";
+
   if (action == OrderType.BUY) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
@@ -411,7 +415,7 @@ export default function Order({
           <Title style={{marginTop: "20px"}}>Failed to purchase. Please ensure you have sufficient funds</Title>
         </Section> :
          <Section>
-         <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />
+         <TokenImage src={imageUrl} height={250} width={250} />
          <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})...</Title>
        </Section>
         }
@@ -425,7 +429,7 @@ export default function Order({
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       { status == Status.USER_INPUT ? <Overlay>
         <Title style={{marginBottom: "40px"}}>Listing {name} (#{tokenId}) for sale</Title>
-        <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />
+        <TokenImage src={imageUrl} height={250} width={250} />
           <ListPrice>
             <Title>Price</Title>
             <form onSubmit={(e) => { doSale(e) }}>
@@ -481,7 +485,7 @@ export default function Order({
         <Overlay id="modal">
           {collectionWide ? <Title style={{marginBottom: "40px"}}>Submitting a collection offer for {name}</Title> : 
             <Title style={{marginBottom: "40px"}}>Submitting an offer for {name} (#{tokenId})</Title>}
-          {!collectionWide && <TokenImage src={CONTRACTS[contract].image_url + tokenId + ".png"} height={250} width={250} />}
+          {!collectionWide && <TokenImage src={imageUrl} height={250} width={250} />}
             <ListPrice>
               <Title>Price</Title>
               <form onSubmit={(e) => { doOffer(e) }}>

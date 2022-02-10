@@ -35,6 +35,9 @@ export default function MarketConnect() {
   const setInjectedProvider = (newProvider: any) => {
     web3Settings.setInjectedProvider(newProvider);
     activate(newProvider);
+
+    // workaround to reload page after wallet is connected
+    window.location.reload();
   };
 
   const [web3Modal, loadWeb3Modal, logoutOfWeb3Modal] =

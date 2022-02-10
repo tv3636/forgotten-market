@@ -116,6 +116,7 @@ export const SocialItem = styled.div`
 
   a:hover {
     opacity: 0.5;
+    transition: all 100ms;
   }
 
   a:active {

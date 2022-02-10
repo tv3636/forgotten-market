@@ -33,6 +33,7 @@ const MarketWrapper = styled.div`
   flex-direction: column;
   margin-top: 2vh;
   flex-wrap: wrap;
+  overflow-x: hidden;
 
   @media only screen and (max-width: 600px) {
     flex-direction: row;
@@ -71,11 +72,10 @@ const Tabs = styled.div`
 
 const Tab  = styled.div`
   background: var(--darkGray);
-  border-style: dashed;
-  border-radius: 10px 10px 0px 0px;
+  border-style: solid;
+  border-radius: 10px;
   border-color: var(--mediumGray);
   border-width: 1px;
-  border-bottom: none;
 
   font-family: Alagard;
   font-size: 24px;
@@ -84,7 +84,6 @@ const Tab  = styled.div`
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  
 
   :hover {
     background: var(--mediumGray);
@@ -93,6 +92,7 @@ const Tab  = styled.div`
     cursor: pointer;
   }
 
+  transition: border-color 300ms;
 
   @media only screen and (max-width: 600px) {
     font-size: 20px;
@@ -101,11 +101,10 @@ const Tab  = styled.div`
 
 const TabSelected  = styled.div`
   background: var(--darkGray);
-  border-style: dashed;
-  border-radius: 10px 10px 0px 0px;
+  border-style: solid;
+  border-radius: 10px;
   border-color: var(--lightGray);
   border-width: 1px;
-  border-bottom: none;
 
   font-family: Alagard;
   font-size: 24px;
@@ -164,6 +163,8 @@ const CollectionOffer = styled.div`
     font-size: 16px;
   }
 
+  transition: border-color 100ms;
+
 `;
 
 const ScrollWrapper = styled.div`
@@ -194,6 +195,8 @@ const Form = styled.form`
   @media only screen and (max-width: 600px) {
     flex-direction: row;
   }
+
+  transition: all 100ms;
 `;
 
 const Label = styled.label`
@@ -267,7 +270,7 @@ const ListingContainer = styled.div`
 `;
 
 const ListingImage = styled.img`
-  border-style: dashed;
+  border-style: solid;
   border-width: 3px;
   border-color: var(--mediumGray);
   border-radius: 10px;
@@ -279,7 +282,7 @@ const ListingImage = styled.img`
 
   :hover {
     cursor: pointer;
-    border-color: var(--lightGray);
+    border-color: var(--darkGray);
   }
 
   @media only screen and (max-width: 600px) {
@@ -294,6 +297,8 @@ const ListingImage = styled.img`
 
     border-width: 1.5px;
   }
+
+  transition: border-color 100ms;
 
 `;
 
@@ -628,15 +633,14 @@ function Listings({
   );
 }
 
-export default function Marketplace({
-  wizardsWithLore,
-  contract
-}: {
-  wizardsWithLore: { [key: number]: boolean };
-  contract: string;
+export function CollectionOfferButton({ 
+  contract,
+  setShowModal,
+}: { 
+  contract: string; 
+  setShowModal: (show: boolean) => void;
 }) {
   const [currentOffer, setCurrentOffer] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function getCollectionOffer() {
@@ -651,20 +655,36 @@ export default function Marketplace({
     getCollectionOffer();
   }, [contract]);
 
+  return (
+    <CollectionOffer onClick={() => setShowModal(true)}>Collection Offer: <img
+      src="/static/img/marketplace/eth.png"
+      style={{
+        height: "14px",
+        marginLeft: "8px",
+        marginTop: "3px",
+      }}
+      />
+      {currentOffer ? ` ${currentOffer}`: null}
+    </CollectionOffer>
+  )
+}
+
+export default function Marketplace({
+  wizardsWithLore,
+  contract
+}: {
+  wizardsWithLore: { [key: number]: boolean };
+  contract: string;
+}) {
+  const [showModal, setShowModal] = useState(false);
+
   if (contract) {
   return (
     <Layout title="Marketplace">
       <MarketWrapper>
         <Header>
-        <MarketTabs/>
-        <CollectionOffer onClick={() => setShowModal(true)}>Collection Offer: <img
-                  src="/static/img/marketplace/eth.png"
-                  style={{
-                    height: "14px",
-                    marginLeft: "8px",
-                    marginTop: "2px",
-                  }}
-                />{currentOffer ? ` ${currentOffer}`: null}</CollectionOffer>
+          <MarketTabs/>
+          <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
         </Header>
         {showModal && 
         <Order 

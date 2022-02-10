@@ -52,6 +52,8 @@ const MapStyles = styled.div`
     :hover {
       border-color: var(--lightGray);
     }
+
+    transition: all 300ms;
   }
 
   img.leaflet-image-layer {
