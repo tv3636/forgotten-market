@@ -94,6 +94,7 @@ const TokenImage = styled.img`
   border: 2px dashed var(--darkGray);
 
   @media only screen and (max-width: 600px) {
+    border: 4px solid var(--darkGray);
     max-width: 300px;
     max-height: 300px;
   }
@@ -769,7 +770,9 @@ lorePage.loreMetadataURI,
           <SectionWrapper>
           <SectionDisplay>
             <SectionName>Traits</SectionName>
-            <InfoTooltip tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}/>
+            <a href="https://www.youtube.com/watch?v=GmL4WBj-36o" target="_blank">
+              <InfoTooltip tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}/>
+            </a>
             </SectionDisplay>
           <MidDisplay>
             <TraitDisplay attributes={attributes} contract={contractSlug} />
@@ -780,7 +783,9 @@ lorePage.loreMetadataURI,
           <SectionWrapper>
           <SectionDisplay>
             <SectionName>Lore</SectionName>
-            <InfoTooltip tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}/>
+            <a href="https://www.forgottenrunes.com/category/lore" target="_blank">
+              <InfoTooltip tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}/>
+            </a>
           </SectionDisplay>
           <BottomDisplay>
             <LoreWrapper>

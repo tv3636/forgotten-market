@@ -41,8 +41,10 @@ const OverlayWrapper = styled.div`
 
 const Overlay = styled.div`
   width: 60vw;
+  max-width: 1000px;
   height: 60vh;
-  background-color: var(--black); 
+  padding: 40px;
+  background-color: var(--black);
 
   border: dashed;
   border-radius: 15px;
@@ -144,7 +146,7 @@ const ButtonImage = styled.img`
   margin-top: var(--sp3);
   height: var(--sp3);
   image-rendering: pixelated;
-  height: 40px;
+  height: 35px;
 
   :active {
     position: relative;
@@ -428,10 +430,10 @@ export default function Order({
     return (
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       { status == Status.USER_INPUT ? <Overlay>
-        <Title style={{marginBottom: "40px"}}>Listing {name} (#{tokenId}) for sale</Title>
+        <Title style={{marginBottom: "40px", fontSize: "24px"}}>Listing {name} (#{tokenId}) for sale</Title>
         <TokenImage src={imageUrl} height={250} width={250} />
           <ListPrice>
-            <Title>Price</Title>
+            <Title style={{marginTop: "30px"}}>Price</Title>
             <form onSubmit={(e) => { doSale(e) }}>
               <PriceInput type="text" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
             </form>
@@ -483,11 +485,12 @@ export default function Order({
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
         { status == Status.LOADING ? 
         <Overlay id="modal">
-          {collectionWide ? <Title style={{marginBottom: "40px"}}>Submitting a collection offer for {name}</Title> : 
-            <Title style={{marginBottom: "40px"}}>Submitting an offer for {name} (#{tokenId})</Title>}
+          {collectionWide && <img src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} width={'100%'} style={{marginBottom: '40px'}}/>}
+          {collectionWide ? <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
+            <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting an offer for {name} (#{tokenId})</Title>}
           {!collectionWide && <TokenImage src={imageUrl} height={250} width={250} />}
             <ListPrice>
-              <Title>Price</Title>
+              <Title style={{marginTop: "35px"}}>Price</Title>
               <form onSubmit={(e) => { doOffer(e) }}>
                 <PriceInput type="text" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
               </form>
@@ -545,7 +548,7 @@ export default function Order({
         </Overlay> : 
         <Overlay>
           <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
-          <Title style={{marginTop: "20px"}}>Accepting offer for (#{tokenId})...</Title>
+          <Title style={{marginTop: "20px", fontSize: "24px"}}>Accepting offer for {name} (#{tokenId})...</Title>
         </Overlay>
       }
     </OverlayWrapper>

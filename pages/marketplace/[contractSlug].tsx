@@ -271,8 +271,8 @@ const ListingContainer = styled.div`
 
 const ListingImage = styled.img`
   border-style: solid;
-  border-width: 3px;
-  border-color: var(--mediumGray);
+  border-width: 4px;
+  border-color: var(--darkGray);
   border-radius: 10px;
 
   min-width: 250px;
@@ -282,7 +282,7 @@ const ListingImage = styled.img`
 
   :hover {
     cursor: pointer;
-    border-color: var(--darkGray);
+    border-color: var(--mediumGray);
   }
 
   @media only screen and (max-width: 600px) {
@@ -304,7 +304,7 @@ const ListingImage = styled.img`
 
 const MarketText = styled.p`
   font-family: Alagard;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
   color: white;
   
@@ -489,7 +489,7 @@ function TokenDisplay({
         >
           <MarketText>{name}</MarketText>
           <div
-            style={{ fontSize: "16px", fontFamily: "Alagard", color: "var(--white)", fontWeight: 'bold', justifySelf: 'flex-end' }}
+            style={{ fontSize: "17px", fontFamily: "Alagard", color: "var(--white)", fontWeight: 'bold', justifySelf: 'flex-end' }}
           >
             {price ? (
               <div style={{ display: "flex" }}>
