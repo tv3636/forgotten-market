@@ -456,7 +456,6 @@ function MarketButtons({
   if (owner) {
     if (account.toLowerCase() == owner.toLowerCase()) {
       if (listValue) {
-        // TODO: replace with MarketButton once drawn
         return (
           <Buttons>
             {hasOffer && <MarketButton type={OrderType.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
@@ -588,12 +587,10 @@ function Owner({
   owner,
   connectedAccount,
   ens,
-  tokenId,
 }: {
   owner: string;
   connectedAccount: string | null | undefined;
   ens: string | null;
-  tokenId: string;
 }) {
   return (
     <a href={"https://forgottenrunes.com/address/" + owner} target="_blank" rel="noopener noreferrer">
@@ -619,6 +616,7 @@ const ListingPage = ({
   const [attributes, setAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
+  const [ownerEns, setOwnerEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
@@ -678,8 +676,16 @@ const ListingPage = ({
         var ensName = await provider.lookupAddress(
           listingsJson.tokens[0].token.owner
         );
+
         setEns(ensName);
-        
+
+        if (listingsJson.tokens[0].market.topBuy.maker) {
+          var ownerEns = await provider.lookupAddress(
+            listingsJson.tokens[0].market.topBuy.maker
+          );
+
+          setOwnerEns(ownerEns);
+        }
       }
 
       if (lore.length > 0) {
@@ -724,7 +730,7 @@ lorePage.loreMetadataURI,
                 {token.owner && (
                   <OwnerStyle>
                     {`#${tokenId} - Owner: `}
-                    <Owner owner={token.owner} connectedAccount={account} ens={ens} tokenId={tokenId}/>
+                    <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
                   </OwnerStyle>
                 )}
               </NameDisplay>
@@ -759,7 +765,7 @@ lorePage.loreMetadataURI,
                         style={{ height: "17px", marginRight: "5px", marginLeft: "7px" }}
                       />
                       {`${offer.value} from`}&nbsp;
-                      <Owner owner={offer.maker} connectedAccount={account} ens={ens} tokenId={tokenId}/>
+                      <Owner owner={offer.maker} connectedAccount={account} ens={ownerEns}/>
                     </PriceValue>
                   </OfferWrapper>
                 }

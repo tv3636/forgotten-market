@@ -130,6 +130,7 @@ const TabSelected  = styled.div`
 const TabWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   
   @media only screen and (max-width: 600px) {
     flex-direction: column;
@@ -257,7 +258,7 @@ const ListingDisplay = styled.div`
 
 `;
 
-const ListingContainer = styled.div`
+const ScrollContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -302,6 +303,26 @@ const ListingImage = styled.img`
 
 `;
 
+const ActivityImage = styled.img`
+  border-style: solid;
+  border-width: 4px;
+  border-color: var(--darkGray);
+  border-radius: 10px;
+
+  margin-left: 20px;
+  margin-right: 20px;
+
+  width: 100px;
+  height: 100px;
+
+  :hover {
+    cursor: pointer;
+    border-color: var(--mediumGray);
+  }
+
+  transition: border-color 100ms;
+`;
+
 const MarketText = styled.p`
   font-family: Alagard;
   font-size: 17px;
@@ -316,6 +337,20 @@ const MarketText = styled.p`
   overflow: hidden;
 `;
 
+const SalesText = styled.div`
+  font-family: Alagard;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  
+  line-height: 1.3;
+  max-width: 20ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+`;
+
 const FontTraitWrapper = styled.div`
   font-family: Arial;
   color: black;
@@ -323,6 +358,12 @@ const FontTraitWrapper = styled.div`
 
 const SoftLink = styled.a`
   text-decoration: none;
+`;
+
+const EthSymbol = styled.img`
+  height: 14px;
+  margin-right: 8px;
+  margin-top: 2px;
 `;
 
 const ExpandButton = styled.div`
@@ -334,6 +375,17 @@ const ExpandButton = styled.div`
     margin-top: 15px;
     margin-bottom: 10px;
   }
+`;
+
+const ActivityRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+
+  margin: 10px;
+
 `;
 
 function MarketTabs() {
@@ -356,7 +408,7 @@ function MarketTabs() {
   )
 }
 
-function LoadingCard() {
+function LoadingCard({ height }: { height: string }) {
   return (
     <div
       style={{
@@ -365,7 +417,7 @@ function LoadingCard() {
         alignItems: "center",
         alignContent: "center",
         justifyContent: "center",
-        height: "80vh",
+        height: height,
       }}
     >
       <img
@@ -374,6 +426,61 @@ function LoadingCard() {
       />
     </div>
   );
+}
+
+function Activity({
+  contract,
+}: {
+  contract: string;
+}) {
+  const [sales, setSales] = useState([]);
+
+  async function fetchSales() {
+    const recentSales = await fetch(API_BASE_URL + `sales?collection=${CONTRACTS[contract].collection}&offset=${sales.length}`);
+    const salesJson = await recentSales.json();
+    setSales(sales.concat(salesJson.sales));
+  }
+
+  useEffect(() => {
+    fetchSales();
+  }, []);
+
+  console.log(sales);
+
+  return (
+      <InfiniteScroll
+        dataLength={sales.length}
+        next={fetchSales}
+        hasMore={true}
+        loader={null}
+        scrollThreshold={0.1}
+        height={'80vh'}
+      >
+        { sales.length > 0 ? 
+          <ScrollContainer>
+          {sales.map((sale: any, index) => {
+            return (sale.token ?
+              <ActivityRow>
+                <div style={{display: 'flex', alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
+                  <ActivityImage src={CONTRACTS[contract].display == 'Wizards' ? 
+                  `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
+                  `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}/> 
+                  <SalesText>{sale.token.name}</SalesText>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <EthSymbol src='/static/img/marketplace/eth.png'/>
+                  <SalesText>{sale.price}</SalesText>
+                </div>
+              </ActivityRow> :
+              null
+            );
+          })
+          }
+          </ScrollContainer> :
+          <LoadingCard height={'80vh'}/>
+        }
+      </InfiniteScroll>
+  )
 }
 
 function SideBar({
@@ -399,9 +506,7 @@ function SideBar({
   const router = useRouter();
 
   async function fetchTraits() {
-    const attributes = await fetch(
-      API_BASE_URL + "attributes?" + "collection=" + collection
-    );
+    const attributes = await fetch(`${API_BASE_URL}attributes?collection=${collection}`);
     const attributeJson = await attributes.json();
     setTraits(attributeJson.attributes);
   }
@@ -417,12 +522,12 @@ function SideBar({
     <FilterWrapper>
       <ExpandButton>
         <a onClick={() => toggleIsOpen()}>
-          <ResponsivePixelImg src="/static/img/icons/social_link_marketplace.png" />
+          <ResponsivePixelImg src='/static/img/icons/social_link_marketplace.png' />
         </a>
       </ExpandButton>
       <FilterStyle style={testStyle}>
         {traits.map((trait: any, index) => (
-          <FontTraitWrapper key={index} style={{ marginTop: "30px" }}>
+          <FontTraitWrapper key={index} style={{ marginTop: '30px' }}>
             <Select
               options={getOptions(trait.values)}
               onChange={(e) => selectionChange(e, trait.key)}
@@ -435,10 +540,10 @@ function SideBar({
         ))}
         <Form>
           <Label>
-            <input type="checkbox" onClick={loreChange} /> Has Lore
+            <input type='checkbox' onClick={loreChange} /> Has Lore
           </Label>
           <Label>
-            <input type="checkbox" onClick={noLoreChange} /> Has No Lore
+            <input type='checkbox' onClick={noLoreChange} /> Has No Lore
           </Label>
         </Form>
         
@@ -458,21 +563,25 @@ function TokenDisplay({
   name: string;
   price: number;
 }) {
+  let image = CONTRACTS[contract].display == 'Wizards' ? 
+    `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : 
+    `${CONTRACTS[contract].image_url}${tokenId}.png`;
+
   return (
     <Link
-      href={"/marketplace/" + contract + "/" + tokenId}
+      href={`/marketplace/${contract}/${tokenId}`}
       passHref={true}
     >
       <SoftLink>
       <ListingDisplay>
         { CONTRACTS[contract].display == 'Wizards' ?
           <ListingImage 
-            src={CONTRACTS[contract].display == 'Wizards' ? CONTRACTS[contract].image_url + tokenId + '/' + tokenId + '.png' : CONTRACTS[contract].image_url + tokenId + ".png"}
+            src={image}
             onMouseOver={(e) =>
               (e.currentTarget.src = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`)
             }
             onMouseOut={(e) =>
-              (e.currentTarget.src =  CONTRACTS[contract].display == 'Wizards' ? `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : `${CONTRACTS[contract].image_url}${tokenId}.png`)
+              (e.currentTarget.src = image)
             } 
           /> :
           <ListingImage 
@@ -481,24 +590,24 @@ function TokenDisplay({
         }
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            height: "50%",
-            justifyContent: "flex-start",
+            display: 'flex',
+            flexDirection: 'column',
+            height: '50%',
+            justifyContent: 'flex-start',
           }}
         >
           <MarketText>{name}</MarketText>
           <div
-            style={{ fontSize: "17px", fontFamily: "Alagard", color: "var(--white)", fontWeight: 'bold', justifySelf: 'flex-end' }}
+            style={{ fontSize: '17px', fontFamily: 'Alagard', color: 'var(--white)', fontWeight: 'bold', justifySelf: 'flex-end' }}
           >
             {price ? (
-              <div style={{ display: "flex" }}>
+              <div style={{ display: 'flex' }}>
                 <img
-                  src="/static/img/marketplace/eth.png"
+                  src='/static/img/marketplace/eth.png'
                   style={{
-                    height: "14px",
-                    marginRight: "8px",
-                    marginTop: "2px",
+                    height: '14px',
+                    marginRight: '8px',
+                    marginTop: '2px',
                   }}
                 />
                 <div>{price}</div>
@@ -516,10 +625,12 @@ function Listings({
   contract,
   collection,
   wizardsWithLore,
+  showActivity,
 }: {
   contract: string;
   collection: string;
   wizardsWithLore: { [key: number]: boolean };
+  showActivity: boolean;
 }) {
   const [listings, setListings] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -586,47 +697,51 @@ function Listings({
 
   return (
     <TabWrapper>
-      <SideBar
-        collection={collection}
-        selectionChange={selectionChange}
-        loreChange={() => setHasLore(!hasLore)}
-        noLoreChange={() => setHasNoLore(!hasNoLore)}
-      />
+      { !showActivity && 
+        <SideBar
+          collection={collection}
+          selectionChange={selectionChange}
+          loreChange={() => setHasLore(!hasLore)}
+          noLoreChange={() => setHasNoLore(!hasNoLore)}
+        />
+      }
       <ScrollWrapper>
         {listings.length > 0 || loaded ? (
-          <InfiniteScroll
-            dataLength={listings.length}
-            next={() => fetchListings(false)}
-            hasMore={true}
-            loader={null}
-            scrollThreshold={0.5}
-            height={"80vh"}
-          >
-            <ListingContainer>
-              {listings.map((listing: any, index) => {
-                return (
-                  ((!hasLore && !hasNoLore) ||
-                    (hasLore &&
-                      !hasNoLore &&
-                      wizardsWithLore[listing.tokenId]) ||
-                    (!hasLore &&
-                      hasNoLore &&
-                      !wizardsWithLore[listing.tokenId])) && (
-                    <div key={index}>
-                      <TokenDisplay
-                        contract={contract}
-                        tokenId={listing.tokenId}
-                        name={listing.name}
-                        price={listing.floorSellValue}
-                      />
-                    </div>
-                  )
-                );
-              })}
-            </ListingContainer>
-          </InfiniteScroll>
+          showActivity ? 
+            <Activity contract={contract}/> :
+            <InfiniteScroll
+              dataLength={listings.length}
+              next={() => fetchListings(false)}
+              hasMore={true}
+              loader={null}
+              scrollThreshold={0.5}
+              height={"80vh"}
+            >
+              <ScrollContainer>
+                {listings.map((listing: any, index) => {
+                  return (
+                    ((!hasLore && !hasNoLore) ||
+                      (hasLore &&
+                        !hasNoLore &&
+                        wizardsWithLore[listing.tokenId]) ||
+                      (!hasLore &&
+                        hasNoLore &&
+                        !wizardsWithLore[listing.tokenId])) && (
+                      <div key={index}>
+                        <TokenDisplay
+                          contract={contract}
+                          tokenId={listing.tokenId}
+                          name={listing.name}
+                          price={listing.floorSellValue}
+                        />
+                      </div>
+                    )
+                  );
+                })}
+              </ScrollContainer>
+            </InfiniteScroll>
         ) : (
-          <LoadingCard />
+          <LoadingCard height={'80vh'}/>
         )}
       </ScrollWrapper>
     </TabWrapper>
@@ -677,6 +792,7 @@ export default function Marketplace({
   contract: string;
 }) {
   const [showModal, setShowModal] = useState(false);
+  const [showActivity, setShowActivity] = useState(false);
 
   if (contract) {
   return (
@@ -684,7 +800,10 @@ export default function Marketplace({
       <MarketWrapper>
         <Header>
           <MarketTabs/>
-          <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
+            <CollectionOffer onClick={() => setShowActivity(!showActivity)}>{showActivity ? 'Listings' : 'Activity'}</CollectionOffer>
+          </div>
         </Header>
         {showModal && 
         <Order 
@@ -702,6 +821,7 @@ export default function Marketplace({
             contract={contract}
             wizardsWithLore={wizardsWithLore}
             key={contract}
+            showActivity={showActivity}
           />
         </div>
       </MarketWrapper>
