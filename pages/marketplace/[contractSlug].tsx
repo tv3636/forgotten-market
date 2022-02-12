@@ -427,6 +427,16 @@ const EthSymbol = styled.img`
   
 `;
 
+const CollectionEthSymbol = styled.img`
+  height: 14px;
+  margin-left: 8px;
+  margin-top: 3px;
+
+  @media only screen and (max-width: 600px) {
+    height: 10px;
+  }
+`;
+
 const ExpandButton = styled.div`
   display: none;
 
@@ -534,6 +544,40 @@ function MarketTabs() {
         </Link>
       ))}
     </Tabs>
+  )
+}
+
+export function CollectionOfferButton({ 
+  contract,
+  setShowModal,
+}: { 
+  contract: string; 
+  setShowModal: (show: boolean) => void;
+}) {
+  const [currentOffer, setCurrentOffer] = useState(null);
+
+  useEffect(() => {
+    async function getCollectionOffer() {
+      const collection = await fetch(
+        API_BASE_URL + "collections/" + CONTRACTS[contract].collection,
+        {headers: headers}
+      );
+      const collectionJson = await collection.json();
+
+      if (collectionJson.collection) {
+        setCurrentOffer(collectionJson.collection.set.market.topBuy.value);
+      }
+    }
+
+    getCollectionOffer();
+  }, [contract]);
+
+  return (
+    <CollectionOffer onClick={() => setShowModal(true)}>Collection Offer: <CollectionEthSymbol
+      src="/static/img/marketplace/eth.png"
+      />
+      {currentOffer ? ` ${currentOffer}`: null}
+    </CollectionOffer>
   )
 }
 
@@ -918,45 +962,6 @@ function Listings({
       </ScrollWrapper>
     </TabWrapper>
   );
-}
-
-export function CollectionOfferButton({ 
-  contract,
-  setShowModal,
-}: { 
-  contract: string; 
-  setShowModal: (show: boolean) => void;
-}) {
-  const [currentOffer, setCurrentOffer] = useState(null);
-
-  useEffect(() => {
-    async function getCollectionOffer() {
-      const collection = await fetch(
-        API_BASE_URL + "collections/" + CONTRACTS[contract].collection,
-        {headers: headers}
-      );
-      const collectionJson = await collection.json();
-
-      if (collectionJson.collection) {
-        setCurrentOffer(collectionJson.collection.set.market.topBuy.value);
-      }
-    }
-
-    getCollectionOffer();
-  }, [contract]);
-
-  return (
-    <CollectionOffer onClick={() => setShowModal(true)}>Collection Offer: <img
-      src="/static/img/marketplace/eth.png"
-      style={{
-        height: "10px",
-        marginLeft: "8px",
-        marginTop: "3px",
-      }}
-      />
-      {currentOffer ? ` ${currentOffer}`: null}
-    </CollectionOffer>
-  )
 }
 
 export default function Marketplace({
