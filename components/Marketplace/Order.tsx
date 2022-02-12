@@ -21,8 +21,8 @@ import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
-const fee = '250';
-const feeRecipient = '0xd584fe736e5aad97c437c579e884d15b17a54a51';
+const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '250';
+const feeRecipient = process.env.NEXT_PUBLIC_REACT_APP_FEE_RECIPIENT ?? '0xd584fe736e5aad97c437c579e884d15b17a54a51';
 
 const OverlayWrapper = styled.div`
   position: absolute;
@@ -201,12 +201,11 @@ export default function Order({
   const [ethBalance, setEthBalance] = useState<any>(null);
 
   if (chainId != library?.network.chainId) {
-    console.log(chainId, library?.network.chainId);
     if (library?.network.chainId) {
       return (
         <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
         <Overlay>
-          <Title>Wrong Network - Please connect to Rinkeby to continue</Title>
+          <Title>Wrong Network - Please connect to Mainnet to continue</Title>
         </Overlay>
       </OverlayWrapper>
       )
@@ -436,7 +435,7 @@ export default function Order({
           <ListPrice>
             <Title style={{marginTop: "30px"}}>Price</Title>
             <form onSubmit={(e) => { doSale(e) }}>
-              <PriceInput type="text" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
+              <PriceInput type="number" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
             </form>
           </ListPrice>
           <Expiration>
@@ -493,7 +492,7 @@ export default function Order({
             <ListPrice>
               <Title style={{marginTop: "35px"}}>Price</Title>
               <form onSubmit={(e) => { doOffer(e) }}>
-                <PriceInput type="text" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
+                <PriceInput type="number" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
               </form>
             </ListPrice>
             <Expiration>

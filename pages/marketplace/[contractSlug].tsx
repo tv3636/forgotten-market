@@ -15,6 +15,10 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import Order from "../../components/Marketplace/Order";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+import ReactTimeAgo from 'react-time-ago';
+
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 const marketplaceContracts = [
@@ -23,6 +27,9 @@ const marketplaceContracts = [
   chainId == 1 ? "0xf55b615b479482440135ebf1b907fd4c37ed9420": "0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e"
 ]
 
+const headers: HeadersInit = new Headers();
+headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
+TimeAgo.addDefaultLocale(en);
 
 const MarketWrapper = styled.div`
   font-size: 20px;
@@ -162,6 +169,7 @@ const CollectionOffer = styled.div`
 
   @media only screen and (max-width: 600px) {
     font-size: 16px;
+    margin-right: 0px;
   }
 
   transition: border-color 100ms;
@@ -264,7 +272,7 @@ const ScrollContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-left: 1vw;
-  margin-right: 2vw;
+  margin-right: 1vw;
   margin-top: 2vw;
   overflow: hidden;
   
@@ -309,15 +317,20 @@ const ActivityImage = styled.img`
   border-color: var(--darkGray);
   border-radius: 10px;
 
-  margin-left: 20px;
   margin-right: 20px;
 
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
 
   :hover {
     cursor: pointer;
     border-color: var(--mediumGray);
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 100px;
+    height: 100px;
+    margin-left: 0px;
   }
 
   transition: border-color 100ms;
@@ -337,18 +350,60 @@ const MarketText = styled.p`
   overflow: hidden;
 `;
 
+const TimeText = styled.p`
+  font-family: Alagard;
+  font-size: 17px;
+  font-weight: bold;
+  color: var(--white);
+  
+  line-height: 1.3;
+  max-width: 25ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+  }
+`;
+
 const SalesText = styled.div`
   font-family: Alagard;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: bold;
   color: white;
   
   line-height: 1.3;
-  max-width: 20ch;
+  width: 20ch;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
+  overflow: hidden;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 15px;
+    width: 11ch;
+  }
+`;
+
+const BuyerText = styled.div`
+  font-family: Alagard;
+  font-size: 17px;
+  font-weight: bold;
+  color: var(--white);
+  
+  line-height: 1.5;
+  max-width: 20ch;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+    max-width: 12ch;
+  }
 `;
 
 const FontTraitWrapper = styled.div`
@@ -361,9 +416,15 @@ const SoftLink = styled.a`
 `;
 
 const EthSymbol = styled.img`
-  height: 14px;
-  margin-right: 8px;
-  margin-top: 2px;
+  height: 18px;
+  margin-right: 6px;
+  margin-top: 3px;
+  
+  @media only screen and (max-width: 600px) {
+    height: 13px;
+    margin-top: 2px;
+  }
+  
 `;
 
 const ExpandButton = styled.div`
@@ -377,15 +438,68 @@ const ExpandButton = styled.div`
   }
 `;
 
+const HorizontalLine = styled.hr`
+  border-color: black;
+  border-style: dashed;
+  width: 100%;
+  border-width: 1px;
+  margin-top: var(--sp-1);
+  margin-bottom: var(--sp-1);
+
+  @media only screen and (max-width: 600px) {
+    border-color: black;
+    width: 90%;
+
+    margin-top: var(--sp1) / 2;
+    margin-bottom: var(--sp1) / 2;
+  }
+`;
+
+const SalesTextDisplay = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 125px;
+
+  @media only screen and (max-width: 600px) {
+    height: 75px;
+  }
+
+`;
+
+const SalesDisplay = styled.div`
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    height: 75px;
+  }
+
+`;
+
 const ActivityRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
 
+  border: dashed;
+  border-radius: 20px;
+  border-color: var(--mediumGray);
+  background: #0d0c16c4;
+
+  padding: 20px;
   margin: 10px;
+`;
 
+const ActivityWrapper = styled.div`
+  width: 80%;
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 function MarketTabs() {
@@ -436,7 +550,10 @@ function Activity({
   const [sales, setSales] = useState([]);
 
   async function fetchSales() {
-    const recentSales = await fetch(API_BASE_URL + `sales?collection=${CONTRACTS[contract].collection}&offset=${sales.length}`);
+    const recentSales = await fetch(
+      API_BASE_URL + `sales?collection=${CONTRACTS[contract].collection}&offset=${sales.length}`, 
+      { headers: headers }
+    );
     const salesJson = await recentSales.json();
     setSales(sales.concat(salesJson.sales));
   }
@@ -460,19 +577,50 @@ function Activity({
           <ScrollContainer>
           {sales.map((sale: any, index) => {
             return (sale.token ?
-              <ActivityRow>
-                <div style={{display: 'flex', alignContent: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                  <ActivityImage src={CONTRACTS[contract].display == 'Wizards' ? 
-                  `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
-                  `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}/> 
-                  <SalesText>{sale.token.name}</SalesText>
-                </div>
-                <div style={{ display: 'flex' }}>
-                  <EthSymbol src='/static/img/marketplace/eth.png'/>
-                  <SalesText>{sale.price}</SalesText>
-                </div>
-              </ActivityRow> :
+              <ActivityWrapper>
+                <ActivityRow>
+                  <SalesDisplay>
+                    <Link
+                      href={`/marketplace/${contract}/${sale.token.tokenId}`}
+                      passHref={true}
+                    >
+                      <SoftLink>
+                        <ActivityImage src={CONTRACTS[contract].display == 'Wizards' ? 
+                        `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
+                        `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}/> 
+                      </SoftLink>
+                    </Link>
+                    <SalesTextDisplay>
+                      <SalesText>{sale.token.name}</SalesText>
+                      <div style={{ display: 'flex' }}>
+                        <EthSymbol src='/static/img/marketplace/eth.png'/>
+                        <SalesText>{sale.price}</SalesText>
+                      </div>
+                    </SalesTextDisplay>
+                  </SalesDisplay>
+                  <div>
+                    <SoftLink href={"https://forgottenrunes.com/address/" + sale.to} target="_blank" rel="noopener noreferrer">
+                      <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Buyer:`}&nbsp;
+                          <BuyerText>{sale.to}</BuyerText>
+                      </BuyerText>
+                    </SoftLink>
+                    <SoftLink href={"https://forgottenrunes.com/address/" + sale.from} target="_blank" rel="noopener noreferrer">
+                      <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Seller:`}&nbsp;
+                        <BuyerText>{sale.from}</BuyerText>
+                      </BuyerText>
+                    </SoftLink>
+                  </div>
+                  <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+                    <TimeText>
+                      <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
+                    </TimeText>
+                  </SoftLink>
+                  
+                </ActivityRow>
+                <HorizontalLine/>
+              </ActivityWrapper> :
               null
+              
             );
           })
           }
@@ -506,7 +654,10 @@ function SideBar({
   const router = useRouter();
 
   async function fetchTraits() {
-    const attributes = await fetch(`${API_BASE_URL}attributes?collection=${collection}`);
+    const attributes = await fetch(
+      `${API_BASE_URL}attributes?collection=${collection}`,
+      { headers: headers }
+  );
     const attributeJson = await attributes.json();
     setTraits(attributeJson.attributes);
   }
@@ -650,7 +801,10 @@ function Listings({
     try {
       for (let i = 0; i < 4; i++) {
         var offset = reset ? i * 20 : listings.length + i * 20;
-        const page = await fetch(url + "&offset=" + offset + getURLAttributes(router.query));
+        const page = await fetch(
+          url + "&offset=" + offset + getURLAttributes(router.query),
+          { headers: headers }
+        );
         const listingsJson = await page.json();
 
         lists = lists.concat(listingsJson.tokens);
@@ -670,9 +824,9 @@ function Listings({
 
   function selectionChange(selected: any, trait: any) {
     if (selected) {
-      router.query[trait.toLowerCase()] = selected.value
+      router.query[trait.toLowerCase()] = selected.value;
     } else {
-      delete router.query[trait.toLowerCase()]
+      delete router.query[trait.toLowerCase()];
     }
 
     var newPath = "";
@@ -693,7 +847,7 @@ function Listings({
     if ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) {
       fetchListings(false);
     }
-  }, [router.query]);
+  }, [router.query, hasLore]);
 
   return (
     <TabWrapper>
@@ -759,7 +913,10 @@ export function CollectionOfferButton({
 
   useEffect(() => {
     async function getCollectionOffer() {
-      const collection = await fetch(API_BASE_URL + "collections/" + CONTRACTS[contract].collection);
+      const collection = await fetch(
+        API_BASE_URL + "collections/" + CONTRACTS[contract].collection,
+        {headers: headers}
+      );
       const collectionJson = await collection.json();
 
       if (collectionJson.collection) {

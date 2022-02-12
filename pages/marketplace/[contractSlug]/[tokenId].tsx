@@ -23,10 +23,18 @@ import Link from "next/link";
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import Order from "../../../components/Marketplace/Order";
 import dynamic from "next/dynamic";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+import ReactTimeAgo from 'react-time-ago';
+
 
 const DynamicMap = dynamic(() => import("../../../components/Marketplace/MiniMap"), {
   ssr: false, // leaflet doesn't like Next.js SSR
 });
+
+TimeAgo.addDefaultLocale(en);
+const headers: HeadersInit = new Headers();
+headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -500,11 +508,8 @@ function ListingExpiration({
     return (
       <div>
         <ExpirationWrapper>
-          <span style={{width: '18ch'}}>Listing expires in</span>
-          {timer?.days > 0 && <span style={{width: '7ch', textAlign: 'right'}}> {timer?.days} {timer?.days && timer.days == 1 ? 'day' : 'days'}, </span>}
-          {timer?.hours > 0 && <span style={{width: '10ch', textAlign: 'right'}}> {timer?.hours} {timer?.hours && timer.hours == 1 ? 'hour' : 'hours'}, </span>}
-          {timer?.minutes > 0 && <span style={{width: '12ch', textAlign: 'right'}}> {timer?.minutes} {timer?.minutes && timer.minutes == 1 ? 'minute' : 'minutes'}, </span>}
-          <span style={{width: '11ch', textAlign: 'right'}}> {timer?.seconds} {timer?.seconds && timer.seconds == 1 ? 'second' : 'seconds'} </span>
+          <span style={{width: '16ch'}}>Listing expires </span>
+          <ReactTimeAgo date={new Date(dateString)}/>
         </ExpirationWrapper>
       </div>
     );
@@ -651,12 +656,8 @@ const ListingPage = ({
 
     async function run() {
       const page = await fetch(
-        API_BASE_URL +
-          "tokens/details?" +
-          "contract=" +
-          contractSlug +
-          "&tokenId=" +
-          tokenId
+        `${API_BASE_URL}tokens/details?contract=${contractSlug}&tokenId=${tokenId}`,
+        { headers: headers }
       );
       const listingsJson = await page.json();
 
@@ -814,6 +815,8 @@ export default ListingPage;
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const contractSlug = params?.contractSlug as string;
   const tokenId = params?.tokenId as string;
+
+  console.log(process.env.RESERVOIR_API_KEY);
 
   try {
     const { data } = await client.query({
