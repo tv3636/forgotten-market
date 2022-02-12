@@ -7,13 +7,14 @@ import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUtils";
 import IndividualLorePage from "../../../components/Lore/IndividualLorePage";
 import {
-  Icons
+  Icons, LoadingCard
 } from "../../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
   API_BASE_URL,
   LOCATIONS,
   OrderType,
+  BURN_ADDRESS,
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
 import MarketConnect from "../../../components/Marketplace/MarketConnect"
@@ -568,7 +569,13 @@ function Price({ value }: { value: number}) {
   );
 }
 
-function LoreBlock({ pages }: { pages: [] }) {
+function LoreBlock({ 
+  pages,
+  length 
+}: { 
+  pages: [];
+  length: number;
+}) {
   if (pages?.length > 0) {
     return (
       <LoreContainer>
@@ -583,8 +590,10 @@ function LoreBlock({ pages }: { pages: [] }) {
         )}
       </LoreContainer>
     );
+  } else if (length > 0) {
+    return <LoreContainer><LoadingCard height={'auto'}/></LoreContainer>
   } else {
-    return <LoreContainer>No Lore has been recorded...</LoreContainer>;
+    return <LoreContainer>No Lore has been recorded...</LoreContainer>
   }
 }
 
@@ -737,7 +746,7 @@ lorePage.loreMetadataURI,
               </NameDisplay>
               <PriceDisplay>
                 <Price value={listing.value} />
-                {token.owner != '0x0000000000000000000000000000000000000000' &&
+                {token.owner != BURN_ADDRESS &&
                   <ButtonWrapper>
                     <MarketButtons
                       account={account}
@@ -790,13 +799,13 @@ lorePage.loreMetadataURI,
           <SectionWrapper>
           <SectionDisplay>
             <SectionName>Lore</SectionName>
-            <a href="https://www.forgottenrunes.com/category/lore" target="_blank">
+            <a href="https://www.forgottenrunes.com/posts/lore-creation" target="_blank">
               <InfoTooltip tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}/>
             </a>
           </SectionDisplay>
           <BottomDisplay>
             <LoreWrapper>
-              <LoreBlock pages={pages} />
+              <LoreBlock pages={pages} length={lore.length}/>
             </LoreWrapper>
             <Icons tokenId={Number(tokenId)} contract={contractSlug} />
           </BottomDisplay>

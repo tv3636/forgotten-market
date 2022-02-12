@@ -875,3 +875,23 @@ export function Icons({
     </div>
   );
 }
+
+export function LoadingCard({ height }: { height: string }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
+        height: height,
+      }}
+    >
+      <img
+        src="/static/img/marketplace/loading_card.gif"
+        style={{ maxWidth: "200px" }}
+      />
+    </div>
+  );
+}

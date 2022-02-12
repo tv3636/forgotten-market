@@ -32,6 +32,8 @@ export interface OrderPaths {
   [OrderType.CANCEL_OFFER]: paths['/orders/fill']['get']['parameters']['query'],
 }
 
+export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
   "https://mainnet-api-v4.reservoir.tools/" : "https://rinkeby-api-v4.reservoir.tools/";
 

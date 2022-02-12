@@ -5,7 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Select from "react-select";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
-import { getOptions, getURLAttributes } from "../../components/Marketplace/marketplaceHelpers";
+import { getOptions, getURLAttributes, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
 import {
   API_BASE_URL,
   CONTRACTS,
@@ -502,6 +502,21 @@ const ActivityWrapper = styled.div`
   }
 `;
 
+const MobileWrapper = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 600px) {
+    height: 75px;
+    display: block;
+  }
+`;
+
+const DesktopWrapper = styled.div`
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
 function MarketTabs() {
   var router = useRouter();
   return (
@@ -522,24 +537,27 @@ function MarketTabs() {
   )
 }
 
-function LoadingCard({ height }: { height: string }) {
+function BuyerSeller({ 
+  buyer, 
+  seller 
+}: { 
+  buyer: string;
+  seller: string;
+}) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        alignContent: "center",
-        justifyContent: "center",
-        height: height,
-      }}
-    >
-      <img
-        src="/static/img/marketplace/loading_card.gif"
-        style={{ maxWidth: "200px" }}
-      />
+    <div>
+      <SoftLink href={"https://forgottenrunes.com/address/" + buyer} target="_blank" rel="noopener noreferrer">
+        <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Buyer:`}&nbsp;
+            <BuyerText>{buyer}</BuyerText>
+        </BuyerText>
+      </SoftLink>
+      <SoftLink href={"https://forgottenrunes.com/address/" + seller} target="_blank" rel="noopener noreferrer">
+        <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Seller:`}&nbsp;
+          <BuyerText>{seller}</BuyerText>
+        </BuyerText>
+      </SoftLink>
     </div>
-  );
+  )
 }
 
 function Activity({
@@ -598,24 +616,24 @@ function Activity({
                       </div>
                     </SalesTextDisplay>
                   </SalesDisplay>
-                  <div>
-                    <SoftLink href={"https://forgottenrunes.com/address/" + sale.to} target="_blank" rel="noopener noreferrer">
-                      <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Buyer:`}&nbsp;
-                          <BuyerText>{sale.to}</BuyerText>
-                      </BuyerText>
+                  <MobileWrapper>
+                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                    <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+                      <TimeText>
+                        <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
+                      </TimeText>
                     </SoftLink>
-                    <SoftLink href={"https://forgottenrunes.com/address/" + sale.from} target="_blank" rel="noopener noreferrer">
-                      <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Seller:`}&nbsp;
-                        <BuyerText>{sale.from}</BuyerText>
-                      </BuyerText>
+                  </MobileWrapper>
+                  <DesktopWrapper>
+                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                  </DesktopWrapper>
+                  <DesktopWrapper>
+                    <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+                      <TimeText>
+                        <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
+                      </TimeText>
                     </SoftLink>
-                  </div>
-                  <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
-                    <TimeText>
-                      <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
-                    </TimeText>
-                  </SoftLink>
-                  
+                  </DesktopWrapper>
                 </ActivityRow>
                 <HorizontalLine/>
               </ActivityWrapper> :
@@ -931,7 +949,7 @@ export function CollectionOfferButton({
     <CollectionOffer onClick={() => setShowModal(true)}>Collection Offer: <img
       src="/static/img/marketplace/eth.png"
       style={{
-        height: "14px",
+        height: "10px",
         marginLeft: "8px",
         marginTop: "3px",
       }}
