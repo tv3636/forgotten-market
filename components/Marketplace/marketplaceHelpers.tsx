@@ -810,7 +810,7 @@ function traitFormat(trait: string) {
 export function getURLAttributes(query: any) {
   var url_string = "";
   for (var trait of Object.keys(query)) {
-    if (trait != 'contractSlug') {
+    if (trait != 'contractSlug' && trait != 'activity') {
       var url_trait = traitFormat(trait).replace("#", "%23");
       url_string +=
         "&attributes[" +

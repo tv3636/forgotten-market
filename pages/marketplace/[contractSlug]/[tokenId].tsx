@@ -607,11 +607,11 @@ function Owner({
   ens: string | null;
 }) {
   return (
-    <a href={"https://forgottenrunes.com/address/" + owner} target="_blank" rel="noopener noreferrer">
+    <Link href={`/marketplace/address/${owner}`}>
       {owner?.toLowerCase() == connectedAccount?.toLowerCase()
         ? "you" 
         : ens ? ens : owner.substring(0, 10)}
-    </a>
+    </Link>
   );
 }
 
@@ -824,8 +824,6 @@ export default ListingPage;
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const contractSlug = params?.contractSlug as string;
   const tokenId = params?.tokenId as string;
-
-  console.log(process.env.RESERVOIR_API_KEY);
 
   try {
     const { data } = await client.query({

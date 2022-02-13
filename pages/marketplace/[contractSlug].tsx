@@ -331,6 +331,7 @@ const ActivityImage = styled.img`
     width: 100px;
     height: 100px;
     margin-left: 0px;
+    margin-right: 10px;
   }
 
   transition: border-color 100ms;
@@ -372,7 +373,7 @@ const SalesText = styled.div`
   font-family: Alagard;
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: var(--white);
   
   line-height: 1.3;
   width: 20ch;
@@ -402,7 +403,7 @@ const BuyerText = styled.div`
 
   @media only screen and (max-width: 600px) {
     font-size: 14px;
-    max-width: 12ch;
+    max-width: 14ch;
   }
 `;
 
@@ -502,6 +503,11 @@ const ActivityRow = styled.div`
 
   padding: 20px;
   margin: 10px;
+
+  @media only screen and (max-width: 600px) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 `;
 
 const ActivityWrapper = styled.div`
@@ -624,8 +630,6 @@ function Activity({
     fetchSales();
   }, []);
 
-  console.log(sales);
-
   return (
       <InfiniteScroll
         dataLength={sales.length}
@@ -639,7 +643,7 @@ function Activity({
           <ScrollContainer>
           {sales.map((sale: any, index) => {
             return (sale.token ?
-              <ActivityWrapper>
+              <ActivityWrapper key={index}>
                 <ActivityRow>
                   <SalesDisplay>
                     <Link
@@ -653,7 +657,7 @@ function Activity({
                       </SoftLink>
                     </Link>
                     <SalesTextDisplay>
-                      <SalesText>{sale.token.name}</SalesText>
+                      <SalesText style={{color: 'white'}}>{sale.token.name}</SalesText>
                       <div style={{ display: 'flex' }}>
                         <EthSymbol src='/static/img/marketplace/eth.png'/>
                         <SalesText>{sale.price}</SalesText>
@@ -809,7 +813,7 @@ function TokenDisplay({
             justifyContent: 'flex-start',
           }}
         >
-          <MarketText>{name}</MarketText>
+          <MarketText title={name}>{name}</MarketText>
           <div
             style={{ fontSize: '17px', fontFamily: 'Alagard', color: 'var(--white)', fontWeight: 'bold', justifySelf: 'flex-end' }}
           >
@@ -872,7 +876,7 @@ function Listings({
         lists = lists.concat(listingsJson.tokens);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoaded(true);
     }
 
@@ -973,6 +977,22 @@ export default function Marketplace({
 }) {
   const [showModal, setShowModal] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
+  const router = useRouter();
+
+  function flipView() {
+    setShowActivity(!showActivity);
+    if (Object.keys(router.query).includes('activity')) {
+      delete router.query['activity'];
+      router.push({query: router.query}, undefined, {shallow: true});
+    } else {
+      router.query['activity'] = 'True';
+      router.push({query: router.query}, undefined, { shallow: true });
+    }
+  }
+
+  useEffect(() => {
+    setShowActivity(Object.keys(router.query).includes('activity'));
+  }, [router.query]);
 
   if (contract) {
   return (
@@ -982,7 +1002,7 @@ export default function Marketplace({
           <MarketTabs/>
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
-            <CollectionOffer onClick={() => setShowActivity(!showActivity)}>{showActivity ? 'Listings' : 'Activity'}</CollectionOffer>
+            <CollectionOffer onClick={flipView}>{showActivity ? 'Listings' : 'Activity'}</CollectionOffer>
           </div>
         </Header>
         {showModal && 
