@@ -18,6 +18,7 @@ import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
+import { useEthers } from "@usedapp/core";
 
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
@@ -978,6 +979,7 @@ export default function Marketplace({
   const [showModal, setShowModal] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
   const router = useRouter();
+  const { account } = useEthers();
 
   function flipView() {
     setShowActivity(!showActivity);
@@ -1003,6 +1005,15 @@ export default function Marketplace({
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
             <CollectionOffer onClick={flipView}>{showActivity ? 'Listings' : 'Activity'}</CollectionOffer>
+            { account && 
+              <Link href={`/marketplace/address/${account}`} passHref={true}>
+                <SoftLink>
+                  <CollectionOffer>
+                    <img src='/static/img/marketplace/profile.png' height={'15px'}/>
+                  </CollectionOffer>
+                </SoftLink>
+              </Link>
+            }
           </div>
         </Header>
         {showModal && 
