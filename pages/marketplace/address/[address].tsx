@@ -142,7 +142,7 @@ const TokenImage = styled.img`
   transition: all 100ms;
 
   @media only screen and (max-width: 600px) {
-    border: 4px solid var(--darkGray);
+    border: 2px dashed var(--darkGray);
     max-width: 300px;
     max-height: 300px;
   }
@@ -207,7 +207,7 @@ function OverallDisplay({
                     <CollectionEthSymbol
                       src="/static/img/marketplace/eth.png"
                     />
-                      {token.value}
+                      {token.value ? token.value : token.topBuy.value}
                     </div>
                   </div>
                 </SoftLink>
@@ -273,6 +273,8 @@ export default function Marketplace({
 }) {
   const [listings, setListings] = useState<any>([]);
   const [offers, setOffers] = useState<any>([]);
+  const [offersMade, setOffersMade] = useState<any>([]);
+  const [collectionOffers, setCollectionOffers] = useState<any>({});
 
   async function fetchOrders(orderType: string) {
     var validListings = [];
@@ -299,18 +301,51 @@ export default function Marketplace({
 
       iteration++;
     }
-    console.log(validListings);
     
     if (orderType == 'sell') {
       setListings(sortByKey(validListings, 'value'));
     } else {
-      setOffers(sortByKey(validListings, 'value'));
+      setOffersMade(sortByKey(validListings, 'value'));
     }
+  }
+
+  async function fetchOffers() {
+    var activeOffers = [];
+    var iteration = 0;
+    var offset = 20;
+    var page = null;
+    var pageJson: any = {};
+
+    while (iteration == 0 || pageJson.tokens.length == offset) {
+      page = await fetch(
+        `${API_BASE_URL}users/${address}/tokens?community=forgottenrunes&hasOffer=true&offset=${offset * iteration}`,
+        { headers: headers }
+      );
+
+      pageJson = await page.json();
+
+      for (var token of pageJson.tokens) {
+        if (token.token.topBuy.schema.kind == 'collection') {
+          var current = collectionOffers;
+          current[token.token.contract] = token.token.topBuy.value;
+          setCollectionOffers(current);
+        } else {
+          activeOffers.push(token.token);
+        }
+      }
+
+      iteration++;
+    }
+
+    console.log(activeOffers);
+    console.log(collectionOffers);
+    setOffers(activeOffers);
   }
 
   useEffect(() => {
     fetchOrders('sell');
     fetchOrders('buy')
+    fetchOffers();
   }, []);
 
   if (valid) {
@@ -352,8 +387,11 @@ export default function Marketplace({
           { listings.length > 0 && 
             <OverallDisplay tokens={listings} title={'Listings'}/>
           }
-          { offers.length > 0 && 
-            <OverallDisplay tokens={offers} title={'Offers Made'}/>
+          { offersMade.length > 0 && 
+            <OverallDisplay tokens={offersMade} title={'Offers Made'}/>
+          }
+           { offers.length > 0 && 
+            <OverallDisplay tokens={offers} title={'Offers Received'}/>
           }
         </Account>
       </AccountWrapper>
