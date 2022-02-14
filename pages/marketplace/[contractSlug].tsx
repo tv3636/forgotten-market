@@ -534,6 +534,24 @@ const DesktopWrapper = styled.div`
   }
 `;
 
+const IconImage = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+
+  @media only screen and (max-width: 600px) {
+    width: 15px;
+    height: 15px;
+  }
+
+  :hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  transition: all 100ms;
+`;
+
 function MarketTabs() {
   var router = useRouter();
   return (
@@ -597,16 +615,20 @@ function BuyerSeller({
 }) {
   return (
     <div>
-      <SoftLink href={"https://forgottenrunes.com/address/" + buyer} target="_blank" rel="noopener noreferrer">
-        <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Buyer:`}&nbsp;
-            <BuyerText>{buyer}</BuyerText>
-        </BuyerText>
-      </SoftLink>
-      <SoftLink href={"https://forgottenrunes.com/address/" + seller} target="_blank" rel="noopener noreferrer">
-        <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Seller:`}&nbsp;
-          <BuyerText>{seller}</BuyerText>
-        </BuyerText>
-      </SoftLink>
+      <Link href={`/marketplace/address/${buyer}`} passHref={true}>
+        <SoftLink>
+          <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Buyer:`}&nbsp;
+              <BuyerText>{buyer}</BuyerText>
+          </BuyerText>
+        </SoftLink>
+      </Link>
+      <Link href={`/marketplace/address/${seller}`} passHref={true}>
+        <SoftLink>
+          <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Seller:`}&nbsp;
+            <BuyerText>{seller}</BuyerText>
+          </BuyerText>
+        </SoftLink>
+      </Link>
     </div>
   )
 }
@@ -668,9 +690,12 @@ function Activity({
                   <MobileWrapper>
                     <BuyerSeller buyer={sale.to} seller={sale.from}/>
                     <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+                    <div style={{display: 'flex', alignItems: 'center'}}>
                       <TimeText>
                         <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
                       </TimeText>
+                      <IconImage src="/static/img/marketplace/share.png"/>
+                      </div>
                     </SoftLink>
                   </MobileWrapper>
                   <DesktopWrapper>
@@ -678,9 +703,12 @@ function Activity({
                   </DesktopWrapper>
                   <DesktopWrapper>
                     <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+                      <div style={{display: 'flex', alignItems: 'center'}}>
                       <TimeText>
                         <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
                       </TimeText>
+                      <IconImage src="/static/img/marketplace/share.png"/>
+                      </div>
                     </SoftLink>
                   </DesktopWrapper>
                 </ActivityRow>
