@@ -337,8 +337,6 @@ export default function Marketplace({
       iteration++;
     }
 
-    console.log(activeOffers);
-    console.log(collectionOffers);
     setOffers(activeOffers);
   }
 

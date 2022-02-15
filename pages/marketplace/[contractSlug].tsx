@@ -559,7 +559,7 @@ function MarketTabs() {
       {
       marketplaceContracts.map((contract: string, index) => (
         <Link 
-          href={"/marketplace/" + contract}
+          href={"/marketplace/" + contract + ('activity' in router.query ? '?activity=True' : '')}
           key={index}
         >
         {contract == router.query.contractSlug ? 

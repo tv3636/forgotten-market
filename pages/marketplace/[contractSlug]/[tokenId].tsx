@@ -661,8 +661,6 @@ const ListingPage = ({
   }
 
   useEffect(() => {
-    let interval: any = null;
-
     async function run() {
       const page = await fetch(
         `${API_BASE_URL}tokens/details?contract=${contractSlug}&tokenId=${tokenId}`,
@@ -676,11 +674,13 @@ const ListingPage = ({
         setOffer(listingsJson.tokens[0].market.topBuy);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setMapCenter(getCenter(listingsJson.tokens[0].token.name));
-        setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
-        interval = setInterval(
-          () => setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000))),
-          1000
-        );
+
+        try {
+          console.log(listingsJson.tokens[0].market.floorSell.validUntil * 1000);
+          setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
+        } catch (e) {
+          console.error(e);
+        }
 
         const provider = getProvider();
         var ensName = await provider.lookupAddress(
@@ -719,11 +719,6 @@ lorePage.loreMetadataURI,
     }
 
     run();
-
-    return () => {
-      clearInterval(interval);
-    }
-
   }, [modal]);
 
   return (
