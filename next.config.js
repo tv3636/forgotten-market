@@ -66,6 +66,15 @@ let nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42',
+        permanent: true,
+      },
+    ]
+  },
 };
 
 nextConfig = withImages(nextConfig);

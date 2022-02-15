@@ -808,7 +808,7 @@ lorePage.loreMetadataURI,
           <BottomLine/>
         </Listing>
         </ListingWrapper> :
-        <ListingWrapper></ListingWrapper>
+        <ListingWrapper><LoadingCard height={'80vh'}/></ListingWrapper>
       }
     </Layout>
   );
