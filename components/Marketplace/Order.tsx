@@ -21,8 +21,8 @@ import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
-const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '250';
-const feeRecipient = process.env.NEXT_PUBLIC_REACT_APP_FEE_RECIPIENT ?? '0xd584fe736e5aad97c437c579e884d15b17a54a51';
+const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '400';
+const feeRecipient = process.env.NEXT_PUBLIC_REACT_APP_FEE_RECIPIENT ?? '0x6EAb2d42FEf9aad0036Bc145b5F451799e3FB3F7';
 
 const OverlayWrapper = styled.div`
   position: absolute;
@@ -355,7 +355,6 @@ export default function Order({
 
     if (!price || isNaN(Number(price)) || Number(price) < 0) {
       console.log('invalid price'); 
-      
       // TODO - error in UI
     } else {
       const maker = await signer?.getAddress();
@@ -363,8 +362,8 @@ export default function Order({
         maker: maker ?? '',
         side: 'buy',
         price: calculations.total.toString(),
-        fee: '250',
-        feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51',
+        fee: fee,
+        feeRecipient: feeRecipient,
         expirationTime: (Date.parse(expiration.toString()) / 1000).toString()
       }
 
