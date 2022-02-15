@@ -882,6 +882,7 @@ function Listings({
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
   const router = useRouter();
 
   async function fetchListings(reset: boolean) {
@@ -901,18 +902,13 @@ function Listings({
           { headers: headers }
         );
         const listingsJson = await page.json();
-
         lists = lists.concat(listingsJson.tokens);
+
+        setListings(reset ? lists: listings.concat(lists));
       }
     } catch (error) {
       console.error(error);
       setLoaded(true);
-    }
-
-    if (reset) {
-      setListings(lists);
-    } else {
-      setListings(listings.concat(lists));
     }
     setLoaded(true);
   }
@@ -929,20 +925,21 @@ function Listings({
         newPath += `&${routerTrait}=${router.query[routerTrait]}`.replace('#', '%23');
     }
 
-    if (newPath.length > 0) {
-      router.push('?' + newPath, undefined, { shallow: true });
-    } else {
-      router.push('', undefined, {shallow: true});
-    }
+    router.push({query: router.query}, undefined, {shallow: true});
     fetchListings(true);
   }
 
   useEffect(() => {
-    // ensure router query is populated before fetching listings
-    if ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) {
+    // ensure router query is populated before fetching listings, only on initial load
+    if (
+      ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) &&
+      !Object.keys(router.query).includes('activity') &&
+      initialLoad
+    ) {
       fetchListings(false);
+      setInitialLoad(false);
     }
-  }, [router.query, hasLore]);
+  }, [router.query]);
 
   return (
     <TabWrapper>
@@ -950,14 +947,13 @@ function Listings({
         <SideBar
           collection={collection}
           selectionChange={selectionChange}
-          loreChange={() => setHasLore(!hasLore)}
+          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }}
           noLoreChange={() => setHasNoLore(!hasNoLore)}
         />
       }
       <ScrollWrapper>
-        {listings.length > 0 || loaded ? (
-          showActivity ? 
-            <Activity contract={contract}/> :
+        { showActivity ? <Activity contract={contract}/> :
+        listings.length > 0 || loaded ? (
             <InfiniteScroll
               dataLength={listings.length}
               next={() => fetchListings(false)}

@@ -816,7 +816,7 @@ export function getURLAttributes(query: any) {
         "&attributes[" +
         url_trait +
         "]=" +
-        query[trait];
+        query[trait].replaceAll(' ', '+');
     }
   }
 
