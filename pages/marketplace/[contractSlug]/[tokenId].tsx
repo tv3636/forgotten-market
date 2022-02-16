@@ -510,16 +510,32 @@ function ListingExpiration({
       return null;
     }
   } else if (timer) {
-    return (
-      <div>
-        <ExpirationWrapper>
-          <span style={{width: '16ch'}}>Listing expires </span>
-          <ReactTimeAgo date={new Date(dateString)}/>
-        </ExpirationWrapper>
-      </div>
-    );
+    try {
+      console.log(dateString);
+      console.log(Date.now());
+      var dateFromString = new Date(dateString);
+
+      return (
+        <div>
+          <ExpirationWrapper>
+            <span style={{width: '16ch'}}>Listing expires </span>
+            <ReactTimeAgo date={dateFromString}/>
+          </ExpirationWrapper>
+        </div>
+      );
+    } catch (error) {
+      console.error(error);
+      return ( 
+        <div>
+          <ExpirationWrapper>
+            <span style={{width: '16ch'}}>Listing expires soon</span>
+          </ExpirationWrapper>
+        </div>
+      )
+    }
+    
   } else {
-    return <ExpirationWrapper>Listing expires</ExpirationWrapper>;
+    return <ExpirationWrapper></ExpirationWrapper>;
   }
 }
 
