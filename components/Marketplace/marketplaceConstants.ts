@@ -10,6 +10,9 @@ export enum Status {
   PROCESSING,
   WRAPPING,
   USER_INPUT,
+  APPROVING,
+  PROXY_APPROVAL,
+  SIGNING,
   SUCCESS,
   FAILURE,
 }
@@ -24,12 +27,21 @@ export enum OrderType {
 }
 
 export interface OrderPaths {
-  [OrderType.BUY]: paths['/orders/fill']['get']['parameters']['query'],
-  [OrderType.SELL]: paths['/orders/build']['get']['parameters']['query'],
-  [OrderType.OFFER]: paths['/orders/build']['get']['parameters']['query'],
-  [OrderType.ACCEPT_OFFER]: paths['/orders/fill']['get']['parameters']['query'],
-  [OrderType.CANCEL_LISTING]: paths['/orders/fill']['get']['parameters']['query'],
-  [OrderType.CANCEL_OFFER]: paths['/orders/fill']['get']['parameters']['query'],
+  [OrderType.BUY]: paths['/execute/buy']['get']['parameters']['query'],
+  [OrderType.SELL]: paths['/execute/list']['get']['parameters']['query'],
+  [OrderType.OFFER]: paths['/execute/bid']['get']['parameters']['query'],
+  [OrderType.ACCEPT_OFFER]: paths['/execute/sell']['get']['parameters']['query'],
+  [OrderType.CANCEL_LISTING]: paths['/execute/cancel']['get']['parameters']['query'],
+  [OrderType.CANCEL_OFFER]: paths['/execute/cancel']['get']['parameters']['query'],
+}
+
+export const OrderURLs: any = {
+  'buy': 'execute/buy',
+  'sell': '/execute/list',
+  'offer': '/execute/bid',
+  'accept': '/execute/sell',
+  'cancel_listing': '/execute/cancel',
+  'cancel_offer': '/execute/cancel',
 }
 
 export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';

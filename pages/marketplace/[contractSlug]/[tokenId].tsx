@@ -401,6 +401,8 @@ function MarketAction({
   tokenId,
   contract,
   name,
+  hash,
+  offerHash,
   setModal
 }: {
   modal: boolean;
@@ -408,11 +410,13 @@ function MarketAction({
   tokenId: string;
   contract: string;
   name: string;
+  hash: string;
+  offerHash: string;
   setModal: any;
 }) {
   if (modal) {
       return (
-        <Order tokenId={tokenId} contract={contract} name={name} setModal={setModal} action={actionType} collectionWide={false}/>
+        <Order tokenId={tokenId} contract={contract} name={name} setModal={setModal} action={actionType} hash={hash} offerHash={offerHash} collectionWide={false}/>
       )
     } 
 
@@ -725,7 +729,7 @@ lorePage.loreMetadataURI,
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 ? 
         <ListingWrapper>
-        {modal && <MarketAction modal={modal} actionType={marketActionType} tokenId={tokenId} contract={contractSlug} name={token.name} setModal={setModal}/>}
+        {modal && <MarketAction modal={modal} actionType={marketActionType} tokenId={tokenId} contract={contractSlug} name={token.name} hash={listing.hash} offerHash={offer.hash} setModal={setModal}/>}
         <Listing>
           <TopDisplay>
             <TokenImage src={CONTRACTS[contractSlug].display == 'Wizards' ? CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />

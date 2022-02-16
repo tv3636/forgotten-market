@@ -3,25 +3,20 @@ import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
 import { BigNumber, constants, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, CONTRACTS, OrderPaths, OrderType, Status } from './marketplaceConstants';
-import { 
-  acceptOffer, 
+import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, OrderType, Status } from './marketplaceConstants';
+import executeSteps, { 
   calculateOffer, 
-  cancelOrder, 
-  canSend, 
-  getProxy, 
   getWeth, 
-  instantBuy, 
-  listTokenForSell, 
-  makeOffer 
 } from './marketplaceHelpers';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
+import setParams from '../../lib/params';
+import { paths } from '../../interfaces/apiTypes';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
-const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '400';
+const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '100';
 const feeRecipient = process.env.NEXT_PUBLIC_REACT_APP_FEE_RECIPIENT ?? '0x6EAb2d42FEf9aad0036Bc145b5F451799e3FB3F7';
 
 const OverlayWrapper = styled.div`
@@ -141,6 +136,7 @@ const Description = styled.div`
   justify-content: center;
   align-content: center;
   align-items: center;
+  text-align: center;
 `;
 
 const ButtonImage = styled.img`
@@ -159,11 +155,42 @@ const ButtonImage = styled.img`
   }
 `;
 
+const IconImage = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+
+  @media only screen and (max-width: 600px) {
+    width: 15px;
+    height: 15px;
+  }
+
+  :hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  transition: all 100ms;
+`;
+
+function TransactionProcessing({ hash }: { hash: string }) {
+  return (
+    <a href={`https://etherscan.io/tx/${hash}`} target='_blank' style={{textDecoration: 'none', color: 'var(--white)'}}>
+      <Title style={{marginTop: "20px"}}>
+        View transaction on Etherscan
+        <IconImage src="/static/img/marketplace/share.png"/>
+      </Title>
+    </a>
+  )
+}
+
 export default function Order({
   action,
   contract,
   tokenId,
   name,
+  hash,
+  offerHash,
   setModal,
   collectionWide
 }: {
@@ -171,12 +198,15 @@ export default function Order({
   contract: string;
   tokenId: string;
   name: string;
+  hash: string | null;
+  offerHash: string | null;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
 }) {
   const { library, account } = useEthers();
   const signer = library?.getSigner();
   const [status, setStatus] = useState<Status>(Status.LOADING);
+  const [txn, setTxn] = useState('');
   const [price, setPrice] = useState('');
   const [expiration, setExpiration] = useState(
     new Date(
@@ -199,6 +229,56 @@ export default function Order({
     balance: BigNumber
   } | null>(null)
   const [ethBalance, setEthBalance] = useState<any>(null);
+  const url = new URL(OrderURLs[action], API_BASE_URL);
+
+  async function execute(
+    url: URL, 
+    signer: any,
+  ) {
+    await executeSteps(url, signer, setTxn, setStatus, (execute) => {
+      console.log(execute.steps);
+      if (execute.steps) {
+        for (var step of execute.steps) {
+          if (step.status == 'incomplete') {
+            console.log(step);
+
+            switch(step.action) {
+              case 'Wrapping ETH':
+                setStatus(Status.WRAPPING);
+                break;
+
+              case 'Signing order':
+                setStatus(Status.USER_INPUT);
+                break;
+
+              case 'Relaying order':
+                setStatus(Status.SIGNING);
+                break;
+
+              case 'Approving WETH':
+                setStatus(Status.APPROVING);
+                break;
+              
+              case 'Approving token':
+                setStatus(Status.APPROVING);
+                break;
+
+              case 'Proxy registration':
+                setStatus(Status.PROXY_APPROVAL);
+                break;
+            }
+
+            break;
+          } else {
+            if (step.action == 'Confirmation') {
+              setStatus(Status.SUCCESS);
+              break;
+            }
+          }
+        }
+      }
+    });
+  }
 
   if (chainId != library?.network.chainId) {
     if (library?.network.chainId) {
@@ -228,10 +308,11 @@ export default function Order({
         query = {
           contract,
           tokenId,
-          side: 'sell',
-        };
+          taker: await signer?.getAddress() ?? '',
+        }
+        setParams(url, query);
+        await execute(url, signer);
 
-        await instantBuy(API_BASE_URL, chainId, signer, query, setStatus)
         setTimeout(
           () => setModal(false),
           5000
@@ -240,52 +321,41 @@ export default function Order({
         break;
 
       case OrderType.SELL:
-        const wizContract = new ethers.Contract(contract, CONTRACTS[contract].ABI, library);
-        const owner = await wizContract.ownerOf(tokenId);
-        const proxy = await getProxy(library, owner, account ?? '', signer, chainId);
-
-        if (!proxy) { 
-          return false;
-        } else {
-          var canSendToken = await canSend(owner, wizContract, proxy, tokenId, signer, setStatus);
-          if (!canSendToken) {
-            return false;
-          }
-        }
         setStatus(Status.USER_INPUT);
-        
         break;
 
       case OrderType.ACCEPT_OFFER:
-        query = {
-          contract,
+         query = {
           tokenId,
-          side: 'buy',
-        };
-        console.log(status);
-        await acceptOffer(API_BASE_URL, chainId, library, signer, query, setStatus);
+          contract,
+          taker: await signer?.getAddress() ?? '',
+        }
+
+        setParams(url, query);
+        await execute(url, signer);
+
         setModal(false);
         break;
 
       case OrderType.CANCEL_LISTING:
         query = {
-          contract,
-          tokenId,
-          side: 'sell',
-        };
+          hash: hash ?? '',
+          maker: account ?? '',
+        }
+        setParams(url, query);
+        await execute(url, signer);
 
-        await cancelOrder(API_BASE_URL, chainId, signer, query);
         setModal(false);
         break;
 
       case OrderType.CANCEL_OFFER:
         query = {
-          contract,
-          tokenId,
-          side: 'buy',
-        };
+          hash: offerHash ?? '',
+          maker: account ?? '',
+        }
+        setParams(url, query);
+        await execute(url, signer);
 
-        await cancelOrder(API_BASE_URL, chainId, signer, query);
         setModal(false);
         break;
     }
@@ -330,23 +400,21 @@ export default function Order({
       console.log('invalid price'); 
       // TODO - error in UI
     } else {
+      // TODO - add fee/fee recipient
       const query = {
         contract,
         maker: account ?? '',
-        side: 'sell',
-        price: ethers.utils.parseEther(price).toString(),
-        fee: fee,
-        feeRecipient: feeRecipient,
-        tokenId: tokenId,
+        price: ethers.utils
+          .parseEther(price)
+          .toString(),
+        tokenId,
         expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
-      };
-      if (await listTokenForSell(chainId, signer, query)) {
-        // Listing successful, hide modal
-        setModal(false);
-      } else {
-        // TODO - error in UI, listing failed
-        setModal(false);
       }
+
+      setParams(url, query);
+      await execute(url, signer);
+      
+      setModal(false);
     }
   }
 
@@ -358,13 +426,11 @@ export default function Order({
       // TODO - error in UI
     } else {
       const maker = await signer?.getAddress();
-      let query: Parameters<typeof makeOffer>[5] = {
+      let query: paths['/execute/bid']['get']['parameters']['query'] =
+      {
         maker: maker ?? '',
-        side: 'buy',
         price: calculations.total.toString(),
-        fee: fee,
-        feeRecipient: feeRecipient,
-        expirationTime: (Date.parse(expiration.toString()) / 1000).toString()
+        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
       }
 
       if (collectionWide) {
@@ -373,17 +439,9 @@ export default function Order({
         query.contract = contract
         query.tokenId = tokenId
       }
-
-      await makeOffer(
-        chainId, 
-        library, 
-        ethers.utils.parseEther(price), 
-        API_BASE_URL, 
-        signer, 
-        query, 
-        calculations.missingWeth, 
-        setStatus
-      );
+      
+      setParams(url, query);
+      await execute(url, signer);
 
       setModal(false);
     }
@@ -401,11 +459,12 @@ export default function Order({
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
-        { status == Status.PROCESSING ? 
+        { txn ? 
         <Section>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})</Title>
           <Title style={{marginTop: "20px"}}>Transaction processing...</Title>
+          <TransactionProcessing hash={txn}/>
         </Section> : status == Status.SUCCESS ? 
         <Section>
           <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
@@ -467,11 +526,19 @@ export default function Order({
           }
           onClick={(e) => { doSale(e) }}
         />
-      </Overlay> : status == Status.PROCESSING ?
+      </Overlay> : status == Status.APPROVING ?
         <Overlay>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title>Setting approval...</Title>
           <Description>This is a required one-time approval to allow trading tokens from this contract.</Description>
+          { txn && <TransactionProcessing hash={txn}/> }
+        </Overlay> 
+        : status == Status.PROXY_APPROVAL ? 
+        <Overlay>
+          <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
+          <Title>Registering proxy...</Title>
+          <Description>This is a required one-time registration to enable listing tokens from this account</Description>
+          { txn && <TransactionProcessing hash={txn}/> }
         </Overlay> :
         <Overlay><img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} /></Overlay>
       }
@@ -482,7 +549,7 @@ export default function Order({
   if (action == OrderType.OFFER) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-        { status == Status.LOADING ? 
+        { status == Status.LOADING || status == Status.USER_INPUT ? 
         <Overlay id="modal">
           {collectionWide && <img src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} width={'100%'} style={{marginBottom: '40px'}}/>}
           {collectionWide ? <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
@@ -524,14 +591,22 @@ export default function Order({
             }
             onClick={(e) => { doOffer(e) }}
           /> 
-        </Overlay> : status == Status.WRAPPING ?
+        </Overlay> 
+        : status == Status.WRAPPING ?
         <Overlay>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginBottom: "40px"}}>Wrapping ETH to make offer...</Title>
-        </Overlay> :
+          { txn && <TransactionProcessing hash={txn}/> }
+        </Overlay> 
+        : status == Status.APPROVING ? 
         <Overlay>
-        <Title style={{marginBottom: "40px"}}>Wrap ETH to proceed with offer</Title>
-      </Overlay>
+         <Title style={{marginBottom: "40px"}}>
+           Approve WETH to continue with offer...&nbsp;
+           <InfoTooltip tooltip={'A one-time approval is needed to enable making WETH offers'}/>
+         </Title>
+         { txn && <TransactionProcessing hash={txn}/> }
+        </Overlay> :
+        <Overlay><img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} /></Overlay>
     }
     </OverlayWrapper>
     );
@@ -540,10 +615,11 @@ export default function Order({
   if (action == OrderType.ACCEPT_OFFER) {
     return (
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-      { status == Status.PROCESSING ? 
+      { txn ? 
         <Overlay>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px"}}>Transaction processing...</Title>
+          <TransactionProcessing hash={txn}/>
         </Overlay> : 
         <Overlay>
           <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
@@ -560,6 +636,7 @@ export default function Order({
       <Overlay>
         <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
         <Title>{ action == OrderType.CANCEL_LISTING ? 'Canceling listing...' : 'Canceling offer...'}</Title>
+        { txn && <TransactionProcessing hash={txn}/> }
       </Overlay>
     </OverlayWrapper>
     );
