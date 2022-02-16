@@ -498,44 +498,28 @@ function MarketButtons({
 
 function ListingExpiration({
   timer,
-  dateString,
+  date,
 }: {
   timer: any;
-  dateString: string;
+  date: any;
 }) {
   if (timer?.days > 1) {
-    if (dateString) {
-      return <ExpirationWrapper>Listing expires on {dateString}</ExpirationWrapper>;
+    if (date) {
+      return <ExpirationWrapper>Listing expires on {date.toLocaleString()}</ExpirationWrapper>;
     } else {
       return null;
     }
   } else if (timer) {
-    try {
-      console.log(dateString);
-      console.log(Date.now());
-      var dateFromString = new Date(dateString);
-
-      return (
-        <div>
-          <ExpirationWrapper>
-            <span style={{width: '16ch'}}>Listing expires </span>
-            <ReactTimeAgo date={dateFromString}/>
-          </ExpirationWrapper>
-        </div>
-      );
-    } catch (error) {
-      console.error(error);
-      return ( 
-        <div>
-          <ExpirationWrapper>
-            <span style={{width: '16ch'}}>Listing expires soon</span>
-          </ExpirationWrapper>
-        </div>
-      )
-    }
-    
+    return (
+      <div>
+        <ExpirationWrapper>
+          <span style={{width: '16ch'}}>Listing expires </span>
+          <ReactTimeAgo date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
+        </ExpirationWrapper>
+      </div>
+    );
   } else {
-    return <ExpirationWrapper></ExpirationWrapper>;
+    return <ExpirationWrapper>Listing expires</ExpirationWrapper>;
   }
 }
 
@@ -694,13 +678,7 @@ const ListingPage = ({
         setOffer(listingsJson.tokens[0].market.topBuy);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setMapCenter(getCenter(listingsJson.tokens[0].token.name));
-
-        try {
-          console.log(listingsJson.tokens[0].market.floorSell.validUntil * 1000);
-          setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
-        } catch (e) {
-          console.error(e);
-        }
+        setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
 
         const provider = getProvider();
         var ensName = await provider.lookupAddress(
@@ -777,9 +755,9 @@ lorePage.loreMetadataURI,
                 {listing.validUntil ? (
                   <ListingExpiration
                     timer={countdownTimer}
-                    dateString={new Date(
+                    date={new Date(
                       listing.validUntil * 1000
-                    ).toLocaleString()}
+                    )}
                   />
                 ) : null}
                 {offer.value && 
