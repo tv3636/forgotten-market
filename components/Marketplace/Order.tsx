@@ -15,7 +15,7 @@ import MarketConnect from "../../components/Marketplace/MarketConnect";
 import setParams from '../../lib/params';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
-const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '100';
+const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '0';
 const feeRecipient = process.env.NEXT_PUBLIC_REACT_APP_FEE_RECIPIENT ?? '0x6EAb2d42FEf9aad0036Bc145b5F451799e3FB3F7';
 
 const OverlayWrapper = styled.div`

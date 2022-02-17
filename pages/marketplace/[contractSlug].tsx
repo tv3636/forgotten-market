@@ -20,7 +20,6 @@ import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
 import { useEthers } from "@usedapp/core";
 
-
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 const marketplaceContracts = [
   chainId == 1 ? "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42" : "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
@@ -559,7 +558,7 @@ function MarketTabs() {
       {
       marketplaceContracts.map((contract: string, index) => (
         <Link 
-          href={"/marketplace/" + contract + ('activity' in router.query ? '?activity=True' : '')}
+          href={`/marketplace/${contract}${'activity' in router.query ? '?activity=True' : ''}`}
           key={index}
         >
         {contract == router.query.contractSlug ? 
@@ -598,10 +597,10 @@ export function CollectionOfferButton({
   }, [contract]);
 
   return (
-    <CollectionOffer onClick={() => setShowModal(true)}>Collection Offer: <CollectionEthSymbol
-      src="/static/img/marketplace/eth.png"
-      />
-      {currentOffer ? ` ${currentOffer}`: null}
+    <CollectionOffer onClick={() => setShowModal(true)}>
+      {"Collection Offer: "}
+      <CollectionEthSymbol src="/static/img/marketplace/eth.png" />
+      {currentOffer && ` ${currentOffer}`}
     </CollectionOffer>
   )
 }
@@ -846,7 +845,7 @@ function TokenDisplay({
           <div
             style={{ fontSize: '17px', fontFamily: 'Alagard', color: 'var(--white)', fontWeight: 'bold', justifySelf: 'flex-end' }}
           >
-            {price ? (
+            {price &&
               <div style={{ display: 'flex' }}>
                 <img
                   src='/static/img/marketplace/eth.png'
@@ -858,7 +857,7 @@ function TokenDisplay({
                 />
                 <div>{price}</div>
               </div>
-            ) : null}
+            }
           </div>
         </div>
       </ListingDisplay>
@@ -918,11 +917,6 @@ function Listings({
       router.query[trait.toLowerCase()] = selected.value;
     } else {
       delete router.query[trait.toLowerCase()];
-    }
-
-    var newPath = "";
-    for (var routerTrait of Object.keys(router.query)) {
-        newPath += `&${routerTrait}=${router.query[routerTrait]}`.replace('#', '%23');
     }
 
     router.push({query: router.query}, undefined, {shallow: true});
@@ -1007,12 +1001,13 @@ export default function Marketplace({
 
   function flipView() {
     setShowActivity(!showActivity);
+
     if (Object.keys(router.query).includes('activity')) {
       delete router.query['activity'];
-      router.push({query: router.query}, undefined, {shallow: true});
+      router.push({ query: router.query }, undefined, { shallow: true });
     } else {
       router.query['activity'] = 'True';
-      router.push({query: router.query}, undefined, { shallow: true });
+      router.push({ query: router.query }, undefined, { shallow: true });
     }
   }
 

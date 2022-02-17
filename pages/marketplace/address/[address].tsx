@@ -260,7 +260,7 @@ function TokenDisplay({
   )
 }
 
-export default function Marketplace({
+export default function Address({
   address,
   tokenData,
   ens,

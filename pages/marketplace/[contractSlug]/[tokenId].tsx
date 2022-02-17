@@ -412,11 +412,20 @@ function MarketAction({
   name: string;
   hash: string;
   offerHash: string;
-  setModal: any;
+  setModal: (setting: boolean) => void;
 }) {
   if (modal) {
       return (
-        <Order tokenId={tokenId} contract={contract} name={name} setModal={setModal} action={actionType} hash={hash} offerHash={offerHash} collectionWide={false}/>
+        <Order 
+          tokenId={tokenId} 
+          contract={contract} 
+          name={name} 
+          setModal={setModal} 
+          action={actionType} 
+          hash={hash} 
+          offerHash={offerHash} 
+          collectionWide={false}
+        />
       )
     } 
 
@@ -429,17 +438,17 @@ function MarketButton({
   setActionType
  }: { 
    type: OrderType;
-   setModal: any;
-   setActionType: any;
+   setModal: (setting: boolean) => void;
+   setActionType: (action: OrderType) => void;
   }) {
   return (
     <ButtonImage
-      src={"/static/img/marketplace/" + type + ".png"}
+      src={`/static/img/marketplace/${type}.png`}
       onMouseOver={(e) =>
-        (e.currentTarget.src = "/static/img/marketplace/" + type + "_hover.png")
+        (e.currentTarget.src = `/static/img/marketplace/${type}_hover.png`)
       }
       onMouseOut={(e) =>
-        (e.currentTarget.src = "/static/img/marketplace/" + type + ".png")
+        (e.currentTarget.src = `/static/img/marketplace/${type}.png`)
       }
       onClick={(e) => { setModal(true); setActionType(type); }}
     />
@@ -459,8 +468,8 @@ function MarketButtons({
   owner: string | null | undefined;
   listValue: number | null | undefined;
   hasOffer: boolean;
-  setModal: any;
-  setActionType: any;
+  setModal: (setting: boolean) => void;
+  setActionType: (action: OrderType) => void;
   highestOffer: boolean;
 }) {
   if (!account) {
@@ -534,7 +543,7 @@ function TraitDisplay({
     return null;
   } else {
     return (
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: 'center' }}>
           <TraitWrapper>
             {attributes.map((attribute: any, index: number) => (
               <div key={index}>
@@ -564,7 +573,7 @@ function Price({ value }: { value: number}) {
         <PriceValue>
           <img
             src="/static/img/marketplace/eth_alt.png"
-            style={{ height: "37px", marginRight: "12px" }}
+            style={{ height: '37px', marginRight: '12px' }}
           />
           <div>{value}</div>
         </PriceValue>
@@ -587,7 +596,7 @@ function LoreBlock({
           page.nsfw ? (
             <div>NSFW Lore Entry not shown</div>
           ) : (
-            <div key={index} style={{ marginTop: "6vh" }}>
+            <div key={index} style={{ marginTop: '6vh' }}>
               <IndividualLorePage bgColor={page.bgColor} story={page.story} />
             </div>
           )
@@ -646,7 +655,7 @@ const ListingPage = ({
     var center = [0, 0];
     var nameParts = name.split(" ");
     
-    if((name.indexOf('of') == -1 && name.indexOf('the') == -1) || CONTRACTS[contractSlug].display == 'Ponies') {
+    if((name.indexOf("of") == -1 && name.indexOf("the") == -1) || CONTRACTS[contractSlug].display == "Ponies") {
       return [404, 404]; // no location
     }
 
@@ -700,7 +709,7 @@ const ListingPage = ({
         var newPages = [];
         for (var lorePage of lore) {
           var thisPage = await hydratePageDataFromMetadata(
-lorePage.loreMetadataURI,
+            lorePage.loreMetadataURI,
             lorePage.createdAtTimestamp,
             lorePage.creator,
             lorePage.tokenId
@@ -723,88 +732,105 @@ lorePage.loreMetadataURI,
     <Layout title={token.name}>
       {Object.keys(listing).length > 0 ? 
         <ListingWrapper>
-        {modal && <MarketAction modal={modal} actionType={marketActionType} tokenId={tokenId} contract={contractSlug} name={token.name} hash={listing.hash} offerHash={offer.hash} setModal={setModal}/>}
-        <Listing>
-          <TopDisplay>
-            <TokenImage src={CONTRACTS[contractSlug].display == 'Wizards' ? CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : CONTRACTS[contractSlug].image_url + tokenId + ".png"} height={400} width={400} />
-            <TopRight>
-              <NameDisplay>
-                <NameStyle>{token.name}</NameStyle>
-                {token.owner && (
-                  <OwnerStyle>
-                    {`#${tokenId} - Owner: `}
-                    <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
-                  </OwnerStyle>
-                )}
-              </NameDisplay>
-              <PriceDisplay>
-                <Price value={listing.value} />
-                {token.owner != BURN_ADDRESS &&
-                  <ButtonWrapper>
-                    <MarketButtons
-                      account={account}
-                      owner={token.owner}
-                      listValue={listing.value}
-                      hasOffer={offer.value != null}
-                      setModal={setModal}
-                      setActionType={setMarketActionType}
-                      highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                    />
-                  </ButtonWrapper>
-                }
-                {listing.validUntil ? (
-                  <ListingExpiration
-                    timer={countdownTimer}
-                    date={new Date(
-                      listing.validUntil * 1000
-                    )}
-                  />
-                ) : null}
-                {offer.value && 
-                  <OfferWrapper>{'Best Offer:  '}
-                    <PriceValue>
-                      <img
-                        src="/static/img/marketplace/eth_alt.png"
-                        style={{ height: "17px", marginRight: "5px", marginLeft: "7px" }}
+          { modal && 
+            <MarketAction 
+              modal={modal} 
+              actionType={marketActionType} 
+              tokenId={tokenId} 
+              contract={contractSlug} 
+              name={token.name} 
+              hash={listing.hash} 
+              offerHash={offer.hash} 
+              setModal={setModal}
+            />
+          }
+          <Listing>
+            <TopDisplay>
+              <TokenImage 
+                src={ 
+                  CONTRACTS[contractSlug].display == 'Wizards' ? 
+                  CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
+                  CONTRACTS[contractSlug].image_url + tokenId + ".png"
+                } 
+                height={400} 
+                width={400} 
+              />
+              <TopRight>
+                <NameDisplay>
+                  <NameStyle>{token.name}</NameStyle>
+                  {token.owner && (
+                    <OwnerStyle>
+                      {`#${tokenId} - Owner: `}
+                      <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
+                    </OwnerStyle>
+                  )}
+                </NameDisplay>
+                <PriceDisplay>
+                  <Price value={listing.value} />
+                  {token.owner != BURN_ADDRESS &&
+                    <ButtonWrapper>
+                      <MarketButtons
+                        account={account}
+                        owner={token.owner}
+                        listValue={listing.value}
+                        hasOffer={offer.value != null}
+                        setModal={setModal}
+                        setActionType={setMarketActionType}
+                        highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
                       />
-                      {`${offer.value} from`}&nbsp;
-                      <Owner owner={offer.maker} connectedAccount={account} ens={ownerEns}/>
-                    </PriceValue>
-                  </OfferWrapper>
-                }
-              </PriceDisplay>
-            </TopRight>
-          </TopDisplay>
-          <HorizontalLine/>
-          <SectionWrapper>
-          <SectionDisplay>
-            <SectionName>Traits</SectionName>
-            <a href="https://www.youtube.com/watch?v=GmL4WBj-36o" target="_blank">
-              <InfoTooltip tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}/>
-            </a>
+                    </ButtonWrapper>
+                  }
+                  {listing.validUntil && 
+                    <ListingExpiration
+                      timer={countdownTimer}
+                      date={new Date(listing.validUntil * 1000)}
+                    />
+                  }
+                  {offer.value && 
+                    <OfferWrapper>{'Best Offer:  '}
+                      <PriceValue>
+                        <img
+                          src="/static/img/marketplace/eth_alt.png"
+                          style={{ height: "17px", marginRight: "5px", marginLeft: "7px" }}
+                        />
+                        {`${offer.value} from`}&nbsp;
+                        <Owner owner={offer.maker} connectedAccount={account} ens={ownerEns}/>
+                      </PriceValue>
+                    </OfferWrapper>
+                  }
+                </PriceDisplay>
+              </TopRight>
+            </TopDisplay>
+            <HorizontalLine/>
+            <SectionWrapper>
+            <SectionDisplay>
+              <SectionName>Traits</SectionName>
+              <a href="https://www.youtube.com/watch?v=GmL4WBj-36o" target="_blank">
+                <InfoTooltip tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}/>
+              </a>
+              </SectionDisplay>
+            <MidDisplay>
+              <TraitDisplay attributes={attributes} contract={contractSlug} />
+              <DynamicMap center={mapCenter} />
+            </MidDisplay>
+            </SectionWrapper>
+            <HorizontalLine/>
+            <SectionWrapper>
+            <SectionDisplay>
+              <SectionName>Lore</SectionName>
+              <a href="https://www.forgottenrunes.com/posts/lore-creation" target="_blank">
+                <InfoTooltip tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}/>
+              </a>
             </SectionDisplay>
-          <MidDisplay>
-            <TraitDisplay attributes={attributes} contract={contractSlug} />
-            <DynamicMap center={mapCenter} />
-          </MidDisplay>
-          </SectionWrapper>
-          <HorizontalLine/>
-          <SectionWrapper>
-          <SectionDisplay>
-            <SectionName>Lore</SectionName>
-            <a href="https://www.forgottenrunes.com/posts/lore-creation" target="_blank">
-              <InfoTooltip tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}/>
-            </a>
-          </SectionDisplay>
-          <BottomDisplay>
-            <LoreWrapper>
-              <LoreBlock pages={pages} length={lore.length}/>
-            </LoreWrapper>
-            <Icons tokenId={Number(tokenId)} contract={contractSlug} />
-          </BottomDisplay>
-          </SectionWrapper>
-          <BottomLine/>
-        </Listing>
+            <BottomDisplay>
+              <LoreWrapper>
+                <LoreBlock pages={pages} length={lore.length}/>
+              </LoreWrapper>
+              <Icons tokenId={Number(tokenId)} contract={contractSlug} />
+            </BottomDisplay>
+            </SectionWrapper>
+            <BottomLine/>
+          </Listing>
         </ListingWrapper> :
         <ListingWrapper><LoadingCard height={'80vh'}/></ListingWrapper>
       }
@@ -844,7 +870,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     var results = data["loreTokens"][0]["lore"];
   } catch (e) {
-    console.error("Couldn't fetch lore. Continuing anyway as its non-fatal...");
+    console.error("Couldn't fetch lore. Continuing anyway as it's non-fatal...");
     results = [];
   }
 
