@@ -15,6 +15,7 @@ import {
   LOCATIONS,
   OrderType,
   BURN_ADDRESS,
+  OS_WALLET,
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
 import MarketConnect from "../../../components/Marketplace/MarketConnect"
@@ -27,6 +28,7 @@ import dynamic from "next/dynamic";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
+import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
 
 
 const DynamicMap = dynamic(() => import("../../../components/Marketplace/MiniMap"), {
@@ -508,13 +510,25 @@ function MarketButtons({
 function ListingExpiration({
   timer,
   date,
+  isOS,
 }: {
   timer: any;
   date: any;
+  isOS: boolean;
 }) {
   if (timer?.days > 1) {
     if (date) {
-      return <ExpirationWrapper>Listing expires on {date.toLocaleString()}</ExpirationWrapper>;
+      return (
+        <ExpirationWrapper>
+          { isOS && 
+            <ResponsivePixelImg 
+              src="/static/img/icons/nav/opensea_default.png" 
+              style={{height: '15px', width: '15px', marginRight: '10px'}}
+            />
+          }
+          Listing expires on {date.toLocaleString()}
+        </ExpirationWrapper>
+      );
     } else {
       return null;
     }
@@ -522,8 +536,14 @@ function ListingExpiration({
     return (
       <div>
         <ExpirationWrapper>
-          <span style={{width: '16ch'}}>Listing expires </span>
-          <ReactTimeAgo date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
+          { isOS && 
+            <ResponsivePixelImg 
+              src="/static/img/icons/nav/opensea_default.png" 
+              style={{height: '20px', width: '20px', marginRight: '10px'}}
+            />
+          }
+          <span style={{width: '16ch', marginTop: '5px'}}>Listing expires </span>
+          <ReactTimeAgo style={{marginTop: '5px'}} date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
         </ExpirationWrapper>
       </div>
     );
@@ -566,14 +586,18 @@ function TraitDisplay({
   }
 }
 
-function Price({ value }: { value: number}) {
+function Price({ 
+  value
+}: { 
+  value: number;
+}) {
   return (
     <PriceStyle>
       {value ? (
         <PriceValue>
           <img
             src="/static/img/marketplace/eth_alt.png"
-            style={{ height: '37px', marginRight: '12px' }}
+            style={{ height: '35px', marginRight: '12px' }}
           />
           <div>{value}</div>
         </PriceValue>
@@ -648,6 +672,7 @@ const ListingPage = ({
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(OrderType.BUY);
+  const [osListing, setOsListing] = useState(false);
   const { account } = useEthers();
 
   // hacky workaround to grab location until it's added to metadata/stored locally
@@ -705,6 +730,17 @@ const ListingPage = ({
         }
       }
 
+      try {
+        const orderPage = await fetch(
+          `${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`,
+          { headers: headers }
+        );
+        const orderJson = await orderPage.json();
+        setOsListing(orderJson.order.params.feeRecipient == OS_WALLET);
+      } catch (error) {
+        console.error(error);
+      }
+
       if (lore.length > 0) {
         var newPages = [];
         for (var lorePage of lore) {
@@ -723,6 +759,7 @@ const ListingPage = ({
         }
         setPages(newPages);
       }
+      
     }
 
     run();
@@ -784,6 +821,7 @@ const ListingPage = ({
                     <ListingExpiration
                       timer={countdownTimer}
                       date={new Date(listing.validUntil * 1000)}
+                      isOS={osListing}
                     />
                   }
                   {offer.value && 
@@ -791,7 +829,7 @@ const ListingPage = ({
                       <PriceValue>
                         <img
                           src="/static/img/marketplace/eth_alt.png"
-                          style={{ height: "17px", marginRight: "5px", marginLeft: "7px" }}
+                          style={{ height: "15px", marginRight: "5px", marginLeft: "7px", marginTop: "1px" }}
                         />
                         {`${offer.value} from`}&nbsp;
                         <Owner owner={offer.maker} connectedAccount={account} ens={ownerEns}/>

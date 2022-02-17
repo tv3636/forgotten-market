@@ -46,6 +46,7 @@ export const OrderURLs: any = {
 }
 
 export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';
+export const OS_WALLET = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073';
 
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
   "https://mainnet-api-v4.reservoir.tools/" : "https://rinkeby-api-v4.reservoir.tools/";
