@@ -542,8 +542,8 @@ function ListingExpiration({
               style={{height: '20px', width: '20px', marginRight: '10px'}}
             />
           }
-          <span style={{width: '16ch', marginTop: '5px'}}>Listing expires </span>
-          <ReactTimeAgo style={{marginTop: '5px'}} date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
+          <span style={{width: '16ch', alignSelf: 'center'}}>Listing expires </span>
+          <ReactTimeAgo style={{alignSelf: 'center'}} date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
         </ExpirationWrapper>
       </div>
     );
