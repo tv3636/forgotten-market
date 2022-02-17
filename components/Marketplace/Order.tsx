@@ -13,7 +13,6 @@ import "flatpickr/dist/themes/material_green.css";
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 import setParams from '../../lib/params';
-import { paths } from '../../interfaces/apiTypes';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 const fee = process.env.NEXT_PUBLIC_REACT_APP_FEE ?? '100';
@@ -37,7 +36,8 @@ const OverlayWrapper = styled.div`
 const Overlay = styled.div`
   width: 60vw;
   max-width: 1000px;
-  height: 60vh;
+  height: auto;
+  min-height: 500px;
   padding: 40px;
   background-color: var(--black);
 
@@ -50,6 +50,10 @@ const Overlay = styled.div`
   align-content: center;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (max-width: 600px) {
+    width: 90vw;
+  }
 `;
 
 const Section = styled.div`
@@ -80,6 +84,10 @@ const Title = styled.div`
   align-content: center;
   align-items: center;
   text-align: center;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 15px;
+  }
 `;
 
 const ListPrice = styled.div`
@@ -184,6 +192,25 @@ function TransactionProcessing({ hash }: { hash: string }) {
   )
 }
 
+function Approval({ 
+  txn,
+  title,
+  description,
+}: { 
+  txn: string | null;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Overlay>
+      <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
+      <Title>{title}</Title>
+      <Description>{description}</Description>
+      { txn && <TransactionProcessing hash={txn}/> }
+    </Overlay>
+  )
+}
+
 export default function Order({
   action,
   contract,
@@ -231,55 +258,6 @@ export default function Order({
   const [ethBalance, setEthBalance] = useState<any>(null);
   const url = new URL(OrderURLs[action], API_BASE_URL);
 
-  async function execute(
-    url: URL, 
-    signer: any,
-  ) {
-    await executeSteps(url, signer, setTxn, setStatus, (execute) => {
-      console.log(execute.steps);
-      if (execute.steps) {
-        for (var step of execute.steps) {
-          if (step.status == 'incomplete') {
-            console.log(step);
-
-            switch(step.action) {
-              case 'Wrapping ETH':
-                setStatus(Status.WRAPPING);
-                break;
-
-              case 'Signing order':
-                setStatus(Status.USER_INPUT);
-                break;
-
-              case 'Relaying order':
-                setStatus(Status.SIGNING);
-                break;
-
-              case 'Approving WETH':
-                setStatus(Status.APPROVING);
-                break;
-              
-              case 'Approving token':
-                setStatus(Status.APPROVING);
-                break;
-
-              case 'Proxy registration':
-                setStatus(Status.PROXY_APPROVAL);
-                break;
-            }
-
-            break;
-          } else {
-            if (step.action == 'Confirmation') {
-              setStatus(Status.SUCCESS);
-              break;
-            }
-          }
-        }
-      }
-    });
-  }
-
   if (chainId != library?.network.chainId) {
     if (library?.network.chainId) {
       return (
@@ -298,6 +276,87 @@ export default function Order({
         </OverlayWrapper>
       )
     }
+  }
+
+  async function execute(
+    url: URL, 
+    signer: any,
+  ) {
+    await executeSteps(url, signer, setTxn, setStatus, (execute) => {
+      console.log(execute.steps);
+      if (execute.steps) {
+        for (var step of execute.steps) {
+          if (step.status == 'incomplete') {
+            console.log(step);
+
+            switch(step.action) {
+              case 'Wrapping ETH':
+                setStatus(Status.WRAPPING);
+                setTxn('');
+                break;
+
+              case 'Signing order':
+                setStatus(Status.USER_INPUT);
+                break;
+
+              case 'Relaying order':
+                setStatus(Status.SIGNING);
+                break;
+
+              case 'Approving WETH':
+                setTxn('');
+                setStatus(Status.APPROVING_WETH);
+                break;
+              
+              case 'Approving token':
+                setTxn('');
+                setStatus(Status.APPROVING_TOKEN);
+                break;
+
+              case 'Proxy registration':
+                setTxn('');
+                setStatus(Status.PROXY_APPROVAL);
+                break;
+
+              case 'Initialize wallet':
+                setTxn('');
+                setStatus(Status.PROXY_APPROVAL);
+                break;
+
+              case 'Authorize offer':
+                setStatus(Status.SIGNING);
+                break;
+
+              case 'Approve WETH contract':
+                setTxn('');
+                setStatus(Status.APPROVING_WETH);
+                break;
+
+              case 'Approve NFT contract':
+                setTxn('');
+                setStatus(Status.APPROVING_TOKEN);
+                break;
+
+              case 'Accept offer':
+                setTxn('');
+                setStatus(Status.PROCESSING);
+                break;
+
+              case 'Submit listing':
+                setStatus(Status.SIGNING);
+                break;
+            }
+
+            break;
+          } else {
+            if (step.action == 'Confirmation') {
+              setStatus(Status.SUCCESS);
+              break;
+            }
+          }
+        }
+      }
+    });
   }
 
   async function run() {
@@ -321,6 +380,10 @@ export default function Order({
         break;
 
       case OrderType.SELL:
+        setStatus(Status.USER_INPUT);
+        break;
+
+      case OrderType.OFFER:
         setStatus(Status.USER_INPUT);
         break;
 
@@ -394,43 +457,21 @@ export default function Order({
     }
   }, [price]);
 
-  async function doSale(event: any) {
+  // Kick off listing for sale or making offer
+  //
+  async function submitAction(event: any) {
     event.preventDefault();
     if (!price || isNaN(Number(price)) || Number(price) < 0) {
       console.log('invalid price'); 
       // TODO - error in UI
     } else {
       // TODO - add fee/fee recipient
-      const query = {
-        contract,
+      let query: any = {
         maker: account ?? '',
-        price: ethers.utils
-          .parseEther(price)
-          .toString(),
-        tokenId,
-        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
-      }
-
-      setParams(url, query);
-      await execute(url, signer);
-      
-      setModal(false);
-    }
-  }
-
-  async function doOffer(event: any) {
-    event.preventDefault();
-
-    if (!price || isNaN(Number(price)) || Number(price) < 0) {
-      console.log('invalid price'); 
-      // TODO - error in UI
-    } else {
-      const maker = await signer?.getAddress();
-      let query: paths['/execute/bid']['get']['parameters']['query'] =
-      {
-        maker: maker ?? '',
-        price: calculations.total.toString(),
-        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
+        price: action == OrderType.SELL ? 
+          ethers.utils.parseEther(price).toString() :
+          calculations.total.toString(),
+        expirationTime: (Date.parse(expiration.toString()) / 1000).toString()
       }
 
       if (collectionWide) {
@@ -439,10 +480,10 @@ export default function Order({
         query.contract = contract
         query.tokenId = tokenId
       }
-      
+
       setParams(url, query);
       await execute(url, signer);
-
+      
       setModal(false);
     }
   }
@@ -453,53 +494,83 @@ export default function Order({
     }
   }
 
-  var imageUrl = CONTRACTS[contract].display == 'Wizards' ? CONTRACTS[contract].image_url + tokenId + '/' + tokenId + '.png' : CONTRACTS[contract].image_url + tokenId + ".png";
+  var imageUrl = CONTRACTS[contract].display == 'Wizards' ? 
+    CONTRACTS[contract].image_url + tokenId + '/' + tokenId + '.png' : 
+    CONTRACTS[contract].image_url + tokenId + ".png";
 
-  if (action == OrderType.BUY) {
+  if (status == Status.APPROVING_TOKEN) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-      <Overlay>
-        { txn ? 
-        <Section>
-          <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
-          <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})</Title>
-          <Title style={{marginTop: "20px"}}>Transaction processing...</Title>
-          <TransactionProcessing hash={txn}/>
-        </Section> : status == Status.SUCCESS ? 
-        <Section>
-          <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
-          <Title style={{marginTop: "20px"}}>{name} (#{tokenId})</Title>
-          <Title style={{marginTop: "20px"}}>Purchase successful!</Title>
-        </Section> : status == Status.FAILURE ?
-        <Section>
-          <Title style={{marginTop: "20px"}}>Failed to purchase. Please ensure you have sufficient funds</Title>
-        </Section> :
-         <Section>
-         <TokenImage src={imageUrl} height={250} width={250} />
-         <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})...</Title>
-       </Section>
-        }
-      </Overlay> 
-    </OverlayWrapper>
-    );
+        <Approval 
+          txn={txn} 
+          title={'Setting approval...'} 
+          description={'This is a required one-time approval to allow trading tokens from this contract'}
+        />
+      </OverlayWrapper>
+    )
   }
 
-  if (action == OrderType.SELL) {
+  if (status == Status.PROXY_APPROVAL) {
     return (
-    <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-      { status == Status.USER_INPUT ? <Overlay>
-        <Title style={{marginBottom: "40px", fontSize: "24px"}}>Listing {name} (#{tokenId}) for sale</Title>
-        <TokenImage src={imageUrl} height={250} width={250} />
+      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+        <Approval 
+          txn={txn} 
+          title={'Registering proxy...'} 
+          description={'This is a required one-time registration to enable this address to trade tokens'}
+        />
+      </OverlayWrapper>
+    )
+  }
+
+  if (status == Status.APPROVING_WETH) {
+    return (
+      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+        <Approval 
+          txn={txn} 
+          title={'Approve WETH to continue with offer...'} 
+          description={'A one-time approval is needed to enable making WETH offers'}
+        />
+      </OverlayWrapper>
+    )
+  }
+
+  if (status == Status.USER_INPUT) {
+    return (
+      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+        <Overlay id="modal">
+          { collectionWide && 
+            <img 
+              src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} 
+              width={'100%'} 
+              style={{marginBottom: '40px'}}
+            />
+          }
+          { collectionWide ? 
+            <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
+            <Title style={{marginBottom: "40px", fontSize: "24px"}}>
+              { action == OrderType.OFFER ? 
+                `Submitting an offer for ${name} (#${tokenId})` :
+                `Listing ${name} (#${tokenId}) for sale`
+              }
+            </Title>
+          }
+          { !collectionWide && <TokenImage src={imageUrl} height={250} width={250} /> }
           <ListPrice>
-            <Title style={{marginTop: "30px"}}>Price</Title>
-            <form onSubmit={(e) => { doSale(e) }}>
+            <Title style={{marginTop: "35px"}}>Price</Title>
+            <form onSubmit={(e) => { submitAction(e) }}>
               <PriceInput type="number" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
             </form>
           </ListPrice>
           <Expiration>
             <Title>
-              <div style={{marginRight: '10px', marginBottom: '5px'}}>Listing Expires</div>
-              <InfoTooltip tooltip={'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'}/>
+              <div style={{marginRight: '10px', marginBottom: '5px'}}>Offer Expires</div>
+              <InfoTooltip 
+                tooltip={
+                  action == OrderType.OFFER ?
+                  'An offer can no longer be accepted after its expiration. To invalidate an offer before its expiration, you will need to manually cancel the offer.' :
+                  'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'
+                }
+              />
             </Title>
             <Flatpickr
               data-enable-time
@@ -513,35 +584,64 @@ export default function Order({
                     return date < new Date();
                   }
                 ]
-            }}
+              }}
             />
           </Expiration>
           <ButtonImage
-          src={"/static/img/marketplace/sell.png"}
-          onMouseOver={(e) =>
-            (e.currentTarget.src = "/static/img/marketplace/sell_hover.png")
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.src = "/static/img/marketplace/sell.png")
-          }
-          onClick={(e) => { doSale(e) }}
-        />
-      </Overlay> : status == Status.APPROVING ?
-        <Overlay>
-          <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
-          <Title>Setting approval...</Title>
-          <Description>This is a required one-time approval to allow trading tokens from this contract.</Description>
-          { txn && <TransactionProcessing hash={txn}/> }
+            src={`/static/img/marketplace/${ action == OrderType.OFFER ? 'offer' : 'sell' }.png`}
+            onMouseOver={(e) =>
+              (e.currentTarget.src = `/static/img/marketplace/${ action == OrderType.OFFER ? 'offer' : 'sell' }_hover.png`)
+            }
+            onMouseOut={(e) =>
+              (e.currentTarget.src = `/static/img/marketplace/${ action == OrderType.OFFER ? 'offer' : 'sell' }.png`)
+            }
+            onClick={(e) => { submitAction(e) }}
+          /> 
         </Overlay> 
-        : status == Status.PROXY_APPROVAL ? 
-        <Overlay>
-          <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
-          <Title>Registering proxy...</Title>
-          <Description>This is a required one-time registration to enable listing tokens from this account</Description>
-          { txn && <TransactionProcessing hash={txn}/> }
-        </Overlay> :
-        <Overlay><img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} /></Overlay>
-      }
+      </OverlayWrapper>
+    )
+  }
+
+  if (action == OrderType.BUY) {
+    return (
+      <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+      <Overlay>
+        { status == Status.LOADING ?
+        <Section>
+          { txn ? 
+            <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} /> : 
+            <TokenImage src={imageUrl} height={250} width={250} /> 
+          }
+        { txn ? 
+          <Title style={{marginTop: "20px"}}>Transaction processing...</Title> : 
+          <Title style={{marginTop: "20px"}}>Purchasing {name} (#{tokenId})...</Title>
+        }
+        { txn && <TransactionProcessing hash={txn}/> }
+      </Section>
+         : status == Status.SUCCESS ? 
+        <Section>
+          <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
+          <Title style={{marginTop: "20px"}}>{name} (#{tokenId})</Title>
+          <Title style={{marginTop: "20px"}}>Purchase successful!</Title>
+        </Section> : 
+        <Section>
+          <Title style={{marginTop: "20px"}}>Failed to purchase. Please ensure you have sufficient funds</Title>
+        </Section> 
+        }
+      </Overlay> 
+    </OverlayWrapper>
+    );
+  }
+
+  if (action == OrderType.SELL) {
+    return (
+    <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
+      <Overlay>
+        <img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} />
+        { status == Status.SIGNING && 
+          <Title style={{marginTop: "20px"}}>Submitting listing for {price}...</Title>
+        }
+      </Overlay>
     </OverlayWrapper>
     );
   }
@@ -549,64 +649,17 @@ export default function Order({
   if (action == OrderType.OFFER) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-        { status == Status.LOADING || status == Status.USER_INPUT ? 
-        <Overlay id="modal">
-          {collectionWide && <img src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} width={'100%'} style={{marginBottom: '40px'}}/>}
-          {collectionWide ? <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
-            <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting an offer for {name} (#{tokenId})</Title>}
-          {!collectionWide && <TokenImage src={imageUrl} height={250} width={250} />}
-            <ListPrice>
-              <Title style={{marginTop: "35px"}}>Price</Title>
-              <form onSubmit={(e) => { doOffer(e) }}>
-                <PriceInput type="number" style={{marginBottom: '20px'}} value={price} onChange={(e)=> setPrice(e.target.value)}></PriceInput>
-              </form>
-            </ListPrice>
-            <Expiration>
-              <Title>
-                <div style={{marginRight: '10px', marginBottom: '5px'}}>Offer Expires</div>
-                <InfoTooltip tooltip={'An offer can no longer be accepted after its expiration. To invalidate an offer before its expiration, you will need to manually cancel the offer.'}/>
-              </Title>
-              <Flatpickr
-                data-enable-time
-                value={expiration}
-                onChange={([date]) => {
-                  setExpiration(date);
-                }}
-                options={{
-                  "disable": [
-                    function(date) {
-                      return date < new Date();
-                    }
-                  ]
-              }}
-              />
-            </Expiration>
-            <ButtonImage
-            src={"/static/img/marketplace/offer.png"}
-            onMouseOver={(e) =>
-              (e.currentTarget.src = "/static/img/marketplace/offer_hover.png")
-            }
-            onMouseOut={(e) =>
-              (e.currentTarget.src = "/static/img/marketplace/offer.png")
-            }
-            onClick={(e) => { doOffer(e) }}
-          /> 
-        </Overlay> 
-        : status == Status.WRAPPING ?
+        { status == Status.WRAPPING ?
         <Overlay>
           <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
           <Title style={{marginBottom: "40px"}}>Wrapping ETH to make offer...</Title>
           { txn && <TransactionProcessing hash={txn}/> }
         </Overlay> 
-        : status == Status.APPROVING ? 
+        :
         <Overlay>
-         <Title style={{marginBottom: "40px"}}>
-           Approve WETH to continue with offer...&nbsp;
-           <InfoTooltip tooltip={'A one-time approval is needed to enable making WETH offers'}/>
-         </Title>
-         { txn && <TransactionProcessing hash={txn}/> }
-        </Overlay> :
-        <Overlay><img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} /></Overlay>
+          <img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} />
+          <Title style={{marginBottom: "40px"}}>Sign to submit {collectionWide ? 'collection' : null} offer for {price} WETH</Title>
+        </Overlay>
     }
     </OverlayWrapper>
     );
@@ -615,17 +668,11 @@ export default function Order({
   if (action == OrderType.ACCEPT_OFFER) {
     return (
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-      { txn ? 
-        <Overlay>
-          <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
-          <Title style={{marginTop: "20px"}}>Transaction processing...</Title>
-          <TransactionProcessing hash={txn}/>
-        </Overlay> : 
-        <Overlay>
+      <Overlay>
           <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />
           <Title style={{marginTop: "20px", fontSize: "24px"}}>Accepting offer for {name} (#{tokenId})...</Title>
-        </Overlay>
-      }
+          { txn && <TransactionProcessing hash={txn}/>}
+      </Overlay> 
     </OverlayWrapper>
     );
   }

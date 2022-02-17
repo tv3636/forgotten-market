@@ -49,11 +49,11 @@ export default async function executeSteps(
   const res = await fetch(url.href)
   let json = (await res.json()) as Execute
 
-  // Handle errors
-  if (json.error) throw new Error(json.error)
-  if (!json.steps) throw new ReferenceError('There are no steps.')
-
   try {
+    // Handle errors
+    if (json.error) throw new Error(json.error)
+    if (!json.steps) throw new ReferenceError('There are no steps.')
+
     // Return steps in callback, so progress can be displayed in UI
     if (callback) callback(json)
 
@@ -81,7 +81,6 @@ export default async function executeSteps(
             const tx = await signer.sendTransaction(data)
             setTxn(tx.hash);
             await tx.wait()
-            setTxn('');
             break
           }
 
@@ -127,6 +126,7 @@ export default async function executeSteps(
     return true;
   } catch (error) {
     console.error(error);
+    setStatus(Status.FAILURE);
     return false;
   }
 }
