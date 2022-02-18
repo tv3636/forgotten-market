@@ -223,12 +223,15 @@ const ExpirationWrapper = styled.div`
   color: var(--lightGray);
   display: flex;
   margin-top: 1vh;
+  align-items: center;
   
   @media only screen and (max-width: 600px) {
     text-align: center;
     flex-wrap: wrap;
     justify-content: center;
     margin: 5% 5% 3% 5%;
+
+    font-size: 13px;
   }
 `;
 
@@ -243,6 +246,8 @@ const OfferWrapper = styled.div`
   
   @media only screen and (max-width: 600px) {
     justify-content: center;
+    font-size: 13px;
+    margin-top: 0;
   }
 `;
 
@@ -393,6 +398,22 @@ const LoreContainer = styled.div`
   align-items: center;
 `;
 
+const OSIcon = styled.img`
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  margin-top: 2px;
+  image-rendering: pixelated;
+
+  @media only screen and (max-width: 600px) {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    margin-top: 0;
+  }
+
+`;
+
 const SoftLink = styled.a`
   text-decoration: none;
 `;
@@ -520,12 +541,7 @@ function ListingExpiration({
     if (date) {
       return (
         <ExpirationWrapper>
-          { isOS && 
-            <ResponsivePixelImg 
-              src="/static/img/icons/nav/opensea_default.png" 
-              style={{height: '15px', width: '15px', marginRight: '10px'}}
-            />
-          }
+          { isOS && <OSIcon src="/static/img/icons/nav/opensea_default.png" /> }
           Listing expires on {date.toLocaleString()}
         </ExpirationWrapper>
       );
@@ -536,12 +552,7 @@ function ListingExpiration({
     return (
       <div>
         <ExpirationWrapper>
-          { isOS && 
-            <ResponsivePixelImg 
-              src="/static/img/icons/nav/opensea_default.png" 
-              style={{height: '20px', width: '20px', marginRight: '10px'}}
-            />
-          }
+          { isOS && <OSIcon src="/static/img/icons/nav/opensea_default.png" /> }
           <span style={{width: '16ch', alignSelf: 'center'}}>Listing expires </span>
           <ReactTimeAgo style={{alignSelf: 'center'}} date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
         </ExpirationWrapper>

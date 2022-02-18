@@ -147,7 +147,7 @@ export default async function executeSteps(
     await executeSteps(url, signer, setTxn, setStatus, setSteps, json)
 
     return true
-    
+
   } catch (e) {
     console.error(e);
     setStatus(Status.FAILURE);

@@ -355,11 +355,7 @@ export default function Order({
         setParams(url, query);
         await execute(url, signer);
 
-        setTimeout(
-          () => setModal(false),
-          5000
-        );
-        
+        setModal(false);
         break;
 
       case OrderType.SELL:
