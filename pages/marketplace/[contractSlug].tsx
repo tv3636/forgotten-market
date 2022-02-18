@@ -19,6 +19,7 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
 import { useEthers } from "@usedapp/core";
+import MarketConnect from "../../components/Marketplace/MarketConnect";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 const marketplaceContracts = [
@@ -551,6 +552,25 @@ const IconImage = styled.img`
   transition: all 100ms;
 `;
 
+const AccountIcon = styled.div`
+  position: relative;
+
+  :hover {
+    .dropdown {
+      display: inline-block;
+    }
+  }
+
+`;
+
+const AccountDropDown = styled.div`
+  position: absolute;
+  right: 0;
+  display: none;
+  z-index: 1000;
+
+`;
+
 function MarketTabs() {
   var router = useRouter();
   return (
@@ -866,6 +886,30 @@ function TokenDisplay({
   );
 }
 
+function Profile({ account }: {account: any}) {
+  return (
+    <AccountIcon>
+      { account ? 
+        <Link href={`/marketplace/address/${account}`} passHref={true}>
+          <SoftLink>
+            <CollectionOffer style={{marginRight: '0'}}>
+              <img src='/static/img/marketplace/profile.png' height={'15px'}/>
+            </CollectionOffer>
+          </SoftLink>
+        </Link> :
+        <div>
+          <CollectionOffer style={{marginRight: '0'}}>
+            <img src='/static/img/marketplace/profile.png' height={'15px'}/>
+          </CollectionOffer>
+          <AccountDropDown className='dropdown'>
+            <MarketConnect/>
+          </AccountDropDown>
+        </div>
+      }
+    </AccountIcon>
+  )
+}
+
 function Listings({
   contract,
   collection,
@@ -1024,15 +1068,7 @@ export default function Marketplace({
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
             <CollectionOffer onClick={flipView}>{showActivity ? 'Listings' : 'Activity'}</CollectionOffer>
-            { account && 
-              <Link href={`/marketplace/address/${account}`} passHref={true}>
-                <SoftLink>
-                  <CollectionOffer>
-                    <img src='/static/img/marketplace/profile.png' height={'15px'}/>
-                  </CollectionOffer>
-                </SoftLink>
-              </Link>
-            }
+            <Profile account={account}/>
           </div>
         </Header>
         {showModal && 

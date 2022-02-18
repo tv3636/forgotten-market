@@ -304,23 +304,23 @@ export default function Order({
                 break;
 
               case 'Approving WETH':
-                setTxn('');
                 setStatus(Status.APPROVING_WETH);
+                setTxn('');
                 break;
               
               case 'Approving token':
-                setTxn('');
                 setStatus(Status.APPROVING_TOKEN);
+                setTxn('');
                 break;
 
               case 'Proxy registration':
-                setTxn('');
                 setStatus(Status.PROXY_APPROVAL);
+                setTxn('');
                 break;
 
               case 'Initialize wallet':
-                setTxn('');
                 setStatus(Status.PROXY_APPROVAL);
+                setTxn('');
                 break;
 
               case 'Authorize offer':
@@ -328,18 +328,18 @@ export default function Order({
                 break;
 
               case 'Approve WETH contract':
-                setTxn('');
                 setStatus(Status.APPROVING_WETH);
+                setTxn('');
                 break;
 
               case 'Approve NFT contract':
-                setTxn('');
                 setStatus(Status.APPROVING_TOKEN);
+                setTxn('');
                 break;
 
               case 'Accept offer':
-                setTxn('');
                 setStatus(Status.PROCESSING);
+                setTxn('');
                 break;
 
               case 'Submit listing':
@@ -534,7 +534,7 @@ export default function Order({
     )
   }
 
-  if (status == Status.USER_INPUT) {
+  if (status == Status.USER_INPUT || (status == Status.LOADING && (action == OrderType.OFFER || action == OrderType.SELL))) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
         <Overlay id="modal">
@@ -542,6 +542,7 @@ export default function Order({
             <img 
               src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} 
               width={'100%'} 
+              height={'20%'}
               style={{marginBottom: '40px'}}
             />
           }
