@@ -656,10 +656,12 @@ const ListingPage = ({
   contractSlug,
   tokenId,
   lore,
+  osListing,
 }: {
   contractSlug: string;
   tokenId: string;
   lore: any;
+  osListing: boolean;
 }) => {
   const [token, setToken] = useState<any>({});
   const [listing, setListing] = useState<any>({});
@@ -672,7 +674,6 @@ const ListingPage = ({
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(OrderType.BUY);
-  const [osListing, setOsListing] = useState(false);
   const { account } = useEthers();
 
   // hacky workaround to grab location until it's added to metadata/stored locally
@@ -729,18 +730,7 @@ const ListingPage = ({
           setOwnerEns(ownerEns);
         }
       }
-
-      // TODO - move to getStaticProps
-      try {
-        const orderPage = await fetch(
-          `${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`,
-          { headers: headers }
-        );
-        const orderJson = await orderPage.json();
-        setOsListing(orderJson.order.params.feeRecipient == OS_WALLET);
-      } catch (error) {
-        console.error(error);
-      }
+      
 
       if (lore.length > 0) {
         var newPages = [];
@@ -913,11 +903,24 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     results = [];
   }
 
+  try {
+      const orderPage = await fetch(
+        `${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`,
+        { headers: headers }
+      );
+      const orderJson = await orderPage.json();
+      var osListing = orderJson.order.params.feeRecipient == OS_WALLET;
+  } catch(e) {
+    console.error("Could not determine listing origin")
+    osListing = false;
+  }
+
   return {
     props: {
       contractSlug,
       tokenId: tokenId,
       lore: results,
+      osListing: osListing,
     },
     revalidate: 3 * 60,
   };
