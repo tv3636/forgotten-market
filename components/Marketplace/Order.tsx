@@ -282,10 +282,10 @@ export default function Order({
     url: URL, 
     signer: any,
   ) {
-    await executeSteps(url, signer, setTxn, setStatus, (execute) => {
-      console.log(execute.steps);
-      if (execute.steps) {
-        for (var step of execute.steps) {
+    await executeSteps(url, signer, setTxn, setStatus, (execute: any) => {
+      console.log(execute);
+      if (execute) {
+        for (var step of execute) {
           if (step.status == 'incomplete') {
             console.log(step);
 
@@ -300,40 +300,26 @@ export default function Order({
                 break;
 
               case 'Relaying order':
+              case 'Authorize offer':
+              case 'Submit listing':
                 setStatus(Status.SIGNING);
                 break;
 
               case 'Approving WETH':
+              case 'Approve WETH contract':
                 setStatus(Status.APPROVING_WETH);
                 setTxn('');
                 break;
               
               case 'Approving token':
+              case 'Approve NFT contract':
                 setStatus(Status.APPROVING_TOKEN);
                 setTxn('');
                 break;
 
               case 'Proxy registration':
-                setStatus(Status.PROXY_APPROVAL);
-                setTxn('');
-                break;
-
               case 'Initialize wallet':
                 setStatus(Status.PROXY_APPROVAL);
-                setTxn('');
-                break;
-
-              case 'Authorize offer':
-                setStatus(Status.SIGNING);
-                break;
-
-              case 'Approve WETH contract':
-                setStatus(Status.APPROVING_WETH);
-                setTxn('');
-                break;
-
-              case 'Approve NFT contract':
-                setStatus(Status.APPROVING_TOKEN);
                 setTxn('');
                 break;
 
@@ -341,16 +327,13 @@ export default function Order({
                 setStatus(Status.PROCESSING);
                 setTxn('');
                 break;
-
-              case 'Submit listing':
-                setStatus(Status.SIGNING);
-                break;
             }
 
             break;
           } else {
             if (step.action == 'Confirmation') {
               setStatus(Status.SUCCESS);
+              setTxn('');
               break;
             }
           }

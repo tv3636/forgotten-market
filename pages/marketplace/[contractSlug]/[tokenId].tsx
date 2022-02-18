@@ -730,6 +730,7 @@ const ListingPage = ({
         }
       }
 
+      // TODO - move to getStaticProps
       try {
         const orderPage = await fetch(
           `${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`,

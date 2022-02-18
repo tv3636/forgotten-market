@@ -1,4 +1,4 @@
-import { WyvernV2 } from "@reservoir0x/sdk";
+import { TypedDataSigner } from '@ethersproject/abstract-signer';
 import { Weth } from "@reservoir0x/sdk/dist/common/helpers";
 import { BigNumber, constants, Contract, ContractTransaction, ethers, Signer } from "ethers";
 import { arrayify, Interface, splitSignature } from "ethers/lib/utils";
@@ -19,7 +19,6 @@ export type Execute = {
         status: 'complete' | 'incomplete'
         kind: 'transaction' | 'signature' | 'request' | 'confirmation'
         data?: any
-        loading?: boolean
       }[]
     | undefined
   query?: { [x: string]: any }
@@ -35,97 +34,122 @@ export type Execute = {
  * action.
  * @param url URL object with the endpoint to be called. Example: `/execute/buy`
  * @param signer Ethereum signer object provided by the browser
+ * @param setState Callback to update UI state has execution progresses
  * @returns The data field of the last element in the steps array
  */
 export default async function executeSteps(
   url: any,
-  signer: any,
-  setTxn: (txn: string) => void,
+  signer: Signer,
+  setTxn: (hash: string) => void,
   setStatus: (status: Status) => void,
-  callback?: (steps: Execute) => any,
+  setSteps: any,
+  newJson?: Execute
 ) {
-  console.log(url);
-  // Fetch the steps
-  const res = await fetch(url.href)
-  let json = (await res.json()) as Execute
-
   try {
+    let json = newJson
+
+    if (!json) {
+      const res = await fetch(url.href)
+      json = (await res.json()) as Execute
+    }
+
+    // Update state on first call or recursion
+    setSteps(json.steps?.map((step) => step))
+
     // Handle errors
     if (json.error) throw new Error(json.error)
     if (!json.steps) throw new ReferenceError('There are no steps.')
 
-    // Return steps in callback, so progress can be displayed in UI
-    if (callback) callback(json)
+    const incompleteIndex = json.steps.findIndex(
+      ({ status }) => status === 'incomplete'
+    )
 
-    for (let index = 0; index < json.steps.length; index++) {
-      // Update UI for loading state
-      json.steps[index].loading = true
-      if (callback) callback(json)
+    // There are no more incomplete steps
+    if (incompleteIndex === -1) return json
 
-      let { status, kind, data } = json.steps[index]
-      if (status === 'incomplete') {
-        // Append any extra params provided by API
-        if (json.query) setParams(url, json.query)
+    let { kind, data } = json.steps[incompleteIndex]
 
-        // If step is missing data, poll until it is ready
-        if (!data) {
-          json = (await pollUntilHasData(url, index)) as Execute
-          if (!json.steps) throw new ReferenceError('There are no steps.')
-          data = json.steps[index].data
-        }
+    // Append any extra params provided by API
+    if (json.query) setParams(url, json.query)
 
-        // Handle each step based on it's kind
-        switch (kind) {
-          // Make an on-chain transaction
-          case 'transaction': {
-            const tx = await signer.sendTransaction(data)
-            setTxn(tx.hash);
-            await tx.wait()
-            break
-          }
-
-          // Sign a message
-          case 'signature': {
-            // Request user signature
-            const signature = await signer.signMessage(arrayify(data.message))
-            // Split signature into r,s,v components
-            const { r, s, v } = splitSignature(signature)
-            // Include signature params in any future requests
-            setParams(url, { r, s, v })
-            break
-          }
-
-          // Post a signed order object to order book
-          case 'request': {
-            const postOrderUrl = new URL(data.endpoint, url.origin)
-            await fetch(postOrderUrl.href, {
-              method: data.method,
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data.body),
-            })
-            break
-          }
-
-          // Confirm that an on-chain tx has been picked up by indexer
-          case 'confirmation': {
-            const confirmationUrl: any = new URL(data.endpoint, url.origin)
-            await pollUntilOk(confirmationUrl)
-            break
-          }
-        }
-
-        // Mark the step as complete
-        json.steps[index].status = 'complete'
-        json.steps[index].loading = false
-
-        if (callback) callback(json)
-      }
+    // If step is missing data, poll until it is ready
+    if (!data) {
+      json = (await pollUntilHasData(url, incompleteIndex)) as Execute
+      if (!json.steps) throw new ReferenceError('There are no steps.')
+      data = json.steps[incompleteIndex].data
     }
-    return true;
-  } catch (error) {
-    console.error(error);
+
+    // Handle each step based on it's kind
+    switch (kind) {
+      // Make an on-chain transaction
+      case 'transaction': {
+        const tx = await signer.sendTransaction(data)
+        setTxn(tx.hash)
+        await tx.wait()
+        break
+      }
+
+      // Sign a message
+      case 'signature': {
+        let signature: string | undefined
+
+        // Request user signature
+        if (data.signatureKind === 'eip191') {
+          signature = await signer.signMessage(arrayify(data.message))
+        } else if (data.signatureKind === 'eip712') {
+          signature = await (signer as unknown as TypedDataSigner)._signTypedData(
+            data.domain,
+            data.types,
+            data.value
+          )
+        }
+
+        if (signature) {
+          // Split signature into r,s,v components
+          const { r, s, v } = splitSignature(signature)
+          // Include signature params in any future requests
+          setParams(url, { r, s, v })
+        }
+
+        break
+      }
+
+      // Post a signed order object to order book
+      case 'request': {
+        const postOrderUrl = new URL(data.endpoint, url.origin)
+        try {
+          await fetch(postOrderUrl.href, {
+            method: data.method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data.body),
+          })
+        } catch (err) {
+          throw err
+        }
+        break
+      }
+
+      // Confirm that an on-chain tx has been picked up by indexer
+      case 'confirmation': {
+        const confirmationUrl: any = new URL(data.endpoint, url.origin)
+        await pollUntilOk(confirmationUrl)
+        break
+      }
+
+      default:
+        break
+    }
+
+    json.steps[incompleteIndex].status = 'complete'
+
+    await executeSteps(url, signer, setTxn, setStatus, setSteps, json)
+
+    return true
+    
+  } catch (e) {
+    console.error(e);
     setStatus(Status.FAILURE);
     return false;
   }
