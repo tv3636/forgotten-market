@@ -25,6 +25,8 @@ const ConnectButton = styled(Button)`
   @media only screen and (max-width: 600px) {
     margin-bottom: 10px;
   }
+  
+  transition: all 200ms;
 `;
 
 export default function MarketConnect() {

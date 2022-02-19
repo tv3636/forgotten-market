@@ -85,6 +85,10 @@ const TopLeft = styled.div`
     .dropdown {
       opacity: 80%;
     }
+
+    .dropdown-image {
+      border-color: var(--lightGray);
+    }
   }
 
   @media only screen and (max-width: 600px) {
@@ -111,7 +115,7 @@ const TopRight = styled.div`
 `;
 
 const Arrows = styled.div`
-  opacity: 10%;
+  opacity: 30%;
   display: flex;
   position: absolute;
   flex-direction: row;
@@ -133,12 +137,24 @@ const Arrows = styled.div`
 `;
 
 const ArrowImage = styled.img`
-  height: 20px;
+  height: 25px;
+  width: 25px;
   cursor: pointer;
+  padding: 7px;
+
+  background: var(--mediumGray);
+  border-radius: 30px;
+  border-style: dashed;
+  border-width: 1px;
+  border-color: var(--darkGray);
   
   @media only screen and (max-width: 600px) {
     height: 20px;
+    width: 20px;
+    padding: 5px;
   }
+
+  transition: all 200ms;
 `;
 
 const SectionWrapper = styled.div`
@@ -854,11 +870,11 @@ const ListingPage = ({
               />
               { CONTRACTS[contractSlug].display == 'Wizards' && 
                 <Arrows className={'dropdown'}>
-                  <ArrowImage 
+                  <ArrowImage className={'dropdown-image'} 
                     src='/static/img/marketplace/arrow_left.png'
                     onClick={()=> setKeyImage((keyImage - 1 + imageUrls.length) % imageUrls.length)}
                   />
-                  <ArrowImage 
+                  <ArrowImage className={'dropdown-image'} 
                     src='/static/img/marketplace/arrow_right.png' 
                     onClick={()=> setKeyImage((keyImage + 1) % imageUrls.length)}
                   />
