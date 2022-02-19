@@ -19,7 +19,7 @@ export enum Status {
   FAILURE,
 }
 
-export enum OrderType {
+export enum ORDER_TYPE {
   BUY = 'buy',
   SELL = 'sell',
   OFFER = 'offer',
@@ -29,12 +29,12 @@ export enum OrderType {
 }
 
 export interface OrderPaths {
-  [OrderType.BUY]: paths['/execute/buy']['get']['parameters']['query'],
-  [OrderType.SELL]: paths['/execute/list']['get']['parameters']['query'],
-  [OrderType.OFFER]: paths['/execute/bid']['get']['parameters']['query'],
-  [OrderType.ACCEPT_OFFER]: paths['/execute/sell']['get']['parameters']['query'],
-  [OrderType.CANCEL_LISTING]: paths['/execute/cancel']['get']['parameters']['query'],
-  [OrderType.CANCEL_OFFER]: paths['/execute/cancel']['get']['parameters']['query'],
+  [ORDER_TYPE.BUY]: paths['/execute/buy']['get']['parameters']['query'],
+  [ORDER_TYPE.SELL]: paths['/execute/list']['get']['parameters']['query'],
+  [ORDER_TYPE.OFFER]: paths['/execute/bid']['get']['parameters']['query'],
+  [ORDER_TYPE.ACCEPT_OFFER]: paths['/execute/sell']['get']['parameters']['query'],
+  [ORDER_TYPE.CANCEL_LISTING]: paths['/execute/cancel']['get']['parameters']['query'],
+  [ORDER_TYPE.CANCEL_OFFER]: paths['/execute/cancel']['get']['parameters']['query'],
 }
 
 export const OrderURLs: any = {
@@ -139,3 +139,10 @@ export const LOCATIONS: any = {
   Keep: [-1.9, -2.7],
   Wood: [1, 0.3],
 };
+
+export const BACKGROUND: any = {
+  'Black': '#000000',
+  'Red': '#1E0200',
+  'Green': '#040D04',
+  'Blue': '#09071B',
+}

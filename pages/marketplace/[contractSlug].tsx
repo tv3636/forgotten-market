@@ -9,7 +9,7 @@ import { getOptions, getURLAttributes, LoadingCard } from "../../components/Mark
 import {
   API_BASE_URL,
   CONTRACTS,
-  OrderType,
+  ORDER_TYPE,
 } from "../../components/Marketplace/marketplaceConstants";
 import Link from "next/link";
 import { useRouter } from 'next/router';
@@ -825,10 +825,12 @@ function TokenDisplay({
     `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : 
     `${CONTRACTS[contract].image_url}${tokenId}.png`;
 
+  let turnaround = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`;
+
   // Preload turnaround GIFs
   useEffect(() => {
     if (CONTRACTS[contract].display == 'Wizards') {
-      const img = new Image().src = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`;
+      const img = new Image().src = turnaround;
     }
   }, []);
 
@@ -843,7 +845,7 @@ function TokenDisplay({
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
-              (e.currentTarget.src = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`)
+              (e.currentTarget.src = turnaround)
             }
             onMouseOut={(e) =>
               (e.currentTarget.src = image)
@@ -1078,7 +1080,7 @@ export default function Marketplace({
           name={CONTRACTS[contract].full} 
           collectionWide={true} 
           setModal={setShowModal}
-          action={OrderType.OFFER}
+          action={ORDER_TYPE.OFFER}
           hash={null}
           offerHash={null}
         />

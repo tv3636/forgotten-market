@@ -3,7 +3,7 @@ import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
 import { BigNumber, constants, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, OrderType, Status } from './marketplaceConstants';
+import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE, Status } from './marketplaceConstants';
 import executeSteps, { 
   calculateOffer, 
   getWeth, 
@@ -221,7 +221,7 @@ export default function Order({
   setModal,
   collectionWide
 }: {
-  action: OrderType;
+  action: ORDER_TYPE;
   contract: string;
   tokenId: string;
   name: string;
@@ -346,7 +346,7 @@ export default function Order({
     let query: OrderPaths[typeof action];
 
     switch(action) {
-      case OrderType.BUY:
+      case ORDER_TYPE.BUY:
         query = {
           contract,
           tokenId,
@@ -358,15 +358,15 @@ export default function Order({
         setModal(false);
         break;
 
-      case OrderType.SELL:
+      case ORDER_TYPE.SELL:
         setStatus(Status.USER_INPUT);
         break;
 
-      case OrderType.OFFER:
+      case ORDER_TYPE.OFFER:
         setStatus(Status.USER_INPUT);
         break;
 
-      case OrderType.ACCEPT_OFFER:
+      case ORDER_TYPE.ACCEPT_OFFER:
          query = {
           tokenId,
           contract,
@@ -379,7 +379,7 @@ export default function Order({
         setModal(false);
         break;
 
-      case OrderType.CANCEL_LISTING:
+      case ORDER_TYPE.CANCEL_LISTING:
         query = {
           hash: hash ?? '',
           maker: account ?? '',
@@ -390,7 +390,7 @@ export default function Order({
         setModal(false);
         break;
 
-      case OrderType.CANCEL_OFFER:
+      case ORDER_TYPE.CANCEL_OFFER:
         query = {
           hash: offerHash ?? '',
           maker: account ?? '',
@@ -416,7 +416,7 @@ export default function Order({
       }
     }
 
-    if (action == OrderType.OFFER) {
+    if (action == ORDER_TYPE.OFFER) {
       loadWeth()
     } 
 
@@ -447,7 +447,7 @@ export default function Order({
       // TODO - add fee/fee recipient
       let query: any = {
         maker: account ?? '',
-        price: action == OrderType.SELL ? 
+        price: action == ORDER_TYPE.SELL ? 
           ethers.utils.parseEther(price).toString() :
           calculations.total.toString(),
         expirationTime: (Date.parse(expiration.toString()) / 1000).toString()
@@ -513,7 +513,7 @@ export default function Order({
     )
   }
 
-  if (status == Status.USER_INPUT || (status == Status.LOADING && (action == OrderType.OFFER || action == OrderType.SELL))) {
+  if (status == Status.USER_INPUT || (status == Status.LOADING && (action == ORDER_TYPE.OFFER || action == ORDER_TYPE.SELL))) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
         <Overlay id="modal">
@@ -528,7 +528,7 @@ export default function Order({
           { collectionWide ? 
             <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
             <Title style={{marginBottom: "40px", fontSize: "24px"}}>
-              { action == OrderType.OFFER ? 
+              { action == ORDER_TYPE.OFFER ? 
                 `Submitting an offer for ${name} (#${tokenId})` :
                 `Listing ${name} (#${tokenId}) for sale`
               }
@@ -546,7 +546,7 @@ export default function Order({
               <div style={{marginRight: '10px', marginBottom: '5px'}}>Offer Expires</div>
               <InfoTooltip 
                 tooltip={
-                  action == OrderType.OFFER ?
+                  action == ORDER_TYPE.OFFER ?
                   'An offer can no longer be accepted after its expiration. To invalidate an offer before its expiration, you will need to manually cancel the offer.' :
                   'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'
                 }
@@ -568,12 +568,12 @@ export default function Order({
             />
           </Expiration>
           <ButtonImage
-            src={`/static/img/marketplace/${ action == OrderType.OFFER ? 'offer' : 'sell' }.png`}
+            src={`/static/img/marketplace/${ action == ORDER_TYPE.OFFER ? 'offer' : 'sell' }.png`}
             onMouseOver={(e) =>
-              (e.currentTarget.src = `/static/img/marketplace/${ action == OrderType.OFFER ? 'offer' : 'sell' }_hover.png`)
+              (e.currentTarget.src = `/static/img/marketplace/${ action == ORDER_TYPE.OFFER ? 'offer' : 'sell' }_hover.png`)
             }
             onMouseOut={(e) =>
-              (e.currentTarget.src = `/static/img/marketplace/${ action == OrderType.OFFER ? 'offer' : 'sell' }.png`)
+              (e.currentTarget.src = `/static/img/marketplace/${ action == ORDER_TYPE.OFFER ? 'offer' : 'sell' }.png`)
             }
             onClick={(e) => { submitAction(e) }}
           /> 
@@ -582,7 +582,7 @@ export default function Order({
     )
   }
 
-  if (action == OrderType.BUY) {
+  if (action == ORDER_TYPE.BUY) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
@@ -613,7 +613,7 @@ export default function Order({
     );
   }
 
-  if (action == OrderType.SELL) {
+  if (action == ORDER_TYPE.SELL) {
     return (
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
@@ -626,7 +626,7 @@ export default function Order({
     );
   }
 
-  if (action == OrderType.OFFER) {
+  if (action == ORDER_TYPE.OFFER) {
     return (
       <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
         { status == Status.WRAPPING ?
@@ -645,7 +645,7 @@ export default function Order({
     );
   }
 
-  if (action == OrderType.ACCEPT_OFFER) {
+  if (action == ORDER_TYPE.ACCEPT_OFFER) {
     return (
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
@@ -657,12 +657,12 @@ export default function Order({
     );
   }
 
-  if (action == OrderType.CANCEL_LISTING || action == OrderType.CANCEL_OFFER) {
+  if (action == ORDER_TYPE.CANCEL_LISTING || action == ORDER_TYPE.CANCEL_OFFER) {
     return ( 
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
       <Overlay>
         <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
-        <Title>{ action == OrderType.CANCEL_LISTING ? 'Canceling listing...' : 'Canceling offer...'}</Title>
+        <Title>{ action == ORDER_TYPE.CANCEL_LISTING ? 'Canceling listing...' : 'Canceling offer...'}</Title>
         { txn && <TransactionProcessing hash={txn}/> }
       </Overlay>
     </OverlayWrapper>

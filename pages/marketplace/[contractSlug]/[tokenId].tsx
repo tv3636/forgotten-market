@@ -13,9 +13,10 @@ import {
   CONTRACTS,
   API_BASE_URL,
   LOCATIONS,
-  OrderType,
+  ORDER_TYPE,
   BURN_ADDRESS,
   OS_WALLET,
+  BACKGROUND
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
 import MarketConnect from "../../../components/Marketplace/MarketConnect"
@@ -167,6 +168,7 @@ const SectionWrapper = styled.div`
 
 const TokenImage = styled.img`
   border: 2px dashed var(--darkGray);
+  background: #1f0200;
 
   @media only screen and (max-width: 600px) {
     border: 4px solid var(--darkGray);
@@ -493,7 +495,7 @@ function MarketAction({
   setModal
 }: {
   modal: boolean;
-  actionType: OrderType;
+  actionType: ORDER_TYPE;
   tokenId: string;
   contract: string;
   name: string;
@@ -524,9 +526,9 @@ function MarketButton({
   setModal,
   setActionType
  }: { 
-   type: OrderType;
+   type: ORDER_TYPE;
    setModal: (setting: boolean) => void;
-   setActionType: (action: OrderType) => void;
+   setActionType: (action: ORDER_TYPE) => void;
   }) {
   return (
     <ButtonImage
@@ -556,7 +558,7 @@ function MarketButtons({
   listValue: number | null | undefined;
   hasOffer: boolean;
   setModal: (setting: boolean) => void;
-  setActionType: (action: OrderType) => void;
+  setActionType: (action: ORDER_TYPE) => void;
   highestOffer: boolean;
 }) {
   if (!account) {
@@ -567,24 +569,24 @@ function MarketButtons({
       if (listValue) {
         return (
           <Buttons>
-            {hasOffer && <MarketButton type={OrderType.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
-            <MarketButton type={OrderType.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />
+            {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
+            <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />
           </Buttons>
         )
       } else {
         return (
           <Buttons>
-            <MarketButton type={OrderType.SELL} setModal={setModal} setActionType={setActionType} />
-            {hasOffer && <MarketButton type={OrderType.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
+            <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} />
+            {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
           </Buttons>
         )
       }
     } else {
       return (
         <Buttons>
-          {listValue && <MarketButton type={OrderType.BUY} setModal={setModal} setActionType={setActionType} />}
-          <MarketButton type={OrderType.OFFER} setModal={setModal} setActionType={setActionType} />
-          {highestOffer && <MarketButton type={OrderType.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
+          {listValue && <MarketButton type={ORDER_TYPE.BUY} setModal={setModal} setActionType={setActionType} />}
+          <MarketButton type={ORDER_TYPE.OFFER} setModal={setModal} setActionType={setActionType} />
+          {highestOffer && <MarketButton type={ORDER_TYPE.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
         </Buttons>
       );
     }
@@ -748,7 +750,8 @@ const ListingPage = ({
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
-  const [marketActionType, setMarketActionType] = useState(OrderType.BUY);
+  const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
+  const [backgroundColor, setBackGroundColor] = useState(BACKGROUND.Black);
   const [keyImage, setKeyImage] = useState(0);
   const { account } = useEthers();
 
@@ -760,7 +763,7 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-3-right.png`,
-    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
 
   // hacky workaround to grab location until it's added to metadata/stored locally
@@ -815,6 +818,12 @@ const ListingPage = ({
           );
 
           setOwnerEns(ownerEns);
+        }
+
+        for (var trait of listingsJson.tokens[0].token.attributes) {
+          if (trait.key == 'Background') {
+            setBackGroundColor(BACKGROUND[trait.value]);
+          }
         }
       }
       
@@ -872,7 +881,8 @@ const ListingPage = ({
               <TokenImage 
                 src={imageUrls[keyImage]} 
                 height={400} 
-                width={400} 
+                width={400}
+                style={{background: backgroundColor}}
               />
               { CONTRACTS[contractSlug].display == 'Wizards' && 
                 <Arrows className={'dropdown'}>
