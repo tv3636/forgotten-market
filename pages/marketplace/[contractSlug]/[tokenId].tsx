@@ -29,7 +29,6 @@ import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
 
-
 const DynamicMap = dynamic(() => import("../../../components/Marketplace/MiniMap"), {
   ssr: false, // leaflet doesn't like Next.js SSR
 });
@@ -819,7 +818,7 @@ const ListingPage = ({
         }
       }
       
-
+      // Load lore
       if (lore.length > 0) {
         var newPages = [];
         for (var lorePage of lore) {
@@ -837,6 +836,11 @@ const ListingPage = ({
           }
         }
         setPages(newPages);
+      }
+      
+      // Preload turnaround images
+      for (var url of imageUrls) {
+        const img = new Image().src = url;
       }
       
     }

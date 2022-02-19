@@ -825,6 +825,11 @@ function TokenDisplay({
     `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : 
     `${CONTRACTS[contract].image_url}${tokenId}.png`;
 
+  // Preload turnaround GIFs
+  useEffect(() => {
+    const img = new Image().src = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`;
+  }, []);
+
   return (
     <Link
       href={`/marketplace/${contract}/${tokenId}`}
