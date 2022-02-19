@@ -11,12 +11,6 @@ import { getInfinityVeilContract, getPoniesContract } from "../../../contracts/F
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
 
-const marketplaceContracts = [
-  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42",
-  "0x251b5f14a825c537ff788604ea1b58e49b70726f",
-  "0xf55b615b479482440135ebf1b907fd4c37ed9420"
-]
-
 const AccountWrapper = styled.div`
   display: flex;
   
@@ -152,13 +146,20 @@ const DisplayContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
   width: 100%;
-
 `;
 
 const SoftLink = styled.a`
   text-decoration: none;
+`;
+
+const TokenListing = styled.div`
+  display: flex;
+  font-family: Roboto Mono;
+  color: var(--white);
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 `;
 
 const CollectionEthSymbol = styled.img`
@@ -174,12 +175,14 @@ function sortByKey(array: any, key: any) {
   });
 }
 
-function OverallDisplay({
+function SectionDisplay({
   tokens,
-  title
+  title,
+  contract
 }: {
   tokens: any;
   title: string;
+  contract: string | null;
 }) {
   return (
     <DisplayContainer>
@@ -187,28 +190,30 @@ function OverallDisplay({
       <HorizontalLine style={{borderColor: 'black'}}/>
       <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
         {tokens.map((token: any, index: number) => {
+          var thisContract = contract ? contract : token.contract;
+          var thisTokenId = contract ? token[0] : token.tokenId;
           return (
             <div key={index}>
               <Link 
-                href={`/marketplace/${token.contract}/${token.tokenId}`} 
+                href={`/marketplace/${thisContract}/${thisTokenId}`} 
                 passHref={true}
               >
                 <SoftLink>
                   <div style={{display: 'flex', flexDirection: 'column'}}>
                     <TokenImage 
-                      src={ token.contract == '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42' ? 
-                        `${CONTRACTS[token.contract].image_url}${token.tokenId}/${token.tokenId}.png` :
-                        `${CONTRACTS[token.contract].image_url}${token.tokenId}.png`
+                      src={ CONTRACTS[thisContract].display == 'Wizards' ? 
+                        `${CONTRACTS[thisContract].image_url}${thisTokenId}/${thisTokenId}.png` :
+                        `${CONTRACTS[thisContract].image_url}${thisTokenId}.png`
                       }
                       height={100} 
                       width={100} 
                     />
-                    <div style={{display: 'flex', fontFamily: 'Roboto Mono', color: 'var(--white)', fontSize: '14px', marginTop: '5px', marginBottom: '10px'}}>
-                    <CollectionEthSymbol
-                      src="/static/img/marketplace/eth.png"
-                    />
-                      {token.value ? token.value : token.topBuy.value}
-                    </div>
+                    { !contract && 
+                      <TokenListing>
+                        <CollectionEthSymbol src="/static/img/marketplace/eth.png"/>
+                        {token.value ? token.value : token.topBuy.value}
+                      </TokenListing>
+                    }
                   </div>
                 </SoftLink>
               </Link>
@@ -221,42 +226,25 @@ function OverallDisplay({
   )
 }
 
-function TokenDisplay({
-  tokens,
-  contract,
-}:{
-  tokens: any;
-  contract: string;
-}) {
+function AccountHeader({ 
+  address, 
+  ens
+}: {
+  address: string;
+  ens: string;
+  }) {
   return (
-    <DisplayContainer>
-      <Title style={{fontSize: '20px'}}>{CONTRACTS[contract].display}</Title>
-      <HorizontalLine style={{borderColor: 'black'}}/>
-      <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-        {tokens && tokens.map((token: any, index: number) => {
-          return (
-            <div key={index}>
-              <Link 
-                href={`/marketplace/${contract}/${token[0]}`} 
-                passHref={true}
-              >
-                <SoftLink>
-                  <TokenImage 
-                    src={ contract == '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42' ? 
-                      `${CONTRACTS[contract].image_url}${token[0]}/${token[0]}.png` :
-                      `${CONTRACTS[contract].image_url}${token[0]}.png`
-                    }
-                    height={100} 
-                    width={100} 
-                  />
-                </SoftLink>
-              </Link>
-            </div>
-          );
-        })}
-      </div>
-      <HorizontalLine style={{borderColor: 'black'}}/>
-    </DisplayContainer>
+    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+      <Title>{ens ? ens : address}</Title>
+        <a
+          href={`https://opensea.io/${address}`}
+          className="icon-link"
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <IconImage src="/static/img/icons/nav/opensea_default.png"/>
+        </a>
+    </div>
   )
 }
 
@@ -292,7 +280,7 @@ export default function Address({
       pageJson = await page.json();
 
       for (var position of pageJson.positions) {
-        if (marketplaceContracts.includes(position.set.schema.data.contract)) {
+        if (Object.keys(CONTRACTS).includes(position.set.schema.data.contract)) {
           var listingObject = position.set.schema.data;
           listingObject.value = position.primaryOrder.value;
           validListings.push(listingObject);
@@ -351,45 +339,39 @@ export default function Address({
     <Layout title="Account">
       <AccountWrapper>
         <Account>
-          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
-            <Title>{ens ? ens : address}</Title>
-              <a
-                href={`https://opensea.io/${address}`}
-                className="icon-link"
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                <IconImage src="/static/img/icons/nav/opensea_default.png"/>
-              </a>
-          </div>
+          <AccountHeader address={address} ens={ens}/>
           <HorizontalLine/>
           <HorizontalLine style={{borderColor: 'black'}}/>
           <StatRow>
-            <SubTitle>{`Wizards Owned: ${tokenData.wizards.length}`}</SubTitle>
-            <SubTitle>{`Souls Owned: ${tokenData.souls.length}`}</SubTitle>
-            <SubTitle>{`Ponies Owned: ${tokenData.ponies.length}`}</SubTitle>
+            {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
+              return (
+                <SubTitle key={index}>
+                  {`${CONTRACTS[contract].display} Owned: ${tokenData.byContract[contract].length}`}
+                </SubTitle>
+              );
+            })}
             <SubTitle>{`Flames Owned: ${tokenData.flames.length}`}</SubTitle>
           </StatRow>
           <HorizontalLine style={{borderColor: 'black'}}/>
           <DesktopLine style={{borderColor: 'black'}}/>
-          { tokenData.wizards.length > 0 && 
-            <TokenDisplay tokens={tokenData.wizards} contract={'0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42'}/>
-          }
-          { tokenData.souls.length > 0 && 
-            <TokenDisplay tokens={tokenData.souls} contract={'0x251b5f14a825c537ff788604ea1b58e49b70726f'}/>
-          }
-          { tokenData.ponies.length > 0 && 
-            <TokenDisplay tokens={tokenData.ponies} contract={'0xf55b615b479482440135ebf1b907fd4c37ed9420'}/>
-          }
+          {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
+              return tokenData.byContract[contract].length > 0 && 
+                <SectionDisplay 
+                  key={index} 
+                  tokens={tokenData.byContract[contract]} 
+                  contract={contract} 
+                  title={CONTRACTS[contract].display}
+                />
+            })}
           <HorizontalLine style={{borderColor: 'black'}}/>
           { listings.length > 0 && 
-            <OverallDisplay tokens={listings} title={'Listings'}/>
+            <SectionDisplay tokens={listings} contract={null} title={'Listings'}/>
           }
           { offersMade.length > 0 && 
-            <OverallDisplay tokens={offersMade} title={'Offers Made'}/>
+            <SectionDisplay tokens={offersMade} contract={null} title={'Offers Made'}/>
           }
            { offers.length > 0 && 
-            <OverallDisplay tokens={offers} title={'Offers Received'}/>
+            <SectionDisplay tokens={offers} contract={null} title={'Offers Received'}/>
           }
         </Account>
       </AccountWrapper>
@@ -429,14 +411,18 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       ponies.push([pony.toString()]);
     }
 
-    tokenData.ponies = ponies;
-
     var flames = await veilContract.balanceOf(address, 0);
     tokenData.flames = new Array(Number(flames.toString()));
 
   } catch (error) {
     valid = false;
     console.error(error);
+  }
+
+  tokenData.byContract = {
+    '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42': tokenData.wizards,
+    '0x251b5f14a825c537ff788604ea1b58e49b70726f': tokenData.souls,
+    '0xf55b615b479482440135ebf1b907fd4c37ed9420': ponies
   }
   
   return {

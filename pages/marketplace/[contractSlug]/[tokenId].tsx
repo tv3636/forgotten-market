@@ -28,7 +28,6 @@ import dynamic from "next/dynamic";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
-import { ResponsivePixelImg } from "../../../components/ResponsivePixelImg";
 
 
 const DynamicMap = dynamic(() => import("../../../components/Marketplace/MiniMap"), {
@@ -75,9 +74,28 @@ const TopDisplay = styled.div`
   }
 `;
 
+const TopLeft = styled.div`
+  display: flex;  
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  position: relative;
+
+  :hover {
+    .dropdown {
+      opacity: 80%;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 370px;
+    align-content: center;
+  }
+`;
+
 const TopRight = styled.div`
   margin-left: var(--sp3);
-  height: 400px;
+  height: 420px;
   padding: var(--sp0);
   max-width: calc(100% - 460px - var(--sp3));
   align-self: flex-start;
@@ -89,6 +107,37 @@ const TopRight = styled.div`
     justify-content: center;
     max-width: 80%;
     height: auto;
+  }
+`;
+
+const Arrows = styled.div`
+  opacity: 10%;
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  top: 99%;
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    top: auto;
+    opacity: 50%;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  transition: all 200ms;
+`;
+
+const ArrowImage = styled.img`
+  height: 20px;
+  cursor: pointer;
+  
+  @media only screen and (max-width: 600px) {
+    height: 20px;
   }
 `;
 
@@ -685,7 +734,19 @@ const ListingPage = ({
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(OrderType.BUY);
+  const [keyImage, setKeyImage] = useState(0);
   const { account } = useEthers();
+
+  const imageUrls: string[] = [
+    CONTRACTS[contractSlug].display == 'Wizards' ? 
+      CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
+      CONTRACTS[contractSlug].image_url + tokenId + ".png",
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-3-right.png`,
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`
+  ]
 
   // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
@@ -785,15 +846,25 @@ const ListingPage = ({
           }
           <Listing>
             <TopDisplay>
+              <TopLeft>
               <TokenImage 
-                src={ 
-                  CONTRACTS[contractSlug].display == 'Wizards' ? 
-                  CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
-                  CONTRACTS[contractSlug].image_url + tokenId + ".png"
-                } 
+                src={imageUrls[keyImage]} 
                 height={400} 
                 width={400} 
               />
+              { CONTRACTS[contractSlug].display == 'Wizards' && 
+                <Arrows className={'dropdown'}>
+                  <ArrowImage 
+                    src='/static/img/marketplace/arrow_left.png'
+                    onClick={()=> setKeyImage((keyImage - 1 + imageUrls.length) % imageUrls.length)}
+                  />
+                  <ArrowImage 
+                    src='/static/img/marketplace/arrow_right.png' 
+                    onClick={()=> setKeyImage((keyImage + 1) % imageUrls.length)}
+                  />
+                </Arrows>
+              }
+              </TopLeft>
               <TopRight>
                 <NameDisplay>
                   <NameStyle>{token.name}</NameStyle>
@@ -914,12 +985,14 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     results = [];
   }
 
+  // Workaround to determine listing origin
   try {
       const orderPage = await fetch(
         `${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`,
         { headers: headers }
       );
       const orderJson = await orderPage.json();
+      console.log(`${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`);
       var osListing = orderJson.order.params.feeRecipient == OS_WALLET;
   } catch(e) {
     console.error("Could not determine listing origin")

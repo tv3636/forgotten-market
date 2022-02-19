@@ -1,7 +1,8 @@
 import {
   SOULS_ABI,
   WIZARDS_ABI,
-  PONIES_ABI
+  PONIES_ABI,
+  INFINITY_VEIL_ABI
 } from "../../contracts/abis";
 import { paths } from '../../interfaces/apiTypes';
 
@@ -51,7 +52,7 @@ export const OS_WALLET = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073';
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
   "https://mainnet-api-v4.reservoir.tools/" : "https://rinkeby-api-v4.reservoir.tools/";
 
-export const CONTRACTS: any = {
+export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ? {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
     collection: "forgottenruneswizardscult",
     display: "Wizards",
@@ -75,6 +76,15 @@ export const CONTRACTS: any = {
     full: "Forgotten Runes Ponies",
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
     ABI: PONIES_ABI
+  },
+} : {
+  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
+    collection: "forgottenruneswizardscult",
+    display: "Wizards",
+    singular: "Wizard",
+    full: "Forgotten Runes Wizard's Cult",
+    image_url: "https://runes-turnarounds.s3.amazonaws.com/",
+    ABI: WIZARDS_ABI
   },
   "0x95082b505c0752eef1806aef2b6b2d55eea77e4e": {
     collection: "forgottensouls",
