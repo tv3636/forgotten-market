@@ -827,7 +827,9 @@ function TokenDisplay({
 
   // Preload turnaround GIFs
   useEffect(() => {
-    const img = new Image().src = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`;
+    if (CONTRACTS[contract].display == 'Wizards') {
+      const img = new Image().src = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle.gif`;
+    }
   }, []);
 
   return (

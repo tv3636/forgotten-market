@@ -839,8 +839,10 @@ const ListingPage = ({
       }
       
       // Preload turnaround images
-      for (var url of imageUrls) {
-        const img = new Image().src = url;
+      if (CONTRACTS[contractSlug].display == 'Wizards') {
+        for (var url of imageUrls) {
+          const img = new Image().src = url;
+        }
       }
       
     }
