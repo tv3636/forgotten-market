@@ -3,6 +3,9 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { ResponsivePixelImg } from "./ResponsivePixelImg";
 import Link from "next/link";
+import { useEthers } from "@usedapp/core";
+import MarketConnect from "./Marketplace/MarketConnect";
+import { useRouter } from 'next/router';
 
 type Props = {};
 
@@ -14,6 +17,7 @@ const SiteNavElement = styled.nav`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
 
   padding: 0 15px;
 
@@ -21,11 +25,6 @@ const SiteNavElement = styled.nav`
     background-color: #1f200d;
     border-radius: 5px;
     padding: 5px 8px !important;
-  }
-
-  a {
-    color: white;
-    text-decoration: none;
   }
 
   .menu {
@@ -196,9 +195,152 @@ export const LogoToggleRow = styled.div`
   }
 `;
 
+const MenuItem = styled.div`
+  position: relative;  
+  margin-right: 30px;
+  font-size: 15px;
+  color: var(--lightGray);
+  cursor: pointer;
+  
+  display: flex;
+  justify-content: center;
+
+  :hover {
+    color: white;
+
+    .dropdown {
+      display: flex;
+    }
+  }
+
+  transition: all 200ms;
+`;
+
+const SoftLink = styled.a`
+  text-decoration: none;
+  color: var(--white);
+
+  :hover {
+    color: white;
+  }
+
+  transition: all 200ms;
+`;
+
+const Dropdown = styled.div`
+  position: absolute;
+  display: none;
+  z-index: 1000;
+
+  margin-top: 12px;
+`;
+
+const DropdownItem = styled.div`
+  margin: 20px;
+  text-align: center;
+`;
+
+const AccountIcon = styled.div`
+  position: relative;
+
+  :hover {
+    .dropdown {
+      display: inline-block;
+    }
+  }
+
+`;
+
+const AccountDropDown = styled.div`
+  position: absolute;
+  right: 0;
+  display: none;
+  z-index: 1000;
+
+`;
+
+const CollectionOffer = styled.div`
+  background: var(--darkGray);
+  border-style: dashed;
+  border-radius: 10px;
+  border-color: var(--mediumGray);
+  border-width: 1px;
+
+  font-family: Alagard;
+  font-size: 20px;
+  color: var(--lightGray);
+
+  padding: 10px;
+  margin-right: 10px;
+
+
+  :hover {
+    background: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: var(--white);
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 16px;
+    margin-right: 0px;
+  }
+
+  transition: border-color 100ms;
+
+`;
+
+function DropdownLink({ 
+  title,
+  url
+}: {
+  title: string;
+  url: string;
+}) {
+  return (
+    <DropdownItem>
+      <div>
+        <Link href={url} passHref={true}>
+          <SoftLink>{title}</SoftLink>
+        </Link>
+      </div>
+    </DropdownItem>
+  )
+}
+
+function Profile({ account }: {account: any}) {
+  return (
+    <AccountIcon>
+      { account ? 
+        <Link href={`/marketplace/address/${account}`} passHref={true}>
+          <SoftLink>
+            <CollectionOffer style={{marginRight: '0'}}>
+              <img src='/static/img/marketplace/profile.png' height={'15px'}/>
+            </CollectionOffer>
+          </SoftLink>
+        </Link> :
+        <div>
+          <CollectionOffer style={{marginRight: '0'}}>
+            <img src='/static/img/marketplace/profile.png' height={'15px'}/>
+          </CollectionOffer>
+          <AccountDropDown className='dropdown'>
+            <MarketConnect/>
+          </AccountDropDown>
+        </div>
+      }
+    </AccountIcon>
+  )
+}
+
 export default function SiteNav({}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleIsOpen = () => setIsOpen(!isOpen);
+  const { account } = useEthers();
+  const router = useRouter();
+
+  let marketplace_url = 'contractSlug' in router.query ? 
+  `/marketplace/${router.query.contractSlug}` : 
+  '/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42';
 
   return (
     <SiteNavElement>
@@ -219,76 +361,27 @@ export default function SiteNav({}: Props) {
           </ul>
         </LogoToggleRow>
         <ul className={"menu" + (isOpen ? " active" : "")}>
-          <li className="item">
-            <a
-              href="https://opensea.io/collection/forgottenruneswizardscult"
-              className="icon-link"
-            >
-              <ResponsivePixelImg src="/static/img/icons/nav/opensea_default.png" />
-            </a>
-          </li>
-          <li className="item">
-            <a href="https://twitter.com/forgottenrunes" className="icon-link">
-              <ResponsivePixelImg src="/static/img/icons/nav/twitter_default.png" />
-            </a>
-          </li>
-          <li className="item">
-            <a
-              href="https://www.instagram.com/forgotten_runes/"
-              className="icon-link"
-            >
-              <ResponsivePixelImg src="/static/img/icons/nav/ig_default.png" />
-            </a>
-          </li>
-          <li className="item">
-            <a href="https://discord.gg/forgottenrunes" className="icon-link">
-              <ResponsivePixelImg src="/static/img/icons/nav/discord_default.png" />
-            </a>
-          </li>
+          <Link 
+            href={marketplace_url} 
+            passHref={true}
+          >
+            <SoftLink>
+              <MenuItem>Marketplace</MenuItem>
+            </SoftLink>
+          </Link>
+          <Link href={marketplace_url + '?activity=True'} passHref={true}>
+            <SoftLink>
+              <MenuItem>Activity</MenuItem>
+            </SoftLink>
+          </Link>
+          <Link href="/marketplace/about" passHref={true}>
+            <SoftLink>
+              <MenuItem>About</MenuItem>
+            </SoftLink>
+          </Link>
+          <Profile account={account}/>
         </ul>
       </SiteNavTopRow>
-      <SiteNavRow>
-        <ul className={"menu" + (isOpen ? " active" : "")}>
-          <li className="item">
-            <a href="/">The Secret Tower</a>
-          </li>
-          <li className="item">
-            <Link as={"/wtf"} href={"/wtf"} passHref={true}>
-              Start Here
-            </Link>
-          </li>
-
-          <li className="item">
-            <Link as={"/lore"} href={"/lore"} passHref={true}>
-              <a>Book of Lore</a>
-            </Link>
-          </li>
-
-          <li className="item">
-            <Link as={"/map"} href={"/map"} passHref={true}>
-              <a>Map</a>
-            </Link>
-          </li>
-
-          <li className="item">
-            <Link as={"/gallery"} href={"/gallery"} passHref={true}>
-              <a>All Wizards</a>
-            </Link>
-          </li>
-
-          <li className="item">
-            <Link as={"/posts"} href={"/posts"} passHref={true}>
-              <a>Blog</a>
-            </Link>
-          </li>
-
-          <li className="item">
-            <Link as={"/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42"} href={"/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42"} passHref={true}>
-              <a>Marketplace</a>
-            </Link>
-          </li>
-        </ul>
-      </SiteNavRow>
     </SiteNavElement>
   );
 }

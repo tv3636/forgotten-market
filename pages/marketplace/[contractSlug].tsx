@@ -18,8 +18,6 @@ import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
-import { useEthers } from "@usedapp/core";
-import MarketConnect from "../../components/Marketplace/MarketConnect";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -28,11 +26,11 @@ TimeAgo.addDefaultLocale(en);
 const MarketWrapper = styled.div`
   font-size: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 2vh;
+  margin-top: 4vh;
   flex-wrap: wrap;
   overflow-x: hidden;
 
@@ -42,8 +40,19 @@ const MarketWrapper = styled.div`
   }
 `;
 
-const Header = styled.div`
+const DesktopHeader = styled.div`
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 5px;
+
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const MobileHeader = styled.div`
+  display: none;
   flex-direction: row;
   justify-content: space-between;
   width: 1200px;
@@ -51,6 +60,7 @@ const Header = styled.div`
   margin-bottom: 5px;
 
   @media only screen and (max-width: 600px) {
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin-right: 0px;
@@ -63,7 +73,6 @@ const Tabs = styled.div`
   justify-content: flex-start;
   align-content: center;
   align-self: flex-start;
-  margin-left: 20px;
 
   @media only screen and (max-width: 600px) {
     margin-left: 0px;
@@ -151,8 +160,6 @@ const CollectionOffer = styled.div`
   color: var(--lightGray);
 
   padding: 10px;
-  margin-right: 10px;
-
 
   :hover {
     background: var(--mediumGray);
@@ -216,8 +223,7 @@ const Label = styled.label`
 
 const FilterWrapper = styled.div`
   width: 15%;
-  max-width: 200px;
-  margin-left: 20px;
+  min-width: 150px;
 
   @media only screen and (max-width: 600px) {
     width: auto;
@@ -265,9 +271,9 @@ const ScrollContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 2vw;
   margin-left: 1vw;
   margin-right: 1vw;
-  margin-top: 2vw;
   overflow: hidden;
   
 `;
@@ -543,25 +549,6 @@ const IconImage = styled.img`
   }
 
   transition: all 100ms;
-`;
-
-const AccountIcon = styled.div`
-  position: relative;
-
-  :hover {
-    .dropdown {
-      display: inline-block;
-    }
-  }
-
-`;
-
-const AccountDropDown = styled.div`
-  position: absolute;
-  right: 0;
-  display: none;
-  z-index: 1000;
-
 `;
 
 function MarketTabs() {
@@ -888,30 +875,6 @@ function TokenDisplay({
   );
 }
 
-function Profile({ account }: {account: any}) {
-  return (
-    <AccountIcon>
-      { account ? 
-        <Link href={`/marketplace/address/${account}`} passHref={true}>
-          <SoftLink>
-            <CollectionOffer style={{marginRight: '0'}}>
-              <img src='/static/img/marketplace/profile.png' height={'15px'}/>
-            </CollectionOffer>
-          </SoftLink>
-        </Link> :
-        <div>
-          <CollectionOffer style={{marginRight: '0'}}>
-            <img src='/static/img/marketplace/profile.png' height={'15px'}/>
-          </CollectionOffer>
-          <AccountDropDown className='dropdown'>
-            <MarketConnect/>
-          </AccountDropDown>
-        </div>
-      }
-    </AccountIcon>
-  )
-}
-
 function Listings({
   contract,
   collection,
@@ -1043,19 +1006,6 @@ export default function Marketplace({
   const [showModal, setShowModal] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
   const router = useRouter();
-  const { account } = useEthers();
-
-  function flipView() {
-    setShowActivity(!showActivity);
-
-    if (Object.keys(router.query).includes('activity')) {
-      delete router.query['activity'];
-      router.push({ query: router.query }, undefined, { shallow: true });
-    } else {
-      router.query['activity'] = 'True';
-      router.push({ query: router.query }, undefined, { shallow: true });
-    }
-  }
 
   useEffect(() => {
     setShowActivity(Object.keys(router.query).includes('activity'));
@@ -1065,14 +1015,12 @@ export default function Marketplace({
   return (
     <Layout title="Marketplace">
       <MarketWrapper>
-        <Header>
+      <MobileHeader>
           <MarketTabs/>
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
-            <CollectionOffer onClick={flipView}>{showActivity ? 'Listings' : 'Activity'}</CollectionOffer>
-            <Profile account={account}/>
           </div>
-        </Header>
+        </MobileHeader>
         {showModal && 
         <Order 
           contract={contract} 
@@ -1085,7 +1033,13 @@ export default function Marketplace({
           offerHash={null}
         />
         }
-        <div style={{width: '1300px'}}>
+        <div style={{width: '1300px', maxWidth: '95%'}}>
+        <DesktopHeader>
+          <MarketTabs/>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
+          </div>
+        </DesktopHeader>
           <Listings
             collection={CONTRACTS[contract].collection}
             contract={contract}

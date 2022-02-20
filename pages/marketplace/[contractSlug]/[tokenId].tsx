@@ -1024,8 +1024,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         { headers: headers }
       );
       const orderJson = await orderPage.json();
-      console.log(`${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`);
       var osListing = orderJson.order.params.feeRecipient == OS_WALLET;
+      
   } catch(e) {
     console.error("Could not determine listing origin")
     osListing = false;
