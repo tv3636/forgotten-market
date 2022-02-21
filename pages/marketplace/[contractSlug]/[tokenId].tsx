@@ -477,7 +477,7 @@ const OSIcon = styled.img`
   @media only screen and (max-width: 600px) {
     width: 12px;
     height: 12px;
-    margin-right: 4px;
+    margin-right: 7px;
     margin-top: 0;
   }
 
@@ -652,7 +652,7 @@ function TraitDisplay({
                 <Link 
                   href={ BURN_TRAITS.includes(attribute.key) ? 
                     `/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${tokenId}`
-                    : `/marketplace/${contract}?${attribute.key.toLowerCase().replace('#', '%23')}=${attribute.value}`
+                    : `/marketplace/${contract}?${attribute.key.toLowerCase().replace('#', '%23')}=${attribute.value.replaceAll(' ', '+')}`
                   } 
                   passHref={true}
                 >
