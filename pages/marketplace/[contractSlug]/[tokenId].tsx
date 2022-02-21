@@ -15,7 +15,6 @@ import {
   LOCATIONS,
   ORDER_TYPE,
   BURN_ADDRESS,
-  OS_WALLET,
   BACKGROUND
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
@@ -29,6 +28,9 @@ import dynamic from "next/dynamic";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
+import wizards from "../../../data/nfts-prod.json";
+
+const wizData = wizards as { [wizardId: string]: any };
 
 const DynamicMap = dynamic(() => import("../../../components/Marketplace/MiniMap"), {
   ssr: false, // leaflet doesn't like Next.js SSR
@@ -751,7 +753,6 @@ const ListingPage = ({
   const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
-  const [backgroundColor, setBackGroundColor] = useState(BACKGROUND.Black);
   const [keyImage, setKeyImage] = useState(0);
   const { account } = useEthers();
 
@@ -765,6 +766,8 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-3-right.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
+  
+  var backgroundColor = CONTRACTS[contractSlug].display == 'Wizards' ? `#${wizData[tokenId].background_color}` : '#000000';
 
   // hacky workaround to grab location until it's added to metadata/stored locally
   function getCenter(name: string) {
@@ -818,12 +821,6 @@ const ListingPage = ({
           );
 
           setOwnerEns(ownerEns);
-        }
-
-        for (var trait of listingsJson.tokens[0].token.attributes) {
-          if (trait.key == 'Background' && CONTRACTS[contractSlug].display == 'Wizards') {
-            setBackGroundColor(BACKGROUND[trait.value]);
-          }
         }
       }
       

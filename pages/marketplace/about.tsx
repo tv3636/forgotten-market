@@ -7,7 +7,7 @@ const AboutWrapper = styled.div`
   
   min-height: 90vh;
   margin: 0 auto;
-  padding: 20px;
+  padding: 30px;
   margin-top: 80px;
   max-width: 1500px;
 

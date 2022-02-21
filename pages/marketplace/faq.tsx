@@ -7,8 +7,8 @@ const AboutWrapper = styled.div`
   
   min-height: 90vh;
   margin: 0 auto;
-  padding: 20px;
-  margin-top: 50px;
+  padding: 30px;
+  margin-top: 30px;
   max-width: 1500px;
 
   @media only screen and (max-width: 600px) {
