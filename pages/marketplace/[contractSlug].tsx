@@ -39,6 +39,7 @@ const MarketWrapper = styled.div`
   @media only screen and (max-width: 600px) {
     flex-direction: row;
     align-content: center;
+    margin-top: 1vh;
   }
 `;
 
@@ -232,6 +233,7 @@ const FilterWrapper = styled.div`
     width: auto;
     max-width: 1000px;
     margin-left: 0px;
+    margin-right: 0px;
   }
 `;
 

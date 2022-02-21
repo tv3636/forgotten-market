@@ -97,7 +97,7 @@ export default function About({
           In Metamask, the prompt will look like this:
         </Description>
         <Description style={{justifyContent: 'center'}}>
-          <ImageWithBorder src="/static/img/marketplace/faq/proxy.png" style={{width: '400px', maxWidth: '80%'}}/>
+          <ImageWithBorder src="/static/img/marketplace/faq/proxy.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '130vw'}}/>
         </Description>
         <HorizontalLine/>
         <Description style={{display: 'block'}}>Note the address in the top right is the <a href="https://etherscan.io/address/0xa5409ec958C83C3f309868babACA7c86DCB077c1" target="_blank">Project Wyvern Proxy Registry</a>.</Description>
@@ -112,7 +112,7 @@ export default function About({
           In Metamask, the prompt to set approval looks like this:
         </Description>
         <Description style={{justifyContent: 'center'}}>
-          <ImageWithBorder src="/static/img/marketplace/faq/approval.png" style={{width: '400px', maxWidth: '80%'}}/>
+          <ImageWithBorder src="/static/img/marketplace/faq/approval.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '120vw'}}/>
         </Description>
         <HorizontalLine/>
         <Description style={{display: 'block'}}>
@@ -134,7 +134,7 @@ export default function About({
         <HorizontalLine/>
         <HorizontalLine/>
         <Description style={{justifyContent: 'center'}}>
-          <img src="/static/img/marketplace/faq/affinities.jpg" style={{width: '800px', maxWidth: '80%'}}/>
+          <img src="/static/img/marketplace/faq/affinities.jpg" style={{width: '800px', maxWidth: '75vw', maxHeight: '135vw'}}/>
         </Description>
         <HorizontalLine/>
         <HorizontalLine/>
