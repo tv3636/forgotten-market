@@ -140,6 +140,8 @@ export default function About({
         <HorizontalLine/>
         <Title>Additional questions?</Title>
         <Description style={{display: 'block'}}>For all additional questions or concerns, please contact <a href="https://twitter.com/tv3636" target="_blank">@tv</a>.</Description>
+        <HorizontalLine/>
+        <HorizontalLine/>
       </AboutWrapper>
     </Layout>
   )

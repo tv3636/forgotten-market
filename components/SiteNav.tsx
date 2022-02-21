@@ -41,7 +41,7 @@ const SiteNavElement = styled.nav`
   ul.menu {
     margin: 0;
   }
-  
+
   .menu,
   .submenu {
     list-style-type: none;
@@ -286,7 +286,7 @@ const CollectionOffer = styled.div`
     justify-content: center;
   }
 
-  transition: border-color 100ms;
+  transition: all 200ms;
 
 `;
 
