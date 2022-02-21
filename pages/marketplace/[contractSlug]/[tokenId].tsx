@@ -821,7 +821,7 @@ const ListingPage = ({
         }
 
         for (var trait of listingsJson.tokens[0].token.attributes) {
-          if (trait.key == 'Background') {
+          if (trait.key == 'Background' && CONTRACTS[contractSlug].display == 'Wizzards') {
             setBackGroundColor(BACKGROUND[trait.value]);
           }
         }
@@ -1017,16 +1017,14 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     results = [];
   }
 
-  // Workaround to determine listing origin
+  // Determine listing origin
   try {
       const orderPage = await fetch(
-        `${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`,
+        `${API_BASE_URL}orders/?contract=${contractSlug}&tokenId=${tokenId}&side=sell&offset=0&limit=1`,
         { headers: headers }
       );
       const orderJson = await orderPage.json();
-      console.log(`${API_BASE_URL}orders/fill?contract=${contractSlug}&tokenId=${tokenId}`);
-      var osListing = orderJson.order.params.feeRecipient == OS_WALLET;
-      
+      var osListing = orderJson.orders[0].sourceInfo.id == 'opensea';
   } catch(e) {
     console.error("Could not determine listing origin")
     osListing = false;
