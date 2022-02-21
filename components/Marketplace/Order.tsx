@@ -430,7 +430,7 @@ export default function Order({
       )
 
       if (weth?.balance && ethBalance) {
-        const calculations = calculateOffer(userInput, ethBalance, weth.balance, Number(fee));
+        const calculations = calculateOffer(userInput, ethBalance, weth.balance, Number(CONTRACTS[contract].fee));
         setCalculations(calculations)
       }
     }
@@ -450,7 +450,10 @@ export default function Order({
         price: action == ORDER_TYPE.SELL ? 
           ethers.utils.parseEther(price).toString() :
           calculations.total.toString(),
-        expirationTime: (Date.parse(expiration.toString()) / 1000).toString()
+        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
+        disableRoyalties: true,
+        fee: CONTRACTS[contract].fee,
+        feeRecipient: CONTRACTS[contract].feeRecipient
       }
 
       if (collectionWide) {

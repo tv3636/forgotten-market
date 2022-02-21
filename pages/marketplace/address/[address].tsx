@@ -344,6 +344,7 @@ export default function Address({
           <HorizontalLine style={{borderColor: 'black'}}/>
           <StatRow>
             {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
+              console.log(contract);
               return (
                 <SubTitle key={index}>
                   {`${CONTRACTS[contract].display} Owned: ${tokenData.byContract[contract].length}`}
@@ -419,10 +420,15 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     console.error(error);
   }
 
-  tokenData.byContract = {
+  tokenData.byContract = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ? {
     '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42': tokenData.wizards,
     '0x251b5f14a825c537ff788604ea1b58e49b70726f': tokenData.souls,
     '0xf55b615b479482440135ebf1b907fd4c37ed9420': ponies
+  } :
+  {
+    '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42': tokenData.wizards,
+    '0x95082b505c0752eef1806aef2b6b2d55eea77e4e': tokenData.souls,
+    '0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e': ponies
   }
   
   return {

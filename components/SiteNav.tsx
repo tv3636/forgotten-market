@@ -41,7 +41,7 @@ const SiteNavElement = styled.nav`
   ul.menu {
     margin: 0;
   }
-
+  
   .menu,
   .submenu {
     list-style-type: none;
@@ -262,12 +262,10 @@ const AccountDropDown = styled.div`
 const CollectionOffer = styled.div`
   background: var(--darkGray);
   border-style: dashed;
-  border-radius: 10px;
+  border-radius: 50px;
   border-color: var(--mediumGray);
   border-width: 1px;
 
-  font-family: Alagard;
-  font-size: 20px;
   color: var(--lightGray);
 
   padding: 10px;
@@ -284,6 +282,8 @@ const CollectionOffer = styled.div`
   @media only screen and (max-width: 600px) {
     font-size: 16px;
     margin-right: 0px;
+    display: flex;
+    justify-content: center;
   }
 
   transition: border-color 100ms;
@@ -310,18 +310,18 @@ function DropdownLink({
 
 function Profile({ account }: {account: any}) {
   return (
-    <AccountIcon>
+    <AccountIcon className={"item"}>
       { account ? 
         <Link href={`/marketplace/address/${account}`} passHref={true}>
           <SoftLink>
             <CollectionOffer style={{marginRight: '0'}}>
-              <img src='/static/img/marketplace/profile.png' height={'15px'}/>
+              <img src='/static/img/marketplace/profile-export.png' height={'15px'} width={'15px'}/>
             </CollectionOffer>
           </SoftLink>
         </Link> :
         <div>
           <CollectionOffer style={{marginRight: '0'}}>
-            <img src='/static/img/marketplace/profile.png' height={'15px'}/>
+            <img src='/static/img/marketplace/profile-export.png' height={'15px'} width={'15px'}/>
           </CollectionOffer>
           <AccountDropDown className='dropdown'>
             <MarketConnect/>
@@ -366,17 +366,22 @@ export default function SiteNav({}: Props) {
             passHref={true}
           >
             <SoftLink>
-              <MenuItem>Marketplace</MenuItem>
+              <MenuItem className={"item"}>Marketplace</MenuItem>
             </SoftLink>
           </Link>
           <Link href={marketplace_url + '?activity=True'} passHref={true}>
             <SoftLink>
-              <MenuItem>Activity</MenuItem>
+              <MenuItem className={"item"}>Activity</MenuItem>
             </SoftLink>
           </Link>
           <Link href="/marketplace/about" passHref={true}>
             <SoftLink>
-              <MenuItem>About</MenuItem>
+              <MenuItem className={"item"}>About</MenuItem>
+            </SoftLink>
+          </Link>
+          <Link href="/marketplace/faq" passHref={true}>
+            <SoftLink>
+              <MenuItem className={"item"}>FAQ</MenuItem>
             </SoftLink>
           </Link>
           <Profile account={account}/>

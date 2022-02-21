@@ -18,7 +18,9 @@ import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
+import wizards from "../../data/nfts-prod.json";
 
+const wizData = wizards as { [wizardId: string]: any };
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
 TimeAgo.addDefaultLocale(en);
@@ -222,8 +224,9 @@ const Label = styled.label`
 `;
 
 const FilterWrapper = styled.div`
-  width: 15%;
+  width: 19%;
   min-width: 150px;
+  margin-right: 3%;
 
   @media only screen and (max-width: 600px) {
     width: auto;
@@ -821,6 +824,9 @@ function TokenDisplay({
     }
   }, []);
 
+  var backgroundColor = '#' + wizData[tokenId].background_color;
+  console.log(backgroundColor);
+
   return (
     <Link
       href={`/marketplace/${contract}/${tokenId}`}
@@ -836,7 +842,8 @@ function TokenDisplay({
             }
             onMouseOut={(e) =>
               (e.currentTarget.src = image)
-            } 
+            }
+            style={{background: backgroundColor}}
           /> :
           <ListingImage 
             src={CONTRACTS[contract].image_url + tokenId + ".png"}

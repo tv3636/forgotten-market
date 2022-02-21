@@ -199,33 +199,33 @@ export default function Footer({}: Props) {
               <a href="/">The Secret Tower</a>
             </li>
             <li className="item">
-              <Link as={"/wtf"} href={"/wtf"} passHref={true}>
+              <a href="https://forgottenrunes.com/wtf" target="_blank">
                 wtf?
-              </Link>
+              </a>
             </li>
 
             <li className="item">
-              <Link as={"/lore"} href={"/lore"} passHref={true}>
+              <a href="https://forgottenrunes.com/lore" target="_blank">
                 <a>Book of Lore</a>
-              </Link>
+              </a>
             </li>
 
             <li className="item">
-              <Link as={"/map"} href={"/map"} passHref={true}>
+              <a href="https://forgottenrunes.com/map" target="_blank">
                 <a>Map</a>
-              </Link>
+              </a>
             </li>
 
             <li className="item">
-              <Link as={"/gallery"} href={"/gallery"} passHref={true}>
+              <a href="https://forgottenrunes.com/gallery" target="_blank">
                 <a>All Wizards</a>
-              </Link>
+              </a>
             </li>
 
             <li className="item">
-              <Link as={"/posts"} href={"/posts"} passHref={true}>
+              <a href="https://forgottenrunes.com/posts" target="_blank">
                 <a>Blog</a>
-              </Link>
+              </a>
             </li>
           </ul>
         </li>

@@ -59,7 +59,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Wizard",
     full: "Forgotten Runes Wizard's Cult",
     image_url: "https://runes-turnarounds.s3.amazonaws.com/",
-    ABI: WIZARDS_ABI
+    ABI: WIZARDS_ABI,
+    fee: '350',
+    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
   },
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
     collection: "forgottensouls",
@@ -67,7 +69,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Soul",
     full: "Forgotten Souls",
     image_url: "https://portal.forgottenrunes.com/api/souls/img/",
-    ABI: SOULS_ABI
+    ABI: SOULS_ABI,
+    fee: '766',
+    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
   },
   "0xf55b615b479482440135ebf1b907fd4c37ed9420": {
     collection: "forgottenrunesponies",
@@ -75,7 +79,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Pony",
     full: "Forgotten Runes Ponies",
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
-    ABI: PONIES_ABI
+    ABI: PONIES_ABI,
+    fee: '544',
+    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
   },
 } : {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
@@ -84,7 +90,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Wizard",
     full: "Forgotten Runes Wizard's Cult",
     image_url: "https://runes-turnarounds.s3.amazonaws.com/",
-    ABI: WIZARDS_ABI
+    ABI: WIZARDS_ABI,
+    fee: '350',
+    feeRecipient: '0x9ef8286cc70eb94721f994c55875fe6da08c80a0'
   },
   "0x95082b505c0752eef1806aef2b6b2d55eea77e4e": {
     collection: "forgottensouls",
@@ -92,7 +100,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Soul",
     full: "Forgotten Souls",
     image_url: "https://portal.forgottenrunes.com/api/souls/img/",
-    ABI: SOULS_ABI
+    ABI: SOULS_ABI,
+    fee: '766',
+    feeRecipient: '0x7761edb1d12b05a0ab2eaa6bb1d4b469aab59205'
   },
   "0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e": {
     collection: "forgottenrunesponies",
@@ -100,7 +110,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Pony",
     full: "Forgotten Runes Ponies",
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
-    ABI: PONIES_ABI
+    ABI: PONIES_ABI,
+    fee: '544',
+    feeRecipient: '0x7d1346757b353a8ff47a3493885d8201f4d24caf'
   }
 };
 
