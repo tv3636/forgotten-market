@@ -821,7 +821,7 @@ const ListingPage = ({
         }
 
         for (var trait of listingsJson.tokens[0].token.attributes) {
-          if (trait.key == 'Background' && CONTRACTS[contractSlug].display == 'Wizzards') {
+          if (trait.key == 'Background' && CONTRACTS[contractSlug].display == 'Wizards') {
             setBackGroundColor(BACKGROUND[trait.value]);
           }
         }

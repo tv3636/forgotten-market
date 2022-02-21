@@ -43,7 +43,7 @@ const Description = styled.div`
   margin-bottom: var(--sp-1);
 
   @media only screen and (max-width: 600px) {
-    font-size: 18px;
+    font-size: 14px;
   }
 `;
 
