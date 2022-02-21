@@ -328,3 +328,7 @@ p {
 .flatpickr-calendar.arrowTop:before {
   border-bottom-color: var(--lightGray) !important;
 }
+
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: var(--lightGray) !important;
+}

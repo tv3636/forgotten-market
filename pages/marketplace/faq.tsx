@@ -40,7 +40,7 @@ const Title = styled.div`
   margin-bottom: var(--sp-1);
 
   @media only screen and (max-width: 600px) {
-    font-size: 18px;
+    font-size: 22px;
   }
 `;
 
@@ -81,17 +81,33 @@ const ImageWithBorder = styled.img`
   border-width: 5px;
 `;
 
-export default function About({
+export default function FAQ({
 }: {
 }) {
   return (
-    <Layout title="About">
+    <Layout title="FAQ">
       <AboutWrapper>
         <BigTitle>Frequently Asked Questions</BigTitle>
+        <Title>Is it safe to sign messages from Wyvern Exchange Contract?</Title>
+        <Description style={{display: 'block'}}>
+          Forgotten.market utilizes the <a href="https://wyvernprotocol.com/" target="_blank">Wyvern Protocol</a>.
+          When you list a token for sale or make an offer on a token, you will need to sign a message like the one below:
+        </Description>
+        <Description style={{justifyContent: 'center'}}>
+          <ImageWithBorder src="/static/img/marketplace/faq/sign.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '250vw'}}/>
+        </Description>
+        <HorizontalLine/>
+        <Description style={{display: 'block'}}>
+          In this example, a wizard is being listed for Ξ10. The 'basePrice' value (towards the bottom) is displayed in wei, which is the ether
+          value * 10^18. The exchange contract is the&nbsp; 
+          <a href="https://etherscan.io/address/0x7f268357a8c2552623316e2562d90e642bb538e5" target="_blank">Wyvern Exchange Contract</a>.
+          The maker address is your own, while the taker address here is the null address, indicating a public listing. <br/>Please double check
+          messages before you sign them to verify what you are signing.
+        </Description>
+        <HorizontalLine/>
         <Title>What is proxy registration?</Title>
         <Description style={{display: 'block'}}>
-          Forgotten.market utilizes the <a href="https://wyvernprotocol.com/" target="_blank">Wyvern Protocol</a>, 
-          which creates a personal proxy contract for each address to enable trading. If you've used OpenSea before, 
+          Wyvern Protocol creates a personal proxy contract for each address to enable trading. If you've used OpenSea before, 
           chances are your wallet already has a proxy contract created. However, if this is your first time listing 
           tokens for a particular wallet, you will be prompted to register a proxy contract before listing a token. 
           In Metamask, the prompt will look like this:
@@ -139,7 +155,7 @@ export default function About({
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>Additional questions?</Title>
-        <Description style={{display: 'block'}}>For all additional questions or concerns, please contact <a href="https://twitter.com/tv3636" target="_blank">@tv</a>.</Description>
+        <Description style={{display: 'block'}}>For all additional questions please contact <a href="https://twitter.com/tv3636" target="_blank">@tv</a>.</Description>
         <HorizontalLine/>
         <HorizontalLine/>
       </AboutWrapper>

@@ -26,7 +26,7 @@ const Title = styled.div`
   margin-bottom: var(--sp-1);
 
   @media only screen and (max-width: 600px) {
-    font-size: 18px;
+    font-size: 22px;
     max-width: 20ch;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -113,7 +113,7 @@ export default function About({
         <Title>About</Title>
         <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
         <a href='https://reservoirprotocol.github.io/' target="_blank">Reservoir Protocol.</a></Description>
-        <Description>Listings shown here are a combination of listings aggregated from OpenSea, as well as listings made natively on Forgotten.market. OpenSea listings show a small <OSIcon src="/static/img/icons/nav/opensea_default.png" /> icon to indicate their origin.</Description>
+        <Description>Listings shown here are a combination of listings aggregated from OpenSea and listings made natively on Forgotten.market. OpenSea listings show a small <OSIcon src="/static/img/icons/nav/opensea_default.png" /> icon to indicate their origin.</Description>
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>Fees</Title>

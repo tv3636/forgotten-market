@@ -5,7 +5,6 @@ import { useGTag } from "../hooks/useGTag";
 import { useStore } from "../store";
 import { motion, AnimateSharedLayout } from "framer-motion";
 import NextNprogress from "nextjs-progressbar";
-
 import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";
 import { ChainId, DAppProvider } from "@usedapp/core";
@@ -75,17 +74,17 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta
           property="og:site_name"
-          content={"Forgotten Runes Wizard's Cult: 10k on-chain Wizard NFTs"}
+          content={"forgotten.market: A Forgotten Runes Marketplace"}
           key="ogsitename"
         />
         <meta
           property="og:title"
-          content={"Forgotten Runes Wizard's Cult: 10k on-chain Wizard NFTs"}
+          content={"forgotten.market: A Forgotten Runes Marketplace"}
           key="ogtitle"
         />
         <meta
           property="og:description"
-          content={"Forgotten Runes Wizard's Cult: 10k on-chain Wizard NFTs"}
+          content={"forgotten.market: A Forgotten Runes Marketplace"}
           key="ogdesc"
         />
       </Head>

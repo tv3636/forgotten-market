@@ -290,24 +290,6 @@ const CollectionOffer = styled.div`
 
 `;
 
-function DropdownLink({ 
-  title,
-  url
-}: {
-  title: string;
-  url: string;
-}) {
-  return (
-    <DropdownItem>
-      <div>
-        <Link href={url} passHref={true}>
-          <SoftLink>{title}</SoftLink>
-        </Link>
-      </div>
-    </DropdownItem>
-  )
-}
-
 function Profile({ account }: {account: any}) {
   return (
     <AccountIcon className={"item"}>

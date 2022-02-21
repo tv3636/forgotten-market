@@ -827,7 +827,6 @@ function TokenDisplay({
   }, []);
 
   var backgroundColor = '#' + wizData[tokenId].background_color;
-  console.log(backgroundColor);
 
   return (
     <Link
@@ -1022,7 +1021,10 @@ export default function Marketplace({
 
   if (contract) {
   return (
-    <Layout title="Marketplace">
+    <Layout 
+      title="Marketplace" 
+      description={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+    >
       <MarketWrapper>
       <MobileHeader>
           <MarketTabs/>

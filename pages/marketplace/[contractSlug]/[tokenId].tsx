@@ -15,7 +15,8 @@ import {
   LOCATIONS,
   ORDER_TYPE,
   BURN_ADDRESS,
-  BACKGROUND
+  BACKGROUND,
+  BURN_TRAITS
 } from "../../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../../hooks/useProvider";
 import MarketConnect from "../../../components/Marketplace/MarketConnect"
@@ -633,10 +634,12 @@ function ListingExpiration({
 
 function TraitDisplay({ 
   attributes,
-  contract 
+  contract,
+  tokenId,
 }: { 
   attributes: [];
   contract: string;
+  tokenId: string;
 }) {
   if (attributes.length == 0) {
     return null;
@@ -647,7 +650,10 @@ function TraitDisplay({
             {attributes.map((attribute: any, index: number) => (
               <div key={index}>
                 <Link 
-                  href={`/marketplace/${contract}?${attribute.key.toLowerCase().replace('#', '%23')}=${attribute.value}`} 
+                  href={ BURN_TRAITS.includes(attribute.key) ? 
+                    `/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${tokenId}`
+                    : `/marketplace/${contract}?${attribute.key.toLowerCase().replace('#', '%23')}=${attribute.value}`
+                  } 
                   passHref={true}
                 >
                   <SoftLink>
@@ -854,10 +860,13 @@ const ListingPage = ({
     }
 
     run();
-  }, [modal]);
+  }, [modal, contractSlug]);
 
   return (
-    <Layout title={token.name}>
+    <Layout 
+      title={token.name} 
+      description={listing.value ? `Ξ ${listing.value}` : `${CONTRACTS[contractSlug]}.singular #${tokenId}`}
+    >
       {Object.keys(listing).length > 0 ? 
         <ListingWrapper>
           { modal && 
@@ -950,7 +959,7 @@ const ListingPage = ({
               </a>
               </SectionDisplay>
             <MidDisplay>
-              <TraitDisplay attributes={attributes} contract={contractSlug} />
+              <TraitDisplay attributes={attributes} contract={contractSlug} tokenId={tokenId} />
               <DynamicMap center={mapCenter} />
             </MidDisplay>
             </SectionWrapper>
