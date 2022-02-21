@@ -510,7 +510,7 @@ export default function Order({
         <Approval 
           txn={txn} 
           title={'Approve WETH to continue with offer...'} 
-          description={'A one-time approval is needed to enable making WETH offers'}
+          description={'A one-time approval is needed to enable making and accepting WETH offers'}
         />
       </OverlayWrapper>
     )
