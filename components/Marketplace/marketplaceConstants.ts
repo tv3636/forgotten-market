@@ -5,19 +5,6 @@ import {
 } from "../../contracts/abis";
 import { paths } from '../../interfaces/apiTypes';
 
-export enum Status {
-  LOADING,
-  PROCESSING,
-  WRAPPING,
-  USER_INPUT,
-  APPROVING_WETH,
-  APPROVING_TOKEN,
-  PROXY_APPROVAL,
-  SIGNING,
-  SUCCESS,
-  FAILURE,
-}
-
 export enum ORDER_TYPE {
   BUY = 'buy',
   SELL = 'sell',

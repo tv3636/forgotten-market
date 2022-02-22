@@ -3,7 +3,7 @@ import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
 import { BigNumber, constants, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE, Status } from './marketplaceConstants';
+import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
 import executeSteps, { 
   calculateOffer, 
   getWeth,

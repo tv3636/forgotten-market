@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 import { getProvider } from "../../../hooks/useProvider";
 import { getTokenDataForAllCollections } from "../../../lib/nftUtilis";
 import { useState, useEffect } from "react";
+import AccountSection from "../../../components/Marketplace/AccountSection";
 import { API_BASE_URL, CONTRACTS } from "../../../components/Marketplace/marketplaceConstants";
-import Link from "next/link";
 import { getInfinityVeilContract, getPoniesContract } from "../../../contracts/ForgottenRunesWizardsCultContract";
 
 const headers: HeadersInit = new Headers();
@@ -126,104 +126,12 @@ const StatRow = styled.div`
   }
 `;
 
-const TokenImage = styled.img`
-  border: 2px dashed var(--darkGray);
-
-  :hover {
-    border: 1px dashed var(--mediumGray);
-  }
-
-  transition: all 100ms;
-
-  @media only screen and (max-width: 600px) {
-    border: 2px dashed var(--darkGray);
-    max-width: 300px;
-    max-height: 300px;
-  }
-`;
-
-const DisplayContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-`;
-
-const SoftLink = styled.a`
-  text-decoration: none;
-`;
-
-const TokenListing = styled.div`
-  display: flex;
-  font-family: Roboto Mono;
-  color: var(--white);
-  font-size: 14px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-`;
-
-const CollectionEthSymbol = styled.img`
-  height: 11px;
-  margin-right: 5px;
-  margin-top: 3px;
-`;
 
 function sortByKey(array: any, key: any) {
   return array.sort(function(a: any, b: any) {
       var x = a[key]; var y = b[key];
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
   });
-}
-
-function SectionDisplay({
-  tokens,
-  title,
-  contract
-}: {
-  tokens: any;
-  title: string;
-  contract: string | null;
-}) {
-  return (
-    <DisplayContainer>
-      <Title style={{fontSize: '20px'}}>{title}</Title>
-      <HorizontalLine />
-      <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-        {tokens.map((token: any, index: number) => {
-          var thisContract = contract ? contract : token.contract;
-          var thisTokenId = contract ? token[0] : token.tokenId;
-          return (
-            <div key={index}>
-              <Link 
-                href={`/marketplace/${thisContract}/${thisTokenId}`} 
-                passHref={true}
-              >
-                <SoftLink>
-                  <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <TokenImage 
-                      src={ CONTRACTS[thisContract].display == 'Wizards' ? 
-                        `${CONTRACTS[thisContract].image_url}${thisTokenId}/${thisTokenId}.png` :
-                        `${CONTRACTS[thisContract].image_url}${thisTokenId}.png`
-                      }
-                      height={100} 
-                      width={100} 
-                    />
-                    { !contract && 
-                      <TokenListing>
-                        <CollectionEthSymbol src="/static/img/marketplace/eth.png"/>
-                        {token.value ? token.value : token.topBuy.value}
-                      </TokenListing>
-                    }
-                  </div>
-                </SoftLink>
-              </Link>
-            </div>
-          );
-        })}
-      </div>
-      <HorizontalLine />
-    </DisplayContainer>
-  )
 }
 
 function AccountHeader({ 
@@ -351,7 +259,7 @@ export default function Address({
           <DesktopLine style={{borderColor: 'black'}}/>
           {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
               return tokenData.byContract[contract].length > 0 && 
-                <SectionDisplay 
+                <AccountSection 
                   key={index} 
                   tokens={tokenData.byContract[contract]} 
                   contract={contract} 
@@ -360,13 +268,13 @@ export default function Address({
             })}
           <HorizontalLine />
           { listings.length > 0 && 
-            <SectionDisplay tokens={listings} contract={null} title={'Listings'}/>
+            <AccountSection tokens={listings} contract={null} title={'Listings'}/>
           }
           { offersMade.length > 0 && 
-            <SectionDisplay tokens={offersMade} contract={null} title={'Offers Made'}/>
+            <AccountSection tokens={offersMade} contract={null} title={'Offers Made'}/>
           }
            { offers.length > 0 && 
-            <SectionDisplay tokens={offers} contract={null} title={'Offers Received'}/>
+            <AccountSection tokens={offers} contract={null} title={'Offers Received'}/>
           }
         </Account>
       </AccountWrapper>

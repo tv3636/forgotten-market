@@ -191,8 +191,6 @@ const PriceValue = styled.div`
   justify-content: flex-start;
 `;
 
-
-
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;

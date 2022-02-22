@@ -6,7 +6,7 @@ import { SocialItem } from "../../components/Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import { formatBN } from "../../lib/numbers";
 import setParams from "../../lib/params";
-import { CONTRACTS, Status } from "./marketplaceConstants";
+import { CONTRACTS } from "./marketplaceConstants";
 import { pollUntilHasData, pollUntilOk } from '../../lib/pollApi';
 import styled from '@emotion/styled';
 
@@ -177,108 +177,6 @@ export default async function executeSteps(
   }
 
   return null
-}
-
-/**
- * Check if the signer has enough wETH to post the current
- * offer to buy a token. If necessary, wrap the missing signer's ETH
- * @param signer An Ethereum signer object
- * @param missingWeth Amount of wETH the signer is missing to
- * make the current offer
- * @param weth A wrapped ETH (wETH) contract instance
- * @returns `true` if the signer has enough wETH, `false` otherwise
- */
- export async function checkUserBalance(
-  signer: Signer,
-  missingWeth: BigNumber,
-  weth: Weth,
-  setStatus: (status: Status) => void,
-) {
-  // The signer has enough wETH
-  if (missingWeth.isZero()) return true
-
-  console.log(ethers.utils.formatEther(missingWeth));
-  setStatus(Status.USER_INPUT);
-
-  try {
-    // The signer doesn't have enough wETH
-    // wrap the necessary ETH
-    let { wait } = (await weth.deposit(
-      signer,
-      missingWeth
-    )) as ContractTransaction
-
-    setStatus(Status.WRAPPING);
-
-    // Wait for the transaction to be mined
-    await wait()
-
-    setStatus(Status.SUCCESS);
-
-    return true
-  } catch (err) {
-    setStatus(Status.FAILURE);
-    console.error(err)
-  }
-
-  return false
-}
-
-/**
- * In order to fill any orders, the Wyvern Token Transfer
- * Proxy must have an allowance to spend signer's wETH that
- * is greater than, or equal to the order value. Use this function
- * to check if the signer meets this requirement.
- * @param chainId The Ethereum chain ID (eg: 1 - Ethereum Mainnet,
- *  4 - Rinkeby Testnet)
- * @param weth A wrapped ETH (wETH) contract instance
- * @param input The user input offer value in wETH
- * @param signer An Ethereum signer object
- * @returns `true` if all conditions to continue are met and `false`
- * otherwise
- */
- export async function hasWethAllowance(
-  chainId: number,
-  weth: Weth,
-  input: BigNumber,
-  signer: Signer
-) {
-  try {
-    const tokenTransferProxy =
-      chainId === 4
-        ? '0x82d102457854c985221249f86659c9d6cf12aa72'
-        : '0xe5c783ee536cf5e63e792988335c4255169be4e1'
-
-    const signerAddress = await signer.getAddress()
-    // Get the allowance the signer gave to the Wyvern Token Transfer Proxy
-    const allowance = await weth.getAllowance(signerAddress, tokenTransferProxy)
-
-    console.log('got allowance');
-
-    if (input.gt(allowance)) {
-      // If the allowance is not greater than or equal to the user's input,
-      // approve the Token Transfer Proxy to spend the total supply of wETH
-      let { wait } = (await weth.approve(
-        signer,
-        tokenTransferProxy,
-        '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
-      )) as ContractTransaction
-
-      console.log('approve token transfer proxy');
-
-      // Wait for the transaction to be mined
-      await wait()
-
-      console.log('approve complete');
-    }
-
-    // The exchange has enough allowance
-    return true
-  } catch (err) {
-    console.error(err)
-  }
-
-  return false
 }
 
 /**
