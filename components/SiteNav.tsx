@@ -38,6 +38,11 @@ const SiteNavElement = styled.nav`
     padding-inline-start: 0px;
   }
 
+  .main.menu.active {
+    display: flex;
+    flex-direction: column;
+  }
+
   ul.menu {
     margin: 0;
   }
@@ -227,19 +232,6 @@ const SoftLink = styled.a`
   transition: all 200ms;
 `;
 
-const Dropdown = styled.div`
-  position: absolute;
-  display: none;
-  z-index: 1000;
-
-  margin-top: 12px;
-`;
-
-const DropdownItem = styled.div`
-  margin: 20px;
-  text-align: center;
-`;
-
 const AccountIcon = styled.div`
   position: relative;
 
@@ -247,6 +239,10 @@ const AccountIcon = styled.div`
     .dropdown {
       display: inline-block;
     }
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 57px !important;
   }
 
 `;
@@ -342,7 +338,7 @@ export default function SiteNav({}: Props) {
             </li>
           </ul>
         </LogoToggleRow>
-        <ul className={"menu" + (isOpen ? " active" : "")}>
+        <ul className={"main menu" + (isOpen ? " active" : "")}>
           <Link 
             href={marketplace_url} 
             passHref={true}

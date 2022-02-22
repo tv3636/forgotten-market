@@ -1,7 +1,7 @@
 import { TypedDataSigner } from '@ethersproject/abstract-signer';
 import { Weth } from "@reservoir0x/sdk/dist/common/helpers";
-import { BigNumber, constants, Contract, ContractTransaction, ethers, Signer } from "ethers";
-import { arrayify, Interface, splitSignature } from "ethers/lib/utils";
+import { BigNumber, constants, Signer } from "ethers";
+import { arrayify, splitSignature } from "ethers/lib/utils";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import { formatBN } from "../../lib/numbers";
 import setParams from "../../lib/params";

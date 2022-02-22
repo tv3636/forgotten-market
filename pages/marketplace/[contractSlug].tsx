@@ -60,7 +60,10 @@ const MobileHeader = styled.div`
 
   @media only screen and (max-width: 600px) {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
     justify-content: center;
     margin-right: 0px;
   }
@@ -241,31 +244,31 @@ export default function Marketplace({
       description={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
     >
       <MarketWrapper>
-      <MobileHeader>
+        <MobileHeader>
           <MarketTabs/>
           <div style={{display: 'flex', flexDirection: 'row'}}>
             <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
           </div>
         </MobileHeader>
         {showModal && 
-        <Order 
-          contract={contract} 
-          tokenId={'0'} 
-          name={CONTRACTS[contract].full} 
-          collectionWide={true} 
-          setModal={setShowModal}
-          action={ORDER_TYPE.OFFER}
-          hash={''}
-          offerHash={''}
-        />
+          <Order 
+            contract={contract} 
+            tokenId={'0'} 
+            name={CONTRACTS[contract].full} 
+            collectionWide={true} 
+            setModal={setShowModal}
+            action={ORDER_TYPE.OFFER}
+            hash={''}
+            offerHash={''}
+          />
         }
         <div style={{width: '1300px', maxWidth: '95%'}}>
-        <DesktopHeader>
-          <MarketTabs/>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
-            <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
-          </div>
-        </DesktopHeader>
+          <DesktopHeader>
+            <MarketTabs/>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+              <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
+            </div>
+          </DesktopHeader>
           <Listings
             collection={CONTRACTS[contract].collection}
             contract={contract}
@@ -278,9 +281,11 @@ export default function Marketplace({
     </Layout>
   );
   } else {
-    return <Layout title="Marketplace">
-      <MarketWrapper></MarketWrapper>
-    </Layout>
+    return (
+      <Layout title="Marketplace">
+        <MarketWrapper></MarketWrapper>
+      </Layout>
+    )
   }
 }
 

@@ -186,8 +186,6 @@ function PriceExplained({
   )
 }
 
-
-
 function OverlayContent({ 
   kind,
   tokenImage,
@@ -394,31 +392,29 @@ function OrderContent({
   //
   async function submitAction(event: any) {
     event.preventDefault();
-    if (!price || isNaN(Number(price)) || Number(price) < 0) {
-      console.log('invalid price'); 
-    } else {
-      let query: any = {
-        maker: account,
-        price: action == ORDER_TYPE.SELL ? 
-          ethers.utils.parseEther(price).toString() :
-          calculations.total.toString(),
-        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
-        disableRoyalties: true,
-        fee: CONTRACTS[contract].fee,
-        feeRecipient: CONTRACTS[contract].feeRecipient
-      }
-
-      if (collectionWide) {
-        query.collection = CONTRACTS[contract].collection;
-      } else {
-        query.contract = contract;
-        query.tokenId = tokenId;
-      }
-
-      setParams(url, query);
-      await execute(url, signer);
-      setModal(false);
+    
+    let query: any = {
+      maker: account,
+      price: action == ORDER_TYPE.SELL ? 
+        ethers.utils.parseEther(price).toString() :
+        calculations.total.toString(),
+      expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
+      disableRoyalties: true,
+      fee: CONTRACTS[contract].fee,
+      feeRecipient: CONTRACTS[contract].feeRecipient
     }
+
+    if (collectionWide) {
+      query.collection = CONTRACTS[contract].collection;
+    } else {
+      query.contract = contract;
+      query.tokenId = tokenId;
+    }
+
+    setParams(url, query);
+    await execute(url, signer);
+    setModal(false);
+
   }
 
   // Replace some description messages, otherwise leave as is

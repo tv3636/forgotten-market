@@ -131,7 +131,9 @@ export default function FAQ({
           <ImageWithBorder src="/static/img/marketplace/faq/proxy.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '130vw'}}/>
         </Description>
         <HorizontalLine/>
-        <Description style={{display: 'block'}}>Note the address in the top right is the <a href="https://etherscan.io/address/0xa5409ec958C83C3f309868babACA7c86DCB077c1" target="_blank">Project Wyvern Proxy Registry</a>.</Description>
+        <Description style={{display: 'block'}}>
+          Note the address in the top right is the <a href="https://etherscan.io/address/0xa5409ec958C83C3f309868babACA7c86DCB077c1" target="_blank">Project Wyvern Proxy Registry</a>.
+        </Description>
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>What does it mean to set approval?</Title>
