@@ -18,17 +18,17 @@ import {
 import { getProvider } from "../../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
-import Link from "next/link";
 import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
 import Order from "../../../components/Marketplace/Order";
 import dynamic from "next/dynamic";
-import wizards from "../../../data/nfts-prod.json";
+import wizards from "../../../data/minimalWizData.json";
 import Price from "../../../components/Marketplace/Price";
 import LoreBlock from "../../../components/Marketplace/LoreBlock";
 import MarketButtons from "../../../components/Marketplace/MarketButtons";
 import TraitDisplay from "../../../components/Marketplace/TraitDisplay";
 import { ListingExpiration } from "../../../components/Marketplace/ListingExpiration";
 import Carousel from "../../../components/Marketplace/MarketCarousel";
+import OfferDisplay, { Owner } from "../../../components/Marketplace/OfferDisplay";
 
 const wizData = wizards as { [wizardId: string]: any };
 
@@ -185,12 +185,6 @@ const PriceDisplay = styled.div`
   }
 `;
 
-const PriceValue = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-`;
-
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -200,22 +194,6 @@ const ButtonWrapper = styled.div`
 
   @media only screen and (max-width: 600px) {
     justify-content: center;
-  }
-`;
-
-const OfferWrapper = styled.div`
-  text-align: left;
-  font-size: 14px;
-  font-family: Roboto Mono;
-  color: var(--lightGray);
-  display: flex;
-  margin-top: 1vh;
-  
-  
-  @media only screen and (max-width: 600px) {
-    justify-content: center;
-    font-size: 13px;
-    margin-top: 0;
   }
 `;
 
@@ -293,49 +271,6 @@ const LoreWrapper = styled.div`
   }
 `;
 
-function Owner({
-  owner,
-  connectedAccount,
-  ens,
-}: {
-  owner: string;
-  connectedAccount: string | null | undefined;
-  ens: string | null;
-}) {
-  return (
-    <Link href={`/marketplace/address/${owner}`}>
-      {owner?.toLowerCase() == connectedAccount?.toLowerCase()
-        ? "you" 
-        : ens ? ens : owner.substring(0, 10)}
-    </Link>
-  );
-}
-
-function OfferDisplay({
-  value,
-  maker,
-  account,
-  ens
-}:{
-  value: string,
-  maker: string,
-  account: string,
-  ens: string
-}) {
-  return (
-    <OfferWrapper>{'Best Offer:  '}
-      <PriceValue>
-        <img
-          src="/static/img/marketplace/eth_alt.png"
-          style={{ height: "15px", marginRight: "5px", marginLeft: "7px", marginTop: "1px" }}
-        />
-        {`${value} from`}&nbsp;
-        <Owner owner={maker} connectedAccount={account} ens={ens}/>
-      </PriceValue>
-    </OfferWrapper>
-  )
-}
-
 function SectionHeader({
   title,
   link,
@@ -354,7 +289,6 @@ function SectionHeader({
     </SectionDisplay>
   )
 }
-
 
 const ListingPage = ({
   contractSlug,
@@ -375,7 +309,6 @@ const ListingPage = ({
   const [ens, setEns] = useState<string | null>("");
   const [ownerEns, setOwnerEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
-  const [mapCenter, setMapCenter] = useState<any>([0, 0]);
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
   const [keyImage, setKeyImage] = useState(0);
@@ -392,30 +325,10 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
   
-  var backgroundColor = CONTRACTS[contractSlug].display == 'Wizards' ? `#${wizData[tokenId].background_color}` : '#000000';
+  var backgroundColor = CONTRACTS[contractSlug].display == 'Wizards' ? `${wizData[tokenId].background}` : '#000000';
 
-  // hacky workaround to grab location until it's added to metadata/stored locally
-  function getCenter(name: string) {
-    var center = [0, 0];
-    var nameParts = name.split(" ");
-    
-    if((name.indexOf("of") == -1 && name.indexOf("the") == -1) || CONTRACTS[contractSlug].display == "Ponies") {
-      return [404, 404]; // no location
-    }
-
-    if (name && name.length > 1) {
-      var firstTry = nameParts[nameParts.length - 1];
-      var secondTry =
-        nameParts[nameParts.length - 2] + " " + nameParts[nameParts.length - 1];
-
-      if (firstTry in LOCATIONS) {
-        center = LOCATIONS[firstTry];
-      } else if (secondTry in LOCATIONS) {
-        center = LOCATIONS[secondTry];
-      }
-    }
-    return center;
-  }
+  var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
+    LOCATIONS[wizData[tokenId].location] : [0, 0];
 
   useEffect(() => {
     async function run() {
@@ -430,7 +343,6 @@ const ListingPage = ({
         setListing(listingsJson.tokens[0].market.floorSell);
         setOffer(listingsJson.tokens[0].market.topBuy);
         setAttributes(listingsJson.tokens[0].token.attributes);
-        setMapCenter(getCenter(listingsJson.tokens[0].token.name));
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
 
         const provider = getProvider();
@@ -563,7 +475,7 @@ const ListingPage = ({
               />
               <MidDisplay>
                 <TraitDisplay attributes={attributes} contract={contractSlug} tokenId={tokenId} />
-                <DynamicMap center={mapCenter} />
+                <DynamicMap center={center} />
               </MidDisplay>
             </SectionWrapper>
             <HorizontalLine/>

@@ -8,11 +8,12 @@ import executeSteps, {
   calculateOffer, 
   getWeth,
 } from './marketplaceHelpers';
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_green.css";
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
+import SetExpiration from './SetExpiration';
 import setParams from '../../lib/params';
+import SetPrice from './SetPrice';
+import ActionHeader from './ActionHeader';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -54,7 +55,7 @@ const Overlay = styled.div`
   }
 `;
 
-const TokenImage = styled.img`
+export const TokenImage = styled.img`
   border: 2px dashed var(--darkGray);
 
   @media only screen and (max-width: 600px) {
@@ -63,7 +64,7 @@ const TokenImage = styled.img`
   }
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   margin: 10px;
   font-family: Alagard;
   font-size: 18px;
@@ -78,50 +79,6 @@ const Title = styled.div`
   @media only screen and (max-width: 600px) {
     font-size: 15px;
   }
-`;
-
-const ListPrice = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-
-  color: var(--white);
-`;
-
-const PriceInput = styled.input`
-  background: var(--darkGray);
-  border: dashed;
-  padding: 10px;
-  color: var(--lightGray);
-  border-radius: 10px;
-  border-color: var(--mediumGray);
-
-  font-family: 'Roboto Mono';
-  text-align: center;
-
-  :hover {
-    background: var(--mediumGray);
-    border-color: var(--lightGray);
-    color: var(--white);
-  }
-
-  :focus {
-    background: var(--mediumGray);
-    border-color: var(--lightGray);
-    color: var(--white);
-  }
-
-  transition: all 100ms;
-`;
-
-const Expiration = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Description = styled.div`
@@ -169,12 +126,6 @@ const IconImage = styled.img`
   }
 
   transition: all 100ms;
-`;
-
-const BannerImage = styled.img`
-  width: 100%;
-  height: 20%;
-  margin-bottom: 40px;
 `;
 
 function ActionButton({ 
@@ -235,6 +186,8 @@ function PriceExplained({
   )
 }
 
+
+
 function OverlayContent({ 
   kind,
   tokenImage,
@@ -279,8 +232,8 @@ function OrderContent({
   contract: string;
   tokenId: string;
   name: string;
-  hash: string | null;
-  offerHash: string | null;
+  hash: string;
+  offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
 }) {
@@ -383,7 +336,7 @@ function OrderContent({
   
         case ORDER_TYPE.CANCEL_LISTING:
           query = {
-            hash: hash ?? '',
+            hash: hash,
             maker: account ?? '',
           }
           setParams(url, query);
@@ -394,7 +347,7 @@ function OrderContent({
   
         case ORDER_TYPE.CANCEL_OFFER:
           query = {
-            hash: offerHash ?? '',
+            hash: offerHash,
             maker: account ?? '',
           }
           setParams(url, query);
@@ -444,7 +397,6 @@ function OrderContent({
     if (!price || isNaN(Number(price)) || Number(price) < 0) {
       console.log('invalid price'); 
     } else {
-      // TODO - add fee/fee recipient
       let query: any = {
         maker: account,
         price: action == ORDER_TYPE.SELL ? 
@@ -457,15 +409,14 @@ function OrderContent({
       }
 
       if (collectionWide) {
-        query.collection = CONTRACTS[contract].collection
+        query.collection = CONTRACTS[contract].collection;
       } else {
-        query.contract = contract
-        query.tokenId = tokenId
+        query.contract = contract;
+        query.tokenId = tokenId;
       }
 
       setParams(url, query);
       await execute(url, signer);
-      
       setModal(false);
     }
   }
@@ -501,53 +452,24 @@ function OrderContent({
     if (action == ORDER_TYPE.OFFER || action == ORDER_TYPE.SELL) {
       return (
         <Overlay id="modal">
-          { collectionWide && 
-            <BannerImage src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} />
-          }
-          { collectionWide ? 
-            <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
-            <Title style={{marginBottom: "40px", fontSize: "24px"}}>
-              { action == ORDER_TYPE.OFFER ? 
-                `Submitting an offer for ${name} (#${tokenId})` :
-                `Listing ${name} (#${tokenId}) for sale`
-              }
-            </Title>
-          }
-          { !collectionWide && <TokenImage src={imageUrl} height={250} width={250} /> }
-          <ListPrice>
-            <Title style={{marginTop: "35px"}}>Price</Title>
-            <form onSubmit={(e) => { submitAction(e) }}>
-              <PriceInput 
-                type="number" 
-                style={{marginBottom: '20px'}} 
-                value={price} onChange={(e)=> setPrice(e.target.value)}
-              />
-            </form>
-          </ListPrice>
-          <Expiration>
-            <Title>
-              <div style={{marginRight: '10px', marginBottom: '5px'}}>
-                { `${action == ORDER_TYPE.OFFER ? 'Offer' : 'Listing'} Expires` }
-              </div>
-              <InfoTooltip 
-                tooltip={
-                  action == ORDER_TYPE.OFFER ?
-                  'An offer can no longer be accepted after its expiration. To invalidate an offer before its expiration, you will need to manually cancel the offer.' :
-                  'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'
-                }
-              />
-            </Title>
-            <Flatpickr
-              data-enable-time
-              value={expiration}
-              onChange={([date]) => { setExpiration(date) }}
-              options={{
-                "disable": [
-                  function(date) { return date < new Date(); }
-                ]
-              }}
-            />
-          </Expiration>
+          <ActionHeader 
+            collectionWide={collectionWide}
+            contract={contract}
+            tokenId={tokenId}
+            name={name}
+            imageUrl={imageUrl}
+            action={action}
+          />
+          <SetPrice 
+            price={price}
+            setPrice={setPrice}
+            submitAction={submitAction}
+          />
+          <SetExpiration
+            action={action}
+            expiration={expiration}
+            setExpiration={setExpiration}
+          />
           <PriceExplained 
             action={action}
             amount={
@@ -596,8 +518,8 @@ interface OrderProps {
   contract: string;
   tokenId: string;
   name: string;
-  hash: string | null;
-  offerHash: string | null;
+  hash: string;
+  offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
 }

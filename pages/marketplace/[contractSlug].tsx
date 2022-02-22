@@ -255,8 +255,8 @@ export default function Marketplace({
           collectionWide={true} 
           setModal={setShowModal}
           action={ORDER_TYPE.OFFER}
-          hash={null}
-          offerHash={null}
+          hash={''}
+          offerHash={''}
         />
         }
         <div style={{width: '1300px', maxWidth: '95%'}}>
