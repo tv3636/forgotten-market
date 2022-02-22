@@ -43,7 +43,7 @@ const Account = styled.div`
 `;
 
 const HorizontalLine = styled.hr`
-  border-color: var(--mediumGray);
+  border-color: black;
   border-style: dashed;
   width: 50vw;
   margin-left: 0;
@@ -58,7 +58,7 @@ const HorizontalLine = styled.hr`
 `;
 
 const DesktopLine = styled.hr`
-  border-color: var(--mediumGray);
+  border-color: black;
   border-style: dashed;
   width: 50vw;
   border-width: 1px;
@@ -187,7 +187,7 @@ function SectionDisplay({
   return (
     <DisplayContainer>
       <Title style={{fontSize: '20px'}}>{title}</Title>
-      <HorizontalLine style={{borderColor: 'black'}}/>
+      <HorizontalLine />
       <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
         {tokens.map((token: any, index: number) => {
           var thisContract = contract ? contract : token.contract;
@@ -221,7 +221,7 @@ function SectionDisplay({
           );
         })}
       </div>
-      <HorizontalLine style={{borderColor: 'black'}}/>
+      <HorizontalLine />
     </DisplayContainer>
   )
 }
@@ -262,7 +262,6 @@ export default function Address({
   const [listings, setListings] = useState<any>([]);
   const [offers, setOffers] = useState<any>([]);
   const [offersMade, setOffersMade] = useState<any>([]);
-  const [collectionOffers, setCollectionOffers] = useState<any>({});
 
   async function fetchOrders(orderType: string) {
     var validListings = [];
@@ -313,11 +312,7 @@ export default function Address({
       pageJson = await page.json();
 
       for (var token of pageJson.tokens) {
-        if (token.token.topBuy.schema.kind == 'collection') {
-          var current = collectionOffers;
-          current[token.token.contract] = token.token.topBuy.value;
-          setCollectionOffers(current);
-        } else {
+        if (token.token.topBuy.schema.kind != 'collection') {
           activeOffers.push(token.token);
         }
       }
@@ -340,11 +335,10 @@ export default function Address({
       <AccountWrapper>
         <Account>
           <AccountHeader address={address} ens={ens}/>
-          <HorizontalLine/>
-          <HorizontalLine style={{borderColor: 'black'}}/>
+          <HorizontalLine style={{borderColor: 'var(--mediumGray)'}}/>
+          <HorizontalLine />
           <StatRow>
             {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
-              console.log(contract);
               return (
                 <SubTitle key={index}>
                   {`${CONTRACTS[contract].display} Owned: ${tokenData.byContract[contract].length}`}
@@ -353,7 +347,7 @@ export default function Address({
             })}
             <SubTitle>{`Flames Owned: ${tokenData.flames.length}`}</SubTitle>
           </StatRow>
-          <HorizontalLine style={{borderColor: 'black'}}/>
+          <HorizontalLine />
           <DesktopLine style={{borderColor: 'black'}}/>
           {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
               return tokenData.byContract[contract].length > 0 && 
@@ -364,7 +358,7 @@ export default function Address({
                   title={CONTRACTS[contract].display}
                 />
             })}
-          <HorizontalLine style={{borderColor: 'black'}}/>
+          <HorizontalLine />
           { listings.length > 0 && 
             <SectionDisplay tokens={listings} contract={null} title={'Listings'}/>
           }

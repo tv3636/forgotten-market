@@ -209,6 +209,32 @@ function TransactionProcessing({ hash }: { hash: string }) {
   )
 }
 
+function Animation({ name }: { name: string }) {
+  return <img src={`/static/img/marketplace/${name}.gif`} height={250} width={250} />
+}
+
+function PriceExplained({
+  action,
+  amount,
+  tooltip
+}:{
+  action: ORDER_TYPE;
+  amount: string;
+  tooltip: string;
+}) {
+  return (
+    <Description style={{marginTop: 'var(--sp2)'}}>
+      <div style={{marginRight: 'var(--sp-3)'}}>
+        {`You ${action == ORDER_TYPE.OFFER ? 
+          `pay ${amount} WETH` : 
+          `receive ${amount} ETH`}`
+        }
+      </div>
+      <InfoTooltip tooltip={tooltip} />
+    </Description>
+  )
+}
+
 function OverlayContent({ 
   kind,
   tokenImage,
@@ -222,10 +248,10 @@ function OverlayContent({
 }) {
   switch (kind) {
     case 'transaction':
-      return <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} />
+      return <Animation name={'hourglass'} />
 
     case 'request':
-      return <img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} />
+      return <Animation name={'loading_card'} />
 
     case 'signature':
       if (collectionWide) {
@@ -235,13 +261,11 @@ function OverlayContent({
       }
 
     case 'confirmation':
-      return showConfirmation ?
-        <img src={"/static/img/marketplace/magicdust.gif"} height={250} width={250} />  : 
-        <img src={"/static/img/marketplace/hourglass.gif"} height={250} width={250} /> 
+      return showConfirmation ? <Animation name={'magicdust'} />: <Animation name={'hourglass'} />
   }
 }
 
-export default function Order({
+function OrderContent({
   action,
   contract,
   tokenId,
@@ -249,7 +273,7 @@ export default function Order({
   hash,
   offerHash,
   setModal,
-  collectionWide
+  collectionWide,
 }: {
   action: ORDER_TYPE;
   contract: string;
@@ -290,19 +314,15 @@ export default function Order({
   if (chainId != library?.network.chainId) {
     if (library?.network.chainId) {
       return (
-        <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
         <Overlay>
           <Title>Wrong Network - Please connect to Mainnet to continue</Title>
         </Overlay>
-      </OverlayWrapper>
       )
     } else {
       return (
-        <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-          <Overlay>
-            <MarketConnect/>
-          </Overlay>
-        </OverlayWrapper>
+        <Overlay>
+          <MarketConnect/>
+        </Overlay>
       )
     }
   }
@@ -331,60 +351,60 @@ export default function Order({
     });
   }
 
-  async function run() {
-    let query: OrderPaths[typeof action];
-
-    switch(action) {
-      case ORDER_TYPE.BUY:
-        query = {
-          contract,
-          tokenId,
-          taker: await signer?.getAddress() ?? '',
-        }
-        setParams(url, query);
-        await execute(url, signer);
-
-        setTimeout(() => {setModal(false)}, 2000);
-        break;
-
-      case ORDER_TYPE.ACCEPT_OFFER:
-         query = {
-          tokenId,
-          contract,
-          taker: await signer?.getAddress() ?? '',
-        }
-
-        setParams(url, query);
-        await execute(url, signer);
-
-        setModal(false);
-        break;
-
-      case ORDER_TYPE.CANCEL_LISTING:
-        query = {
-          hash: hash ?? '',
-          maker: account ?? '',
-        }
-        setParams(url, query);
-        await execute(url, signer);
-
-        setModal(false);
-        break;
-
-      case ORDER_TYPE.CANCEL_OFFER:
-        query = {
-          hash: offerHash ?? '',
-          maker: account ?? '',
-        }
-        setParams(url, query);
-        await execute(url, signer);
-
-        setModal(false);
-        break;
-    }
-  }
-
   useEffect(() => {
+    async function run() {
+      let query: OrderPaths[typeof action];
+  
+      switch(action) {
+        case ORDER_TYPE.BUY:
+          query = {
+            contract,
+            tokenId,
+            taker: await signer?.getAddress() ?? '',
+          }
+          setParams(url, query);
+          await execute(url, signer);
+  
+          setTimeout(() => {setModal(false)}, 2000);
+          break;
+  
+        case ORDER_TYPE.ACCEPT_OFFER:
+           query = {
+            tokenId,
+            contract,
+            taker: await signer?.getAddress() ?? '',
+          }
+  
+          setParams(url, query);
+          await execute(url, signer);
+  
+          setModal(false);
+          break;
+  
+        case ORDER_TYPE.CANCEL_LISTING:
+          query = {
+            hash: hash ?? '',
+            maker: account ?? '',
+          }
+          setParams(url, query);
+          await execute(url, signer);
+  
+          setModal(false);
+          break;
+  
+        case ORDER_TYPE.CANCEL_OFFER:
+          query = {
+            hash: offerHash ?? '',
+            maker: account ?? '',
+          }
+          setParams(url, query);
+          await execute(url, signer);
+  
+          setModal(false);
+          break;
+      }
+    }
+
     async function loadWeth() {
       if (signer) {
         var thisAddress = await signer?.getAddress();
@@ -423,7 +443,6 @@ export default function Order({
     event.preventDefault();
     if (!price || isNaN(Number(price)) || Number(price) < 0) {
       console.log('invalid price'); 
-      // TODO - error in UI
     } else {
       // TODO - add fee/fee recipient
       let query: any = {
@@ -447,12 +466,6 @@ export default function Order({
       setParams(url, query);
       await execute(url, signer);
       
-      setModal(false);
-    }
-  }
-
-  function clickOut(event: any) {
-    if (event.target.id == 'wrapper') {
       setModal(false);
     }
   }
@@ -487,101 +500,119 @@ export default function Order({
   if (!step) {
     if (action == ORDER_TYPE.OFFER || action == ORDER_TYPE.SELL) {
       return (
-        <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-          <Overlay id="modal">
-            { collectionWide && 
-              <BannerImage src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} />
-            }
-            { collectionWide ? 
-              <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
-              <Title style={{marginBottom: "40px", fontSize: "24px"}}>
-                { action == ORDER_TYPE.OFFER ? 
-                  `Submitting an offer for ${name} (#${tokenId})` :
-                  `Listing ${name} (#${tokenId}) for sale`
-                }
-              </Title>
-            }
-            { !collectionWide && <TokenImage src={imageUrl} height={250} width={250} /> }
-            <ListPrice>
-              <Title style={{marginTop: "35px"}}>Price</Title>
-              <form onSubmit={(e) => { submitAction(e) }}>
-                <PriceInput 
-                  type="number" 
-                  style={{marginBottom: '20px'}} 
-                  value={price} onChange={(e)=> setPrice(e.target.value)}
-                />
-              </form>
-            </ListPrice>
-            <Expiration>
-              <Title>
-                <div style={{marginRight: '10px', marginBottom: '5px'}}>
-                  { action == ORDER_TYPE.OFFER ? 'Offer Expires' : 'Listing Expires' }
-                </div>
-                <InfoTooltip 
-                  tooltip={
-                    action == ORDER_TYPE.OFFER ?
-                    'An offer can no longer be accepted after its expiration. To invalidate an offer before its expiration, you will need to manually cancel the offer.' :
-                    'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'
-                  }
-                />
-              </Title>
-              <Flatpickr
-                data-enable-time
-                value={expiration}
-                onChange={([date]) => { setExpiration(date) }}
-                options={{
-                  "disable": [
-                    function(date) { return date < new Date(); }
-                  ]
-                }}
+        <Overlay id="modal">
+          { collectionWide && 
+            <BannerImage src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} />
+          }
+          { collectionWide ? 
+            <Title style={{marginBottom: "40px", fontSize: "24px"}}>Submitting a collection offer for {name}</Title> : 
+            <Title style={{marginBottom: "40px", fontSize: "24px"}}>
+              { action == ORDER_TYPE.OFFER ? 
+                `Submitting an offer for ${name} (#${tokenId})` :
+                `Listing ${name} (#${tokenId}) for sale`
+              }
+            </Title>
+          }
+          { !collectionWide && <TokenImage src={imageUrl} height={250} width={250} /> }
+          <ListPrice>
+            <Title style={{marginTop: "35px"}}>Price</Title>
+            <form onSubmit={(e) => { submitAction(e) }}>
+              <PriceInput 
+                type="number" 
+                style={{marginBottom: '20px'}} 
+                value={price} onChange={(e)=> setPrice(e.target.value)}
               />
-            </Expiration>
-            <Description style={{marginTop: 'var(--sp2)'}}>
-              <div style={{marginRight: 'var(--sp-3)'}}>
-                {`You ${action == ORDER_TYPE.OFFER ? 
-                  `pay ${ethers.utils.formatEther(calculations.total)} WETH` : 
-                  `receive ${Number(price) - Number(price) * (Number(CONTRACTS[contract].fee) / 10000)} ETH`}`
-                }
+            </form>
+          </ListPrice>
+          <Expiration>
+            <Title>
+              <div style={{marginRight: '10px', marginBottom: '5px'}}>
+                { `${action == ORDER_TYPE.OFFER ? 'Offer' : 'Listing'} Expires` }
               </div>
-              <InfoTooltip
-                  tooltip={
-                    action == ORDER_TYPE.OFFER ?
-                    'Offers are made to include fees. When an offer is accepted, the fees will be subtracted and the seller will receive the remaining value.' :
-                    'You will receive the amount shown here after fees are deducted.'
-                  }
-                />
-            </Description>
-            <ActionButton actionType={action} submitAction={submitAction} />
-          </Overlay> 
-        </OverlayWrapper>
+              <InfoTooltip 
+                tooltip={
+                  action == ORDER_TYPE.OFFER ?
+                  'An offer can no longer be accepted after its expiration. To invalidate an offer before its expiration, you will need to manually cancel the offer.' :
+                  'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'
+                }
+              />
+            </Title>
+            <Flatpickr
+              data-enable-time
+              value={expiration}
+              onChange={([date]) => { setExpiration(date) }}
+              options={{
+                "disable": [
+                  function(date) { return date < new Date(); }
+                ]
+              }}
+            />
+          </Expiration>
+          <PriceExplained 
+            action={action}
+            amount={
+              action == ORDER_TYPE.OFFER ?
+                ethers.utils.formatEther(calculations.total) :
+                (Number(price) - Number(price) * (Number(CONTRACTS[contract].fee) / 10000)).toString()
+            }
+            tooltip={
+              action == ORDER_TYPE.OFFER ?
+              'Offers are made to include fees. When an offer is accepted, the fees will be subtracted and the seller will receive the remaining value.' :
+              'You will receive the amount shown here after fees are deducted.'
+            }
+          />
+          <ActionButton actionType={action} submitAction={submitAction} />
+        </Overlay> 
       )
     } else {
       return (
-        <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-          <Overlay>
-           <img src={"/static/img/marketplace/loading_card.gif"} height={250} width={250} />
-           { showError && <Description>{showError}</Description> }
-          </Overlay>
-       </OverlayWrapper>
+        <Overlay>
+          <Animation name={'loading_card'} />
+          { showError && <Description>{showError}</Description> }
+        </Overlay>
       )
     }
   }
 
   return (
+    <Overlay>
+      <OverlayContent 
+        kind={step.kind} 
+        tokenImage={imageUrl} 
+        showConfirmation={action == ORDER_TYPE.BUY}
+        collectionWide={collectionWide}
+      />
+      <Title>{step.action}</Title>
+      <Description>
+        {getDescription(step.action, step.description)}
+      </Description>
+      { txn && <TransactionProcessing hash={txn}/> }
+    </Overlay>
+  )
+}
+
+interface OrderProps {
+  action: ORDER_TYPE;
+  contract: string;
+  tokenId: string;
+  name: string;
+  hash: string | null;
+  offerHash: string | null;
+  setModal: (modal: boolean) => void;
+  collectionWide: boolean;
+}
+
+export default function Order(props: OrderProps) {
+
+  function clickOut(event: any) {
+    if (event.target.id == 'wrapper') {
+      props.setModal(false);
+    }
+  }
+
+  return (
     <OverlayWrapper id="wrapper" onClick={(e) => clickOut(e)}>
-      <Overlay>
-        <OverlayContent 
-          kind={step.kind} 
-          tokenImage={imageUrl} 
-          showConfirmation={action == ORDER_TYPE.BUY}
-          collectionWide={collectionWide}
-        />
-        <Title>{step.action}</Title>
-        <Description>
-          {getDescription(step.action, step.description)}
-        </Description>
-        { txn && <TransactionProcessing hash={txn}/> }
-      </Overlay>
-   </OverlayWrapper>
+      <OrderContent { ... props}/>
+    </OverlayWrapper>
   )
 }

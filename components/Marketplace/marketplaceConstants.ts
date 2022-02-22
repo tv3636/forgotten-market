@@ -69,7 +69,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://portal.forgottenrunes.com/api/souls/img/",
     ABI: SOULS_ABI,
     fee: '766',
-    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
+    feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882'
   },
   "0xf55b615b479482440135ebf1b907fd4c37ed9420": {
     collection: "forgottenrunesponies",
@@ -79,7 +79,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
     ABI: PONIES_ABI,
     fee: '544',
-    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
+    feeRecipient: '0x94F0e012B7BB033F32029FbCC4f1d29ff1CfC30a'
   },
 } : {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
