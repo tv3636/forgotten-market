@@ -4,7 +4,6 @@ import {
   CHARACTER_CONTRACTS,
   isWizardsContract,
 } from "../../contracts/ForgottenRunesWizardsCultContract";
-import { getLoreUrl } from "./loreUtils";
 import path from "path";
 import { IndividualLorePageData } from "./types";
 import { hydratePageDataFromMetadata } from "./markdownUtils";
@@ -36,6 +35,14 @@ const WIZARDS_THAT_HAVE_LORE_CACHE = path.join(
   os.tmpdir(),
   ".wizards_that_have_lore_cache"
 );
+
+function getLoreUrl(
+  loreTokenSlug: string,
+  tokenId: number,
+  pageNum: number
+) {
+  return `/lore/${loreTokenSlug}/${tokenId}/${pageNum}`;
+}
 
 export async function bustLoreCache() {
   const files = [

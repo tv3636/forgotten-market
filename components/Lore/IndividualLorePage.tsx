@@ -6,18 +6,15 @@ import productionSoulsData from "../../data/souls-prod.json";
 import stagingSoulsData from "../../data/souls-staging.json";
 
 import ReactMarkdown, { uriTransformer } from "react-markdown";
-import { WriteButton } from "./BookOfLoreControls";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { ResponsivePixelImg } from "../ResponsivePixelImg";
-import { loreTextStyles } from "./loreStyles";
 import { getContrast } from "../../lib/colorUtils";
 import { IPFS_SERVER } from "../../constants";
 import {
   isSoulsContract,
   isWizardsContract,
 } from "../../contracts/ForgottenRunesWizardsCultContract";
-import Spacer from "../Spacer";
+import { css } from "@emotion/react";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 const soulsData = (
@@ -25,6 +22,38 @@ const soulsData = (
     ? stagingSoulsData
     : productionSoulsData
 ) as { [soulId: string]: any };
+
+const loreTextStyles = css`
+  font-size: 16px;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-top: 0.5em;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+  h4 {
+    font-size: 16px;
+  }
+
+  blockquote {
+    background-color: #ffffff14;
+    margin: 0;
+    padding: 1em;
+    border-radius: 2px;
+  }
+`;
 
 export const TextPage = styled.div<{
   alignSelf?: string;
@@ -113,36 +142,6 @@ export const CoreCharacterPage = ({
   return (
     <BookOfLorePage bg={bg as string}>
       <ResponsivePixelImg src={imageUrl} style={{ maxWidth: "480px" }} />
-    </BookOfLorePage>
-  );
-};
-
-export const EmptyLorePage = ({
-  pageNum,
-  loreTokenSlug,
-  tokenId,
-}: {
-  pageNum: number;
-  loreTokenSlug: "wizards" | "souls";
-  tokenId: number;
-}) => {
-  const furtherOrAny = pageNum < 1 ? "" : " further";
-
-  return (
-    <BookOfLorePage bg={"#000000"}>
-      <TextPage alignSelf="center" alignChildren="center">
-        <ReactMarkdown>{`No${furtherOrAny} Lore has been recorded...`}</ReactMarkdown>
-
-        <Link href="/lore/add">
-          <WriteButton size="medium">Write Your Lore</WriteButton>
-        </Link>
-        {loreTokenSlug === "souls" && (
-          <>
-            <Spacer pt={3} />
-            <ReactMarkdown>{`[View Lore of the Wizard that became this Soul](/lore/wizards/${tokenId}/0)`}</ReactMarkdown>
-          </>
-        )}
-      </TextPage>
     </BookOfLorePage>
   );
 };

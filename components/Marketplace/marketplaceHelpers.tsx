@@ -2,13 +2,32 @@ import { TypedDataSigner } from '@ethersproject/abstract-signer';
 import { Weth } from "@reservoir0x/sdk/dist/common/helpers";
 import { BigNumber, constants, Contract, ContractTransaction, ethers, Signer } from "ethers";
 import { arrayify, Interface, splitSignature } from "ethers/lib/utils";
-import { SocialItem } from "../../components/Lore/BookOfLoreControls";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import { formatBN } from "../../lib/numbers";
 import setParams from "../../lib/params";
 import { CONTRACTS } from "./marketplaceConstants";
 import { pollUntilHasData, pollUntilOk } from '../../lib/pollApi';
 import styled from '@emotion/styled';
+
+const SocialItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.4em;
+
+  a:hover {
+    opacity: 0.5;
+    transition: all 100ms;
+  }
+
+  a:active {
+    opacity: 0.3;
+  }
+
+  .gm-img {
+    height: 30px;
+    width: 33px;
+  }
+`;
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
