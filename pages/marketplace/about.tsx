@@ -118,6 +118,7 @@ export default function About({
         <HorizontalLine/>
         <Title>Fees</Title>
         <Description>Listings and offers created on Forgotten.market will pay out all fees to the Forgotten Runes team and community, as follows:</Description>
+        <Description style={{fontWeight: 'bold'}}>NOTE: On July 1, 2022 the Cult DAO Fee will be raised to 1.5%, where it will stay indefinitely.</Description>
         <HorizontalLine/>
         <Fees>
           <Row>

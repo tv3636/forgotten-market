@@ -59,7 +59,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://runes-turnarounds.s3.amazonaws.com/",
     ABI: WIZARDS_ABI,
     fee: '350',
-    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
+    feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4'
   },
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
     collection: "forgottensouls",
@@ -90,7 +90,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://runes-turnarounds.s3.amazonaws.com/",
     ABI: WIZARDS_ABI,
     fee: '350',
-    feeRecipient: '0x9ef8286cc70eb94721f994c55875fe6da08c80a0'
+    feeRecipient: '0xbd896505c48f085e0682087c3d55febbd6e58aae'
   },
   "0x95082b505c0752eef1806aef2b6b2d55eea77e4e": {
     collection: "forgottensouls",
@@ -149,13 +149,6 @@ export const LOCATIONS: any = {
   Keep: [-1.9, -2.7],
   Wood: [1, 0.3],
 };
-
-export const BACKGROUND: any = {
-  'Black': '#000000',
-  'Red': '#1E0200',
-  'Green': '#040D04',
-  'Blue': '#09071B',
-}
 
 export const BURN_TRAITS: any = [
   'Transmuted from',

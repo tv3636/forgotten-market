@@ -88,6 +88,21 @@ export default function FAQ({
     <Layout title="FAQ">
       <AboutWrapper>
         <BigTitle>Frequently Asked Questions</BigTitle>
+        <Title>What are affinities?</Title>
+        <HorizontalLine/>
+        <HorizontalLine/>
+        <Description style={{justifyContent: 'center'}}>
+          <img src="/static/img/marketplace/faq/affinities.jpg" style={{width: '800px', maxWidth: '75vw', maxHeight: '135vw'}}/>
+        </Description>
+        <HorizontalLine/>
+        <HorizontalLine/>
+        <Title>What is a collection offer?</Title>
+        <Description>
+          Collection offers are offers which apply to every token in a collection. By making a collection offer on wizards,
+          for instance, any wizard holder would be able to accept your offer in exchange for a wizard they hold.
+        </Description>
+        <HorizontalLine/>
+        <HorizontalLine/>
         <Title>Is it safe to sign messages from Wyvern Exchange Contract?</Title>
         <Description style={{display: 'block'}}>
           Forgotten.market utilizes the <a href="https://wyvernprotocol.com/" target="_blank">Wyvern Protocol</a>.
@@ -138,22 +153,7 @@ export default function FAQ({
           you've registered for this wallet.
         </Description>
         <HorizontalLine/>
-        <HorizontalLine/>
-        <Title>What is a collection offer?</Title>
-        <Description>
-          Collection offers are offers which apply to every token in a collection. By making a collection offer on wizards,
-          for instance, any wizard holder would be able to accept your offer in exchange for a wizard they hold.
-        </Description>
-        <HorizontalLine/>
-        <HorizontalLine/>
-        <Title>What are affinities?</Title>
-        <HorizontalLine/>
-        <HorizontalLine/>
-        <Description style={{justifyContent: 'center'}}>
-          <img src="/static/img/marketplace/faq/affinities.jpg" style={{width: '800px', maxWidth: '75vw', maxHeight: '135vw'}}/>
-        </Description>
-        <HorizontalLine/>
-        <HorizontalLine/>
+        <HorizontalLine/> 
         <Title>Additional questions?</Title>
         <Description style={{display: 'block'}}>For all additional questions please contact <a href="https://twitter.com/tv3636" target="_blank">@tv</a>.</Description>
         <HorizontalLine/>

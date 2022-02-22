@@ -8,6 +8,7 @@ import { formatBN } from "../../lib/numbers";
 import setParams from "../../lib/params";
 import { CONTRACTS, Status } from "./marketplaceConstants";
 import { pollUntilHasData, pollUntilOk } from '../../lib/pollApi';
+import styled from '@emotion/styled';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -41,7 +42,7 @@ export default async function executeSteps(
   url: any,
   signer: Signer,
   setTxn: (hash: string) => void,
-  setStatus: (status: Status) => void,
+  showError: (show: any) => void,
   setSteps: any,
   newJson?: Execute
 ) {
@@ -84,6 +85,7 @@ export default async function executeSteps(
       // Make an on-chain transaction
       case 'transaction': {
         const tx = await signer.sendTransaction(data)
+        console.log(tx.hash);
         setTxn(tx.hash)
         await tx.wait()
         break
@@ -144,13 +146,13 @@ export default async function executeSteps(
 
     json.steps[incompleteIndex].status = 'complete'
 
-    await executeSteps(url, signer, setTxn, setStatus, setSteps, json)
+    await executeSteps(url, signer, setTxn, showError, setSteps, json)
 
     return true
 
-  } catch (e) {
+  } catch (e: any) {
+    showError(e.toString());
     console.error(e);
-    setStatus(Status.FAILURE);
     return false;
   }
 }
@@ -292,10 +294,9 @@ export default async function executeSteps(
   signerWeth: BigNumber,
   bps: number
 ) {
-  let fee = userInput.mul(BigNumber.from(bps)).div(BigNumber.from('10000'))
-
-  let totalNum = Number(formatBN(userInput, 5)) / (1 - (bps / 10000));
-  let total = ethers.utils.parseEther(totalNum.toString());
+  let bpsDivider = BigNumber.from('10000')
+  let total = userInput.mul(bpsDivider).div(bpsDivider.sub(BigNumber.from(bps)))
+  let fee = total.sub(userInput)
 
   if (signerWeth.add(signerEth).lt(total)) {
     // The signer has insufficient balance
@@ -336,8 +337,6 @@ export default async function executeSteps(
     }
   }
 }
-
-
 
 // Sort and count trait values
 export function getOptions(traits: [any]) {
@@ -472,3 +471,7 @@ export function LoadingCard({ height }: { height: string }) {
     </div>
   );
 }
+
+export const SoftLink = styled.a`
+  text-decoration: none;
+`;

@@ -1,8 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
 import styled from "@emotion/styled";
 import { ResponsivePixelImg } from "./ResponsivePixelImg";
-import Link from "next/link";
 
 type Props = {};
 
@@ -206,25 +204,25 @@ export default function Footer({}: Props) {
 
             <li className="item">
               <a href="https://forgottenrunes.com/lore" target="_blank">
-                <a>Book of Lore</a>
+                Book of Lore
               </a>
             </li>
 
             <li className="item">
               <a href="https://forgottenrunes.com/map" target="_blank">
-                <a>Map</a>
+                Map
               </a>
             </li>
 
             <li className="item">
               <a href="https://forgottenrunes.com/gallery" target="_blank">
-                <a>All Wizards</a>
+                All Wizards
               </a>
             </li>
 
             <li className="item">
               <a href="https://forgottenrunes.com/posts" target="_blank">
-                <a>Blog</a>
+                Blog
               </a>
             </li>
           </ul>

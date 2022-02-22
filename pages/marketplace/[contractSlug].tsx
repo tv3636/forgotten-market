@@ -600,14 +600,21 @@ export function CollectionOfferButton({
 
     getCollectionOffer();
   }, [contract]);
-
-  return (
-    <CollectionOffer onClick={() => setShowModal(true)}>
-      {"Collection Offer: "}
-      <CollectionEthSymbol src="/static/img/marketplace/eth.png" />
-      {currentOffer && ` ${currentOffer}`}
-    </CollectionOffer>
-  )
+  if (currentOffer) {
+    return (
+      <CollectionOffer onClick={() => setShowModal(true)}>
+        {"Collection Offer: "}
+        <CollectionEthSymbol src="/static/img/marketplace/eth.png" />
+        {` ${currentOffer}`}
+      </CollectionOffer>
+    )
+  } else {
+    return (
+      <CollectionOffer onClick={() => setShowModal(true)}>
+        {"Collection Offer"}
+      </CollectionOffer>
+    )
+  }
 }
 
 function BuyerSeller({ 
