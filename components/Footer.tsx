@@ -194,7 +194,7 @@ export default function Footer({}: Props) {
           <h2 className="nav__title">Resources</h2>
           <ul className="nav__ul nav__ul--extra">
             <li className="item">
-              <a href="/">The Secret Tower</a>
+              <a href="https://forgottenrunes.com" target="_blank">The Secret Tower</a>
             </li>
             <li className="item">
               <a href="https://forgottenrunes.com/wtf" target="_blank">

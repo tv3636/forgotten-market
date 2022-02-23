@@ -256,28 +256,18 @@ const AccountDropDown = styled.div`
 `;
 
 const CollectionOffer = styled.div`
-  background: var(--darkGray);
-  border-style: dashed;
-  border-radius: 50px;
-  border-color: var(--mediumGray);
-  border-width: 1px;
-
-  color: var(--lightGray);
-
-  padding: 10px;
   margin-right: 10px;
+  margin-top: 3px;
 
 
   :hover {
-    background: var(--mediumGray);
-    border-color: var(--lightGray);
-    color: var(--white);
     cursor: pointer;
   }
 
   @media only screen and (max-width: 600px) {
     font-size: 16px;
     margin-right: 0px;
+    margin-top: 0px;
     display: flex;
     justify-content: center;
   }
@@ -293,13 +283,33 @@ function Profile({ account }: {account: any}) {
         <Link href={`/marketplace/address/${account}`} passHref={true}>
           <SoftLink>
             <CollectionOffer style={{marginRight: '0'}}>
-              <img src='/static/img/marketplace/profile-export.png' height={'15px'} width={'15px'}/>
+              <img 
+                src='/static/img/marketplace/profile.png' 
+                height={'15px'} 
+                width={'15px'}
+                onMouseOver={(e) =>
+                  (e.currentTarget.src = '/static/img/marketplace/profile_hover.png')
+                }
+                onMouseOut={(e) =>
+                  (e.currentTarget.src = '/static/img/marketplace/profile.png')
+                }
+              />
             </CollectionOffer>
           </SoftLink>
         </Link> :
         <div>
           <CollectionOffer style={{marginRight: '0'}}>
-            <img src='/static/img/marketplace/profile-export.png' height={'15px'} width={'15px'}/>
+            <img 
+              src='/static/img/marketplace/profile.png' 
+              height={'15px'} 
+              width={'15px'}
+              onMouseOver={(e) =>
+                (e.currentTarget.src = '/static/img/marketplace/profile_hover.png')
+              }
+              onMouseOut={(e) =>
+                (e.currentTarget.src = '/static/img/marketplace/profile.png')
+              }
+            />
           </CollectionOffer>
           <AccountDropDown className='dropdown'>
             <MarketConnect/>
