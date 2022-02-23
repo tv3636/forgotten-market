@@ -116,14 +116,14 @@ export default function FAQ({
           In this example, a wizard is being listed for Ξ10. The 'basePrice' value (towards the bottom) is displayed in wei, which is the ether
           value * 10^18. The exchange contract is the&nbsp; 
           <a href="https://etherscan.io/address/0x7f268357a8c2552623316e2562d90e642bb538e5" target="_blank">Wyvern Exchange Contract</a>.
-          The maker address is your own, while the taker address here is the null address, indicating a public listing. <br/>Please double check
-          messages before you sign them to verify what you are signing.
+          The 'maker' address will be your own, while the 'taker' address will be the null address, indicating a public listing. <br/>It is best practice
+           to double check messages before you sign them to confirm their intent.
         </Description>
         <HorizontalLine/>
         <Title>What is proxy registration?</Title>
         <Description style={{display: 'block'}}>
-          Wyvern Protocol creates a personal proxy contract for each address to enable trading. If you've used OpenSea before, 
-          chances are your wallet already has a proxy contract created. However, if this is your first time listing 
+          Wyvern Protocol creates a personal proxy contract for each address to enable trading. If you've listed on OpenSea before, 
+          your wallet already has a proxy contract created. However, if this is your first time listing 
           tokens for a particular wallet, you will be prompted to register a proxy contract before listing a token. 
           In Metamask, the prompt will look like this:
         </Description>
@@ -141,7 +141,7 @@ export default function FAQ({
           In order to list tokens on Forgotten.market, you will need to approve your proxy contract to transfer them. 
           This approval allows tokens to be transferred if a valid listing is filled, and can be revoked at any time.
           Approvals must be done per-contract, so separate approvals are required for Wizards, Souls, and Ponies.
-          If you've already listed these tokens on OpenSea, you would not need to set any additional approvals on Forgotten.market.
+          If you've already listed these tokens on OpenSea you will not need to set any additional approvals on Forgotten.market.
           In Metamask, the prompt to set approval looks like this:
         </Description>
         <Description style={{justifyContent: 'center'}}>
@@ -152,7 +152,7 @@ export default function FAQ({
           Note the address in the top right is the contract of the token you're approving (in this case,&nbsp; 
           <a href="https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42" target="_blank">wizards</a>).
           The operator address, passed as a parameter in the contract call, will be the address of the proxy contract 
-          you've registered for this wallet.
+          you've registered for your wallet.
         </Description>
         <HorizontalLine/>
         <HorizontalLine/> 

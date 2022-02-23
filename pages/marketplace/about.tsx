@@ -9,7 +9,7 @@ const AboutWrapper = styled.div`
   margin: 0 auto;
   padding: 30px;
   margin-top: 80px;
-  max-width: 1500px;
+  max-width: 1000px;
 
   @media only screen and (max-width: 600px) {
     overflow-x: hidden;

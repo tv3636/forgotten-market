@@ -249,7 +249,8 @@ const AccountIcon = styled.div`
 
 const AccountDropDown = styled.div`
   position: absolute;
-  right: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
   display: none;
   z-index: 1000;
 
@@ -312,7 +313,9 @@ function Profile({ account }: {account: any}) {
             />
           </CollectionOffer>
           <AccountDropDown className='dropdown'>
-            <MarketConnect/>
+            <div style={{marginTop: '8px'}}>
+              <MarketConnect/>
+            </div>
           </AccountDropDown>
         </div>
       }

@@ -189,7 +189,7 @@ function Listings({
               hasMore={true}
               loader={null}
               scrollThreshold={0.5}
-              height={"80vh"}
+              height={"82vh"}
             >
               <ScrollContainer>
                 {listings.map((listing: any, index) => {
@@ -215,7 +215,7 @@ function Listings({
               </ScrollContainer>
             </InfiniteScroll>
         ) : (
-          <LoadingCard height={'80vh'}/>
+          <LoadingCard height={'82vh'}/>
         )}
       </ScrollWrapper>
     </TabWrapper>
