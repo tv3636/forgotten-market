@@ -240,8 +240,8 @@ export default function Marketplace({
   if (contract) {
   return (
     <Layout 
-      title="Marketplace" 
-      description={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+      title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+      description={'Like Wizard, Buy Wizard'}
     >
       <MarketWrapper>
         <MobileHeader>
