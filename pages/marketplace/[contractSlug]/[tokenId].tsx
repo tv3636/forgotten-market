@@ -394,7 +394,8 @@ const ListingPage = ({
   return (
     <Layout 
       title={token.name} 
-      description={listing.value ? `Ξ ${listing.value}` : `${CONTRACTS[contractSlug]}.singular #${tokenId}`}
+      description={listing.value ? `Ξ ${listing.value}` : `${CONTRACTS[contractSlug].singular} #${tokenId}`}
+      image={imageUrls[0]}
     >
       {Object.keys(listing).length > 0 ? 
         <ListingWrapper>

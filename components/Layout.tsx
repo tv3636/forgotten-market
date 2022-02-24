@@ -8,11 +8,13 @@ type Props = {
   children?: ReactNode;
   description?: string;
   title?: string;
+  image?: string;
 };
 
 const Layout = ({
   children,
   description,
+  image = "/static/img/OSFeature.png",
   title = "forgotten.market: A Forgotten Runes Marketplace",
 }: Props) => (
   <div>
@@ -31,6 +33,14 @@ const Layout = ({
           name="twitter:description"
           content={description}
           key="twitterdesc"
+        />
+      )}
+
+      {image && (
+        <meta 
+          name="twitter:image" 
+          content={image}
+          key="twimage"
         />
       )}
 
