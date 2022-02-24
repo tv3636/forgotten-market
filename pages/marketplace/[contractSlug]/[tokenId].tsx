@@ -393,7 +393,7 @@ const ListingPage = ({
 
   return (
     <Layout 
-      title={token.name} 
+      title={CONTRACTS[contractSlug].display == 'Wizards' ? wizData[tokenId].name : `${CONTRACTS[contractSlug].singular} #${tokenId}`} 
       description={listing.value ? `Ξ ${listing.value}` : `${CONTRACTS[contractSlug].singular} #${tokenId}`}
       image={imageUrls[0]}
     >

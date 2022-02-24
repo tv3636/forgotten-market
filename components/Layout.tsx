@@ -44,6 +44,14 @@ const Layout = ({
         />
       )}
 
+      {image && (
+      <meta
+        property="og:image"
+        content={image}
+        key="ogimage"
+      />
+      )}
+
       {/* <meta property="og:image" content="image.png" /> */}
     </Head>
     <SiteNav />
