@@ -401,7 +401,8 @@ function OrderContent({
       expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
       disableRoyalties: true,
       fee: CONTRACTS[contract].fee,
-      feeRecipient: CONTRACTS[contract].feeRecipient
+      feeRecipient: CONTRACTS[contract].feeRecipient,
+      source: CONTRACTS[contract].feeRecipient,
     }
 
     if (collectionWide) {

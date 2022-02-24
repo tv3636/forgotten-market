@@ -568,8 +568,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       );
       const orderJson = await orderPage.json();
       var osListing = orderJson.orders[0].sourceInfo.id == 'opensea';
-      console.log(orderJson);
   } catch(e) {
+    console.error(e);
     console.error("Could not determine listing origin")
     osListing = false;
   }
