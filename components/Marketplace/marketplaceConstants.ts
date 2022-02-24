@@ -135,7 +135,7 @@ export const LOCATIONS: any = {
   "Capital": [0, -5.75],
   "Keep": [-1.9, -2.7],
   "Wood": [1, 0.3],
-  "": [0, 0],
+  "": [404, 404],
 };
 
 export const BURN_TRAITS: any = [

@@ -330,6 +330,10 @@ const ListingPage = ({
   var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
     LOCATIONS[wizData[tokenId].location] : [0, 0];
 
+  if (CONTRACTS[contractSlug].display == 'Ponies') {
+    center = [404, 404];
+  }
+
   useEffect(() => {
     async function run() {
       const page = await fetch(
