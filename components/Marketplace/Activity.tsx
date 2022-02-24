@@ -229,14 +229,14 @@ function BuyerSeller({
 }) {
   return (
     <div>
-      <Link href={`/marketplace/address/${buyer}`} passHref={true}>
+      <Link href={`/address/${buyer}`} passHref={true}>
         <SoftLink>
           <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Buyer:`}&nbsp;
               <BuyerText>{buyer}</BuyerText>
           </BuyerText>
         </SoftLink>
       </Link>
-      <Link href={`/marketplace/address/${seller}`} passHref={true}>
+      <Link href={`/address/${seller}`} passHref={true}>
         <SoftLink>
           <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`Seller:`}&nbsp;
             <BuyerText>{seller}</BuyerText>

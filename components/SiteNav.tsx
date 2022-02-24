@@ -281,7 +281,7 @@ function Profile({ account }: {account: any}) {
   return (
     <AccountIcon className={"item"}>
       { account ? 
-        <Link href={`/marketplace/address/${account}`} passHref={true}>
+        <Link href={`/address/${account}`} passHref={true}>
           <SoftLink>
             <CollectionOffer style={{marginRight: '0'}}>
               <img 
@@ -330,8 +330,8 @@ export default function SiteNav({}: Props) {
   const router = useRouter();
 
   let marketplace_url = 'contractSlug' in router.query ? 
-  `/marketplace/${router.query.contractSlug}` : 
-  '/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42';
+  `/${router.query.contractSlug}` : 
+  '/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42';
 
   return (
     <SiteNavElement>
@@ -365,12 +365,12 @@ export default function SiteNav({}: Props) {
               <MenuItem className={"item"}>Activity</MenuItem>
             </SoftLink>
           </Link>
-          <Link href="/marketplace/about" passHref={true}>
+          <Link href="/about" passHref={true}>
             <SoftLink>
               <MenuItem className={"item"}>About</MenuItem>
             </SoftLink>
           </Link>
-          <Link href="/marketplace/faq" passHref={true}>
+          <Link href="/faq" passHref={true}>
             <SoftLink>
               <MenuItem className={"item"}>FAQ</MenuItem>
             </SoftLink>

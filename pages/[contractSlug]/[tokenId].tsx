@@ -1,38 +1,38 @@
 import styled from "@emotion/styled";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../../components/Layout";
+import Layout from "../../components/Layout";
 import React, { useEffect, useState } from "react";
-import client from "../../../lib/graphql";
+import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import { hydratePageDataFromMetadata } from "../../../components/Lore/markdownUtils";
+import { hydratePageDataFromMetadata } from "../../components/Lore/markdownUtils";
 import {
   Icons, LoadingCard
-} from "../../../components/Marketplace/marketplaceHelpers";
+} from "../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
   API_BASE_URL,
   LOCATIONS,
   ORDER_TYPE,
   BURN_ADDRESS,
-} from "../../../components/Marketplace/marketplaceConstants";
-import { getProvider } from "../../../hooks/useProvider";
+} from "../../components/Marketplace/marketplaceConstants";
+import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
-import InfoTooltip from "../../../components/Marketplace/InfoToolTip";
-import Order from "../../../components/Marketplace/Order";
+import InfoTooltip from "../../components/Marketplace/InfoToolTip";
+import Order from "../../components/Marketplace/Order";
 import dynamic from "next/dynamic";
-import wizards from "../../../data/minimalWizData.json";
-import Price from "../../../components/Marketplace/Price";
-import LoreBlock from "../../../components/Marketplace/LoreBlock";
-import MarketButtons from "../../../components/Marketplace/MarketButtons";
-import TraitDisplay from "../../../components/Marketplace/TraitDisplay";
-import { ListingExpiration } from "../../../components/Marketplace/ListingExpiration";
-import Carousel from "../../../components/Marketplace/MarketCarousel";
-import OfferDisplay, { Owner } from "../../../components/Marketplace/OfferDisplay";
+import wizards from "../../data/minimalWizData.json";
+import Price from "../../components/Marketplace/Price";
+import LoreBlock from "../../components/Marketplace/LoreBlock";
+import MarketButtons from "../../components/Marketplace/MarketButtons";
+import TraitDisplay from "../../components/Marketplace/TraitDisplay";
+import { ListingExpiration } from "../../components/Marketplace/ListingExpiration";
+import Carousel from "../../components/Marketplace/MarketCarousel";
+import OfferDisplay, { Owner } from "../../components/Marketplace/OfferDisplay";
 
 const wizData = wizards as { [wizardId: string]: any };
 
-const DynamicMap = dynamic(() => import("../../../components/Marketplace/MiniMap"), {
+const DynamicMap = dynamic(() => import("../../components/Marketplace/MiniMap"), {
   ssr: false, // leaflet doesn't like Next.js SSR
 });
 
@@ -559,6 +559,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       );
       const orderJson = await orderPage.json();
       var osListing = orderJson.orders[0].sourceInfo.id == 'opensea';
+      console.log(orderJson);
   } catch(e) {
     console.error("Could not determine listing origin")
     osListing = false;

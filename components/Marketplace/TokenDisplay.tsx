@@ -106,7 +106,7 @@ export default function TokenDisplay({
 
   return (
     <Link
-      href={`/marketplace/${contract}/${tokenId}`}
+      href={`/${contract}/${tokenId}`}
       passHref={true}
     >
       <SoftLink>

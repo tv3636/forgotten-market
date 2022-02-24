@@ -92,7 +92,7 @@ export default function AccountSection({
           return (
             <div key={index}>
               <Link 
-                href={`/marketplace/${thisContract}/${thisTokenId}`} 
+                href={`/${thisContract}/${thisTokenId}`} 
                 passHref={true}
               >
                 <SoftLink>

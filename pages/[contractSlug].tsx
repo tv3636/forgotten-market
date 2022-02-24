@@ -1,22 +1,22 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/Layout";
+import Layout from "../components/Layout";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
-import { getURLAttributes, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
+import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
+import { getURLAttributes, LoadingCard } from "../components/Marketplace/marketplaceHelpers";
 import {
   API_BASE_URL,
   CONTRACTS,
   ORDER_TYPE,
-} from "../../components/Marketplace/marketplaceConstants";
+} from "../components/Marketplace/marketplaceConstants";
 import { useRouter } from 'next/router';
-import Order from "../../components/Marketplace/Order";
-import MarketTabs from "../../components/Marketplace/MarketTabs";
-import Activity from "../../components/Marketplace/Activity";
-import CollectionOfferButton from "../../components/Marketplace/CollectionOfferButton";
-import TokenDisplay from "../../components/Marketplace/TokenDisplay";
-import SideBar from "../../components/Marketplace/Sidebar";
+import Order from "../components/Marketplace/Order";
+import MarketTabs from "../components/Marketplace/MarketTabs";
+import Activity from "../components/Marketplace/Activity";
+import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
+import TokenDisplay from "../components/Marketplace/TokenDisplay";
+import SideBar from "../components/Marketplace/Sidebar";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');

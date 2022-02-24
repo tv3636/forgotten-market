@@ -1,12 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../../components/Layout";
+import Layout from "../../components/Layout";
 import styled from "@emotion/styled";
-import { getProvider } from "../../../hooks/useProvider";
-import { getTokenDataForAllCollections } from "../../../lib/nftUtilis";
+import { getProvider } from "../../hooks/useProvider";
+import { getTokenDataForAllCollections } from "../../lib/nftUtilis";
 import { useState, useEffect } from "react";
-import AccountSection from "../../../components/Marketplace/AccountSection";
-import { API_BASE_URL, CONTRACTS } from "../../../components/Marketplace/marketplaceConstants";
-import { getInfinityVeilContract, getPoniesContract } from "../../../contracts/ForgottenRunesWizardsCultContract";
+import AccountSection from "../../components/Marketplace/AccountSection";
+import { API_BASE_URL, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
+import { getInfinityVeilContract, getPoniesContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');

@@ -33,7 +33,7 @@ export function Owner({
   ens: string | null;
 }) {
   return (
-    <Link href={`/marketplace/address/${owner}`}>
+    <Link href={`/address/${owner}`}>
       {owner?.toLowerCase() == connectedAccount?.toLowerCase()
         ? "you" 
         : ens ? ens : owner.substring(0, 10)}

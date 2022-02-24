@@ -76,8 +76,8 @@ export default function TraitDisplay({
               <div key={index}>
                 <Link 
                   href={ BURN_TRAITS.includes(attribute.key) ? 
-                    `/marketplace/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${tokenId}`
-                    : `/marketplace/${contract}?${attribute.key.toLowerCase().replace('#', '%23')}=${attribute.value.replaceAll(' ', '+')}`
+                    `/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42/${tokenId}`
+                    : `/${contract}?${attribute.key.toLowerCase().replace('#', '%23')}=${attribute.value.replaceAll(' ', '+')}`
                   } 
                   passHref={true}
                 >

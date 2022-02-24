@@ -80,7 +80,7 @@ export default function MarketTabs() {
       {
       Object.keys(CONTRACTS).map((contract: string, index) => (
         <Link 
-          href={`/marketplace/${contract}${'activity' in router.query ? '?activity=True' : ''}`}
+          href={`/${contract}${'activity' in router.query ? '?activity=True' : ''}`}
           key={index}
         >
         {contract == router.query.contractSlug ? 
