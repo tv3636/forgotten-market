@@ -489,7 +489,12 @@ const ListingPage = ({
               </SectionDisplay>
               <BottomDisplay>
                 <LoreWrapper>
-                  <LoreBlock pages={pages} length={lore.length}/>
+                  <LoreBlock 
+                    pages={pages} 
+                    length={lore.length} 
+                    tokenId={tokenId} 
+                    contract={contractSlug}
+                  />
                 </LoreWrapper>
                 <Icons tokenId={Number(tokenId)} contract={contractSlug} />
               </BottomDisplay>

@@ -60,7 +60,11 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
           content={"@forgottenrunes"}
           key="twhandle"
         />
-        <meta name="twitter:image" content={"/static/img/OSFeature.png"}/>
+        <meta 
+          name="twitter:image" 
+          content={"/static/img/OSFeature.png"}
+          key="twimage"
+        />
 
         {/* Open Graph */}
         <meta
