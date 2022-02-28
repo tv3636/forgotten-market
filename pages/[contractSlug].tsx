@@ -242,6 +242,7 @@ export default function Marketplace({
     <Layout 
       title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
       description={'Like Wizard, Buy Wizard'}
+      image={'/static/img/OSFeature.png'}
     >
       <MarketWrapper>
         <MobileHeader>

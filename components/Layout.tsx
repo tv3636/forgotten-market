@@ -13,7 +13,7 @@ type Props = {
 const Layout = ({
   children,
   description,
-  image = "/static/img/OSLogo.png",
+  image = "/static/img/OSFeature.png",
   title = "forgotten.market",
 }: Props) => (
   <div>
@@ -45,7 +45,7 @@ const Layout = ({
       ) :
       <meta 
         name="twitter:image" 
-        content={"/static/img/OSLogo.png"}
+        content={"/static/img/OSFeature.png"}
         key="twimage"
       />
     }
@@ -59,7 +59,7 @@ const Layout = ({
       ) :
       <meta
         property="og:image"
-        content={"/static/img/OSLogo.png"}
+        content={"/static/img/OSFeature.png"}
         key="ogimage"
       />
       }
