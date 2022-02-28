@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import SiteNav from "./SiteNav";
 import Footer from "./Footer";
@@ -14,7 +13,7 @@ type Props = {
 const Layout = ({
   children,
   description,
-  image = "/static/img/OSFeature.png",
+  image = "/static/img/OSLogo.png",
   title = "forgotten.market: A Forgotten Runes Marketplace",
 }: Props) => (
   <div>

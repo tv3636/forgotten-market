@@ -54,7 +54,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
           href="/static/img/favicon512.png"
         />
         {/* Twitter */}
-        <meta name="twitter:card" content="summary" key="twcard" />
+        <meta name="twitter:card" content="summary_large_image" key="twcard" />
         <meta
           name="twitter:creator"
           content={"@forgottenrunes"}
@@ -62,14 +62,14 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta 
           name="twitter:image" 
-          content={"/static/img/OSFeature.png"}
+          content={"/static/img/OSLogo.png"}
           key="twimage"
         />
 
         {/* Open Graph */}
         <meta
           property="og:url"
-          content={"https://forgottenrunes.com"}
+          content={"https://forgotten.market"}
           key="ogurl"
         />
         <meta
@@ -79,7 +79,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta
           property="og:site_name"
-          content={"forgotten.market: A Forgotten Runes Marketplace"}
+          content={"forgotten.market"}
           key="ogsitename"
         />
         <meta
@@ -89,7 +89,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta
           property="og:description"
-          content={"forgotten.market: A Forgotten Runes Marketplace"}
+          content={"Like Wizard, Buy Wizard"}
           key="ogdesc"
         />
       </Head>
