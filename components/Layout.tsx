@@ -14,7 +14,7 @@ const Layout = ({
   children,
   description,
   image = "/static/img/OSLogo.png",
-  title = "forgotten.market: A Forgotten Runes Marketplace",
+  title = "forgotten.market",
 }: Props) => (
   <div>
     <Head>
@@ -23,6 +23,7 @@ const Layout = ({
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <meta property="og:title" content={title} key="ogtitle" />
       <meta name="twitter:title" content={title} key="twittertitle" />
+      <meta name="twitter:card" content="summary_large_image" key="twcard" />
 
       {description && (
         <meta property="og:description" content={description} key="ogdesc" />
@@ -35,22 +36,34 @@ const Layout = ({
         />
       )}
 
-      {image && (
+      {image ? (
         <meta 
           name="twitter:image" 
           content={image}
           key="twimage"
         />
-      )}
+      ) :
+      <meta 
+        name="twitter:image" 
+        content={"/static/img/OSLogo.png"}
+        key="twimage"
+      />
+    }
 
-      {image && (
+      {image ? (
       <meta
         property="og:image"
         content={image}
         key="ogimage"
       />
-      )}
-
+      ) :
+      <meta
+        property="og:image"
+        content={"/static/img/OSLogo.png"}
+        key="ogimage"
+      />
+      }
+      
       {/* <meta property="og:image" content="image.png" /> */}
     </Head>
     <SiteNav />

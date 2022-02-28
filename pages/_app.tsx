@@ -84,7 +84,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta
           property="og:title"
-          content={"forgotten.market: A Forgotten Runes Marketplace"}
+          content={"forgotten.market"}
           key="ogtitle"
         />
         <meta
