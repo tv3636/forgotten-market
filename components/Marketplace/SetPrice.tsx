@@ -3,10 +3,13 @@ import { Title } from "./Order"
 
 const ListPrice = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-content: center;
   justify-content: center;
   align-items: center;
+
+  margin-top: 35px;
+  max-width: 250px;
 
   color: var(--white);
 `;
@@ -48,11 +51,10 @@ export default function SetPrice({
 }) {
   return (
     <ListPrice>
-      <Title style={{marginTop: "35px"}}>Price</Title>
+      <Title style={{width: '5ch'}}>Price:&nbsp;&nbsp;&nbsp;</Title>
       <form onSubmit={(e) => { submitAction(e) }}>
         <PriceInput 
           type="number" 
-          style={{marginBottom: '20px'}} 
           value={price} onChange={(e)=> setPrice(e.target.value)}
         />
       </form>

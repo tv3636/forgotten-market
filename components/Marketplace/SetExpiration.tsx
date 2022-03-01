@@ -1,16 +1,19 @@
 import { ORDER_TYPE } from "./marketplaceConstants";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
-import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import styled from "@emotion/styled";
 import { Title } from "./Order";
 
 const Expiration = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-content: center;
   justify-content: center;
   align-items: center;
+
+  margin-bottom: 20px;
+  max-width: 250px;
+
 `;
 
 export default function SetExpiration({
@@ -24,17 +27,10 @@ export default function SetExpiration({
 }) {
   return (
     <Expiration>
-      <Title>
-        <div style={{marginRight: '10px', marginBottom: '5px'}}>
-          { `${action == ORDER_TYPE.OFFER ? 'Offer' : 'Listing'} Expires` }
+      <Title style={{fontSize: '15px'}}>
+        <div style={{marginBottom: '5px', maxWidth: '8ch', textAlign: 'left'}}>
+          { `${action == ORDER_TYPE.OFFER ? 'Offer' : 'Listing'} Expires: ` }
         </div>
-        <InfoTooltip 
-          tooltip={
-            action == ORDER_TYPE.OFFER ?
-            'An offer can no longer be accepted after its expiration. To invalidate an offer before its expiration, you will need to manually cancel the offer.' :
-            'A listing can no longer be filled after its expiration. Invalidating a listing before its expiration requires manual cancellation'
-          }
-        />
       </Title>
       <Flatpickr
         data-enable-time

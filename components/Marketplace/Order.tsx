@@ -128,6 +128,19 @@ const IconImage = styled.img`
   transition: all 100ms;
 `;
 
+const Form = styled.form`
+  margin-top: 10px;
+  margin-bottom: 25px;
+  font-family: Alagard;
+  color: var(--white);
+  font-size: 17px;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 15px;
+  }
+
+`;
+
 function ActionButton({ 
   actionType,
   submitAction
@@ -174,8 +187,8 @@ function PriceExplained({
   tooltip: string;
 }) {
   return (
-    <Description style={{marginTop: 'var(--sp2)'}}>
-      <div style={{marginRight: 'var(--sp-3)'}}>
+    <Description style={{marginBottom: 'var(--sp1)', marginLeft: '12%', marginTop: '15px'}}>
+      <div style={{marginRight: 'var(--sp-3)', fontSize: '15px'}}>
         {`You ${action == ORDER_TYPE.OFFER ? 
           `pay ${amount} WETH` : 
           `receive ${amount} ETH`}`
@@ -241,6 +254,7 @@ function OrderContent({
   const [txn, setTxn] = useState('');
   const [price, setPrice] = useState('');
   const [showError, setShowError] = useState<any>(null);
+  const [listOS, setListOS] = useState(false);
   const [expiration, setExpiration] = useState(
     new Date(
       new Date().getFullYear(), 
@@ -414,6 +428,23 @@ function OrderContent({
 
     setParams(url, query);
     await execute(url, signer);
+
+    if (listOS) {
+      const os_url = new URL(OrderURLs[action], API_BASE_URL);
+      let os_query: any = {
+        contract,
+        tokenId,
+        maker: account,
+        price: ethers.utils.parseEther(price).toString(),
+        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
+        orderbook: 'opensea',
+      }
+      setParams(os_url, os_query);
+      console.log(os_url);
+
+      await execute(os_url, signer);
+    }
+
     setModal(false);
 
   }
@@ -457,15 +488,11 @@ function OrderContent({
             imageUrl={imageUrl}
             action={action}
           />
+          
           <SetPrice 
             price={price}
             setPrice={setPrice}
             submitAction={submitAction}
-          />
-          <SetExpiration
-            action={action}
-            expiration={expiration}
-            setExpiration={setExpiration}
           />
           <PriceExplained 
             action={action}
@@ -480,6 +507,16 @@ function OrderContent({
               'You will receive the amount shown here after fees are deducted.'
             }
           />
+          <SetExpiration
+            action={action}
+            expiration={expiration}
+            setExpiration={setExpiration}
+          />
+          { action == ORDER_TYPE.SELL && 
+            <Form>
+              Cross-post listing to OpenSea: <input type='checkbox' onClick={() => setListOS(!listOS)} />
+            </Form>
+          }
           <ActionButton actionType={action} submitAction={submitAction} />
         </Overlay> 
       )

@@ -191,6 +191,8 @@ p {
   font-family: 'Roboto Mono';
   text-align: center;
 
+  margin-right: 1ch;
+
   transition: all 100ms;
 }
 
