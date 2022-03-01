@@ -62,7 +62,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta 
           name="twitter:image" 
-          content={"/static/img/OSLogo.png"}
+          content={"https://forgotten.market/static/img/OSFeature.png"}
           key="twimage"
         />
 
@@ -74,7 +74,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta
           property="og:image"
-          content={"/static/img/OSFeature.png"}
+          content={"https://forgotten.market/static/img/OSFeature.png"}
           key="ogimage"
         />
         <meta
