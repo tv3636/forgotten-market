@@ -459,6 +459,7 @@ const ListingPage = ({
                         setModal={setModal}
                         setActionType={setMarketActionType}
                         highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
+                        native={!osListing}
                       />
                     </ButtonWrapper>
                   }
@@ -563,11 +564,12 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   // Determine listing origin
   try {
       const orderPage = await fetch(
-        `${API_BASE_URL}orders/?contract=${contractSlug}&tokenId=${tokenId}&side=sell&offset=0&limit=1`,
+        `${API_BASE_URL}orders/?contract=${contractSlug}&tokenId=${tokenId}&side=sell&offset=0&limit=10`,
         { headers: headers }
       );
       const orderJson = await orderPage.json();
-      var osListing = orderJson.orders[0].sourceInfo.id == 'opensea';
+      var osListing = orderJson.orders[orderJson.orders.length - 1].sourceInfo.id == 'opensea';
+
   } catch(e) {
     console.error(e);
     console.error("Could not determine listing origin")

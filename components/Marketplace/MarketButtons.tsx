@@ -58,6 +58,7 @@ export default function MarketButtons({
   setModal,
   setActionType,
   highestOffer,
+  native,
 }: {
   account: string | null | undefined;
   owner: string | null | undefined;
@@ -66,6 +67,7 @@ export default function MarketButtons({
   setModal: (setting: boolean) => void;
   setActionType: (action: ORDER_TYPE) => void;
   highestOffer: boolean;
+  native: boolean;
 }) {
   if (!account) {
     return <MarketConnect />;
@@ -75,8 +77,11 @@ export default function MarketButtons({
       if (listValue) {
         return (
           <Buttons>
+            {native ? 
+              <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} /> :
+              <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} />
+            }
             {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
-            <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />
           </Buttons>
         )
       } else {
