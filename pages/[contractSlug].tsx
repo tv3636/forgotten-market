@@ -73,7 +73,7 @@ const TabWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  
+
   @media only screen and (max-width: 600px) {
     flex-direction: column;
     max-height: 100%;
@@ -97,7 +97,6 @@ const ScrollContainer = styled.div`
   margin-left: 1vw;
   margin-right: 1vw;
   overflow: hidden;
-  
 `;
 
 
@@ -172,7 +171,7 @@ function Listings({
 
   return (
     <TabWrapper>
-      { !showActivity && 
+      { !showActivity &&
         <SideBar
           collection={collection}
           selectionChange={selectionChange}
@@ -189,7 +188,7 @@ function Listings({
               hasMore={true}
               loader={null}
               scrollThreshold={0.5}
-              height={"82vh"}
+              height={"100vh"}
             >
               <ScrollContainer>
                 {listings.map((listing: any, index) => {
@@ -239,7 +238,7 @@ export default function Marketplace({
 
   if (contract) {
   return (
-    <Layout 
+    <Layout
       title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
       description={'Like Wizard, Buy Wizard'}
       image={'https://forgotten.market/static/img/OSFeature.png'}
@@ -251,12 +250,12 @@ export default function Marketplace({
             <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
           </div>
         </MobileHeader>
-        {showModal && 
-          <Order 
-            contract={contract} 
-            tokenId={'0'} 
-            name={CONTRACTS[contract].full} 
-            collectionWide={true} 
+        {showModal &&
+          <Order
+            contract={contract}
+            tokenId={'0'}
+            name={CONTRACTS[contract].full}
+            collectionWide={true}
             setModal={setShowModal}
             action={ORDER_TYPE.OFFER}
             hash={''}
@@ -292,7 +291,7 @@ export default function Marketplace({
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const contractSlug = params?.contractSlug as string;
-  
+
   return {
     props: {
       wizardsWithLore: await getWizardsWithLore(contractSlug),
