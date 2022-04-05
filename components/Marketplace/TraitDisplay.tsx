@@ -2,7 +2,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
-import { BURN_TRAITS } from "./marketplaceConstants";
+import { BURN_TRAITS, CONTRACTS } from "./marketplaceConstants";
 
 const TraitItem = styled.div`
   text-align: start;
@@ -82,7 +82,9 @@ export default function TraitDisplay({
                   passHref={true}
                 >
                   <SoftLink>
-                    <TraitRow>
+                    <TraitRow
+                      style={{height: CONTRACTS[contract].display == 'Flames' ? 'auto' : '50px'}}
+                    >
                       <TraitType>{attribute.key}</TraitType>
                       <TraitItem>{attribute.value}</TraitItem>
                     </TraitRow>

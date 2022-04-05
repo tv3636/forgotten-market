@@ -172,7 +172,7 @@ function Listings({
 
   return (
     <TabWrapper>
-      { !showActivity && 
+      { !showActivity && collection != 'infinityveil' && 
         <SideBar
           collection={collection}
           selectionChange={selectionChange}
@@ -189,7 +189,7 @@ function Listings({
               hasMore={true}
               loader={null}
               scrollThreshold={0.5}
-              height={"82vh"}
+              height={"100vh"}
             >
               <ScrollContainer>
                 {listings.map((listing: any, index) => {

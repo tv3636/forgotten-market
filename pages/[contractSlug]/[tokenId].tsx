@@ -316,6 +316,7 @@ const ListingPage = ({
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
   const [keyImage, setKeyImage] = useState(0);
+  const [flameHolder, setFlameHolder] = useState(false);
   const { account } = useEthers();
 
   const imageUrls: string[] = [
@@ -334,7 +335,7 @@ const ListingPage = ({
   var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
     LOCATIONS[wizData[tokenId].location] : [0, 0];
 
-  if (CONTRACTS[contractSlug].display == 'Ponies') {
+  if (CONTRACTS[contractSlug].display == 'Ponies' || CONTRACTS[contractSlug].display == 'Flames') {
     center = [404, 404];
   }
 
@@ -395,6 +396,24 @@ const ListingPage = ({
     run();
   }, [modal, contractSlug]);
 
+  useEffect(() => {
+    async function getFlames() {
+      if (CONTRACTS[contractSlug].display == 'Flames') {
+        const userFlames = await fetch(
+          `${API_BASE_URL}users/${account}/tokens?collection=infinityveil&sortDirection=desc&offset=0&limit=20`,
+          { headers: headers }
+        );
+
+        const flamesJson = await userFlames.json();
+        console.log(flamesJson.tokens.length > 0);
+        setFlameHolder(flamesJson.tokens.length > 0);
+      }
+    }
+    if (account) {
+      getFlames();
+    }
+  }, [account])
+
   return (
     <Layout 
       title={
@@ -425,7 +444,7 @@ const ListingPage = ({
               <TopLeft>
                 <TokenImage 
                   src={imageUrls[keyImage]} 
-                  height={400} 
+                  height={CONTRACTS[contractSlug].display == 'Flames' ? 456 : 400}
                   width={400}
                   style={{background: backgroundColor}}
                 />
@@ -437,7 +456,9 @@ const ListingPage = ({
                   />
                 }
               </TopLeft>
-              <TopRight>
+              <TopRight
+                style={{height: CONTRACTS[contractSlug].display == 'Flames' ? 476 : 420}}
+              >
                 <NameDisplay>
                   <NameStyle>{token.name}</NameStyle>
                   {token.owner && (
@@ -453,7 +474,7 @@ const ListingPage = ({
                     <ButtonWrapper>
                       <MarketButtons
                         account={account}
-                        owner={token.owner}
+                        owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
                         listValue={listing.value}
                         hasOffer={offer.value != null}
                         setModal={setModal}
@@ -493,27 +514,29 @@ const ListingPage = ({
                 <DynamicMap center={center} />
               </MidDisplay>
             </SectionWrapper>
-            <HorizontalLine/>
-            <SectionWrapper>
-              <SectionDisplay>
-                <SectionHeader
-                  title={'Lore'}
-                  link={'https://www.forgottenrunes.com/posts/lore-creation'}
-                  tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}
-                />
-              </SectionDisplay>
-              <BottomDisplay>
-                <LoreWrapper>
-                  <LoreBlock 
-                    pages={pages} 
-                    length={lore.length} 
-                    tokenId={tokenId} 
-                    contract={contractSlug}
+            {CONTRACTS[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
+            {CONTRACTS[contractSlug].display != 'Flames' && 
+              <SectionWrapper>
+                <SectionDisplay>
+                  <SectionHeader
+                    title={'Lore'}
+                    link={'https://www.forgottenrunes.com/posts/lore-creation'}
+                    tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}
                   />
-                </LoreWrapper>
-                <Icons tokenId={Number(tokenId)} contract={contractSlug} />
-              </BottomDisplay>
-            </SectionWrapper>
+                </SectionDisplay>
+                <BottomDisplay>
+                  <LoreWrapper>
+                    <LoreBlock 
+                      pages={pages} 
+                      length={lore.length} 
+                      tokenId={tokenId} 
+                      contract={contractSlug}
+                    />
+                  </LoreWrapper>
+                  <Icons tokenId={Number(tokenId)} contract={contractSlug} />
+                </BottomDisplay>
+              </SectionWrapper>
+            }
             <BottomLine/>
           </Listing>
         </ListingWrapper> :

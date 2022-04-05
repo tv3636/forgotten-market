@@ -2,6 +2,7 @@ import {
   SOULS_ABI,
   WIZARDS_ABI,
   PONIES_ABI,
+  INFINITY_VEIL_ABI
 } from "../../contracts/abis";
 import { paths } from '../../interfaces/apiTypes';
 
@@ -67,6 +68,16 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     ABI: PONIES_ABI,
     fee: '544',
     feeRecipient: '0x94F0e012B7BB033F32029FbCC4f1d29ff1CfC30a'
+  },
+  "0x31158181b4b91a423bfdc758fc3bf8735711f9c5": {
+    collection: "infinityveil",
+    display: "Flames",
+    singular: "Flame",
+    full: "Forgotten Runes Infinity Veil",
+    image_url: "/static/img/marketplace/flame/",
+    ABI: INFINITY_VEIL_ABI,
+    fee: '766',
+    feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882'
   },
 } : {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {

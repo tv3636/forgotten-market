@@ -110,7 +110,9 @@ export default function TokenDisplay({
       passHref={true}
     >
       <SoftLink>
-      <ListingDisplay>
+      <ListingDisplay 
+        style={{height: 'auto'}}
+      >
         { CONTRACTS[contract].display == 'Wizards' ?
           <ListingImage 
             src={image}

@@ -288,9 +288,14 @@ export default function Activity({
                       passHref={true}
                     >
                       <SoftLink>
-                        <ActivityImage src={CONTRACTS[contract].display == 'Wizards' ? 
-                        `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
-                        `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}/> 
+                        <ActivityImage 
+                          src={CONTRACTS[contract].display == 'Wizards' ? 
+                            `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
+                            `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}
+                          style={{
+                            height: CONTRACTS[contract].display == 'Flames' ? '169.875px' : '150px'
+                          }}
+                        /> 
                       </SoftLink>
                     </Link>
                     <SalesTextDisplay>
