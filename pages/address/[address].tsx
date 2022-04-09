@@ -5,7 +5,7 @@ import { getProvider } from "../../hooks/useProvider";
 import { getTokenDataForAllCollections } from "../../lib/nftUtilis";
 import { useState, useEffect } from "react";
 import AccountSection from "../../components/Marketplace/AccountSection";
-import { API_BASE_URL, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
+import { PREVIOUS_API_BASE_URL, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 import { getInfinityVeilContract, getPoniesContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const headers: HeadersInit = new Headers();
@@ -180,7 +180,7 @@ export default function Address({
   
     while (iteration == 0 || pageJson.positions.length == offset) {
       page = await fetch(
-        `${API_BASE_URL}users/${address}/positions?side=${orderType}&status=valid&offset=${offset * iteration}`,
+        `${PREVIOUS_API_BASE_URL}users/${address}/positions?side=${orderType}&status=valid&offset=${offset * iteration}`,
         { headers: headers }
       );
 
@@ -213,7 +213,7 @@ export default function Address({
 
     while (iteration == 0 || pageJson.tokens.length == offset) {
       page = await fetch(
-        `${API_BASE_URL}users/${address}/tokens?community=forgottenrunes&hasOffer=true&offset=${offset * iteration}`,
+        `${PREVIOUS_API_BASE_URL}users/${address}/tokens?community=forgottenrunes&hasOffer=true&offset=${offset * iteration}`,
         { headers: headers }
       );
 

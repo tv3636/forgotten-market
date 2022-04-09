@@ -59,6 +59,7 @@ export default function MarketButtons({
   setActionType,
   highestOffer,
   native,
+  tokenType,
 }: {
   account: string | null | undefined;
   owner: string | null | undefined;
@@ -68,39 +69,55 @@ export default function MarketButtons({
   setActionType: (action: ORDER_TYPE) => void;
   highestOffer: boolean;
   native: boolean;
+  tokenType: number;
 }) {
   if (!account) {
     return <MarketConnect />;
   }
-  if (owner) {
-    if (account.toLowerCase() == owner.toLowerCase()) {
-      if (listValue) {
-        return (
-          <Buttons>
-            {native ? 
-              <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} /> :
+  if (tokenType == 721) {
+    if (owner) {
+      if (account.toLowerCase() == owner.toLowerCase()) {
+        if (listValue) {
+          return (
+            <Buttons>
+              {native ? 
+                <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} /> :
+                <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} />
+              }
+              {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
+            </Buttons>
+          )
+        } else {
+          return (
+            <Buttons>
               <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} />
-            }
-            {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
-          </Buttons>
-        )
+              {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
+            </Buttons>
+          )
+        }
       } else {
         return (
           <Buttons>
-            <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} />
-            {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
+            {listValue && <MarketButton type={ORDER_TYPE.BUY} setModal={setModal} setActionType={setActionType} />}
+            <MarketButton type={ORDER_TYPE.OFFER} setModal={setModal} setActionType={setActionType} />
+            {highestOffer && <MarketButton type={ORDER_TYPE.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
           </Buttons>
-        )
+        );
       }
-    } else {
-      return (
-        <Buttons>
-          {listValue && <MarketButton type={ORDER_TYPE.BUY} setModal={setModal} setActionType={setActionType} />}
-          <MarketButton type={ORDER_TYPE.OFFER} setModal={setModal} setActionType={setActionType} />
-          {highestOffer && <MarketButton type={ORDER_TYPE.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
-        </Buttons>
-      );
     }
+  } else {
+    return (
+      <Buttons>
+        {listValue && <MarketButton type={ORDER_TYPE.BUY} setModal={setModal} setActionType={setActionType} />}
+        <MarketButton type={ORDER_TYPE.OFFER} setModal={setModal} setActionType={setActionType} />
+        {highestOffer && <MarketButton type={ORDER_TYPE.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
+        {native ? 
+          <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} /> :
+          account.toLowerCase() == owner?.toLowerCase() && <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} />
+        }
+        {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
+      </Buttons>
+    )
   }
   return null;
 }

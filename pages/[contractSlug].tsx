@@ -117,29 +117,30 @@ function Listings({
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [continuation, setContinuation] = useState('');
   const router = useRouter();
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
-    var url = API_BASE_URL + "tokens?" + "contract=" + contract;
+    var url = API_BASE_URL + "tokens/v3?" + "collection=" + contract;
     setLoaded(false);
 
     if (reset) {
       setListings([]);
+      setContinuation('');
     }
 
     try {
-      for (let i = 0; i < 4; i++) {
-        var offset = reset ? i * 20 : listings.length + i * 20;
-        const page = await fetch(
-          url + "&offset=" + offset + getURLAttributes(router.query),
-          { headers: headers }
-        );
-        const listingsJson = await page.json();
-        lists = lists.concat(listingsJson.tokens);
+      const page = await fetch(
+        url + '&sortBy=floorAskPrice&limit=50' + (!reset && continuation != '' ? "&continuation=" + continuation : '') + getURLAttributes(router.query),
+        { headers: headers }
+      );
+      const listingsJson = await page.json();
+      lists = lists.concat(listingsJson.tokens);
+      
+      setContinuation(listingsJson.continuation)
 
-        setListings(reset ? lists: listings.concat(lists));
-      }
+      setListings(reset ? lists: listings.concat(lists));
     } catch (error) {
       console.error(error);
       setLoaded(true);
@@ -174,7 +175,7 @@ function Listings({
     <TabWrapper>
       { !showActivity && collection != 'infinityveil' && 
         <SideBar
-          collection={collection}
+          contract={contract}
           selectionChange={selectionChange}
           loreChange={() => { setHasLore(!hasLore); fetchListings(false); }}
           noLoreChange={() => setHasNoLore(!hasNoLore)}
@@ -206,7 +207,7 @@ function Listings({
                           contract={contract}
                           tokenId={listing.tokenId}
                           name={listing.name}
-                          price={listing.floorSellValue}
+                          price={listing.floorAskPrice}
                         />
                       </div>
                     )

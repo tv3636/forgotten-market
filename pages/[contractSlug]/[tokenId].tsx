@@ -342,23 +342,23 @@ const ListingPage = ({
   useEffect(() => {
     async function run() {
       const page = await fetch(
-        `${API_BASE_URL}tokens/details?contract=${contractSlug}&tokenId=${tokenId}`,
+        `${API_BASE_URL}tokens/details/v3?tokens=${contractSlug}:${tokenId}`,
         { headers: headers }
       );
       const listingsJson = await page.json();
 
       if (listingsJson.tokens.length > 0) {
         setToken(listingsJson.tokens[0].token);
-        setListing(listingsJson.tokens[0].market.floorSell);
-        setOffer(listingsJson.tokens[0].market.topBuy);
+        setListing(listingsJson.tokens[0].market.floorAsk);
+        setOffer(listingsJson.tokens[0].market.topBid);
         setAttributes(listingsJson.tokens[0].token.attributes);
-        setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorSell.validUntil * 1000)));
+        setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
 
         const provider = getProvider();
         var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
         setEns(ensName);
 
-        if (listingsJson.tokens[0].market.topBuy.maker) {
+        if (listingsJson.tokens[0].market.topBid.maker) {
           var ownerEns = await provider.lookupAddress(listingsJson.tokens[0].market.topBuy.maker);
           setOwnerEns(ownerEns);
         }
@@ -400,7 +400,7 @@ const ListingPage = ({
     async function getFlames() {
       if (CONTRACTS[contractSlug].display == 'Flames') {
         const userFlames = await fetch(
-          `${API_BASE_URL}users/${account}/tokens?collection=infinityveil&sortDirection=desc&offset=0&limit=20`,
+          `${API_BASE_URL}users/${account}/tokens/v2?collection=infinityveil&sortDirection=desc&offset=0&limit=20`,
           { headers: headers }
         );
 
@@ -469,18 +469,19 @@ const ListingPage = ({
                   )}
                 </NameDisplay>
                 <PriceDisplay>
-                  <Price value={listing.value} size={1} />
+                  <Price value={listing.price} size={1} />
                   {token.owner != BURN_ADDRESS &&
                     <ButtonWrapper>
                       <MarketButtons
                         account={account}
                         owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
-                        listValue={listing.value}
+                        listValue={listing.price}
                         hasOffer={offer.value != null}
                         setModal={setModal}
                         setActionType={setMarketActionType}
                         highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
                         native={!osListing}
+                        tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
                       />
                     </ButtonWrapper>
                   }
@@ -587,7 +588,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   // Determine listing origin
   try {
       const orderPage = await fetch(
-        `${API_BASE_URL}orders/?contract=${contractSlug}&tokenId=${tokenId}&side=sell&offset=0&limit=10`,
+        `${API_BASE_URL}orders/asks/v1?token=${contractSlug}:${tokenId}&limit=10`,
         { headers: headers }
       );
       const orderJson = await orderPage.json();

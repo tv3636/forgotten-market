@@ -253,14 +253,16 @@ export default function Activity({
   contract: string;
 }) {
   const [sales, setSales] = useState([]);
+  const [continuation, setContinuation] = useState('');
 
   async function fetchSales() {
     const recentSales = await fetch(
-      API_BASE_URL + `sales?collection=${CONTRACTS[contract].collection}&offset=${sales.length}`, 
+      API_BASE_URL + `sales/v3?contract=${contract}${continuation != '' ? "&continuation=" + continuation : ''}`, 
       { headers: headers }
     );
     const salesJson = await recentSales.json();
     setSales(sales.concat(salesJson.sales));
+    setContinuation(salesJson.continuation);
   }
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import {
   PONIES_ABI,
   INFINITY_VEIL_ABI
 } from "../../contracts/abis";
-import { paths } from '../../interfaces/apiTypes';
+import { paths } from '@reservoir0x/client-sdk';
 
 export enum ORDER_TYPE {
   BUY = 'buy',
@@ -16,26 +16,29 @@ export enum ORDER_TYPE {
 }
 
 export interface OrderPaths {
-  [ORDER_TYPE.BUY]: paths['/execute/buy']['get']['parameters']['query'],
-  [ORDER_TYPE.SELL]: paths['/execute/list']['get']['parameters']['query'],
-  [ORDER_TYPE.OFFER]: paths['/execute/bid']['get']['parameters']['query'],
-  [ORDER_TYPE.ACCEPT_OFFER]: paths['/execute/sell']['get']['parameters']['query'],
-  [ORDER_TYPE.CANCEL_LISTING]: paths['/execute/cancel']['get']['parameters']['query'],
-  [ORDER_TYPE.CANCEL_OFFER]: paths['/execute/cancel']['get']['parameters']['query'],
+  [ORDER_TYPE.BUY]: paths['/execute/buy/v1']['get']['parameters']['query'],
+  [ORDER_TYPE.SELL]: paths['/execute/list/v1']['get']['parameters']['query'],
+  [ORDER_TYPE.OFFER]: paths['/execute/bid/v1']['get']['parameters']['query'],
+  [ORDER_TYPE.ACCEPT_OFFER]: paths['/execute/sell/v1']['get']['parameters']['query'],
+  [ORDER_TYPE.CANCEL_LISTING]: paths['/execute/cancel/v1']['get']['parameters']['query'],
+  [ORDER_TYPE.CANCEL_OFFER]: paths['/execute/cancel/v1']['get']['parameters']['query'],
 }
 
 export const OrderURLs: any = {
-  'buy': 'execute/buy',
-  'sell': '/execute/list',
-  'offer': '/execute/bid',
-  'accept': '/execute/sell',
-  'cancel_listing': '/execute/cancel',
-  'cancel_offer': '/execute/cancel',
+  'buy': 'execute/buy/v1',
+  'sell': '/execute/list/v1',
+  'offer': '/execute/bid/v1',
+  'accept': '/execute/sell/v1',
+  'cancel_listing': '/execute/cancel/v1',
+  'cancel_offer': '/execute/cancel/v1',
 }
 
 export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
+  "https://api.reservoir.tools/" : "https://api-rinkeby.reservoir.tools/";
+
+  export const PREVIOUS_API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
   "https://mainnet-api-v4.reservoir.tools/" : "https://rinkeby-api-v4.reservoir.tools/";
 
 export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ? {

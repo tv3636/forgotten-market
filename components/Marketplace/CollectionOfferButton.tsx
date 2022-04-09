@@ -56,7 +56,7 @@ export default function CollectionOfferButton({
   useEffect(() => {
     async function getCollectionOffer() {
       const collection = await fetch(
-        API_BASE_URL + "collections/" + CONTRACTS[contract].collection,
+        API_BASE_URL + "collections/v2?slug=" + CONTRACTS[contract].collection,
         {headers: headers}
       );
       const collectionJson = await collection.json();

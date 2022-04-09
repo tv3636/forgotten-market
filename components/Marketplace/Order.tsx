@@ -323,8 +323,7 @@ function OrderContent({
       switch(action) {
         case ORDER_TYPE.BUY:
           query = {
-            contract,
-            tokenId,
+            token: `${contract}:${tokenId}`,
             taker: await signer?.getAddress() ?? '',
           }
           setParams(url, query);
@@ -335,8 +334,7 @@ function OrderContent({
   
         case ORDER_TYPE.ACCEPT_OFFER:
            query = {
-            tokenId,
-            contract,
+            token: `${contract}:${tokenId}`,
             taker: await signer?.getAddress() ?? '',
           }
   
@@ -348,7 +346,7 @@ function OrderContent({
   
         case ORDER_TYPE.CANCEL_LISTING:
           query = {
-            hash: hash,
+            id: hash,
             maker: account ?? '',
           }
           setParams(url, query);
@@ -359,7 +357,7 @@ function OrderContent({
   
         case ORDER_TYPE.CANCEL_OFFER:
           query = {
-            hash: offerHash,
+            id: offerHash,
             maker: account ?? '',
           }
           setParams(url, query);

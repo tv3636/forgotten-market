@@ -96,11 +96,16 @@ export default function TokenDisplay({
     `${CONTRACTS[contract].image_url}${tokenId}.png`;
 
   let turnaround = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`;
+  let pony_turnaround = `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
 
   // Preload turnaround GIFs
   useEffect(() => {
     if (CONTRACTS[contract].display == 'Wizards') {
       const img = new Image().src = turnaround;
+    }
+
+    if (CONTRACTS[contract].display == 'Ponies') {
+      const pony_img = new Image().src = pony_turnaround;
     }
   }, []);
 
@@ -118,6 +123,16 @@ export default function TokenDisplay({
             src={image}
             onMouseOver={(e) =>
               (e.currentTarget.src = turnaround)
+            }
+            onMouseOut={(e) =>
+              (e.currentTarget.src = image)
+            }
+            style={{background: '#' + wizData[tokenId].background_color}}
+          /> : CONTRACTS[contract].display == 'Ponies' ?
+          <ListingImage 
+            src={image}
+            onMouseOver={(e) =>
+              (e.currentTarget.src = pony_turnaround)
             }
             onMouseOut={(e) =>
               (e.currentTarget.src = image)

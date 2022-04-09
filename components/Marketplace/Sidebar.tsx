@@ -91,12 +91,12 @@ const ExpandButton = styled.div`
 
 
 export default function SideBar({
-  collection,
+  contract,
   selectionChange,
   loreChange,
   noLoreChange,
 }: {
-  collection: string;
+  contract: string;
   selectionChange: any;
   loreChange: any;
   noLoreChange: any;
@@ -114,7 +114,7 @@ export default function SideBar({
 
   async function fetchTraits() {
     const attributes = await fetch(
-      `${API_BASE_URL}attributes?collection=${collection}`,
+      `${API_BASE_URL}collections/${contract}/attributes/all/v1`,
       { headers: headers }
   );
     const attributeJson = await attributes.json();
