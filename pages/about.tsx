@@ -63,16 +63,16 @@ const HorizontalLine = styled.hr`
 `;
 
 const OSIcon = styled.img`
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   margin-top: 2px;
   margin-left: 2px;
   margin-right: 2px;
   image-rendering: pixelated;
 
   @media only screen and (max-width: 600px) {
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     margin-right: 4px;
     margin-top: 0;
   }
@@ -113,7 +113,26 @@ export default function About({
         <Title>About</Title>
         <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
         <a href='https://reservoirprotocol.github.io/' target="_blank">Reservoir Protocol.</a></Description>
-        <Description>Listings shown here are a combination of listings aggregated from OpenSea and listings made natively on Forgotten.market. OpenSea listings show a small <OSIcon src="/static/img/icons/nav/opensea_default.png" /> icon to indicate their origin.</Description>
+        <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin as follows:</Description>
+        <HorizontalLine/>
+        <Fees>
+          <Row>
+            <th>Listing Origin</th>
+            <th>Icon</th>
+          </Row>
+          <Row>
+            <td>Forgotten.Market</td>
+            <td><OSIcon src="/static/img/icons/nav/native_listing.png" /></td>
+          </Row>
+          <Row>
+            <td>OpenSea</td>
+            <td><OSIcon src="/static/img/icons/nav/opensea_default.png" /></td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>LooksRare</td>
+            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
+          </Row>
+        </Fees>
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>Fees</Title>
@@ -125,7 +144,7 @@ export default function About({
             <th>Collection</th>
             <th>Magic Machine Fee</th>
             <th>Cult DAO Fee</th>
-            <th>Total Fees</th>
+            <th style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Total Fees &nbsp; <OSIcon src="/static/img/icons/nav/native_listing.png" /></th>
           </Row>
           <Row>
             <td>Wizards</td>
@@ -140,23 +159,29 @@ export default function About({
             <td>7.66%</td>
           </Row>
           <Row>
-            <td style={{borderStyle: 'none'}}>Ponies</td>
-            <td style={{borderStyle: 'none'}}>4.44%</td>
+            <td>Ponies</td>
+            <td>4.44%</td>
+            <td>1%</td>
+            <td>5.44%</td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>Flames</td>
+            <td style={{borderStyle: 'none'}}>6.66%</td>
             <td style={{borderStyle: 'none'}}>1%</td>
-            <td style={{borderStyle: 'none'}}>5.44%</td>
+            <td style={{borderStyle: 'none'}}>7.66%</td>
           </Row>
         </Fees>
         <HorizontalLine/>
         <HorizontalLine/>
         <HorizontalLine/>
-        <Description>Listings and offers created on OpenSea will still pay out the same fees as on the OpenSea site, even when filled here:</Description>
+        <Description>Listings created on OpenSea will still pay out the same fees as on the OpenSea site, even when filled here:</Description>
         <HorizontalLine/>
         <Fees>
           <Row>
             <th>Collection</th>
             <th>Magic Machine Fee</th>
             <th>OpenSea Fee</th>
-            <th>Total Fees</th>
+            <th style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Total Fees &nbsp; <OSIcon src="/static/img/icons/nav/opensea_default.png" /></th>
           </Row>
           <Row>
             <td>Wizards</td>
@@ -171,10 +196,52 @@ export default function About({
             <td>9.16%</td>
           </Row>
           <Row>
-            <td style={{borderStyle: 'none'}}>Ponies</td>
-            <td style={{borderStyle: 'none'}}>4.44%</td>
+            <td>Ponies</td>
+            <td>4.44%</td>
+            <td>2.5%</td>
+            <td>6.94%</td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>Flames</td>
+            <td style={{borderStyle: 'none'}}>6.66%</td>
             <td style={{borderStyle: 'none'}}>2.5%</td>
-            <td style={{borderStyle: 'none'}}>6.94%</td>
+            <td style={{borderStyle: 'none'}}>9.16%</td>
+          </Row>
+        </Fees>
+        <HorizontalLine/>
+        <HorizontalLine/>
+        <Description>The same applies to LooksRare listings:</Description>
+        <HorizontalLine/>
+        <Fees>
+          <Row>
+            <th>Collection</th>
+            <th>Magic Machine Fee</th>
+            <th>LooksRare Fee</th>
+            <th style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Total Fees &nbsp; <OSIcon src="/static/img/icons/nav/looksrare_default.png" /></th>
+          </Row>
+          <Row>
+            <td>Wizards</td>
+            <td>2.5%</td>
+            <td>2%</td>
+            <td>4.5%</td>
+          </Row>
+          <Row>
+            <td>Souls</td>
+            <td>6.66%</td>
+            <td>2%</td>
+            <td>8.66%</td>
+          </Row>
+          <Row>
+            <td>Ponies</td>
+            <td>4.44%</td>
+            <td>2%</td>
+            <td>6.44%</td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>Flames</td>
+            <td style={{borderStyle: 'none'}}>6.66%</td>
+            <td style={{borderStyle: 'none'}}>2%</td>
+            <td style={{borderStyle: 'none'}}>8.66%</td>
           </Row>
         </Fees>
       </AboutWrapper>

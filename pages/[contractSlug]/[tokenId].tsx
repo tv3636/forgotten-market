@@ -351,13 +351,17 @@ const ListingPage = ({
         setAttributes(listingsJson.tokens[0].token.attributes);
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
 
-        const provider = getProvider();
-        var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
-        setEns(ensName);
+        try {
+          const provider = getProvider();
+          var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
+          setEns(ensName);
 
-        if (listingsJson.tokens[0].market.topBid.maker) {
-          var ownerEns = await provider.lookupAddress(listingsJson.tokens[0].market.topBid.maker);
-          setOwnerEns(ownerEns);
+          if (listingsJson.tokens[0].market.topBid.maker) {
+            var ownerEns = await provider.lookupAddress(listingsJson.tokens[0].market.topBid.maker);
+            setOwnerEns(ownerEns);
+          }
+        } catch (e) {
+          console.error("Couldn't get ENS");
         }
       }
       
@@ -402,7 +406,6 @@ const ListingPage = ({
         );
 
         const flamesJson = await userFlames.json();
-        console.log(flamesJson);
         setFlameHolder(flamesJson.tokens.length > 0);
       }
     }
@@ -479,6 +482,7 @@ const ListingPage = ({
                         highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
                         native={listing.source.id == CONTRACTS[contractSlug].feeRecipient}
                         tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
+                        myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
                       />
                     </ButtonWrapper>
                   }

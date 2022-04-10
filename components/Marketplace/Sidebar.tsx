@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { API_BASE_URL, FORGOTTEN_MARKET_SOURCE, LOOKSRARE_SOURCE, MARKETS, OPENSEA_SOURCE } from "./marketplaceConstants";
+import { API_BASE_URL, MARKETS } from "./marketplaceConstants";
 import { getOptions } from "./marketplaceHelpers";
 import Select from "react-select";
-import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import styled from "@emotion/styled";
 
 const headers: HeadersInit = new Headers();
@@ -20,6 +19,7 @@ const CollapseButton = styled.div`
   
   border: dashed;
   border-color: var(--mediumGray);
+  border-width: 2px;
   
   display: flex;
   flex-direction: row;
@@ -33,6 +33,14 @@ const CollapseButton = styled.div`
 
   transition: border-color 100ms;
   transition: background-color 100ms;
+
+  @media only screen and (max-width: 600px) {
+    margin-top: 10px;
+    width: 75%;
+    padding: 5px;
+
+    justify-content: center;
+  }
 
 `;
 
@@ -78,10 +86,14 @@ const FilterWrapper = styled.div`
   margin-right: 3%;
 
   @media only screen and (max-width: 600px) {
-    width: auto;
+    width: 100%;
     max-width: 1000px;
     margin-left: 0px;
     margin-right: 0px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -118,6 +130,52 @@ const ExpandButton = styled.div`
   }
 `;
 
+const DesktopWrapper = styled.div`
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const MobileWrapper = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 600px) {
+    display: block;
+  }
+`;
+
+function Forms({
+  loreChange,
+  noLoreChange,
+  setSource,
+}: {
+  loreChange: any;
+  noLoreChange: any;
+  setSource: any;
+}) {
+  return (
+    <div>
+      <Form style={{marginBottom: '0px'}}>
+        <Label>
+          <input type='checkbox' onClick={loreChange} /> Has Lore
+        </Label>
+        <Label>
+          <input type='checkbox' onClick={noLoreChange} /> Has No Lore
+        </Label>
+      </Form>
+      <Form>
+        {Object.keys(MARKETS).map((source: string, index: number) => (
+          <Label key={index}>
+            <input type='radio' name='source' onClick={() => setSource(source)} /> {MARKETS[source].name}
+          </Label>
+        ))}
+        <Label>
+          <input type='radio' name='source' onClick={() => setSource('')} /> Show All
+        </Label>            
+      </Form>
+    </div>
+  )
+}
 
 export default function SideBar({
   contract,
@@ -133,15 +191,8 @@ export default function SideBar({
   setSource: any;
 }) {
   const [traits, setTraits] = useState([]);
-  const [isOpen, setIsOpen] = useState<any>(null);
-  const toggleIsOpen = () => {
-    if (isOpen == null) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(!isOpen);
-    }
-  }
   const [expanded, setExpanded] = useState(false);
+  const [overflow, setOverflow] = useState('hidden');
   const router = useRouter();
 
   async function fetchTraits() {
@@ -157,28 +208,29 @@ export default function SideBar({
     fetchTraits();
   }, []);
 
-  // Only add style on mobile if toggle is used
-  //var testStyle = isOpen == null ? {} : {display: isOpen ? 'flex' : 'none'};
+  useEffect(() => {
+    if (expanded) {
+      setTimeout(() => setOverflow('visible'), 1000);
+    } else {
+      setOverflow('hidden');
+    }
+  }, [expanded]);
 
   return (
     <FilterWrapper>
-      <ExpandButton>
-        <a onClick={() => toggleIsOpen()}>
-          <ResponsivePixelImg src='/static/img/icons/social_link_marketplace.png' />
-        </a>
-      </ExpandButton>
       <CollapseButton 
         onClick={() => setExpanded(!expanded)}
         style={{paddingRight: expanded ? '9px' : '15px'}}
       >
-        <div>Trait Filters</div>
+        <DesktopWrapper>Filter by Trait</DesktopWrapper>
+        <MobileWrapper style={{marginRight: '10px', marginLeft: '10px'}}>Filter</MobileWrapper>
         <div>{ expanded ? <img src='/static/img/marketplace/down_arrow.png' height='12px' width='20px'/> : `>`}</div>
       </CollapseButton>
       <FilterStyle 
         style={{
           maxHeight: expanded ? '200vh' : '0px', 
-          transition: expanded ? 'all 1000ms' : 'all 300ms',
-          overflow: expanded ? 'visible' : 'hidden',
+          transition: expanded ? 'max-height 1000ms' : 'max-height 300ms',
+          overflow: overflow,
         }}
       >
         {traits.map((trait: any, index) => (
@@ -193,25 +245,21 @@ export default function SideBar({
             />
           </FontTraitWrapper>
         ))}
+        <MobileWrapper>
+          <Forms 
+            loreChange={loreChange} 
+            noLoreChange={noLoreChange}
+            setSource={setSource}
+          />
+        </MobileWrapper>
       </FilterStyle>
-      <Form style={{marginBottom: '0px'}}>
-          <Label>
-            <input type='checkbox' onClick={loreChange} /> Has Lore
-          </Label>
-          <Label>
-            <input type='checkbox' onClick={noLoreChange} /> Has No Lore
-          </Label>
-        </Form>
-        <Form>
-          {Object.keys(MARKETS).map((source: string, index: number) => (
-            <Label>
-              <input type='radio' name='source' key={index} onClick={() => setSource(source)} /> {MARKETS[source].name}
-            </Label>
-          ))}
-          <Label>
-            <input type='radio' name='source' onClick={() => setSource('')} /> Show All
-          </Label>            
-        </Form>
+      <DesktopWrapper>
+          <Forms 
+            loreChange={loreChange} 
+            noLoreChange={noLoreChange}
+            setSource={setSource}
+          />
+      </DesktopWrapper>
     </FilterWrapper>
   );
 }
