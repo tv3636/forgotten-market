@@ -33,7 +33,7 @@ const ActivityImage = styled.img`
   margin-right: 20px;
 
   width: 150px;
-  height: 150px;
+  height: auto;
 
   :hover {
     cursor: pointer;
@@ -261,7 +261,6 @@ export default function Activity({
       { headers: headers }
     );
     const salesJson = await recentSales.json();
-    console.log(salesJson.sales);
     setSales(sales.concat(salesJson.sales));
     setContinuation(salesJson.continuation);
   }
@@ -295,9 +294,6 @@ export default function Activity({
                           src={CONTRACTS[contract].display == 'Wizards' ? 
                             `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
                             `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}
-                          style={{
-                            height: CONTRACTS[contract].display == 'Flames' ? '169.875px' : '150px'
-                          }}
                         /> 
                       </SoftLink>
                     </Link>
