@@ -431,8 +431,8 @@ const ListingPage = ({
               name={token.name} 
               setModal={setModal} 
               action={marketActionType} 
-              hash={listing.hash} 
-              offerHash={offer.hash} 
+              hash={listing.id} 
+              offerHash={offer.id} 
               collectionWide={false}
             />
           }

@@ -31,7 +31,8 @@ const CollapseButton = styled.div`
     cursor: pointer;
   }
 
-  transition: all 100ms;
+  transition: border-color 100ms;
+  transition: background-color 100ms;
 
 `;
 
