@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { API_BASE_URL, CONTRACTS, LOOKSRARE_SOURCE, OPENSEA_SOURCE } from "./marketplaceConstants";
+import { API_BASE_URL, FORGOTTEN_MARKET_SOURCE, LOOKSRARE_SOURCE, MARKETS, OPENSEA_SOURCE } from "./marketplaceConstants";
 import { getOptions } from "./marketplaceHelpers";
 import Select from "react-select";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
@@ -8,6 +8,32 @@ import styled from "@emotion/styled";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
+
+const CollapseButton = styled.div`
+  background-color: var(--darkGray);
+  color: var(--lightGray);
+  font-family: Alagard;
+  font-size: 18px;
+  padding: 15px;
+  padding-right: 9px;
+  margin-top: 30px;
+  
+  border: dashed;
+  border-color: var(--mediumGray);
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  :hover {
+    border-color: var(--lightGray);
+    background-color: var(--mediumGray);
+    cursor: pointer;
+  }
+
+  transition: all 100ms;
+
+`;
 
 const Form = styled.form`
   display: flex;
@@ -46,7 +72,7 @@ const Label = styled.label`
 `;
 
 const FilterWrapper = styled.div`
-  width: 19%;
+  width: 21%;
   min-width: 150px;
   margin-right: 3%;
 
@@ -61,6 +87,8 @@ const FilterWrapper = styled.div`
 const FilterStyle = styled.div`
   display: flex;
   flex-direction: column;
+  max-height: 0px;
+  overflow: hidden;
   
   @media only screen and (max-width: 600px) {
     min-width: 90%;
@@ -69,8 +97,8 @@ const FilterStyle = styled.div`
     flex-wrap: wrap;
     margin-left: 5vw;
     margin-right: 5vw;
-    display: none;
   }
+  
 `;
 
 const FontTraitWrapper = styled.div`
@@ -112,6 +140,7 @@ export default function SideBar({
       setIsOpen(!isOpen);
     }
   }
+  const [expanded, setExpanded] = useState(false);
   const router = useRouter();
 
   async function fetchTraits() {
@@ -128,7 +157,7 @@ export default function SideBar({
   }, []);
 
   // Only add style on mobile if toggle is used
-  var testStyle = isOpen == null ? {} : {display: isOpen ? 'flex' : 'none'};
+  //var testStyle = isOpen == null ? {} : {display: isOpen ? 'flex' : 'none'};
 
   return (
     <FilterWrapper>
@@ -137,7 +166,20 @@ export default function SideBar({
           <ResponsivePixelImg src='/static/img/icons/social_link_marketplace.png' />
         </a>
       </ExpandButton>
-      <FilterStyle style={testStyle}>
+      <CollapseButton 
+        onClick={() => setExpanded(!expanded)}
+        style={{paddingRight: expanded ? '9px' : '15px'}}
+      >
+        <div>Trait Filters</div>
+        <div>{ expanded ? <img src='/static/img/marketplace/down_arrow.png' height='12px' width='20px'/> : `>`}</div>
+      </CollapseButton>
+      <FilterStyle 
+        style={{
+          maxHeight: expanded ? '200vh' : '0px', 
+          transition: expanded ? 'all 1000ms' : 'all 300ms',
+          overflow: expanded ? 'visible' : 'hidden',
+        }}
+      >
         {traits.map((trait: any, index) => (
           <FontTraitWrapper key={index} style={{ marginTop: '30px' }}>
             <Select
@@ -150,7 +192,8 @@ export default function SideBar({
             />
           </FontTraitWrapper>
         ))}
-        <Form style={{marginBottom: '0px'}}>
+      </FilterStyle>
+      <Form style={{marginBottom: '0px'}}>
           <Label>
             <input type='checkbox' onClick={loreChange} /> Has Lore
           </Label>
@@ -159,20 +202,15 @@ export default function SideBar({
           </Label>
         </Form>
         <Form>
-          <Label>
-            <input type='radio' name='source' onClick={() => setSource(CONTRACTS[contract].feeRecipient)} /> Forgotten Market
-          </Label>
-          <Label>
-            <input type='radio' name='source' onClick={() => setSource(OPENSEA_SOURCE)} /> OpenSea
-          </Label>
-          <Label>
-            <input type='radio' name='source' onClick={() => setSource(LOOKSRARE_SOURCE)} /> LooksRare
-          </Label>
+          {Object.keys(MARKETS).map((source: string, index: number) => (
+            <Label>
+              <input type='radio' name='source' key={index} onClick={() => setSource(source)} /> {MARKETS[source].name}
+            </Label>
+          ))}
           <Label>
             <input type='radio' name='source' onClick={() => setSource('')} /> Show All
           </Label>            
         </Form>
-      </FilterStyle>
     </FilterWrapper>
   );
 }

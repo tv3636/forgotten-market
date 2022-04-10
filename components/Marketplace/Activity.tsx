@@ -261,6 +261,7 @@ export default function Activity({
       { headers: headers }
     );
     const salesJson = await recentSales.json();
+    console.log(salesJson.sales);
     setSales(sales.concat(salesJson.sales));
     setContinuation(salesJson.continuation);
   }

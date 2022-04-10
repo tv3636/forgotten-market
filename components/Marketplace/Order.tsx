@@ -221,7 +221,7 @@ function OverlayContent({
       if (collectionWide) {
         return null
       } else {
-        return <TokenImage src={tokenImage} height={250} width={250} />
+        return <TokenImage src={tokenImage} height={'auto'} width={250} />
       }
 
     case 'confirmation':

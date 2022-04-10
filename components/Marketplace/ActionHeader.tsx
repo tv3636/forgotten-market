@@ -48,7 +48,7 @@ export default function ActionHeader({
             `Listing ${name} (#${tokenId}) for sale`
           }
       </Title>
-      <TokenImage src={imageUrl} height={250} width={250} />
+      <TokenImage src={imageUrl} height={'auto'} width={250} />
     </HeaderContainer>
   )
 }

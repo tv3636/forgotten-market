@@ -329,7 +329,6 @@ const ListingPage = ({
   ]
   
   var backgroundColor = CONTRACTS[contractSlug].display == 'Wizards' ? `${wizData[tokenId].background}` : '#000000';
-
   var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
     LOCATIONS[wizData[tokenId].location] : [0, 0];
 
@@ -351,8 +350,6 @@ const ListingPage = ({
         setOffer(listingsJson.tokens[0].market.topBid);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
-
-        console.log(listingsJson.tokens[0].market.floorAsk.source);
 
         const provider = getProvider();
         var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
@@ -400,7 +397,7 @@ const ListingPage = ({
     async function getFlames() {
       if (CONTRACTS[contractSlug].display == 'Flames') {
         const userFlames = await fetch(
-          `${API_BASE_URL}users/${account}/tokens/v2?collection=infinityveil&offset=0&limit=20`,
+          `${API_BASE_URL}users/${account}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`,
           { headers: headers }
         );
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CONTRACTS, MARKET_ICONS } from "./marketplaceConstants";
+import { CONTRACTS, MARKETS, MARKET_ICONS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import wizards from "../../data/nfts-prod.json";
@@ -148,7 +148,7 @@ export default function TokenDisplay({
               (e.currentTarget.src = image)
             }
             style={{background: '#' + wizData[tokenId].background_color}}
-          /> : CONTRACTS[contract].display == 'Ponies' ?
+          /> : CONTRACTS[contract].display == 'Ponies' && tokenId < 440 ?
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
@@ -171,7 +171,11 @@ export default function TokenDisplay({
             justifyContent: 'flex-start',
           }}
         >
-          <MarketText title={name}>{name}</MarketText>
+          <div 
+            style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <MarketText title={name}>{name}</MarketText>
+            { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
+          </div>
           <PriceDisplay>
             {price &&
               <div style={{ display: 'flex' }}>
@@ -186,10 +190,7 @@ export default function TokenDisplay({
                 <div>{price}</div>
               </div>
             }
-            { source in MARKET_ICONS ? 
-              <MarketIcon src={MARKET_ICONS[source]} /> :
-              <MarketIcon src='/static/img/icons/nav/native_listing.png' />
-            }
+            
           </PriceDisplay>
         </div>
       </ListingDisplay>

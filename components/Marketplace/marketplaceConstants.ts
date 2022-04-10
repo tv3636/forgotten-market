@@ -37,10 +37,27 @@ export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export const OPENSEA_SOURCE = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073';
 export const LOOKSRARE_SOURCE = '0x5924a28caaf1cc016617874a2f0c3710d881f3c1';
+export const FORGOTTEN_MARKET_SOURCE = '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4';
 
 export const MARKET_ICONS: any = {
   [OPENSEA_SOURCE]: '/static/img/icons/nav/opensea_default.png',
-  [LOOKSRARE_SOURCE]: '/static/img/icons/nav/looksrare_default.png'
+  [LOOKSRARE_SOURCE]: '/static/img/icons/nav/looksrare_default.png',
+  [FORGOTTEN_MARKET_SOURCE]: '/static/img/icons/nav/native_listing.png'
+}
+
+export const MARKETS: any = {
+  [FORGOTTEN_MARKET_SOURCE]: {
+    image: '/static/img/icons/nav/native_listing.png',
+    name: 'Forgotten Market'
+  },
+  [OPENSEA_SOURCE]: {
+    image: '/static/img/icons/nav/opensea_default.png',
+    name: 'OpenSea'
+  },
+  [LOOKSRARE_SOURCE]: {
+    image: '/static/img/icons/nav/looksrare_default.png',
+    name: 'LooksRare'
+  }
 }
 
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
