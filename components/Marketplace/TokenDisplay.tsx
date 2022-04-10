@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CONTRACTS } from "./marketplaceConstants";
+import { CONTRACTS, MARKET_ICONS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import wizards from "../../data/nfts-prod.json";
@@ -19,7 +19,7 @@ const ListingDisplay = styled.div`
     max-height: 250px;
     margin-left: 15px;
     margin-right: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     margin-top: 5px;
   }
 
@@ -77,6 +77,24 @@ const PriceDisplay = styled.div`
   font-size: 17px;
   color: var(--white);
   font-weight: bold;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const MarketIcon = styled.img`
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  image-rendering: pixelated;
+
+  @media only screen and (max-width: 600px) {
+    width: 15px;
+    height: 15px;
+    margin-top: 0;
+  }
+
 `;
 
 
@@ -85,11 +103,13 @@ export default function TokenDisplay({
   tokenId,
   name,
   price,
+  source,
 }: {
   contract: string;
   tokenId: number;
   name: string;
   price: number;
+  source: string;
 }) {
   let image = CONTRACTS[contract].display == 'Wizards' ? 
     `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : 
@@ -165,6 +185,10 @@ export default function TokenDisplay({
                 />
                 <div>{price}</div>
               </div>
+            }
+            { source in MARKET_ICONS ? 
+              <MarketIcon src={MARKET_ICONS[source]} /> :
+              <MarketIcon src='/static/img/icons/nav/native_listing.png' />
             }
           </PriceDisplay>
         </div>

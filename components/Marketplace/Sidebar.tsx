@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { API_BASE_URL } from "./marketplaceConstants";
+import { API_BASE_URL, CONTRACTS, LOOKSRARE_SOURCE, OPENSEA_SOURCE } from "./marketplaceConstants";
 import { getOptions } from "./marketplaceHelpers";
 import Select from "react-select";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
@@ -95,11 +95,13 @@ export default function SideBar({
   selectionChange,
   loreChange,
   noLoreChange,
+  setSource
 }: {
   contract: string;
   selectionChange: any;
   loreChange: any;
   noLoreChange: any;
+  setSource: any;
 }) {
   const [traits, setTraits] = useState([]);
   const [isOpen, setIsOpen] = useState<any>(null);
@@ -148,7 +150,7 @@ export default function SideBar({
             />
           </FontTraitWrapper>
         ))}
-        <Form>
+        <Form style={{marginBottom: '0px'}}>
           <Label>
             <input type='checkbox' onClick={loreChange} /> Has Lore
           </Label>
@@ -156,7 +158,20 @@ export default function SideBar({
             <input type='checkbox' onClick={noLoreChange} /> Has No Lore
           </Label>
         </Form>
-        
+        <Form>
+          <Label>
+            <input type='radio' name='source' onClick={() => setSource(CONTRACTS[contract].feeRecipient)} /> Forgotten Market
+          </Label>
+          <Label>
+            <input type='radio' name='source' onClick={() => setSource(OPENSEA_SOURCE)} /> OpenSea
+          </Label>
+          <Label>
+            <input type='radio' name='source' onClick={() => setSource(LOOKSRARE_SOURCE)} /> LooksRare
+          </Label>
+          <Label>
+            <input type='radio' name='source' onClick={() => setSource('')} /> Show All
+          </Label>            
+        </Form>
       </FilterStyle>
     </FilterWrapper>
   );

@@ -35,6 +35,14 @@ export const OrderURLs: any = {
 
 export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';
 
+export const OPENSEA_SOURCE = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073';
+export const LOOKSRARE_SOURCE = '0x5924a28caaf1cc016617874a2f0c3710d881f3c1';
+
+export const MARKET_ICONS: any = {
+  [OPENSEA_SOURCE]: '/static/img/icons/nav/opensea_default.png',
+  [LOOKSRARE_SOURCE]: '/static/img/icons/nav/looksrare_default.png'
+}
+
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
   "https://api.reservoir.tools/" : "https://api-rinkeby.reservoir.tools/";
 

@@ -298,12 +298,10 @@ const ListingPage = ({
   contractSlug,
   tokenId,
   lore,
-  osListing,
 }: {
   contractSlug: string;
   tokenId: string;
   lore: any;
-  osListing: boolean;
 }) => {
   const [token, setToken] = useState<any>({});
   const [listing, setListing] = useState<any>({});
@@ -354,12 +352,14 @@ const ListingPage = ({
         setAttributes(listingsJson.tokens[0].token.attributes);
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
 
+        console.log(listingsJson.tokens[0].market.floorAsk.source);
+
         const provider = getProvider();
         var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
         setEns(ensName);
 
         if (listingsJson.tokens[0].market.topBid.maker) {
-          var ownerEns = await provider.lookupAddress(listingsJson.tokens[0].market.topBuy.maker);
+          var ownerEns = await provider.lookupAddress(listingsJson.tokens[0].market.topBid.maker);
           setOwnerEns(ownerEns);
         }
       }
@@ -400,12 +400,12 @@ const ListingPage = ({
     async function getFlames() {
       if (CONTRACTS[contractSlug].display == 'Flames') {
         const userFlames = await fetch(
-          `${API_BASE_URL}users/${account}/tokens/v2?collection=infinityveil&sortDirection=desc&offset=0&limit=20`,
+          `${API_BASE_URL}users/${account}/tokens/v2?collection=infinityveil&offset=0&limit=20`,
           { headers: headers }
         );
 
         const flamesJson = await userFlames.json();
-        console.log(flamesJson.tokens.length > 0);
+        console.log(flamesJson);
         setFlameHolder(flamesJson.tokens.length > 0);
       }
     }
@@ -480,7 +480,7 @@ const ListingPage = ({
                         setModal={setModal}
                         setActionType={setMarketActionType}
                         highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                        native={!osListing}
+                        native={listing.source.id == CONTRACTS[contractSlug].feeRecipient}
                         tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
                       />
                     </ButtonWrapper>
@@ -489,7 +489,7 @@ const ListingPage = ({
                     <ListingExpiration
                       timer={countdownTimer}
                       date={new Date(listing.validUntil * 1000)}
-                      isOS={osListing}
+                      source={listing.source.id}
                     />
                   }
                   {offer.value && 
@@ -585,27 +585,11 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     results = [];
   }
 
-  // Determine listing origin
-  try {
-      const orderPage = await fetch(
-        `${API_BASE_URL}orders/asks/v1?token=${contractSlug}:${tokenId}&limit=10`,
-        { headers: headers }
-      );
-      const orderJson = await orderPage.json();
-      var osListing = orderJson.orders[orderJson.orders.length - 1].sourceInfo.id == 'opensea';
-
-  } catch(e) {
-    console.error(e);
-    console.error("Could not determine listing origin")
-    osListing = false;
-  }
-
   return {
     props: {
       contractSlug,
       tokenId: tokenId,
       lore: results,
-      osListing: osListing,
     },
     revalidate: 3 * 60,
   };

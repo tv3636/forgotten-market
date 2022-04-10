@@ -118,11 +118,12 @@ function Listings({
   const [hasNoLore, setHasNoLore] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
   const [continuation, setContinuation] = useState('');
+  const [sourceFilter, setSourceFilter] = useState(null);
   const router = useRouter();
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
-    var url = API_BASE_URL + "tokens/v3?" + "collection=" + contract;
+    var url = API_BASE_URL + "tokens/details/v3?" + "collection=" + contract;
     setLoaded(false);
 
     if (reset) {
@@ -131,16 +132,21 @@ function Listings({
     }
 
     try {
-      const page = await fetch(
-        url + '&sortBy=floorAskPrice&limit=50' + (!reset && continuation != '' ? "&continuation=" + continuation : '') + getURLAttributes(router.query),
-        { headers: headers }
-      );
-      const listingsJson = await page.json();
-      lists = lists.concat(listingsJson.tokens);
-      
-      setContinuation(listingsJson.continuation)
+      if (reset || continuation != null) {
+        const page = await fetch(
+          url + '&sortBy=floorAskPrice&limit=50' + 
+          (!reset && continuation != '' ? "&continuation=" + continuation : '') +
+          (sourceFilter ? "&source=" + sourceFilter : '') +
+          getURLAttributes(router.query),
+          { headers: headers }
+        );
+        const listingsJson = await page.json();
+        lists = lists.concat(listingsJson.tokens);
+        
+        setContinuation(listingsJson.continuation)
 
-      setListings(reset ? lists: listings.concat(lists));
+        setListings(reset ? lists: listings.concat(lists));
+      }
     } catch (error) {
       console.error(error);
       setLoaded(true);
@@ -171,6 +177,12 @@ function Listings({
     }
   }, [router.query]);
 
+  useEffect(() => {
+    if (sourceFilter != null) {
+      fetchListings(true);
+    }
+  }, [sourceFilter]);
+
   return (
     <TabWrapper>
       { !showActivity && collection != 'infinityveil' && 
@@ -179,6 +191,7 @@ function Listings({
           selectionChange={selectionChange}
           loreChange={() => { setHasLore(!hasLore); fetchListings(false); }}
           noLoreChange={() => setHasNoLore(!hasNoLore)}
+          setSource={setSourceFilter}
         />
       }
       <ScrollWrapper>
@@ -189,7 +202,7 @@ function Listings({
               next={() => fetchListings(false)}
               hasMore={true}
               loader={null}
-              scrollThreshold={0.5}
+              scrollThreshold={0.3}
               height={"100vh"}
             >
               <ScrollContainer>
@@ -198,16 +211,17 @@ function Listings({
                     ((!hasLore && !hasNoLore) ||
                       (hasLore &&
                         !hasNoLore &&
-                        wizardsWithLore[listing.tokenId]) ||
+                        wizardsWithLore[listing.token.tokenId]) ||
                       (!hasLore &&
                         hasNoLore &&
-                        !wizardsWithLore[listing.tokenId])) && (
+                        !wizardsWithLore[listing.token.tokenId])) && (
                       <div key={index}>
                         <TokenDisplay
                           contract={contract}
-                          tokenId={listing.tokenId}
-                          name={listing.name}
-                          price={listing.floorAskPrice}
+                          tokenId={listing.token.tokenId}
+                          name={listing.token.name}
+                          price={listing.market.floorAsk.price}
+                          source={listing.market.floorAsk.source.id}
                         />
                       </div>
                     )

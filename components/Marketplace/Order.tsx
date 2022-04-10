@@ -407,21 +407,20 @@ function OrderContent({
     
     let query: any = {
       maker: account,
-      price: action == ORDER_TYPE.SELL ? 
+      weiPrice: action == ORDER_TYPE.SELL ? 
         ethers.utils.parseEther(price).toString() :
         calculations.total.toString(),
       expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
-      disableRoyalties: true,
+      automatedRoyalties: false,
       fee: CONTRACTS[contract].fee,
       feeRecipient: CONTRACTS[contract].feeRecipient,
-      source: CONTRACTS[contract].feeRecipient,
+      //source: CONTRACTS[contract].feeRecipient,
     }
 
     if (collectionWide) {
-      query.collection = CONTRACTS[contract].collection;
+      query.collection = contract;
     } else {
-      query.contract = contract;
-      query.tokenId = tokenId;
+      query.token = `${contract}:${tokenId}`;
     }
 
     setParams(url, query);
@@ -430,10 +429,9 @@ function OrderContent({
     if (listOS) {
       const os_url = new URL(OrderURLs[action], API_BASE_URL);
       let os_query: any = {
-        contract,
-        tokenId,
+        token: `${contract}:${tokenId}`,
         maker: account,
-        price: ethers.utils.parseEther(price).toString(),
+        weiPrice: ethers.utils.parseEther(price).toString(),
         expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
         orderbook: 'opensea',
       }

@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
+import { MARKET_ICONS } from "./marketplaceConstants";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -24,7 +25,7 @@ align-items: center;
 }
 `;
 
-const OSIcon = styled.img`
+const MarketIcon = styled.img`
   width: 14px;
   height: 14px;
   margin-right: 8px;
@@ -43,17 +44,17 @@ const OSIcon = styled.img`
 export function ListingExpiration({
   timer,
   date,
-  isOS,
+  source,
 }: {
   timer: any;
   date: any;
-  isOS: boolean;
+  source: string;
 }) {
   if (timer?.days > 1) {
     if (date) {
       return (
         <ExpirationWrapper>
-          { isOS && <OSIcon src="/static/img/icons/nav/opensea_default.png" /> }
+          { source in MARKET_ICONS && <MarketIcon src={MARKET_ICONS[source]} /> }
           Listing expires on {date.toLocaleString()}
         </ExpirationWrapper>
       );
@@ -64,7 +65,7 @@ export function ListingExpiration({
     return (
       <div>
         <ExpirationWrapper>
-          { isOS && <OSIcon src="/static/img/icons/nav/opensea_default.png" /> }
+          { source in MARKET_ICONS && <MarketIcon src={MARKET_ICONS[source]} /> } 
           <span style={{width: '16ch', alignSelf: 'center'}}>Listing expires </span>
           <ReactTimeAgo style={{alignSelf: 'center'}} date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
         </ExpirationWrapper>
