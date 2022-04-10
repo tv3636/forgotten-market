@@ -63,6 +63,7 @@ const Form = styled.form`
 
   @media only screen and (max-width: 600px) {
     flex-direction: row;
+    justify-content: center;
   }
 
   transition: all 100ms;
@@ -78,6 +79,30 @@ const Label = styled.label`
   @media only screen and (max-width: 600px) {
     font-size: 15px;
   }
+`;
+
+const MarketLabel = styled.label`
+  margin: 5px;
+  font-family: Alagard;
+  font-size: 18px;
+
+  color: var(--lightGray);
+
+  @media only screen and (max-width: 600px) {
+    font-size: 15px;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+`;
+
+const MarketInput = styled.input`
+  @media only screen and (max-width: 600px) {  
+    margin-bottom: 5px;
+  }
+
 `;
 
 const FilterWrapper = styled.div`
@@ -119,17 +144,6 @@ const FontTraitWrapper = styled.div`
   color: black;
 `;
 
-const ExpandButton = styled.div`
-  display: none;
-
-  @media only screen and (max-width: 600px) {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-    margin-bottom: 10px;
-  }
-`;
-
 const DesktopWrapper = styled.div`
   @media only screen and (max-width: 600px) {
     display: none;
@@ -165,13 +179,13 @@ function Forms({
       </Form>
       <Form>
         {Object.keys(MARKETS).map((source: string, index: number) => (
-          <Label key={index}>
-            <input type='radio' name='source' onClick={() => setSource(source)} /> {MARKETS[source].name}
-          </Label>
+          <MarketLabel key={index}>
+            <MarketInput type='radio' name='source' onClick={() => setSource(source)} /> {MARKETS[source].name}
+          </MarketLabel>
         ))}
-        <Label>
-          <input type='radio' name='source' onClick={() => setSource('')} /> Show All
-        </Label>            
+        <MarketLabel>
+          <MarketInput type='radio' name='source' onClick={() => setSource('')} /> Show All
+        </MarketLabel>            
       </Form>
     </div>
   )
