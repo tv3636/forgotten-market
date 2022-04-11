@@ -207,6 +207,7 @@ export default function SideBar({
   const [traits, setTraits] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [overflow, setOverflow] = useState('hidden');
+  const [activeTimer, setActiveTimer] = useState<any>(0);
   const router = useRouter();
 
   async function fetchTraits() {
@@ -224,10 +225,10 @@ export default function SideBar({
 
   useEffect(() => {
     if (expanded) {
-      setTimeout(() => setOverflow('visible'), 200);
+      setActiveTimer(setTimeout(() => setOverflow('visible'), 200));
     } else {
+      clearTimeout(activeTimer);
       setOverflow('hidden');
-      setTimeout(() => setOverflow('hidden'), 200);
     }
   }, [expanded]);
 
