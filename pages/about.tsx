@@ -244,6 +244,12 @@ export default function About({
             <td style={{borderStyle: 'none'}}>8.66%</td>
           </Row>
         </Fees>
+        <HorizontalLine/>
+        <HorizontalLine/>
+        <HorizontalLine/>
+        <HorizontalLine/>
+        <HorizontalLine/>
+        <HorizontalLine/>
       </AboutWrapper>
     </Layout>
   )
