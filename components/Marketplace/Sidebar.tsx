@@ -224,9 +224,10 @@ export default function SideBar({
 
   useEffect(() => {
     if (expanded) {
-      setTimeout(() => setOverflow('visible'), 1000);
+      setTimeout(() => setOverflow('visible'), 200);
     } else {
       setOverflow('hidden');
+      setTimeout(() => setOverflow('hidden'), 200);
     }
   }, [expanded]);
 
