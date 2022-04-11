@@ -142,6 +142,10 @@ const FilterStyle = styled.div`
 const FontTraitWrapper = styled.div`
   font-family: Arial;
   color: black;
+
+  @media only screen and (max-width: 600px) {  
+    width: 100%;
+  }
 `;
 
 const DesktopWrapper = styled.div`
@@ -225,7 +229,7 @@ export default function SideBar({
 
   useEffect(() => {
     if (expanded) {
-      setActiveTimer(setTimeout(() => setOverflow('visible'), 200));
+      setActiveTimer(setTimeout(() => setOverflow('visible'), 1000));
     } else {
       clearTimeout(activeTimer);
       setOverflow('hidden');
