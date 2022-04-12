@@ -332,7 +332,11 @@ const ListingPage = ({
   var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
     LOCATIONS[wizData[tokenId].location] : [0, 0];
 
-  if (CONTRACTS[contractSlug].display == 'Ponies' || CONTRACTS[contractSlug].display == 'Flames') {
+  if (CONTRACTS[contractSlug].display == 'Ponies' || 
+    CONTRACTS[contractSlug].display == 'Flames' ||
+    CONTRACTS[contractSlug].display == 'Beasts' ||
+    CONTRACTS[contractSlug].display == 'Locks' ||
+    CONTRACTS[contractSlug].display == 'Spawn') {
     center = [404, 404];
   }
 
@@ -350,6 +354,8 @@ const ListingPage = ({
         setOffer(listingsJson.tokens[0].market.topBid);
         setAttributes(listingsJson.tokens[0].token.attributes);
         setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
+
+        console.log(listingsJson);
 
         try {
           const provider = getProvider();
@@ -472,18 +478,20 @@ const ListingPage = ({
                   <Price value={listing.price} size={1} />
                   {token.owner != BURN_ADDRESS &&
                     <ButtonWrapper>
-                      <MarketButtons
-                        account={account}
-                        owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
-                        listValue={listing.price}
-                        hasOffer={offer.value != null}
-                        setModal={setModal}
-                        setActionType={setMarketActionType}
-                        highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                        native={listing.source.id == CONTRACTS[contractSlug].feeRecipient}
-                        tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
-                        myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
-                      />
+                      { CONTRACTS[contractSlug].display != 'Locks' && CONTRACTS[contractSlug].display != 'Beasts' &&
+                        <MarketButtons
+                          account={account}
+                          owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
+                          listValue={listing.price}
+                          hasOffer={offer.value != null}
+                          setModal={setModal}
+                          setActionType={setMarketActionType}
+                          highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
+                          native={listing.source.id == CONTRACTS[contractSlug].feeRecipient}
+                          tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
+                          myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
+                        />
+                      }
                     </ButtonWrapper>
                   }
                   {listing.validUntil && 
