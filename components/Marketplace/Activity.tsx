@@ -254,6 +254,7 @@ export default function Activity({
 }) {
   const [sales, setSales] = useState([]);
   const [continuation, setContinuation] = useState('');
+  const [fetched, setFetched] = useState(false);
 
   async function fetchSales() {
     const recentSales = await fetch(
@@ -263,6 +264,7 @@ export default function Activity({
     const salesJson = await recentSales.json();
     setSales(sales.concat(salesJson.sales));
     setContinuation(salesJson.continuation);
+    setFetched(true);
   }
 
   useEffect(() => {
@@ -278,7 +280,7 @@ export default function Activity({
         scrollThreshold={0.1}
         height={'80vh'}
       >
-        { sales.length > 0 ? 
+        { fetched ? 
           <ScrollContainer>
           {sales.map((sale: any, index) => {
             return (sale.token ?

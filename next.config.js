@@ -83,6 +83,11 @@ let nextConfig = {
         destination: '/:slug*',
         permanent: true,
       },
+      {
+        source: '/marketplace/0x8634C23D5794Ed177E9Ffd55b22fdB80A505ab7B/:slug*',
+        destination: '/marketplace/0x8634c23d5794ed177e9ffd55b22fdb80a505ab7b/:slug*',
+        permanent: true,
+      }
     ]
   },
 };

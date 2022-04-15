@@ -113,6 +113,8 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Beast",
     full: "Forgotten Runes Beasts",
     image_url: "https://portal.forgottenrunes.com/api/beasts/img/",
+    fee: '700',
+    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
   },
   "0xda5cf3a42ebacd2d8fcb53830b1025e01d37832d": {
     collection: "forgottenrunesgatetotheseventhrealm",
@@ -120,14 +122,18 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Lock",
     full: "Forgotten Runes Gate to the Seventh Realm",
     image_url: "https://portal.forgottenrunes.com/api/locks/img/",
+    fee: '777',
+    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
   },
-  //"0x7de11a2d9E9727fa5eAd3094E40211C5e9cf5857": {
-  //  collection: "forgottenrunesbeastspawn",
-  //  display: "Spawn",
-  //  singular: "Spawn",
-  //  full: "Forgotten Runes Gate to the Seventh Realm",
-  //  image_url: "https://portal.forgottenrunes.com/api/spawn/img/",
-  //},
+  "0x7de11a2d9e9727fa5ead3094e40211c5e9cf5857": {
+    collection: "forgottenrunesbeastspawn",
+    display: "Spawn",
+    singular: "Spawn",
+    full: "Forgotten Runes Beast Spawn",
+    image_url: "https://portal.forgottenrunes.com/api/spawn/img/",
+    fee: '700',
+    feeRecipient: '0xd584fe736e5aad97c437c579e884d15b17a54a51'
+  },
 } : {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
     collection: "forgottenruneswizardscult",

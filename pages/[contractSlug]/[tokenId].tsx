@@ -478,20 +478,18 @@ const ListingPage = ({
                   <Price value={listing.price} size={1} />
                   {token.owner != BURN_ADDRESS &&
                     <ButtonWrapper>
-                      { CONTRACTS[contractSlug].display != 'Locks' && CONTRACTS[contractSlug].display != 'Beasts' &&
-                        <MarketButtons
-                          account={account}
-                          owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
-                          listValue={listing.price}
-                          hasOffer={offer.value != null}
-                          setModal={setModal}
-                          setActionType={setMarketActionType}
-                          highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                          native={listing.source.id == CONTRACTS[contractSlug].feeRecipient}
-                          tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
-                          myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
-                        />
-                      }
+                      <MarketButtons
+                        account={account}
+                        owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
+                        listValue={listing.price}
+                        hasOffer={offer.value != null}
+                        setModal={setModal}
+                        setActionType={setMarketActionType}
+                        highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
+                        native={listing.source.name == 'Forgotten Market'}
+                        tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
+                        myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
+                      />
                     </ButtonWrapper>
                   }
                   {listing.validUntil && 

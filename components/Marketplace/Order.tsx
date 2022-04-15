@@ -411,12 +411,9 @@ function OrderContent({
         ethers.utils.parseEther(price).toString() :
         calculations.total.toString(),
       expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
-    }
-
-    if (CONTRACTS[contract].display != 'Beasts' && CONTRACTS[contract].display != 'Locks' && CONTRACTS[contract].display != 'Spawn') {
-      query.automatedRoyalties = false;
-      query.fee = CONTRACTS[contract].fee;
-      query.feeRecipient = CONTRACTS[contract].feeRecipient;
+      automatedRoyalties: false,
+      fee: CONTRACTS[contract].fee,
+      feeRecipient: CONTRACTS[contract].feeRecipient,
     }
 
     if (collectionWide) {
