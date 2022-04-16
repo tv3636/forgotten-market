@@ -102,7 +102,7 @@ export default function MarketButtons({
           <Buttons>
             {listValue && <MarketButton type={ORDER_TYPE.BUY} setModal={setModal} setActionType={setActionType} />}
             <MarketButton type={ORDER_TYPE.OFFER} setModal={setModal} setActionType={setActionType} />
-            {highestOffer && <MarketButton type={ORDER_TYPE.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} />}
+            {highestOffer ? <MarketButton type={ORDER_TYPE.CANCEL_OFFER} setModal={setModal} setActionType={setActionType} /> : null} 
           </Buttons>
         );
       }

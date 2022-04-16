@@ -499,13 +499,14 @@ const ListingPage = ({
                       source={listing.source.id}
                     />
                   }
-                  {offer.value && 
+                  {offer.value ? 
                     <OfferDisplay 
                       value={offer.value}
                       maker={offer.maker}
                       account={account ?? ''}
                       ens={ownerEns ?? ''}
-                    />
+                    /> :
+                    null
                   }
                 </PriceDisplay>
               </TopRight>
