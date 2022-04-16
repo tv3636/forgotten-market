@@ -310,7 +310,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       wizardsWithLore: await getWizardsWithLore(contractSlug),
-      contract: contractSlug
+      contract: contractSlug.toLowerCase()
     },
     revalidate: 3 * 60,
   };

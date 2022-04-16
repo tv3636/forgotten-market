@@ -594,7 +594,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   return {
     props: {
-      contractSlug,
+      contractSlug: contractSlug.toLowerCase(),
       tokenId: tokenId,
       lore: results,
     },
