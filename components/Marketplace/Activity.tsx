@@ -283,7 +283,7 @@ export default function Activity({
         { fetched ? 
           <ScrollContainer>
           {sales.map((sale: any, index) => {
-            return (sale.token ?
+            return (sale && sale.token ?
               <ActivityWrapper key={index}>
                 <ActivityRow>
                   <SalesDisplay>

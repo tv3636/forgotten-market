@@ -113,7 +113,7 @@ export default function About({
         <Title>About</Title>
         <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
         <a href='https://reservoirprotocol.github.io/' target="_blank">Reservoir Protocol.</a></Description>
-        <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin as follows:</Description>
+        <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin:</Description>
         <HorizontalLine/>
         <Fees>
           <Row>
@@ -171,7 +171,6 @@ export default function About({
             <td style={{borderStyle: 'none'}}>7.66%</td>
           </Row>
         </Fees>
-        <HorizontalLine/>
         <HorizontalLine/>
         <HorizontalLine/>
         <Description>Listings created on OpenSea will still pay out the same fees as on the OpenSea site, even when filled here:</Description>
