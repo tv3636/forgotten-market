@@ -2871,10 +2871,10 @@
     redux-thunk "^2.3.0"
     reselect "^4.0.0"
 
-"@reservoir0x/client-sdk@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@reservoir0x/client-sdk/-/client-sdk-0.0.8.tgz#7e0b5b7983b4879d39614b8032e6101619fed4c6"
-  integrity sha512-Kn74ctFKX9lkf1f7qd8aENpsnKQnKwCHhpeMI/bcvx1RsMbJcNp58EgVG5sVho5ucU9plR86Zjnj6Cxg087/NQ==
+"@reservoir0x/client-sdk@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@reservoir0x/client-sdk/-/client-sdk-0.0.15.tgz#d223747e6c7e835ce8c9e1b431738e9e26ddbfcd"
+  integrity sha512-eJXQ49deZwgjLo+XimxLF+fOyYNn2R/bBcMyTpJQzsA8nNpP/0UxvaKJ8JE8b/E5gJ+f5zUDvG28RU1ZSk3ggA==
   dependencies:
     ethers "^5.6.1"
 
