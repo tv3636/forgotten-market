@@ -414,6 +414,7 @@ function OrderContent({
       automatedRoyalties: false,
       fee: CONTRACTS[contract].fee,
       feeRecipient: CONTRACTS[contract].feeRecipient,
+      source: 'Forgotten Market'
     }
 
     if (collectionWide) {

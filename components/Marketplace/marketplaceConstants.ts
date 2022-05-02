@@ -17,8 +17,8 @@ export enum ORDER_TYPE {
 
 export interface OrderPaths {
   [ORDER_TYPE.BUY]: paths['/execute/buy/v1']['get']['parameters']['query'],
-  [ORDER_TYPE.SELL]: paths['/execute/list/v1']['get']['parameters']['query'],
-  [ORDER_TYPE.OFFER]: paths['/execute/bid/v1']['get']['parameters']['query'],
+  [ORDER_TYPE.SELL]: paths['/execute/list/v2']['get']['parameters']['query'],
+  [ORDER_TYPE.OFFER]: paths['/execute/bid/v2']['get']['parameters']['query'],
   [ORDER_TYPE.ACCEPT_OFFER]: paths['/execute/sell/v1']['get']['parameters']['query'],
   [ORDER_TYPE.CANCEL_LISTING]: paths['/execute/cancel/v1']['get']['parameters']['query'],
   [ORDER_TYPE.CANCEL_OFFER]: paths['/execute/cancel/v1']['get']['parameters']['query'],
@@ -26,8 +26,8 @@ export interface OrderPaths {
 
 export const OrderURLs: any = {
   'buy': 'execute/buy/v1',
-  'sell': '/execute/list/v1',
-  'offer': '/execute/bid/v1',
+  'sell': '/execute/list/v2',
+  'offer': '/execute/bid/v2',
   'accept': '/execute/sell/v1',
   'cancel_listing': '/execute/cancel/v1',
   'cancel_offer': '/execute/cancel/v1',
