@@ -283,35 +283,11 @@ function Profile({ account }: {account: any}) {
       { account ? 
         <Link href={`/address/${account}`} passHref={true}>
           <SoftLink>
-            <CollectionOffer style={{marginRight: '0'}}>
-              <img 
-                src='/static/img/marketplace/profile.png' 
-                height={'15px'} 
-                width={'15px'}
-                onMouseOver={(e) =>
-                  (e.currentTarget.src = '/static/img/marketplace/profile_hover.png')
-                }
-                onMouseOut={(e) =>
-                  (e.currentTarget.src = '/static/img/marketplace/profile.png')
-                }
-              />
-            </CollectionOffer>
+            <MenuItem style={{marginRight: '0'}}>Account</MenuItem>
           </SoftLink>
         </Link> :
         <div>
-          <CollectionOffer style={{marginRight: '0'}}>
-            <img 
-              src='/static/img/marketplace/profile.png' 
-              height={'15px'} 
-              width={'15px'}
-              onMouseOver={(e) =>
-                (e.currentTarget.src = '/static/img/marketplace/profile_hover.png')
-              }
-              onMouseOut={(e) =>
-                (e.currentTarget.src = '/static/img/marketplace/profile.png')
-              }
-            />
-          </CollectionOffer>
+          <MenuItem style={{marginRight: '0'}}>Account</MenuItem>
           <AccountDropDown className='dropdown'>
             <div style={{marginTop: '8px'}}>
               <MarketConnect/>
