@@ -77,6 +77,15 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     fee: '350',
     feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4'
   },
+  "0x9690b63eb85467be5267a3603f770589ab12dc95": {
+    collection: "forgottenruneswarriorsguild",
+    display: "Warriors",
+    singular: "Warrior",
+    full: "Forgotten Runes Warriors Guild",
+    image_url: "https://portal.forgottenrunes.com/api/warriors/img/",
+    fee: '600',
+    feeRecipient: '0x6be88409f2a4751aea05a3a0977cb239904fe0d6'
+  },
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
     collection: "forgottensouls",
     display: "Souls",
@@ -133,7 +142,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://portal.forgottenrunes.com/api/spawn/img/",
     fee: '700',
     feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
-  },
+  }
 } : {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
     collection: "forgottenruneswizardscult",

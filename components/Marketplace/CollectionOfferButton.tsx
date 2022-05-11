@@ -61,7 +61,7 @@ export default function CollectionOfferButton({
       );
       const collectionJson = await collection.json();
 
-      if (collectionJson.collections) {
+      if (collectionJson.collections.length > 0) {
         setCurrentOffer(collectionJson.collections[0].topBidValue);
       }
     }
