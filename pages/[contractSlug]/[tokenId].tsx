@@ -332,11 +332,8 @@ const ListingPage = ({
   var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
     LOCATIONS[wizData[tokenId].location] : [0, 0];
 
-  if (CONTRACTS[contractSlug].display == 'Ponies' || 
-    CONTRACTS[contractSlug].display == 'Flames' ||
-    CONTRACTS[contractSlug].display == 'Beasts' ||
-    CONTRACTS[contractSlug].display == 'Locks' ||
-    CONTRACTS[contractSlug].display == 'Spawn') {
+  if (CONTRACTS[contractSlug].display != 'Wizards' && 
+    CONTRACTS[contractSlug].display != 'Souls') {
     center = [404, 404];
   }
 
