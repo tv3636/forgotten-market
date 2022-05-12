@@ -24,6 +24,7 @@ import dynamic from "next/dynamic";
 import wizards from "../../data/wizards.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
+import warriors from "../../data/warriors.json";
 import Price from "../../components/Marketplace/Price";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
 import MarketButtons from "../../components/Marketplace/MarketButtons";
@@ -35,6 +36,7 @@ import OfferDisplay, { Owner } from "../../components/Marketplace/OfferDisplay";
 const wizData = wizards as { [wizardId: string]: any };
 const soulData = souls as { [soulId: string]: any };
 const ponyData = ponies as { [ponyId: string]: any };
+const warriorsData = warriors as { [warriorId: string]: any };
 
 const DynamicMap = dynamic(() => import("../../components/Marketplace/MiniMap"), {
   ssr: false, // leaflet doesn't like Next.js SSR
@@ -423,6 +425,7 @@ const ListingPage = ({
         CONTRACTS[contractSlug].display == 'Wizards' ? wizData[tokenId].name : 
         CONTRACTS[contractSlug].display == 'Souls' && tokenId in soulData ? soulData[tokenId] : 
         CONTRACTS[contractSlug].display == 'Ponies' && tokenId in ponyData ? ponyData[tokenId] :
+        CONTRACTS[contractSlug].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId] :
         `${CONTRACTS[contractSlug].singular} #${tokenId}`
       } 
       description={`${CONTRACTS[contractSlug].singular} #${tokenId}`}
