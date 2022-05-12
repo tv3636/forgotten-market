@@ -287,8 +287,9 @@ function traitFormat(contract: string, trait: string) {
     if (word == 'in') {
       out += word + " ";
     } else {
-      out += (CONTRACTS[contract].display == 'Warriors' ? word.charAt(0) : word.charAt(0).toUpperCase()) + word.slice(1) + " ";
-      console.log(out);
+      out += (CONTRACTS[contract].display == 'Warriors' && !['traits', 'affinity'].includes(word) ? 
+        word.charAt(0) : 
+        word.charAt(0).toUpperCase()) + word.slice(1) + " ";
     }
   }
 
