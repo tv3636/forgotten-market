@@ -136,7 +136,7 @@ function Listings({
           url + '&sortBy=floorAskPrice&limit=50' + 
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
           (sourceFilter ? "&source=" + sourceFilter : '') +
-          getURLAttributes(router.query),
+          getURLAttributes(contract, router.query),
           { headers: headers }
         );
         const listingsJson = await page.json();

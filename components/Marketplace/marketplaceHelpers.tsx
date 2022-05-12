@@ -281,13 +281,14 @@ export function getOptions(traits: [any]) {
 }
 
 // Format trait for Reservoir API call
-function traitFormat(trait: string) {
+function traitFormat(contract: string, trait: string) {
   var out = "";
   for (var word of trait.split(' ')) {
     if (word == 'in') {
       out += word + " ";
     } else {
-      out += word.charAt(0).toUpperCase() + word.slice(1) + " ";
+      out += (CONTRACTS[contract].display == 'Warriors' ? word.charAt(0) : word.charAt(0).toUpperCase()) + word.slice(1) + " ";
+      console.log(out);
     }
   }
 
@@ -300,11 +301,11 @@ function traitFormat(trait: string) {
 }
 
 // Build API parameters from router parameters
-export function getURLAttributes(query: any) {
+export function getURLAttributes(contract: string, query: any) {
   var url_string = "";
   for (var trait of Object.keys(query)) {
     if (trait != 'contractSlug' && trait != 'activity') {
-      var url_trait = traitFormat(trait).replace("#", "%23");
+      var url_trait = traitFormat(contract, trait).replace("#", "%23");
       url_string +=
         "&attributes[" +
         url_trait +
