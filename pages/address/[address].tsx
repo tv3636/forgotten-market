@@ -250,7 +250,7 @@ export default function Address({
               return (
                 <SubTitle key={index}>
                   {
-                    `${CONTRACTS[contract].display}: ${CONTRACTS[contract].display == 'Flames' ? 
+                    `${CONTRACTS[contract].display}: ${CONTRACTS[contract].display == 'Flames' && tokenData[contract][0] ? 
                     tokenData[contract][0].ownership.tokenCount : 
                     tokenData[contract].length
                   }`
