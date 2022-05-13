@@ -81,6 +81,7 @@ export default function AccountSection({
   title: string;
   contract: string | null;
 }) {
+  console.log(tokens);
   return (
     <DisplayContainer>
       <Title style={{fontSize: '20px'}}>{title}</Title>
@@ -88,7 +89,7 @@ export default function AccountSection({
       <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
         {tokens.map((token: any, index: number) => {
           var thisContract = contract ? contract : token.contract;
-          var thisTokenId = contract ? token[0] : token.tokenId;
+          var thisTokenId = contract ? token.token.tokenId : token.tokenId;
           return (
             <div key={index}>
               <Link 

@@ -5,7 +5,7 @@ import { getProvider } from "../../hooks/useProvider";
 import { getTokenDataForAllCollections } from "../../lib/nftUtilis";
 import { useState, useEffect } from "react";
 import AccountSection from "../../components/Marketplace/AccountSection";
-import { PREVIOUS_API_BASE_URL, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
+import { PREVIOUS_API_BASE_URL, CONTRACTS, API_BASE_URL } from "../../components/Marketplace/marketplaceConstants";
 import { getInfinityVeilContract, getPoniesContract } from "../../contracts/ForgottenRunesWizardsCultContract";
 
 const headers: HeadersInit = new Headers();
@@ -246,22 +246,26 @@ export default function Address({
           <HorizontalLine style={{borderColor: 'var(--mediumGray)'}}/>
           <HorizontalLine />
           <StatRow>
-            {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
+            {Object.keys(tokenData).map((contract: any, index: number) => {
               return (
                 <SubTitle key={index}>
-                  {`${CONTRACTS[contract].display} Owned: ${tokenData.byContract[contract].length}`}
+                  {
+                    `${CONTRACTS[contract].display}: ${CONTRACTS[contract].display == 'Flames' ? 
+                    tokenData[contract][0].ownership.tokenCount : 
+                    tokenData[contract].length
+                  }`
+                  }
                 </SubTitle>
               );
             })}
-            <SubTitle>{`Flames Owned: ${tokenData.flames.length}`}</SubTitle>
           </StatRow>
           <HorizontalLine />
           <DesktopLine style={{borderColor: 'black'}}/>
-          {Object.keys(tokenData.byContract).map((contract: any, index: number) => {
-              return tokenData.byContract[contract].length > 0 && 
+          {Object.keys(tokenData).map((contract: any, index: number) => {
+              return tokenData[contract].length > 0 && CONTRACTS[contract].display != 'Flames' &&
                 <AccountSection 
                   key={index} 
-                  tokens={tokenData.byContract[contract]} 
+                  tokens={tokenData[contract]} 
                   contract={contract} 
                   title={CONTRACTS[contract].display}
                 />
@@ -301,36 +305,34 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   var valid = true;
 
   try {
-    tokenData = await getTokenDataForAllCollections(mainProvider, address);
     ens = await mainProvider.lookupAddress(address) ?? '';
 
-    const poniesContract = await getPoniesContract({ provider: mainProvider });
-    const veilContract = await getInfinityVeilContract({ provider: mainProvider });
-    var ponyCount = await poniesContract.balanceOf(address);
-    var ponies = [];
-    
-    for (var i = 0; i < Number(ponyCount.toString()); i++) {
-      var pony = await poniesContract.tokenOfOwnerByIndex(address, i);
-      ponies.push([pony.toString()]);
-    }
+    for (var contract of Object.keys(CONTRACTS)) {
+      var tokens: any = [];
+      var iteration = 0;
+      var offset = 20;
+      var page = null;
+      var pageJson: any = {};
+  
+      while (iteration == 0 || pageJson.tokens.length == offset) {
+        page = await fetch(
+          `${API_BASE_URL}users/${address}/tokens/v2?collection=${contract}&offset=${offset * iteration}&limit=20`,
+          { headers: headers }
+        );
+  
+        pageJson = await page.json();
+        tokens = tokens.concat(pageJson.tokens)
 
-    var flames = await veilContract.balanceOf(address, 0);
-    tokenData.flames = new Array(Number(flames.toString()));
+        iteration ++;
+      }
+
+      tokenData[contract] = tokens;
+    }
+    
 
   } catch (error) {
     valid = false;
     console.error(error);
-  }
-
-  tokenData.byContract = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ? {
-    '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42': tokenData.wizards,
-    '0x251b5f14a825c537ff788604ea1b58e49b70726f': tokenData.souls,
-    '0xf55b615b479482440135ebf1b907fd4c37ed9420': ponies
-  } :
-  {
-    '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42': tokenData.wizards,
-    '0x95082b505c0752eef1806aef2b6b2d55eea77e4e': tokenData.souls,
-    '0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e': ponies
   }
   
   return {
