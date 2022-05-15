@@ -308,7 +308,7 @@ export default function Activity({
                     </SalesTextDisplay>
                   </SalesDisplay>
                   <MobileWrapper>
-                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                    <BuyerSeller buyer={sale.from} seller={sale.to}/>
                     <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
                     <div style={{display: 'flex', alignItems: 'center'}}>
                       <TimeText>
@@ -319,7 +319,7 @@ export default function Activity({
                     </SoftLink>
                   </MobileWrapper>
                   <DesktopWrapper>
-                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                    <BuyerSeller buyer={sale.from} seller={sale.to}/>
                   </DesktopWrapper>
                   <DesktopWrapper>
                     <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
