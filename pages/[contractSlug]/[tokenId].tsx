@@ -357,6 +357,14 @@ const ListingPage = ({
 
         console.log(listingsJson);
 
+        const traits = await fetch(
+          `${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`,
+          { headers: headers }
+        );
+  
+        const traitJson = await traits.json();
+        setFullAttributes(traitJson.attributes);
+
         try {
           const provider = getProvider();
           var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
@@ -370,14 +378,6 @@ const ListingPage = ({
           console.error("Couldn't get ENS");
         }
       }
-
-      const traits = await fetch(
-        `${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`,
-        { headers: headers }
-      );
-
-      const traitJson = await traits.json();
-      setFullAttributes(traitJson.attributes);
       
       // Load lore
       if (lore.length > 0) {
