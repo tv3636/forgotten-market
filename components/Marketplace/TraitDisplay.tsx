@@ -6,8 +6,8 @@ import { BURN_TRAITS, CONTRACTS } from "./marketplaceConstants";
 
 const TraitItem = styled.div`
   text-align: start;
-  margin-left: 1vw;
-  margin-right: 1vw;
+  margin-left: 14px;
+  margin-right: 10px;
   font-size: 24px;
   font-family: Alagard;
 `;
@@ -59,13 +59,33 @@ const TraitWrapper = styled.div`
 
 export default function TraitDisplay({ 
   attributes,
+  fullAttributes,
   contract,
   tokenId,
 }: { 
   attributes: [];
+  fullAttributes: any;
   contract: string;
   tokenId: string;
 }) {
+
+  var traitCounts: any = {};
+  var traits: any = {};
+  var maxCount = 0;
+
+  for (var trait of fullAttributes) {
+    var totalCount = 0;
+    traits[trait.key] = {};
+    
+    for (var value of trait.values) {
+      totalCount += value.count;
+      traits[trait.key][value.value] = value.count;
+    }
+
+    traitCounts[trait.key] = totalCount;
+    maxCount = Math.max(maxCount, totalCount);
+  }
+
   if (attributes.length == 0) {
     return null
   } else {
@@ -87,6 +107,13 @@ export default function TraitDisplay({
                     >
                       <TraitType>{attribute.key}</TraitType>
                       <TraitItem>{attribute.value}</TraitItem>
+                      <TraitType style={{marginRight: '0'}}>
+                        {
+                          traits[attribute.key] && CONTRACTS[contract].display != 'Flames' &&
+                          `(${((traits[attribute.key][attribute.value] / maxCount) * 100)
+                            .toPrecision(traits[attribute.key][attribute.value] == maxCount ? 3 : 2)}%)`
+                        }
+                      </TraitType>
                     </TraitRow>
                   </SoftLink>
                 </Link>

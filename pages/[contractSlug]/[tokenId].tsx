@@ -309,6 +309,7 @@ const ListingPage = ({
   const [listing, setListing] = useState<any>({});
   const [offer, setOffer] = useState<any>({});
   const [attributes, setAttributes] = useState<any>([]);
+  const [fullAttributes, setFullAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
   const [ownerEns, setOwnerEns] = useState<string | null>("");
@@ -369,6 +370,14 @@ const ListingPage = ({
           console.error("Couldn't get ENS");
         }
       }
+
+      const traits = await fetch(
+        `${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`,
+        { headers: headers }
+      );
+
+      const traitJson = await traits.json();
+      setFullAttributes(traitJson.attributes);
       
       // Load lore
       if (lore.length > 0) {
@@ -519,7 +528,7 @@ const ListingPage = ({
                 tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}
               />
               <MidDisplay>
-                <TraitDisplay attributes={attributes} contract={contractSlug} tokenId={tokenId} />
+                <TraitDisplay attributes={attributes} fullAttributes={fullAttributes} contract={contractSlug} tokenId={tokenId} />
                 <DynamicMap center={center} />
               </MidDisplay>
             </SectionWrapper>
