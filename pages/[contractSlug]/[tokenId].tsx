@@ -440,7 +440,7 @@ const ListingPage = ({
       description={`${CONTRACTS[contractSlug].singular} #${tokenId}`}
       image={imageUrls[0]}
     >
-      {Object.keys(listing).length > 0 ? 
+      {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
         <ListingWrapper>
           { modal && 
             <Order 
