@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CONTRACTS, MARKETS, MARKET_ICONS } from "./marketplaceConstants";
+import { CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import wizards from "../../data/nfts-prod.json";

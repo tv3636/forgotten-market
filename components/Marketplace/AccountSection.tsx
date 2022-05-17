@@ -81,6 +81,22 @@ export default function AccountSection({
   title: string;
   contract: string | null;
 }) {
+
+  // Only show cheapest listings
+  var shown: any = {};
+  var newTokens = [];
+  if (!contract) {
+    for (var token of tokens) {
+      if (!(token.tokenSetId in shown)) {
+        newTokens.push(token);
+      }
+      
+      shown[token.tokenSetId] = 1;
+    }
+
+    tokens = newTokens;
+  }
+
   return (
     <DisplayContainer>
       <Title style={{fontSize: '20px'}}>{title}</Title>
