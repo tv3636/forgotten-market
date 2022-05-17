@@ -33,7 +33,7 @@ const ActivityImage = styled.img`
   margin-right: 20px;
 
   width: 150px;
-  height: auto;
+  height: 150px;
 
   :hover {
     cursor: pointer;
@@ -293,6 +293,7 @@ export default function Activity({
                     >
                       <SoftLink>
                         <ActivityImage 
+                          style={CONTRACTS[contract].display == 'Flames' ? {height: '171px'} : {}}
                           src={CONTRACTS[contract].display == 'Wizards' ? 
                             `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
                             `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}

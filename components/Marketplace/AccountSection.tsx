@@ -81,7 +81,6 @@ export default function AccountSection({
   title: string;
   contract: string | null;
 }) {
-  console.log(tokens);
   return (
     <DisplayContainer>
       <Title style={{fontSize: '20px'}}>{title}</Title>
@@ -89,7 +88,7 @@ export default function AccountSection({
       <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
         {tokens.map((token: any, index: number) => {
           var thisContract = contract ? contract : token.contract;
-          var thisTokenId = contract ? token.token.tokenId : token.tokenId;
+          var thisTokenId = contract ? token.token.tokenId : token.tokenSetId.split(':')[2];
           return (
             <div key={index}>
               <Link 
@@ -109,7 +108,7 @@ export default function AccountSection({
                     { !contract && 
                       <TokenListing>
                         <CollectionEthSymbol src="/static/img/marketplace/eth.png"/>
-                        {token.value ? token.value : token.topBuy.value}
+                        {token.price}
                       </TokenListing>
                     }
                   </div>

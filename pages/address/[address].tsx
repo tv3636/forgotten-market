@@ -170,29 +170,30 @@ export default function Address({
   const [listings, setListings] = useState<any>([]);
   const [offers, setOffers] = useState<any>([]);
   const [offersMade, setOffersMade] = useState<any>([]);
+  const [continuation, setContinuation] = useState('');
 
   async function fetchOrders(orderType: string) {
-    var validListings = [];
+    var validListings: any = [];
     var iteration = 0;
-    var offset = 20;
     var page = null;
     var pageJson: any = {};
+    var fetchUrl = `${API_BASE_URL}orders/${orderType == 'sell' ? 'asks' : 'bids'}/v2?maker=${address}`;
+
+    for (var contract of Object.keys(CONTRACTS)) {
+      fetchUrl += `&contracts=${contract}`;
+    }
+
+    console.log(fetchUrl);
   
-    while (iteration == 0 || pageJson.positions.length == offset) {
+    while (iteration == 0 || continuation) {
       page = await fetch(
-        `${PREVIOUS_API_BASE_URL}users/${address}/positions?side=${orderType}&status=valid&offset=${offset * iteration}`,
+        fetchUrl,
         { headers: headers }
       );
 
       pageJson = await page.json();
-
-      for (var position of pageJson.positions) {
-        if (Object.keys(CONTRACTS).includes(position.set.schema.data.contract)) {
-          var listingObject = position.set.schema.data;
-          listingObject.value = position.primaryOrder.value;
-          validListings.push(listingObject);
-        }
-      }
+      validListings = validListings.concat(pageJson.orders);
+      setContinuation(pageJson.continuation);
 
       iteration++;
     }
