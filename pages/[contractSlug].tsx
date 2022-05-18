@@ -115,10 +115,18 @@ function Listings({
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
-  const [initialLoad, setInitialLoad] = useState(true);
   const [continuation, setContinuation] = useState('');
-  const [sourceFilter, setSourceFilter] = useState(null);
   const router = useRouter();
+
+  function updateSource(source: string) {
+    if (source) {
+      router.query['source'] = source;
+    } else {
+      delete router.query['source'];
+    }
+
+    router.push({query: router.query}, undefined, {shallow: true});
+  }
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
@@ -135,7 +143,7 @@ function Listings({
         const page = await fetch(
           url + '&sortBy=floorAskPrice&limit=50' + 
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
-          (sourceFilter ? "&source=" + sourceFilter : '') +
+          (router.query.source ? "&source=" + router.query.source : '') +
           getURLAttributes(contract, router.query),
           { headers: headers }
         );
@@ -165,22 +173,14 @@ function Listings({
   }
 
   useEffect(() => {
-    // ensure router query is populated before fetching listings, only on initial load
+    // ensure router query is populated before fetching listings
     if (
       ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) &&
-      !Object.keys(router.query).includes('activity') &&
-      initialLoad
+      !Object.keys(router.query).includes('activity')
     ) {
-      fetchListings(false);
-      setInitialLoad(false);
-    }
-  }, [router.query]);
-
-  useEffect(() => {
-    if (sourceFilter != null) {
       fetchListings(true);
     }
-  }, [sourceFilter]);
+  }, [router.query]);
 
   return (
     <TabWrapper>
@@ -190,7 +190,7 @@ function Listings({
           selectionChange={selectionChange}
           loreChange={() => { setHasLore(!hasLore); fetchListings(false); }}
           noLoreChange={() => setHasNoLore(!hasNoLore)}
-          setSource={setSourceFilter}
+          setSource={updateSource}
         />
       }
       <ScrollWrapper>

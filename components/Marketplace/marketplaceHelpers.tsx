@@ -305,7 +305,7 @@ function traitFormat(contract: string, trait: string) {
 export function getURLAttributes(contract: string, query: any) {
   var url_string = "";
   for (var trait of Object.keys(query)) {
-    if (trait != 'contractSlug' && trait != 'activity') {
+    if (trait != 'contractSlug' && trait != 'activity' && trait != 'source') {
       var url_trait = traitFormat(contract, trait).replace("#", "%23");
       url_string +=
         "&attributes[" +

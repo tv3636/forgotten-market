@@ -171,6 +171,8 @@ function Forms({
   noLoreChange: any;
   setSource: any;
 }) {
+  const router = useRouter();
+  
   return (
     <div>
       <Form style={{marginBottom: '0px'}}>
@@ -184,11 +186,11 @@ function Forms({
       <Form>
         {Object.keys(MARKETS).map((source: string, index: number) => (
           <MarketLabel key={index}>
-            <MarketInput type='radio' name='source' onClick={() => setSource(source)} /> {MARKETS[source].name}
+            <MarketInput type='radio' name='source' onClick={() => setSource(source)} checked={router.query['source'] == source} /> {MARKETS[source].name}
           </MarketLabel>
         ))}
         <MarketLabel>
-          <MarketInput type='radio' name='source' onClick={() => setSource('')} /> Show All
+          <MarketInput type='radio' name='source' onClick={() => setSource('')} checked={!router.query['source']}/> Show All
         </MarketLabel>            
       </Form>
     </div>
