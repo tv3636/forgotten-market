@@ -113,6 +113,8 @@ const DoubleHeader = styled.div`
 const BorderRight = styled.td`
   border-left: 0px;
   border-top: 0px;
+  border-right: 0.5px;
+  border-bottom: 0.5px;
 
   border-style: dashed;
 `;
@@ -120,6 +122,8 @@ const BorderRight = styled.td`
 const BorderRightHeader = styled.th`
   border-left: 0px;
   border-top: 0px;
+  border-right: 0.5px;
+  border-bottom: 0.5px;
 
   border-style: dashed;
 `;
