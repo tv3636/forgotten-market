@@ -313,7 +313,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       var page = null;
       var pageJson: any = {};
   
-      while (iteration == 0 || pageJson.tokens.length == offset) {
+      while (iteration == 0 || pageJson.tokens && pageJson.tokens.length == offset) {
         page = await fetch(
           `${API_BASE_URL}users/${address}/tokens/v2?collection=${contract}&offset=${offset * iteration}&limit=20`,
           { headers: headers }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { API_BASE_URL, CONTRACTS } from "./marketplaceConstants";
+import { API_BASE_URL, CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
@@ -197,6 +197,10 @@ const MobileWrapper = styled.div`
 `;
 
 const DesktopWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   @media only screen and (max-width: 600px) {
     display: none;
   }
@@ -218,6 +222,22 @@ const IconImage = styled.img`
   }
 
   transition: all 100ms;
+`;
+
+const MarketIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  margin-top: 2px;
+  image-rendering: pixelated;
+
+  @media only screen and (max-width: 600px) {
+    width: 15px;
+    height: 15px;
+    margin-right: 7px;
+    margin-top: 0;
+  }
+
 `;
 
 function BuyerSeller({ 
@@ -262,6 +282,7 @@ export default function Activity({
       { headers: headers }
     );
     const salesJson = await recentSales.json();
+    console.log(salesJson);
     setSales(sales.concat(salesJson.sales));
     setContinuation(salesJson.continuation);
     setFetched(true);
@@ -328,7 +349,7 @@ export default function Activity({
                       <TimeText>
                         <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
                       </TimeText>
-                      <IconImage src="/static/img/marketplace/share.png"/>
+                      <MarketIcon src={MARKET_ICONS_BY_NAME[sale.orderSource]} style={{marginLeft: '10px'}}/>
                       </div>
                     </SoftLink>
                   </DesktopWrapper>

@@ -42,7 +42,13 @@ export const FORGOTTEN_MARKET_SOURCE = '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dc
 export const MARKET_ICONS: any = {
   [OPENSEA_SOURCE]: '/static/img/icons/nav/opensea_default.png',
   [LOOKSRARE_SOURCE]: '/static/img/icons/nav/looksrare_default.png',
-  [FORGOTTEN_MARKET_SOURCE]: '/static/img/icons/nav/native_listing.png'
+  [FORGOTTEN_MARKET_SOURCE]: '/static/img/icons/nav/native_listing.png',
+}
+
+export const MARKET_ICONS_BY_NAME: any = {
+  'Forgotten Market': '/static/img/icons/nav/native_listing.png',
+  'OpenSea': '/static/img/icons/nav/opensea_default.png',
+  'LooksRare': '/static/img/icons/nav/looksrare_default.png',
 }
 
 export const MARKETS: any = {

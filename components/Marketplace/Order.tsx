@@ -255,6 +255,7 @@ function OrderContent({
   const [price, setPrice] = useState('');
   const [showError, setShowError] = useState<any>(null);
   const [listOS, setListOS] = useState(false);
+  const [listLR, setListLR] = useState(false);
   const [expiration, setExpiration] = useState(
     new Date(
       new Date().getFullYear(), 
@@ -435,10 +436,24 @@ function OrderContent({
         expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
         orderbook: 'opensea',
       }
+      
       setParams(os_url, os_query);
-      console.log(os_url);
-
       await execute(os_url, signer);
+    }
+
+    if (listLR) {
+      const lr_url = new URL(OrderURLs[action], API_BASE_URL);
+      let lr_query: any = {
+        token: `${contract}:${tokenId}`,
+        maker: account,
+        weiPrice: ethers.utils.parseEther(price).toString(),
+        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
+        orderbook: 'looks-rare',
+        orderKind: 'looks-rare'
+      }
+      
+      setParams(lr_url, lr_query);
+      await execute(lr_url, signer);
     }
 
     setModal(false);
@@ -510,8 +525,10 @@ function OrderContent({
           />
           { action == ORDER_TYPE.SELL && 
             <Form>
-              Cross-post listing to OpenSea: <input type='checkbox' onClick={() => setListOS(!listOS)} />
+              Post listing to OpenSea: <input type='checkbox' onClick={() => setListOS(!listOS)} /><br/><br/>
+              Post listing to LooksRare: <input type='checkbox' onClick={() => setListLR(!listLR)} />
             </Form>
+            
           }
           <ActionButton actionType={action} submitAction={submitAction} />
         </Overlay> 
