@@ -17,7 +17,7 @@ const CollapseButton = styled.div`
   padding-right: 9px;
   margin-top: 30px;
   
-  border: dashed;
+  border: solid;
   border-color: var(--mediumGray);
   border-width: 2px;
   
@@ -50,7 +50,7 @@ const Form = styled.form`
   margin-top: 30px;
   margin-bottom: 30px;
   
-  border: dashed;
+  border: solid;
   padding: 10px;
   border-width: 2px;
   border-color: var(--mediumGray);

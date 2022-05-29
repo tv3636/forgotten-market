@@ -165,9 +165,10 @@ const ActivityRow = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  border: dashed;
+  border: solid;
   border-radius: 20px;
   border-color: var(--mediumGray);
+  border-width: 4px;
   background: #0d0c16c4;
 
   padding: 20px;

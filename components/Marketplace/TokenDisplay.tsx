@@ -3,9 +3,15 @@ import { CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import wizards from "../../data/nfts-prod.json";
+import warriors from "../../data/warriors.json";
+import souls from "../../data/souls.json";
+import ponies from "../../data/ponies.json";
 import styled from "@emotion/styled";
 
 const wizData = wizards as { [wizardId: string]: any };
+const warriorsData = warriors as { [warriorId: string]: any};
+const soulsData = souls as { [soulId: string]: any };
+const poniesData = ponies as { [ponyId: string]: any };
 
 const ListingDisplay = styled.div`
   width: 250px;
@@ -13,6 +19,17 @@ const ListingDisplay = styled.div`
   margin: 25px;
   display: flex;
   flex-direction: column;
+
+  border-style: solid;
+  border-color: var(--mediumGray);
+  border-radius: 18px;
+  border-width: 2px;
+
+  background-color: var(--darkGray);
+
+  :hover {
+    transform: scale(1.03);
+  }
 
   @media only screen and (max-width: 600px) {
     width: 150px;
@@ -23,73 +40,96 @@ const ListingDisplay = styled.div`
     margin-top: 5px;
   }
 
+  transition: all 100ms;
+
 `;
 
 const ListingImage = styled.img`
-  border-style: solid;
-  border-width: 4px;
-  border-color: var(--darkGray);
-  border-radius: 10px;
-
-  min-width: 250px;
-  min-height: 250px;
   max-height: 50vw;
   max-width: 50vw;
 
+  min-height: 248px;
+
+  border-radius: 15px;
+  border-style: solid;
+  border-width: 4px;
+  border-color: var(--mediumGray);
+
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-width: 6px;
+
+  padding: 15px;
+
   :hover {
     cursor: pointer;
-    border-color: var(--mediumGray);
   }
 
   @media only screen and (max-width: 600px) {
-    width: 150px;
-    height: 150px;
-
-    min-width: 150px;
     max-width: 150px;
+    max-height: 150px;
 
     min-height: 150px;
-    max-height: 150px;
 
     border-width: 1.5px;
   }
 
-  transition: border-color 100ms;
+  transition: border-color 300ms;
+
+`;
+
+const TextDisplay = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 15px;
+  padding-top: 0px;
+
+  @media only screen and (max-width: 600px) {
+    padding: 12px;
+    padding-top: 0px;
+  }
 
 `;
 
 const MarketText = styled.p`
   font-family: Alagard;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: bold;
   color: white;
   
-  line-height: 1.3;
-  max-width: 25ch;
+  line-height: .9;
+  max-width: 19ch;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
   @media only screen and (max-width: 600px) {
-    max-width: 15ch;
+    font-size: 15px;
+    max-width: 13ch;
+    line-height: 1;
   }
 `;
 
 const PriceDisplay = styled.div`
   font-family: Alagard;
-  font-size: 17px;
+  font-size: 18px;
   color: var(--white);
   font-weight: bold;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 15px;
+  }
 `;
 
 const MarketIcon = styled.img`
-  width: 17px;
-  height: 17px;
+  width: 22px;
+  height: 22px;
   margin-top: 2px;
   image-rendering: pixelated;
 
@@ -100,6 +140,19 @@ const MarketIcon = styled.img`
   }
 
 `;
+
+const EthSymbol = styled.img`
+  height: 16px;
+  margin-right: 8px;
+  margin-top: 2px;
+
+  @media only screen and (max-width: 600px) {
+    margin-top: 1.5px;
+    height: 13px;
+  }
+
+`;
+
 
 export default function TokenDisplay({
   contract,
@@ -155,47 +208,40 @@ export default function TokenDisplay({
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
-              (e.currentTarget.src = pony_turnaround)
+              { (e.currentTarget.src = pony_turnaround); }
             }
             onMouseOut={(e) =>
               (e.currentTarget.src = image)
             }
-            style={{background: '#' + wizData[tokenId].background_color}}
+            style={{background: tokenId in poniesData ? poniesData[tokenId].background : 'black'}}
           /> :
           <ListingImage 
             src={CONTRACTS[contract].image_url + tokenId + ".png"}
+            style={{ 
+              background: 
+                CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].background :
+                CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? soulsData[tokenId].background :
+                'black'
+            }}
           />
         }
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '50%',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <div 
-            style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-            <MarketText title={name}>{name}</MarketText>
+        <TextDisplay>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <MarketText title={name} style={price ? {} : {maxWidth: '25ch'}}>
+              {name}
+            </MarketText>
             { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
           </div>
           <PriceDisplay>
             {price &&
               <div style={{ display: 'flex' }}>
-                <img
-                  src='/static/img/marketplace/eth.png'
-                  style={{
-                    height: '14px',
-                    marginRight: '8px',
-                    marginTop: '2px',
-                  }}
-                />
+                <EthSymbol src='/static/img/marketplace/eth.png' />
                 <div>{price}</div>
               </div>
             }
             
           </PriceDisplay>
-        </div>
+        </TextDisplay>
       </ListingDisplay>
       </SoftLink>
     </Link>

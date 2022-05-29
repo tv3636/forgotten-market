@@ -7,7 +7,7 @@ headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? 
 
 const CollectionOffer = styled.div`
   background: var(--darkGray);
-  border-style: dashed;
+  border-style: solid;
   border-radius: 10px;
   border-color: var(--mediumGray);
   border-width: 1px;
