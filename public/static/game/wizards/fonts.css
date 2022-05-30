@@ -7,5 +7,30 @@
 
 @font-face {
   font-family: "Alagard";
-  src: url("/static/game/wizards/alagard.otf") format("opentype");
+  src: url("/static/game/wizards/alagard.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Quadrunde";
+  src: url("/static/game/wizards/pw_extended.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Ninety";
+  src: url("/static/game/wizards/1993.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Staxblox";
+  src: url("/static/game/wizards/newgen.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Phat";
+  src: url("/static/game/wizards/phatone.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Pico";
+  src: url("/static/game/wizards/pico.ttf") format("truetype");
 }

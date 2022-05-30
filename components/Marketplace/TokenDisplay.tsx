@@ -27,9 +27,7 @@ const ListingDisplay = styled.div`
 
   background-color: var(--darkGray);
 
-  :hover {
-    transform: scale(1.03);
-  }
+  
 
   @media only screen and (max-width: 600px) {
     width: 150px;
@@ -63,6 +61,7 @@ const ListingImage = styled.img`
 
   :hover {
     cursor: pointer;
+    border-color: var(--lightGray);
   }
 
   @media only screen and (max-width: 600px) {
@@ -93,13 +92,13 @@ const TextDisplay = styled.div`
 `;
 
 const MarketText = styled.p`
-  font-family: Alagard;
-  font-size: 18px;
+  font-family: Staxblox;
+  font-size: 17px;
   font-weight: bold;
   color: white;
   
-  line-height: .9;
-  max-width: 19ch;
+  line-height: 1.2;
+  max-width: 16ch;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -107,14 +106,14 @@ const MarketText = styled.p`
 
   @media only screen and (max-width: 600px) {
     font-size: 15px;
-    max-width: 13ch;
-    line-height: 1;
+    max-width: 14ch;
+    line-height: 1.2;
   }
 `;
 
 const PriceDisplay = styled.div`
-  font-family: Alagard;
-  font-size: 18px;
+  font-family: Staxblox;
+  font-size: 17px;
   color: var(--white);
   font-weight: bold;
 

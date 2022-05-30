@@ -188,7 +188,7 @@ p {
   border-radius: 10px;
   border-color: var(--mediumGray);
 
-  font-family: 'Roboto Mono';
+  font-family: 'Staxblox';
   text-align: center;
 
   margin-right: 1ch;
@@ -224,7 +224,7 @@ p {
   background: var(--mediumGray) !important;
   color: var(--lightGray) !important;
 
-  font-family: Roboto Mono !important;
+  font-family: Staxblox !important;
 }
 
 .flatpickr-rContainer {
@@ -238,7 +238,7 @@ p {
   background: var(--darkGray) !important;
   border-color: var(--darkGray) !important;
   color: var(--lightGray) !important;
-  font-family: Roboto Mono !important;
+  font-family: Staxblox !important;
 }
 
 .flatpickr-disabled {

@@ -51,12 +51,12 @@ const ActivityImage = styled.img`
 `;
 
 const TimeText = styled.p`
-  font-family: Alagard;
-  font-size: 17px;
+  font-family: Staxblox;
+  font-size: 14px;
   font-weight: bold;
   color: var(--white);
   
-  line-height: 1.3;
+  line-height: 1.8;
   max-width: 25ch;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -69,13 +69,13 @@ const TimeText = styled.p`
 `;
 
 const SalesText = styled.div`
-  font-family: Alagard;
+  font-family: Ninety;
   font-size: 18px;
   font-weight: bold;
   color: var(--white);
   
   line-height: 1.3;
-  width: 20ch;
+  width: 15ch;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -89,13 +89,13 @@ const SalesText = styled.div`
 `;
 
 const BuyerText = styled.div`
-  font-family: Alagard;
+  font-family: Ninety;
   font-size: 17px;
   font-weight: bold;
   color: var(--white);
   
   line-height: 1.5;
-  max-width: 20ch;
+  max-width: 15ch;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -233,8 +233,8 @@ const MarketIcon = styled.img`
   image-rendering: pixelated;
 
   @media only screen and (max-width: 600px) {
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     margin-right: 7px;
     margin-top: 0;
   }
@@ -337,7 +337,7 @@ export default function Activity({
                       <TimeText>
                         <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
                       </TimeText>
-                      <IconImage src="/static/img/marketplace/share.png"/>
+                      <MarketIcon src={MARKET_ICONS_BY_NAME[sale.orderSource]} style={{marginLeft: '10px'}}/>
                       </div>
                     </SoftLink>
                   </MobileWrapper>

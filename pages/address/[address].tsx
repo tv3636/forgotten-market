@@ -70,7 +70,7 @@ const DesktopLine = styled.hr`
 
 const Title = styled.div`
   font-size: 24px;
-  font-family: Alagard;
+  font-family: Phat;
   color: var(--white);
 
   margin-top: var(--sp-3);
@@ -85,7 +85,7 @@ const Title = styled.div`
 
 const SubTitle = styled.div`
   font-size: 15px;
-  font-family: Roboto Mono;
+  font-family: Staxblox;
   color: var(--white);
 
   margin-bottom: var(--sp1);

@@ -24,10 +24,10 @@ const Tab  = styled.div`
   border-style: solid;
   border-radius: 10px;
   border-color: var(--mediumGray);
-  border-width: 1px;
+  border-width: 3px;
 
   font-family: Alagard;
-  font-size: 24px;
+  font-size: 22px;
   color: var(--lightGray);
 
   padding: 5px;
@@ -56,7 +56,7 @@ const TabSelected  = styled.div`
   border-width: 1px;
 
   font-family: Alagard;
-  font-size: 24px;
+  font-size: 22px;
   color: var(--white);
 
   padding: 5px;

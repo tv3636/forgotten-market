@@ -1,4 +1,3 @@
-
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
@@ -18,7 +17,7 @@ const TraitRow = styled.div`
   height: 50px;
   align-items: center;
   
-  font-family: Roboto Mono;
+  font-family: Quadrunde;
   background: var(--darkGray);
   color: var(--lightGray);
   border: 2px dashed var(--mediumGray);

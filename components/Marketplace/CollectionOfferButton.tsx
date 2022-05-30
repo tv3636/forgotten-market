@@ -10,10 +10,10 @@ const CollectionOffer = styled.div`
   border-style: solid;
   border-radius: 10px;
   border-color: var(--mediumGray);
-  border-width: 1px;
+  border-width: 2px;
 
   font-family: Alagard;
-  font-size: 20px;
+  font-size: 18px;
   color: var(--lightGray);
 
   padding: 10px;

@@ -8,11 +8,11 @@ TimeAgo.addDefaultLocale(en);
 
 const ExpirationWrapper = styled.div`
 text-align: left;
-font-size: 14px;
-font-family: Roboto Mono;
+font-size: 15px;
+font-family: Staxblox;
 color: var(--lightGray);
 display: flex;
-margin-top: 1vh;
+margin-top: 1.5vh;
 align-items: center;
 
 @media only screen and (max-width: 600px) {
@@ -26,10 +26,9 @@ align-items: center;
 `;
 
 const MarketIcon = styled.img`
-  width: 14px;
-  height: 14px;
-  margin-right: 8px;
-  margin-top: 2px;
+  width: 17px;
+  height: 17px;
+  margin-right: 10px;
   image-rendering: pixelated;
 
   @media only screen and (max-width: 600px) {

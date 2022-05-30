@@ -22,7 +22,7 @@ const PriceInput = styled.input`
   border-radius: 10px;
   border-color: var(--mediumGray);
 
-  font-family: 'Roboto Mono';
+  font-family: 'Staxblox';
   text-align: center;
 
   :hover {

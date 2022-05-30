@@ -45,8 +45,8 @@ const Title = styled.div`
 `;
 
 const Description = styled.div`
-  font-size: 17px;
-  font-family: Arial;
+  font-size: 15px;
+  font-family: Quadrunde;
   color: var(--white);
   line-height: 1.6em;
 

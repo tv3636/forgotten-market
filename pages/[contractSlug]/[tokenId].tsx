@@ -148,8 +148,9 @@ const NameDisplay = styled.div`
 `;
 
 const NameStyle = styled.h2`
-  font-family: Alagard;
-  font-size: 45px;
+  font-family: Phat;
+  font-size: 30px;
+  line-height: 1.65;
   max-width: 20ch;
   display: inline-block;
   
@@ -167,13 +168,14 @@ const NameStyle = styled.h2`
 `;
 
 const OwnerStyle = styled.h4`
-  font-family: Roboto Mono;
+  font-family: Staxblox;
   font-size: 14px;
   font-weight: normal;
   color: var(--lightGray);
 
   text-align: left;
   margin-block-start: 0.5vh;
+  margin-top: 13px;
 
   @media only screen and (max-width: 600px) {
     text-align: center;

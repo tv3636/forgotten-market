@@ -10,8 +10,7 @@ import { useRouter } from 'next/router';
 type Props = {};
 
 const SiteNavElement = styled.nav`
-  font-family: "Roboto Mono", system-ui, -apple-system, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: "Quadrunde";
 
   display: flex;
   flex-direction: column;
@@ -203,7 +202,7 @@ export const LogoToggleRow = styled.div`
 const MenuItem = styled.div`
   position: relative;  
   margin-right: 30px;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--lightGray);
   cursor: pointer;
   

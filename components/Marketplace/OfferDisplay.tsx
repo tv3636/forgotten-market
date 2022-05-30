@@ -10,7 +10,7 @@ const PriceValue = styled.div`
 const OfferWrapper = styled.div`
   text-align: left;
   font-size: 14px;
-  font-family: Roboto Mono;
+  font-family: Staxblox;
   color: var(--lightGray);
   display: flex;
   margin-top: 1vh;

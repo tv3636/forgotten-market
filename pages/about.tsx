@@ -34,10 +34,10 @@ const Title = styled.div`
 `;
 
 const Description = styled.div`
-  font-size: 17px;
-  font-family: Arial;
+  font-size: 15px;
+  font-family: Quadrunde;
   color: var(--white);
-  line-height: 1.5em;
+  line-height: 1.8em;
 
   margin-top: var(--sp-3);
   margin-bottom: var(--sp-1);
@@ -87,11 +87,13 @@ const Fees = styled.table`
 
   padding: 5px;
   text-align: center;
+
+  font-family: Ninety;
 `;
 
 const Row = styled.tr`
   color: var(--white);
-  font-size: 15px;
+  font-size: 17px;
 
   th, td {
     padding: 10px;
