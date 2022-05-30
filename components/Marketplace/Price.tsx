@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 const PriceValue = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 `;
 
@@ -25,12 +25,12 @@ export default function Price({
   size: number;
 }) {
   return (
-    <PriceStyle style={{fontSize: `${18 * size}px`}}>
+    <PriceStyle style={{fontSize: `${20 * size}px`}}>
       {value ? (
         <PriceValue>
           <img
             src="/static/img/marketplace/eth_alt.png"
-            style={{ height: `${25 * size}px`, marginRight: `${12 * size}px` }}
+            style={{ height: `${30 * size}px`, marginRight: `${12 * size}px` }}
           />
           <div>{value}</div>
         </PriceValue>

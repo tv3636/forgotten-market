@@ -48,7 +48,7 @@ const Description = styled.div`
   font-size: 15px;
   font-family: Quadrunde;
   color: var(--white);
-  line-height: 1.6em;
+  line-height: 2em;
 
   display: flex;
 
