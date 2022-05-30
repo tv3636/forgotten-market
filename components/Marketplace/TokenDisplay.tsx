@@ -112,8 +112,8 @@ const MarketText = styled.p`
 `;
 
 const PriceDisplay = styled.div`
-  font-family: Staxblox;
-  font-size: 17px;
+  font-family: Phat;
+  font-size: 13px;
   color: var(--white);
   font-weight: bold;
 
@@ -143,7 +143,6 @@ const MarketIcon = styled.img`
 const EthSymbol = styled.img`
   height: 16px;
   margin-right: 8px;
-  margin-top: 2px;
 
   @media only screen and (max-width: 600px) {
     margin-top: 1.5px;

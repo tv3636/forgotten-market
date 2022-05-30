@@ -13,7 +13,7 @@ const CollectionOffer = styled.div`
   border-width: 2px;
 
   font-family: Alagard;
-  font-size: 18px;
+  font-size: 20px;
   color: var(--lightGray);
 
   padding: 10px;

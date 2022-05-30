@@ -149,8 +149,8 @@ const NameDisplay = styled.div`
 
 const NameStyle = styled.h2`
   font-family: Phat;
-  font-size: 30px;
-  line-height: 1.65;
+  font-size: 26px;
+  line-height: 1.9;
   max-width: 20ch;
   display: inline-block;
   

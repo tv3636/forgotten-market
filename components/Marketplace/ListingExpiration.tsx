@@ -65,7 +65,7 @@ export function ListingExpiration({
       <div>
         <ExpirationWrapper>
           { source in MARKET_ICONS && <MarketIcon src={MARKET_ICONS[source]} /> } 
-          <span style={{width: '16ch', alignSelf: 'center'}}>Listing expires </span>
+          <span style={{width: '12.5ch', alignSelf: 'center'}}>Listing expires </span>
           <ReactTimeAgo style={{alignSelf: 'center'}} date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
         </ExpirationWrapper>
       </div>
