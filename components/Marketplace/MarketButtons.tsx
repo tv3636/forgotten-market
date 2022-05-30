@@ -15,7 +15,6 @@ const ButtonImage = styled.img`
   margin-right: var(--sp-3);
   height: 35px;
   image-rendering: pixelated;
-  margin-top: 5px;
 
   :active {
     position: relative;

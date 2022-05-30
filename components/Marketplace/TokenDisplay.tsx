@@ -112,8 +112,8 @@ const MarketText = styled.p`
 `;
 
 const PriceDisplay = styled.div`
-  font-family: Phat;
-  font-size: 13px;
+  font-family: Alagard;
+  font-size: 20px;
   color: var(--white);
   font-weight: bold;
 
@@ -143,6 +143,7 @@ const MarketIcon = styled.img`
 const EthSymbol = styled.img`
   height: 16px;
   margin-right: 8px;
+  margin-top: 3px;
 
   @media only screen and (max-width: 600px) {
     margin-top: 1.5px;
@@ -219,6 +220,7 @@ export default function TokenDisplay({
               background: 
                 CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].background :
                 CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? soulsData[tokenId].background :
+                CONTRACTS[contract].display == 'Ponies' && tokenId in poniesData ? poniesData[tokenId].background :
                 'black'
             }}
           />

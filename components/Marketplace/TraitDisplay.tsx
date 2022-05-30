@@ -5,7 +5,7 @@ import { BURN_TRAITS, CONTRACTS } from "./marketplaceConstants";
 
 const TraitItem = styled.div`
   text-align: start;
-  margin-left: 14px;
+  margin-left: 20px;
   margin-right: 10px;
   font-size: 24px;
   font-family: Alagard;
@@ -40,7 +40,6 @@ const TraitType = styled.div`
   flex-direction: row;
   justify-content: center;
   font-size: 12px;
-  margin-right: 12px;
 `;
 
 const TraitWrapper = styled.div`

@@ -34,3 +34,8 @@
   font-family: "Pico";
   src: url("/static/game/wizards/pico.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "Alagardreal";
+  src: url("/static/game/wizards/alagardreal.ttf") format("truetype");
+}

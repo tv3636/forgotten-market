@@ -69,7 +69,7 @@ const DesktopLine = styled.hr`
 `;
 
 const Title = styled.div`
-  font-size: 24px;
+  font-size: 16px;
   font-family: Phat;
   color: var(--white);
 
@@ -140,7 +140,7 @@ function AccountHeader({
   ens: string;
   }) {
   return (
-    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+    <div style={{display: 'flex', flexDirection: 'row'}}>
       <Title>{ens ? ens : address}</Title>
         <a
           href={`https://opensea.io/${address}`}
