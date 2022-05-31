@@ -21,6 +21,8 @@ const LoreContainer = styled.div`
   justify-content: center;
   align-content: center;
   align-items: center;
+
+  text-align: center;
 `;
 
 const IconImage = styled.img`

@@ -9,6 +9,10 @@ const TraitItem = styled.div`
   margin-right: 10px;
   font-size: 24px;
   font-family: Alagard;
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 40px;
+  }
 `;
 
 const TraitRow = styled.div`

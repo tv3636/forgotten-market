@@ -32,7 +32,7 @@ export default function Price({
             src="/static/img/marketplace/eth_alt.png"
             style={{ height: `${35 * size}px`, marginRight: `${12 * size}px` }}
           />
-          <div>{value}</div>
+          <div style={{marginTop: '4px'}}>{value}</div>
         </PriceValue>
       ) : null}
     </PriceStyle>
