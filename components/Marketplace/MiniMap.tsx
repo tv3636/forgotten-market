@@ -75,7 +75,7 @@ const MapStyles = styled.div`
 `;
 
 const MapOverlay = styled.div`
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 17px;
   color: var(--lightGray);
 `;

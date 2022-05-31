@@ -7,7 +7,7 @@ const PriceValue = styled.div`
 `;
 
 const PriceStyle = styled.div`
-  font-family: Alagard;
+  font-family: Bitdaylong;
   color: var(--white);
   margin-bottom: var(--sp-3);  
   align-self: flex-start;

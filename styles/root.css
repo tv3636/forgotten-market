@@ -137,7 +137,7 @@ p {
 
 .select__placeholder {
   color: var(--lightGray) !important;
-  font-family: 'Alagard';
+  font-family: 'Bitdaylong';
   font-size: 18px;
 }
 
@@ -151,7 +151,7 @@ p {
 .select__option {
   color: var(--lightGray) !important;
   background-color: var(--mediumGray) !important;
-  font-family: 'Alagard';
+  font-family: 'Bitdaylong';
   font-size: 18px !important;
 }
 
@@ -162,7 +162,7 @@ p {
 
 .select__single-value {
   color: var(--white) !important;
-  font-family: 'Alagard';
+  font-family: 'Bitdaylong';
   font-size: 18px;
 }
 
@@ -206,7 +206,7 @@ p {
   background: var(--mediumGray) !important;
   color: var(--lightGray) !important;
 
-  font-family: Alagard !important;
+  font-family: Bitdaylong !important;
 }
 
 .flatpickr-monthDropdown-months {

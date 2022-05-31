@@ -233,7 +233,7 @@ const BottomLine = styled.hr`
 `;
 
 const SectionDisplay = styled.div`
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 24px;
   color: var(--white);
   align-self: flex-start;

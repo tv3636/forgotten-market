@@ -66,7 +66,7 @@ export const TokenImage = styled.img`
 
 export const Title = styled.div`
   margin: 10px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 18px;
   color: var(--white);
 
@@ -83,7 +83,7 @@ export const Title = styled.div`
 
 const Description = styled.div`
   margin: 10px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 18px;
   color: var(--white);
 
@@ -131,7 +131,7 @@ const IconImage = styled.img`
 const Form = styled.form`
   margin-top: 10px;
   margin-bottom: 25px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   color: var(--white);
   font-size: 17px;
 

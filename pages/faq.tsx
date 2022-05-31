@@ -19,7 +19,7 @@ const AboutWrapper = styled.div`
 
 const BigTitle = styled.div`
   font-size: 40px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   color: var(--white);
 
   margin-top: var(--sp-1);
@@ -33,7 +33,7 @@ const BigTitle = styled.div`
 
 const Title = styled.div`
   font-size: 30px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   color: var(--white);
 
   margin-top: var(--sp-1);

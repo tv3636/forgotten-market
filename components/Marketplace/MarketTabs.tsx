@@ -26,7 +26,7 @@ const Tab  = styled.div`
   border-color: var(--mediumGray);
   border-width: 3px;
 
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 22px;
   color: var(--lightGray);
 
@@ -55,7 +55,7 @@ const TabSelected  = styled.div`
   border-color: var(--lightGray);
   border-width: 1px;
 
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 22px;
   color: var(--white);
 

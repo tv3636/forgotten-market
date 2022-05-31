@@ -8,7 +8,7 @@ const TraitItem = styled.div`
   margin-left: 20px;
   margin-right: 10px;
   font-size: 24px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
 
   @media only screen and (max-width: 600px) {
     margin-left: 40px;

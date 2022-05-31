@@ -13,7 +13,7 @@ const LoreContainer = styled.div`
   padding: 40px;
   width: 100%;
 
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 20px;
 
   display: flex;

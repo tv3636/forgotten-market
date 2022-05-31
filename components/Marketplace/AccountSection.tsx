@@ -5,7 +5,7 @@ import { CONTRACTS } from "./marketplaceConstants";
 
 const Title = styled.div`
   font-size: 24px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   color: var(--white);
 
   margin-top: var(--sp-3);

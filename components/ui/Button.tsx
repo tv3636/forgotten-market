@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import styled from "@emotion/styled";
 
 type Props = {
@@ -28,7 +27,7 @@ const ButtonElement = styled.a<Props>`
         return `
         padding: 0.8em 1em;
         border-radius: 3px;
-        font-family: "Alagard";
+        font-family: "Bitdaylong";
         font-size: 20px;
         `;
       }

@@ -11,7 +11,7 @@ headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? 
 const CollapseButton = styled.div`
   background-color: var(--darkGray);
   color: var(--lightGray);
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 18px;
   padding: 15px;
   padding-right: 9px;
@@ -71,7 +71,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   margin: 5px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 18px;
 
   color: var(--lightGray);
@@ -83,7 +83,7 @@ const Label = styled.label`
 
 const MarketLabel = styled.label`
   margin: 5px;
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 18px;
 
   color: var(--lightGray);

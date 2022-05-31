@@ -112,7 +112,7 @@ const MarketText = styled.p`
 `;
 
 const PriceDisplay = styled.div`
-  font-family: Alagard;
+  font-family: Bitdaylong;
   font-size: 20px;
   color: var(--white);
   font-weight: bold;
