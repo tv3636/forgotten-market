@@ -7,7 +7,7 @@
 
 @font-face {
   font-family: "Alagard";
-  src: url("/static/game/wizards/alagard.ttf") format("truetype");
+  src: url("/static/game/wizards/alagard1.ttf") format("truetype");
 }
 
 @font-face {
@@ -32,5 +32,5 @@
 
 @font-face {
   font-family: "Bitdaylong";
-  src: url("/static/game/wizards/bit_daylong.ttf") format("truetype");
+  src: url("/static/game/wizards/bit_daylong1.ttf") format("truetype");
 }
