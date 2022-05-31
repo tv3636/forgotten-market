@@ -167,7 +167,7 @@ const NameStyle = styled.h2`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
-    font-size: 25px;
+    font-size: 23px;
   }
 `;
 
