@@ -63,8 +63,8 @@ const HorizontalLine = styled.hr`
 `;
 
 const OSIcon = styled.img`
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   margin-top: 2px;
   margin-left: 2px;
   margin-right: 2px;

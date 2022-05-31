@@ -39,3 +39,8 @@
   font-family: "Alagardreal";
   src: url("/static/game/wizards/alagardreal.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "Lychee";
+  src: url("/static/game/wizards/LycheeSoda.ttf") format("truetype");
+}

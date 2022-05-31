@@ -131,8 +131,12 @@ const SectionWrapper = styled.div`
 `;
 
 const TokenImage = styled.img`
-  border: 2px dashed var(--darkGray);
   background: #1f0200;
+
+  border-style: solid;
+  border-width: 4px;
+  border-radius: 20px;
+  border-color: var(--mediumGray);
 
   @media only screen and (max-width: 600px) {
     border: 4px solid var(--darkGray);
@@ -148,9 +152,9 @@ const NameDisplay = styled.div`
 `;
 
 const NameStyle = styled.h2`
-  font-family: Alagardreal;
-  font-size: 45px;
-  line-height: 1.1;
+  font-family: Phat;
+  font-size: 26px;
+  line-height: 1.9;
   max-width: 20ch;
   display: inline-block;
   
@@ -233,9 +237,10 @@ const SectionDisplay = styled.div`
   font-size: 24px;
   color: var(--white);
   align-self: flex-start;
-  margin-bottom: var(--sp-3);
+  margin-bottom: var(--sp-1);
   display: flex;
   align-items: center;
+
 
   @media only screen and (max-width: 600px) {
     align-self: center;
@@ -248,8 +253,6 @@ const SectionName = styled.div`
 
 const MidDisplay = styled.div`
   text-align: center;
-  margin-right: 1.5vw;
-
 
   display: flex;
   flex-direction: row;
@@ -278,6 +281,7 @@ const LoreWrapper = styled.div`
     margin-right: 40px;
   }
 `;
+
 
 function SectionHeader({
   title,

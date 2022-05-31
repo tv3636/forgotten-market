@@ -18,7 +18,6 @@ const TraitItem = styled.div`
 const TraitRow = styled.div`
   display: flex;
   flex-direction: row;
-  height: 50px;
   align-items: center;
   
   font-family: Quadrunde;
@@ -28,7 +27,7 @@ const TraitRow = styled.div`
   border-radius: 4px;
 
   margin: var(--sp-4);
-  padding: var(--sp1) var(--sp0);
+  padding: var(--sp-2) var(--sp0);
 
   :hover {
     cursor: pointer;
@@ -104,9 +103,7 @@ export default function TraitDisplay({
                   passHref={true}
                 >
                   <SoftLink>
-                    <TraitRow
-                      style={{height: CONTRACTS[contract].display == 'Flames' ? 'auto' : '50px'}}
-                    >
+                    <TraitRow>
                       <TraitType>{attribute.key}</TraitType>
                       <TraitItem>{attribute.value}</TraitItem>
                       <TraitType style={{marginRight: '0'}}>
