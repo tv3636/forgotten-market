@@ -53,7 +53,7 @@ const TabSelected  = styled.div`
   border-style: solid;
   border-radius: 10px;
   border-color: var(--lightGray);
-  border-width: 1px;
+  border-width: 3px;
 
   font-family: Bitdaylong;
   font-size: 22px;

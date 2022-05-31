@@ -65,6 +65,7 @@ const TimeText = styled.p`
 
   @media only screen and (max-width: 600px) {
     font-size: 14px;
+    max-width: 50ch;
   }
 `;
 
@@ -84,7 +85,7 @@ const SalesText = styled.div`
 
   @media only screen and (max-width: 600px) {
     font-size: 15px;
-    width: 11ch;
+    width: 8ch;
   }
 `;
 
@@ -102,7 +103,7 @@ const BuyerText = styled.div`
 
   @media only screen and (max-width: 600px) {
     font-size: 14px;
-    max-width: 14ch;
+    max-width: 11ch;
   }
 `;
 
@@ -177,6 +178,7 @@ const ActivityRow = styled.div`
   @media only screen and (max-width: 600px) {
     padding-left: 10px;
     padding-right: 10px;
+    justify-content: space-around;
   }
 `;
 
@@ -205,24 +207,6 @@ const DesktopWrapper = styled.div`
   @media only screen and (max-width: 600px) {
     display: none;
   }
-`;
-
-const IconImage = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-left: 5px;
-
-  @media only screen and (max-width: 600px) {
-    width: 15px;
-    height: 15px;
-  }
-
-  :hover {
-    opacity: 0.7;
-    cursor: pointer;
-  }
-
-  transition: all 100ms;
 `;
 
 const MarketIcon = styled.img`
