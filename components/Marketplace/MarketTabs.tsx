@@ -44,7 +44,7 @@ const Tab  = styled.div`
   transition: border-color 300ms;
 
   @media only screen and (max-width: 600px) {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
@@ -72,7 +72,7 @@ const TabSelected  = styled.div`
   }
 
   @media only screen and (max-width: 600px) {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 

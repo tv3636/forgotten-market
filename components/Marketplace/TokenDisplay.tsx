@@ -105,9 +105,9 @@ const MarketText = styled.p`
   overflow: hidden;
 
   @media only screen and (max-width: 600px) {
-    font-size: 15px;
-    max-width: 14ch;
-    line-height: 1.2;
+    font-size: 13px;
+    width: ch;
+    line-height: 1.5;
   }
 `;
 
@@ -133,8 +133,10 @@ const MarketIcon = styled.img`
   image-rendering: pixelated;
 
   @media only screen and (max-width: 600px) {
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
     margin-top: 0;
   }
 

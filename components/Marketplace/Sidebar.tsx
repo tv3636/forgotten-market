@@ -245,7 +245,7 @@ export default function SideBar({
         style={{paddingRight: expanded ? '9px' : '15px'}}
       >
         <DesktopWrapper>Filter by Trait</DesktopWrapper>
-        <MobileWrapper style={{marginRight: '10px', marginLeft: '10px'}}>Filter</MobileWrapper>
+        <MobileWrapper style={{marginRight: '10px', marginLeft: '10px', fontSize: '15px'}}>Filter</MobileWrapper>
         <div>{ expanded ? <img src='/static/img/marketplace/down_arrow.png' height='12px' width='20px'/> : `>`}</div>
       </CollapseButton>
       <FilterStyle 

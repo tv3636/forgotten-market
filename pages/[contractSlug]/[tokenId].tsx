@@ -167,7 +167,7 @@ const NameStyle = styled.h2`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
-    font-size: 23px;
+    font-size: 20px;
   }
 `;
 
@@ -477,9 +477,7 @@ const ListingPage = ({
                   />
                 }
               </TopLeft>
-              <TopRight
-                style={{height: CONTRACTS[contractSlug].display == 'Flames' ? 476 : 420}}
-              >
+              <TopRight>
                 <NameDisplay>
                   <NameStyle>{token.name}</NameStyle>
                   {token.owner && (

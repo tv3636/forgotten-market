@@ -217,6 +217,10 @@ const MenuItem = styled.div`
     }
   }
 
+  @media only screen and (max-width: 600px) {
+    
+  }
+
   transition: all 200ms;
 `;
 
@@ -252,27 +256,6 @@ const AccountDropDown = styled.div`
   transform: translate(-50%, 0);
   display: none;
   z-index: 1000;
-
-`;
-
-const CollectionOffer = styled.div`
-  margin-right: 10px;
-  margin-top: 3px;
-
-
-  :hover {
-    cursor: pointer;
-  }
-
-  @media only screen and (max-width: 600px) {
-    font-size: 16px;
-    margin-right: 0px;
-    margin-top: 0px;
-    display: flex;
-    justify-content: center;
-  }
-
-  transition: all 200ms;
 
 `;
 

@@ -18,7 +18,7 @@ const OfferWrapper = styled.div`
   
   @media only screen and (max-width: 600px) {
     justify-content: center;
-    font-size: 13px;
+    font-size: 14px;
     margin-top: 0;
   }
 `;

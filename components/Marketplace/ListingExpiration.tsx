@@ -21,7 +21,7 @@ align-items: center;
   justify-content: center;
   margin: 5% 5% 3% 5%;
 
-  font-size: 13px;
+  font-size: 15px;
 }
 `;
 
@@ -32,8 +32,8 @@ const MarketIcon = styled.img`
   image-rendering: pixelated;
 
   @media only screen and (max-width: 600px) {
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
     margin-right: 7px;
     margin-top: 0;
   }
