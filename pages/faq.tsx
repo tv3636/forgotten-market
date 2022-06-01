@@ -1,5 +1,6 @@
 import Layout from "../components/Layout";
 import styled from "@emotion/styled";
+import Image from 'next/image';
 
 const AboutWrapper = styled.div`
   display: flex;
@@ -92,7 +93,7 @@ export default function FAQ({
         <HorizontalLine/>
         <HorizontalLine/>
         <Description style={{justifyContent: 'center'}}>
-          <img src="/static/img/marketplace/faq/affinities.jpg" style={{width: '800px', maxWidth: '75vw', maxHeight: '135vw'}}/>
+          <Image src="/static/img/marketplace/faq/affinities.jpg" width='800px' height='1400px'/>
         </Description>
         <HorizontalLine/>
         <HorizontalLine/>
@@ -109,7 +110,7 @@ export default function FAQ({
           When you list a token for sale or make an offer on a token, you will need to sign a message like the one below:
         </Description>
         <Description style={{justifyContent: 'center'}}>
-          <ImageWithBorder src="/static/img/marketplace/faq/sign.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '250vw'}}/>
+          <Image src="/static/img/marketplace/faq/sign.png" width='514px' height='1752'/>
         </Description>
         <HorizontalLine/>
         <Description style={{display: 'block'}}>
@@ -128,7 +129,7 @@ export default function FAQ({
           In Metamask, the prompt will look like this:
         </Description>
         <Description style={{justifyContent: 'center'}}>
-          <ImageWithBorder src="/static/img/marketplace/faq/proxy.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '130vw'}}/>
+          <Image src="/static/img/marketplace/faq/proxy.png" width='527px' height='876px'/>
         </Description>
         <HorizontalLine/>
         <Description style={{display: 'block'}}>
@@ -145,7 +146,7 @@ export default function FAQ({
           In Metamask, the prompt to set approval looks like this:
         </Description>
         <Description style={{justifyContent: 'center'}}>
-          <ImageWithBorder src="/static/img/marketplace/faq/approval.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '120vw'}}/>
+          <Image src="/static/img/marketplace/faq/approval.png" width='554px' height='876px'/>
         </Description>
         <HorizontalLine/>
         <Description style={{display: 'block'}}>
