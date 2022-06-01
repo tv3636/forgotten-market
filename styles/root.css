@@ -23,6 +23,8 @@ body {
   --sp-3:calc(var(--sp-2) / var(--ratio));
   --sp-4:calc(var(--sp-3) / var(--ratio));
   --sp-5:calc(var(--sp-4) / var(--ratio));
+
+  font-display: block;
 }
 
 div#WEB3_CONNECT_MODAL_ID {
