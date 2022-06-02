@@ -183,7 +183,7 @@ const OwnerStyle = styled.h4`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
-    margin-top: 2vh;
+    margin-top: var(--sp1);
   }
 `;
 

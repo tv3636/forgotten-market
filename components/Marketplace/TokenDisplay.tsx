@@ -82,6 +82,8 @@ const TextDisplay = styled.div`
   padding: 15px;
   padding-top: 0px;
 
+  min-height: 5.5em;
+
   @media only screen and (max-width: 600px) {
     padding: 12px;
     padding-top: 0px;
@@ -96,7 +98,7 @@ const MarketText = styled.p`
   color: white;
   
   line-height: 1.2;
-  max-width: 19ch;
+  max-width: 17ch;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

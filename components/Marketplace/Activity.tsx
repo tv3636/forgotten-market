@@ -52,7 +52,7 @@ const ActivityImage = styled.img`
 
 const TimeText = styled.p`
   font-family: Staxblox;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: bold;
   color: var(--white);
   
@@ -76,7 +76,7 @@ const SalesText = styled.div`
   color: var(--white);
   
   line-height: 1.3;
-  width: 20ch;
+  width: 15ch;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -96,7 +96,7 @@ const BuyerText = styled.div`
   color: var(--white);
   
   line-height: 1.5;
-  max-width: 20ch;
+  max-width: 15ch;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -184,6 +184,7 @@ const ActivityRow = styled.div`
 
 const ActivityWrapper = styled.div`
   width: 80%;
+  max-width: 900px;
 
   @media only screen and (max-width: 600px) {
     width: 100%;

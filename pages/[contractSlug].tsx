@@ -277,7 +277,7 @@ export default function Marketplace({
             offerHash={''}
           />
         }
-        <div style={{width: '1500px', maxWidth: '95%'}}>
+        <div style={{width: '1550px', maxWidth: '95%'}}>
           <DesktopHeader>
             <MarketTabs/>
             <div style={{display: 'flex', flexDirection: 'row'}}>

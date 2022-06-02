@@ -9,7 +9,7 @@ const PriceValue = styled.div`
 const PriceStyle = styled.div`
   font-family: Bitdaylong;
   color: var(--white);
-  margin-bottom: var(--sp-3);  
+  margin-bottom: var(--sp-4);  
   align-self: flex-start;
   
   @media only screen and (max-width: 600px) {
@@ -25,12 +25,12 @@ export default function Price({
   size: number;
 }) {
   return (
-    <PriceStyle style={{fontSize: `${35 * size}px`}}>
+    <PriceStyle style={{fontSize: `${40 * size}px`}}>
       {value ? (
         <PriceValue>
           <img
             src="/static/img/marketplace/eth_alt.png"
-            style={{ height: `${35 * size}px`, marginRight: `${12 * size}px` }}
+            style={{ height: `${40 * size}px`, marginRight: `${10 * size}px` }}
           />
           <div style={{marginTop: '4px'}}>{value}</div>
         </PriceValue>

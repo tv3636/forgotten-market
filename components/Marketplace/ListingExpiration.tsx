@@ -28,7 +28,7 @@ align-items: center;
 const MarketIcon = styled.img`
   width: 17px;
   height: 17px;
-  margin-right: 10px;
+  margin-right: var(--sp-2);
   image-rendering: pixelated;
 
   @media only screen and (max-width: 600px) {

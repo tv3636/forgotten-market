@@ -23,7 +23,7 @@ const Tab  = styled.div`
   border-style: solid;
   border-radius: 10px;
   border-color: var(--mediumGray);
-  border-width: 3px;
+  border-width: 4px;
 
   font-family: Bitdaylong;
   font-size: 22px;
@@ -62,7 +62,7 @@ const TabSelected  = styled.div`
   border-style: solid;
   border-radius: 10px;
   border-color: var(--lightGray);
-  border-width: 3px;
+  border-width: 2px;
 
   font-family: Bitdaylong;
   font-size: 22px;
@@ -83,10 +83,6 @@ const TabSelected  = styled.div`
     border-color: var(--lightGray);
     color: var(--white);
     cursor: pointer;
-
-    .icon {
-      display: inline-block;
-    }
   }
 
   @media only screen and (max-width: 600px) {
@@ -123,12 +119,6 @@ export default function MarketTabs() {
           </TabSelected> : 
           <Tab>
             {CONTRACTS[contract].display}
-            <CollectionIcon 
-              src={`/static/img/marketplace/icon_${CONTRACTS[contract].display}.png`}
-              height='25px'
-              width='25px'
-              className='icon'
-            />
           </Tab>
         }
         </Link>
