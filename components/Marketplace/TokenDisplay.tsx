@@ -16,7 +16,7 @@ const poniesData = ponies as { [ponyId: string]: any };
 const ListingDisplay = styled.div`
   width: 250px;
   height: 350px;
-  margin: 25px;
+  margin: var(--sp-1);
   display: flex;
   flex-direction: column;
 
@@ -26,8 +26,6 @@ const ListingDisplay = styled.div`
   border-width: 2px;
 
   background-color: var(--darkGray);
-
-  
 
   @media only screen and (max-width: 600px) {
     width: 150px;
@@ -98,11 +96,15 @@ const MarketText = styled.p`
   color: white;
   
   line-height: 1.2;
-  max-width: 16ch;
+  max-width: 19ch;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  min-height: 2.4em;
+  margin-top: var(--sp-1);
+  margin-bottom: var(--sp0);
 
   @media only screen and (max-width: 600px) {
     font-size: 13px;
@@ -112,23 +114,26 @@ const MarketText = styled.p`
 `;
 
 const PriceDisplay = styled.div`
-  font-family: Bitdaylong;
-  font-size: 20px;
+  font-family: Quadrunde;
+  font-size: 15px;
   color: var(--white);
   font-weight: bold;
+
+  font-smooth: never;
+  -webkit-font-smoothing: none;
 
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
   @media only screen and (max-width: 600px) {
-    font-size: 15px;
+    font-size: 12px;
   }
 `;
 
 const MarketIcon = styled.img`
-  width: 22px;
-  height: 22px;
+  width: 23px;
+  height: 23px;
   margin-top: 2px;
   image-rendering: pixelated;
 
@@ -144,12 +149,12 @@ const MarketIcon = styled.img`
 
 const EthSymbol = styled.img`
   height: 16px;
-  margin-right: 8px;
-  margin-top: 3px;
+  margin-right: var(--sp-3);
 
   @media only screen and (max-width: 600px) {
     margin-top: 1.5px;
     height: 13px;
+    margin-right: var(--sp-4);
   }
 
 `;
@@ -232,16 +237,15 @@ export default function TokenDisplay({
             <MarketText title={name} style={price ? {} : {maxWidth: '25ch'}}>
               {name}
             </MarketText>
-            { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
           </div>
           <PriceDisplay>
             {price &&
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <EthSymbol src='/static/img/marketplace/eth.png' />
                 <div>{price}</div>
               </div>
             }
-            
+            { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
           </PriceDisplay>
         </TextDisplay>
       </ListingDisplay>

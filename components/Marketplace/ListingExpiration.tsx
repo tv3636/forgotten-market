@@ -12,7 +12,7 @@ font-size: 15px;
 font-family: Staxblox;
 color: var(--lightGray);
 display: flex;
-margin-top: 1.5vh;
+margin-top: var(--sp-1);
 align-items: center;
 
 @media only screen and (max-width: 600px) {

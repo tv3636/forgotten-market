@@ -76,12 +76,6 @@ const HorizontalLine = styled.hr`
   }
 `;
 
-const ImageWithBorder = styled.img`
-  border-style: dashed;
-  border-color: var(--mediumGray);
-  border-width: 5px;
-`;
-
 export default function FAQ({
 }: {
 }) {
@@ -98,14 +92,14 @@ export default function FAQ({
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>What is a collection offer?</Title>
-        <Description>
+        <Description style={{maxWidth: '80%'}}>
           Collection offers are offers which apply to every token in a collection. By making a collection offer on wizards,
           for instance, any wizard holder would be able to accept your offer in exchange for a wizard they hold.
         </Description>
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>Is it safe to sign messages from Wyvern Exchange Contract?</Title>
-        <Description style={{display: 'block'}}>
+        <Description style={{display: 'block', maxWidth: '80%'}}>
           Forgotten.market utilizes the <a href="https://wyvernprotocol.com/" target="_blank">Wyvern Protocol</a>.
           When you list a token for sale or make an offer on a token, you will need to sign a message like the one below:
         </Description>
@@ -113,7 +107,7 @@ export default function FAQ({
           <Image src="/static/img/marketplace/faq/sign.png" width='514px' height='1752'/>
         </Description>
         <HorizontalLine/>
-        <Description style={{display: 'block'}}>
+        <Description style={{display: 'block', maxWidth: '80%'}}>
           In this example, a wizard is being listed for Ξ10. The 'basePrice' value (towards the bottom) is displayed in wei, which is the ether
           value * 10^18. The exchange contract is the&nbsp; 
           <a href="https://etherscan.io/address/0x7f268357a8c2552623316e2562d90e642bb538e5" target="_blank">Wyvern Exchange Contract</a>.
@@ -122,7 +116,7 @@ export default function FAQ({
         </Description>
         <HorizontalLine/>
         <Title>What is proxy registration?</Title>
-        <Description style={{display: 'block'}}>
+        <Description style={{display: 'block', maxWidth: '80%'}}>
           Wyvern Protocol creates a personal proxy contract for each address to enable trading. If you've listed on OpenSea before, 
           your wallet already has a proxy contract created. However, if this is your first time listing 
           tokens for a particular wallet, you will be prompted to register a proxy contract before listing a token. 
@@ -132,13 +126,13 @@ export default function FAQ({
           <Image src="/static/img/marketplace/faq/proxy.png" width='527px' height='876px'/>
         </Description>
         <HorizontalLine/>
-        <Description style={{display: 'block'}}>
+        <Description style={{display: 'block', maxWidth: '80%'}}>
           Note the address in the top right is the <a href="https://etherscan.io/address/0xa5409ec958C83C3f309868babACA7c86DCB077c1" target="_blank">Project Wyvern Proxy Registry</a>.
         </Description>
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>What does it mean to set approval?</Title>
-        <Description>
+        <Description style={{maxWidth: '80%'}}>
           In order to list tokens on Forgotten.market, you will need to approve your proxy contract to transfer them. 
           This approval allows tokens to be transferred if a valid listing is filled, and can be revoked at any time.
           Approvals must be done per-contract, so separate approvals are required for Wizards, Souls, and Ponies.
@@ -149,7 +143,7 @@ export default function FAQ({
           <Image src="/static/img/marketplace/faq/approval.png" width='554px' height='876px'/>
         </Description>
         <HorizontalLine/>
-        <Description style={{display: 'block'}}>
+        <Description style={{display: 'block', maxWidth: '80%'}}>
           Note the address in the top right is the contract of the token you're approving (in this case,&nbsp; 
           <a href="https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42" target="_blank">wizards</a>).
           The operator address, passed as a parameter in the contract call, will be the address of the proxy contract 
@@ -158,7 +152,7 @@ export default function FAQ({
         <HorizontalLine/>
         <HorizontalLine/> 
         <Title>Additional questions?</Title>
-        <Description style={{display: 'block'}}>For all additional questions please contact <a href="https://twitter.com/tv3636" target="_blank">@tv</a>.</Description>
+        <Description style={{display: 'block', maxWidth: '80%'}}>For all additional questions please contact <a href="https://twitter.com/tv3636" target="_blank">@tv</a>.</Description>
         <HorizontalLine/>
         <HorizontalLine/>
       </AboutWrapper>

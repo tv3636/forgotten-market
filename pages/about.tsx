@@ -44,6 +44,7 @@ const Description = styled.div`
 
   @media only screen and (max-width: 600px) {
     font-size: 14px;
+    max-width: 75%;
   }
 `;
 
@@ -137,11 +138,11 @@ export default function About({
     <Layout title="About">
       <AboutWrapper>
         <Title>About</Title>
-        <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
+        <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank" style={{width: '11ch'}}>open source</a> Forgotten Runes marketplace, powered by&nbsp;
         <a href='https://reservoirprotocol.github.io/' target="_blank">Reservoir Protocol.</a></Description>
         <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin:</Description>
         <HorizontalLine/>
-        <Fees style={{maxWidth: '600px'}}>
+        <Fees>
           <Row>
             <th>Listing Origin</th>
             <th>Icon</th>

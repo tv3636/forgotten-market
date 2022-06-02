@@ -13,7 +13,7 @@ const OfferWrapper = styled.div`
   font-family: Staxblox;
   color: var(--lightGray);
   display: flex;
-  margin-top: 1vh;
+  margin-top: var(--sp-1);
   
   
   @media only screen and (max-width: 600px) {

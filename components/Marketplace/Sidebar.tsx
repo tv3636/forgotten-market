@@ -106,9 +106,8 @@ const MarketInput = styled.input`
 `;
 
 const FilterWrapper = styled.div`
-  width: 21%;
+  width: 275px;
   min-width: 150px;
-  margin-right: 3%;
 
   @media only screen and (max-width: 600px) {
     width: 100%;

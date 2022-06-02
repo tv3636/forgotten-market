@@ -94,8 +94,8 @@ const ScrollContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 2vw;
-  margin-left: 1vw;
-  margin-right: 1vw;
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
   overflow: hidden;
 `;
 
@@ -277,7 +277,7 @@ export default function Marketplace({
             offerHash={''}
           />
         }
-        <div style={{width: '1300px', maxWidth: '95%'}}>
+        <div style={{width: '1500px', maxWidth: '95%'}}>
           <DesktopHeader>
             <MarketTabs/>
             <div style={{display: 'flex', flexDirection: 'row'}}>

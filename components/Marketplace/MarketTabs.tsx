@@ -9,11 +9,10 @@ const Tabs = styled.div`
   justify-content: flex-start;
   align-content: center;
   align-self: flex-start;
+  flex-wrap: wrap;
 
   @media only screen and (max-width: 600px) {
     margin-left: 0px;
-
-    flex-wrap: wrap;
     justify-content: center;
   }
 
@@ -30,15 +29,25 @@ const Tab  = styled.div`
   font-size: 22px;
   color: var(--lightGray);
 
+  font-smooth:  never;
+  -webkit-font-smoothing: none;
+
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
+
+  display: flex;
+  align-items: center;
 
   :hover {
     background: var(--mediumGray);
     border-color: var(--lightGray);
     color: var(--white);
     cursor: pointer;
+
+    .icon {
+      display: inline-block;
+    }
   }
 
   transition: border-color 300ms;
@@ -59,16 +68,25 @@ const TabSelected  = styled.div`
   font-size: 22px;
   color: var(--white);
 
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+
   padding: 5px;
   padding-left: 10px;
   padding-right: 10px;
-  
+
+  display: flex;
+  align-items: center;
 
   :hover {
     background: var(--mediumGray);
     border-color: var(--lightGray);
     color: var(--white);
     cursor: pointer;
+
+    .icon {
+      display: inline-block;
+    }
   }
 
   @media only screen and (max-width: 600px) {
@@ -76,8 +94,14 @@ const TabSelected  = styled.div`
   }
 `;
 
+const CollectionIcon = styled.img`
+  margin-left: 5px;
+  display: none;
+`;
+
 export default function MarketTabs() {
   var router = useRouter();
+
   return (
     <Tabs>
       {
@@ -87,8 +111,25 @@ export default function MarketTabs() {
           key={index}
         >
         {contract == router.query.contractSlug ? 
-          <TabSelected>{CONTRACTS[contract].display}</TabSelected> : 
-          <Tab>{CONTRACTS[contract].display}</Tab>
+          <TabSelected>
+            {CONTRACTS[contract].display}
+            <CollectionIcon 
+              src={`/static/img/marketplace/icon_${CONTRACTS[contract].display}.png`}
+              height='25px'
+              width='25px'
+              className='icon'
+              style={{display: 'inline-block'}}
+            />
+          </TabSelected> : 
+          <Tab>
+            {CONTRACTS[contract].display}
+            <CollectionIcon 
+              src={`/static/img/marketplace/icon_${CONTRACTS[contract].display}.png`}
+              height='25px'
+              width='25px'
+              className='icon'
+            />
+          </Tab>
         }
         </Link>
       ))}

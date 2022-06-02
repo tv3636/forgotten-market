@@ -154,7 +154,7 @@ const NameDisplay = styled.div`
 const NameStyle = styled.h2`
   font-family: Phat;
   font-size: 26px;
-  line-height: 1.9;
+  line-height: 1.8;
   max-width: 20ch;
   display: inline-block;
   
@@ -179,7 +179,7 @@ const OwnerStyle = styled.h4`
 
   text-align: left;
   margin-block-start: 0.5vh;
-  margin-top: 13px;
+  margin-top: var(--sp-1);
 
   @media only screen and (max-width: 600px) {
     text-align: center;

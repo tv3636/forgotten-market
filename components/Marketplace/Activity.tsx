@@ -52,7 +52,7 @@ const ActivityImage = styled.img`
 
 const TimeText = styled.p`
   font-family: Staxblox;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: bold;
   color: var(--white);
   
@@ -76,7 +76,7 @@ const SalesText = styled.div`
   color: var(--white);
   
   line-height: 1.3;
-  width: 15ch;
+  width: 20ch;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -96,7 +96,7 @@ const BuyerText = styled.div`
   color: var(--white);
   
   line-height: 1.5;
-  max-width: 15ch;
+  max-width: 20ch;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   overflow: hidden;
