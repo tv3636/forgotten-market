@@ -434,7 +434,7 @@ const ListingPage = ({
         CONTRACTS[contractSlug].display == 'Wizards' ? wizData[tokenId].name : 
         CONTRACTS[contractSlug].display == 'Souls' && tokenId in soulData ? soulData[tokenId] : 
         CONTRACTS[contractSlug].display == 'Ponies' && tokenId in ponyData ? ponyData[tokenId] :
-        CONTRACTS[contractSlug].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId] :
+        CONTRACTS[contractSlug].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].name :
         `${CONTRACTS[contractSlug].singular} #${tokenId}`
       } 
       description={`${CONTRACTS[contractSlug].singular} #${tokenId}`}
