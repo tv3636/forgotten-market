@@ -32,6 +32,7 @@ import TraitDisplay from "../../components/Marketplace/TraitDisplay";
 import { ListingExpiration } from "../../components/Marketplace/ListingExpiration";
 import Carousel from "../../components/Marketplace/MarketCarousel";
 import OfferDisplay, { Owner } from "../../components/Marketplace/OfferDisplay";
+import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
 
 const wizData = wizards as { [wizardId: string]: any };
 const soulData = souls as { [soulId: string]: any };
@@ -277,6 +278,25 @@ const LoreWrapper = styled.div`
   }
 `;
 
+const WarningWrapper = styled.div`
+  text-align: left;
+  font-size: 14px;
+  font-family: Roboto Mono;
+  color: red;
+  display: flex;
+  align-items: flex-end;
+  
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+    font-size: 13px;
+    margin-top: 0;
+  }
+`;
+
+const WarningSymbol = styled.div`
+  font-size: 20px;
+`;
+
 function SectionHeader({
   title,
   link,
@@ -318,6 +338,7 @@ const ListingPage = ({
   const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
+  const [isBanned, setIsBanned] = useState(false);
   const { account } = useEthers();
 
   const imageUrls: string[] = [
@@ -406,6 +427,7 @@ const ListingPage = ({
         }
       }
       
+      setIsBanned(await isOpenSeaBanned(contractSlug, Number(tokenId)));
     }
 
     run();
@@ -516,6 +538,13 @@ const ListingPage = ({
                       ens={ownerEns ?? ''}
                     /> :
                     null
+                  }
+                  { isBanned && 
+                    <WarningWrapper>
+                      <WarningSymbol style={{marginRight: '10px'}}>⚠</WarningSymbol> 
+                      Reported as stolen on OpenSea 
+                      <WarningSymbol style={{marginLeft: '10px'}}>⚠</WarningSymbol> 
+                    </WarningWrapper> 
                   }
                 </PriceDisplay>
               </TopRight>
