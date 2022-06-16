@@ -19,14 +19,17 @@ const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
 const OverlayWrapper = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  top: 0;
+  width: 99vw;
+  height: 99vh;
   background-color: #00000085;
   z-index: 1;
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: flex-start;
+  overflow: hidden;
 
   transition-property: background-color;
   transition-duration: 2s;
@@ -38,6 +41,7 @@ const Overlay = styled.div`
   height: auto;
   min-height: 500px;
   padding: 40px;
+  margin-top: var(--sp4);
   background-color: var(--black);
 
   border: dashed;

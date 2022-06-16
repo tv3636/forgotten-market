@@ -313,12 +313,19 @@ export default function SiteNav({}: Props) {
     <SiteNavElement>
       <SiteNavTopRow>
         <LogoToggleRow>
-          <BrandedLogoImg
-            src="/static/img/forgotten-runes-logo.png"
-            className="logo"
-            width="360"
-            height="118"
-          />
+          <Link 
+              href={marketplace_url} 
+              passHref={true}
+            >
+              <SoftLink>
+                <BrandedLogoImg
+                  src="/static/img/forgotten-runes-logo.png"
+                  className="logo"
+                  width="360"
+                  height="118"
+                />
+              </SoftLink>
+            </Link>
           <ul className={"menu toggle-menu" + (isOpen ? " active" : "")}>
             <li className="toggle">
               <a onClick={() => toggleIsOpen()}>

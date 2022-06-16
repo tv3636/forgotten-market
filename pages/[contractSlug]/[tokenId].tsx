@@ -49,7 +49,6 @@ headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? 
 const ListingWrapper = styled.div`
   display: flex;
   justify-content: center;
-  position: relative;
 
   max-width: 1000px;
   min-height: 90vh;
