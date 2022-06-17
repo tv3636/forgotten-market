@@ -185,6 +185,10 @@ export const BrandedLogoImg = styled.img`
   height: auto;
   image-rendering: pixelated;
 
+  :hover {
+    cursor: pointer;
+  }
+
   @media only screen and (max-width: 600px) {
     width: 40%;
     height: 40%;
@@ -256,27 +260,6 @@ const AccountDropDown = styled.div`
 
 `;
 
-const CollectionOffer = styled.div`
-  margin-right: 10px;
-  margin-top: 3px;
-
-
-  :hover {
-    cursor: pointer;
-  }
-
-  @media only screen and (max-width: 600px) {
-    font-size: 16px;
-    margin-right: 0px;
-    margin-top: 0px;
-    display: flex;
-    justify-content: center;
-  }
-
-  transition: all 200ms;
-
-`;
-
 function Profile({ account }: {account: any}) {
   return (
     <AccountIcon className={"item"}>
@@ -317,14 +300,12 @@ export default function SiteNav({}: Props) {
               href={marketplace_url} 
               passHref={true}
             >
-              <SoftLink>
                 <BrandedLogoImg
                   src="/static/img/forgotten-runes-logo.png"
                   className="logo"
                   width="360"
                   height="118"
                 />
-              </SoftLink>
             </Link>
           <ul className={"menu toggle-menu" + (isOpen ? " active" : "")}>
             <li className="toggle">
