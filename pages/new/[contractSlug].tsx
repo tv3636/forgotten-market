@@ -52,19 +52,19 @@ export default function Marketplace({
   }, [contract]);
 
   if (contract) {
-  return (
-    <Layout
-      title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
-      description={`Like ${CONTRACTS[contract].singular}, Buy ${CONTRACTS[contract].singular}`}
-      image={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
-    >
-      <MidHeader>
-        <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
-        <MainToggle contract={contract} activity={showActivity} />
-      </MidHeader>
-      <Sidebar activity={showActivity} />
-    </Layout>
-  );
+    return (
+      <Layout
+        title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+        description={`Like ${CONTRACTS[contract].singular}, Buy ${CONTRACTS[contract].singular}`}
+        image={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
+      >
+        <MidHeader>
+          <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
+          <MainToggle contract={contract} activity={showActivity} />
+        </MidHeader>
+        <Sidebar activity={showActivity} />
+      </Layout>
+    )
   } else {
     return (
       <Layout title="Marketplace">
@@ -72,7 +72,6 @@ export default function Marketplace({
     )
   }
 }
-
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const contractSlug = params?.contractSlug as string;
