@@ -1,6 +1,17 @@
 import Head from "next/head";
 import { ReactNode } from "react";
 import SiteNav from "./NewSiteNav";
+import styled from "@emotion/styled";
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const Container = styled.div`
+  width: 1400px;
+`;
 
 type Props = {
   children?: ReactNode;
@@ -15,59 +26,61 @@ const Layout = ({
   image = "https://forgotten.market/static/img/OSFeature.png",
   title = "forgotten.market",
 }: Props) => (
-  <div>
-    <Head>
-      <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta property="og:title" content={title} key="ogtitle" />
-      <meta name="twitter:title" content={title} key="twittertitle" />
-      <meta name="twitter:card" content="summary_large_image" key="twcard" />
+  <Wrapper>
+    <Container>
+      <Head>
+        <title>{title}</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:title" content={title} key="ogtitle" />
+        <meta name="twitter:title" content={title} key="twittertitle" />
+        <meta name="twitter:card" content="summary_large_image" key="twcard" />
 
-      {description && (
-        <meta property="og:description" content={description} key="ogdesc" />
-      )}
-      {description && (
-        <meta
-          name="twitter:description"
-          content={description}
-          key="twitterdesc"
-        />
-      )}
+        {description && (
+          <meta property="og:description" content={description} key="ogdesc" />
+        )}
+        {description && (
+          <meta
+            name="twitter:description"
+            content={description}
+            key="twitterdesc"
+          />
+        )}
 
-      {image ? (
+        {image ? (
+          <meta 
+            name="twitter:image" 
+            content={image}
+            key="twimage"
+          />
+        ) :
         <meta 
           name="twitter:image" 
-          content={image}
+          content={"https://forgotten.market/static/img/OSFeature.png"}
           key="twimage"
         />
-      ) :
-      <meta 
-        name="twitter:image" 
-        content={"https://forgotten.market/static/img/OSFeature.png"}
-        key="twimage"
-      />
-    }
-
-      {image ? (
-      <meta
-        property="og:image"
-        content={image}
-        key="ogimage"
-      />
-      ) :
-      <meta
-        property="og:image"
-        content={"https://forgotten.market/static/img/OSFeature.png"}
-        key="ogimage"
-      />
       }
-      
-      {/* <meta property="og:image" content="image.png" /> */}
-    </Head>
-    <SiteNav />
-    {children}
-  </div>
+
+        {image ? (
+        <meta
+          property="og:image"
+          content={image}
+          key="ogimage"
+        />
+        ) :
+        <meta
+          property="og:image"
+          content={"https://forgotten.market/static/img/OSFeature.png"}
+          key="ogimage"
+        />
+        }
+        
+        {/* <meta property="og:image" content="image.png" /> */}
+      </Head>
+      <SiteNav />
+      {children}
+    </Container>
+  </Wrapper>
 );
 
 export default Layout;
