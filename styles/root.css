@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=New+Rocker&family=Roboto+Mono:ital,wght@0,400;1,300;1,700&display=swap");
 
+@font-face {
+  font-family: "Terminal";
+  src: url("/static/game/wizards/terminal-grotesque.ttf") format("truetype");
+}
+
 html,
 body {
   background-color: #000000;
@@ -10,6 +15,8 @@ body {
   --lightGray: hsl(var(--hue), 15%, 75%);
   --mediumGray: hsl(var(--hue), 24%, 15%);
   --darkGray: hsl(var(--hue), 30%, 8%);
+
+  --midGray: #343046;
 
   --ratio: 1.4; 
   --sp0: 1em;
@@ -23,6 +30,9 @@ body {
   --sp-3:calc(var(--sp-2) / var(--ratio));
   --sp-4:calc(var(--sp-3) / var(--ratio));
   --sp-5:calc(var(--sp-4) / var(--ratio));
+
+  font-family: "Terminal";
+  font-size: var(--sp0);
 }
 
 div#WEB3_CONNECT_MODAL_ID {
@@ -41,11 +51,8 @@ html {
 }
 
 body {
-  /* font-family: "Roboto Mono", system-ui, -apple-system, */
-  font-family: "Inter", system-ui, -apple-system,
-    /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  color: #d1c8bf;
+  color: white;
+  text-shadow: 0px 1px var(--midGray);
 }
 
 *,
@@ -68,7 +75,14 @@ body {
 }
 
 a {
-  color: #a983ff;
+  color: white;
+  text-decoration: none;
+
+  transition: all 200ms;
+}
+
+a:hover {
+  color: var(--lightGray);
 }
 
 h1,
@@ -81,10 +95,18 @@ h5 {
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 h1 {
-  margin-top: 1.5em;
+  font-family: "Terminal";
+  color: white;
+  margin: 0;
+
+  text-shadow: 0px 2px var(--midGray);
 }
 h2 {
-  margin-top: 1.3em;
+  font-family: "Terminal";
+  color: white;
+  margin: 0;
+
+  text-shadow: 0px 2px var(--midGray);
 }
 h3 {
   margin-top: 1em;
