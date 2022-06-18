@@ -18,6 +18,8 @@ const MidHeader = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  margin-top: -9ch;
 `;
 
 export default function Marketplace({
@@ -62,7 +64,14 @@ export default function Marketplace({
           <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
           <MainToggle contract={contract} activity={showActivity} />
         </MidHeader>
-        <Sidebar activity={showActivity} />
+        <Sidebar 
+          contract={contract} 
+          activity={showActivity}
+          loreChange={null} 
+          noLoreChange={null}
+          setSource={null}
+          selectionChange={null}
+        />
       </Layout>
     )
   } else {

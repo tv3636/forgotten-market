@@ -4,13 +4,12 @@ import SiteNav from "./NewSiteNav";
 import styled from "@emotion/styled";
 
 const Wrapper = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
 `;
 
 const Container = styled.div`
-  width: 1400px;
+  width: 1600px;
 `;
 
 type Props = {
