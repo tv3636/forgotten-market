@@ -18,6 +18,7 @@ const Container = styled.div`
   margin-left: var(--sp3);
   margin-top: var(--sp1);
   max-width: 25ch;
+  min-width: 25ch;
 
   ::-webkit-scrollbar {
     display: none;
@@ -71,6 +72,7 @@ const CollectionName = styled.div`
 `;
 
 const FormWrapper = styled.div`
+  max-height: 5ex;
 
   > * {
     margin-bottom: var(--sp0);

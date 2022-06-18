@@ -258,7 +258,7 @@ export default async function executeSteps(
 // Sort and count trait values
 export function getOptions(traits: [any]) {
   var result: any[] = [];
-  
+
   if (traits.length > 0 && isNaN(traits[0].value)) {
     traits.sort(function (first, second) {
       return second.count - first.count;
@@ -379,6 +379,7 @@ export function LoadingCard({ height }: { height: string }) {
         alignContent: "center",
         justifyContent: "center",
         height: height,
+        width: '65vw'
       }}
     >
       <img

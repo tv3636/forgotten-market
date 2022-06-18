@@ -58,7 +58,7 @@ body {
   color: white;
   text-shadow: 0px 1px var(--midGray);
 
-  overflow: overlay;
+  overflow: hidden;
 }
 
 *,
