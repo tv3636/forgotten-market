@@ -17,6 +17,7 @@ body {
   --darkGray: hsl(var(--hue), 30%, 8%);
 
   --midGray: #343046;
+  --beige: #E1DECD;
 
   --ratio: 1.4; 
   --sp0: 1em;
@@ -51,6 +52,8 @@ html {
 }
 
 body {
+  margin: 0;
+  
   color: white;
   text-shadow: 0px 1px var(--midGray);
 }
@@ -66,12 +69,11 @@ Sections
 ========
 */
 
-/**
-Remove the margin in all browsers.
-*/
+.alagard {
+  font-family: "Alagard";
+  color: var(--beige);
+  text-shadow: 0px 2px var(--midGray);
 
-body {
-  margin: 0;
 }
 
 a {
