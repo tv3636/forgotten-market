@@ -8,9 +8,9 @@ import styled from "@emotion/styled";
 const wizData = wizards as { [wizardId: string]: any };
 
 const ListingDisplay = styled.div`
-  width: 250px;
-  height: 350px;
-  margin: 25px;
+  width: 200px;
+  height: 300px;
+  margin: var(--sp0);
   display: flex;
   flex-direction: column;
 
@@ -31,10 +31,12 @@ const ListingImage = styled.img`
   border-color: var(--darkGray);
   border-radius: 10px;
 
-  min-width: 250px;
-  min-height: 250px;
+  min-width: 200px;
+  min-height: 200px;
   max-height: 50vw;
   max-width: 50vw;
+
+  padding: var(--sp-1);
 
   :hover {
     cursor: pointer;
@@ -65,7 +67,7 @@ const MarketText = styled.p`
   color: white;
   
   line-height: 1.3;
-  max-width: 25ch;
+  max-width: 20ch;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;

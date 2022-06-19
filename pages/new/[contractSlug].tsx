@@ -22,7 +22,8 @@ const MidHeader = styled.div`
   align-items: center;
   justify-content: center;
 
-  margin-top: -9ch;
+  margin-top: -4ch;
+  margin-bottom: var(--sp1);
 `;
 
 const Main = styled.div`
