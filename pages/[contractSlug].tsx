@@ -256,7 +256,7 @@ export default function Marketplace({
     <Layout
       title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
       description={`Like ${CONTRACTS[contract].singular}, Buy ${CONTRACTS[contract].singular}`}
-      image={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
+      image={`https://forgotten.market/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
     >
       <MarketWrapper>
         <MobileHeader>
