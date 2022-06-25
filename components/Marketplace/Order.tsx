@@ -18,11 +18,11 @@ import ActionHeader from './ActionHeader';
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
 const OverlayWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
-  width: 99vw;
-  height: 99vh;
+  width: 100%;
+  height: 100%;
   background-color: #00000085;
   z-index: 1;
   display: flex;
@@ -36,13 +36,14 @@ const OverlayWrapper = styled.div`
 `;
 
 const Overlay = styled.div`
-  width: 60vw;
-  max-width: 1000px;
-  height: auto;
-  min-height: 500px;
-  padding: 40px;
+  width: 800px;
+  max-width: 60%;
+  max-height: 90%;
+  padding: var(--sp2);
   margin-top: var(--sp4);
   background-color: var(--black);
+  overflow: scroll;
+  overflow-x: hidden;
 
   border: dashed;
   border-radius: 15px;
@@ -51,7 +52,7 @@ const Overlay = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
-  justify-content: center;
+  
   align-items: center;
 
   @media only screen and (max-width: 600px) {
