@@ -38,17 +38,20 @@ export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';
 export const OPENSEA_SOURCE = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073';
 export const LOOKSRARE_SOURCE = '0x5924a28caaf1cc016617874a2f0c3710d881f3c1';
 export const FORGOTTEN_MARKET_SOURCE = '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4';
+export const X2Y2_SOURCE = '0xdc28ffaea1f91a88fb6fd0a8fe70d71bdd64284c';
 
 export const MARKET_ICONS: any = {
   [OPENSEA_SOURCE]: '/static/img/icons/nav/opensea_default.png',
   [LOOKSRARE_SOURCE]: '/static/img/icons/nav/looksrare_default.png',
   [FORGOTTEN_MARKET_SOURCE]: '/static/img/icons/nav/native_listing.png',
+  [X2Y2_SOURCE]: '/static/img/icons/nav/x2y2_default.png',
 }
 
 export const MARKET_ICONS_BY_NAME: any = {
   'Forgotten Market': '/static/img/icons/nav/native_listing.png',
   'OpenSea': '/static/img/icons/nav/opensea_default.png',
   'LooksRare': '/static/img/icons/nav/looksrare_default.png',
+  'X2Y2': '/static/img/icons/nav/x2y2_default.png',
 }
 
 export const MARKETS: any = {
@@ -63,6 +66,10 @@ export const MARKETS: any = {
   [LOOKSRARE_SOURCE]: {
     image: '/static/img/icons/nav/looksrare_default.png',
     name: 'LooksRare'
+  },
+  [X2Y2_SOURCE]: {
+    image: '/static/img/icons/nav/x2y2_default.png',
+    name: 'X2Y2'
   }
 }
 

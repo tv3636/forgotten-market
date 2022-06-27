@@ -38,9 +38,6 @@ const ListingDisplay = styled.div`
 `;
 
 const ListingImage = styled.img`
-  border-width: 4px;
-  border-radius: 30px;
-
   min-width: 200px;
   min-height: 200px;
   max-height: 50vw;
@@ -69,9 +66,21 @@ const ListingImage = styled.img`
 
 `;
 
+const ListingInfo = styled.div`
+  position: relative;
+`;
+
+const NameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  background-color: var(--frameGray);
+`;
+
 const MarketText = styled.p`
   font-family: Alagard;
-  font-size: 17px;
+  font-size: var(--sp0);
   font-weight: bold;
   color: white;
   
@@ -84,17 +93,26 @@ const MarketText = styled.p`
   overflow: hidden;
 
   margin-bottom: var(--sp-1);
+  margin-top: var(--sp-3);
 
   @media only screen and (max-width: 600px) {
     max-width: 15ch;
   }
 `;
 
+const PriceWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const PriceDisplay = styled.div`
-  font-family: Alagard;
-  font-size: 17px;
+  font-family: Terminal;
+  font-size: var(--sp1);
   color: var(--white);
   font-weight: bold;
+
+  margin-bottom: var(--sp-2);
+  background-color: var(--frameGray);
 
   display: flex;
   flex-direction: row;
@@ -102,21 +120,27 @@ const PriceDisplay = styled.div`
   text-align: center;
 `;
 
+const EthSymbol = styled.img`
+  height: var(--sp-1);
+  margin-right: var(--sp-4);
+`;
+
 const MarketIcon = styled.img`
-  width: 17px;
-  height: 17px;
-  margin-top: 2px;
+  width: 22px;
+  height: 22px;
   image-rendering: pixelated;
+
+  position: absolute;
+  bottom: 12;
+  left: 50%;
+  transform: translate(-50%);
 
   @media only screen and (max-width: 600px) {
     width: 15px;
     height: 15px;
     margin-top: 0;
   }
-
 `;
-
-//{ source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
 
 export default function TokenDisplay({
   contract,
@@ -149,6 +173,10 @@ export default function TokenDisplay({
     }
   }, []);
 
+  if (!(source in MARKETS)) {
+    console.log(source, name);
+  }
+
   return (
     <Link
       href={`/${contract}/${tokenId}`}
@@ -162,7 +190,7 @@ export default function TokenDisplay({
             CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].background :
             CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? soulsData[tokenId].background :
             CONTRACTS[contract].display == 'Ponies' && tokenId in poniesData ? poniesData[tokenId].background :
-            'none'
+            'black'
         }}
       >
         { CONTRACTS[contract].display == 'Wizards' ?
@@ -186,32 +214,20 @@ export default function TokenDisplay({
           /> :
           <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"} />
         }
-        <div
-          style={{
-            backgroundColor: 'var(--mediumGray)',
-          }}
-        >
-          <div 
-            style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
+        <ListingInfo>
+          <NameWrapper>
             <MarketText title={name}>{name}</MarketText>
-          </div>
+          </NameWrapper>
           <PriceDisplay>
             {price &&
-              <div style={{ display: 'flex' }}>
-                <img
-                  src='/static/img/marketplace/eth.png'
-                  style={{
-                    height: '14px',
-                    marginRight: '8px',
-                    marginTop: '2px',
-                  }}
-                />
+              <PriceWrapper>
+                <EthSymbol src='/static/img/marketplace/eth.png' />
                 <div>{price}</div>
-              </div>
+              </PriceWrapper>
             }
-            
           </PriceDisplay>
-        </div>
+          { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
+        </ListingInfo>
       </ListingDisplay>
       </SoftLink>
     </Link>

@@ -135,7 +135,7 @@ export default function Marketplace({
             setSource={null}
             selectionChange={null}
           />
-          <div style={{width: '65vw'}}>
+          <div style={{width: '66vw'}}>
           <MidHeader>
           <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
           <MainToggle contract={contract} activity={showActivity} />
@@ -151,6 +151,7 @@ export default function Marketplace({
                 endMessage={
                   <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
                 }
+                style={{backgroundImage: 'url(/static/img/interior-background.png)'}}
               >
                 <ScrollContainer>
                   {listings.map((listing: any, index) => {
@@ -175,7 +176,7 @@ export default function Marketplace({
                     );
                   })}
                   <Scrim>
-                    <Image src='/static/img/scrim.png' height='283px' width='1155px' />
+                    <Image src='/static/img/scrim.png' height='233px' width='1155px' />
                   </Scrim>
                 </ScrollContainer>
               </InfiniteScroll>

@@ -17,6 +17,7 @@ body {
   --darkGray: hsl(var(--hue), 30%, 8%);
 
   --midGray: #343046;
+  --frameGray: #2a283a;
   --beige: #E1DECD;
 
   --ratio: 1.4; 
