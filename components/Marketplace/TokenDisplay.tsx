@@ -10,9 +10,15 @@ const wizData = wizards as { [wizardId: string]: any };
 const ListingDisplay = styled.div`
   width: 200px;
   height: 300px;
-  margin: var(--sp0);
+  margin: var(--sp2);
   display: flex;
   flex-direction: column;
+
+  border-image-source: url(/static/img/newframe.png);
+  border-image-slice: 30;
+  border-image-width: 34px;
+  border-image-outset: 12;
+  border-style: solid;
 
   @media only screen and (max-width: 600px) {
     width: 150px;
@@ -26,21 +32,18 @@ const ListingDisplay = styled.div`
 `;
 
 const ListingImage = styled.img`
-  border-style: solid;
   border-width: 4px;
-  border-color: var(--darkGray);
-  border-radius: 10px;
+  border-radius: 30px;
 
   min-width: 200px;
   min-height: 200px;
   max-height: 50vw;
   max-width: 50vw;
 
-  padding: var(--sp-1);
+  padding: var(--sp1);
 
   :hover {
     cursor: pointer;
-    border-color: var(--mediumGray);
   }
 
   @media only screen and (max-width: 600px) {
@@ -68,10 +71,13 @@ const MarketText = styled.p`
   
   line-height: 1.3;
   max-width: 20ch;
+  min-height: 5ex;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  margin-bottom: var(--sp-1);
 
   @media only screen and (max-width: 600px) {
     max-width: 15ch;
@@ -86,7 +92,8 @@ const PriceDisplay = styled.div`
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
 `;
 
 const MarketIcon = styled.img`
@@ -102,6 +109,8 @@ const MarketIcon = styled.img`
   }
 
 `;
+
+//{ source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
 
 export default function TokenDisplay({
   contract,
@@ -177,9 +186,8 @@ export default function TokenDisplay({
           }}
         >
           <div 
-            style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
             <MarketText title={name}>{name}</MarketText>
-            { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
           </div>
           <PriceDisplay>
             {price &&

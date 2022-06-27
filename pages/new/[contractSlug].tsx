@@ -22,7 +22,7 @@ const MidHeader = styled.div`
   align-items: center;
   justify-content: center;
 
-  margin-top: -4ch;
+  margin-top: -8ch;
   margin-bottom: var(--sp1);
 `;
 
@@ -39,6 +39,13 @@ const ScrollContainer = styled.div`
   overflow: hidden;
 
   padding-bottom: 200px;
+`;
+
+const Scrim = styled.div`
+  position: absolute;
+  z-index: 1;
+  bottom: -5px;
+  max-width: 65%;
 `;
 
 export default function Marketplace({
@@ -119,10 +126,6 @@ export default function Marketplace({
         description={`Like ${CONTRACTS[contract].singular}, Buy ${CONTRACTS[contract].singular}`}
         image={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
       >
-        <MidHeader>
-          <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
-          <MainToggle contract={contract} activity={showActivity} />
-        </MidHeader>
         <Main>
           <Sidebar 
             contract={contract} 
@@ -133,6 +136,10 @@ export default function Marketplace({
             selectionChange={null}
           />
           <div style={{width: '65vw'}}>
+          <MidHeader>
+          <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
+          <MainToggle contract={contract} activity={showActivity} />
+        </MidHeader>
           { listings.length > 0 || loaded ? (
               <InfiniteScroll
                 dataLength={listings.length}
@@ -167,6 +174,9 @@ export default function Marketplace({
                       )
                     );
                   })}
+                  <Scrim>
+                    <Image src='/static/img/scrim.png' height='283px' width='1155px' />
+                  </Scrim>
                 </ScrollContainer>
               </InfiniteScroll>
           ) : (

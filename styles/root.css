@@ -90,6 +90,10 @@ a:hover {
   color: var(--lightGray);
 }
 
+p {
+  margin: 0;
+}
+
 .pointer {
   transition: all 200ms;
 }
