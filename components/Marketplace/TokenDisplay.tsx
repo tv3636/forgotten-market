@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { CONTRACTS, MARKETS } from "./marketplaceConstants";
+import { BACKGROUND_COLORS, CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import wizards from "../../data/nfts-prod.json";
@@ -20,10 +20,10 @@ const ListingDisplay = styled.div`
   display: flex;
   flex-direction: column;
 
-  border-image-source: url(/static/img/newframe.png);
-  border-image-slice: 30;
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 30 35 30;
   border-image-width: 34px;
-  border-image-outset: 12;
+  border-image-outset: 5 12 10 12;
   border-style: solid;
 
   @media only screen and (max-width: 600px) {
@@ -75,6 +75,9 @@ const NameWrapper = styled.div`
   justify-content: center;
   text-align: center;
 
+  margin-left: -2px;
+  margin-right: -2px;
+
   background-color: var(--frameGray);
 `;
 
@@ -93,7 +96,7 @@ const MarketText = styled.p`
   overflow: hidden;
 
   margin-bottom: var(--sp-1);
-  margin-top: var(--sp-3);
+  margin-top: var(--sp-2);
 
   @media only screen and (max-width: 600px) {
     max-width: 15ch;
@@ -107,11 +110,14 @@ const PriceWrapper = styled.div`
 
 const PriceDisplay = styled.div`
   font-family: Terminal;
-  font-size: var(--sp1);
-  color: var(--white);
+  font-size: var(--sp0);
+  color: white;
   font-weight: bold;
 
-  margin-bottom: var(--sp-2);
+  margin-left: -2px;
+  margin-right: -2px;
+
+  margin-bottom: var(--sp-1);
   background-color: var(--frameGray);
 
   display: flex;
@@ -173,10 +179,6 @@ export default function TokenDisplay({
     }
   }, []);
 
-  if (!(source in MARKETS)) {
-    console.log(source, name);
-  }
-
   return (
     <Link
       href={`/${contract}/${tokenId}`}
@@ -184,14 +186,29 @@ export default function TokenDisplay({
     >
       <SoftLink>
       <ListingDisplay 
-        style={{ 
-          background:
-            CONTRACTS[contract].display == 'Wizards' && tokenId in wizData ? '#' + wizData[tokenId].background_color : 
-            CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].background :
-            CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? soulsData[tokenId].background :
-            CONTRACTS[contract].display == 'Ponies' && tokenId in poniesData ? poniesData[tokenId].background :
-            'black'
-        }}
+        style={
+          CONTRACTS[contract].display == 'Wizards' && tokenId in wizData ? 
+            {
+              background: '#' + wizData[tokenId].background_color, 
+              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS['#' + wizData[tokenId].background_color]}.png)`
+            } :
+          CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? 
+            {
+              background: warriorsData[tokenId].background, 
+              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS[warriorsData[tokenId].background]}.png)`
+            } :
+          CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? 
+            {
+              background: soulsData[tokenId].background, 
+              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS[soulsData[tokenId].background]}.png)`
+            } :
+          CONTRACTS[contract].display == 'Ponies' && tokenId in poniesData ? 
+            {
+              background: poniesData[tokenId].background, 
+              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS[poniesData[tokenId].background]}.png)`
+            } :
+          {}
+        }
       >
         { CONTRACTS[contract].display == 'Wizards' ?
           <ListingImage 

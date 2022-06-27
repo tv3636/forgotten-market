@@ -231,3 +231,11 @@ export const BURN_TRAITS: any = [
   'Transmuted from number',
   'Burn order',
 ]
+
+export const BACKGROUND_COLORS: any = {
+  "#000000": "black",
+  "#09071B": "blue",
+  "#120315": "purple",
+  "#040D04": "green",
+  "#1E0200": "red",
+}
