@@ -3,9 +3,15 @@ import { CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import wizards from "../../data/nfts-prod.json";
+import warriors from "../../data/warriors.json";
+import souls from "../../data/souls.json";
+import ponies from "../../data/ponies.json";
 import styled from "@emotion/styled";
 
 const wizData = wizards as { [wizardId: string]: any };
+const warriorsData = warriors as { [warriorId: string]: any};
+const soulsData = souls as { [soulId: string]: any };
+const poniesData = ponies as { [ponyId: string]: any };
 
 const ListingDisplay = styled.div`
   width: 200px;
