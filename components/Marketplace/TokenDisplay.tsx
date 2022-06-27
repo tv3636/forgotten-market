@@ -15,7 +15,7 @@ const poniesData = ponies as { [ponyId: string]: any };
 
 const ListingDisplay = styled.div`
   width: 200px;
-  height: 300px;
+  height: auto;
   margin: var(--sp2);
   display: flex;
   flex-direction: column;
@@ -156,7 +156,14 @@ export default function TokenDisplay({
     >
       <SoftLink>
       <ListingDisplay 
-        style={{height: 'auto'}}
+        style={{ 
+          background:
+            CONTRACTS[contract].display == 'Wizards' && tokenId in wizData ? '#' + wizData[tokenId].background_color : 
+            CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].background :
+            CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? soulsData[tokenId].background :
+            CONTRACTS[contract].display == 'Ponies' && tokenId in poniesData ? poniesData[tokenId].background :
+            'none'
+        }}
       >
         { CONTRACTS[contract].display == 'Wizards' ?
           <ListingImage 
@@ -167,7 +174,6 @@ export default function TokenDisplay({
             onMouseOut={(e) =>
               (e.currentTarget.src = image)
             }
-            style={{background: '#' + wizData[tokenId].background_color}}
           /> : CONTRACTS[contract].display == 'Ponies' && tokenId < 440 ?
           <ListingImage 
             src={image}
@@ -177,18 +183,12 @@ export default function TokenDisplay({
             onMouseOut={(e) =>
               (e.currentTarget.src = image)
             }
-            style={{background: '#' + wizData[tokenId].background_color}}
           /> :
-          <ListingImage 
-            src={CONTRACTS[contract].image_url + tokenId + ".png"}
-          />
+          <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"} />
         }
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '50%',
-            justifyContent: 'flex-start',
+            backgroundColor: 'var(--mediumGray)',
           }}
         >
           <div 
