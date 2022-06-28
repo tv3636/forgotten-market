@@ -12,6 +12,7 @@ import Sidebar from "../../components/Marketplace/NewSidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../../components/Marketplace/TokenDisplay";
 import Image from 'next/image';
+import RightBar from "../../components/Marketplace/RightBar";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -29,6 +30,7 @@ const MidHeader = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `;
 
 const ScrollContainer = styled.div`
@@ -45,7 +47,7 @@ const Scrim = styled.div`
   position: absolute;
   z-index: 10;
   bottom: -5px;
-  max-width: 65%;
+  max-width: 1050px;
 `;
 
 export default function Marketplace({
@@ -151,63 +153,63 @@ export default function Marketplace({
         image={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
       >
         <Main>
-          <Sidebar 
-            contract={contract} 
-            activity={showActivity}
-            loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
-            noLoreChange={() => setHasNoLore(!hasNoLore)}
-            setSource={updateSource}
-            selectionChange={selectionChange}
-          />
-          <div style={{width: '1200px'}}>
-          <MidHeader>
-          <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
-          <MainToggle contract={contract} activity={showActivity} />
-        </MidHeader>
-          { listings.length > 0 || loaded ? (
-              <InfiniteScroll
-                dataLength={listings.length}
-                next={() => fetchListings(false)}
-                hasMore={true}
-                loader={null}
-                scrollThreshold={0.3}
-                height={"100vh"}
-                endMessage={
-                  <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
-                }
-                style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
-              >
-                <ScrollContainer>
-                  {listings.map((listing: any, index) => {
-                    return (
-                      ((!hasLore && !hasNoLore) ||
-                        (hasLore &&
-                          !hasNoLore &&
-                          wizardsWithLore[listing.token.tokenId]) ||
-                        (!hasLore &&
-                          hasNoLore &&
-                          !wizardsWithLore[listing.token.tokenId])) && (
-                        <div key={index}>
-                          <TokenDisplay
-                            contract={contract}
-                            tokenId={listing.token.tokenId}
-                            name={listing.token.name}
-                            price={listing.market.floorAsk.price}
-                            source={listing.market.floorAsk.source.id}
-                          />
-                        </div>
-                      )
-                    );
-                  })}
-                  <Scrim>
-                    <Image src='/static/img/scrim.png' height='233px' width='1155px' />
-                  </Scrim>
-                </ScrollContainer>
-              </InfiniteScroll>
-          ) : (
-            <LoadingCard height={'82vh'}/>
-          )}
+          <Sidebar activity={showActivity} />
+          <div style={{width: '1100px'}}>
+            <MidHeader>
+              <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
+              <MainToggle contract={contract} activity={showActivity} />
+            </MidHeader>
+            { listings.length > 0 || loaded ? (
+                <InfiniteScroll
+                  dataLength={listings.length}
+                  next={() => fetchListings(false)}
+                  hasMore={true}
+                  loader={null}
+                  scrollThreshold={0.3}
+                  height={"100vh"}
+                  endMessage={
+                    <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
+                  }
+                  style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
+                >
+                  <ScrollContainer>
+                    {listings.map((listing: any, index) => {
+                      return (
+                        ((!hasLore && !hasNoLore) ||
+                          (hasLore &&
+                            !hasNoLore &&
+                            wizardsWithLore[listing.token.tokenId]) ||
+                          (!hasLore &&
+                            hasNoLore &&
+                            !wizardsWithLore[listing.token.tokenId])) && (
+                          <div key={index}>
+                            <TokenDisplay
+                              contract={contract}
+                              tokenId={listing.token.tokenId}
+                              name={listing.token.name}
+                              price={listing.market.floorAsk.price}
+                              source={listing.market.floorAsk.source.id}
+                            />
+                          </div>
+                        )
+                      );
+                    })}
+                    <Scrim>
+                      <Image src='/static/img/scrim.png' height='233px' width='1155px' />
+                    </Scrim>
+                  </ScrollContainer>
+                </InfiniteScroll>
+            ) : (
+              <LoadingCard height={'82vh'}/>
+            )}
         </div>
+        <RightBar 
+          contract={contract} 
+          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
+          noLoreChange={() => setHasNoLore(!hasNoLore)}
+          setSource={updateSource}
+          selectionChange={selectionChange}
+        />
       </Main>
       </Layout>
     )
