@@ -379,6 +379,7 @@ export function LoadingCard({ height }: { height: string }) {
         alignContent: "center",
         justifyContent: "center",
         height: height,
+        backgroundImage: 'url(/static/img/interior-dark.png)',
       }}
     >
       <img
