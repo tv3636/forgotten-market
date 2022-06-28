@@ -24,7 +24,6 @@ const MidHeader = styled.div`
   justify-content: center;
 
   margin-top: -8ch;
-  margin-bottom: var(--sp1);
 `;
 
 const Main = styled.div`
@@ -40,14 +39,20 @@ const ScrollContainer = styled.div`
   justify-content: center;
   overflow: hidden;
 
+  padding-top: var(--sp-4);
   padding-bottom: 400px;
 `;
 
-const Scrim = styled.div`
+const BottomScrim = styled.div`
   position: absolute;
   z-index: 10;
   bottom: -5px;
   max-width: 1050px;
+`;
+
+const TopScrim = styled(BottomScrim)`
+  bottom: auto;
+  top: 130px;
 `;
 
 export default function Marketplace({
@@ -194,9 +199,12 @@ export default function Marketplace({
                         )
                       );
                     })}
-                    <Scrim>
-                      <Image src='/static/img/scrim.png' height='233px' width='1155px' />
-                    </Scrim>
+                    <TopScrim>
+                      <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' />
+                    </TopScrim>
+                    <BottomScrim>
+                      <Image src='/static/img/scrim.png' height='150px' width='1155px' />
+                    </BottomScrim>
                   </ScrollContainer>
                 </InfiniteScroll>
             ) : (
