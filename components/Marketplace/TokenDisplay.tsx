@@ -8,10 +8,12 @@ import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import styled from "@emotion/styled";
 
-const wizData = wizards as { [wizardId: string]: any };
-const warriorsData = warriors as { [warriorId: string]: any};
-const soulsData = souls as { [soulId: string]: any };
-const poniesData = ponies as { [ponyId: string]: any };
+const collectionData: any = {
+  'Wizards': wizards as { [wizardId: string]: any },
+  'Warriors': warriors as { [warriorId: string]: any},
+  'Souls': souls as { [soulId: string]: any },
+  'Ponies': ponies as { [ponyId: string]: any }
+}
 
 const ListingDisplay = styled.div`
   width: 200px;
@@ -36,7 +38,7 @@ const ListingDisplay = styled.div`
 
 const NewFrame = styled.div`
   width: 200px;
-  height: 294px;
+  height: 295px;
 
   position: absolute;
   z-index: 1;
@@ -80,8 +82,6 @@ const ListingImage = styled.img`
 const ListingInfo = styled.div`
   position: relative;
   background-color: var(--frameGray);
-
-  
 `;
 
 const NameWrapper = styled.div`
@@ -95,6 +95,7 @@ const MarketText = styled.p`
   font-size: var(--sp0);
   font-weight: bold;
   color: white;
+  text-shadow: 0px 2px var(--midGray);
   
   line-height: 1.3;
   max-width: 20ch;
@@ -125,6 +126,8 @@ const PriceDisplay = styled.div`
 
   margin-left: -2px;
   margin-right: -2px;
+
+  min-height: 4px;
 
   margin-bottom: var(--sp-1);
 
@@ -175,17 +178,14 @@ export default function TokenDisplay({
     `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : 
     `${CONTRACTS[contract].image_url}${tokenId}.png`;
 
-  let turnaround = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`;
-  let pony_turnaround = `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
+  let turnaround = CONTRACTS[contract].display == 'Wizards' ? 
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
+    `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
 
   // Preload turnaround GIFs
   useEffect(() => {
-    if (CONTRACTS[contract].display == 'Wizards') {
+    if (CONTRACTS[contract].display in ['Wizards', 'Ponies']) {
       const img = new Image().src = turnaround;
-    }
-
-    if (CONTRACTS[contract].display == 'Ponies') {
-      const pony_img = new Image().src = pony_turnaround;
     }
   }, []);
 
@@ -197,43 +197,15 @@ export default function TokenDisplay({
       <SoftLink>
       <ListingDisplay 
         style={
-          CONTRACTS[contract].display == 'Wizards' && tokenId in wizData ? 
-            {
-              background: wizData[tokenId].background, 
-              
-            } :
-          CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? 
-            {
-              background: warriorsData[tokenId].background, 
-              
-            } :
-          CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? 
-            {
-              background: soulsData[tokenId].background, 
-              
-            } :
-          CONTRACTS[contract].display == 'Ponies' && tokenId in poniesData ? 
-            {
-              background: poniesData[tokenId].background, 
-              
-            } :
-          {}
+          CONTRACTS[contract].display in collectionData && tokenId in collectionData[CONTRACTS[contract].display] ? 
+            { background: collectionData[CONTRACTS[contract].display][tokenId].background } : {}
         }
       >
-        { CONTRACTS[contract].display == 'Wizards' ?
+        { CONTRACTS[contract].display == 'Wizards' || CONTRACTS[contract].display == 'Ponies' && tokenId < 440 ?
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
               (e.currentTarget.src = turnaround)
-            }
-            onMouseOut={(e) =>
-              (e.currentTarget.src = image)
-            }
-          /> : CONTRACTS[contract].display == 'Ponies' && tokenId < 440 ?
-          <ListingImage 
-            src={image}
-            onMouseOver={(e) =>
-              (e.currentTarget.src = pony_turnaround)
             }
             onMouseOut={(e) =>
               (e.currentTarget.src = image)

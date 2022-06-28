@@ -38,7 +38,7 @@ const ScrollContainer = styled.div`
   justify-content: center;
   overflow: hidden;
 
-  padding-bottom: 200px;
+  padding-bottom: 400px;
 `;
 
 const Scrim = styled.div`
@@ -109,15 +109,39 @@ export default function Marketplace({
     setLoaded(true);
   }
 
+  function selectionChange(selected: any, trait: any) {
+    if (selected) {
+      router.query[trait.toLowerCase()] = selected.value;
+    } else {
+      delete router.query[trait.toLowerCase()];
+    }
+
+    router.push({query: router.query}, undefined, {shallow: true});
+    fetchListings(true);
+  }
+
+  function updateSource(source: string) {
+    if (source) {
+      router.query['source'] = source;
+    } else {
+      delete router.query['source'];
+    }
+
+    router.push({query: router.query}, undefined, {shallow: true});
+  }
+
   useEffect(() => {
     setShowActivity(Object.keys(router.query).includes('activity'));
-  }, [router.query]);
 
-  useEffect(() => { 
-    fetchListings(true);
-    getStats();
-  }, [contract]);
-  
+    // ensure router query is populated before fetching listings/stats
+    if (
+      ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) &&
+      !Object.keys(router.query).includes('activity')
+    ) {
+      fetchListings(true);
+      getStats();
+    }
+  }, [router.query]);
 
   if (contract) {
     return (
@@ -130,10 +154,10 @@ export default function Marketplace({
           <Sidebar 
             contract={contract} 
             activity={showActivity}
-            loreChange={null} 
-            noLoreChange={null}
-            setSource={null}
-            selectionChange={null}
+            loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
+            noLoreChange={() => setHasNoLore(!hasNoLore)}
+            setSource={updateSource}
+            selectionChange={selectionChange}
           />
           <div style={{width: '1200px'}}>
           <MidHeader>
@@ -151,7 +175,7 @@ export default function Marketplace({
                 endMessage={
                   <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
                 }
-                style={{backgroundImage: 'url(/static/img/interior-background.png)'}}
+                style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
               >
                 <ScrollContainer>
                   {listings.map((listing: any, index) => {
