@@ -379,7 +379,6 @@ export function LoadingCard({ height }: { height: string }) {
         alignContent: "center",
         justifyContent: "center",
         height: height,
-        width: '65vw'
       }}
     >
       <img
