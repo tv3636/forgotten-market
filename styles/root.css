@@ -35,6 +35,8 @@ body {
 
   font-family: "Terminal";
   font-size: var(--sp0);
+  --frameSize: 24px;
+
 }
 
 div#WEB3_CONNECT_MODAL_ID {

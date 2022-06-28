@@ -37,15 +37,18 @@ const ListingDisplay = styled.div`
 `;
 
 const NewFrame = styled.div`
-  width: 200px;
-  height: 295px;
+
+  width: calc(100% + var(--frameSize));
+  height: calc(100% + 0.5 * var(--frameSize));
 
   position: absolute;
+  left: calc(-0.5 * var(--frameSize));
+  top: calc(-0.1 * var(--frameSize));
   z-index: 1;
   border-image-source: url(/static/img/newframe_black.png);
   border-image-slice: 30 35 30;
-  border-image-width: 34px;
-  border-image-outset: 5 12 10 12;
+  border-image-width: var(--frameSize);
+  border-image-outset: 0;
   border-style: solid;
 `;
 
@@ -148,9 +151,9 @@ const MarketIcon = styled.img`
   image-rendering: pixelated;
 
   position: absolute;
-  bottom: 12;
+  bottom: calc(-0.65 * var(--frameSize));
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, 0%);
 
   z-index: 2;
 
