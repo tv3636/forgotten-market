@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Image from 'next/image';
-import { CONTRACTS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 
 const Price = styled.div`
   display: flex;
@@ -54,11 +54,13 @@ export default function CollectionStats({
   bid: number;
   contract: string;
 }) {
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+
   return (
     <StatsWrapper>
       <StatsItem>
         <h1>{numShorten(items)}</h1>
-        <div>{items == 1 ? CONTRACTS[contract].singular.toUpperCase() : CONTRACTS[contract].display.toUpperCase()}</div>
+        <div>{items == 1 ? contracts[contract].singular.toUpperCase() : contracts[contract].display.toUpperCase()}</div>
       </StatsItem>
       <StatsItem>
         <Price>

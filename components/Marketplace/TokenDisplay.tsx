@@ -1,18 +1,20 @@
 import { useEffect } from "react";
-import { CONTRACTS, MARKETS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import wizards from "../../data/wizards.json";
 import warriors from "../../data/warriors.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
+import babies from "../../data/babies.json";
 import styled from "@emotion/styled";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
   'Warriors': warriors as { [warriorId: string]: any},
   'Souls': souls as { [soulId: string]: any },
-  'Ponies': ponies as { [ponyId: string]: any }
+  'Ponies': ponies as { [ponyId: string]: any },
+  'Babies': babies as { [babyId: string]: any },
 }
 
 const ListingDisplay = styled.div`
@@ -130,9 +132,7 @@ const PriceDisplay = styled.div`
   margin-left: -2px;
   margin-right: -2px;
 
-  min-height: 4px;
-
-  margin-bottom: var(--sp-1);
+  margin-bottom: var(--sp0);
 
   display: flex;
   flex-direction: row;
@@ -177,17 +177,19 @@ export default function TokenDisplay({
   price: number;
   source: string;
 }) {
-  let image = CONTRACTS[contract].display == 'Wizards' ? 
-    `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : 
-    `${CONTRACTS[contract].image_url}${tokenId}.png`;
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
-  let turnaround = CONTRACTS[contract].display == 'Wizards' ? 
+  let image = contracts[contract].display == 'Wizards' ? 
+    `${contracts[contract].image_url}${tokenId}/${tokenId}.png` : 
+    `${contracts[contract].image_url}${tokenId}.png`;
+
+  let turnaround = contracts[contract].display == 'Wizards' ? 
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
     `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
 
   // Preload turnaround GIFs
   useEffect(() => {
-    if (CONTRACTS[contract].display in ['Wizards', 'Ponies']) {
+    if (contracts[contract].display in ['Wizards', 'Ponies']) {
       const img = new Image().src = turnaround;
     }
   }, []);
@@ -200,11 +202,11 @@ export default function TokenDisplay({
       <SoftLink>
       <ListingDisplay 
         style={
-          CONTRACTS[contract].display in collectionData && tokenId in collectionData[CONTRACTS[contract].display] ? 
-            { background: collectionData[CONTRACTS[contract].display][tokenId].background } : {}
+          contracts[contract].display in collectionData && tokenId in collectionData[contracts[contract].display] ? 
+            { background: collectionData[contracts[contract].display][tokenId].background } : {}
         }
       >
-        { CONTRACTS[contract].display == 'Wizards' || CONTRACTS[contract].display == 'Ponies' && tokenId < 440 ?
+        { contracts[contract].display == 'Wizards' || contracts[contract].display == 'Ponies' && tokenId < 440 ?
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
@@ -214,7 +216,7 @@ export default function TokenDisplay({
               (e.currentTarget.src = image)
             }
           /> :
-          <ListingImage src={CONTRACTS[contract].image_url + tokenId + ".png"} />
+          <ListingImage src={contracts[contract].image_url + tokenId + ".png"} />
         }
         <ListingInfo>
           <NameWrapper>

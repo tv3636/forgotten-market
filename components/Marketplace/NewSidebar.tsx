@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import Image from 'next/image';
-import { CONTRACTS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { useRouter } from "next/router";
 
 const headers: HeadersInit = new Headers();
@@ -14,8 +14,8 @@ const Container = styled.div`
 
   margin-left: var(--sp3);
   margin-top: var(--sp1);
-  max-width: 25ch;
-  min-width: 25ch;
+  max-width: 27ch;
+  min-width: 27ch;
 
   ::-webkit-scrollbar {
     display: none;
@@ -68,6 +68,15 @@ const CollectionName = styled.div`
   transition: all 250ms;
 `;
 
+const SectionHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: var(--sp-1);
+
+  color: var(--newGray);
+`;
+
 function Collection({
   contract,
   activity,
@@ -83,15 +92,33 @@ function Collection({
       <Link href={`/new/${ contract }${ activity ? '?activity=True' : ''}`}>
         <CollectionWrapper>
           <CollectionIcon className={`icon${ active ? ' active' : ''}`}>
-            <Image src={`/static/img/marketplace/icon_${CONTRACTS[contract].display}.png`} height='25ex' width='25ch' />
+            <Image 
+              src={`/static/img/marketplace/icon_${contract in CONTRACTS? CONTRACTS[contract]?.display :COMMUNITY_CONTRACTS[contract].display }.png`} 
+              height='25ex' 
+              width='25ch' 
+            />
           </CollectionIcon>
           
             <CollectionName className={`alagard name${ active ? ' active' : ''}`}>
-              { CONTRACTS[contract].display }
+              { contract in CONTRACTS ? CONTRACTS[contract].display : COMMUNITY_CONTRACTS[contract].display }
             </CollectionName>
         </CollectionWrapper>
       </Link>
     </div>
+  )
+}
+
+function CollectionHeader({
+  text
+}:{
+  text: string;
+}) {
+  return (
+    <SectionHeader>
+      <Image src="/static/img/floaters-left.png" height='14.5px' width='67px' />
+      {text}
+      <Image src="/static/img/floaters-right.png" height='14.5px' width='67px' />
+    </SectionHeader>
   )
 }
 
@@ -102,13 +129,22 @@ export default function Sidebar({
 }) {
   return (
     <Container>
+      <CollectionHeader text='OFFICIAL' />
       <Collections>
       {
         Object.keys(CONTRACTS).map((contract: string, index) => (
           <Collection key={index} contract={contract} activity={activity} />
         ))
       }
-      </Collections>      
+      </Collections>
+      <CollectionHeader text='COMMUNITY' />
+      <Collections>
+      {
+        Object.keys(COMMUNITY_CONTRACTS).map((contract: string, index) => (
+          <Collection key={index} contract={contract} activity={activity} />
+        ))
+      }
+      </Collections>
     </Container>
   )
 }

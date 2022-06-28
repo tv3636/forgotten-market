@@ -189,6 +189,27 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
   }
 };
 
+export const COMMUNITY_CONTRACTS: any = {
+  "0x5a79182165a2917ef9cccf33f472fe22afffeff8": {
+    collection: "wizardsnouns",
+    display: "Nouns",
+    singular: "Noun",
+    full: "Forgotten Runes Wizard's Nouns",
+    image_url: "https://www.wizardsnouns.com/nouns/",
+    fee: '1000',
+    feeRecipient: '0xb11040E5dB5CBb8eD566e6A591a8b9762ee973f8'
+  },
+  "0x4b1e130ae84c97b931ffbe91ead6b1da16993d45": {
+    collection: "babywizards",
+    display: "Babies",
+    singular: "Baby",
+    full: "Forgotten Babies Wizard Orphanage",
+    image_url: "http://forgottenbabies.com/uri/json/",
+    fee: '500',
+    feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4'
+  },
+}
+
 export const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],
   "Psychic Leap": [5.6, 5.3],

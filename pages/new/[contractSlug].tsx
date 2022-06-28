@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../../components/Lore/loreSubgraphUtils";
-import { API_BASE_URL, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
+import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 import { getURLAttributes, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
 import Layout from "../../components/Marketplace/NewLayout";
 import CollectionStats from "../../components/Marketplace/CollectionStats";
@@ -71,8 +71,10 @@ export default function Marketplace({
   const [items, setItems] = useState(0);
   const [floor, setFloor] = useState(0);
   const [bid, setBid] = useState(0);
-
   const router = useRouter();
+
+  let displayName = contract in CONTRACTS ? CONTRACTS[contract].display : COMMUNITY_CONTRACTS[contract].display;
+  let singular = contract in CONTRACTS ? CONTRACTS[contract].singular : COMMUNITY_CONTRACTS[contract].singular;
 
   async function getStats() {
     var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(contract, router.query);
@@ -153,9 +155,9 @@ export default function Marketplace({
   if (contract) {
     return (
       <Layout
-        title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
-        description={`Like ${CONTRACTS[contract].singular}, Buy ${CONTRACTS[contract].singular}`}
-        image={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
+        title={`${displayName} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+        description={`Like ${singular}, Buy ${singular}`}
+        image={`/static/img/marketplace/${displayName.toLowerCase()}-banner.png`}
       >
         <Main>
           <Sidebar activity={showActivity} />
