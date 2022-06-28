@@ -43,7 +43,7 @@ const ScrollContainer = styled.div`
 
 const Scrim = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   bottom: -5px;
   max-width: 65%;
 `;
@@ -135,7 +135,7 @@ export default function Marketplace({
             setSource={null}
             selectionChange={null}
           />
-          <div style={{width: '66vw'}}>
+          <div style={{width: '1200px'}}>
           <MidHeader>
           <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
           <MainToggle contract={contract} activity={showActivity} />

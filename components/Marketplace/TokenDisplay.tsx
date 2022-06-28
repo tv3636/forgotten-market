@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { BACKGROUND_COLORS, CONTRACTS, MARKETS } from "./marketplaceConstants";
+import { CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
-import wizards from "../../data/nfts-prod.json";
+import wizards from "../../data/wizards.json";
 import warriors from "../../data/warriors.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
@@ -20,11 +20,8 @@ const ListingDisplay = styled.div`
   display: flex;
   flex-direction: column;
 
-  border-image-source: url(/static/img/newframe_black.png);
-  border-image-slice: 30 35 30;
-  border-image-width: 34px;
-  border-image-outset: 5 12 10 12;
-  border-style: solid;
+  position: relative;
+  background-color: black;
 
   @media only screen and (max-width: 600px) {
     width: 150px;
@@ -37,6 +34,19 @@ const ListingDisplay = styled.div`
 
 `;
 
+const NewFrame = styled.div`
+  width: 200px;
+  height: 294px;
+
+  position: absolute;
+  z-index: 1;
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 30 35 30;
+  border-image-width: 34px;
+  border-image-outset: 5 12 10 12;
+  border-style: solid;
+`;
+
 const ListingImage = styled.img`
   min-width: 200px;
   min-height: 200px;
@@ -44,6 +54,7 @@ const ListingImage = styled.img`
   max-width: 50vw;
 
   padding: var(--sp1);
+  z-index: 2;
 
   :hover {
     cursor: pointer;
@@ -68,17 +79,15 @@ const ListingImage = styled.img`
 
 const ListingInfo = styled.div`
   position: relative;
+  background-color: var(--frameGray);
+
+  
 `;
 
 const NameWrapper = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
-
-  margin-left: -2px;
-  margin-right: -2px;
-
-  background-color: var(--frameGray);
 `;
 
 const MarketText = styled.p`
@@ -118,7 +127,6 @@ const PriceDisplay = styled.div`
   margin-right: -2px;
 
   margin-bottom: var(--sp-1);
-  background-color: var(--frameGray);
 
   display: flex;
   flex-direction: row;
@@ -140,6 +148,8 @@ const MarketIcon = styled.img`
   bottom: 12;
   left: 50%;
   transform: translate(-50%);
+
+  z-index: 2;
 
   @media only screen and (max-width: 600px) {
     width: 15px;
@@ -189,23 +199,23 @@ export default function TokenDisplay({
         style={
           CONTRACTS[contract].display == 'Wizards' && tokenId in wizData ? 
             {
-              background: '#' + wizData[tokenId].background_color, 
-              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS['#' + wizData[tokenId].background_color]}.png)`
+              background: wizData[tokenId].background, 
+              
             } :
           CONTRACTS[contract].display == 'Warriors' && tokenId in warriorsData ? 
             {
               background: warriorsData[tokenId].background, 
-              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS[warriorsData[tokenId].background]}.png)`
+              
             } :
           CONTRACTS[contract].display == 'Souls' && tokenId in soulsData ? 
             {
               background: soulsData[tokenId].background, 
-              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS[soulsData[tokenId].background]}.png)`
+              
             } :
           CONTRACTS[contract].display == 'Ponies' && tokenId in poniesData ? 
             {
               background: poniesData[tokenId].background, 
-              borderImageSource: `url(/static/img/newframe_${BACKGROUND_COLORS[poniesData[tokenId].background]}.png)`
+              
             } :
           {}
         }
@@ -245,6 +255,7 @@ export default function TokenDisplay({
           </PriceDisplay>
           { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
         </ListingInfo>
+        <NewFrame/>
       </ListingDisplay>
       </SoftLink>
     </Link>

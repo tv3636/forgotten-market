@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 `;
 
 const Container = styled.div`
-  width: 1400px;
+  width: 1600px;
 `;
 
 type Props = {
