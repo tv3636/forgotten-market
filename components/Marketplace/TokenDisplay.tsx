@@ -151,7 +151,7 @@ const MarketIcon = styled.img`
   image-rendering: pixelated;
 
   position: absolute;
-  bottom: calc(-0.75 * var(--frameSize));
+  bottom: calc(-0.65 * var(--frameSize));
   left: 50%;
   transform: translate(-50%, 0%);
 
