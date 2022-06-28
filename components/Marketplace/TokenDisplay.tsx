@@ -37,7 +37,6 @@ const ListingDisplay = styled.div`
 `;
 
 const NewFrame = styled.div`
-  --frameSize: 24px;
 
   width: calc(100% + var(--frameSize));
   height: calc(100% + 0.5 * var(--frameSize));
@@ -152,9 +151,9 @@ const MarketIcon = styled.img`
   image-rendering: pixelated;
 
   position: absolute;
-  bottom: 12;
+  bottom: calc(-0.75 * var(--frameSize));
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, 0%);
 
   z-index: 2;
 
