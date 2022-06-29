@@ -384,7 +384,7 @@ export function LoadingCard({ height }: { height: string }) {
     >
       <img
         src="/static/img/marketplace/loading_card.gif"
-        style={{ maxWidth: "200px" }}
+        style={{ maxWidth: "200px", transform: "translateY(-100%)", }}
       />
     </div>
   );

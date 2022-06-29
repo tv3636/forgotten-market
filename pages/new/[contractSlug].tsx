@@ -224,7 +224,7 @@ export default function Marketplace({
                   </ScrollContainer>
                 </InfiniteScroll>
             ) : (
-              <LoadingCard height={'82vh'}/>
+              <LoadingCard height={'100vh'}/>
             )}
         </MidContainer>
         <RightBar  

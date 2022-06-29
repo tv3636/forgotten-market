@@ -32,6 +32,8 @@ export default function RightBar({
   selectionChange: any;
 }) {
 
+  console.log('rendering');
+
   return (
     <Container className="noscrim">  
       <Filters 
