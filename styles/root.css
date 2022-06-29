@@ -37,7 +37,7 @@ body {
   font-family: "Terminal";
   font-size: var(--sp0);
   --frameSize: 24px;
-  --sidebar: 27ch;
+  --sidebar: 25ch;
 
 }
 
@@ -81,7 +81,10 @@ Sections
   font-family: "Alagard";
   color: var(--beige);
   text-shadow: 0px 2px var(--midGray);
+}
 
+.noscrim {
+  z-index: 11;
 }
 
 a {
@@ -183,8 +186,6 @@ p {
 .select__placeholder {
   color: var(--lightGray) !important;
   text-transform: uppercase;
-  font-size: 18px;
-  
 }
 
 .select__menu {
@@ -198,7 +199,6 @@ p {
   color: var(--lightGray) !important;
   background-color: var(--mediumGray) !important;
   text-transform: uppercase;
-  font-size: 18px !important;
 }
 
 .select__option:hover {
@@ -209,7 +209,6 @@ p {
 .select__single-value {
   color: var(--white) !important;
   text-transform: uppercase;
-  font-size: 18px;
 }
 
 .select__input-container {

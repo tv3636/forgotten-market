@@ -14,9 +14,7 @@ const Container = styled.div`
   overflow: scroll;
 
   margin-left: var(--sp3);
-  
   margin-top: var(--sp1);
-
 
   max-width: var(--sidebar);
   min-width: var(--sidebar);
@@ -75,6 +73,8 @@ const CollectionName = styled.div`
 const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  text-align: center;
+  align-items: center;
 
   margin-bottom: var(--sp-1);
 
@@ -142,7 +142,7 @@ export default function Sidebar({
   selectionChange: any;
 }) {
   return (
-    <Container>
+    <Container className="noscrim">
       <CollectionHeader text='OFFICIAL' />
       <Collections>
       {
@@ -159,13 +159,6 @@ export default function Sidebar({
         ))
       }
       </Collections>
-      <Filters 
-        contract={contract} 
-        loreChange={loreChange} 
-        noLoreChange={noLoreChange} 
-        setSource={setSource} 
-        selectionChange={selectionChange} 
-      />
     </Container>
   )
 }

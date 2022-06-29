@@ -10,6 +10,7 @@ headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? 
 
 const FormWrapper = styled.div`
   max-height: 5ex;
+  margin-top: 18.3984px;
 
   > * {
     margin-bottom: var(--sp0);

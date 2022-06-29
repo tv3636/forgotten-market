@@ -12,6 +12,7 @@ import Sidebar from "../../components/Marketplace/NewSidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../../components/Marketplace/TokenDisplay";
 import Image from 'next/image';
+import RightBar from "../../components/Marketplace/RightBar";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -32,7 +33,7 @@ const Main = styled.div`
 `;
 
 const MidContainer = styled.div`
-  width: 90%;
+  width: 1100px;
 
   padding-left: var(--sp0);
   padding-right: var(--sp0);
@@ -226,7 +227,13 @@ export default function Marketplace({
               <LoadingCard height={'82vh'}/>
             )}
         </MidContainer>
-        <div style={{width: 'var(--sidebar)'}}/>
+        <RightBar  
+          contract={contract} 
+          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
+          noLoreChange={() => setHasNoLore(!hasNoLore)}
+          setSource={updateSource}
+          selectionChange={selectionChange}
+        />
       </Main>
       </Layout>
     )

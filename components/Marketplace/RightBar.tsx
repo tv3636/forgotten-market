@@ -8,10 +8,10 @@ const Container = styled.div`
 
   margin-right: var(--sp3);
   margin-top: var(--sp1);
-  max-width: 25ch;
-  min-width: 25ch;
+  margin-bottom: 200px;
 
-  z-index: 11;
+  max-width: var(--sidebar);
+  min-width: var(--sidebar);;
 
   ::-webkit-scrollbar {
     display: none;
@@ -33,7 +33,7 @@ export default function RightBar({
 }) {
 
   return (
-    <Container>  
+    <Container className="noscrim">  
       <Filters 
         contract={contract} 
         loreChange={loreChange} 
