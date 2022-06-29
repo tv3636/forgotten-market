@@ -34,6 +34,7 @@ const Main = styled.div`
 
 const MidContainer = styled.div`
   width: 1100px;
+  max-width: 70%;
 
   padding-left: var(--sp0);
   padding-right: var(--sp0);
