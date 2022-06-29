@@ -37,6 +37,7 @@ body {
   font-family: "Terminal";
   font-size: var(--sp0);
   --frameSize: 24px;
+  --sidebar: 27ch;
 
 }
 

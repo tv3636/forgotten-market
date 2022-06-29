@@ -12,7 +12,6 @@ import Sidebar from "../../components/Marketplace/NewSidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../../components/Marketplace/TokenDisplay";
 import Image from 'next/image';
-import RightBar from "../../components/Marketplace/RightBar";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -30,6 +29,13 @@ const Main = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+const MidContainer = styled.div`
+  width: 90%;
+
+  padding-left: var(--sp0);
+  padding-right: var(--sp0);
 `;
 
 const ScrollContainer = styled.div`
@@ -160,8 +166,15 @@ export default function Marketplace({
         image={`/static/img/marketplace/${displayName.toLowerCase()}-banner.png`}
       >
         <Main>
-          <Sidebar activity={showActivity} />
-          <div style={{width: '1100px'}}>
+          <Sidebar 
+            activity={showActivity} 
+            contract={contract} 
+            loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
+            noLoreChange={() => setHasNoLore(!hasNoLore)}
+            setSource={updateSource}
+            selectionChange={selectionChange}
+          />
+          <MidContainer>
             <MidHeader>
               <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
               <MainToggle contract={contract} activity={showActivity} />
@@ -212,14 +225,8 @@ export default function Marketplace({
             ) : (
               <LoadingCard height={'82vh'}/>
             )}
-        </div>
-        <RightBar 
-          contract={contract} 
-          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
-          noLoreChange={() => setHasNoLore(!hasNoLore)}
-          setSource={updateSource}
-          selectionChange={selectionChange}
-        />
+        </MidContainer>
+        <div style={{width: 'var(--sidebar)'}}/>
       </Main>
       </Layout>
     )

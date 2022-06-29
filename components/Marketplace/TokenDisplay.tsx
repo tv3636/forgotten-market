@@ -206,7 +206,7 @@ export default function TokenDisplay({
             { background: collectionData[contracts[contract].display][tokenId].background } : {}
         }
       >
-        { contracts[contract].display == 'Wizards' || contracts[contract].display == 'Ponies' && tokenId < 440 ?
+        { contracts[contract].display == 'Wizards' || contracts[contract].display == 'Ponies' ?
           <ListingImage 
             src={image}
             onMouseOver={(e) =>

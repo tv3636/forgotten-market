@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { useRouter } from "next/router";
+import Filters from "./Filters";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -13,9 +14,12 @@ const Container = styled.div`
   overflow: scroll;
 
   margin-left: var(--sp3);
+  
   margin-top: var(--sp1);
-  max-width: 27ch;
-  min-width: 27ch;
+
+
+  max-width: var(--sidebar);
+  min-width: var(--sidebar);
 
   ::-webkit-scrollbar {
     display: none;
@@ -124,8 +128,18 @@ function CollectionHeader({
 
 export default function Sidebar({
   activity,
+  contract,
+  loreChange,
+  noLoreChange,
+  setSource,
+  selectionChange,
 }:{
   activity: boolean;
+  contract: string;
+  loreChange: any;
+  noLoreChange: any;
+  setSource: any;
+  selectionChange: any;
 }) {
   return (
     <Container>
@@ -145,6 +159,13 @@ export default function Sidebar({
         ))
       }
       </Collections>
+      <Filters 
+        contract={contract} 
+        loreChange={loreChange} 
+        noLoreChange={noLoreChange} 
+        setSource={setSource} 
+        selectionChange={selectionChange} 
+      />
     </Container>
   )
 }
