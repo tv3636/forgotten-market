@@ -1,91 +1,43 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
-import Layout from "../components/Layout";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
+import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS } from "../components/Marketplace/marketplaceConstants";
 import { getURLAttributes, LoadingCard } from "../components/Marketplace/marketplaceHelpers";
-import {
-  API_BASE_URL,
-  CONTRACTS,
-  ORDER_TYPE,
-} from "../components/Marketplace/marketplaceConstants";
-import { useRouter } from 'next/router';
-import Order from "../components/Marketplace/Order";
-import MarketTabs from "../components/Marketplace/MarketTabs";
-import Activity from "../components/Marketplace/Activity";
-import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
+import Layout from "../components/Marketplace/NewLayout";
+import CollectionStats from "../components/Marketplace/CollectionStats";
+import MainToggle from "../components/Marketplace/MainToggle";
+import Sidebar from "../components/Marketplace/NewSidebar";
+import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../components/Marketplace/TokenDisplay";
-import SideBar from "../components/Marketplace/Sidebar";
+import Image from 'next/image';
+import RightBar from "../components/Marketplace/RightBar";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
 
-const MarketWrapper = styled.div`
-  font-size: 20px;
+const MidHeader = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-content: center;
-  align-items: center;
   flex-direction: column;
-  margin-top: 4vh;
-  flex-wrap: wrap;
-  overflow-x: hidden;
-
-  @media only screen and (max-width: 600px) {
-    flex-direction: row;
-    align-content: center;
-    margin-top: 1vh;
-  }
-`;
-
-const DesktopHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 5px;
-
-  @media only screen and (max-width: 600px) {
-    display: none;
-  }
-`;
-
-const MobileHeader = styled.div`
-  display: none;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 1200px;
-  margin-right: 100px;
-  margin-bottom: 5px;
-
-  @media only screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    margin-right: 0px;
-  }
-`;
-
-const TabWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
+  align-items: center;
   justify-content: center;
 
-  @media only screen and (max-width: 600px) {
-    flex-direction: column;
-    max-height: 100%;
-  }
+  margin-top: -8ch;
 `;
 
-const ScrollWrapper = styled.div`
-  width: 83%;
+const Main = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
-  @media only screen and (max-width: 600px) {
-    width: 100%;
-  }
+const MidContainer = styled.div`
+  width: 1100px;
+  max-width: 70%;
+
+  padding-left: var(--sp0);
+  padding-right: var(--sp0);
 `;
 
 const ScrollContainer = styled.div`
@@ -93,39 +45,53 @@ const ScrollContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 2vw;
-  margin-left: 1vw;
-  margin-right: 1vw;
   overflow: hidden;
+
+  padding-top: var(--sp-4);
+  padding-bottom: 400px;
 `;
 
+const BottomScrim = styled.div`
+  position: absolute;
+  z-index: 10;
+  bottom: -5px;
+  max-width: 1050px;
+`;
 
-function Listings({
-  contract,
-  collection,
+const TopScrim = styled(BottomScrim)`
+  bottom: auto;
+  top: 130px;
+`;
+
+export default function Marketplace({
   wizardsWithLore,
-  showActivity,
+  contract
 }: {
-  contract: string;
-  collection: string;
   wizardsWithLore: { [key: number]: boolean };
-  showActivity: boolean;
+  contract: string;
 }) {
+  const [showActivity, setShowActivity] = useState(false);
   const [listings, setListings] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
   const [continuation, setContinuation] = useState('');
+  const [items, setItems] = useState(0);
+  const [floor, setFloor] = useState(0);
+  const [bid, setBid] = useState(0);
   const router = useRouter();
 
-  function updateSource(source: string) {
-    if (source) {
-      router.query['source'] = source;
-    } else {
-      delete router.query['source'];
-    }
+  let displayName = contract in CONTRACTS ? CONTRACTS[contract].display : COMMUNITY_CONTRACTS[contract].display;
+  let singular = contract in CONTRACTS ? CONTRACTS[contract].singular : COMMUNITY_CONTRACTS[contract].singular;
 
-    router.push({query: router.query}, undefined, {shallow: true});
+  async function getStats() {
+    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(contract, router.query);
+    const statsPage = await fetch(stats_url, { headers: headers });
+    const statsJson = await statsPage.json();
+
+    setItems(statsJson.stats.tokenCount);
+    setFloor(statsJson.stats.market.floorAsk.price?.toPrecision(2));
+    setBid(statsJson.stats.market.topBid.value?.toPrecision(2));
   }
 
   async function fetchListings(reset: boolean) {
@@ -151,7 +117,6 @@ function Listings({
         lists = lists.concat(listingsJson.tokens);
         
         setContinuation(listingsJson.continuation)
-
         setListings(reset ? lists: listings.concat(lists));
       }
     } catch (error) {
@@ -172,139 +137,109 @@ function Listings({
     fetchListings(true);
   }
 
+  function updateSource(source: string) {
+    if (source) {
+      router.query['source'] = source;
+    } else {
+      delete router.query['source'];
+    }
+
+    router.push({query: router.query}, undefined, {shallow: true});
+  }
+
   useEffect(() => {
-    // ensure router query is populated before fetching listings
+    setShowActivity(Object.keys(router.query).includes('activity'));
+
+    // ensure router query is populated before fetching listings/stats
     if (
       ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) &&
       !Object.keys(router.query).includes('activity')
     ) {
       fetchListings(true);
+      getStats();
     }
   }, [router.query]);
 
-  return (
-    <TabWrapper>
-      { !showActivity && collection != 'infinityveil' && 
-        <SideBar
-          contract={contract}
-          selectionChange={selectionChange}
-          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }}
+  if (contract) {
+    return (
+      <Layout
+        title={`${displayName} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+        description={`Like ${singular}, Buy ${singular}`}
+        image={`/static/img/marketplace/${displayName.toLowerCase()}-banner.png`}
+      >
+        <Main>
+          <Sidebar activity={showActivity} />
+          <MidContainer>
+            <MidHeader>
+              <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
+              <MainToggle contract={contract} activity={showActivity} />
+            </MidHeader>
+            { listings.length > 0 || loaded ? (
+                <InfiniteScroll
+                  dataLength={listings.length}
+                  next={() => fetchListings(false)}
+                  hasMore={true}
+                  loader={null}
+                  scrollThreshold={0.3}
+                  height={"100vh"}
+                  endMessage={
+                    <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
+                  }
+                  style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
+                >
+                  <ScrollContainer>
+                    {listings.map((listing: any, index) => {
+                      return (
+                        ((!hasLore && !hasNoLore) ||
+                          (hasLore &&
+                            !hasNoLore &&
+                            wizardsWithLore[listing.token.tokenId]) ||
+                          (!hasLore &&
+                            hasNoLore &&
+                            !wizardsWithLore[listing.token.tokenId])) && (
+                          <div key={index}>
+                            <TokenDisplay
+                              contract={contract}
+                              tokenId={listing.token.tokenId}
+                              name={listing.token.name}
+                              price={listing.market.floorAsk.price}
+                              source={listing.market.floorAsk.source.id}
+                            />
+                          </div>
+                        )
+                      );
+                    })}
+                    <TopScrim>
+                      <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' />
+                    </TopScrim>
+                    <BottomScrim>
+                      <Image src='/static/img/scrim.png' height='150px' width='1155px' />
+                    </BottomScrim>
+                  </ScrollContainer>
+                </InfiniteScroll>
+            ) : (
+              <LoadingCard height={'100vh'}/>
+            )}
+        </MidContainer>
+        <RightBar  
+          contract={contract} 
+          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
           noLoreChange={() => setHasNoLore(!hasNoLore)}
           setSource={updateSource}
+          selectionChange={selectionChange}
         />
-      }
-      <ScrollWrapper>
-        { showActivity ? <Activity contract={contract}/> :
-        listings.length > 0 || loaded ? (
-            <InfiniteScroll
-              dataLength={listings.length}
-              next={() => fetchListings(false)}
-              hasMore={true}
-              loader={null}
-              scrollThreshold={0.3}
-              height={"100vh"}
-            >
-              <ScrollContainer>
-                {listings.map((listing: any, index) => {
-                  return (
-                    ((!hasLore && !hasNoLore) ||
-                      (hasLore &&
-                        !hasNoLore &&
-                        wizardsWithLore[listing.token.tokenId]) ||
-                      (!hasLore &&
-                        hasNoLore &&
-                        !wizardsWithLore[listing.token.tokenId])) && (
-                      <div key={index}>
-                        <TokenDisplay
-                          contract={contract}
-                          tokenId={listing.token.tokenId}
-                          name={listing.token.name}
-                          price={listing.market.floorAsk.price}
-                          source={listing.market.floorAsk.source.id}
-                        />
-                      </div>
-                    )
-                  );
-                })}
-              </ScrollContainer>
-            </InfiniteScroll>
-        ) : (
-          <LoadingCard height={'82vh'}/>
-        )}
-      </ScrollWrapper>
-    </TabWrapper>
-  );
-}
-
-export default function Marketplace({
-  wizardsWithLore,
-  contract
-}: {
-  wizardsWithLore: { [key: number]: boolean };
-  contract: string;
-}) {
-  const [showModal, setShowModal] = useState(false);
-  const [showActivity, setShowActivity] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    setShowActivity(Object.keys(router.query).includes('activity'));
-  }, [router.query]);
-
-  if (contract) {
-  return (
-    <Layout
-      title={`${CONTRACTS[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
-      description={`Like ${CONTRACTS[contract].singular}, Buy ${CONTRACTS[contract].singular}`}
-      image={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`}
-    >
-      <MarketWrapper>
-        <MobileHeader>
-          <MarketTabs/>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
-            <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
-          </div>
-        </MobileHeader>
-        {showModal &&
-          <Order
-            contract={contract}
-            tokenId={'0'}
-            name={CONTRACTS[contract].full}
-            collectionWide={true}
-            setModal={setShowModal}
-            action={ORDER_TYPE.OFFER}
-            hash={''}
-            offerHash={''}
-          />
-        }
-        <div style={{width: '1300px', maxWidth: '95%'}}>
-          <DesktopHeader>
-            <MarketTabs/>
-            <div style={{display: 'flex', flexDirection: 'row'}}>
-              <CollectionOfferButton contract={contract} setShowModal={setShowModal}/>
-            </div>
-          </DesktopHeader>
-          <Listings
-            collection={CONTRACTS[contract].collection}
-            contract={contract}
-            wizardsWithLore={wizardsWithLore}
-            key={contract}
-            showActivity={showActivity}
-          />
-        </div>
-      </MarketWrapper>
-    </Layout>
-  );
+      </Main>
+      </Layout>
+    )
   } else {
     return (
       <Layout title="Marketplace">
-        <MarketWrapper></MarketWrapper>
       </Layout>
     )
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const contractSlug = params?.contractSlug as string;
 
   return {
@@ -322,4 +257,3 @@ export const getStaticPaths: GetStaticPaths = async ({}) => {
     fallback: "blocking",
   };
 };
-

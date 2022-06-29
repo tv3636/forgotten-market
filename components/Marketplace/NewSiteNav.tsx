@@ -48,7 +48,7 @@ export default function SiteNav({}:{}) {
   
   return (
     <HeaderWrapper>
-      <Link href={`/new/${router.query.contractSlug}`}>
+      <Link href={`/${router.query.contractSlug}`}>
         <Image src="/static/img/forgotten-runes-logo.png" width="180px" height="59px" className="pointer"/>  
       </Link>
       <Menu>

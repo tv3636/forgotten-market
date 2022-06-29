@@ -46,12 +46,12 @@ export default function MainToggle({
 }) {
   return (
     <Toggle>
-      <Link href={`/new/${contract}`}>
+      <Link href={`/${contract}`}>
         <ToggleButton style={activity ? {} : { backgroundColor: 'var(--darkGray)'}} className='leftButton'>
           MARKETPLACE
         </ToggleButton>
       </Link>
-      <Link href={`/new/${contract}?activity=True`}>
+      <Link href={`/${contract}?activity=True`}>
         <ToggleButton style={activity ? { backgroundColor: 'var(--darkGray)'} : {}} className='rightButton'>
           ACTIVITY
         </ToggleButton>
