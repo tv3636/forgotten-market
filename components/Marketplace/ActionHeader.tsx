@@ -21,6 +21,8 @@ export default function ActionHeader({
   name,
   tokenId,
   imageUrl,
+  trait,
+  traitValue,
 }: {
   collectionWide: boolean;
   contract: string;
@@ -28,13 +30,15 @@ export default function ActionHeader({
   name: string;
   tokenId: string;
   imageUrl: string;
+  trait: string;
+  traitValue: string;
 }) {
   if (collectionWide) {
     return (
       <HeaderContainer>
         <BannerImage src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} />
         <Title style={{marginBottom: "40px", fontSize: "24px"}}>
-          Submitting a collection offer for {name}
+          Submitting a { trait ? 'trait' : 'collection ' } offer for {trait ? `${trait}: ${traitValue}` : name}
         </Title>
       </HeaderContainer>
     )

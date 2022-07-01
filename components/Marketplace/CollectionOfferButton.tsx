@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 
 const CollectionOffer = styled.div`
   background: var(--mediumGray);
@@ -18,13 +19,7 @@ const CollectionOffer = styled.div`
     cursor: pointer;
   }
 
-  @media only screen and (max-width: 600px) {
-    font-size: 16px;
-    margin-right: 0px;
-  }
-
   transition: all 200ms;
-
 `;
 
 export default function CollectionOfferButton({ 
@@ -32,9 +27,12 @@ export default function CollectionOfferButton({
 }: { 
   setShowModal: (show: boolean) => void;
 }) {
+  const router = useRouter();
+  let offerType = Object.keys(router.query).length == (2 + Number('source' in router.query)) ? 'TRAIT' : 'COLLECTION';
+
   return (
     <CollectionOffer onClick={() => setShowModal(true)}>
-      {"COLLECTION OFFER"}
+      {`${offerType} OFFER`}
     </CollectionOffer>
   )
 }

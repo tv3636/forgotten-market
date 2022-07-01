@@ -242,6 +242,8 @@ function OrderContent({
   offerHash,
   setModal,
   collectionWide,
+  trait,
+  traitValue,
 }: {
   action: ORDER_TYPE;
   contract: string;
@@ -251,6 +253,8 @@ function OrderContent({
   offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
+  trait: string;
+  traitValue: string;
 }) {
   const { library, account } = useEthers();
   const signer = library?.getSigner();
@@ -428,6 +432,11 @@ function OrderContent({
       query.token = `${contract}:${tokenId}`;
     }
 
+    if (trait) {
+      query.attributeKey = trait;
+      query.attributeValue = traitValue;
+    }
+
     setParams(url, query);
     await execute(url, signer);
 
@@ -502,6 +511,8 @@ function OrderContent({
             name={name}
             imageUrl={imageUrl}
             action={action}
+            trait={trait}
+            traitValue={traitValue}
           />
           
           <SetPrice 
@@ -573,6 +584,8 @@ interface OrderProps {
   offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
+  trait: string;
+  traitValue: string;
 }
 
 export default function Order(props: OrderProps) {

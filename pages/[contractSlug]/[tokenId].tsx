@@ -473,6 +473,8 @@ const ListingPage = ({
               hash={listing.id} 
               offerHash={offer.id} 
               collectionWide={false}
+              trait={''}
+              traitValue={''}
             />
           }
           <Listing>

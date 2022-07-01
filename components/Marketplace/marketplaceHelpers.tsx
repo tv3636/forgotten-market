@@ -281,7 +281,7 @@ export function getOptions(traits: [any]) {
 }
 
 // Format trait for Reservoir API call
-function traitFormat(contract: string, trait: string) {
+export function traitFormat(trait: string) {
   var out = "";
   for (var word of trait.split(' ')) {
     if (word == 'in') {
@@ -300,11 +300,11 @@ function traitFormat(contract: string, trait: string) {
 }
 
 // Build API parameters from router parameters
-export function getURLAttributes(contract: string, query: any) {
+export function getURLAttributes(query: any) {
   var url_string = "";
   for (var trait of Object.keys(query)) {
     if (trait != 'contractSlug' && trait != 'activity' && trait != 'source') {
-      var url_trait = traitFormat(contract, trait).replace("#", "%23");
+      var url_trait = traitFormat(trait).replace("#", "%23");
       url_string +=
         "&attributes[" +
         url_trait +

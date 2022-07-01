@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
 import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
-import { getURLAttributes, LoadingCard } from "../components/Marketplace/marketplaceHelpers";
+import { getURLAttributes, LoadingCard, traitFormat } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/NewLayout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
@@ -86,9 +86,30 @@ export default function Marketplace({
   let displayName = contract in CONTRACTS ? CONTRACTS[contract].display : COMMUNITY_CONTRACTS[contract].display;
   let singular = contract in CONTRACTS ? CONTRACTS[contract].singular : COMMUNITY_CONTRACTS[contract].singular;
   let fullName = contract in CONTRACTS ? CONTRACTS[contract].full : COMMUNITY_CONTRACTS[contract].full;
+  let traitOffer = Object.keys(router.query).length == (2 + Number('source' in router.query));
+
+  function getTrait() {
+    for (const key in router.query) {
+      if (key != 'contractSlug' && key != 'source') {
+        return traitFormat(key);
+      }
+    }
+
+    return '';
+  }
+
+  function getTraitValue() {
+    for (const key in router.query) {
+      if (key != 'contractSlug' && key != 'source') {
+        return router.query[key];
+      }
+    }
+
+    return '';
+  }
 
   async function getStats() {
-    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(contract, router.query);
+    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query);
     const statsPage = await fetch(stats_url, { headers: headers });
     const statsJson = await statsPage.json();
 
@@ -113,7 +134,7 @@ export default function Marketplace({
           url + '&sortBy=floorAskPrice&limit=50' + 
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
           (router.query.source ? "&source=" + router.query.source : '') +
-          getURLAttributes(contract, router.query),
+          getURLAttributes(router.query),
           { headers: headers }
         );
         const listingsJson = await page.json();
@@ -181,6 +202,8 @@ export default function Marketplace({
               action={ORDER_TYPE.OFFER}
               hash={''}
               offerHash={''}
+              trait={traitOffer ? getTrait() : ''}
+              traitValue={traitOffer ? String(getTraitValue()) : ''}
             />
           }
           <Sidebar activity={showActivity} />
@@ -273,3 +296,4 @@ export const getStaticPaths: GetStaticPaths = async ({}) => {
     fallback: "blocking",
   };
 };
+
