@@ -189,7 +189,7 @@ export default function TokenDisplay({
 
   // Preload turnaround GIFs
   useEffect(() => {
-    if (contracts[contract].display in ['Wizards', 'Ponies']) {
+    if (['Wizards', 'Ponies'].includes(contracts[contract].display)) {
       const img = new Image().src = turnaround;
     }
   }, []);
