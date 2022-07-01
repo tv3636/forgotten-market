@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import CollectionOfferButton from "./CollectionOfferButton";
 import Filters from "./Filters";
 
 const Container = styled.div`
@@ -24,18 +25,18 @@ export default function RightBar({
   noLoreChange,
   setSource,
   selectionChange,
+  setShowModal,
 }:{
   contract: string;
   loreChange: any;
   noLoreChange: any;
   setSource: any;
   selectionChange: any;
+  setShowModal: any;
 }) {
-
-  console.log('rendering');
-
   return (
     <Container className="noscrim">  
+      <CollectionOfferButton setShowModal={setShowModal} />
       <Filters 
         contract={contract} 
         loreChange={loreChange} 

@@ -24,7 +24,7 @@ const OverlayWrapper = styled.div`
   width: 99vw;
   height: 99vh;
   background-color: #00000085;
-  z-index: 1;
+  z-index: 20;
   display: flex;
   justify-content: center;
   align-content: center;

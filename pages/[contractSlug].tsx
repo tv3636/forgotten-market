@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
-import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS } from "../components/Marketplace/marketplaceConstants";
+import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
 import { getURLAttributes, LoadingCard } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/NewLayout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
@@ -13,6 +13,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../components/Marketplace/TokenDisplay";
 import Image from 'next/image';
 import RightBar from "../components/Marketplace/RightBar";
+import Order from "../components/Marketplace/Order";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -71,6 +72,7 @@ export default function Marketplace({
   contract: string;
 }) {
   const [showActivity, setShowActivity] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [listings, setListings] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
@@ -83,6 +85,7 @@ export default function Marketplace({
 
   let displayName = contract in CONTRACTS ? CONTRACTS[contract].display : COMMUNITY_CONTRACTS[contract].display;
   let singular = contract in CONTRACTS ? CONTRACTS[contract].singular : COMMUNITY_CONTRACTS[contract].singular;
+  let fullName = contract in CONTRACTS ? CONTRACTS[contract].full : COMMUNITY_CONTRACTS[contract].full;
 
   async function getStats() {
     var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(contract, router.query);
@@ -168,6 +171,18 @@ export default function Marketplace({
         image={`/static/img/marketplace/${displayName.toLowerCase()}-banner.png`}
       >
         <Main>
+          {showModal &&
+            <Order
+              contract={contract}
+              tokenId={'0'}
+              name={fullName}
+              collectionWide={true}
+              setModal={setShowModal}
+              action={ORDER_TYPE.OFFER}
+              hash={''}
+              offerHash={''}
+            />
+          }
           <Sidebar activity={showActivity} />
           <MidContainer>
             <MidHeader>
@@ -227,6 +242,7 @@ export default function Marketplace({
           noLoreChange={() => setHasNoLore(!hasNoLore)}
           setSource={updateSource}
           selectionChange={selectionChange}
+          setShowModal={setShowModal}
         />
       </Main>
       </Layout>
