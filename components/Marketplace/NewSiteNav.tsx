@@ -18,9 +18,9 @@ const HeaderWrapper = styled.div`
 
   @media only screen and (max-width: 1200px) {
     margin-top: var(--sp0);
-    margin-bottom: var(--sp-3);
-    margin-left: var(--sp0);
-    margin-right: var(--sp0);
+    margin-bottom: 0;
+    margin-left: var(--sp-2);
+    margin-right: var(--sp-2);
   }
 `;
 

@@ -17,6 +17,7 @@ import Order from "../components/Marketplace/Order";
 import Filters from "../components/Marketplace/Filters";
 import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
 import { MainMenu } from "../components/Marketplace/NewSiteNav";
+import MobileOverlay from "../components/Marketplace/MobileOverlay";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -52,7 +53,8 @@ const MidContainer = styled.div`
   padding-right: var(--sp0);
 
   @media only screen and (max-width: 1200px) { 
-    max-width: 95%;
+    max-width: 100%;
+    padding: 0;
   }
 `;
 
@@ -83,56 +85,8 @@ const TopScrim = styled(BottomScrim)`
   }
 
   @media only screen and (max-width: 600px) {
-    top: 164px;
+    top: 153px;
   }
-`;
-
-const Burger = styled.div`
-  width: 25px;
-  height: 25px;
-
-`;
-
-const MobileMenu = styled.div`
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-
-    z-index: 10;
-    background-color: var(--darkGray);
-    opacity: .97;
-
-    display: none;
-    flex-direction: column;
-    overflow: scroll;
-
-    transition: all 250ms;
-`;
-
-const MobileHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    
-`;
-
-const LogoContainer = styled.div`
-  width: 180px;
-  height: 59px;
-
-  @media only screen and (max-width: 600px) {
-    width: 120px;
-    height: 40px;
-  }
-`;
-
-const BurgerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 export default function Marketplace({
@@ -341,36 +295,21 @@ export default function Marketplace({
           setShowModal={setShowModal}
         />
       </Main>
-      <MobileMenu style={burgerActive ? {display: 'flex'} : {}}>
-          <MobileHeader>
-            <LogoContainer style={{marginLeft: 'var(--sp2)', width: '120px', height: '40px'}}>
-              <Image 
-                src="/static/img/forgotten-runes-logo.png" 
-                width="120px" 
-                height="40px" 
-                className="pointer"
-              />  
-            </LogoContainer>
-            <Burger onClick={() => setBurgerActive(false)} style={{alignSelf: 'flex-end', margin: 'var(--sp2)'}}>
-              <Image src='/static/img/x.png' width='20px' height='20px'/>
-            </Burger>
-          </MobileHeader>
-          <BurgerContainer>
-            <RuneHeader text={'NAVIGATION'} />
-            <MainMenu />
-            <CollectionContainer activity={showActivity} />
-            <RuneHeader text={'FILTER'} />
-            <CollectionOfferButton setShowModal={setShowModal} />
-            <Filters
-              contract={contract} 
-              loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
-              noLoreChange={() => setHasNoLore(!hasNoLore)}
-              setSource={updateSource}
-              selectionChange={selectionChange}
-            />
-          </BurgerContainer>
-        </MobileMenu>
-      </Layout>
+      <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
+        <RuneHeader text={'NAVIGATION'} />
+        <MainMenu />
+        <CollectionContainer activity={showActivity} />
+        <RuneHeader text={'FILTER'} />
+        <CollectionOfferButton setShowModal={setShowModal} />
+        <Filters
+          contract={contract} 
+          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
+          noLoreChange={() => setHasNoLore(!hasNoLore)}
+          setSource={updateSource}
+          selectionChange={selectionChange}
+        />
+      </MobileOverlay>
+    </Layout>
     )
   } else {
     return (

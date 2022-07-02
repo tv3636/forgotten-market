@@ -28,7 +28,7 @@ const ListingDisplay = styled.div`
   background-color: black;
 
   @media only screen and (max-width: 600px) {
-    width: 150px;
+    width: 140px;
     max-height: 250px;
     margin-left: 15px;
     margin-right: 15px;
@@ -66,14 +66,14 @@ const ListingImage = styled.img`
   }
 
   @media only screen and (max-width: 600px) {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
 
-    min-width: 150px;
-    max-width: 150px;
+    min-width: 140px;
+    max-width: 140px;
 
-    min-height: 150px;
-    max-height: 150px;
+    min-height: 140px;
+    max-height: 140px;
 
     border-width: 1.5px;
   }
@@ -113,6 +113,8 @@ const MarketText = styled.p`
 
   @media only screen and (max-width: 600px) {
     max-width: 15ch;
+    padding-left: var(--sp-2);
+    padding-right: var(--sp-2)
   }
 `;
 
@@ -156,9 +158,8 @@ const MarketIcon = styled.img`
   z-index: 2;
 
   @media only screen and (max-width: 600px) {
-    width: 15px;
-    height: 15px;
-    margin-top: 0;
+    width: 20px;
+    height: 20px;
   }
 `;
 
