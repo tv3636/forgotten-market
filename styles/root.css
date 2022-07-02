@@ -41,6 +41,20 @@ body {
 
 }
 
+@media only screen and (max-width: 1200px) {
+  .desktop {
+    display: none !important;
+  }
+
+}
+
+@media only screen and (min-width: 1200px) {
+  .mobile {
+    display: none !important;
+  }
+
+}
+
 div#WEB3_CONNECT_MODAL_ID {
   text-transform: uppercase;
   text-shadow: 0px 2px var(--midGray);

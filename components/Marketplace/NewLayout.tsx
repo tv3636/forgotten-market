@@ -18,6 +18,7 @@ type Props = {
   description?: string;
   title?: string;
   image?: string;
+  setBurgerActive?: (active: boolean) => void;
 };
 
 const Layout = ({
@@ -25,6 +26,7 @@ const Layout = ({
   description,
   image = "https://forgotten.market/static/img/OSFeature.png",
   title = "forgotten.market",
+  setBurgerActive = () => {},
 }: Props) => (
   <Wrapper>
     <Container>
@@ -77,7 +79,7 @@ const Layout = ({
         
         {/* <meta property="og:image" content="image.png" /> */}
       </Head>
-      <SiteNav />
+      <SiteNav setBurgerActive={setBurgerActive} />
       {children}
     </Container>
   </Wrapper>

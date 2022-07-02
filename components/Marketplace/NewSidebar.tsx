@@ -23,6 +23,12 @@ const Container = styled.div`
   }
 `;
 
+const MobileContainer = styled.div`
+  @media only screen and (max-width: 1200px) {
+    text-align: center;
+  }
+`;
+
 const Collections = styled.div`
   margin-bottom: var(--sp1);
 `;
@@ -59,6 +65,10 @@ const CollectionWrapper = styled.div`
 const CollectionIcon = styled.div`
   opacity: 0;
   transition: all 250ms;
+
+  @media only screen and (max-width: 1200px) {
+    display: none;
+  }
 `;
 
 const CollectionName = styled.div`
@@ -67,6 +77,10 @@ const CollectionName = styled.div`
   transform: translateX(-2ch);
 
   transition: all 250ms;
+
+  @media only screen and (max-width: 1200px) {
+    transform: none;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -111,7 +125,7 @@ function Collection({
   )
 }
 
-function CollectionHeader({
+export function RuneHeader({
   text
 }:{
   text: string;
@@ -125,14 +139,14 @@ function CollectionHeader({
   )
 }
 
-export default function Sidebar({
-  activity,
-}:{
-  activity: boolean;
+export function CollectionContainer({
+  activity
+}: {
+  activity: boolean
 }) {
   return (
-    <Container className="noscrim">
-      <CollectionHeader text='OFFICIAL' />
+    <MobileContainer>
+      <RuneHeader text='OFFICIAL' />
       <Collections>
       {
         Object.keys(CONTRACTS).map((contract: string, index) => (
@@ -140,7 +154,7 @@ export default function Sidebar({
         ))
       }
       </Collections>
-      <CollectionHeader text='COMMUNITY' />
+      <RuneHeader text='COMMUNITY' />
       <Collections>
       {
         Object.keys(COMMUNITY_CONTRACTS).map((contract: string, index) => (
@@ -148,6 +162,18 @@ export default function Sidebar({
         ))
       }
       </Collections>
+    </MobileContainer>
+  )
+}
+
+export default function Sidebar({
+  activity,
+}:{
+  activity: boolean;
+}) {
+  return (
+    <Container className="noscrim desktop">
+      <CollectionContainer activity={activity} />
     </Container>
   )
 }

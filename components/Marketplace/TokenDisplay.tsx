@@ -32,14 +32,12 @@ const ListingDisplay = styled.div`
     max-height: 250px;
     margin-left: 15px;
     margin-right: 15px;
-    margin-bottom: 15px;
-    margin-top: 5px;
+    margin-bottom: var(--sp-2);
   }
 
 `;
 
 const NewFrame = styled.div`
-
   width: calc(100% + var(--frameSize));
   height: calc(100% + 0.5 * var(--frameSize));
 

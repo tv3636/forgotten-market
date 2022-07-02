@@ -35,7 +35,7 @@ export default function RightBar({
   setShowModal: any;
 }) {
   return (
-    <Container className="noscrim">  
+    <Container className="noscrim desktop">  
       <CollectionOfferButton setShowModal={setShowModal} />
       <Filters 
         contract={contract} 
