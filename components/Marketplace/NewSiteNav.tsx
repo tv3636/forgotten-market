@@ -61,7 +61,11 @@ const Burger = styled.div`
   height: 25px;
 `;
 
-export function MainMenu({}:{}) {
+export function MainMenu({
+  className
+}:{
+  className: string;
+}) {
   const { account } = useEthers();
   const { web3Settings } = useMst();
   const { activate } = useEthers();
@@ -78,7 +82,7 @@ export function MainMenu({}:{}) {
     useWeb3Modal(setInjectedProvider);
 
   return (
-    <Menu>
+    <Menu className={className}>
       <MenuItem>
         <Link href='/about'>HELP</Link>
       </MenuItem>
@@ -114,9 +118,7 @@ export default function SiteNav({
           />  
         </Link>
       </LogoContainer>
-      <div className="desktop">
-        <MainMenu />
-      </div>
+      <MainMenu className="desktop" />
       <Burger className="mobile" onClick={() => setBurgerActive(true)}>
         <Image 
             src="/static/img/burger.png" 

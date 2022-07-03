@@ -25,7 +25,7 @@ const Layout = ({
   children,
   description,
   image = "https://forgotten.market/static/img/OSFeature.png",
-  title = "forgotten.market",
+  title = "Forgotten Market",
   setBurgerActive = () => {},
 }: Props) => (
   <Wrapper>

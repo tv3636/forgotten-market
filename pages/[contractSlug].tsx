@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
 import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
-import { getURLAttributes, LoadingCard, traitFormat } from "../components/Marketplace/marketplaceHelpers";
+import { getTrait, getTraitValue, getURLAttributes, isTraitOffer, LoadingCard, traitFormat } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/NewLayout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
@@ -110,27 +110,7 @@ export default function Marketplace({
   const [bid, setBid] = useState(0);
   const router = useRouter();
   let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
-  let traitOffer = Object.keys(router.query).length == (2 + Number('source' in router.query));
-
-  function getTrait() {
-    for (const key in router.query) {
-      if (key != 'contractSlug' && key != 'source') {
-        return traitFormat(key);
-      }
-    }
-
-    return '';
-  }
-
-  function getTraitValue() {
-    for (const key in router.query) {
-      if (key != 'contractSlug' && key != 'source') {
-        return router.query[key];
-      }
-    }
-
-    return '';
-  }
+  let traitOffer = isTraitOffer();
 
   async function getStats() {
     var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query);
@@ -228,7 +208,7 @@ export default function Marketplace({
               hash={''}
               offerHash={''}
               trait={traitOffer ? getTrait() : ''}
-              traitValue={traitOffer ? String(getTraitValue()) : ''}
+              traitValue={traitOffer ? getTraitValue() : ''}
             />
           }
           <Sidebar activity={showActivity} />
@@ -295,7 +275,7 @@ export default function Marketplace({
       </Main>
       <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
         <RuneHeader text={'NAVIGATION'} />
-        <MainMenu />
+        <MainMenu className="mobile"/>
         <CollectionContainer activity={showActivity} />
         <RuneHeader text={'FILTER'} />
         <CollectionOfferButton setShowModal={setShowModal} />
@@ -311,8 +291,7 @@ export default function Marketplace({
     )
   } else {
     return (
-      <Layout title="Marketplace">
-      </Layout>
+      <Layout title="Marketplace" />
     )
   }
 }
@@ -335,4 +314,3 @@ export const getStaticPaths: GetStaticPaths = async ({}) => {
     fallback: "blocking",
   };
 };
-

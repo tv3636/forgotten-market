@@ -8,6 +8,7 @@ import setParams from "../../lib/params";
 import { CONTRACTS } from "./marketplaceConstants";
 import { pollUntilHasData, pollUntilOk } from '../../lib/pollApi';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 
 const SocialItem = styled.div`
   display: flex;
@@ -393,3 +394,40 @@ export function LoadingCard({ height }: { height: string }) {
 export const SoftLink = styled.a`
   text-decoration: none;
 `;
+
+/*
+* Trait Offer Helpers
+*/
+
+// Determine if one trait is selected, enabling trait offer
+export function isTraitOffer() {
+  const router = useRouter();
+
+  return Object.keys(router.query).length == (2 + Number('source' in router.query) + Number('activity' in router.query));
+}
+
+// Get trait selected for trait offer
+export function getTrait() {
+  const router = useRouter();
+
+  for (const key in router.query) {
+    if (!['contractSlug', 'source', 'activity'].includes(key)) {
+      return traitFormat(key);
+    }
+  }
+
+  return '';
+}
+
+// Get trait value selected for trait offer
+export function getTraitValue() {
+  const router = useRouter();
+
+  for (const key in router.query) {
+    if (!['contractSlug', 'source', 'activity'].includes(key)) {
+      return String(router.query[key]);
+    }
+  }
+
+  return '';
+}
