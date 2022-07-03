@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../components/Layout";
+import Layout from "../../components/Marketplace/NewLayout";
 import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
@@ -14,6 +14,7 @@ import {
   LOCATIONS,
   ORDER_TYPE,
   BURN_ADDRESS,
+  COMMUNITY_CONTRACTS,
 } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
@@ -45,6 +46,20 @@ const DynamicMap = dynamic(() => import("../../components/Marketplace/MiniMap"),
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
+
+const PageWrapper = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: 90vh;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+`;
 
 const ListingWrapper = styled.div`
   display: flex;
@@ -339,11 +354,12 @@ const ListingPage = ({
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
   const { account } = useEthers();
+  let contracts = contractSlug in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
   const imageUrls: string[] = [
-    CONTRACTS[contractSlug].display == 'Wizards' ? 
-      CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
-      CONTRACTS[contractSlug].image_url + tokenId + ".png",
+    contracts[contractSlug].display == 'Wizards' ? 
+    contracts[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
+    contracts[contractSlug].image_url + tokenId + ".png",
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
@@ -351,12 +367,12 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
   
-  var backgroundColor = CONTRACTS[contractSlug].display == 'Wizards' ? `${wizData[tokenId].background}` : '#000000';
-  var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
+  var backgroundColor = contracts[contractSlug].display == 'Wizards' ? `${wizData[tokenId].background}` : '#000000';
+  var center = contracts[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
     LOCATIONS[wizData[tokenId].location] : [0, 0];
 
-  if (CONTRACTS[contractSlug].display != 'Wizards' && 
-    CONTRACTS[contractSlug].display != 'Souls') {
+  if (contracts[contractSlug].display != 'Wizards' && 
+  contracts[contractSlug].display != 'Souls') {
     center = [404, 404];
   }
 
@@ -420,7 +436,7 @@ const ListingPage = ({
       }
       
       // Preload turnaround images
-      if (CONTRACTS[contractSlug].display == 'Wizards') {
+      if (contracts[contractSlug].display == 'Wizards') {
         for (var url of imageUrls) {
           const img = new Image().src = url;
         }
@@ -434,7 +450,7 @@ const ListingPage = ({
 
   useEffect(() => {
     async function getFlames() {
-      if (CONTRACTS[contractSlug].display == 'Flames') {
+      if (contracts[contractSlug].display == 'Flames') {
         const userFlames = await fetch(
           `${API_BASE_URL}users/${account}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`,
           { headers: headers }
@@ -452,15 +468,16 @@ const ListingPage = ({
   return (
     <Layout 
       title={
-        CONTRACTS[contractSlug].display == 'Wizards' ? wizData[tokenId].name : 
-        CONTRACTS[contractSlug].display == 'Souls' && tokenId in soulData ? soulData[tokenId] : 
-        CONTRACTS[contractSlug].display == 'Ponies' && tokenId in ponyData ? ponyData[tokenId] :
-        CONTRACTS[contractSlug].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].name :
-        `${CONTRACTS[contractSlug].singular} #${tokenId}`
+        contracts[contractSlug].display == 'Wizards' ? wizData[tokenId].name : 
+        contracts[contractSlug].display == 'Souls' && tokenId in soulData ? soulData[tokenId].name : 
+        contracts[contractSlug].display == 'Ponies' && tokenId in ponyData ? ponyData[tokenId].name :
+        contracts[contractSlug].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].name :
+        `${contracts[contractSlug].singular} #${tokenId}`
       } 
-      description={`${CONTRACTS[contractSlug].singular} #${tokenId}`}
+      description={`${contracts[contractSlug].singular} #${tokenId}`}
       image={imageUrls[0]}
     >
+      <PageWrapper>
       {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
         <ListingWrapper>
           { modal && 
@@ -482,11 +499,11 @@ const ListingPage = ({
               <TopLeft>
                 <TokenImage 
                   src={imageUrls[keyImage]} 
-                  height={CONTRACTS[contractSlug].display == 'Flames' ? 456 : 400}
+                  height={contracts[contractSlug].display == 'Flames' ? 456 : 400}
                   width={400}
                   style={{background: backgroundColor}}
                 />
-                { CONTRACTS[contractSlug].display == 'Wizards' && 
+                { contracts[contractSlug].display == 'Wizards' && 
                   <Carousel 
                     keyImage={keyImage}
                     setKeyImage={setKeyImage}
@@ -495,7 +512,7 @@ const ListingPage = ({
                 }
               </TopLeft>
               <TopRight
-                style={{height: CONTRACTS[contractSlug].display == 'Flames' ? 476 : 420}}
+                style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
               >
                 <NameDisplay>
                   <NameStyle>{token.name}</NameStyle>
@@ -512,14 +529,14 @@ const ListingPage = ({
                     <ButtonWrapper>
                       <MarketButtons
                         account={account}
-                        owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
+                        owner={contracts[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
                         listValue={listing.price}
                         hasOffer={offer.value != null}
                         setModal={setModal}
                         setActionType={setMarketActionType}
                         highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
                         native={listing.source.name == 'Forgotten Market'}
-                        tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
+                        tokenType={contracts[contractSlug].display == 'Flames' ? 1155 : 721}
                         myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
                       />
                     </ButtonWrapper>
@@ -555,21 +572,21 @@ const ListingPage = ({
               <SectionHeader 
                 title={'Traits'}
                 link={'https://www.youtube.com/watch?v=GmL4WBj-36o'}
-                tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}
+                tooltip={`Attributes and affinity that define this ${contracts[contractSlug].singular.toLowerCase()}, encoded on-chain`}
               />
               <MidDisplay>
                 <TraitDisplay attributes={attributes} fullAttributes={fullAttributes} contract={contractSlug} tokenId={tokenId} />
                 <DynamicMap center={center} />
               </MidDisplay>
             </SectionWrapper>
-            {CONTRACTS[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
-            {CONTRACTS[contractSlug].display != 'Flames' && 
+            {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
+            {contracts[contractSlug].display != 'Flames' && 
               <SectionWrapper>
                 <SectionDisplay>
                   <SectionHeader
                     title={'Lore'}
                     link={'https://www.forgottenrunes.com/posts/lore-creation'}
-                    tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}
+                    tooltip={`${contracts[contractSlug].singular} owners can inscribe lore for their ${contracts[contractSlug].display.toLowerCase()} on-chain`}
                   />
                 </SectionDisplay>
                 <BottomDisplay>
@@ -592,6 +609,7 @@ const ListingPage = ({
           <LoadingCard height={'80vh'}/>
         </ListingWrapper>
       }
+      </PageWrapper>
     </Layout>
   );
 };

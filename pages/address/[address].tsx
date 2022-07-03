@@ -90,11 +90,11 @@ const DesktopLine = styled.hr`
 `;
 
 const Title = styled.div`
-  font-size: 24px;
+  font-size: var(--sp2);
   font-family: Alagard;
   color: var(--white);
 
-  margin-top: var(--sp-3);
+  margin-top: var(--sp-1);
 
   @media only screen and (max-width: 600px) {
     font-size: 18px;
@@ -201,8 +201,6 @@ export default function Address({
     for (var contract of Object.keys(CONTRACTS)) {
       fetchUrl += `&contracts=${contract}`;
     }
-
-    console.log(fetchUrl);
   
     while (iteration == 0 || continuation) {
       page = await fetch(
@@ -254,7 +252,7 @@ export default function Address({
   useEffect(() => {
     fetchOrders('sell');
     fetchOrders('buy')
-    fetchOffers();
+    //fetchOffers();
   }, []);
 
   if (valid) {
@@ -282,7 +280,7 @@ export default function Address({
               })}
             </StatRow>
             </AccountInfo>
-            <HorizontalLine />
+            
             <DesktopLine style={{borderColor: 'black'}}/>
             {Object.keys(tokenData).map((contract: any, index: number) => {
                 return tokenData[contract].length > 0 && CONTRACTS[contract].display != 'Flames' &&

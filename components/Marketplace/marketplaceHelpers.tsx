@@ -5,7 +5,7 @@ import { arrayify, splitSignature } from "ethers/lib/utils";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import { formatBN } from "../../lib/numbers";
 import setParams from "../../lib/params";
-import { CONTRACTS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { pollUntilHasData, pollUntilOk } from '../../lib/pollApi';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
@@ -325,6 +325,8 @@ export function Icons({
   tokenId: number;
   contract: string;
 }) {
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  
   return (
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "1vh" }}
@@ -342,14 +344,14 @@ export function Icons({
         </a>
       </SocialItem>
       <SocialItem>
-        <a href={`https://forgottenrunes.com/lockscreen?tokenSlug=${CONTRACTS[contract].display.toLowerCase()}&tokenId=${tokenId}`} className="icon-link" target="_blank">
+        <a href={`https://forgottenrunes.com/lockscreen?tokenSlug=${contracts[contract].display.toLowerCase()}&tokenId=${tokenId}`} className="icon-link" target="_blank">
           <ResponsivePixelImg src="/static/img/icons/social_phone_default.png" />
         </a>
       </SocialItem>
-      {CONTRACTS[contract].collection == "forgottenruneswizardscult" && (
+      {contracts[contract].collection == "forgottenruneswizardscult" && (
         <SocialItem>
           <a
-            href={`https://forgottenrunes.com/api/art/${CONTRACTS[contract].display.toLowerCase()}/${tokenId}.zip`}
+            href={`https://forgottenrunes.com/api/art/${contracts[contract].display.toLowerCase()}/${tokenId}.zip`}
             className="icon-link"
             target="_blank"
           >
@@ -359,7 +361,7 @@ export function Icons({
       )}
       <SocialItem>
         <a
-          href={`https://forgottenrunes.com/lore/${CONTRACTS[contract].display.toLowerCase()}/${tokenId}/0`}
+          href={`https://forgottenrunes.com/lore/${contracts[contract].display.toLowerCase()}/${tokenId}/0`}
           className="icon-link"
           target="_blank"
         >

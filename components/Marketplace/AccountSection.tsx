@@ -4,7 +4,7 @@ import { SoftLink } from "./marketplaceHelpers";
 import { CONTRACTS } from "./marketplaceConstants";
 
 const Title = styled.div`
-  font-size: 24px;
+  font-size: var(--sp1);
   font-family: Alagard;
   color: var(--white);
 
@@ -99,7 +99,7 @@ export default function AccountSection({
 
   return (
     <DisplayContainer>
-      <Title style={{fontSize: '20px'}}>{title}</Title>
+      <Title>{title}</Title>
       <HorizontalLine />
       <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
         {tokens.map((token: any, index: number) => {

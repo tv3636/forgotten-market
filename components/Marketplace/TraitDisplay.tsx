@@ -2,7 +2,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
-import { BURN_TRAITS, CONTRACTS } from "./marketplaceConstants";
+import { BURN_TRAITS, COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 
 const TraitItem = styled.div`
   text-align: start;
@@ -68,10 +68,10 @@ export default function TraitDisplay({
   contract: string;
   tokenId: string;
 }) {
-
   var traitCounts: any = {};
   var traits: any = {};
   var maxCount = 0;
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
   for (var trait of fullAttributes) {
     var totalCount = 0;
@@ -103,13 +103,13 @@ export default function TraitDisplay({
                 >
                   <SoftLink>
                     <TraitRow
-                      style={{height: CONTRACTS[contract].display == 'Flames' ? 'auto' : '50px'}}
+                      style={{height: contracts[contract].display == 'Flames' ? 'auto' : '50px'}}
                     >
                       <TraitType>{attribute.key}</TraitType>
                       <TraitItem>{attribute.value}</TraitItem>
                       <TraitType style={{marginRight: '0'}}>
                         {
-                          traits[attribute.key] && CONTRACTS[contract].display != 'Flames' &&
+                          traits[attribute.key] && contracts[contract].display != 'Flames' &&
                           `(${((traits[attribute.key][attribute.value] / maxCount) * 100)
                             .toPrecision(traits[attribute.key][attribute.value] == maxCount ? 3 : 2)}%)`
                         }

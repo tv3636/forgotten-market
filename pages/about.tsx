@@ -155,7 +155,7 @@ export default function About({
         <Title>About</Title>
         <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
         <a href='https://reservoirprotocol.github.io/' target="_blank">Reservoir Protocol.</a></Description>
-        <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin:</Description>
+        <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, X2Y2, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin:</Description>
         <HorizontalLine/>
         <Fees style={{maxWidth: '600px'}}>
           <Row>
@@ -171,8 +171,12 @@ export default function About({
             <td><OSIcon src="/static/img/icons/nav/opensea_default.png" /></td>
           </Row>
           <Row>
-            <td style={{borderStyle: 'none'}}>LooksRare</td>
-            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
+            <td>LooksRare</td>
+            <td><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>X2Y2</td>
+            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/x2y2_default.png" /></td>
           </Row>
         </Fees>
         <HorizontalLine/>
@@ -197,95 +201,59 @@ export default function About({
             <td>2.5% to OpenSea</td>
           </Row>
           <Row>
-            <td style={{borderStyle: 'none'}}>LooksRare</td>
-            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
-            <td style={{borderStyle: 'none'}}>2% to LooksRare</td>
+            <td>LooksRare</td>
+            <td><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
+            <td>2% to LooksRare</td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>X2Y2</td>
+            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/x2y2_default.png" /></td>
+            <td style={{borderStyle: 'none'}}>0.5% to X2Y2</td>
           </Row>
         </Fees>
         <HorizontalLine/>
         <HorizontalLine/>
-        <Description>Additionally, the standard team fee is applied to all sales, resulting in the following total fees per collection/listing origin:</Description>
+        <Description>In addition to the marketplace fee, the standard team fee is applied to all sales:</Description>
         <HorizontalLine/>
         <Fees>
           <Row>
             <BorderRightHeader>Collection</BorderRightHeader>
-            <BorderRightHeader>Team Fee</BorderRightHeader>
-            <BorderRightHeader>
-              <DoubleHeader>
-                <OSIcon src="/static/img/icons/nav/opensea_default.png"/><div>&nbsp;&nbsp;Total Fee</div>
-              </DoubleHeader>
-            </BorderRightHeader>
-            <BorderRightHeader>
-              <DoubleHeader>
-                <OSIcon src="/static/img/icons/nav/looksrare_default.png"/><div>&nbsp;&nbsp;Total Fee</div>
-              </DoubleHeader>
-            </BorderRightHeader>
-            <th>
-              <DoubleHeader>
-                <OSIcon src="/static/img/icons/nav/native_listing.png"/><div>&nbsp;&nbsp;Total Fee</div>
-              </DoubleHeader>
-            </th>
+            <th>Team Fee</th>
           </Row>
           <Row>
             <BorderRight>Wizards</BorderRight>
-            <BorderRight>2.5%</BorderRight>
-            <BorderRight>5%</BorderRight>
-            <BorderRight>4.5%</BorderRight>
-            <td><b>4%</b></td>
+            <td><b>2.5%</b></td>
           </Row>
           <Row>
             <BorderRight>Warriors</BorderRight>
-            <BorderRight>5%</BorderRight>
-            <BorderRight>7.5%</BorderRight>
-            <BorderRight>7%</BorderRight>
-            <td><b>6.5%</b></td>
+            <td><b>5%</b></td>
           </Row>
           <Row>
             <BorderRight>Souls</BorderRight>
-            <BorderRight>6.66%</BorderRight>
-            <BorderRight>9.16%</BorderRight>
-            <BorderRight>8.66%</BorderRight>
-            <td><b>8.16%</b></td>
+            <td><b>6.66%</b></td>
           </Row>
           <Row>
             <BorderRight>Ponies</BorderRight>
-            <BorderRight>4.44%</BorderRight>
-            <BorderRight>6.94%</BorderRight>
-            <BorderRight>6.44%</BorderRight>
-            <td><b>5.94%</b></td>
+            <td><b>4.44%</b></td>
           </Row>
           <Row>
             <BorderRight>Flames</BorderRight>
-            <BorderRight>6.66%</BorderRight>
-            <BorderRight>9.16%</BorderRight>
-            <BorderRight>8.66%</BorderRight>
-            <td><b>8.16%</b></td>
+            <td><b>6.66%</b></td>
           </Row>
           <Row>
             <BorderRight>Beasts</BorderRight>
-            <BorderRight>7%</BorderRight>
-            <BorderRight>9.5%</BorderRight>
-            <BorderRight>9%</BorderRight>
-            <td><b>*7.5%</b></td>
+            <td><b>7%</b></td>
           </Row>
           <Row>
             <BorderRight>Locks</BorderRight>
-            <BorderRight>7.77%</BorderRight>
-            <BorderRight>10.27%</BorderRight>
-            <BorderRight>9.77%</BorderRight>
-            <td><b>*8.27%</b></td>
+            <td><b>7.77%</b></td>
           </Row>
           <Row>
             <BorderRight style={{borderBottom: 'none'}}>Spawn</BorderRight>
-            <BorderRight style={{borderBottom: 'none'}}>7%</BorderRight>
-            <BorderRight style={{borderBottom: 'none'}}>9.5%</BorderRight>
-            <BorderRight style={{borderBottom: 'none'}}>9%</BorderRight>
-            <BorderRight style={{borderBottom: 'none', borderRight: 'none'}}><b>*7%</b></BorderRight>
+            <BorderRight style={{borderBottom: 'none', borderRight: 'none'}}><b>7%</b></BorderRight>
           </Row>
         </Fees>
         <HorizontalLine/>
-        <HorizontalLine/>
-        <Description>* Fees for the Beasts, Locks, and Spawn collections are split 50/50 between Magic Machine and the Community DAO, so the 1.5% FM fee does not apply.</Description>
         <HorizontalLine/>
         <HorizontalLine/>
         <HorizontalLine/>
