@@ -1,15 +1,32 @@
-import Layout from "../components/Layout";
+import Layout from "../components/Marketplace/NewLayout";
 import styled from "@emotion/styled";
+
+const PageWrapper = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: 90vh;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+`;
 
 const AboutWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  
-  min-height: 90vh;
+
   margin: 0 auto;
-  padding: 30px;
-  margin-top: 80px;
-  max-width: 1000px;
+  padding: var(--sp2);
+  margin-top: var(--sp2);
+  max-width: 100ch;
+  
+  a {
+    text-decoration: underline;
+  }
 
   @media only screen and (max-width: 600px) {
     overflow-x: hidden;
@@ -23,7 +40,7 @@ const Title = styled.div`
   color: var(--white);
 
   margin-top: var(--sp-1);
-  margin-bottom: var(--sp-1);
+  margin-bottom: var(--sp-4);
 
   @media only screen and (max-width: 600px) {
     font-size: 22px;
@@ -91,10 +108,10 @@ const Fees = styled.table`
 
 const Row = styled.tr`
   color: var(--white);
-  font-size: 15px;
+  text-transform: uppercase;
 
   th, td {
-    padding: 10px;
+    padding: var(--sp-2);
   }
 
   th, td {
@@ -133,6 +150,7 @@ export default function About({
 }) {
   return (
     <Layout title="About">
+      <PageWrapper>
       <AboutWrapper>
         <Title>About</Title>
         <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
@@ -160,7 +178,7 @@ export default function About({
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>Fees</Title>
-        <Description>Listings and offers created on Forgotten.market will pay out all fees to the Forgotten Runes team and community. Listings aggregated from other marketplaces will pay out those marketplace fees as usual:</Description>
+        <Description>Listings and offers created on Forgotten.market pay out all fees to the Forgotten Runes team and community. Listings aggregated from other marketplaces will pay out those marketplace fees as usual:</Description>
         <HorizontalLine/>
         <Fees>
           <Row>
@@ -171,7 +189,7 @@ export default function About({
           <Row>
             <td>Forgotten.Market</td>
             <td><OSIcon src="/static/img/icons/nav/native_listing.png" /></td>
-            <td style={{fontWeight: 'bold'}}>1% to <a href='http://thehouseofwizards.com/' target="_blank">Community DAO</a></td>
+            <td style={{fontWeight: 'bold'}}>1.5% to <a href='http://thehouseofwizards.com/' target="_blank">Community DAO</a></td>
           </Row>
           <Row>
             <td>OpenSea</td>
@@ -188,11 +206,10 @@ export default function About({
         <HorizontalLine/>
         <Description>Additionally, the standard team fee is applied to all sales, resulting in the following total fees per collection/listing origin:</Description>
         <HorizontalLine/>
-        <div style={{overflowX: 'scroll'}}>
         <Fees>
           <Row>
             <BorderRightHeader>Collection</BorderRightHeader>
-            <BorderRightHeader>Magic Machine Fee</BorderRightHeader>
+            <BorderRightHeader>Team Fee</BorderRightHeader>
             <BorderRightHeader>
               <DoubleHeader>
                 <OSIcon src="/static/img/icons/nav/opensea_default.png"/><div>&nbsp;&nbsp;Total Fee</div>
@@ -214,49 +231,49 @@ export default function About({
             <BorderRight>2.5%</BorderRight>
             <BorderRight>5%</BorderRight>
             <BorderRight>4.5%</BorderRight>
-            <td><b>3.5%</b></td>
+            <td><b>4%</b></td>
           </Row>
           <Row>
             <BorderRight>Warriors</BorderRight>
             <BorderRight>5%</BorderRight>
             <BorderRight>7.5%</BorderRight>
             <BorderRight>7%</BorderRight>
-            <td><b>6%</b></td>
+            <td><b>6.5%</b></td>
           </Row>
           <Row>
             <BorderRight>Souls</BorderRight>
             <BorderRight>6.66%</BorderRight>
             <BorderRight>9.16%</BorderRight>
             <BorderRight>8.66%</BorderRight>
-            <td><b>7.66%</b></td>
+            <td><b>8.16%</b></td>
           </Row>
           <Row>
             <BorderRight>Ponies</BorderRight>
             <BorderRight>4.44%</BorderRight>
             <BorderRight>6.94%</BorderRight>
             <BorderRight>6.44%</BorderRight>
-            <td><b>5.44%</b></td>
+            <td><b>5.94%</b></td>
           </Row>
           <Row>
             <BorderRight>Flames</BorderRight>
             <BorderRight>6.66%</BorderRight>
             <BorderRight>9.16%</BorderRight>
             <BorderRight>8.66%</BorderRight>
-            <td><b>7.66%</b></td>
+            <td><b>8.16%</b></td>
           </Row>
           <Row>
             <BorderRight>Beasts</BorderRight>
             <BorderRight>7%</BorderRight>
             <BorderRight>9.5%</BorderRight>
             <BorderRight>9%</BorderRight>
-            <td><b>*7%</b></td>
+            <td><b>*7.5%</b></td>
           </Row>
           <Row>
             <BorderRight>Locks</BorderRight>
             <BorderRight>7.77%</BorderRight>
             <BorderRight>10.27%</BorderRight>
             <BorderRight>9.77%</BorderRight>
-            <td><b>*7.77%</b></td>
+            <td><b>*8.27%</b></td>
           </Row>
           <Row>
             <BorderRight style={{borderBottom: 'none'}}>Spawn</BorderRight>
@@ -266,11 +283,9 @@ export default function About({
             <BorderRight style={{borderBottom: 'none', borderRight: 'none'}}><b>*7%</b></BorderRight>
           </Row>
         </Fees>
-        </div>
         <HorizontalLine/>
         <HorizontalLine/>
-        <Description>* Fees for the Beasts, Locks, and Spawn collections are split 50/50 between Magic Machine and the Community DAO, so the 1% FM fee does not apply.</Description>
-        <Description style={{fontWeight: 'bold'}}>NOTE: On July 1, 2022 the Forgotten Market Fee will be raised to 1.5%, where it will stay indefinitely.</Description>
+        <Description>* Fees for the Beasts, Locks, and Spawn collections are split 50/50 between Magic Machine and the Community DAO, so the 1.5% FM fee does not apply.</Description>
         <HorizontalLine/>
         <HorizontalLine/>
         <HorizontalLine/>
@@ -278,6 +293,7 @@ export default function About({
         <HorizontalLine/>
         <HorizontalLine/>
       </AboutWrapper>
+      </PageWrapper>
     </Layout>
   )
 }

@@ -12,9 +12,11 @@ const HeaderWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  position: sticky;
+
   margin-left: var(--sp3);
   margin-right: var(--sp3);
-  margin-top: var(--sp2);
+  margin-top: var(--sp1);
 
   @media only screen and (max-width: 1250px) {
     margin-top: var(--sp0);
@@ -108,7 +110,11 @@ export default function SiteNav({
   return (
     <HeaderWrapper>
       <LogoContainer>
-        <Link href={`/${router.query.contractSlug}`}>
+        <Link href={`/${
+          'contractSlug' in router.query ? 
+            router.query.contractSlug : 
+            '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42'
+        }`}>
           <Image 
             src="/static/img/forgotten-runes-logo.png" 
             width="180px" 

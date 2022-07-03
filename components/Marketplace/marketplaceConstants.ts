@@ -87,7 +87,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Runes Wizard's Cult",
     image_url: "https://runes-turnarounds.s3.amazonaws.com/",
     ABI: WIZARDS_ABI,
-    fee: '350',
+    fee: '400',
     feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4'
   },
   "0x9690b63eb85467be5267a3603f770589ab12dc95": {
@@ -96,7 +96,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Warrior",
     full: "Forgotten Runes Warriors Guild",
     image_url: "https://portal.forgottenrunes.com/api/warriors/img/",
-    fee: '600',
+    fee: '650',
     feeRecipient: '0x6be88409f2a4751aea05a3a0977cb239904fe0d6'
   },
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
@@ -106,7 +106,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Souls",
     image_url: "https://portal.forgottenrunes.com/api/souls/img/",
     ABI: SOULS_ABI,
-    fee: '766',
+    fee: '816',
     feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882'
   },
   "0xf55b615b479482440135ebf1b907fd4c37ed9420": {
@@ -116,7 +116,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Runes Ponies",
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
     ABI: PONIES_ABI,
-    fee: '544',
+    fee: '594',
     feeRecipient: '0x94F0e012B7BB033F32029FbCC4f1d29ff1CfC30a'
   },
   "0x31158181b4b91a423bfdc758fc3bf8735711f9c5": {
@@ -126,7 +126,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Runes Infinity Veil",
     image_url: "/static/img/marketplace/flame/",
     ABI: INFINITY_VEIL_ABI,
-    fee: '766',
+    fee: '816',
     feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882'
   },
   "0x8634c23d5794ed177e9ffd55b22fdb80a505ab7b": {
@@ -135,7 +135,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Beast",
     full: "Forgotten Runes Beasts",
     image_url: "https://portal.forgottenrunes.com/api/beasts/img/",
-    fee: '700',
+    fee: '750',
     feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
   },
   "0xda5cf3a42ebacd2d8fcb53830b1025e01d37832d": {
@@ -144,7 +144,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Lock",
     full: "Forgotten Runes Gate to the Seventh Realm",
     image_url: "https://portal.forgottenrunes.com/api/locks/img/",
-    fee: '777',
+    fee: '827',
     feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
   },
   "0x7de11a2d9e9727fa5ead3094e40211c5e9cf5857": {
@@ -153,7 +153,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     singular: "Spawn",
     full: "Forgotten Runes Beast Spawn",
     image_url: "https://portal.forgottenrunes.com/api/spawn/img/",
-    fee: '700',
+    fee: '750',
     feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
   }
 } : {
@@ -164,7 +164,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Runes Wizard's Cult",
     image_url: "https://runes-turnarounds.s3.amazonaws.com/",
     ABI: WIZARDS_ABI,
-    fee: '350',
+    fee: '400',
     feeRecipient: '0xbd896505c48f085e0682087c3d55febbd6e58aae'
   },
   "0x95082b505c0752eef1806aef2b6b2d55eea77e4e": {
@@ -174,7 +174,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Souls",
     image_url: "https://portal.forgottenrunes.com/api/souls/img/",
     ABI: SOULS_ABI,
-    fee: '766',
+    fee: '816',
     feeRecipient: '0x7761edb1d12b05a0ab2eaa6bb1d4b469aab59205'
   },
   "0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e": {
@@ -184,7 +184,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Runes Ponies",
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
     ABI: PONIES_ABI,
-    fee: '544',
+    fee: '594',
     feeRecipient: '0x7d1346757b353a8ff47a3493885d8201f4d24caf'
   }
 };

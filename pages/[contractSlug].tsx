@@ -79,14 +79,14 @@ const BottomScrim = styled.div`
 
 const TopScrim = styled(BottomScrim)`
   bottom: auto;
-  top: 130px;
+  top: 120px;
 
   @media only screen and (max-width: 1250px) {
-    top: 188px;
+    top: 178px;
   }
 
   @media only screen and (max-width: 600px) {
-    top: 153px;
+    top: 143px;
   }
 `;
 
