@@ -59,6 +59,10 @@ const MidContainer = styled.div`
   }
 `;
 
+const InfiniteWrapper = styled.div`
+  position: relative;
+`;
+
 const ScrollContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -74,20 +78,14 @@ const BottomScrim = styled.div`
   position: absolute;
   z-index: 10;
   bottom: -5px;
-  max-width: 1050px;
 `;
 
 const TopScrim = styled(BottomScrim)`
   bottom: auto;
-  top: 120px;
-
-  @media only screen and (max-width: 1250px) {
-    top: 178px;
-  }
-
-  @media only screen and (max-width: 600px) {
-    top: 143px;
-  }
+  top: 0px;
+  
+  width: 100%;
+  height: 20px;
 `;
 
 export default function Marketplace({
@@ -217,52 +215,55 @@ export default function Marketplace({
               <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
               <MainToggle activity={showActivity} />
             </MidHeader>
-            { showActivity ? <Activity contract={contract}/> : listings.length > 0 || loaded ? (
-                <InfiniteScroll
-                  dataLength={listings.length}
-                  next={() => fetchListings(false)}
-                  hasMore={true}
-                  loader={null}
-                  scrollThreshold={0.3}
-                  height={"100vh"}
-                  endMessage={
-                    <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
-                  }
-                  style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
-                >
-                  <ScrollContainer>
-                    {listings.map((listing: any, index) => {
-                      return (
-                        ((!hasLore && !hasNoLore) ||
-                          (hasLore &&
-                            !hasNoLore &&
-                            wizardsWithLore[listing.token.tokenId]) ||
-                          (!hasLore &&
-                            hasNoLore &&
-                            !wizardsWithLore[listing.token.tokenId])) && (
-                          <div key={index}>
-                            <TokenDisplay
-                              contract={contract}
-                              tokenId={listing.token.tokenId}
-                              name={listing.token.name}
-                              price={listing.market.floorAsk.price}
-                              source={listing.market.floorAsk.source.id}
-                            />
-                          </div>
-                        )
-                      );
-                    })}
-                    <TopScrim>
-                      <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' />
-                    </TopScrim>
-                    <BottomScrim>
-                      <Image src='/static/img/scrim.png' height='150px' width='1155px' />
-                    </BottomScrim>
-                  </ScrollContainer>
-                </InfiniteScroll>
-            ) : (
-              <LoadingCard height={'100vh'}/>
-            )}
+            <InfiniteWrapper>
+              { showActivity ? <Activity contract={contract}/> : listings.length > 0 || loaded ? (
+                  <InfiniteScroll
+                    dataLength={listings.length}
+                    next={() => fetchListings(false)}
+                    hasMore={true}
+                    loader={null}
+                    scrollThreshold={0.3}
+                    height={"100vh"}
+                    endMessage={
+                      <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
+                    }
+                    style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
+                  >
+                    <ScrollContainer>
+                      {listings.map((listing: any, index) => {
+                        return (
+                          ((!hasLore && !hasNoLore) ||
+                            (hasLore &&
+                              !hasNoLore &&
+                              wizardsWithLore[listing.token.tokenId]) ||
+                            (!hasLore &&
+                              hasNoLore &&
+                              !wizardsWithLore[listing.token.tokenId])) && (
+                            <div key={index}>
+                              <TokenDisplay
+                                contract={contract}
+                                tokenId={listing.token.tokenId}
+                                name={listing.token.name}
+                                price={listing.market.floorAsk.price}
+                                source={listing.market.floorAsk.source.id}
+                              />
+                            </div>
+                          )
+                        );
+                      })}
+                     
+                    </ScrollContainer>
+                  </InfiniteScroll>
+              ) : (
+                <LoadingCard height={'100vh'}/>
+              )}
+              <TopScrim>
+                <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' layout='responsive' />
+              </TopScrim>
+            </InfiniteWrapper>
+            <BottomScrim>
+              <Image src='/static/img/scrim.png' height='150px' width='1155px' />
+            </BottomScrim>
         </MidContainer>
         <RightBar  
           contract={contract} 
