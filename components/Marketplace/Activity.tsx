@@ -312,6 +312,7 @@ export default function Activity({
       { headers: headers }
     );
     const salesJson = await recentSales.json();
+    console.log(salesJson);
 
     if (continued) {
       setSales(sales.concat(salesJson.sales)); 
@@ -360,7 +361,7 @@ export default function Activity({
                     <SalesTextDisplay>
                       <SalesText style={{color: 'white'}}>{sale.token.name}</SalesText>
                       <div style={{ display: 'flex' }}>
-                        <EthSymbol src='/static/img/marketplace/eth.png'/>
+                        <EthSymbol src={sale.orderSide == 'ask' ? '/static/img/marketplace/eth.png': '/static/img/marketplace/weth.png'}/>
                         <SalesText>{sale.price}</SalesText>
                       </div>
                     </SalesTextDisplay>
