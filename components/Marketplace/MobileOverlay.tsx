@@ -6,6 +6,7 @@ const Burger = styled.div`
   width: 20px;
   height: 20px;
 `;
+
 const MobileMenu = styled.div`
   position: absolute;
   top: 0px;

@@ -109,10 +109,7 @@ export default function Marketplace({
   const [floor, setFloor] = useState(0);
   const [bid, setBid] = useState(0);
   const router = useRouter();
-
-  let displayName = contract in CONTRACTS ? CONTRACTS[contract].display : COMMUNITY_CONTRACTS[contract].display;
-  let singular = contract in CONTRACTS ? CONTRACTS[contract].singular : COMMUNITY_CONTRACTS[contract].singular;
-  let fullName = contract in CONTRACTS ? CONTRACTS[contract].full : COMMUNITY_CONTRACTS[contract].full;
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
   let traitOffer = Object.keys(router.query).length == (2 + Number('source' in router.query));
 
   function getTrait() {
@@ -214,9 +211,9 @@ export default function Marketplace({
   if (contract) {
     return (
       <Layout
-        title={`${displayName} ${ showActivity ? 'Activity' : 'Marketplace'}`}
-        description={`Like ${singular}, Buy ${singular}`}
-        image={`/static/img/marketplace/${displayName.toLowerCase()}-banner.png`}
+        title={`${contracts[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+        description={`Like ${contracts[contract].singular}, Buy ${contracts[contract].singular}`}
+        image={`/static/img/marketplace/${contracts[contract].display.toLowerCase()}-banner.png`}
         setBurgerActive={setBurgerActive}
       >
         <Main>
@@ -224,7 +221,7 @@ export default function Marketplace({
             <Order
               contract={contract}
               tokenId={'0'}
-              name={fullName}
+              name={contracts[contract].full}
               collectionWide={true}
               setModal={setShowModal}
               action={ORDER_TYPE.OFFER}

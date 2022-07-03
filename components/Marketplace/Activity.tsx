@@ -97,7 +97,7 @@ const BuyerText = styled.div`
   color: var(--white);
   
   line-height: 1.5;
-  max-width: 20ch;
+  max-width: 15ch;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   overflow: hidden;
