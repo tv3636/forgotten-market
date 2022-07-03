@@ -18,6 +18,7 @@ import Filters from "../components/Marketplace/Filters";
 import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
 import { MainMenu } from "../components/Marketplace/NewSiteNav";
 import MobileOverlay from "../components/Marketplace/MobileOverlay";
+import Activity from "../components/Marketplace/Activity";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -202,10 +203,12 @@ export default function Marketplace({
 
     // ensure router query is populated before fetching listings/stats
     if (
-      ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?')) &&
-      !Object.keys(router.query).includes('activity')
+      ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?'))
     ) {
-      fetchListings(true);
+      if (!Object.keys(router.query).includes('activity')) {
+        fetchListings(true);
+      }
+      
       getStats();
     }
   }, [router.query]);
@@ -239,7 +242,7 @@ export default function Marketplace({
               <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
               <MainToggle contract={contract} activity={showActivity} />
             </MidHeader>
-            { listings.length > 0 || loaded ? (
+            { showActivity ? <Activity contract={contract}/> : listings.length > 0 || loaded ? (
                 <InfiniteScroll
                   dataLength={listings.length}
                   next={() => fetchListings(false)}

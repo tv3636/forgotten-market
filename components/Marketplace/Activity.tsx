@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { API_BASE_URL, CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
+import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
@@ -7,6 +7,8 @@ import { SoftLink, LoadingCard } from "./marketplaceHelpers";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
+import router from "next/router";
+import Image from 'next/image';
 
 TimeAgo.addDefaultLocale(en);
 const headers: HeadersInit = new Headers();
@@ -17,11 +19,10 @@ const ScrollContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 2vw;
-  margin-left: 1vw;
-  margin-right: 1vw;
   overflow: hidden;
-  
+
+  padding-top: var(--sp1);
+  padding-bottom: 400px;
 `;
 
 const ActivityImage = styled.img`
@@ -40,7 +41,7 @@ const ActivityImage = styled.img`
     border-color: var(--mediumGray);
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 100px;
     height: 100px;
     margin-left: 0px;
@@ -63,7 +64,7 @@ const TimeText = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     font-size: 14px;
   }
 `;
@@ -82,7 +83,7 @@ const SalesText = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     font-size: 15px;
     width: 11ch;
   }
@@ -100,7 +101,7 @@ const BuyerText = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     font-size: 14px;
     max-width: 14ch;
   }
@@ -111,7 +112,7 @@ const EthSymbol = styled.img`
   margin-right: 6px;
   margin-top: 3px;
   
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     height: 13px;
     margin-top: 2px;
   }
@@ -126,7 +127,7 @@ const HorizontalLine = styled.hr`
   margin-top: var(--sp-1);
   margin-bottom: var(--sp-1);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     border-color: black;
     width: 90%;
 
@@ -141,7 +142,7 @@ const SalesTextDisplay = styled.div`
   flex-direction: column;
   height: 125px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     height: 75px;
   }
 
@@ -153,10 +154,9 @@ const SalesDisplay = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     height: 75px;
   }
-
 `;
 
 const ActivityRow = styled.div`
@@ -164,16 +164,14 @@ const ActivityRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 
-  border: dashed;
-  border-radius: 20px;
-  border-color: var(--mediumGray);
   background: #0d0c16c4;
 
-  padding: 20px;
-  margin: 10px;
+  padding: var(--sp0);
+  margin: var(--sp-2);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     padding-left: 10px;
     padding-right: 10px;
   }
@@ -182,7 +180,7 @@ const ActivityRow = styled.div`
 const ActivityWrapper = styled.div`
   width: 80%;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 100%;
   }
 `;
@@ -190,7 +188,7 @@ const ActivityWrapper = styled.div`
 const MobileWrapper = styled.div`
   display: none;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     height: 75px;
     display: block;
   }
@@ -201,7 +199,7 @@ const DesktopWrapper = styled.div`
   flex-direction: row;
   align-items: center;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     display: none;
   }
 `;
@@ -211,7 +209,7 @@ const IconImage = styled.img`
   height: 20px;
   margin-left: 5px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 15px;
     height: 15px;
   }
@@ -231,7 +229,7 @@ const MarketIcon = styled.img`
   margin-top: 2px;
   image-rendering: pixelated;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 15px;
     height: 15px;
     margin-right: 7px;
@@ -239,6 +237,29 @@ const MarketIcon = styled.img`
   }
 
 `;
+
+const NewFrame = styled.div`
+  width: calc(100% + var(--frameSize));
+  height: calc(100% + 0.5 * var(--frameSize));
+
+  position: absolute;
+  left: calc(-0.5 * var(--frameSize));
+  top: calc(-0.1 * var(--frameSize));
+  z-index: 1;
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 30 35 30;
+  border-image-width: var(--frameSize);
+  border-image-outset: 0;
+  border-style: solid;
+`;
+
+const BottomScrim = styled.div`
+  position: absolute;
+  z-index: 10;
+  bottom: -5px;
+  max-width: 1050px;
+`;
+
 
 function BuyerSeller({ 
   buyer, 
@@ -275,31 +296,37 @@ export default function Activity({
   const [sales, setSales] = useState([]);
   const [continuation, setContinuation] = useState('');
   const [fetched, setFetched] = useState(false);
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
-  async function fetchSales() {
+  async function fetchSales(continued: boolean) {
     const recentSales = await fetch(
-      API_BASE_URL + `sales/v3?contract=${contract}${continuation != '' ? "&continuation=" + continuation : ''}`, 
+      API_BASE_URL + `sales/v3?contract=${contract}${continuation != '' && continued ? "&continuation=" + continuation : ''}`, 
       { headers: headers }
     );
     const salesJson = await recentSales.json();
-    console.log(salesJson);
-    setSales(sales.concat(salesJson.sales));
+
+    if (continued) {
+      setSales(sales.concat(salesJson.sales)); 
+    } else {
+      setSales(salesJson.sales);
+    }
     setContinuation(salesJson.continuation);
     setFetched(true);
   }
 
   useEffect(() => {
-    fetchSales();
-  }, []);
+    setFetched(false);
+    fetchSales(false);
+  }, [router.query]);
 
   return (
       <InfiniteScroll
         dataLength={sales.length}
-        next={fetchSales}
+        next={() => { fetchSales(true) } }
         hasMore={true}
         loader={null}
         scrollThreshold={0.1}
-        height={'80vh'}
+        height={'100vh'}
       >
         { fetched ? 
           <ScrollContainer>
@@ -314,10 +341,10 @@ export default function Activity({
                     >
                       <SoftLink>
                         <ActivityImage 
-                          style={CONTRACTS[contract].display == 'Flames' ? {height: '171px'} : {}}
-                          src={CONTRACTS[contract].display == 'Wizards' ? 
-                            `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
-                            `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}
+                          style={contracts[contract].display == 'Flames' ? {height: '171px'} : {}}
+                          src={contracts[contract].display == 'Wizards' ? 
+                            `${contracts[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
+                            `${contracts[contract].image_url}${sale.token.tokenId}.png`}
                         /> 
                       </SoftLink>
                     </Link>
@@ -353,6 +380,7 @@ export default function Activity({
                       </div>
                     </SoftLink>
                   </DesktopWrapper>
+                  <NewFrame/>
                 </ActivityRow>
                 <HorizontalLine/>
               </ActivityWrapper> :
@@ -361,6 +389,9 @@ export default function Activity({
             );
           })
           }
+          <BottomScrim>
+            <Image src='/static/img/scrim.png' height='150px' width='1155px' />
+          </BottomScrim>
           </ScrollContainer> :
           <LoadingCard height={'80vh'}/>
         }
