@@ -3,7 +3,7 @@ import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, MARKET_ICONS_BY_NAME } fr
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
-import { SoftLink, LoadingCard } from "./marketplaceHelpers";
+import { SoftLink, LoadingCard, getURLAttributes } from "./marketplaceHelpers";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -307,7 +307,8 @@ export default function Activity({
 
   async function fetchSales(continued: boolean) {
     const recentSales = await fetch(
-      API_BASE_URL + `sales/v3?contract=${contract}${continuation != '' && continued ? "&continuation=" + continuation : ''}`, 
+      API_BASE_URL + `sales/v3?collection=${contract}${continuation != '' && continued ? "&continuation=" + continuation : ''}`
+      + getURLAttributes(router.query), 
       { headers: headers }
     );
     const salesJson = await recentSales.json();

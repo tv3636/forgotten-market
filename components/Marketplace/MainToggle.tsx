@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Toggle = styled.div`
   display: flex;
@@ -38,24 +39,32 @@ const ToggleButton = styled.div`
 `;
 
 export default function MainToggle({
-  contract,
   activity,
 }:{
-  contract: string;
   activity: boolean;
 }) {
+  const router = useRouter();
+
+  function pushRouter() {
+    router.push({query: router.query}, undefined, {shallow: true});
+  }
+
   return (
     <Toggle>
-      <Link href={`/${contract}`}>
-        <ToggleButton style={activity ? {} : { backgroundColor: 'var(--darkGray)'}} className='leftButton'>
-          MARKETPLACE
-        </ToggleButton>
-      </Link>
-      <Link href={`/${contract}?activity=True`}>
-        <ToggleButton style={activity ? { backgroundColor: 'var(--darkGray)'} : {}} className='rightButton'>
-          ACTIVITY
-        </ToggleButton>
-      </Link>
+      <ToggleButton 
+        style={activity ? {} : { backgroundColor: 'var(--darkGray)'}} 
+        className='leftButton'
+        onClick={() => {delete router.query['activity']; pushRouter()}}
+      >
+        MARKETPLACE
+      </ToggleButton>
+      <ToggleButton 
+        style={activity ? { backgroundColor: 'var(--darkGray)'} : {}} 
+        className='rightButton'
+        onClick={() => {router.query['activity'] = 'True'; pushRouter()}}
+      >
+        ACTIVITY
+      </ToggleButton>
     </Toggle>
   )
 }

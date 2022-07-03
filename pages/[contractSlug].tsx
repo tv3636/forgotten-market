@@ -202,9 +202,7 @@ export default function Marketplace({
     setShowActivity(Object.keys(router.query).includes('activity'));
 
     // ensure router query is populated before fetching listings/stats
-    if (
-      ((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?'))
-    ) {
+    if (((router.asPath.includes('?') && Object.keys(router.query).length > 1) || !router.asPath.includes('?'))) {
       if (!Object.keys(router.query).includes('activity')) {
         fetchListings(true);
       }
@@ -240,7 +238,7 @@ export default function Marketplace({
           <MidContainer>
             <MidHeader>
               <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />
-              <MainToggle contract={contract} activity={showActivity} />
+              <MainToggle activity={showActivity} />
             </MidHeader>
             { showActivity ? <Activity contract={contract}/> : listings.length > 0 || loaded ? (
                 <InfiniteScroll
