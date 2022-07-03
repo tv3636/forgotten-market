@@ -16,7 +16,7 @@ const HeaderWrapper = styled.div`
   margin-right: var(--sp3);
   margin-top: var(--sp2);
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1250px) {
     margin-top: var(--sp0);
     margin-bottom: 0;
     margin-left: var(--sp-2);
@@ -29,7 +29,7 @@ const Menu = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1250px) {
     flex-direction: column;
     justify-content: auto;
     align-items: center;
@@ -41,7 +41,7 @@ const Menu = styled.div`
 const MenuItem = styled.div`
   padding: var(--sp1);
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1250px) {
     padding: var(--sp-2);
   }
 `;
@@ -59,7 +59,6 @@ const LogoContainer = styled.div`
 const Burger = styled.div`
   width: 25px;
   height: 25px;
-
 `;
 
 export function MainMenu({}:{}) {

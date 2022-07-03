@@ -24,7 +24,7 @@ const Container = styled.div`
 `;
 
 const MobileContainer = styled.div`
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1250px) {
     text-align: center;
   }
 `;
@@ -65,10 +65,6 @@ const CollectionWrapper = styled.div`
 const CollectionIcon = styled.div`
   opacity: 0;
   transition: all 250ms;
-
-  @media only screen and (max-width: 1200px) {
-    display: none;
-  }
 `;
 
 const CollectionName = styled.div`
@@ -78,7 +74,7 @@ const CollectionName = styled.div`
 
   transition: all 250ms;
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1250px) {
     transform: none;
   }
 `;
@@ -108,7 +104,7 @@ function Collection({
     <div>
       <Link href={`/${ contract }${ activity ? '?activity=True' : ''}`}>
         <CollectionWrapper>
-          <CollectionIcon className={`icon${ active ? ' active' : ''}`}>
+          <CollectionIcon className={`icon${ active ? ' active' : ''} desktop`}>
             <Image 
               src={`/static/img/marketplace/icon_${contract in CONTRACTS? CONTRACTS[contract]?.display :COMMUNITY_CONTRACTS[contract].display }.png`} 
               height='25ex' 

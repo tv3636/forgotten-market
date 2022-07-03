@@ -30,7 +30,7 @@ const MidHeader = styled.div`
 
   margin-top: -8ch;
 
-  @media only screen and (max-width: 1200px) { 
+  @media only screen and (max-width: 1250px) { 
     margin-top: 0;
   }
 `;
@@ -40,7 +40,7 @@ const Main = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  @media only screen and (max-width: 1200px) { 
+  @media only screen and (max-width: 1250px) { 
     justify-content: center;
   }
 `;
@@ -52,7 +52,7 @@ const MidContainer = styled.div`
   padding-left: var(--sp0);
   padding-right: var(--sp0);
 
-  @media only screen and (max-width: 1200px) { 
+  @media only screen and (max-width: 1250px) { 
     max-width: 100%;
     padding: 0;
   }
@@ -80,7 +80,7 @@ const TopScrim = styled(BottomScrim)`
   bottom: auto;
   top: 130px;
 
-  @media only screen and (max-width: 1200px) {
+  @media only screen and (max-width: 1250px) {
     top: 188px;
   }
 

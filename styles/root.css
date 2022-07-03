@@ -36,19 +36,19 @@ body {
 
   font-family: "Terminal";
   font-size: var(--sp0);
+
   --frameSize: 24px;
   --sidebar: 25ch;
-
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1250px) {
   .desktop {
     display: none !important;
   }
 
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1250px) {
   .mobile {
     display: none !important;
   }
