@@ -31,7 +31,8 @@ const ActivityImage = styled.img`
   border-color: var(--darkGray);
   border-radius: 10px;
 
-  margin-right: 20px;
+  margin-right: var(--sp0);
+  z-index: 2;
 
   width: 150px;
   height: 150px;
@@ -76,7 +77,7 @@ const SalesText = styled.div`
   color: var(--white);
   
   line-height: 1.3;
-  width: 20ch;
+  max-width: 20ch;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -100,6 +101,8 @@ const BuyerText = styled.div`
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   overflow: hidden;
+
+  z-index: 2;
 
   @media only screen and (max-width: 1250px) {
     font-size: 14px;
@@ -154,6 +157,8 @@ const SalesDisplay = styled.div`
   justify-content: center;
   align-items: center;
 
+  z-index: 2;
+
   @media only screen and (max-width: 1250px) {
     height: 75px;
   }
@@ -166,7 +171,7 @@ const ActivityRow = styled.div`
   align-items: center;
   position: relative;
 
-  background: #0d0c16c4;
+  background: var(--darkGray);
 
   padding: var(--sp0);
   margin: var(--sp-2);
@@ -228,6 +233,8 @@ const MarketIcon = styled.img`
   margin-right: 8px;
   margin-top: 2px;
   image-rendering: pixelated;
+
+  z-index: 2;
 
   @media only screen and (max-width: 1250px) {
     width: 15px;
@@ -322,11 +329,12 @@ export default function Activity({
   return (
       <InfiniteScroll
         dataLength={sales.length}
-        next={() => { fetchSales(true) } }
+        next={() => { fetchSales(true) }}
         hasMore={true}
         loader={null}
         scrollThreshold={0.1}
         height={'100vh'}
+        style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
       >
         { fetched ? 
           <ScrollContainer>
