@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../components/Layout";
+import Layout from "../../components/Marketplace/NewLayout";
 import styled from "@emotion/styled";
 import { getProvider } from "../../hooks/useProvider";
 import { useState, useEffect } from "react";
@@ -9,10 +9,23 @@ import { PREVIOUS_API_BASE_URL, CONTRACTS, API_BASE_URL } from "../../components
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
 
+const PageWrapper = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: 90vh;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+`;
+
 const AccountWrapper = styled.div`
   display: flex;
   
-  min-height: 90vh;
   margin: 0 auto;
   max-width: 1500px;
 
@@ -20,6 +33,14 @@ const AccountWrapper = styled.div`
     overflow-x: hidden;
     justify-content: center;
   }
+`;
+
+const AccountInfo = styled.div`
+  position: sticky;
+  top: 0;
+  width: 100%;
+
+  background-color: black;
 `;
 
 const Account = styled.div`
@@ -84,8 +105,8 @@ const Title = styled.div`
 `;
 
 const SubTitle = styled.div`
-  font-size: 15px;
-  font-family: Roboto Mono;
+  font-family: Terminal;
+  text-transform: uppercase;
   color: var(--white);
 
   margin-bottom: var(--sp1);
@@ -239,48 +260,52 @@ export default function Address({
   if (valid) {
   return (
     <Layout title="Account">
-      <AccountWrapper>
-        <Account>
-          <AccountHeader address={address} ens={ens}/>
-          <HorizontalLine style={{borderColor: 'var(--mediumGray)'}}/>
-          <HorizontalLine />
-          <StatRow>
+      <PageWrapper>
+        <AccountWrapper>
+          <Account>
+            <AccountInfo>
+            <AccountHeader address={address} ens={ens}/>
+            <HorizontalLine style={{borderColor: 'var(--mediumGray)'}}/>
+            <HorizontalLine />
+            <StatRow>
+              {Object.keys(tokenData).map((contract: any, index: number) => {
+                return (
+                  <SubTitle key={index}>
+                    {
+                      `${CONTRACTS[contract].display}: ${CONTRACTS[contract].display == 'Flames' && tokenData[contract][0] ? 
+                      tokenData[contract][0].ownership.tokenCount : 
+                      tokenData[contract].length
+                    }`
+                    }
+                  </SubTitle>
+                );
+              })}
+            </StatRow>
+            </AccountInfo>
+            <HorizontalLine />
+            <DesktopLine style={{borderColor: 'black'}}/>
             {Object.keys(tokenData).map((contract: any, index: number) => {
-              return (
-                <SubTitle key={index}>
-                  {
-                    `${CONTRACTS[contract].display}: ${CONTRACTS[contract].display == 'Flames' && tokenData[contract][0] ? 
-                    tokenData[contract][0].ownership.tokenCount : 
-                    tokenData[contract].length
-                  }`
-                  }
-                </SubTitle>
-              );
-            })}
-          </StatRow>
-          <HorizontalLine />
-          <DesktopLine style={{borderColor: 'black'}}/>
-          {Object.keys(tokenData).map((contract: any, index: number) => {
-              return tokenData[contract].length > 0 && CONTRACTS[contract].display != 'Flames' &&
-                <AccountSection 
-                  key={index} 
-                  tokens={tokenData[contract]} 
-                  contract={contract} 
-                  title={CONTRACTS[contract].display}
-                />
-            })}
-          <HorizontalLine />
-          { listings.length > 0 && 
-            <AccountSection tokens={listings} contract={null} title={'Listings'}/>
-          }
-          { offersMade.length > 0 && 
-            <AccountSection tokens={offersMade} contract={null} title={'Offers Made'}/>
-          }
-           { offers.length > 0 && 
-            <AccountSection tokens={offers} contract={null} title={'Offers Received'}/>
-          }
-        </Account>
-      </AccountWrapper>
+                return tokenData[contract].length > 0 && CONTRACTS[contract].display != 'Flames' &&
+                  <AccountSection 
+                    key={index} 
+                    tokens={tokenData[contract]} 
+                    contract={contract} 
+                    title={CONTRACTS[contract].display}
+                  />
+              })}
+            <HorizontalLine />
+            { listings.length > 0 && 
+              <AccountSection tokens={listings} contract={null} title={'Listings'}/>
+            }
+            { offersMade.length > 0 && 
+              <AccountSection tokens={offersMade} contract={null} title={'Offers Made'}/>
+            }
+            { offers.length > 0 && 
+              <AccountSection tokens={offers} contract={null} title={'Offers Received'}/>
+            }
+          </Account>
+        </AccountWrapper>
+      </PageWrapper>
     </Layout>
   )
   } else {
