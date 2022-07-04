@@ -20,7 +20,7 @@ const collectionData: any = {
 const ListingDisplay = styled.div`
   width: 200px;
   height: auto;
-  margin: var(--sp2);
+  margin: var(--sp1);
   display: flex;
   flex-direction: column;
 

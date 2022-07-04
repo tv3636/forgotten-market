@@ -37,7 +37,6 @@ const TraitType = styled.div`
   font-size: var(--sp-1);
   color: var(--beige);
   
-
   margin-bottom: var(--sp-4);
 `;
 
@@ -116,7 +115,7 @@ export default function TraitDisplay({
                         <TraitType>{attribute.key.toUpperCase()}</TraitType>
                         <TraitValues>
                           <TraitItem>{attribute.value}</TraitItem>
-                          <TraitType style={{marginRight: '0'}}>
+                          <TraitType>
                             {
                               traits[attribute.key] && contracts[contract].display != 'Flames' &&
                               `(${((traits[attribute.key][attribute.value] / maxCount) * 100)

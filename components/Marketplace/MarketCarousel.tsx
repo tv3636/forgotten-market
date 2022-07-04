@@ -9,7 +9,7 @@ const Arrows = styled.div`
   top: 88%;
 
   background-color: var(--darkGray);
-  border-color: var(--mediumGray);
+  border-color: var(--midGray);
   border-style: solid;
   border-radius: 20px;
   padding: var(--sp-2);

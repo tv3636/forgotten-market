@@ -33,6 +33,8 @@ import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
 import MarketDisplay from "../../components/Marketplace/MarketDisplay";
+import MobileOverlay from "../../components/Marketplace/MobileOverlay";
+import { MainMenu } from "../../components/Marketplace/NewSiteNav";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -179,13 +181,13 @@ const NameStyle = styled.h1`
 `;
 
 const OwnerStyle = styled.h4`
-  font-family: Roboto Mono;
-  font-size: 14px;
-  font-weight: normal;
+  font-family: Terminal;
+  font-size: var(--sp0);
+  text-transform: uppercase;
   color: var(--lightGray);
 
   text-align: left;
-  margin-block-start: 0.5vh;
+  margin-top: var(--sp-4);
 
   @media only screen and (max-width: 600px) {
     text-align: center;
@@ -331,6 +333,7 @@ const ListingPage = ({
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
+  const [burgerActive, setBurgerActive] = useState(false);
   const { account } = useEthers();
   let contracts = contractSlug in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
@@ -446,6 +449,7 @@ const ListingPage = ({
       } 
       description={`${contracts[contractSlug].singular} #${tokenId}`}
       image={imageUrls[0]}
+      setBurgerActive={setBurgerActive}
     >
       <PageWrapper>
         <RuneHeader>
@@ -576,6 +580,10 @@ const ListingPage = ({
           </ListingWrapper>
         }
       </PageWrapper>
+      <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
+        <RuneHeader>NAVIGATION</RuneHeader>
+        <MainMenu className="mobile"/>
+      </MobileOverlay>
     </Layout>
   );
 };

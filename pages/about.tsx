@@ -1,5 +1,9 @@
 import Layout from "../components/Marketplace/NewLayout";
 import styled from "@emotion/styled";
+import { useState } from "react";
+import MobileOverlay from "../components/Marketplace/MobileOverlay";
+import RuneHeader from "../components/Marketplace/RuneHeader";
+import { MainMenu } from "../components/Marketplace/NewSiteNav";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -148,8 +152,10 @@ const BorderRightHeader = styled.th`
 export default function About({
 }: {
 }) {
+  const [burgerActive, setBurgerActive] = useState(false);
+
   return (
-    <Layout title="About">
+    <Layout title="About" setBurgerActive={setBurgerActive}>
       <PageWrapper>
       <AboutWrapper>
         <Title>About</Title>
@@ -262,6 +268,10 @@ export default function About({
         <HorizontalLine/>
       </AboutWrapper>
       </PageWrapper>
+      <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
+        <RuneHeader>NAVIGATION</RuneHeader>
+        <MainMenu className="mobile"/>
+      </MobileOverlay>
     </Layout>
   )
 }

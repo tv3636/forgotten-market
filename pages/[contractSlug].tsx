@@ -48,7 +48,7 @@ const Main = styled.div`
 `;
 
 const MidContainer = styled.div`
-  width: 1300px;
+  width: 1250px;
   max-width: 70%;
 
   padding-left: var(--sp0);
