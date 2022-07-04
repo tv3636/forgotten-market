@@ -9,7 +9,6 @@ import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
 
-
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
   'Warriors': warriors as { [warriorId: string]: any},

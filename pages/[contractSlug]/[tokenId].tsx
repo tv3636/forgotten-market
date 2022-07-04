@@ -224,7 +224,6 @@ const HorizontalLine = styled.hr`
   margin-bottom: var(--sp2);
 
   @media only screen and (max-width: 600px) {
-    border-color: var(--mediumGray);
     width: 90%;
   }
 `;

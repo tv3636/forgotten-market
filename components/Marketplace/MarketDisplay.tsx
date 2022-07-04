@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import Image from 'next/image';
-import { numShorten } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -14,6 +13,11 @@ const StatsWrapper = styled.div`
   text-align: center;
 
   margin-left: calc(-1 * var(--sp-1));
+  margin-bottom: -5px;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+  }
 `;
 
 const StatsItem = styled.div`
@@ -34,8 +38,8 @@ function EthSymbol({
     <div style={{marginRight: 'var(--sp-4)', display: 'flex'}}>
       <Image 
         src={weth ? "/static/img/marketplace/weth.png" : "/static/img/marketplace/eth_alt.png"} 
-        height='21ex' 
-        width='11ch'
+        height='24ex' 
+        width='12ch'
       />
     </div>
   )
