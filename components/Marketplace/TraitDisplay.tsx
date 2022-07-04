@@ -49,7 +49,7 @@ const TraitWrapper = styled.div`
   flex-direction: row;
   width: 100%;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 
   @media only screen and (max-width: 600px) {
     justify-content: center;

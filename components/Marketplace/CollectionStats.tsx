@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Image from 'next/image';
 import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
+import { numShorten } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -22,10 +23,6 @@ const StatsItem = styled.div`
 
   padding: var(--sp-1);
 `;
-
-function numShorten(num: number) {
-  return num >= 1000 ? `${(num / 1000).toPrecision(2)}k` : num;
-}
 
 function EthSymbol({
   weth

@@ -1,46 +1,55 @@
 import styled from "@emotion/styled";
 
 const Arrows = styled.div`
-opacity: 30%;
-display: flex;
-position: absolute;
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
-width: 90%;
-top: 99%;
+  display: flex;
+  position: absolute;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  top: 88%;
 
-@media only screen and (max-width: 600px) {
-  width: 100%;
-  height: 100%;
-  top: auto;
-  opacity: 50%;
-  margin-left: 0px;
-  margin-right: 0px;
-}
+  background-color: var(--darkGray);
+  border-color: var(--mediumGray);
+  border-style: solid;
+  border-radius: 20px;
+  padding: var(--sp-2);
 
-transition: all 200ms;
+  box-shadow: 0px 2px  var(--midGray);
+
+  z-index: 20;
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    top: auto;
+    opacity: 50%;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  transition: all 200ms;
 `;
 
 const ArrowImage = styled.img`
-height: 25px;
-width: 25px;
-cursor: pointer;
-padding: 7px;
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+  padding: 7px;
 
-background: var(--mediumGray);
-border-radius: 30px;
-border-style: dashed;
-border-width: 1px;
-border-color: var(--darkGray);
+  margin-left: var(--sp-4);
+  margin-right: var(--sp-4);
 
-@media only screen and (max-width: 600px) {
-  height: 20px;
-  width: 20px;
-  padding: 5px;
-}
+  border-radius: 30px;
+  border-width: 1px;
+  border-color: var(--darkGray);
 
-transition: all 200ms;
+  @media only screen and (max-width: 600px) {
+    height: 20px;
+    width: 20px;
+    padding: 5px;
+  }
+
+  transition: all 200ms;
 `;
 
 export default function Carousel({
@@ -53,12 +62,12 @@ export default function Carousel({
   imageUrls: string[];
 }) {
   return (
-    <Arrows className={'dropdown'}>
-      <ArrowImage className={'dropdown-image'} 
+    <Arrows>
+      <ArrowImage  
         src='/static/img/marketplace/arrow_left.png'
         onClick={()=> setKeyImage((keyImage - 1 + imageUrls.length) % imageUrls.length)}
       />
-      <ArrowImage className={'dropdown-image'} 
+      <ArrowImage
         src='/static/img/marketplace/arrow_right.png' 
         onClick={()=> setKeyImage((keyImage + 1) % imageUrls.length)}
       />

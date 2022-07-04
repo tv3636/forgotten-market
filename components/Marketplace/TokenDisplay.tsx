@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { COMMUNITY_CONTRACTS, CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
+import styled from "@emotion/styled";
 import wizards from "../../data/wizards.json";
 import warriors from "../../data/warriors.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
-import styled from "@emotion/styled";
+
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },

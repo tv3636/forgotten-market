@@ -397,6 +397,10 @@ export const SoftLink = styled.a`
   text-decoration: none;
 `;
 
+export function numShorten(num: number) {
+  return num >= 1000 ? `${(num / 1000).toPrecision(2)}k` : num;
+}
+
 /*
 * Trait Offer Helpers
 */

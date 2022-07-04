@@ -6,7 +6,7 @@ import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../components/Lore/markdownUtils";
 import {
-  Icons, LoadingCard
+  Icons, LoadingCard, numShorten
 } from "../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
@@ -18,12 +18,7 @@ import {
 import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
-import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import Order from "../../components/Marketplace/Order";
-import wizards from "../../data/wizards.json";
-import souls from "../../data/souls.json";
-import ponies from "../../data/ponies.json";
-import warriors from "../../data/warriors.json";
 import Price from "../../components/Marketplace/Price";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
 import MarketButtons from "../../components/Marketplace/MarketButtons";
@@ -33,11 +28,20 @@ import Carousel from "../../components/Marketplace/MarketCarousel";
 import OfferDisplay, { Owner } from "../../components/Marketplace/OfferDisplay";
 import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
 import RuneHeader from "../../components/Marketplace/RuneHeader";
+import wizards from "../../data/wizards.json";
+import warriors from "../../data/warriors.json";
+import souls from "../../data/souls.json";
+import ponies from "../../data/ponies.json";
+import babies from "../../data/babies.json";
+import MarketDisplay from "../../components/Marketplace/MarketDisplay";
 
-const wizData = wizards as { [wizardId: string]: any };
-const soulData = souls as { [soulId: string]: any };
-const ponyData = ponies as { [ponyId: string]: any };
-const warriorsData = warriors as { [warriorId: string]: any };
+const collectionData: any = {
+  'Wizards': wizards as { [wizardId: string]: any },
+  'Warriors': warriors as { [warriorId: string]: any},
+  'Souls': souls as { [soulId: string]: any },
+  'Ponies': ponies as { [ponyId: string]: any },
+  'Babies': babies as { [babyId: string]: any },
+}
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -117,9 +121,8 @@ const TopLeft = styled.div`
 const TopRight = styled.div`
   margin-left: var(--sp3);
   height: 420px;
-  padding-left: var(--sp0);
-  padding-right: var(--sp0);
-  padding-top: var(--sp0);
+  padding: var(--sp0);
+  padding-top: 0;
   max-width: calc(100% - 460px - var(--sp3));
   align-self: flex-start;
   display: flex;
@@ -143,10 +146,7 @@ const SectionWrapper = styled.div`
 `;
 
 const TokenImage = styled.img`
-  border: 2px dashed var(--darkGray);
-  background: #1f0200;
-
-  padding: var(--sp0);
+  padding: var(--sp1);
 
   @media only screen and (max-width: 600px) {
     border: 4px solid var(--darkGray);
@@ -291,16 +291,6 @@ const WarningSymbol = styled.div`
   font-size: 20px;
 `;
 
-const InfoSection = styled.div`
-  display: flex;
-  align-items: center;
-
-  > * {
-    margin-right: var(--sp-2);
-    margin-left: var(--sp-2);
-  }
-`;
-
 const NewFrame = styled.div`
   width: calc(100% + var(--frameSize));
   height: calc(100% - 15px);
@@ -315,27 +305,6 @@ const NewFrame = styled.div`
   border-image-outset: 0;
   border-style: solid;
 `;
-
-function SectionHeader({
-  title,
-  link,
-  tooltip
-}:{
-  title: string;
-  link: string;
-  tooltip: string;
-}) {
-  return (
-    <RuneHeader>
-      <InfoSection>
-        {title.toUpperCase()}
-        <a href={link} target="_blank">
-          <InfoTooltip tooltip={tooltip}/>
-        </a>
-      </InfoSection>
-    </RuneHeader>
-  )
-}
 
 const ListingPage = ({
   contractSlug,
@@ -374,7 +343,8 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
   
-  var backgroundColor = contracts[contractSlug].display == 'Wizards' ? `${wizData[tokenId].background}` : '#000000';
+  var backgroundColor = contracts[contractSlug].display in collectionData && tokenId in collectionData[contracts[contractSlug].display] ? 
+  `${collectionData[contracts[contractSlug].display][tokenId].background}` : '#000000';
 
   useEffect(() => {
     async function run() {
@@ -468,10 +438,8 @@ const ListingPage = ({
   return (
     <Layout 
       title={
-        contracts[contractSlug].display == 'Wizards' ? wizData[tokenId].name : 
-        contracts[contractSlug].display == 'Souls' && tokenId in soulData ? soulData[tokenId].name : 
-        contracts[contractSlug].display == 'Ponies' && tokenId in ponyData ? ponyData[tokenId].name :
-        contracts[contractSlug].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].name :
+        contracts[contractSlug].display in collectionData && tokenId in collectionData[contracts[contractSlug].display] ?
+        collectionData[contracts[contractSlug].display][tokenId].name :
         `${contracts[contractSlug].singular} #${tokenId}`
       } 
       description={`${contracts[contractSlug].singular} #${tokenId}`}
@@ -530,7 +498,7 @@ const ListingPage = ({
                     )}
                   </NameDisplay>
                   <PriceDisplay>
-                    <Price value={listing.price} size={1} />
+                    <MarketDisplay price={listing.price} bid={offer.value} lastPrice={token.lastBuy.value?.toPrecision(3)} />
                     {token.owner != BURN_ADDRESS &&
                       <ButtonWrapper>
                         <MarketButtons
@@ -554,15 +522,6 @@ const ListingPage = ({
                         source={listing.source.id}
                       />
                     }
-                    {offer.value ? 
-                      <OfferDisplay 
-                        value={offer.value}
-                        maker={offer.maker}
-                        account={account ?? ''}
-                        ens={ownerEns ?? ''}
-                      /> :
-                      null
-                    }
                     { isBanned && 
                       <WarningWrapper>
                         <WarningSymbol style={{marginRight: '10px'}}>⚠</WarningSymbol> 
@@ -575,23 +534,20 @@ const ListingPage = ({
               </TopDisplay>
               <HorizontalLine/>
               <SectionWrapper>
-                <SectionHeader 
-                  title={'Traits'}
-                  link={'https://www.youtube.com/watch?v=GmL4WBj-36o'}
-                  tooltip={`Attributes and affinity that define this ${contracts[contractSlug].singular.toLowerCase()}, encoded on-chain`}
-                />
+              <RuneHeader>TRAITS</RuneHeader>
                 <MidDisplay>
-                  <TraitDisplay attributes={attributes} fullAttributes={fullAttributes} contract={contractSlug} tokenId={tokenId} />
+                  <TraitDisplay 
+                    attributes={attributes} 
+                    fullAttributes={fullAttributes} 
+                    contract={contractSlug} 
+                    tokenId={tokenId} 
+                  />
                 </MidDisplay>
               </SectionWrapper>
               {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
               {contracts[contractSlug].display != 'Flames' && 
                 <SectionWrapper>
-                    <SectionHeader
-                      title={'Lore'}
-                      link={'https://www.forgottenrunes.com/posts/lore-creation'}
-                      tooltip={`${contracts[contractSlug].singular} owners can inscribe lore for their ${contracts[contractSlug].display.toLowerCase()} on-chain`}
-                    />
+                  <RuneHeader>LORE</RuneHeader>
                   <BottomDisplay>
                     <LoreWrapper>
                       <LoreBlock 
