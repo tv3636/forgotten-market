@@ -14,8 +14,6 @@ const TraitRow = styled.div`
   background-color: var(--frameGray);
 
   margin: var(--sp-3);
-  padding-top: var(--sp0);
-  padding-bottom: var(--sp0);
 
   :hover {
     cursor: pointer;
@@ -59,8 +57,6 @@ const TraitWrapper = styled.div`
 const TraitContent = styled.div`
   padding-left: var(--sp0);
   padding-right: var(--sp0);
-
-  margin-top: -18px;
 `;
 
 const TraitValues = styled.div`
@@ -115,9 +111,7 @@ export default function TraitDisplay({
                   passHref={true}
                 >
                   <SoftLink>
-                    <TraitRow
-                      style={{height: contracts[contract].display == 'Flames' ? 'auto' : '50px'}}
-                    >
+                    <TraitRow>
                       <TraitContent>
                         <TraitType>{attribute.key.toUpperCase()}</TraitType>
                         <TraitValues>
