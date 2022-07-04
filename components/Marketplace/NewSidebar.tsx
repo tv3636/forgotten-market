@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { useRouter } from "next/router";
+import RuneHeader from "./RuneHeader";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -79,17 +80,6 @@ const CollectionName = styled.div`
   }
 `;
 
-const SectionHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  align-items: center;
-
-  margin-bottom: var(--sp-1);
-
-  color: var(--newGray);
-`;
-
 function Collection({
   contract,
   activity,
@@ -121,20 +111,6 @@ function Collection({
   )
 }
 
-export function RuneHeader({
-  text
-}:{
-  text: string;
-}) {
-  return (
-    <SectionHeader>
-      <Image src="/static/img/floaters-left.png" height='14.5px' width='67px' />
-      {text}
-      <Image src="/static/img/floaters-right.png" height='14.5px' width='67px' />
-    </SectionHeader>
-  )
-}
-
 export function CollectionContainer({
   activity
 }: {
@@ -142,7 +118,7 @@ export function CollectionContainer({
 }) {
   return (
     <MobileContainer>
-      <RuneHeader text='OFFICIAL' />
+      <RuneHeader>OFFICIAL</RuneHeader>
       <Collections>
       {
         Object.keys(CONTRACTS).map((contract: string, index) => (
@@ -150,7 +126,7 @@ export function CollectionContainer({
         ))
       }
       </Collections>
-      <RuneHeader text='COMMUNITY' />
+      <RuneHeader>COMMUNITY</RuneHeader>
       <Collections>
       {
         Object.keys(COMMUNITY_CONTRACTS).map((contract: string, index) => (

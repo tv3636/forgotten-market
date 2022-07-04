@@ -11,7 +11,6 @@ import {
 import {
   CONTRACTS,
   API_BASE_URL,
-  LOCATIONS,
   ORDER_TYPE,
   BURN_ADDRESS,
   COMMUNITY_CONTRACTS,
@@ -21,7 +20,6 @@ import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import Order from "../../components/Marketplace/Order";
-import dynamic from "next/dynamic";
 import wizards from "../../data/wizards.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
@@ -34,15 +32,12 @@ import { ListingExpiration } from "../../components/Marketplace/ListingExpiratio
 import Carousel from "../../components/Marketplace/MarketCarousel";
 import OfferDisplay, { Owner } from "../../components/Marketplace/OfferDisplay";
 import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
+import RuneHeader from "../../components/Marketplace/RuneHeader";
 
 const wizData = wizards as { [wizardId: string]: any };
 const soulData = souls as { [soulId: string]: any };
 const ponyData = ponies as { [ponyId: string]: any };
 const warriorsData = warriors as { [warriorId: string]: any };
-
-const DynamicMap = dynamic(() => import("../../components/Marketplace/MiniMap"), {
-  ssr: false, // leaflet doesn't like Next.js SSR
-});
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -79,7 +74,6 @@ const Listing = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: var(--sp0);
   margin-bottom: var(--sp0);
   max-width: 1300px;
 
@@ -89,7 +83,8 @@ const TopDisplay = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: var(--sp1);
+
+  margin-top: var(--sp-1);
 
   @media only screen and (max-width: 600px) {
     justify-content: center;
@@ -122,7 +117,9 @@ const TopLeft = styled.div`
 const TopRight = styled.div`
   margin-left: var(--sp3);
   height: 420px;
-  padding: var(--sp0);
+  padding-left: var(--sp0);
+  padding-right: var(--sp0);
+  padding-top: var(--sp0);
   max-width: calc(100% - 460px - var(--sp3));
   align-self: flex-start;
   display: flex;
@@ -142,12 +139,14 @@ const SectionWrapper = styled.div`
   max-width: 1000px;
   width: 100%;
 
-  align-items: flex-start;
+  align-items: center;
 `;
 
 const TokenImage = styled.img`
   border: 2px dashed var(--darkGray);
   background: #1f0200;
+
+  padding: var(--sp0);
 
   @media only screen and (max-width: 600px) {
     border: 4px solid var(--darkGray);
@@ -162,13 +161,11 @@ const NameDisplay = styled.div`
   flex-direction: column;
 `;
 
-const NameStyle = styled.h2`
-  font-family: Alagard;
-  font-size: 45px;
+const NameStyle = styled.h1`
+  font-size: var(--sp3);
   max-width: 20ch;
   display: inline-block;
-  
-  color: white;
+  text-shadow: 0px 4px var(--midGray);
 
   text-align: left;
   margin-top: 0px;
@@ -241,28 +238,9 @@ const BottomLine = styled.hr`
   margin-bottom: var(--sp2);
 `;
 
-const SectionDisplay = styled.div`
-  font-family: Alagard;
-  font-size: 24px;
-  color: var(--white);
-  align-self: flex-start;
-  margin-bottom: var(--sp-3);
-  display: flex;
-  align-items: center;
-
-  @media only screen and (max-width: 600px) {
-    align-self: center;
-  }
-`;
-
-const SectionName = styled.div`
-  margin-right: var(--sp-1);
-`;
-
 const MidDisplay = styled.div`
   text-align: center;
-  margin-right: 1.5vw;
-
+  margin-top: var(--sp-1);
 
   display: flex;
   flex-direction: row;
@@ -278,6 +256,8 @@ const BottomDisplay = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  margin-top: var(--sp-1);
 `;
 
 const LoreWrapper = styled.div`
@@ -311,6 +291,31 @@ const WarningSymbol = styled.div`
   font-size: 20px;
 `;
 
+const InfoSection = styled.div`
+  display: flex;
+  align-items: center;
+
+  > * {
+    margin-right: var(--sp-2);
+    margin-left: var(--sp-2);
+  }
+`;
+
+const NewFrame = styled.div`
+  width: calc(100% + var(--frameSize));
+  height: calc(100% - 15px);
+
+  position: absolute;
+  left: calc(-0.5 * var(--frameSize));
+  top: calc(-0.1 * var(--frameSize));
+  z-index: 1;
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 15 25 15;
+  border-image-width: 25px;
+  border-image-outset: 0;
+  border-style: solid;
+`;
+
 function SectionHeader({
   title,
   link,
@@ -321,12 +326,14 @@ function SectionHeader({
   tooltip: string;
 }) {
   return (
-    <SectionDisplay>
-      <SectionName>{title}</SectionName>
+    <RuneHeader>
+      <InfoSection>
+        {title.toUpperCase()}
         <a href={link} target="_blank">
           <InfoTooltip tooltip={tooltip}/>
         </a>
-    </SectionDisplay>
+      </InfoSection>
+    </RuneHeader>
   )
 }
 
@@ -368,13 +375,6 @@ const ListingPage = ({
   ]
   
   var backgroundColor = contracts[contractSlug].display == 'Wizards' ? `${wizData[tokenId].background}` : '#000000';
-  var center = contracts[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
-    LOCATIONS[wizData[tokenId].location] : [0, 0];
-
-  if (contracts[contractSlug].display != 'Wizards' && 
-  contracts[contractSlug].display != 'Souls') {
-    center = [404, 404];
-  }
 
   useEffect(() => {
     async function run() {
@@ -478,137 +478,140 @@ const ListingPage = ({
       image={imageUrls[0]}
     >
       <PageWrapper>
-      {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
-        <ListingWrapper>
-          { modal && 
-            <Order 
-              tokenId={tokenId} 
-              contract={contractSlug} 
-              name={token.name} 
-              setModal={setModal} 
-              action={marketActionType} 
-              hash={listing.id} 
-              offerHash={offer.id} 
-              collectionWide={false}
-              trait={''}
-              traitValue={''}
-            />
-          }
-          <Listing>
-            <TopDisplay>
-              <TopLeft>
-                <TokenImage 
-                  src={imageUrls[keyImage]} 
-                  height={contracts[contractSlug].display == 'Flames' ? 456 : 400}
-                  width={400}
-                  style={{background: backgroundColor}}
-                />
-                { contracts[contractSlug].display == 'Wizards' && 
-                  <Carousel 
-                    keyImage={keyImage}
-                    setKeyImage={setKeyImage}
-                    imageUrls={imageUrls}
-                  />
-                }
-              </TopLeft>
-              <TopRight
-                style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
-              >
-                <NameDisplay>
-                  <NameStyle>{token.name}</NameStyle>
-                  {token.owner && (
-                    <OwnerStyle>
-                      {`#${tokenId} - Owner: `}
-                      <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
-                    </OwnerStyle>
-                  )}
-                </NameDisplay>
-                <PriceDisplay>
-                  <Price value={listing.price} size={1} />
-                  {token.owner != BURN_ADDRESS &&
-                    <ButtonWrapper>
-                      <MarketButtons
-                        account={account}
-                        owner={contracts[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
-                        listValue={listing.price}
-                        hasOffer={offer.value != null}
-                        setModal={setModal}
-                        setActionType={setMarketActionType}
-                        highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                        native={listing.source.name == 'Forgotten Market'}
-                        tokenType={contracts[contractSlug].display == 'Flames' ? 1155 : 721}
-                        myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
-                      />
-                    </ButtonWrapper>
-                  }
-                  {listing.validUntil && 
-                    <ListingExpiration
-                      timer={countdownTimer}
-                      date={new Date(listing.validUntil * 1000)}
-                      source={listing.source.id}
-                    />
-                  }
-                  {offer.value ? 
-                    <OfferDisplay 
-                      value={offer.value}
-                      maker={offer.maker}
-                      account={account ?? ''}
-                      ens={ownerEns ?? ''}
-                    /> :
-                    null
-                  }
-                  { isBanned && 
-                    <WarningWrapper>
-                      <WarningSymbol style={{marginRight: '10px'}}>⚠</WarningSymbol> 
-                      Reported as stolen on OpenSea 
-                      <WarningSymbol style={{marginLeft: '10px'}}>⚠</WarningSymbol> 
-                    </WarningWrapper> 
-                  }
-                </PriceDisplay>
-              </TopRight>
-            </TopDisplay>
-            <HorizontalLine/>
-            <SectionWrapper>
-              <SectionHeader 
-                title={'Traits'}
-                link={'https://www.youtube.com/watch?v=GmL4WBj-36o'}
-                tooltip={`Attributes and affinity that define this ${contracts[contractSlug].singular.toLowerCase()}, encoded on-chain`}
+        <RuneHeader>
+          {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
+        </RuneHeader>
+        {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
+          <ListingWrapper>
+            { modal && 
+              <Order 
+                tokenId={tokenId} 
+                contract={contractSlug} 
+                name={token.name} 
+                setModal={setModal} 
+                action={marketActionType} 
+                hash={listing.id} 
+                offerHash={offer.id} 
+                collectionWide={false}
+                trait={''}
+                traitValue={''}
               />
-              <MidDisplay>
-                <TraitDisplay attributes={attributes} fullAttributes={fullAttributes} contract={contractSlug} tokenId={tokenId} />
-                <DynamicMap center={center} />
-              </MidDisplay>
-            </SectionWrapper>
-            {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
-            {contracts[contractSlug].display != 'Flames' && 
-              <SectionWrapper>
-                <SectionDisplay>
-                  <SectionHeader
-                    title={'Lore'}
-                    link={'https://www.forgottenrunes.com/posts/lore-creation'}
-                    tooltip={`${contracts[contractSlug].singular} owners can inscribe lore for their ${contracts[contractSlug].display.toLowerCase()} on-chain`}
-                  />
-                </SectionDisplay>
-                <BottomDisplay>
-                  <LoreWrapper>
-                    <LoreBlock 
-                      pages={pages} 
-                      length={lore.length} 
-                      tokenId={tokenId} 
-                      contract={contractSlug}
-                    />
-                  </LoreWrapper>
-                  <Icons tokenId={Number(tokenId)} contract={contractSlug} />
-                </BottomDisplay>
-              </SectionWrapper>
             }
-            <BottomLine/>
-          </Listing>
-        </ListingWrapper> :
-        <ListingWrapper>
-          <LoadingCard height={'80vh'}/>
-        </ListingWrapper>
-      }
+            <Listing>
+              <TopDisplay>
+                <TopLeft>
+                  <div>
+                  <TokenImage 
+                    src={imageUrls[keyImage]} 
+                    height={contracts[contractSlug].display == 'Flames' ? 456 : 400}
+                    width={400}
+                    style={{background: backgroundColor}}
+                  />
+                  <NewFrame/>
+                  </div>
+                  { contracts[contractSlug].display == 'Wizards' && 
+                    <Carousel 
+                      keyImage={keyImage}
+                      setKeyImage={setKeyImage}
+                      imageUrls={imageUrls}
+                    />
+                  }
+                </TopLeft>
+                <TopRight
+                  style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
+                >
+                  <NameDisplay>
+                    <NameStyle className='alagard'>{token.name}</NameStyle>
+                    {token.owner && (
+                      <OwnerStyle>
+                        {`Owner: `}
+                        <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
+                      </OwnerStyle>
+                    )}
+                  </NameDisplay>
+                  <PriceDisplay>
+                    <Price value={listing.price} size={1} />
+                    {token.owner != BURN_ADDRESS &&
+                      <ButtonWrapper>
+                        <MarketButtons
+                          account={account}
+                          owner={contracts[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
+                          listValue={listing.price}
+                          hasOffer={offer.value != null}
+                          setModal={setModal}
+                          setActionType={setMarketActionType}
+                          highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
+                          native={listing.source.name == 'Forgotten Market'}
+                          tokenType={contracts[contractSlug].display == 'Flames' ? 1155 : 721}
+                          myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
+                        />
+                      </ButtonWrapper>
+                    }
+                    {listing.validUntil && 
+                      <ListingExpiration
+                        timer={countdownTimer}
+                        date={new Date(listing.validUntil * 1000)}
+                        source={listing.source.id}
+                      />
+                    }
+                    {offer.value ? 
+                      <OfferDisplay 
+                        value={offer.value}
+                        maker={offer.maker}
+                        account={account ?? ''}
+                        ens={ownerEns ?? ''}
+                      /> :
+                      null
+                    }
+                    { isBanned && 
+                      <WarningWrapper>
+                        <WarningSymbol style={{marginRight: '10px'}}>⚠</WarningSymbol> 
+                        Reported as stolen on OpenSea 
+                        <WarningSymbol style={{marginLeft: '10px'}}>⚠</WarningSymbol> 
+                      </WarningWrapper> 
+                    }
+                  </PriceDisplay>
+                </TopRight>
+              </TopDisplay>
+              <HorizontalLine/>
+              <SectionWrapper>
+                <SectionHeader 
+                  title={'Traits'}
+                  link={'https://www.youtube.com/watch?v=GmL4WBj-36o'}
+                  tooltip={`Attributes and affinity that define this ${contracts[contractSlug].singular.toLowerCase()}, encoded on-chain`}
+                />
+                <MidDisplay>
+                  <TraitDisplay attributes={attributes} fullAttributes={fullAttributes} contract={contractSlug} tokenId={tokenId} />
+                </MidDisplay>
+              </SectionWrapper>
+              {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
+              {contracts[contractSlug].display != 'Flames' && 
+                <SectionWrapper>
+                    <SectionHeader
+                      title={'Lore'}
+                      link={'https://www.forgottenrunes.com/posts/lore-creation'}
+                      tooltip={`${contracts[contractSlug].singular} owners can inscribe lore for their ${contracts[contractSlug].display.toLowerCase()} on-chain`}
+                    />
+                  <BottomDisplay>
+                    <LoreWrapper>
+                      <LoreBlock 
+                        pages={pages} 
+                        length={lore.length} 
+                        tokenId={tokenId} 
+                        contract={contractSlug}
+                      />
+                    </LoreWrapper>
+                    <Icons tokenId={Number(tokenId)} contract={contractSlug} />
+                  </BottomDisplay>
+                </SectionWrapper>
+              }
+              <BottomLine/>
+            </Listing>
+          </ListingWrapper> :
+          <ListingWrapper>
+            <LoadingCard height={'80vh'}/>
+          </ListingWrapper>
+        }
       </PageWrapper>
     </Layout>
   );

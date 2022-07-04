@@ -10,24 +10,28 @@ height: 15px;
 }
 `;
 
+const FlexDisplay = styled.div`
+  display: flex;
+`;
+
 export default function InfoTooltip({
   tooltip
 }: {
   tooltip: string;
 }) {
   return (
-    <div>
-    <InfoImage 
-      src='/static/img/marketplace/info.png'
-      onMouseOver={(e) =>
-        (e.currentTarget.src = '/static/img/marketplace/info_hover.png')
-      }
-      onMouseOut={(e) =>
-        (e.currentTarget.src = '/static/img/marketplace/info.png')
-      }
-      data-tip={tooltip} 
-    />
-    <ReactTooltip/>
-    </div>
+    <FlexDisplay>
+      <InfoImage 
+        src='/static/img/marketplace/info.png'
+        onMouseOver={(e) =>
+          (e.currentTarget.src = '/static/img/marketplace/info_hover.png')
+        }
+        onMouseOut={(e) =>
+          (e.currentTarget.src = '/static/img/marketplace/info.png')
+        }
+        data-tip={tooltip} 
+      />
+      <ReactTooltip/>
+    </FlexDisplay>
   );
 }

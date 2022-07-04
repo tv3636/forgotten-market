@@ -8,7 +8,7 @@ import { getTrait, getTraitValue, getURLAttributes, isTraitOffer, LoadingCard, t
 import Layout from "../components/Marketplace/NewLayout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
-import Sidebar, { CollectionContainer, RuneHeader } from "../components/Marketplace/NewSidebar";
+import Sidebar, { CollectionContainer } from "../components/Marketplace/NewSidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../components/Marketplace/TokenDisplay";
 import Image from 'next/image';
@@ -19,6 +19,7 @@ import CollectionOfferButton from "../components/Marketplace/CollectionOfferButt
 import { MainMenu } from "../components/Marketplace/NewSiteNav";
 import MobileOverlay from "../components/Marketplace/MobileOverlay";
 import Activity from "../components/Marketplace/Activity";
+import RuneHeader from "../components/Marketplace/RuneHeader";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -275,10 +276,10 @@ export default function Marketplace({
         />
       </Main>
       <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
-        <RuneHeader text={'NAVIGATION'} />
+        <RuneHeader>NAVIGATION</RuneHeader>
         <MainMenu className="mobile"/>
         <CollectionContainer activity={showActivity} />
-        <RuneHeader text={'FILTER'} />
+        <RuneHeader>FILTER</RuneHeader>
         <CollectionOfferButton setShowModal={setShowModal} />
         <Filters
           contract={contract} 
