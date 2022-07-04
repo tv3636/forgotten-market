@@ -6,7 +6,7 @@ import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../components/Lore/markdownUtils";
 import {
-  Icons, LoadingCard, numShorten
+  Icons, LoadingCard
 } from "../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
@@ -19,13 +19,12 @@ import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Order from "../../components/Marketplace/Order";
-import Price from "../../components/Marketplace/Price";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
 import MarketButtons from "../../components/Marketplace/MarketButtons";
 import TraitDisplay from "../../components/Marketplace/TraitDisplay";
 import { ListingExpiration } from "../../components/Marketplace/ListingExpiration";
 import Carousel from "../../components/Marketplace/MarketCarousel";
-import OfferDisplay, { Owner } from "../../components/Marketplace/OfferDisplay";
+import { Owner } from "../../components/Marketplace/OfferDisplay";
 import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
 import RuneHeader from "../../components/Marketplace/RuneHeader";
 import wizards from "../../data/wizards.json";

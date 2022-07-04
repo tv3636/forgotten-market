@@ -4,44 +4,43 @@ import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
 import { BURN_TRAITS, COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 
-const TraitItem = styled.div`
-  text-align: start;
-  margin-left: 14px;
-  margin-right: 10px;
-  font-size: 24px;
-  font-family: Alagard;
-`;
-
 const TraitRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 50px;
-  align-items: center;
-  
-  font-family: Roboto Mono;
-  background: var(--darkGray);
   color: var(--lightGray);
-  border: 2px dashed var(--mediumGray);
-  border-radius: 4px;
+  border-image: url("/static/img/trait_background.png");
+  border-style: solid;
+  border-width: var(--sp-1);
+  border-image-slice: 15 20;
 
-  margin: var(--sp-4);
-  padding: var(--sp1) var(--sp0);
+  background-color: var(--frameGray);
+
+  margin: var(--sp-3);
+  padding-top: calc(var(--sp0) + 2px);
+  padding-bottom: calc(var(--sp0) + 2px);
 
   :hover {
     cursor: pointer;
-    background: var(--mediumGray);
-    border-color: var(--lightGray);
   }
 
   transition: all 100ms;
 `;
 
+const TraitItem = styled.div`
+  font-size: var(--sp1);
+  font-family: Alagard;
+  color: var(--white);
+  
+  margin-right: var(--sp-2);
+`;
+
 const TraitType = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  font-size: 12px;
-  margin-right: 12px;
+  
+  font-size: var(--sp-1);
+  color: var(--beige);
+  
+
+  margin-bottom: var(--sp-4);
 `;
 
 const TraitWrapper = styled.div`
@@ -55,6 +54,20 @@ const TraitWrapper = styled.div`
     justify-content: center;
     padding: 20px;
   }
+`;
+
+const TraitContent = styled.div`
+  padding-left: var(--sp0);
+  padding-right: var(--sp0);
+
+  margin-top: -18px;
+`;
+
+const TraitValues = styled.div`
+  display: flex;
+  flex-direction: row;
+  
+  align-items: center;
 `;
 
 export default function TraitDisplay({ 
@@ -105,15 +118,19 @@ export default function TraitDisplay({
                     <TraitRow
                       style={{height: contracts[contract].display == 'Flames' ? 'auto' : '50px'}}
                     >
-                      <TraitType>{attribute.key}</TraitType>
-                      <TraitItem>{attribute.value}</TraitItem>
-                      <TraitType style={{marginRight: '0'}}>
-                        {
-                          traits[attribute.key] && contracts[contract].display != 'Flames' &&
-                          `(${((traits[attribute.key][attribute.value] / maxCount) * 100)
-                            .toPrecision(traits[attribute.key][attribute.value] == maxCount ? 3 : 2)}%)`
-                        }
-                      </TraitType>
+                      <TraitContent>
+                        <TraitType>{attribute.key.toUpperCase()}</TraitType>
+                        <TraitValues>
+                          <TraitItem>{attribute.value}</TraitItem>
+                          <TraitType style={{marginRight: '0'}}>
+                            {
+                              traits[attribute.key] && contracts[contract].display != 'Flames' &&
+                              `(${((traits[attribute.key][attribute.value] / maxCount) * 100)
+                                .toPrecision(traits[attribute.key][attribute.value] == maxCount ? 3 : 2)}%)`
+                            }
+                          </TraitType>
+                        </TraitValues>
+                      </TraitContent>
                     </TraitRow>
                   </SoftLink>
                 </Link>

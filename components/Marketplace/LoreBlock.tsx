@@ -77,7 +77,7 @@ export default function LoreBlock({
   } else if (length > 0) {
     return (
       <LoreContainer>
-        <LoadingCard height={'auto'}/>
+        <LoadingCard height={'40vh'}/>
       </LoreContainer>
     )
   } else {

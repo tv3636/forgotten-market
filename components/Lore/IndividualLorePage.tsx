@@ -36,6 +36,9 @@ const loreTextStyles = css`
 
   h1 {
     font-size: 32px;
+    font-family: Alagard;
+
+    margin-bottom: var(--sp-3);
   }
   h2 {
     font-size: 24px;
