@@ -14,8 +14,8 @@ const TraitRow = styled.div`
   background-color: var(--frameGray);
 
   margin: var(--sp-3);
-  padding-top: calc(var(--sp0) + 2px);
-  padding-bottom: calc(var(--sp0) + 2px);
+  padding-top: var(--sp0);
+  padding-bottom: var(--sp0);
 
   :hover {
     cursor: pointer;

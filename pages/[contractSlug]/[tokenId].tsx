@@ -275,10 +275,13 @@ const LoreWrapper = styled.div`
 const WarningWrapper = styled.div`
   text-align: left;
   font-size: 14px;
-  font-family: Roboto Mono;
+  font-family: Terminal;
+  text-transform: uppercase;
   color: red;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+
+  margin-top: var(--sp-3);
   
   @media only screen and (max-width: 600px) {
     justify-content: center;

@@ -16,7 +16,7 @@ const Arrows = styled.div`
 
   box-shadow: 0px 2px  var(--midGray);
 
-  z-index: 20;
+  z-index: 5;
 
   @media only screen and (max-width: 600px) {
     width: 100%;

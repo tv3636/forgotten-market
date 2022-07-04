@@ -64,6 +64,10 @@ div#WEB3_CONNECT_MODAL_ID .web3modal-modal-card {
   border-radius: 2px !important;
 }
 
+.web3modal-modal-card {
+  z-index: 20;
+}
+
 html {
   line-height: 1.15;
   /* 1 */
