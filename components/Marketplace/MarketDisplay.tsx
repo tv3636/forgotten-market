@@ -45,10 +45,12 @@ export default function MarketDisplay({
   price,
   bid,
   lastPrice,
+  lastSaleWeth,
 }:{
   price: string,
   bid: string,
   lastPrice: string,
+  lastSaleWeth: boolean;
 }) {
   return (
     <StatsWrapper>
@@ -68,7 +70,7 @@ export default function MarketDisplay({
     </StatsItem>
     <StatsItem>
       <Price>
-        { lastPrice && <EthSymbol weth={false}/> }
+        { lastPrice && <EthSymbol weth={lastSaleWeth}/> }
         <h1>{lastPrice ? lastPrice : '-'}</h1>
       </Price>
       <div>LAST SALE</div>

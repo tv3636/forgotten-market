@@ -3,7 +3,7 @@ import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
 import { BigNumber, constants, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
+import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
 import executeSteps, { 
   calculateOffer, 
   getWeth,
@@ -285,6 +285,8 @@ function OrderContent({
   const [ethBalance, setEthBalance] = useState<any>(null);
   const url = new URL(OrderURLs[action], API_BASE_URL);
 
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+
   if (chainId != library?.network.chainId) {
     if (library?.network.chainId) {
       return (
@@ -403,7 +405,7 @@ function OrderContent({
       )
 
       if (weth?.balance && ethBalance) {
-        const calculations = calculateOffer(userInput, ethBalance, weth.balance, Number(CONTRACTS[contract].fee));
+        const calculations = calculateOffer(userInput, ethBalance, weth.balance, Number(contracts[contract].fee));
         setCalculations(calculations)
       }
     }
@@ -421,8 +423,8 @@ function OrderContent({
         calculations.total.toString(),
       expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
       automatedRoyalties: false,
-      fee: CONTRACTS[contract].fee,
-      feeRecipient: CONTRACTS[contract].feeRecipient,
+      fee: contracts[contract].fee,
+      feeRecipient: contracts[contract].feeRecipient,
       source: 'Forgotten Market'
     }
 
@@ -496,9 +498,9 @@ function OrderContent({
     return description
   }
 
-  var imageUrl = CONTRACTS[contract].display == 'Wizards' ? 
-    CONTRACTS[contract].image_url + tokenId + '/' + tokenId + '.png' : 
-    CONTRACTS[contract].image_url + tokenId + ".png";
+  var imageUrl = contracts[contract].display == 'Wizards' ? 
+    contracts[contract].image_url + tokenId + '/' + tokenId + '.png' : 
+    contracts[contract].image_url + tokenId + ".png";
 
   if (!step) {
     if (action == ORDER_TYPE.OFFER || action == ORDER_TYPE.SELL) {
@@ -525,7 +527,7 @@ function OrderContent({
             amount={
               action == ORDER_TYPE.OFFER ?
                 ethers.utils.formatEther(calculations.total) :
-                (Number(price) - Number(price) * (Number(CONTRACTS[contract].fee) / 10000)).toString()
+                (Number(price) - Number(price) * (Number(contracts[contract].fee) / 10000)).toString()
             }
             tooltip={
               action == ORDER_TYPE.OFFER ?

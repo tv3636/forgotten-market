@@ -87,6 +87,7 @@ const TopDisplay = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 
   margin-top: var(--sp-1);
 
@@ -498,7 +499,12 @@ const ListingPage = ({
                     )}
                   </NameDisplay>
                   <PriceDisplay>
-                    <MarketDisplay price={listing.price} bid={offer.value} lastPrice={token.lastBuy.value?.toPrecision(3)} />
+                    <MarketDisplay 
+                      price={listing.price} 
+                      bid={offer.value} 
+                      lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp ? token.lastBuy.value?.toPrecision(3) : token.lastSell.value?.toPrecision(3) }
+                      lastSaleWeth={ token.lastBuy.timestamp > token.lastSell.timestamp }
+                    />
                     {token.owner != BURN_ADDRESS &&
                       <ButtonWrapper>
                         <MarketButtons
