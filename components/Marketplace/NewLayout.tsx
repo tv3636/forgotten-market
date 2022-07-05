@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: 1800px;
-  max-width: 90%;
+  max-width: 100%;
 `;
 
 type Props = {
