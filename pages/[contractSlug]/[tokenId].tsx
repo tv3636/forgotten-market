@@ -296,18 +296,22 @@ const WarningSymbol = styled.div`
 `;
 
 const NewFrame = styled.div`
-  width: calc(100% + var(--frameSize));
+
+  --frameSize: 36px;
+  width: calc(100% + 0.85 * var(--frameSize));
   height: calc(100% - 15px);
 
   position: absolute;
-  left: calc(-0.5 * var(--frameSize));
+  left: calc(-0.425 * var(--frameSize));
   top: calc(-0.1 * var(--frameSize));
   z-index: 1;
   border-image-source: url(/static/img/newframe_black.png);
-  border-image-slice: 15 25 15;
-  border-image-width: 25px;
+  border-image-slice: 35 50;
+  border-image-width: var(--frameSize);
   border-image-outset: 0;
   border-style: solid;
+  border-image-repeat: round;
+  image-rendering: pixelated;
 `;
 
 const ListingPage = ({

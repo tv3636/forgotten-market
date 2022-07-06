@@ -254,10 +254,11 @@ const NewFrame = styled.div`
   top: calc(-0.1 * var(--frameSize));
   z-index: 1;
   border-image-source: url(/static/img/newframe_black.png);
-  border-image-slice: 30 35 30;
+  border-image-slice: 30 35;
   border-image-width: var(--frameSize);
   border-image-outset: 0;
   border-style: solid;
+  border-image-repeat: round;
 `;
 
 const BottomScrim = styled.div`
