@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 
 const Container = styled.div`
   width: 1800px;
+  margin: 0 auto;
   
   max-width: 100%;
 
