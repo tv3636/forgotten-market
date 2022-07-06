@@ -12,12 +12,10 @@ const HeaderWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  position: sticky;
-
   margin-left: var(--sp3);
   margin-right: var(--sp3);
   margin-top: var(--sp1);
-
+  
   @media only screen and (max-width: 1250px) {
     margin-top: var(--sp0);
     margin-bottom: 0;
