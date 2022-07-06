@@ -13,7 +13,7 @@ const StatsWrapper = styled.div`
   text-align: center;
 
   margin-left: calc(-1 * var(--sp-1));
-  margin-bottom: -5px;
+  margin-bottom: 0px;
 
   @media only screen and (max-width: 600px) {
     justify-content: center;

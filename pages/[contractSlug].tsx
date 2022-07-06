@@ -54,6 +54,7 @@ const Main = styled.div`
   }
 `;
 
+
 const MidContainer = styled.div`
   width: 1250px;
 
@@ -87,7 +88,8 @@ const ScrollContainer = styled.div`
 const BottomScrim = styled.div`
   position: absolute;
   z-index: 10;
-  bottom: -5px;
+  bottom: 0px;
+  padding: 0;
 `;
 
 const TopScrim = styled(BottomScrim)`
@@ -271,9 +273,9 @@ export default function Marketplace({
                 <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' layout='responsive' />
               </TopScrim>
             </InfiniteWrapper>
-            <BottomScrim>
-              <Image src='/static/img/scrim.png' height='150px' width='1155px' />
-            </BottomScrim>
+            <div className="scrim">
+              
+            </div>
         </MidContainer> 
         <RightBar  
           contract={contract} 

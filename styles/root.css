@@ -64,6 +64,16 @@ div#WEB3_CONNECT_MODAL_ID .web3modal-modal-card {
   border-radius: 2px !important;
 }
 
+.scrim {
+  
+  position: absolute;
+  bottom: 0;
+  width: 1200px;
+  height: 100px;
+  z-index:  10;
+  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0, 1));
+}
+
 .web3modal-modal-lightbox {
   z-index: 20;
 }
