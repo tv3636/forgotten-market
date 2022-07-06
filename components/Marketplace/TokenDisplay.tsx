@@ -53,11 +53,9 @@ const NewFrame = styled.div`
 `;
 
 const ListingImage = styled.img`
-  min-width: 200px;
-  min-height: 200px;
-  max-height: 50vw;
-  max-width: 50vw;
-
+  width: 200px;
+  height: 200px;
+  
   padding: var(--sp1);
   z-index: 2;
 
@@ -68,12 +66,6 @@ const ListingImage = styled.img`
   @media only screen and (max-width: 600px) {
     width: 140px;
     height: 140px;
-
-    min-width: 140px;
-    max-width: 140px;
-
-    min-height: 140px;
-    max-height: 140px;
 
     border-width: 1.5px;
   }
