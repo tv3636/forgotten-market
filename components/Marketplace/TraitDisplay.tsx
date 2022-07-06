@@ -62,7 +62,7 @@ const TraitValues = styled.div`
   display: flex;
   flex-direction: row;
   
-  align-items: center;
+  align-items: flex-end;
 `;
 
 export default function TraitDisplay({ 

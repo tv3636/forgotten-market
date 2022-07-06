@@ -125,12 +125,6 @@ const Row = styled.tr`
 
 `;
 
-const DoubleHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const BorderRight = styled.td`
   border-left: 0px;
   border-top: 0px;
