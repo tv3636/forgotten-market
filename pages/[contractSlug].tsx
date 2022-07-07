@@ -35,10 +35,11 @@ const MidHeader = styled.div`
   top: var(--sp0);
 
   transform: translate(-50%, 0);
-  z-index: 9999;
+  z-index: 11;
 
   @media only screen and (max-width: 1250px) { 
-    margin-top: 0;
+    position: relative;
+    top: auto;
   }
 `;
 
@@ -72,6 +73,10 @@ const InfiniteWrapper = styled.div`
   position: relative;
   margin-top: var(--sp3);
   height: calc(100% - var(--sp3));
+
+  @media only screen and (max-width: 1250px) { 
+    margin-top: 0;
+  }
 `;
 
 const ScrollContainer = styled.div`
