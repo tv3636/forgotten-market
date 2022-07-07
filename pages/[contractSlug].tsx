@@ -30,7 +30,12 @@ const MidHeader = styled.div`
   align-items: center;
   justify-content: center;
 
-  margin-top: -8ch;
+  position: fixed;
+  left: 50%; 
+  top: var(--sp0);
+
+  transform: translate(-50%, 0);
+  z-index: 9999;
 
   @media only screen and (max-width: 1250px) { 
     margin-top: 0;
@@ -41,7 +46,9 @@ const Main = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
+  max-height: 100%;
+  height: 100%;
+  
   @media only screen and (max-width: 1250px) { 
     justify-content: center;
   }
@@ -49,10 +56,10 @@ const Main = styled.div`
 
 const MidContainer = styled.div`
   width: 1250px;
-  max-width: 70%;
 
   padding-left: var(--sp0);
   padding-right: var(--sp0);
+
 
   @media only screen and (max-width: 1250px) { 
     max-width: 100%;
@@ -62,6 +69,8 @@ const MidContainer = styled.div`
 
 const InfiniteWrapper = styled.div`
   position: relative;
+  margin-top: var(--sp3);
+  height: calc(100% - var(--sp3));
 `;
 
 const ScrollContainer = styled.div`
@@ -223,8 +232,8 @@ export default function Marketplace({
                     next={() => fetchListings(false)}
                     hasMore={true}
                     loader={null}
-                    scrollThreshold={0.3}
                     height={"100vh"}
+                    scrollThreshold={0.3}
                     endMessage={
                       <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
                     }
@@ -265,7 +274,7 @@ export default function Marketplace({
             <BottomScrim>
               <Image src='/static/img/scrim.png' height='150px' width='1155px' />
             </BottomScrim>
-        </MidContainer>
+        </MidContainer> 
         <RightBar  
           contract={contract} 
           loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 

@@ -3,16 +3,21 @@ import { ReactNode } from "react";
 import SiteNav from "./NewSiteNav";
 import styled from "@emotion/styled";
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const Container = styled.div`
   width: 1800px;
+  margin: 0 auto;
+  
   max-width: 100%;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
+const MainWrapper = styled.div`
+  flex: 1;
+  overflow: hidden;
+`
 type Props = {
   children?: ReactNode;
   description?: string;
@@ -28,7 +33,6 @@ const Layout = ({
   title = "Forgotten Market",
   setBurgerActive = () => {},
 }: Props) => (
-  <Wrapper>
     <Container>
       <Head>
         <title>{title}</title>
@@ -80,9 +84,10 @@ const Layout = ({
         {/* <meta property="og:image" content="image.png" /> */}
       </Head>
       <SiteNav setBurgerActive={setBurgerActive} />
-      {children}
+      <MainWrapper>
+        {children}
+      </MainWrapper>
     </Container>
-  </Wrapper>
 );
 
 export default Layout;

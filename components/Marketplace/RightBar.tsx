@@ -3,20 +3,25 @@ import CollectionOfferButton from "./CollectionOfferButton";
 import Filters from "./Filters";
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  overflow: scroll;
 
   margin-right: var(--sp3);
   margin-top: var(--sp1);
-  margin-bottom: 200px;
+  height: calc(100% - var(--sp1));
+  max-height: calc(100% - var(--sp1));
+
+  padding-bottom: var(--sp0);
 
   max-width: var(--sidebar);
-  min-width: var(--sidebar);;
+  min-width: var(--sidebar);
+  overflow: scroll;
 
   ::-webkit-scrollbar {
     display: none;
   }
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp0);
 `;
 
 export default function RightBar({

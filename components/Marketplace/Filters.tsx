@@ -8,15 +8,6 @@ import { useState, useEffect } from "react";
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
 
-const FormWrapper = styled.div`
-  max-height: 5ex;
-  margin-top: 18.3984px;
-
-  > * {
-    margin-bottom: var(--sp0);
-  }
-`;
-
 const Filter = styled.div`
   display: flex;
   justify-content: space-between;
@@ -32,6 +23,10 @@ const Filter = styled.div`
 
   transition: all 200ms;
 `;
+
+const TraitExpander = styled.div`
+  display: none;
+`
 
 const Form = styled.form`
   display: flex;
@@ -92,19 +87,12 @@ export default function Filters({
   }, [expanded]);
 
   return (
-    <FormWrapper>
+    <>
       <Filter onClick={() => setExpanded(!expanded)}>
         FILTER BY TRAIT
         <div>{ expanded ? <img src='/static/img/marketplace/down_arrow.png' height='12px' width='20px'/> : `>`}</div>
       </Filter>
-      <div 
-      style={{
-        maxHeight: expanded ? '200vh' : '0px', 
-        marginBottom: expanded ? 'var(--sp2)' : '0',
-        transition: expanded ? 'max-height 1000ms' : 'max-height 300ms',
-        overflow: overflow,
-      }}
-    >
+      <TraitExpander style={{display: expanded ? 'block': 'none'}}>
       {traits.map((trait: any, index) => (
         <div key={index} style={{ marginBottom: 'var(--sp0)' }}>
           <Select
@@ -117,7 +105,7 @@ export default function Filters({
           />
         </div>
       ))}
-    </div>
+    </TraitExpander>
       <Form>
         <label>
           <input type='checkbox' onClick={loreChange} /> HAS LORE
@@ -137,6 +125,6 @@ export default function Filters({
           <input type='radio' name='source' onClick={() => setSource('')} checked={!router.query['source']}/> SHOW ALL
         </label>            
       </Form>
-    </FormWrapper>
+    </>
   )
 }
