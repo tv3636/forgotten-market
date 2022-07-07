@@ -74,7 +74,7 @@ div#WEB3_CONNECT_MODAL_ID .web3modal-modal-card {
 }
 
 .web3modal-modal-lightbox {
-  z-index: 20;
+  z-index: 20 !important;
 }
 
 html, body, #__next {

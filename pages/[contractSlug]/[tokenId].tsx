@@ -59,6 +59,11 @@ const PageWrapper = styled.div`
     display: none;
   }
 
+  @media only screen and (max-width: 600px) {
+    margin-top: var(--sp1);
+    max-height: 80vh;
+  }
+
 `;
 
 const ListingWrapper = styled.div`
@@ -130,11 +135,12 @@ const TopRight = styled.div`
   display: flex;
   flex-wrap: wrap;
   text-align: center;
+
   @media only screen and (max-width: 600px) {
     margin-left: 0px;
     justify-content: center;
     max-width: 80%;
-    height: auto;
+    height: auto !important;
   }
 `;
 
@@ -147,11 +153,18 @@ const SectionWrapper = styled.div`
   align-items: center;
 `;
 
+const ImageWrapper = styled.div`
+  @media only screen and (max-width: 600px) {
+    position: relative;
+  }
+`;
+
 const TokenImage = styled.img`
   padding: var(--sp1);
+  width: 400px;
+  height: 400px;
 
   @media only screen and (max-width: 600px) {
-    border: 4px solid var(--darkGray);
     max-width: 300px;
     max-height: 300px;
   }
@@ -176,7 +189,9 @@ const NameStyle = styled.h1`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
-    font-size: 25px;
+    font-size: var(--sp2);
+
+    margin-top: var(--sp-3);
   }
 `;
 
@@ -191,7 +206,7 @@ const OwnerStyle = styled.h4`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
-    margin-top: 2vh;
+    margin-top: var(--sp1);
   }
 `;
 
@@ -199,10 +214,6 @@ const PriceDisplay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  @media only screen and (max-width: 600px) {
-    align-self: flex-start;
-    margin-top: 4vh;
-  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -227,6 +238,9 @@ const HorizontalLine = styled.hr`
 
   @media only screen and (max-width: 600px) {
     width: 90%;
+
+    margin-top: 0;
+    margin-bottom: 0;
   }
 `;
 
@@ -296,7 +310,6 @@ const WarningSymbol = styled.div`
 `;
 
 const NewFrame = styled.div`
-
   --frameSize: 36px;
   width: calc(100% + 0.85 * var(--frameSize));
   height: calc(100% - 15px);
@@ -312,6 +325,12 @@ const NewFrame = styled.div`
   border-style: solid;
   border-image-repeat: round;
   image-rendering: pixelated;
+
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    left: 0;
+  }
 `;
 
 const ListingPage = ({
@@ -478,15 +497,13 @@ const ListingPage = ({
             <Listing>
               <TopDisplay>
                 <TopLeft>
-                  <div>
-                  <TokenImage 
-                    src={imageUrls[keyImage]} 
-                    height={contracts[contractSlug].display == 'Flames' ? 456 : 400}
-                    width={400}
-                    style={{background: backgroundColor}}
-                  />
-                  <NewFrame/>
-                  </div>
+                  <ImageWrapper>
+                    <TokenImage 
+                      src={imageUrls[keyImage]} 
+                      style={{background: backgroundColor}}
+                    />
+                    <NewFrame/>
+                  </ImageWrapper>
                   { contracts[contractSlug].display == 'Wizards' && 
                     <Carousel 
                       keyImage={keyImage}

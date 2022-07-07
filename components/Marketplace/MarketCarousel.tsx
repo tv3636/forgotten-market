@@ -19,12 +19,16 @@ const Arrows = styled.div`
   z-index: 5;
 
   @media only screen and (max-width: 600px) {
-    width: 100%;
+    width: 105%;
     height: 100%;
     top: auto;
     opacity: 50%;
     margin-left: 0px;
     margin-right: 0px;
+
+    background-color: transparent;
+    border-style: none;
+    box-shadow: none;
   }
 
   transition: all 200ms;
