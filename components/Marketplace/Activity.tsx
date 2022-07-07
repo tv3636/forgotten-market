@@ -261,13 +261,6 @@ const NewFrame = styled.div`
   border-image-repeat: round;
 `;
 
-const BottomScrim = styled.div`
-  position: absolute;
-  z-index: 10;
-  bottom: -5px;
-  max-width: 1050px;
-`;
-
 
 function BuyerSeller({ 
   buyer, 
@@ -400,9 +393,8 @@ export default function Activity({
             );
           })
           }
-          <BottomScrim>
-            <Image src='/static/img/scrim.png' height='150px' width='1155px' />
-          </BottomScrim>
+          <div className="scrim">
+          </div>
           </ScrollContainer> :
           <LoadingCard height={'80vh'}/>
         }
