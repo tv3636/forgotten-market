@@ -57,8 +57,11 @@ const LogoContainer = styled.div`
 `;
 
 const Burger = styled.div`
-  width: 25px;
-  height: 25px;
+  --scale: 0.9;
+  width: calc(33.75px * var(--scale));
+  height: calc(18.75px * var(--scale));
+
+  margin-bottom: var(--sp-1);
 `;
 
 export function MainMenu({

@@ -58,10 +58,10 @@ const Main = styled.div`
 
 const MidContainer = styled.div`
   width: 1250px;
+  position: relative;
 
   padding-left: var(--sp0);
   padding-right: var(--sp0);
-
 
   @media only screen and (max-width: 1250px) { 
     max-width: 100%;

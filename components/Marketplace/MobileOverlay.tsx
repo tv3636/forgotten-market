@@ -14,7 +14,7 @@ const MobileMenu = styled.div`
   height: 100%;
   width: 100%;
 
-  z-index: 10;
+  z-index: 11;
   background-color: var(--darkGray);
   opacity: .99;
 

@@ -8,7 +8,6 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
 import router from "next/router";
-import Image from 'next/image';
 
 TimeAgo.addDefaultLocale(en);
 const headers: HeadersInit = new Headers();
@@ -175,11 +174,6 @@ const ActivityRow = styled.div`
 
   padding: var(--sp0);
   margin: var(--sp-2);
-
-  @media only screen and (max-width: 1250px) {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
 `;
 
 const ActivityWrapper = styled.div`
@@ -195,7 +189,9 @@ const MobileWrapper = styled.div`
 
   @media only screen and (max-width: 1250px) {
     height: 75px;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 
