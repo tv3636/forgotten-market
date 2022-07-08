@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from 'next/image';
 import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
-import { numShorten } from "./marketplaceHelpers";
+import AnimatedNumber from "animated-number-react";
 
 const Price = styled.div`
   display: flex;
@@ -21,7 +21,10 @@ const StatsItem = styled.div`
   justify-content: center;
   text-align: center;
 
-  padding: var(--sp-1);
+  width: 10ch;
+
+  padding-top: var(--sp-1);
+  padding-bottom: var(--sp-1);
 `;
 
 function EthSymbol({
@@ -52,24 +55,50 @@ export default function CollectionStats({
   contract: string;
 }) {
   let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let animationDuration = 500;
 
   return (
     <StatsWrapper>
       <StatsItem>
-        <h1>{numShorten(items)}</h1>
+        <h1>
+          <AnimatedNumber 
+            value={items}
+            formatValue={(value: number) => value > 1000 ? (value / 1000).toPrecision(2) : value.toFixed(0)}
+            duration={animationDuration}
+          />
+          {items > 1000 && `k`}
+        </h1>
         <div>{items == 1 ? contracts[contract].singular.toUpperCase() : contracts[contract].display.toUpperCase()}</div>
       </StatsItem>
       <StatsItem>
         <Price>
           <EthSymbol weth={false}/>
-          <h1>{floor? floor : '∞'}</h1>
+          <h1>
+            {floor ? 
+              <AnimatedNumber 
+                value={floor}
+                formatValue={(value: number) => value.toPrecision(2)}
+                duration={animationDuration}
+              /> 
+              : '∞'
+            }
+          </h1>
         </Price>
         <div>FLOOR</div>
       </StatsItem>
       <StatsItem>
         <Price>
           <EthSymbol weth={true}/>
-          <h1>{bid? bid : 0}</h1>
+          <h1>
+            { bid ? 
+              <AnimatedNumber 
+                value={bid? bid : 0}
+                formatValue={(value: number) => value.toPrecision(2)}
+                duration={animationDuration}
+              /> :
+              `-`
+            }
+          </h1>
         </Price>
         <div>TOP BID</div>
       </StatsItem>

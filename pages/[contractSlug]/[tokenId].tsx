@@ -163,11 +163,9 @@ const ImageWrapper = styled.div`
 const TokenImage = styled.img`
   padding: var(--sp1);
   width: 400px;
-  height: 400px;
 
   @media only screen and (max-width: 600px) {
     max-width: 300px;
-    max-height: 300px;
   }
 `;
 
