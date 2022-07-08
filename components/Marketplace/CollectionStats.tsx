@@ -55,7 +55,7 @@ export default function CollectionStats({
   contract: string;
 }) {
   let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
-  let animationDuration = 500;
+  let animationDuration = 350;
 
   return (
     <StatsWrapper>

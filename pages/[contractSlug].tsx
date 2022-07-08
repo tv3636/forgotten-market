@@ -55,7 +55,6 @@ const Main = styled.div`
   }
 `;
 
-
 const MidContainer = styled.div`
   width: 1250px;
   position: relative;
@@ -87,7 +86,7 @@ const ScrollContainer = styled.div`
   overflow: hidden;
 
   padding-top: var(--sp-4);
-  padding-bottom: 400px;
+  padding-bottom: 250px;
 `;
 
 const BottomScrim = styled.div`
