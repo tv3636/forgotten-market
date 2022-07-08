@@ -43,7 +43,7 @@ const ActivityImage = styled.img`
 
   @media only screen and (max-width: 1250px) {
     width: 100px;
-    height: 100px;
+    height: auto;
     margin-left: 0px;
     margin-right: 10px;
   }
@@ -174,6 +174,10 @@ const ActivityRow = styled.div`
 
   padding: var(--sp0);
   margin: var(--sp-2);
+
+  @media only screen and (max-width: 1250px) {
+    padding-top: var(--sp1);
+  }
 `;
 
 const ActivityWrapper = styled.div`
@@ -341,7 +345,6 @@ export default function Activity({
                     >
                       <SoftLink>
                         <ActivityImage 
-                          style={contracts[contract].display == 'Flames' ? {height: '171px'} : {}}
                           src={contracts[contract].display == 'Wizards' ? 
                             `${contracts[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
                             `${contracts[contract].image_url}${sale.token.tokenId}.png`}

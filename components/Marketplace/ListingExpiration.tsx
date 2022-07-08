@@ -20,7 +20,7 @@ align-items: center;
   text-align: center;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 5% 5% 3% 5%;
+  margin: 4% 5% 3% 5%;
 
   font-size: 13px;
 }

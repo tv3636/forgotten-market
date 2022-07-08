@@ -99,6 +99,7 @@ const TopDisplay = styled.div`
 
   @media only screen and (max-width: 600px) {
     justify-content: center;
+    margin-bottom: var(--sp-1);
   }
 `;
 
@@ -264,6 +265,7 @@ const MidDisplay = styled.div`
 
   @media only screen and (max-width: 600px) {
     flex-wrap: wrap;
+    margin-top: 0;
   }
 `;
 
