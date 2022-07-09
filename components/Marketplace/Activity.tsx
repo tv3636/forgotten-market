@@ -96,7 +96,7 @@ const BuyerText = styled.div`
   color: var(--white);
   
   line-height: 1.5;
-  max-width: 15ch;
+  max-width: 18ch;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -170,7 +170,7 @@ const ActivityRow = styled.div`
   align-items: center;
   position: relative;
 
-  background: var(--darkGray);
+  background: #020010;
 
   padding: var(--sp0);
   margin: var(--sp-2);
@@ -182,6 +182,7 @@ const ActivityRow = styled.div`
 
 const ActivityWrapper = styled.div`
   width: 80%;
+  max-width: 800px;
 
   @media only screen and (max-width: 1250px) {
     width: 100%;
@@ -261,6 +262,17 @@ const NewFrame = styled.div`
   border-image-repeat: round;
 `;
 
+const Grain = styled.div`
+  position: absolute;
+  left: 0;
+  opacity: 35%;
+  
+  width: 100%;
+  height: 100%;
+
+  background-image: url(/static/img/marketplace/paperTxt03.png);
+`;
+
 
 function BuyerSeller({ 
   buyer, 
@@ -338,6 +350,7 @@ export default function Activity({
             return (sale && sale.token ?
               <ActivityWrapper key={index}>
                 <ActivityRow>
+                  <Grain style={{backgroundImage: `url(/static/img/marketplace/paperTxt0${(sale.token.tokenId % 4) + 1}.png)`}}/>
                   <SalesDisplay>
                     <Link
                       href={`/marketplace/${contract}/${sale.token.tokenId}`}
