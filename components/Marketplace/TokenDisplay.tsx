@@ -70,9 +70,6 @@ const ListingImage = styled.img`
     min-height: 140px;
     border-width: 1.5px;
   }
-
-  transition: border-color 100ms;
-
 `;
 
 const ListingInfo = styled.div`

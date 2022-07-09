@@ -3,8 +3,6 @@ import CollectionOfferButton from "./CollectionOfferButton";
 import Filters from "./Filters";
 
 const Container = styled.div`
-
-  margin-right: var(--sp3);
   margin-top: var(--sp1);
   height: calc(100% - var(--sp1));
   max-height: calc(100% - var(--sp1));
@@ -22,6 +20,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--sp0);
+
+  @media only screen and (min-width: 1250px) and (max-height: 700px) {
+    min-width: calc(var(--sidebar) * .9);
+  }
 `;
 
 export default function RightBar({

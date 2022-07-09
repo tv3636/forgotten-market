@@ -13,7 +13,6 @@ const Container = styled.div`
   flex-direction: column;
   overflow: scroll;
 
-  margin-left: var(--sp3);
   margin-top: var(--sp1);
 
   max-width: var(--sidebar);
@@ -21,6 +20,10 @@ const Container = styled.div`
 
   ::-webkit-scrollbar {
     display: none;
+  }
+
+  @media only screen and (min-width: 1250px) and (max-height: 700px) {
+    min-width: calc(var(--sidebar) * .9);
   }
 `;
 

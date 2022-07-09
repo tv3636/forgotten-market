@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
 import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
-import { getTrait, getTraitValue, getURLAttributes, isTraitOffer, LoadingCard, traitFormat } from "../components/Marketplace/marketplaceHelpers";
+import { getTrait, getTraitValue, getURLAttributes, isTraitOffer, LoadingCard } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/NewLayout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
-import Sidebar, { CollectionContainer } from "../components/Marketplace/NewSidebar";
+import Sidebar from "../components/Marketplace/NewSidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../components/Marketplace/TokenDisplay";
 import Image from 'next/image';
@@ -16,10 +16,8 @@ import RightBar from "../components/Marketplace/RightBar";
 import Order from "../components/Marketplace/Order";
 import Filters from "../components/Marketplace/Filters";
 import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
-import { MainMenu } from "../components/Marketplace/NewSiteNav";
 import MobileOverlay from "../components/Marketplace/MobileOverlay";
 import Activity from "../components/Marketplace/Activity";
-import RuneHeader from "../components/Marketplace/RuneHeader";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -49,9 +47,20 @@ const Main = styled.div`
   justify-content: space-between;
   max-height: 100%;
   height: 100%;
+
+  margin-left: var(--sp3);
+  margin-right: var(--sp3);
   
   @media only screen and (max-width: 1250px) { 
     justify-content: center;
+
+    margin-left: var(--sp0);
+    margin-right: var(--sp0);
+  }
+
+  @media only screen and (min-width: 1250px) and (max-height: 700px) {
+    margin-left: var(--sp2);
+    margin-right: var(--sp2);
   }
 `;
 

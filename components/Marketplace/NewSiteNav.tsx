@@ -22,9 +22,18 @@ const HeaderWrapper = styled.div`
   
   @media only screen and (max-width: 1250px) {
     margin-top: var(--sp1);
+    margin-bottom: var(--sp1);
+    margin-left: var(--sp0);
+    margin-right: var(--sp0);
+  }
+
+  @media only screen and (max-width: 600px) {
     margin-bottom: var(--sp-1);
-    margin-left: var(--sp-2);
-    margin-right: var(--sp-2);
+  }
+
+  @media only screen and (min-width: 1250px) and (max-height: 700px) {
+    margin-left: var(--sp2);
+    margin-right: var(--sp2);
   }
 `;
 

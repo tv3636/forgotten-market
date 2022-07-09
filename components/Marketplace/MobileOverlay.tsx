@@ -40,7 +40,7 @@ const LogoContainer = styled.div`
   width: 180px;
   height: 59px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 120px;
     height: 40px;
 
