@@ -23,7 +23,7 @@ type Props = {
   description?: string;
   title?: string;
   image?: string;
-  setBurgerActive?: (active: boolean) => void;
+  setFilterActive?: (active: boolean) => void;
 };
 
 const Layout = ({
@@ -31,7 +31,7 @@ const Layout = ({
   description,
   image = "https://forgotten.market/static/img/OSFeature.png",
   title = "Forgotten Market",
-  setBurgerActive = () => {},
+  setFilterActive = () => {},
 }: Props) => (
     <Container>
       <Head>
@@ -83,7 +83,7 @@ const Layout = ({
         
         {/* <meta property="og:image" content="image.png" /> */}
       </Head>
-      <SiteNav setBurgerActive={setBurgerActive} />
+      <SiteNav setFilterActive={setFilterActive} />
       <MainWrapper>
         {children}
       </MainWrapper>

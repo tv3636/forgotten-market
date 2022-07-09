@@ -5,6 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMst } from "../../store";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
+import { useState } from "react";
+import MobileOverlay from "./MobileOverlay";
+import RuneHeader from "./RuneHeader";
+import { CollectionContainer } from "./NewSidebar";
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -18,7 +23,7 @@ const HeaderWrapper = styled.div`
   
   @media only screen and (max-width: 1250px) {
     margin-top: var(--sp0);
-    margin-bottom: 0;
+    margin-bottom: var(--sp-1);
     margin-left: var(--sp-2);
     margin-right: var(--sp-2);
   }
@@ -49,6 +54,13 @@ const MenuItem = styled.div`
 const LogoContainer = styled.div`
   width: 180px;
   height: 59px;
+  
+  @media only screen and (max-width: 1250px) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: var(--sp-1);
+  }
 
   @media only screen and (max-width: 600px) {
     width: 120px;
@@ -61,7 +73,11 @@ const Burger = styled.div`
   width: calc(33.75px * var(--scale));
   height: calc(18.75px * var(--scale));
 
-  margin-bottom: var(--sp-1);
+  margin-top: -10px;
+`;
+
+const FilterContainer = styled.div`
+  height: 25px;
 `;
 
 export function MainMenu({
@@ -102,11 +118,15 @@ export function MainMenu({
 }
 
 export default function SiteNav({
-  setBurgerActive,
+  setFilterActive,
 }:{
-  setBurgerActive: (active: boolean) => void,
+  setFilterActive: (active: boolean) => void;
 }) {
+  const [burgerActive, setBurgerActive] = useState(false);
   const router = useRouter();
+  let homepage = 'contractSlug' in router.query && !('tokenId' in router.query);
+  let activity = 'activity' in router.query;
+  let contracts = String(router.query['contractSlug']) in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
   return (
     <HeaderWrapper>
@@ -126,15 +146,32 @@ export default function SiteNav({
         </Link>
       </LogoContainer>
       <MainMenu className="desktop" />
+
       <Burger className="mobile" onClick={() => setBurgerActive(true)}>
-        <Image 
-            src="/static/img/burger.png" 
-            width="25px" 
-            height="25px" 
-            className="pointer"
-            layout="responsive"
-          />  
-        </Burger>
+          <Image 
+              src="/static/img/burger.png" 
+              width="25px" 
+              height="25px" 
+              className="pointer"
+              layout="responsive"
+            />  
+          </Burger>
+          <FilterContainer className="mobile" onClick={() => setFilterActive(true)}>
+            { homepage && 
+            <Image 
+                src="/static/img/filter.png" 
+                width="25px" 
+                height="25px" 
+                className="pointer mobile"
+              /> 
+            }
+         </FilterContainer>
+        <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
+          <RuneHeader>NAVIGATION</RuneHeader>
+          <MainMenu className="mobile"/>
+          { homepage && <CollectionContainer activity={activity} /> }
+        </MobileOverlay>
+      
     </HeaderWrapper>
   )
 }

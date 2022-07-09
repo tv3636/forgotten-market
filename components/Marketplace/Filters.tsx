@@ -58,9 +58,6 @@ export default function Filters({
 }) {
   const [traits, setTraits] = useState([]);
   const [expanded, setExpanded] = useState(false);
-  const [overflow, setOverflow] = useState('hidden');
-  const [activeTimer, setActiveTimer] = useState<any>(0);
-
   const router = useRouter();
 
   async function fetchTraits() {
@@ -75,16 +72,6 @@ export default function Filters({
   useEffect(() => {
     fetchTraits();
   }, [contract]);
-
-  useEffect(() => {
-    if (expanded) {
-      setActiveTimer(setTimeout(() => setOverflow('visible'), 150));
-      //setOverflow('visible')
-    } else {
-      clearTimeout(activeTimer);
-      setOverflow('hidden');
-    }
-  }, [expanded]);
 
   return (
     <>

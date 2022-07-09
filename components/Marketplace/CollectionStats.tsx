@@ -25,6 +25,10 @@ const StatsItem = styled.div`
 
   padding-top: var(--sp-1);
   padding-bottom: var(--sp-1);
+
+  @media only screen and (max-width: 600px) {
+    padding-bottom: var(--sp-2);
+  }
 `;
 
 function EthSymbol({

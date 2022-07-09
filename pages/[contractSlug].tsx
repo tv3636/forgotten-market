@@ -65,6 +65,7 @@ const MidContainer = styled.div`
   @media only screen and (max-width: 1250px) { 
     max-width: 100%;
     padding: 0;
+    margin-top: var(--sp-3);
   }
 `;
 
@@ -104,6 +105,15 @@ const TopScrim = styled(BottomScrim)`
   height: 20px;
 `;
 
+const FilterContainer = styled.div`
+  display: flex;  
+  flex-direction: column;
+
+  > * {
+    margin-bottom: var(--sp1);
+  }
+`;
+
 export default function Marketplace({
   wizardsWithLore,
   contract
@@ -111,13 +121,13 @@ export default function Marketplace({
   wizardsWithLore: { [key: number]: boolean };
   contract: string;
 }) {
-  const [burgerActive, setBurgerActive] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [listings, setListings] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
+  const [filterActive, setFilterActive] = useState(false);
   const [continuation, setContinuation] = useState('');
   const [items, setItems] = useState(0);
   const [floor, setFloor] = useState(0);
@@ -197,7 +207,6 @@ export default function Marketplace({
       if (!Object.keys(router.query).includes('activity')) {
         fetchListings(true);
       }
-      
       getStats();
     }
   }, [router.query]);
@@ -208,7 +217,7 @@ export default function Marketplace({
         title={`${contracts[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
         description={`Like ${contracts[contract].singular}, Buy ${contracts[contract].singular}`}
         image={`/static/img/marketplace/${contracts[contract].display.toLowerCase()}-banner.png`}
-        setBurgerActive={setBurgerActive}
+        setFilterActive={setFilterActive}
       >
         <Main>
           {showModal &&
@@ -267,7 +276,6 @@ export default function Marketplace({
                           )
                         );
                       })}
-                     
                     </ScrollContainer>
                   </InfiniteScroll>
               ) : (
@@ -277,9 +285,7 @@ export default function Marketplace({
                 <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' layout='responsive' />
               </TopScrim>
             </InfiniteWrapper>
-            <div className="scrim">
-              
-            </div>
+            <div className="scrim" />
         </MidContainer> 
         <RightBar  
           contract={contract} 
@@ -290,20 +296,20 @@ export default function Marketplace({
           setShowModal={setShowModal}
         />
       </Main>
-      <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
-        <RuneHeader>NAVIGATION</RuneHeader>
-        <MainMenu className="mobile"/>
-        <CollectionContainer activity={showActivity} />
-        <RuneHeader>FILTER</RuneHeader>
-        <CollectionOfferButton setShowModal={setShowModal} />
-        <Filters
-          contract={contract} 
-          loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
-          noLoreChange={() => setHasNoLore(!hasNoLore)}
-          setSource={updateSource}
-          selectionChange={selectionChange}
-        />
-      </MobileOverlay>
+      { filterActive && 
+        <MobileOverlay burgerActive={filterActive} setBurgerActive={setFilterActive}>
+          <FilterContainer>
+            <CollectionOfferButton setShowModal={setShowModal} />
+            <Filters
+              contract={contract} 
+              loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 
+              noLoreChange={() => setHasNoLore(!hasNoLore)}
+              setSource={updateSource}
+              selectionChange={selectionChange}
+            />
+          </FilterContainer>
+        </MobileOverlay>
+      }
     </Layout>
     )
   } else {

@@ -356,7 +356,6 @@ const ListingPage = ({
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
-  const [burgerActive, setBurgerActive] = useState(false);
   const { account } = useEthers();
   let contracts = contractSlug in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
@@ -472,7 +471,6 @@ const ListingPage = ({
       } 
       description={`${contracts[contractSlug].singular} #${tokenId}`}
       image={imageUrls[0]}
-      setBurgerActive={setBurgerActive}
     >
       <PageWrapper>
         <RuneHeader>
@@ -601,10 +599,6 @@ const ListingPage = ({
           </ListingWrapper>
         }
       </PageWrapper>
-      <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
-        <RuneHeader>NAVIGATION</RuneHeader>
-        <MainMenu className="mobile"/>
-      </MobileOverlay>
     </Layout>
   );
 };

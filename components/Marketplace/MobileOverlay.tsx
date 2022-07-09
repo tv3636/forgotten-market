@@ -3,8 +3,8 @@ import { ReactNode } from "react";
 import Image from 'next/image';
 
 const Burger = styled.div`
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
 `;
 
 const MobileMenu = styled.div`
@@ -14,12 +14,13 @@ const MobileMenu = styled.div`
   height: 100%;
   width: 100%;
 
-  z-index: 11;
+  z-index: 12;
   background-color: var(--darkGray);
   opacity: .99;
 
   display: none;
   flex-direction: column;
+  overflow: scroll;
 
   transition: all 250ms;
 `;
@@ -29,6 +30,10 @@ const MobileHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   
+  margin-top: var(--sp0);
+  margin-bottom: var(--sp-1);
+  margin-left: var(--sp-2);
+  margin-right: var(--sp-2);
 `;
 
 const LogoContainer = styled.div`
@@ -38,6 +43,11 @@ const LogoContainer = styled.div`
   @media only screen and (max-width: 600px) {
     width: 120px;
     height: 40px;
+
+    position: absolute;
+    left: 50%;
+    top: var(--sp-1);
+    transform: translateX(-50%);
   }
 `;
 
@@ -46,7 +56,7 @@ const BurgerContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  overflow: scroll;
+  margin-top: var(--sp2);
 `;
 
 type Props = {
@@ -57,9 +67,9 @@ type Props = {
 
 export default function MobileOverlay(props: Props) {
   return (
-    <MobileMenu style={props.burgerActive ? {display: 'flex'} : {}}>
+    <MobileMenu style={props.burgerActive ? {display: 'block'} : {}}>
       <MobileHeader>
-        <LogoContainer style={{marginLeft: 'var(--sp2)', width: '120px', height: '40px'}}>
+        <LogoContainer>
           <Image 
             src="/static/img/forgotten-runes-logo.png" 
             width="120px" 
@@ -67,7 +77,7 @@ export default function MobileOverlay(props: Props) {
             className="pointer"
           />  
         </LogoContainer>
-        <Burger onClick={() => props.setBurgerActive(false)} style={{alignSelf: 'flex-end', margin: 'var(--sp2)'}}>
+        <Burger onClick={() => props.setBurgerActive(false)} style={{alignSelf: 'flex-end'}}>
           <Image src='/static/img/x.png' width='20px' height='20px'/>
         </Burger>
       </MobileHeader>

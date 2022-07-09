@@ -143,13 +143,9 @@ const BorderRightHeader = styled.th`
   border-style: dashed;
 `;
 
-export default function About({
-}: {
-}) {
-  const [burgerActive, setBurgerActive] = useState(false);
-
+export default function About({}: {}) {
   return (
-    <Layout title="About" setBurgerActive={setBurgerActive}>
+    <Layout title="About">
       <PageWrapper>
       <AboutWrapper>
         <Title>About</Title>
@@ -262,10 +258,6 @@ export default function About({
         <HorizontalLine/>
       </AboutWrapper>
       </PageWrapper>
-      <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
-        <RuneHeader>NAVIGATION</RuneHeader>
-        <MainMenu className="mobile"/>
-      </MobileOverlay>
     </Layout>
   )
 }
