@@ -17,6 +17,7 @@ const StatsWrapper = styled.div`
 
   @media only screen and (max-width: 600px) {
     justify-content: center;
+    font-size: var(--sp-1);
   }
 `;
 
