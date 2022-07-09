@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMst } from "../../store";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { useState } from "react";
 import MobileOverlay from "./MobileOverlay";
 import RuneHeader from "./RuneHeader";
@@ -125,8 +124,6 @@ export default function SiteNav({
   const [burgerActive, setBurgerActive] = useState(false);
   const router = useRouter();
   let homepage = 'contractSlug' in router.query && !('tokenId' in router.query);
-  let activity = 'activity' in router.query;
-  let contracts = String(router.query['contractSlug']) in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
   return (
     <HeaderWrapper>
@@ -169,7 +166,7 @@ export default function SiteNav({
         <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
           <RuneHeader>NAVIGATION</RuneHeader>
           <MainMenu className="mobile"/>
-          { homepage && <CollectionContainer activity={activity} /> }
+          { homepage && <CollectionContainer setBurgerActive={setBurgerActive} /> }
         </MobileOverlay>
       
     </HeaderWrapper>

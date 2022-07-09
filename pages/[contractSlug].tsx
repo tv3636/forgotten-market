@@ -234,7 +234,7 @@ export default function Marketplace({
               traitValue={traitOffer ? getTraitValue() : ''}
             />
           }
-          <Sidebar activity={showActivity} />
+          <Sidebar />
           <MidContainer>
             <MidHeader>
               <CollectionStats items={items} floor={floor} bid={bid} contract={contract} />

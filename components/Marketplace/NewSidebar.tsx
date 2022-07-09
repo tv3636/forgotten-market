@@ -82,18 +82,18 @@ const CollectionName = styled.div`
 
 function Collection({
   contract,
-  activity,
+  setBurgerActive,
 }:{
   contract: string;
-  activity: boolean;
+  setBurgerActive: (active: boolean) => void;
 }) {
   const router = useRouter();
   let active = router.query.contractSlug == contract;
   
   return (
     <div>
-      <Link href={`/${ contract }${ activity ? '?activity=True' : ''}`}>
-        <CollectionWrapper>
+      <Link href={`/${ contract }${ 'activity' in router.query ? '?activity=True' : ''}`}>
+        <CollectionWrapper onClick={() => setBurgerActive(false)}>
           <CollectionIcon className={`icon${ active ? ' active' : ''} desktop`}>
             <Image 
               src={`/static/img/marketplace/icon_${contract in CONTRACTS? CONTRACTS[contract]?.display :COMMUNITY_CONTRACTS[contract].display }.png`} 
@@ -111,18 +111,20 @@ function Collection({
   )
 }
 
+type Props = {
+  setBurgerActive?: (active: boolean) => void;
+};
+
 export function CollectionContainer({
-  activity
-}: {
-  activity: boolean
-}) {
+  setBurgerActive = () => {},
+}: Props) {
   return (
     <MobileContainer>
       <RuneHeader>OFFICIAL</RuneHeader>
       <Collections>
       {
         Object.keys(CONTRACTS).map((contract: string, index) => (
-          <Collection key={index} contract={contract} activity={activity} />
+          <Collection key={index} contract={contract} setBurgerActive={setBurgerActive} />
         ))
       }
       </Collections>
@@ -130,7 +132,7 @@ export function CollectionContainer({
       <Collections>
       {
         Object.keys(COMMUNITY_CONTRACTS).map((contract: string, index) => (
-          <Collection key={index} contract={contract} activity={activity} />
+          <Collection key={index} contract={contract} setBurgerActive={setBurgerActive} />
         ))
       }
       </Collections>
@@ -138,14 +140,10 @@ export function CollectionContainer({
   )
 }
 
-export default function Sidebar({
-  activity,
-}:{
-  activity: boolean;
-}) {
+export default function Sidebar({}:{}) {
   return (
     <Container className="noscrim desktop">
-      <CollectionContainer activity={activity} />
+      <CollectionContainer />
     </Container>
   )
 }

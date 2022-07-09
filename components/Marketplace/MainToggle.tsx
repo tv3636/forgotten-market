@@ -13,6 +13,10 @@ const Toggle = styled.div`
     border-top-right-radius: var(--sp-2);
     border-bottom-right-radius: var(--sp-2);
   }
+
+  @media only screen and (max-width: 600px) {
+    font-size: var(--sp-1);
+  }
 `;
 
 const ToggleButton = styled.div`

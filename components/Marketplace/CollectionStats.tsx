@@ -28,6 +28,7 @@ const StatsItem = styled.div`
 
   @media only screen and (max-width: 600px) {
     padding-bottom: var(--sp-2);
+    font-size: var(--sp-1);
   }
 `;
 
