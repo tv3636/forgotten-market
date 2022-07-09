@@ -21,7 +21,7 @@ const HeaderWrapper = styled.div`
   margin-top: var(--sp1);
   
   @media only screen and (max-width: 1250px) {
-    margin-top: var(--sp0);
+    margin-top: var(--sp1);
     margin-bottom: var(--sp-1);
     margin-left: var(--sp-2);
     margin-right: var(--sp-2);
@@ -58,7 +58,7 @@ const LogoContainer = styled.div`
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: var(--sp-1);
+    top: var(--sp0);
   }
 
   @media only screen and (max-width: 600px) {
@@ -68,7 +68,7 @@ const LogoContainer = styled.div`
 `;
 
 const Burger = styled.div`
-  --scale: 0.9;
+  --scale: 0.7;
   width: calc(33.75px * var(--scale));
   height: calc(18.75px * var(--scale));
 
