@@ -6,25 +6,41 @@ const Buttons = styled.div`
   display: flex;
   flex-wrap: wrap;
 
+  gap: var(--sp-1);
+
   @media only screen and (max-width: 600px) {
     justify-content: center;
   }
 `;
 
-const ButtonImage = styled.img`
-  margin-right: var(--sp-3);
-  height: 35px;
-  image-rendering: pixelated;
-  margin-top: 5px;
+const ButtonDiv = styled.div`
+  background-color: var(--darkGray);
+  border-image: url(/static/img/button-frame.png);
+  border-style: solid;
+  border-width: var(--sp-1);
+  border-image-slice: 46 42 46 42;
 
-  :active {
-    position: relative;
-    top: 2px;
-  }
+  box-shadow: 0px 2px var(--darkGray);
+
+  padding: 0 var(--sp1);
+
+  cursor: pointer;
+  color: var(--white);
+
+  font-family: Alagard;
+  font-size: var(--sp1);
 
   :hover {
-    cursor: pointer;
+    background-color: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: white;
   }
+
+  @media only screen and (max-width: 600px) {
+    margin-bottom: 10px;
+  }
+
+  transition: all 200ms;
 `;
 
 function MarketButton({ 
@@ -37,16 +53,9 @@ function MarketButton({
    setActionType: (action: ORDER_TYPE) => void;
   }) {
   return (
-    <ButtonImage
-      src={`/static/img/marketplace/${type}.png`}
-      onMouseOver={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${type}_hover.png`)
-      }
-      onMouseOut={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${type}.png`)
-      }
-      onClick={(e) => { setModal(true); setActionType(type); }}
-    />
+    <ButtonDiv onClick={(e) => { setModal(true); setActionType(type); }}>
+      {type.toUpperCase()}
+    </ButtonDiv>
   );
 }
 

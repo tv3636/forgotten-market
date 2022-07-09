@@ -1,8 +1,6 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import useWeb3Modal from "../../hooks/useWeb3Modal";
-import { StaticJsonRpcProvider } from "@ethersproject/providers";
 import Button from "../ui/Button";
 import { useMst } from "../../store";
 import { useEthers } from "@usedapp/core";
@@ -11,10 +9,14 @@ type Props = {};
 
 const ConnectButton = styled(Button)`
   background-color: var(--darkGray);
-  border-color: var(--mediumGray);
-  border-style: dashed;
+  border-image: url(/static/img/button-frame.png);
+  border-style: solid;
+  border-width: var(--sp-1);
+  border-image-slice: 46 42 46 42;
+
+  padding: var(--sp-4);
+
   cursor: pointer;
-  border-radius: 20px;
   color: var(--lightGray);
 
   :hover {
@@ -47,7 +49,7 @@ export default function MarketConnect() {
 
   return (
     <ConnectButton onClick={() => loadWeb3Modal()}>
-      Connect Your Wallet
+      CONNECT YOUR WALLET
     </ConnectButton>
   );
 }
