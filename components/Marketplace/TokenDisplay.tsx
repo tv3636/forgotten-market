@@ -74,7 +74,7 @@ const ListingImage = styled.img`
 
 const ListingInfo = styled.div`
   position: relative;
-  background-color: var(--frameGray);
+  background-color: #030017;
 `;
 
 const NameWrapper = styled.div`
@@ -88,7 +88,7 @@ const MarketText = styled.p`
   font-size: var(--sp0);
   font-weight: bold;
   color: white;
-  text-shadow: 0px 2px var(--midGray);
+  text-shadow: 0px 1.5px var(--midGray);
   
   line-height: 1.3;
   max-width: 20ch;
@@ -145,12 +145,22 @@ const MarketIcon = styled.img`
   left: 50%;
   transform: translate(-50%, 0%);
 
-  z-index: 2;
+  z-index: 3;
 
   @media only screen and (max-width: 600px) {
     width: 20px;
     height: 20px;
   }
+`;
+
+const Grain = styled.div`
+  position: absolute;
+  opacity: 40%;
+
+  width: 100%;
+  height: 100%;
+
+  background-image: url(/static/img/marketplace/paperTxt03.png);
 `;
 
 export default function TokenDisplay({
@@ -208,6 +218,7 @@ export default function TokenDisplay({
           <ListingImage src={contracts[contract].image_url + tokenId + ".png"} />
         }
         <ListingInfo>
+          <Grain style={{backgroundImage: `url(/static/img/marketplace/paperTxt0${(tokenId % 4) + 1}.png)`}}/>
           <NameWrapper>
             <MarketText title={name}>{name}</MarketText>
           </NameWrapper>

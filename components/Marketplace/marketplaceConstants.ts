@@ -10,9 +10,9 @@ export enum ORDER_TYPE {
   BUY = 'buy',
   SELL = 'sell',
   OFFER = 'offer',
-  ACCEPT_OFFER = 'accept',
-  CANCEL_LISTING = 'cancel_listing',
-  CANCEL_OFFER = 'cancel_offer',
+  ACCEPT_OFFER = 'accept offer',
+  CANCEL_LISTING = 'cancel listing',
+  CANCEL_OFFER = 'cancel offer',
 }
 
 export interface OrderPaths {
