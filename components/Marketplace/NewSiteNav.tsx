@@ -175,7 +175,7 @@ export default function SiteNav({
         <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
           <RuneHeader>NAVIGATION</RuneHeader>
           <MainMenu className="mobile"/>
-          { homepage && <CollectionContainer setBurgerActive={setBurgerActive} /> }
+          <CollectionContainer setBurgerActive={setBurgerActive} />
         </MobileOverlay>
       
     </HeaderWrapper>
