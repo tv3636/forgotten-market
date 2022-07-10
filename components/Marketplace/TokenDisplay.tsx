@@ -157,6 +157,8 @@ const Grain = styled.div`
   position: absolute;
   opacity: 40%;
 
+  z-index: 1;
+
   width: 100%;
   height: 100%;
 

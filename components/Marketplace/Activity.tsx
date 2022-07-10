@@ -170,7 +170,7 @@ const ActivityRow = styled.div`
   align-items: center;
   position: relative;
 
-  background: #020010;
+  background: #06040d;
 
   padding: var(--sp0);
   margin: var(--sp-2);
@@ -265,7 +265,7 @@ const NewFrame = styled.div`
 const Grain = styled.div`
   position: absolute;
   left: 0;
-  opacity: 35%;
+  opacity: 15%;
   
   width: 100%;
   height: 100%;

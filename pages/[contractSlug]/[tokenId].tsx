@@ -33,8 +33,6 @@ import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
 import MarketDisplay from "../../components/Marketplace/MarketDisplay";
-import MobileOverlay from "../../components/Marketplace/MobileOverlay";
-import { MainMenu } from "../../components/Marketplace/NewSiteNav";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -121,7 +119,7 @@ const TopLeft = styled.div`
   }
 
   @media only screen and (max-width: 600px) {
-    width: 370px;
+    width: 75%;
     align-content: center;
   }
 `;
@@ -139,8 +137,12 @@ const TopRight = styled.div`
 
   @media only screen and (max-width: 600px) {
     margin-left: 0px;
-    justify-content: center;
-    max-width: 80%;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    max-width: 95%;
     height: auto !important;
   }
 `;
@@ -165,7 +167,7 @@ const TokenImage = styled.img`
   width: 400px;
 
   @media only screen and (max-width: 600px) {
-    max-width: 300px;
+    max-width: 250px;
   }
 `;
 
@@ -205,7 +207,7 @@ const OwnerStyle = styled.h4`
 
   @media only screen and (max-width: 600px) {
     text-align: center;
-    margin-top: var(--sp1);
+    margin-top: var(--sp-1);
   }
 `;
 
@@ -223,6 +225,7 @@ const ButtonWrapper = styled.div`
   min-width: 400px;
 
   @media only screen and (max-width: 600px) {
+    margin-top: var(--sp-4);
     justify-content: center;
   }
 `;
