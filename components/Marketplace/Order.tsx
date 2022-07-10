@@ -14,6 +14,7 @@ import SetExpiration from './SetExpiration';
 import setParams from '../../lib/params';
 import SetPrice from './SetPrice';
 import ActionHeader from './ActionHeader';
+import GenericButton from './GenericButton';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -44,9 +45,11 @@ const Overlay = styled.div`
   margin-top: var(--sp4);
   background-color: var(--black);
 
-  border: dashed;
-  border-radius: 15px;
-  border-color: var(--mediumGray);
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
 
   display: flex;
   flex-direction: column;
@@ -144,27 +147,6 @@ const Form = styled.form`
   }
 
 `;
-
-function ActionButton({ 
-  actionType,
-  submitAction
-}: { 
-  actionType: ORDER_TYPE;
-  submitAction: any;
-}) {
-  return (
-    <ButtonImage
-      src={`/static/img/marketplace/${ actionType == ORDER_TYPE.OFFER ? 'offer' : 'sell' }.png`}
-      onMouseOver={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${ actionType == ORDER_TYPE.OFFER ? 'offer' : 'sell' }_hover.png`)
-      }
-      onMouseOut={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${ actionType == ORDER_TYPE.OFFER ? 'offer' : 'sell' }.png`)
-      }
-      onClick={(e) => { submitAction(e) }}
-    /> 
-  )
-}
 
 function TransactionProcessing({ hash }: { hash: string }) {
   return (
@@ -413,9 +395,7 @@ function OrderContent({
 
   // Kick off listing for sale or making offer
   //
-  async function submitAction(event: any) {
-    event.preventDefault();
-    
+  async function submitAction() {
     let query: any = {
       maker: account,
       weiPrice: action == ORDER_TYPE.SELL ? 
@@ -425,7 +405,8 @@ function OrderContent({
       automatedRoyalties: false,
       fee: contracts[contract].fee,
       feeRecipient: contracts[contract].feeRecipient,
-      source: 'Forgotten Market'
+      source: 'Forgotten Market',
+      orderKind: 'seaport',
     }
 
     if (collectionWide) {
@@ -450,6 +431,7 @@ function OrderContent({
         weiPrice: ethers.utils.parseEther(price).toString(),
         expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
         orderbook: 'opensea',
+        orderKind: 'seaport',
       }
       
       setParams(os_url, os_query);
@@ -547,7 +529,7 @@ function OrderContent({
             </Form>
             
           }
-          <ActionButton actionType={action} submitAction={submitAction} />
+          <GenericButton onClick={submitAction} text={'SUBMIT'}/>
         </Overlay> 
       )
     } else {

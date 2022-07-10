@@ -5,7 +5,7 @@
  */
  export default function setParams(
   url: URL,
-  query: { [x: string]: number | string | boolean }
+  query: { [x: string]: number | string | boolean | string[] }
 ) {
   Object.keys(query).map((key) =>
     url.searchParams.set(key, query[key].toString())

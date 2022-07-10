@@ -28,9 +28,9 @@ export const OrderURLs: any = {
   'buy': 'execute/buy/v1',
   'sell': '/execute/list/v2',
   'offer': '/execute/bid/v2',
-  'accept': '/execute/sell/v1',
-  'cancel_listing': '/execute/cancel/v1',
-  'cancel_offer': '/execute/cancel/v1',
+  'accept offer': '/execute/sell/v1',
+  'cancel listing': '/execute/cancel/v1',
+  'cancel offer': '/execute/cancel/v1',
 }
 
 export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';

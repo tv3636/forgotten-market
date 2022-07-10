@@ -1,6 +1,7 @@
 import { ORDER_TYPE } from "./marketplaceConstants";
 import MarketConnect from "./MarketConnect";
 import styled from "@emotion/styled";
+import GenericButton from "./GenericButton";
 
 const Buttons = styled.div`
   display: flex;
@@ -13,36 +14,6 @@ const Buttons = styled.div`
   }
 `;
 
-const ButtonDiv = styled.div`
-  background-color: var(--darkGray);
-  border-image: url(/static/img/button-frame.png);
-  border-style: solid;
-  border-width: var(--sp-1);
-  border-image-slice: 46 42 46 42;
-
-  box-shadow: 0px 2px var(--darkGray);
-
-  padding: 0 var(--sp1);
-
-  cursor: pointer;
-  color: var(--white);
-
-  font-family: Alagard;
-  font-size: var(--sp1);
-
-  :hover {
-    background-color: var(--mediumGray);
-    border-color: var(--lightGray);
-    color: white;
-  }
-
-  @media only screen and (max-width: 600px) {
-    margin-bottom: 10px;
-  }
-
-  transition: all 200ms;
-`;
-
 function MarketButton({ 
   type,
   setModal,
@@ -53,9 +24,7 @@ function MarketButton({
    setActionType: (action: ORDER_TYPE) => void;
   }) {
   return (
-    <ButtonDiv onClick={(e) => { setModal(true); setActionType(type); }}>
-      {type.toUpperCase()}
-    </ButtonDiv>
+    <GenericButton onClick={() => { setModal(true); setActionType(type); }} text={type} />
   );
 }
 
