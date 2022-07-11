@@ -233,7 +233,7 @@ export default function Address({
   useEffect(() => {
     fetchOrders('sell');
     fetchOrders('buy')
-    fetchOffers();
+    //fetchOffers();
   }, []);
 
   if (valid) {

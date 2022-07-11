@@ -420,7 +420,8 @@ function OrderContent({
       automatedRoyalties: false,
       fee: CONTRACTS[contract].fee,
       feeRecipient: CONTRACTS[contract].feeRecipient,
-      source: 'Forgotten Market'
+      source: 'Forgotten Market',
+      orderKind: 'seaport',
     }
 
     if (collectionWide) {
@@ -440,6 +441,7 @@ function OrderContent({
         weiPrice: ethers.utils.parseEther(price).toString(),
         expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
         orderbook: 'opensea',
+        orderKind: 'seaport',
       }
       
       setParams(os_url, os_query);

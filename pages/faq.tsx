@@ -103,9 +103,9 @@ export default function FAQ({
         </Description>
         <HorizontalLine/>
         <HorizontalLine/>
-        <Title>Is it safe to sign messages from Wyvern Exchange Contract?</Title>
+        <Title>Is it safe to sign messages from Seaport?</Title>
         <Description style={{display: 'block'}}>
-          Forgotten.market utilizes the <a href="https://wyvernprotocol.com/" target="_blank">Wyvern Protocol</a>.
+          Forgotten.market utilizes the <a href="https://docs.opensea.io/v2.0/reference/seaport-overview" target="_blank">Seaport Protocol</a>.
           When you list a token for sale or make an offer on a token, you will need to sign a message like the one below:
         </Description>
         <Description style={{justifyContent: 'center'}}>
@@ -113,32 +113,12 @@ export default function FAQ({
         </Description>
         <HorizontalLine/>
         <Description style={{display: 'block'}}>
-          In this example, a wizard is being listed for Ξ10. The 'basePrice' value (towards the bottom) is displayed in wei, which is the ether
-          value * 10^18. The exchange contract is the&nbsp; 
-          <a href="https://etherscan.io/address/0x7f268357a8c2552623316e2562d90e642bb538e5" target="_blank">Wyvern Exchange Contract</a>.
-          The 'maker' address will be your own, while the 'taker' address will be the null address, indicating a public listing. <br/>It is best practice
-           to double check messages before you sign them to confirm their intent.
+          Signing a message in this format is required to make a listing on Forgotten Market - if you've previously listed on OpenSea, you'll recognize this because OpenSea also uses the Seaport protocol. The only differences between an OpenSea listing and a Forgotten Market listing are the fees (Forgotten Market fees are lower and go to the Community DAO), and the orderbook the listing is posted to (Forgotten Market listings are posted to the Reservoir orderbook, rather than OpenSea's).
         </Description>
-        <HorizontalLine/>
-        <Title>What is proxy registration?</Title>
-        <Description style={{display: 'block'}}>
-          Wyvern Protocol creates a personal proxy contract for each address to enable trading. If you've listed on OpenSea before, 
-          your wallet already has a proxy contract created. However, if this is your first time listing 
-          tokens for a particular wallet, you will be prompted to register a proxy contract before listing a token. 
-          In Metamask, the prompt will look like this:
-        </Description>
-        <Description style={{justifyContent: 'center'}}>
-          <ImageWithBorder src="/static/img/marketplace/faq/proxy.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '130vw'}}/>
-        </Description>
-        <HorizontalLine/>
-        <Description style={{display: 'block'}}>
-          Note the address in the top right is the <a href="https://etherscan.io/address/0xa5409ec958C83C3f309868babACA7c86DCB077c1" target="_blank">Project Wyvern Proxy Registry</a>.
-        </Description>
-        <HorizontalLine/>
         <HorizontalLine/>
         <Title>What does it mean to set approval?</Title>
-        <Description>
-          In order to list tokens on Forgotten.market, you will need to approve your proxy contract to transfer them. 
+        <Description style={{display: 'block'}}>
+          In order to list tokens on Forgotten.market, you will need to approve the <a href="https://etherscan.io/address/0x1E0049783F008A0085193E00003D00cd54003c71" target="_blank">OpenSea Conduit contract</a> to transfer them. 
           This approval allows tokens to be transferred if a valid listing is filled, and can be revoked at any time.
           Approvals must be done per-contract, so separate approvals are required for Wizards, Souls, and Ponies.
           If you've already listed these tokens on OpenSea you will not need to set any additional approvals on Forgotten.market.
@@ -148,12 +128,6 @@ export default function FAQ({
           <ImageWithBorder src="/static/img/marketplace/faq/approval.png" style={{width: '400px', maxWidth: '75vw', maxHeight: '120vw'}}/>
         </Description>
         <HorizontalLine/>
-        <Description style={{display: 'block'}}>
-          Note the address in the top right is the contract of the token you're approving (in this case,&nbsp; 
-          <a href="https://etherscan.io/address/0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42" target="_blank">wizards</a>).
-          The operator address, passed as a parameter in the contract call, will be the address of the proxy contract 
-          you've registered for your wallet.
-        </Description>
         <HorizontalLine/>
         <HorizontalLine/> 
         <Title>Additional questions?</Title>
