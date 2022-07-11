@@ -473,6 +473,11 @@ const ListingPage = ({
               hash={listing.id} 
               offerHash={offer.id} 
               collectionWide={false}
+              expectedPrice={ 
+                marketActionType == ORDER_TYPE.ACCEPT_OFFER ? offer.value : 
+                marketActionType == ORDER_TYPE.BUY ? listing.price :
+                0
+              }
             />
           }
           <Listing>

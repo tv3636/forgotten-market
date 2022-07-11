@@ -4,7 +4,7 @@ import { useEthers } from '@usedapp/core';
 import { BigNumber, constants, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
-import executeSteps, { 
+import { 
   calculateOffer, 
   getWeth,
 } from './marketplaceHelpers';
@@ -14,6 +14,7 @@ import SetExpiration from './SetExpiration';
 import setParams from '../../lib/params';
 import SetPrice from './SetPrice';
 import ActionHeader from './ActionHeader';
+import { Execute, executeSteps } from '@reservoir0x/client-sdk';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -243,6 +244,7 @@ function OrderContent({
   offerHash,
   setModal,
   collectionWide,
+  expectedPrice,
 }: {
   action: ORDER_TYPE;
   contract: string;
@@ -252,6 +254,7 @@ function OrderContent({
   offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
+  expectedPrice: number;
 }) {
   const { library, account } = useEthers();
   const signer = library?.getSigner();
@@ -261,6 +264,7 @@ function OrderContent({
   const [showError, setShowError] = useState<any>(null);
   const [listOS, setListOS] = useState(false);
   const [listLR, setListLR] = useState(false);
+  const [steps, setSteps] = useState<Execute['steps']>();
   const [expiration, setExpiration] = useState(
     new Date(
       new Date().getFullYear(), 
@@ -301,26 +305,37 @@ function OrderContent({
   async function execute(
     url: URL, 
     signer: any,
+    expectedPrice?: number,
   ) {
-    await executeSteps(url, signer, setTxn, setShowError, (execute: any) => {
-      if (execute) {
-        for (var step of execute) {
-          if (step.status == 'incomplete') {
+    try {
+      await executeSteps(url, signer, setSteps, undefined, expectedPrice);
+    } catch (e) {
+      // Metamask rejection or other failure
+      setModal(false);
+    }
+  }
 
-            setTxn('');
+  useEffect(() => { 
+    console.log('steps');
+    console.log(steps);
+
+    if (steps) {
+      for (var step of steps) {
+        if (step.status == 'incomplete') {
+
+          setTxn('');
+          setStep(step);
+          break;
+
+        } else {
+          if (step == steps[steps.length - 1]) {
             setStep(step);
             break;
-
-          } else {
-            if (step == execute[execute.length - 1]) {
-              setStep(step);
-              break;
-            }
           }
         }
-      } 
-    });
-  }
+      }
+    }
+  }, [steps]);
 
   useEffect(() => {
     async function run() {
@@ -333,7 +348,7 @@ function OrderContent({
             taker: await signer?.getAddress() ?? '',
           }
           setParams(url, query);
-          await execute(url, signer);
+          await execute(url, signer, expectedPrice);
   
           setTimeout(() => {setModal(false)}, 2000);
           break;
@@ -345,7 +360,7 @@ function OrderContent({
           }
   
           setParams(url, query);
-          await execute(url, signer);
+          await execute(url, signer, expectedPrice);
   
           setModal(false);
           break;
@@ -576,6 +591,7 @@ interface OrderProps {
   offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
+  expectedPrice: number;
 }
 
 export default function Order(props: OrderProps) {

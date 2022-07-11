@@ -275,6 +275,7 @@ export default function Marketplace({
             action={ORDER_TYPE.OFFER}
             hash={''}
             offerHash={''}
+            expectedPrice={0}
           />
         }
         <div style={{width: '1300px', maxWidth: '95%'}}>
