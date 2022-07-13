@@ -70,11 +70,13 @@ export default function TraitDisplay({
   fullAttributes,
   contract,
   tokenId,
+  setHover,
 }: { 
   attributes: [];
   fullAttributes: any;
   contract: string;
   tokenId: string;
+  setHover: (hover: string) => void;
 }) {
   var traitCounts: any = {};
   var traits: any = {};
@@ -110,7 +112,10 @@ export default function TraitDisplay({
                   passHref={true}
                 >
                   <SoftLink>
-                    <TraitRow>
+                    <TraitRow
+                      onMouseOver={() => setHover(contracts[contract].coreTraits?.includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
+                      onMouseOut={() => setHover('')}
+                    >
                       <TraitContent>
                         <TraitType>{attribute.key.toUpperCase()}</TraitType>
                         <TraitValues>

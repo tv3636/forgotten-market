@@ -437,3 +437,15 @@ export function getTraitValue() {
 
   return '';
 }
+
+// Get trait value from trait pairs, given trait
+export function getValue(attributes: any, trait: string) {
+  for (var attribute of attributes) {
+    if (attribute.key == trait) {
+      return attribute.value;
+    }
+  }
+
+  return '';
+}
+

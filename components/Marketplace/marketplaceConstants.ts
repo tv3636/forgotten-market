@@ -88,7 +88,8 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://runes-turnarounds.s3.amazonaws.com/",
     ABI: WIZARDS_ABI,
     fee: '400',
-    feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4'
+    feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4',
+    coreTraits: ['Head', 'Body', 'Familiar', 'Prop', 'Rune'],
   },
   "0x9690b63eb85467be5267a3603f770589ab12dc95": {
     collection: "forgottenruneswarriorsguild",
@@ -97,7 +98,8 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     full: "Forgotten Runes Warriors Guild",
     image_url: "https://portal.forgottenrunes.com/api/warriors/img/",
     fee: '650',
-    feeRecipient: '0x6be88409f2a4751aea05a3a0977cb239904fe0d6'
+    feeRecipient: '0x6be88409f2a4751aea05a3a0977cb239904fe0d6',
+    coreTraits: ['Head', 'Body', 'Companion', 'Weapon', 'Shield', 'Rune'],
   },
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
     collection: "forgottensouls",
@@ -107,7 +109,8 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://portal.forgottenrunes.com/api/souls/img/",
     ABI: SOULS_ABI,
     fee: '816',
-    feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882'
+    feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882',
+    coreTraits: ['Head', 'Body', 'Familiar', 'Prop', 'Rune'],
   },
   "0xf55b615b479482440135ebf1b907fd4c37ed9420": {
     collection: "forgottenrunesponies",
@@ -117,7 +120,8 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
     ABI: PONIES_ABI,
     fee: '594',
-    feeRecipient: '0x94F0e012B7BB033F32029FbCC4f1d29ff1CfC30a'
+    feeRecipient: '0x94F0e012B7BB033F32029FbCC4f1d29ff1CfC30a',
+    coreTraits: ['Head', 'Pony', 'Clothes', 'Mouth', 'Rune'],
   },
   "0x31158181b4b91a423bfdc758fc3bf8735711f9c5": {
     collection: "infinityveil",
@@ -127,7 +131,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "/static/img/marketplace/flame/",
     ABI: INFINITY_VEIL_ABI,
     fee: '816',
-    feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882'
+    feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882',
   },
   "0x8634c23d5794ed177e9ffd55b22fdb80a505ab7b": {
     collection: "forgottenrunesbeasts",

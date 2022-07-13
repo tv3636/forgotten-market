@@ -5,9 +5,7 @@ import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../components/Lore/markdownUtils";
-import {
-  Icons, LoadingCard
-} from "../../components/Marketplace/marketplaceHelpers";
+import { Icons, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
   API_BASE_URL,
@@ -33,6 +31,7 @@ import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
 import MarketDisplay from "../../components/Marketplace/MarketDisplay";
+import ImageWithTraits from "../../components/Marketplace/ImageWithTraits";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -154,21 +153,6 @@ const SectionWrapper = styled.div`
   width: 100%;
 
   align-items: center;
-`;
-
-const ImageWrapper = styled.div`
-  @media only screen and (max-width: 600px) {
-    position: relative;
-  }
-`;
-
-const TokenImage = styled.img`
-  padding: var(--sp1);
-  width: 400px;
-
-  @media only screen and (max-width: 600px) {
-    max-width: 250px;
-  }
 `;
 
 const NameDisplay = styled.div`
@@ -312,30 +296,6 @@ const WarningSymbol = styled.div`
   font-size: 20px;
 `;
 
-const NewFrame = styled.div`
-  --frameSize: 36px;
-  width: calc(100% + 0.85 * var(--frameSize));
-  height: calc(100% - 15px);
-
-  position: absolute;
-  left: calc(-0.425 * var(--frameSize));
-  top: calc(-0.1 * var(--frameSize));
-  z-index: 1;
-  border-image-source: url(/static/img/newframe_black.png);
-  border-image-slice: 35 50;
-  border-image-width: var(--frameSize);
-  border-image-outset: 0;
-  border-style: solid;
-  border-image-repeat: round;
-  image-rendering: pixelated;
-
-  @media only screen and (max-width: 600px) {
-    width: 100%;
-    height: 100%;
-    left: 0;
-  }
-`;
-
 const ListingPage = ({
   contractSlug,
   tokenId,
@@ -352,13 +312,13 @@ const ListingPage = ({
   const [fullAttributes, setFullAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
-  const [ownerEns, setOwnerEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
+  const [traitHover, setTraitHover] = useState('');
   const { account } = useEthers();
   let contracts = contractSlug in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
@@ -372,7 +332,7 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-3-right.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
-  
+
   var backgroundColor = contracts[contractSlug].display in collectionData && tokenId in collectionData[contracts[contractSlug].display] ? 
   `${collectionData[contracts[contractSlug].display][tokenId].background}` : '#000000';
 
@@ -393,6 +353,7 @@ const ListingPage = ({
 
         console.log(listingsJson);
 
+        // TODO = improve performance
         const traits = await fetch(
           `${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`,
           { headers: headers }
@@ -405,11 +366,6 @@ const ListingPage = ({
           const provider = getProvider();
           var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
           setEns(ensName);
-
-          if (listingsJson.tokens[0].market.topBid.maker) {
-            var ownerEns = await provider.lookupAddress(listingsJson.tokens[0].market.topBid.maker);
-            setOwnerEns(ownerEns);
-          }
         } catch (e) {
           console.error("Couldn't get ENS");
         }
@@ -498,13 +454,14 @@ const ListingPage = ({
             <Listing>
               <TopDisplay>
                 <TopLeft>
-                  <ImageWrapper>
-                    <TokenImage 
-                      src={imageUrls[keyImage]} 
-                      style={{background: backgroundColor}}
-                    />
-                    <NewFrame/>
-                  </ImageWrapper>
+                 <ImageWithTraits
+                    source={imageUrls[keyImage]}
+                    background={backgroundColor}
+                    traitHover={traitHover}
+                    attributes={attributes}
+                    contract={contractSlug}
+                    keyImage={keyImage}
+                 />
                   { contracts[contractSlug].display == 'Wizards' && 
                     <Carousel 
                       keyImage={keyImage}
@@ -574,6 +531,7 @@ const ListingPage = ({
                     fullAttributes={fullAttributes} 
                     contract={contractSlug} 
                     tokenId={tokenId} 
+                    setHover={setTraitHover}
                   />
                 </MidDisplay>
               </SectionWrapper>
