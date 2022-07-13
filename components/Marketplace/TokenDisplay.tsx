@@ -74,7 +74,7 @@ const ListingImage = styled.img`
 
 const ListingInfo = styled.div`
   position: relative;
-  background-color: #030017;
+  background-color: var(--frameGray);
 `;
 
 const NameWrapper = styled.div`
@@ -87,8 +87,8 @@ const MarketText = styled.p`
   font-family: Alagard;
   font-size: var(--sp0);
   font-weight: bold;
-  color: white;
-  text-shadow: 0px 1.5px var(--midGray);
+  color: var(--white);
+  text-shadow: 0px 1.5px var(--darkGray);
   
   line-height: 1.3;
   max-width: 20ch;
@@ -155,7 +155,7 @@ const MarketIcon = styled.img`
 
 const Grain = styled.div`
   position: absolute;
-  opacity: 40%;
+  opacity: 8%;
 
   z-index: 1;
 
@@ -163,6 +163,7 @@ const Grain = styled.div`
   height: 100%;
 
   background-image: url(/static/img/marketplace/paperTxt03.png);
+  background-repeat: repeat;
 `;
 
 export default function TokenDisplay({
@@ -220,7 +221,10 @@ export default function TokenDisplay({
           <ListingImage src={contracts[contract].image_url + tokenId + ".png"} />
         }
         <ListingInfo>
-          <Grain style={{backgroundImage: `url(/static/img/marketplace/paperTxt0${(tokenId % 4) + 1}.png)`}}/>
+          <Grain style={{
+            backgroundImage: `url(/static/img/marketplace/paperTxt0${(tokenId % 4) + 1}.png)`,
+            backgroundPosition: `${(tokenId % 100)}% ${(tokenId % 100)}%`
+          }}/>
           <NameWrapper>
             <MarketText title={name}>{name}</MarketText>
           </NameWrapper>

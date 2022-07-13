@@ -170,7 +170,7 @@ const ActivityRow = styled.div`
   align-items: center;
   position: relative;
 
-  background: #06040d;
+  background: var(--darkGray);
 
   padding: var(--sp0);
   margin: var(--sp-2);
@@ -265,12 +265,13 @@ const NewFrame = styled.div`
 const Grain = styled.div`
   position: absolute;
   left: 0;
-  opacity: 15%;
+  opacity: 6%;
   
   width: 100%;
   height: 100%;
 
   background-image: url(/static/img/marketplace/paperTxt03.png);
+  background-repeat: repeat;
 `;
 
 
@@ -350,7 +351,10 @@ export default function Activity({
             return (sale && sale.token ?
               <ActivityWrapper key={index}>
                 <ActivityRow>
-                  <Grain style={{backgroundImage: `url(/static/img/marketplace/paperTxt0${(sale.token.tokenId % 4) + 1}.png)`}}/>
+                  <Grain style={{
+                    backgroundImage: `url(/static/img/marketplace/paperTxt0${(sale.token.tokenId % 4) + 1}.png)`,
+                    backgroundPosition: `${(sale.token.tokenId % 100)}% ${(sale.token.tokenId % 100)}%`
+                  }}/>
                   <SalesDisplay>
                     <Link
                       href={`/marketplace/${contract}/${sale.token.tokenId}`}
@@ -365,7 +369,7 @@ export default function Activity({
                       </SoftLink>
                     </Link>
                     <SalesTextDisplay>
-                      <SalesText style={{color: 'white'}}>{sale.token.name}</SalesText>
+                      <SalesText>{sale.token.name}</SalesText>
                       <div style={{ display: 'flex' }}>
                         <EthSymbol src={sale.orderSide == 'ask' ? '/static/img/marketplace/eth.png': '/static/img/marketplace/weth.png'}/>
                         <SalesText>{sale.price}</SalesText>
