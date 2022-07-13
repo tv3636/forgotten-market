@@ -78,7 +78,7 @@ export default function ImageWithTraits({
           return (
             getValue(attributes, trait) != 'None' &&
             <TraitImage 
-              src={`/static/img/traits/${contracts[contract].display}/${trait}/${getValue(attributes, trait)}.png`}
+              src={`/static/img/traits/${contracts[contract].display.toLowerCase()}/${trait.toLowerCase()}/${getValue(attributes, trait)}.png`}
               style={{
                 opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .5 : 0,
                 zIndex: trait == 'Body' ? 0 : 1,
