@@ -4,10 +4,7 @@ import { useEthers } from '@usedapp/core';
 import { BigNumber, constants, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
-import executeSteps, { 
-  calculateOffer, 
-  getWeth,
-} from './marketplaceHelpers';
+import { calculateOffer, getWeth } from './marketplaceHelpers';
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 import SetExpiration from './SetExpiration';
@@ -15,6 +12,7 @@ import setParams from '../../lib/params';
 import SetPrice from './SetPrice';
 import ActionHeader from './ActionHeader';
 import GenericButton from './GenericButton';
+import { Execute, executeSteps } from '@reservoir0x/client-sdk';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
@@ -226,6 +224,7 @@ function OrderContent({
   collectionWide,
   trait,
   traitValue,
+  expectedPrice,
 }: {
   action: ORDER_TYPE;
   contract: string;
@@ -237,10 +236,12 @@ function OrderContent({
   collectionWide: boolean;
   trait: string;
   traitValue: string;
+  expectedPrice: number;
 }) {
   const { library, account } = useEthers();
   const signer = library?.getSigner();
   const [step, setStep] = useState<any>(null);
+  const [steps, setSteps] = useState<Execute['steps']>();
   const [txn, setTxn] = useState('');
   const [price, setPrice] = useState('');
   const [showError, setShowError] = useState<any>(null);
@@ -285,29 +286,36 @@ function OrderContent({
     }
   }
 
-  async function execute(
-    url: URL, 
-    signer: any,
-  ) {
-    await executeSteps(url, signer, setTxn, setShowError, (execute: any) => {
-      if (execute) {
-        for (var step of execute) {
-          if (step.status == 'incomplete') {
+  async function execute(url: URL, signer: any, expectedPrice?: number) {
+    try {
+      await executeSteps(url, signer, setSteps, undefined, expectedPrice);
+    } catch (e) {
+      // Metamask rejection or other failure
+      setModal(false);
+    }
+  }
 
-            setTxn('');
+  useEffect(() => { 
+    console.log('steps');
+    console.log(steps);
+
+    if (steps) {
+      for (var step of steps) {
+        if (step.status == 'incomplete') {
+
+          setTxn('');
+          setStep(step);
+          break;
+
+        } else {
+          if (step == steps[steps.length - 1]) {
             setStep(step);
             break;
-
-          } else {
-            if (step == execute[execute.length - 1]) {
-              setStep(step);
-              break;
-            }
           }
         }
-      } 
-    });
-  }
+      }
+    }
+  }, [steps]);
 
   useEffect(() => {
     async function run() {
@@ -320,7 +328,7 @@ function OrderContent({
             taker: await signer?.getAddress() ?? '',
           }
           setParams(url, query);
-          await execute(url, signer);
+          await execute(url, signer, expectedPrice);
   
           setTimeout(() => {setModal(false)}, 2000);
           break;
@@ -332,7 +340,7 @@ function OrderContent({
           }
   
           setParams(url, query);
-          await execute(url, signer);
+          await execute(url, signer, expectedPrice);
   
           setModal(false);
           break;
@@ -570,6 +578,7 @@ interface OrderProps {
   collectionWide: boolean;
   trait: string;
   traitValue: string;
+  expectedPrice: number;
 }
 
 export default function Order(props: OrderProps) {

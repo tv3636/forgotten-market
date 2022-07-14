@@ -449,6 +449,11 @@ const ListingPage = ({
                 collectionWide={false}
                 trait={''}
                 traitValue={''}
+                expectedPrice={ 
+                  marketActionType == ORDER_TYPE.ACCEPT_OFFER ? offer.value : 
+                  marketActionType == ORDER_TYPE.BUY ? listing.price :
+                  0
+                }
               />
             }
             <Listing>
