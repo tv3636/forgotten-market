@@ -35,15 +35,15 @@ const OverlayWrapper = styled.div`
 `;
 
 const Overlay = styled.div`
-  width: 60vw;
   max-width: 1000px;
+  width: 60vw;
   height: auto;
   min-height: 500px;
-  padding: 40px;
+  padding: var(--sp3) var(--sp4);
   margin-top: var(--sp4);
   background-color: var(--black);
 
-  border-image-source: url(/static/img/newframe_black.png);
+  border-image-source: url(/static/img/moduleframe.png);
   border-image-slice: 30 35;
   border-image-width: var(--frameSize);
   border-style: solid;
@@ -171,7 +171,7 @@ function PriceExplained({
   tooltip: string;
 }) {
   return (
-    <Description style={{marginBottom: 'var(--sp1)', marginLeft: '12%', marginTop: '15px'}}>
+    <Description style={{marginBottom: 'var(--sp-1)', marginLeft: '12%', marginTop: '15px'}}>
       <div style={{marginRight: 'var(--sp-3)', fontSize: '15px'}}>
         {`You ${action == ORDER_TYPE.OFFER ? 
           `pay ${amount} WETH` : 

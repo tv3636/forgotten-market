@@ -11,7 +11,7 @@ const Expiration = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin-bottom: 20px;
+  margin-bottom: var(--sp3);
   max-width: 250px;
 
 `;

@@ -32,6 +32,7 @@ import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
 import MarketDisplay from "../../components/Marketplace/MarketDisplay";
 import ImageWithTraits from "../../components/Marketplace/ImageWithTraits";
+import Affinity from "../../components/Marketplace/Affinity";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -60,7 +61,6 @@ const PageWrapper = styled.div`
     margin-top: var(--sp1);
     max-height: 80vh;
   }
-
 `;
 
 const ListingWrapper = styled.div`
@@ -125,7 +125,6 @@ const TopLeft = styled.div`
 
 const TopRight = styled.div`
   margin-left: var(--sp3);
-  height: 420px;
   padding: var(--sp0);
   padding-top: 0;
   max-width: calc(100% - 460px - var(--sp3));
@@ -148,11 +147,11 @@ const TopRight = styled.div`
 
 const SectionWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   max-width: 1000px;
   width: 100%;
 
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const NameDisplay = styled.div`
@@ -199,13 +198,14 @@ const PriceDisplay = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  align-items: center;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   min-width: 400px;
 
   @media only screen and (max-width: 600px) {
@@ -219,8 +219,8 @@ const HorizontalLine = styled.hr`
   border-style: dashed;
   width: 100%;
   border-width: 1px;
-  margin-top: var(--sp2);
-  margin-bottom: var(--sp2);
+  margin-top: var(--sp0);
+  margin-bottom: var(--sp0);
 
   @media only screen and (max-width: 600px) {
     width: 90%;
@@ -237,21 +237,6 @@ const BottomLine = styled.hr`
   border-width: 1px;
   margin-top: var(--sp2);
   margin-bottom: var(--sp2);
-`;
-
-const MidDisplay = styled.div`
-  text-align: center;
-  margin-top: var(--sp-1);
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  @media only screen and (max-width: 600px) {
-    flex-wrap: wrap;
-    margin-top: 0;
-  }
 `;
 
 const BottomDisplay = styled.div`
@@ -294,6 +279,22 @@ const WarningWrapper = styled.div`
 
 const WarningSymbol = styled.div`
   font-size: 20px;
+`;
+
+const Module = styled.div`
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
+
+  padding: var(--sp1);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: var(--darkGray);
 `;
 
 const ListingPage = ({
@@ -432,9 +433,6 @@ const ListingPage = ({
       image={imageUrls[0]}
     >
       <PageWrapper>
-        <RuneHeader>
-          {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
-        </RuneHeader>
         {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
           <ListingWrapper>
             { modal && 
@@ -457,36 +455,56 @@ const ListingPage = ({
               />
             }
             <Listing>
-              <TopDisplay>
-                <TopLeft>
-                 <ImageWithTraits
-                    source={imageUrls[keyImage]}
-                    background={backgroundColor}
-                    traitHover={traitHover}
-                    attributes={attributes}
-                    contract={contractSlug}
-                    keyImage={keyImage}
-                 />
-                  { contracts[contractSlug].display == 'Wizards' && 
-                    <Carousel 
-                      keyImage={keyImage}
-                      setKeyImage={setKeyImage}
-                      imageUrls={imageUrls}
+              <RuneHeader>
+                {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
+              </RuneHeader>
+              <Module>
+                <TopDisplay>
+                  <TopLeft>
+                    <ImageWithTraits
+                        source={imageUrls[keyImage]}
+                        background={backgroundColor}
+                        traitHover={traitHover}
+                        attributes={attributes}
+                        contract={contractSlug}
+                        keyImage={keyImage}
                     />
-                  }
-                </TopLeft>
-                <TopRight
-                  style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
-                >
-                  <NameDisplay>
-                    <NameStyle className='alagard'>{token.name}</NameStyle>
-                    {token.owner && (
-                      <OwnerStyle>
-                        {`Owner: `}
-                        <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
-                      </OwnerStyle>
-                    )}
-                  </NameDisplay>
+                    { contracts[contractSlug].display == 'Wizards' && 
+                      <Carousel 
+                        keyImage={keyImage}
+                        setKeyImage={setKeyImage}
+                        imageUrls={imageUrls}
+                      />
+                    }
+                  </TopLeft>
+                  <TopRight
+                    style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
+                  >
+                    <NameDisplay>
+                      <NameStyle className='alagard'>{token.name}</NameStyle>
+                      {token.owner && (
+                        <OwnerStyle>
+                          {`Owner: `}
+                          <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
+                        </OwnerStyle>
+                      )}
+                    </NameDisplay>
+                    <TraitDisplay 
+                      attributes={attributes} 
+                      fullAttributes={fullAttributes} 
+                      contract={contractSlug} 
+                      setHover={setTraitHover}
+                      filters={contracts[contractSlug].coreTraits}
+                    />
+                  </TopRight>
+                </TopDisplay>
+              </Module>
+              <HorizontalLine/>
+              <SectionWrapper>
+                <Module>
+                  <RuneHeader>
+                    LISTING
+                  </RuneHeader>
                   <PriceDisplay>
                     <MarketDisplay 
                       price={listing.price} 
@@ -525,27 +543,20 @@ const ListingPage = ({
                       </WarningWrapper> 
                     }
                   </PriceDisplay>
-                </TopRight>
-              </TopDisplay>
-              <HorizontalLine/>
-              <SectionWrapper>
-              <RuneHeader>TRAITS</RuneHeader>
-                <MidDisplay>
-                  <TraitDisplay 
-                    attributes={attributes} 
-                    fullAttributes={fullAttributes} 
-                    contract={contractSlug} 
-                    tokenId={tokenId} 
-                    setHover={setTraitHover}
-                  />
-                </MidDisplay>
+                </Module>
+                { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) &&
+                  <Module>
+                    <RuneHeader>AFFINITY</RuneHeader>
+                    <Affinity attributes={attributes} fullAttributes={fullAttributes} />
+                  </Module>
+                }
               </SectionWrapper>
               {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
               {contracts[contractSlug].display != 'Flames' && 
                 <SectionWrapper>
-                  <RuneHeader>LORE</RuneHeader>
                   <BottomDisplay>
                     <LoreWrapper>
+                    <RuneHeader>LORE</RuneHeader>
                       <LoreBlock 
                         pages={pages} 
                         length={lore.length} 
