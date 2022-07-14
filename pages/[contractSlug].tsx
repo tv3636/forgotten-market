@@ -241,6 +241,7 @@ export default function Marketplace({
               offerHash={''}
               trait={traitOffer ? getTrait() : ''}
               traitValue={traitOffer ? getTraitValue() : ''}
+              expectedPrice={0}
             />
           }
           <Sidebar />
