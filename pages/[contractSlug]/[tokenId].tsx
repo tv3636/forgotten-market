@@ -260,7 +260,7 @@ const Column = styled.div`
   flex-grow: 1;
   flex-basis: min-content;
   justify-content: space-between;
-  
+
   @media only screen and (max-width: 600px) {
     height: auto;
 
@@ -492,6 +492,7 @@ const ListingPage = ({
                     contract={contractSlug} 
                     setHover={setTraitHover}
                     filters={contracts[contractSlug].coreTraits}
+                    showAll={['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display)}
                   />
                 </BaseModule>
                 { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) &&

@@ -265,7 +265,7 @@ const NewFrame = styled.div`
 const Grain = styled.div`
   position: absolute;
   left: 0;
-  opacity: 6%;
+  opacity: 4%;
   
   width: 100%;
   height: 100%;

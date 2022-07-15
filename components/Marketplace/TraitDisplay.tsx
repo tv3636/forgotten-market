@@ -1,6 +1,5 @@
 
 import styled from "@emotion/styled";
-import Grain from "./Grain";
 import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import TraitLink from "./TraitLink";
 
@@ -104,18 +103,46 @@ const TraitValues = styled.div`
   justify-content: space-between;
 `;
 
+const GrainFill = styled.div`
+  position: absolute;
+  opacity: 10%;
+
+  width: 100%;
+  height: calc(100% + (2 * var(--sp-1)));
+  top: calc(0px - var(--sp-1));
+  left: 0;
+
+  background-image: url(/static/img/marketplace/paperTxt03.png);
+  background-repeat: repeat;
+`;
+
+function Grain({
+  tokenId,
+}: {
+  tokenId: number,
+}) {
+  return (
+    <GrainFill style={{
+      backgroundImage: `url(/static/img/marketplace/paperTxt0${(Number(tokenId) % 4) + 1}.png)`,
+      backgroundPosition: `${(Number(tokenId) % 100)}% ${(Number(tokenId) % 100)}%`,
+    }}/>
+  )
+}
+
 export default function TraitDisplay({ 
   attributes,
   fullAttributes,
   contract,
   setHover,
   filters,
+  showAll,
 }: { 
   attributes: {key: string, value: string}[];
   fullAttributes: any;
   contract: string;
   setHover: (hover: string) => void;
   filters: string[];
+  showAll: boolean;
 }) {
   var traitCounts: any = {};
   var traits: any = {};
@@ -156,18 +183,22 @@ export default function TraitDisplay({
 
     return (
       <TraitWrapper style={
-        ['Wizards', 'Souls', 'Warriors'].includes(contracts[contract].display) ? 
+        showAll ? 
           {} : {justifyContent: 'center'}
         }>
         {newAttributes.map((attribute: any, index: number) => {
           return (
-            <TraitContainer key={index}>
+            <TraitContainer 
+              key={index} 
+              style={showAll ? {} : {width: 'auto'}}
+            >
               <TraitLink trait={attribute.key} value={attribute.value}>
                 <TraitRow
                   onMouseOver={() => setHover(contracts[contract].coreTraits?.includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
                   onMouseOut={() => setHover('')}
+                  style={showAll ? {} : {width: '34ch'}}
                 >
-                    <Grain tokenId={traits[attribute.key] ? traits[attribute.key][attribute.value]: Math.random() * 100 + 1} opacity={10} />
+                    <Grain tokenId={traits[attribute.key] ? traits[attribute.key][attribute.value]: Math.random() * 100 + 1} />
                     <TraitType>{attribute.key.toUpperCase()}</TraitType>
                     <TraitValues>
                       <TraitItem>{attribute.value}</TraitItem>
