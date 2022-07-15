@@ -5,8 +5,12 @@ import { LoadingCard } from "./marketplaceHelpers";
 import { SoftLink } from "./marketplaceHelpers";
 
 const LoreContainer = styled.div`
-  border: 2px dashed var(--mediumGray);
-  border-radius: 4px;
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
+  
   background: var(--darkGray);
   color: var(--lightGray);
 
@@ -54,7 +58,7 @@ export default function LoreBlock({
 }) {
   if (pages?.length > 0) {
     return (
-      <LoreContainer>
+      <LoreContainer style={pages && pages.length == 1 ? {background: pages[0].bgColor} : {}}>
         {pages.map((page: any, index: number) =>
           page.nsfw ? (
             <SoftLink 

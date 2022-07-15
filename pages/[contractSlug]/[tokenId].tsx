@@ -10,7 +10,6 @@ import {
   CONTRACTS,
   API_BASE_URL,
   ORDER_TYPE,
-  BURN_ADDRESS,
   COMMUNITY_CONTRACTS,
 } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
@@ -18,9 +17,7 @@ import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Order from "../../components/Marketplace/Order";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
-import MarketButtons from "../../components/Marketplace/MarketButtons";
 import TraitDisplay from "../../components/Marketplace/TraitDisplay";
-import { ListingExpiration } from "../../components/Marketplace/ListingExpiration";
 import Carousel from "../../components/Marketplace/MarketCarousel";
 import { Owner } from "../../components/Marketplace/OfferDisplay";
 import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
@@ -30,8 +27,10 @@ import warriors from "../../data/warriors.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
-import MarketDisplay from "../../components/Marketplace/MarketDisplay";
 import ImageWithTraits from "../../components/Marketplace/ImageWithTraits";
+import Affinity from "../../components/Marketplace/Affinity";
+import PriceModule from "../../components/Marketplace/PriceModule";
+import Bio from "../../components/Marketplace/Bio";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -56,11 +55,10 @@ const PageWrapper = styled.div`
     display: none;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     margin-top: var(--sp1);
     max-height: 80vh;
   }
-
 `;
 
 const ListingWrapper = styled.div`
@@ -94,7 +92,7 @@ const TopDisplay = styled.div`
 
   margin-top: var(--sp-1);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     justify-content: center;
     margin-bottom: var(--sp-1);
   }
@@ -117,7 +115,7 @@ const TopLeft = styled.div`
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 75%;
     align-content: center;
   }
@@ -125,7 +123,6 @@ const TopLeft = styled.div`
 
 const TopRight = styled.div`
   margin-left: var(--sp3);
-  height: 420px;
   padding: var(--sp0);
   padding-top: 0;
   max-width: calc(100% - 460px - var(--sp3));
@@ -133,8 +130,9 @@ const TopRight = styled.div`
   display: flex;
   flex-wrap: wrap;
   text-align: center;
+  align-content: space-between;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     margin-left: 0px;
     align-items: center;
     align-content: center;
@@ -148,11 +146,22 @@ const TopRight = styled.div`
 
 const SectionWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   max-width: 1000px;
   width: 100%;
 
-  align-items: center;
+  gap: var(--sp1);
+  align-items: flex-start;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+    gap: 0;
+    > *:not(:last-child) {
+      margin-bottom: var(--sp1);
+    }
+  }
 `;
 
 const NameDisplay = styled.div`
@@ -172,9 +181,10 @@ const NameStyle = styled.h1`
   margin-bottom: 0px;
   margin-block-start: 0px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     text-align: center;
     font-size: var(--sp2);
+    text-shadow: 0px 2px var(--midGray);
 
     margin-top: var(--sp-3);
   }
@@ -189,28 +199,9 @@ const OwnerStyle = styled.h4`
   text-align: left;
   margin-top: var(--sp-4);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     text-align: center;
     margin-top: var(--sp-1);
-  }
-`;
-
-const PriceDisplay = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  min-width: 400px;
-
-  @media only screen and (max-width: 600px) {
-    margin-top: var(--sp-4);
-    justify-content: center;
   }
 `;
 
@@ -219,8 +210,8 @@ const HorizontalLine = styled.hr`
   border-style: dashed;
   width: 100%;
   border-width: 1px;
-  margin-top: var(--sp2);
-  margin-bottom: var(--sp2);
+  margin-top: var(--sp0);
+  margin-bottom: var(--sp0);
 
   @media only screen and (max-width: 600px) {
     width: 90%;
@@ -237,21 +228,6 @@ const BottomLine = styled.hr`
   border-width: 1px;
   margin-top: var(--sp2);
   margin-bottom: var(--sp2);
-`;
-
-const MidDisplay = styled.div`
-  text-align: center;
-  margin-top: var(--sp-1);
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  @media only screen and (max-width: 600px) {
-    flex-wrap: wrap;
-    margin-top: 0;
-  }
 `;
 
 const BottomDisplay = styled.div`
@@ -274,26 +250,43 @@ const LoreWrapper = styled.div`
   }
 `;
 
-const WarningWrapper = styled.div`
-  text-align: left;
-  font-size: 14px;
-  font-family: Terminal;
-  text-transform: uppercase;
-  color: red;
-  display: flex;
-  align-items: center;
+const Module = styled.div`
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
 
-  margin-top: var(--sp-3);
-  
+  padding: var(--sp1);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: var(--darkGray);
+
   @media only screen and (max-width: 600px) {
-    justify-content: center;
-    font-size: 13px;
-    margin-top: 0;
+   max-width: 80%;
   }
 `;
 
-const WarningSymbol = styled.div`
-  font-size: 20px;
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--sp1);
+  flex-grow: 1;
+  flex-basis: min-content;
+
+  @media only screen and (max-width: 600px) {
+    margin-bottom: var(--sp0);
+    align-items: center;
+    gap: 0;
+
+    > * {
+      margin-bottom: var(--sp1);
+    }
+  }
 `;
 
 const ListingPage = ({
@@ -432,9 +425,6 @@ const ListingPage = ({
       image={imageUrls[0]}
     >
       <PageWrapper>
-        <RuneHeader>
-          {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
-        </RuneHeader>
         {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
           <ListingWrapper>
             { modal && 
@@ -457,95 +447,90 @@ const ListingPage = ({
               />
             }
             <Listing>
-              <TopDisplay>
-                <TopLeft>
-                 <ImageWithTraits
-                    source={imageUrls[keyImage]}
-                    background={backgroundColor}
-                    traitHover={traitHover}
-                    attributes={attributes}
-                    contract={contractSlug}
-                    keyImage={keyImage}
-                 />
-                  { contracts[contractSlug].display == 'Wizards' && 
-                    <Carousel 
-                      keyImage={keyImage}
-                      setKeyImage={setKeyImage}
-                      imageUrls={imageUrls}
+              <RuneHeader>
+                {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
+              </RuneHeader>
+                <TopDisplay>
+                  <TopLeft>
+                    <ImageWithTraits
+                        source={imageUrls[keyImage]}
+                        background={backgroundColor}
+                        traitHover={traitHover}
+                        attributes={attributes}
+                        contract={contractSlug}
+                        keyImage={keyImage}
                     />
-                  }
-                </TopLeft>
-                <TopRight
-                  style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
-                >
-                  <NameDisplay>
-                    <NameStyle className='alagard'>{token.name}</NameStyle>
-                    {token.owner && (
-                      <OwnerStyle>
-                        {`Owner: `}
-                        <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
-                      </OwnerStyle>
-                    )}
-                  </NameDisplay>
-                  <PriceDisplay>
-                    <MarketDisplay 
-                      price={listing.price} 
-                      bid={offer.value} 
-                      lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp ? token.lastBuy.value?.toPrecision(3) : token.lastSell.value?.toPrecision(3) }
-                      lastSaleWeth={ token.lastBuy.timestamp > token.lastSell.timestamp }
-                    />
-                    {token.owner != BURN_ADDRESS &&
-                      <ButtonWrapper>
-                        <MarketButtons
-                          account={account}
-                          owner={contracts[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
-                          listValue={listing.price}
-                          hasOffer={offer.value != null}
-                          setModal={setModal}
-                          setActionType={setMarketActionType}
-                          highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                          native={listing.source.name == 'Forgotten Market'}
-                          tokenType={contracts[contractSlug].display == 'Flames' ? 1155 : 721}
-                          myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
-                        />
-                      </ButtonWrapper>
-                    }
-                    {listing.validUntil && 
-                      <ListingExpiration
-                        timer={countdownTimer}
-                        date={new Date(listing.validUntil * 1000)}
-                        source={listing.source.id}
+                    { contracts[contractSlug].display == 'Wizards' && 
+                      <Carousel 
+                        keyImage={keyImage}
+                        setKeyImage={setKeyImage}
+                        imageUrls={imageUrls}
                       />
                     }
-                    { isBanned && 
-                      <WarningWrapper>
-                        <WarningSymbol style={{marginRight: '10px'}}>⚠</WarningSymbol> 
-                        Reported as stolen on OpenSea 
-                        <WarningSymbol style={{marginLeft: '10px'}}>⚠</WarningSymbol> 
-                      </WarningWrapper> 
-                    }
-                  </PriceDisplay>
-                </TopRight>
-              </TopDisplay>
+                  </TopLeft>
+                  <TopRight
+                    style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
+                  >
+                    <NameDisplay>
+                      <NameStyle className='alagard'>{token.name}</NameStyle>
+                      {token.owner && (
+                        <OwnerStyle>
+                          {`Owner: `}
+                          <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
+                        </OwnerStyle>
+                      )}
+                    </NameDisplay>
+                    <PriceModule
+                      listing={listing}
+                      offer={offer}
+                      account={account}
+                      token={token}
+                      contractDisplay={contracts[contractSlug].display}
+                      flameHolder={flameHolder}
+                      isBanned={isBanned}
+                      setModal={setModal}
+                      setMarketActionType={setMarketActionType}
+                      countdownTimer={countdownTimer}
+                    />
+                  </TopRight>
+                </TopDisplay>
               <HorizontalLine/>
               <SectionWrapper>
-              <RuneHeader>TRAITS</RuneHeader>
-                <MidDisplay>
+                <Module style={{flexBasis: '50%', flexGrow: 2}}>
+                  <RuneHeader>
+                    TRAITS
+                  </RuneHeader>
                   <TraitDisplay 
                     attributes={attributes} 
                     fullAttributes={fullAttributes} 
                     contract={contractSlug} 
-                    tokenId={tokenId} 
                     setHover={setTraitHover}
+                    filters={contracts[contractSlug].coreTraits}
                   />
-                </MidDisplay>
+                </Module>
+                { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) &&
+                  <Column>
+                    <Module>
+                      <RuneHeader>AFFINITY</RuneHeader>
+                      <Affinity attributes={attributes} fullAttributes={fullAttributes} />
+                    </Module>
+                    <Module>
+                      <RuneHeader>BIO</RuneHeader>
+                      <Bio 
+                        attributes={attributes} 
+                        fullAttributes={fullAttributes}
+                        collection={contracts[contractSlug].display}
+                      />
+                    </Module>
+                  </Column>
+                }
               </SectionWrapper>
               {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
               {contracts[contractSlug].display != 'Flames' && 
                 <SectionWrapper>
-                  <RuneHeader>LORE</RuneHeader>
                   <BottomDisplay>
                     <LoreWrapper>
+                    <RuneHeader>LORE</RuneHeader>
                       <LoreBlock 
                         pages={pages} 
                         length={lore.length} 

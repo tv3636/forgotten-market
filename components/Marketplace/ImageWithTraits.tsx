@@ -9,7 +9,7 @@ const ImageWrapper = styled.div`
 `;
 
 const TokenImage = styled.img`
-  padding: var(--sp1);
+  padding: var(--sp2);
   width: 400px;
 
   @media only screen and (max-width: 600px) {
@@ -28,27 +28,26 @@ const TraitImage = styled(TokenImage)`
 `;
 
 const NewFrame = styled.div`
---frameSize: 36px;
-width: calc(100% + 0.85 * var(--frameSize));
-height: calc(100% - 15px);
+  --frameSize: 36px;
+  width: calc(100% + 0.85 * var(--frameSize));
+  height: calc(100% - 15px);
 
-position: absolute;
-left: calc(-0.425 * var(--frameSize));
-top: calc(-0.1 * var(--frameSize));
-z-index: 1;
-border-image-source: url(/static/img/newframe_black.png);
-border-image-slice: 35 50;
-border-image-width: var(--frameSize);
-border-image-outset: 0;
-border-style: solid;
-border-image-repeat: round;
-image-rendering: pixelated;
+  position: absolute;
+  left: calc(-0.425 * var(--frameSize));
+  top: calc(-0.1 * var(--frameSize));
+  z-index: 1;
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 35 50;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
+  image-rendering: pixelated;
 
-@media only screen and (max-width: 600px) {
-  width: 100%;
-  height: 100%;
-  left: 0;
-}
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    left: 0;
+  }
 `;
 
 export default function ImageWithTraits({
@@ -71,7 +70,7 @@ export default function ImageWithTraits({
     <ImageWrapper>
       <TokenImage 
         src={source} 
-        style={{background: background, opacity: traitHover && keyImage == 0 ? 0.5 : 1}}
+        style={{background: background, opacity: traitHover && keyImage == 0 ? 0.25 : 1}}
       />
       <NewFrame/>
       {contracts[contract].coreTraits?.map((trait: any, index: number) => {
@@ -80,7 +79,7 @@ export default function ImageWithTraits({
             <TraitImage 
               src={`/static/img/traits/${contracts[contract].display.toLowerCase()}/${trait.toLowerCase()}/${getValue(attributes, trait)}.png`}
               style={{
-                opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .5 : 0,
+                opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .25 : 0,
                 zIndex: trait == 'Body' ? 0 : 1,
                 display: keyImage == 0 ? 'block' : 'none',
                 top: contracts[contract].display == 'Warriors' ? '-0.5px' : '0',
