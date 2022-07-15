@@ -99,7 +99,7 @@ export default function Bio({
     traitCounts[trait.key] = totalCount;
     maxCount = Math.max(maxCount, totalCount);
   }
-  console.log(collection);
+
   return (
     <BioContainer>
       { collection == 'Warriors' ? 
