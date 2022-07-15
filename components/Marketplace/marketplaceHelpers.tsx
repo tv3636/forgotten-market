@@ -241,7 +241,13 @@ export function Icons({
   );
 }
 
-export function LoadingCard({ height }: { height: string }) {
+export function LoadingCard({ 
+  height,
+  background,
+}: { 
+  height: string 
+  background: boolean
+}) {
   return (
     <div
       style={{
@@ -251,7 +257,7 @@ export function LoadingCard({ height }: { height: string }) {
         alignContent: "center",
         justifyContent: "center",
         height: height,
-        backgroundImage: 'url(/static/img/interior-dark.png)',
+        backgroundImage: background ? 'url(/static/img/interior-dark.png)' : 'none',
       }}
     >
       <img

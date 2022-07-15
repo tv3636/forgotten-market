@@ -412,7 +412,7 @@ export default function Activity({
           <div className="scrim">
           </div>
           </ScrollContainer> :
-          <LoadingCard height={'80vh'}/>
+          <LoadingCard height={'80vh'} background={true}/>
         }
       </InfiniteScroll>
   )

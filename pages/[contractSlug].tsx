@@ -18,6 +18,7 @@ import Filters from "../components/Marketplace/Filters";
 import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
 import MobileOverlay from "../components/Marketplace/MobileOverlay";
 import Activity from "../components/Marketplace/Activity";
+import FilterHeader from "../components/Marketplace/FilterHeader";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -137,6 +138,7 @@ export default function Marketplace({
   const [hasLore, setHasLore] = useState(false);
   const [hasNoLore, setHasNoLore] = useState(false);
   const [filterActive, setFilterActive] = useState(false);
+  const [traitsSelected, setTraitsSelected] = useState(0);
   const [continuation, setContinuation] = useState('');
   const [items, setItems] = useState(0);
   const [floor, setFloor] = useState(0);
@@ -194,6 +196,13 @@ export default function Marketplace({
       delete router.query[trait.toLowerCase()];
     }
 
+    setTraitsSelected(
+      Object.keys(router.query).length 
+      - Number('source' in router.query) 
+      - Number('activity' in router.query) 
+      - Number('contractSlug' in router.query)
+    );
+
     router.push({query: router.query}, undefined, {shallow: true});
     fetchListings(true);
   }
@@ -217,6 +226,13 @@ export default function Marketplace({
         fetchListings(true);
       }
       getStats();
+
+      setTraitsSelected(
+        Object.keys(router.query).length 
+        - Number('source' in router.query) 
+        - Number('activity' in router.query) 
+        - Number('contractSlug' in router.query)
+      );
     }
   }, [router.query]);
 
@@ -252,46 +268,49 @@ export default function Marketplace({
             </MidHeader>
             <InfiniteWrapper>
               { showActivity ? <Activity contract={contract}/> : listings.length > 0 || loaded ? (
-                  <InfiniteScroll
-                    dataLength={listings.length}
-                    next={() => fetchListings(false)}
-                    hasMore={true}
-                    loader={null}
-                    height={"100vh"}
-                    scrollThreshold={0.3}
-                    endMessage={
-                      <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
-                    }
-                    style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
-                  >
-                    <ScrollContainer>
-                      {listings.map((listing: any, index) => {
-                        return (
-                          ((!hasLore && !hasNoLore) ||
-                            (hasLore &&
-                              !hasNoLore &&
-                              wizardsWithLore[listing.token.tokenId]) ||
-                            (!hasLore &&
-                              hasNoLore &&
-                              !wizardsWithLore[listing.token.tokenId])) && (
-                            <div key={index}>
-                              <TokenDisplay
-                                contract={contract}
-                                tokenId={listing.token.tokenId}
-                                name={listing.token.name}
-                                price={listing.market.floorAsk.price}
-                                source={listing.market.floorAsk.source.id}
-                              />
-                            </div>
-                          )
-                        );
-                      })}
-                    </ScrollContainer>
-                  </InfiniteScroll>
+                  <>
+                    <FilterHeader/>
+                    <InfiniteScroll
+                      dataLength={listings.length}
+                      next={() => fetchListings(false)}
+                      hasMore={true}
+                      loader={null}
+                      height={"100vh"}
+                      scrollThreshold={0.3}
+                      endMessage={
+                        <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
+                      }
+                      style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
+                    >
+                      <ScrollContainer>
+                        {listings.map((listing: any, index) => {
+                          return (
+                            ((!hasLore && !hasNoLore) ||
+                              (hasLore &&
+                                !hasNoLore &&
+                                wizardsWithLore[listing.token.tokenId]) ||
+                              (!hasLore &&
+                                hasNoLore &&
+                                !wizardsWithLore[listing.token.tokenId])) && (
+                              <div key={index}>
+                                <TokenDisplay
+                                  contract={contract}
+                                  tokenId={listing.token.tokenId}
+                                  name={listing.token.name}
+                                  price={listing.market.floorAsk.price}
+                                  source={listing.market.floorAsk.source.id}
+                                />
+                              </div>
+                            )
+                          );
+                        })}
+                      </ScrollContainer>
+                    </InfiniteScroll>
+                  </>
               ) : (
-                <LoadingCard height={'100vh'}/>
+                <LoadingCard height={'100vh'} background={true} />
               )}
-              <TopScrim>
+              <TopScrim style={{top: traitsSelected >= 1 && !showActivity ? 'var(--sp4)' : '0'}}>
                 <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' layout='responsive' />
               </TopScrim>
             </InfiniteWrapper>

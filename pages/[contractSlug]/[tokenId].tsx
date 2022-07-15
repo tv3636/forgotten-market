@@ -540,7 +540,7 @@ const ListingPage = ({
             </Listing>
           </ListingWrapper> :
           <ListingWrapper>
-            <LoadingCard height={'80vh'}/>
+            <LoadingCard height={'80vh'} background={true} />
           </ListingWrapper>
         }
       </PageWrapper>
