@@ -10,7 +10,7 @@ const PriceDisplay = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     align-items: center;
   }
 `;
@@ -22,7 +22,7 @@ const ButtonWrapper = styled.div`
   justify-content: flex-start;
   min-width: 400px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     margin-top: var(--sp-4);
     justify-content: center;
   }
@@ -39,7 +39,7 @@ const WarningWrapper = styled.div`
 
   margin-top: var(--sp-3);
   
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     justify-content: center;
     font-size: 13px;
     margin-top: 0;

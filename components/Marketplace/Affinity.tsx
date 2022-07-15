@@ -60,6 +60,11 @@ const Progress = styled.div`
   margin-left: 4px;
   margin-right: 4px;
   height: 48%;
+
+  @media only screen and (max-width: 600px) {
+    margin-left: 2px;
+    margin-right: 2px;
+  }
 `;
 
 export default function Affinity({

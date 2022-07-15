@@ -16,6 +16,11 @@ const TraitWrapper = styled.div`
   @media only screen and (max-width: 600px) {
     justify-content: center;
     padding: 20px;
+
+    gap: 0;
+    > *:not(:last-child) {
+      margin-bottom: var(--sp-2);
+    }
   }
 `;
 
@@ -40,7 +45,6 @@ const TraitItem = styled.div`
   color: var(--white);
 
   margin-right: var(--sp-1);
-  margin-top: var(--sp-4);
 
   text-align: left;
   display: -webkit-box;

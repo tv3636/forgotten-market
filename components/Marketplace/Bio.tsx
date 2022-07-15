@@ -6,7 +6,10 @@ const BioContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  gap: var(--sp-4);
+  > *:not(:last-child) {
+    margin-bottom: var(--sp-2);
+  }
+
   width: 100%;
 `;
 
@@ -34,7 +37,9 @@ const Tuple = styled.div`
   display: flex;
   flex-direction: row;
 
-  gap: var(--sp-3);
+  .tag {
+    margin-left: var(--sp-3);
+  }
 
   align-items: baseline;
 `;
@@ -56,7 +61,7 @@ function BioItem({
         <Trait>{trait.toUpperCase()}</Trait>
         <Tuple>
           <Value>{value}</Value>
-          <Trait>
+          <Trait className="tag">
             {
               traits[trait] &&
               `(${((traits[trait][value] / count) * 100)

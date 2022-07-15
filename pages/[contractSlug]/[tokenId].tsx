@@ -30,7 +30,6 @@ import babies from "../../data/babies.json";
 import ImageWithTraits from "../../components/Marketplace/ImageWithTraits";
 import Affinity from "../../components/Marketplace/Affinity";
 import PriceModule from "../../components/Marketplace/PriceModule";
-import { number } from "yargs";
 import Bio from "../../components/Marketplace/Bio";
 
 const collectionData: any = {
@@ -56,7 +55,7 @@ const PageWrapper = styled.div`
     display: none;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     margin-top: var(--sp1);
     max-height: 80vh;
   }
@@ -93,7 +92,7 @@ const TopDisplay = styled.div`
 
   margin-top: var(--sp-1);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     justify-content: center;
     margin-bottom: var(--sp-1);
   }
@@ -116,7 +115,7 @@ const TopLeft = styled.div`
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 75%;
     align-content: center;
   }
@@ -133,7 +132,7 @@ const TopRight = styled.div`
   text-align: center;
   align-content: space-between;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     margin-left: 0px;
     align-items: center;
     align-content: center;
@@ -148,15 +147,21 @@ const TopRight = styled.div`
 const SectionWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   max-width: 1000px;
   width: 100%;
 
   gap: var(--sp1);
-
   align-items: flex-start;
   justify-content: space-between;
 
-  flex-wrap: wrap;
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+    gap: 0;
+    > *:not(:last-child) {
+      margin-bottom: var(--sp1);
+    }
+  }
 `;
 
 const NameDisplay = styled.div`
@@ -176,9 +181,10 @@ const NameStyle = styled.h1`
   margin-bottom: 0px;
   margin-block-start: 0px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     text-align: center;
     font-size: var(--sp2);
+    text-shadow: 0px 2px var(--midGray);
 
     margin-top: var(--sp-3);
   }
@@ -193,7 +199,7 @@ const OwnerStyle = styled.h4`
   text-align: left;
   margin-top: var(--sp-4);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     text-align: center;
     margin-top: var(--sp-1);
   }
@@ -258,6 +264,10 @@ const Module = styled.div`
   justify-content: center;
 
   background-color: var(--darkGray);
+
+  @media only screen and (max-width: 600px) {
+   max-width: 80%;
+  }
 `;
 
 const Column = styled.div`
@@ -267,6 +277,16 @@ const Column = styled.div`
   gap: var(--sp1);
   flex-grow: 1;
   flex-basis: min-content;
+
+  @media only screen and (max-width: 600px) {
+    margin-bottom: var(--sp0);
+    align-items: center;
+    gap: 0;
+
+    > * {
+      margin-bottom: var(--sp1);
+    }
+  }
 `;
 
 const ListingPage = ({
