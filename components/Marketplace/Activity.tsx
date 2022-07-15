@@ -8,6 +8,7 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
 import router from "next/router";
+import FilterHeader from "./FilterHeader";
 
 TimeAgo.addDefaultLocale(en);
 const headers: HeadersInit = new Headers();
@@ -336,6 +337,8 @@ export default function Activity({
   }, [router.query]);
 
   return (
+    <>
+      <FilterHeader/>
       <InfiniteScroll
         dataLength={sales.length}
         next={() => { fetchSales(true) }}
@@ -415,5 +418,6 @@ export default function Activity({
           <LoadingCard height={'80vh'} background={true}/>
         }
       </InfiniteScroll>
+    </>
   )
 }

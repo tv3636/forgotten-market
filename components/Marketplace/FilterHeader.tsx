@@ -7,6 +7,8 @@ const Container = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
 
+  justify-content: center;
+
   margin-left: var(--sp5);
   margin-right: var(--sp5);
   margin-top: var(--sp4);

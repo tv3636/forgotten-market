@@ -310,7 +310,7 @@ export default function Marketplace({
               ) : (
                 <LoadingCard height={'100vh'} background={true} />
               )}
-              <TopScrim style={{top: traitsSelected >= 1 && !showActivity ? 'var(--sp4)' : '0'}}>
+              <TopScrim style={{top: traitsSelected >= 1 ? 'var(--sp4)' : '0'}}>
                 <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' layout='responsive' />
               </TopScrim>
             </InfiniteWrapper>
