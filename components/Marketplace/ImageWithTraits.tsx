@@ -46,9 +46,8 @@ const NewFrame = styled.div`
   image-rendering: pixelated;
 
   @media only screen and (max-width: 600px) {
-    width: 100%;
-    height: 100%;
-    left: 0;
+    width: 111%;
+    height: 102%;
   }
 `;
 

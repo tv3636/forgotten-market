@@ -86,7 +86,7 @@ const SalesText = styled.div`
 
   @media only screen and (max-width: 1250px) {
     font-size: 15px;
-    width: 11ch;
+    width: 10ch;
   }
 `;
 
@@ -106,7 +106,7 @@ const BuyerText = styled.div`
 
   @media only screen and (max-width: 1250px) {
     font-size: 14px;
-    max-width: 14ch;
+    max-width: 13ch;
   }
 `;
 
@@ -198,6 +198,8 @@ const MobileWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    z-index: 2;
   }
 `;
 
@@ -305,8 +307,10 @@ function BuyerSeller({
 
 export default function Activity({
   contract,
+  traitsSelected,
 }: {
   contract: string;
+  traitsSelected: number;
 }) {
   const [sales, setSales] = useState([]);
   const [continuation, setContinuation] = useState('');
@@ -338,7 +342,7 @@ export default function Activity({
 
   return (
     <>
-      <FilterHeader/>
+      { traitsSelected >= 1 && <FilterHeader/> }
       <InfiniteScroll
         dataLength={sales.length}
         next={() => { fetchSales(true) }}

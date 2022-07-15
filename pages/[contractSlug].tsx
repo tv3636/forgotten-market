@@ -109,10 +109,14 @@ const BottomScrim = styled.div`
 
 const TopScrim = styled(BottomScrim)`
   bottom: auto;
-  top: 0px;
+  --top-height: 0px;
   
   width: 100%;
   height: 20px;
+
+  @media only screen and (max-width: 600px) {
+    --top-height: -1px;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -267,9 +271,12 @@ export default function Marketplace({
               <MainToggle activity={showActivity} />
             </MidHeader>
             <InfiniteWrapper>
-              { showActivity ? <Activity contract={contract}/> : listings.length > 0 || loaded ? (
+              { showActivity ? 
+                <Activity contract={contract} traitsSelected={traitsSelected}/> : 
+                listings.length > 0 || loaded ? 
+                (
                   <>
-                    <FilterHeader/>
+                    { traitsSelected >= 1 && <FilterHeader/> }
                     <InfiniteScroll
                       dataLength={listings.length}
                       next={() => fetchListings(false)}
@@ -310,7 +317,7 @@ export default function Marketplace({
               ) : (
                 <LoadingCard height={'100vh'} background={true} />
               )}
-              <TopScrim style={{top: traitsSelected >= 1 ? 'var(--sp4)' : '0'}}>
+              <TopScrim style={{top: traitsSelected >= 1 ? 'calc(var(--sp4) + var(--top-height) * 2)': 'var(--top-height)'}}>
                 <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' layout='responsive' />
               </TopScrim>
             </InfiniteWrapper>

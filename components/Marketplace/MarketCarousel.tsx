@@ -19,7 +19,7 @@ const Arrows = styled.div`
   z-index: 5;
 
   @media only screen and (max-width: 600px) {
-    width: 105%;
+    width: 111%;
     height: 100%;
     top: auto;
     opacity: 50%;
@@ -51,6 +51,8 @@ const ArrowImage = styled.img`
     height: 20px;
     width: 20px;
     padding: 5px;
+
+    background-color: black;
   }
 
   transition: all 200ms;
