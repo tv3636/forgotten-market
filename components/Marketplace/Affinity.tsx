@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { getValue } from "./marketplaceHelpers";
 import TraitLink from "./TraitLink";
 
 const AffinityWrapper = styled.div`
@@ -18,8 +19,8 @@ const Row = styled.div`
 
 const BasicRow = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 14%;
+  justify-content: space-around;
+  width: 9%;
 `;
 
 const Title = styled.div`
@@ -45,7 +46,7 @@ const ProgressBar = styled.div`
   border-style: solid;
   border-image-repeat: round;
 
-  width: 75%;
+  width: 80%;
   height: var(--sp1);
 
   display: flex;
@@ -61,15 +62,6 @@ const Progress = styled.div`
   height: 48%;
 `;
 
-function getValueForKey(attributes: {key: string, value: string}[], key: string) {
-  for (var attribute of attributes) {
-    if (attribute.key == key) {
-      return attribute.value;
-    }
-  }
-  return "";
-}
-
 export default function Affinity({
   attributes,
   fullAttributes
@@ -77,9 +69,9 @@ export default function Affinity({
   attributes: {key: string, value: string}[];
   fullAttributes: any;
 }) {
-  let affinityType = getValueForKey(attributes, "Affinity");
-  let traitsInAffinity = getValueForKey(attributes, '# Traits in Affinity');
-  let numTraits = getValueForKey(attributes, '# Traits');
+  let affinityType = getValue(attributes, "Affinity");
+  let traitsInAffinity = getValue(attributes, '# Traits in Affinity');
+  let numTraits = getValue(attributes, '# Traits');
 
   var traitCounts: any = {};
   var traits: any = {};

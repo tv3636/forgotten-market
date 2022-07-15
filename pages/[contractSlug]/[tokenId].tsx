@@ -10,7 +10,6 @@ import {
   CONTRACTS,
   API_BASE_URL,
   ORDER_TYPE,
-  BURN_ADDRESS,
   COMMUNITY_CONTRACTS,
 } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
@@ -18,9 +17,7 @@ import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
 import Order from "../../components/Marketplace/Order";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
-import MarketButtons from "../../components/Marketplace/MarketButtons";
 import TraitDisplay from "../../components/Marketplace/TraitDisplay";
-import { ListingExpiration } from "../../components/Marketplace/ListingExpiration";
 import Carousel from "../../components/Marketplace/MarketCarousel";
 import { Owner } from "../../components/Marketplace/OfferDisplay";
 import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
@@ -30,9 +27,11 @@ import warriors from "../../data/warriors.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
 import babies from "../../data/babies.json";
-import MarketDisplay from "../../components/Marketplace/MarketDisplay";
 import ImageWithTraits from "../../components/Marketplace/ImageWithTraits";
 import Affinity from "../../components/Marketplace/Affinity";
+import PriceModule from "../../components/Marketplace/PriceModule";
+import { number } from "yargs";
+import Bio from "../../components/Marketplace/Bio";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -132,6 +131,7 @@ const TopRight = styled.div`
   display: flex;
   flex-wrap: wrap;
   text-align: center;
+  align-content: space-between;
 
   @media only screen and (max-width: 600px) {
     margin-left: 0px;
@@ -151,7 +151,12 @@ const SectionWrapper = styled.div`
   max-width: 1000px;
   width: 100%;
 
+  gap: var(--sp1);
+
   align-items: flex-start;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
 `;
 
 const NameDisplay = styled.div`
@@ -191,26 +196,6 @@ const OwnerStyle = styled.h4`
   @media only screen and (max-width: 600px) {
     text-align: center;
     margin-top: var(--sp-1);
-  }
-`;
-
-const PriceDisplay = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  min-width: 400px;
-
-  @media only screen and (max-width: 600px) {
-    margin-top: var(--sp-4);
-    justify-content: center;
   }
 `;
 
@@ -259,28 +244,6 @@ const LoreWrapper = styled.div`
   }
 `;
 
-const WarningWrapper = styled.div`
-  text-align: left;
-  font-size: 14px;
-  font-family: Terminal;
-  text-transform: uppercase;
-  color: red;
-  display: flex;
-  align-items: center;
-
-  margin-top: var(--sp-3);
-  
-  @media only screen and (max-width: 600px) {
-    justify-content: center;
-    font-size: 13px;
-    margin-top: 0;
-  }
-`;
-
-const WarningSymbol = styled.div`
-  font-size: 20px;
-`;
-
 const Module = styled.div`
   border-image-source: url(/static/img/moduleframe.png);
   border-image-slice: 30 35;
@@ -295,6 +258,15 @@ const Module = styled.div`
   justify-content: center;
 
   background-color: var(--darkGray);
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--sp1);
+  flex-grow: 1;
+  flex-basis: min-content;
 `;
 
 const ListingPage = ({
@@ -458,7 +430,6 @@ const ListingPage = ({
               <RuneHeader>
                 {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
               </RuneHeader>
-              <Module>
                 <TopDisplay>
                   <TopLeft>
                     <ImageWithTraits
@@ -489,66 +460,49 @@ const ListingPage = ({
                         </OwnerStyle>
                       )}
                     </NameDisplay>
-                    <TraitDisplay 
-                      attributes={attributes} 
-                      fullAttributes={fullAttributes} 
-                      contract={contractSlug} 
-                      setHover={setTraitHover}
-                      filters={contracts[contractSlug].coreTraits}
+                    <PriceModule
+                      listing={listing}
+                      offer={offer}
+                      account={account}
+                      token={token}
+                      contractDisplay={contracts[contractSlug].display}
+                      flameHolder={flameHolder}
+                      isBanned={isBanned}
+                      setModal={setModal}
+                      setMarketActionType={setMarketActionType}
+                      countdownTimer={countdownTimer}
                     />
                   </TopRight>
                 </TopDisplay>
-              </Module>
               <HorizontalLine/>
               <SectionWrapper>
-                <Module>
+                <Module style={{flexBasis: '50%', flexGrow: 2}}>
                   <RuneHeader>
-                    LISTING
+                    TRAITS
                   </RuneHeader>
-                  <PriceDisplay>
-                    <MarketDisplay 
-                      price={listing.price} 
-                      bid={offer.value} 
-                      lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp ? token.lastBuy.value?.toPrecision(3) : token.lastSell.value?.toPrecision(3) }
-                      lastSaleWeth={ token.lastBuy.timestamp > token.lastSell.timestamp }
-                    />
-                    {token.owner != BURN_ADDRESS &&
-                      <ButtonWrapper>
-                        <MarketButtons
-                          account={account}
-                          owner={contracts[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
-                          listValue={listing.price}
-                          hasOffer={offer.value != null}
-                          setModal={setModal}
-                          setActionType={setMarketActionType}
-                          highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                          native={listing.source.name == 'Forgotten Market'}
-                          tokenType={contracts[contractSlug].display == 'Flames' ? 1155 : 721}
-                          myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
-                        />
-                      </ButtonWrapper>
-                    }
-                    {listing.validUntil && 
-                      <ListingExpiration
-                        timer={countdownTimer}
-                        date={new Date(listing.validUntil * 1000)}
-                        source={listing.source.id}
-                      />
-                    }
-                    { isBanned && 
-                      <WarningWrapper>
-                        <WarningSymbol style={{marginRight: '10px'}}>⚠</WarningSymbol> 
-                        Reported as stolen on OpenSea 
-                        <WarningSymbol style={{marginLeft: '10px'}}>⚠</WarningSymbol> 
-                      </WarningWrapper> 
-                    }
-                  </PriceDisplay>
+                  <TraitDisplay 
+                    attributes={attributes} 
+                    fullAttributes={fullAttributes} 
+                    contract={contractSlug} 
+                    setHover={setTraitHover}
+                    filters={contracts[contractSlug].coreTraits}
+                  />
                 </Module>
                 { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) &&
-                  <Module>
-                    <RuneHeader>AFFINITY</RuneHeader>
-                    <Affinity attributes={attributes} fullAttributes={fullAttributes} />
-                  </Module>
+                  <Column>
+                    <Module>
+                      <RuneHeader>AFFINITY</RuneHeader>
+                      <Affinity attributes={attributes} fullAttributes={fullAttributes} />
+                    </Module>
+                    <Module>
+                      <RuneHeader>BIO</RuneHeader>
+                      <Bio 
+                        attributes={attributes} 
+                        fullAttributes={fullAttributes}
+                        collection={contracts[contractSlug].display}
+                      />
+                    </Module>
+                  </Column>
                 }
               </SectionWrapper>
               {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }

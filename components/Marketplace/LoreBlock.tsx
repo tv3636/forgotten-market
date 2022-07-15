@@ -58,7 +58,7 @@ export default function LoreBlock({
 }) {
   if (pages?.length > 0) {
     return (
-      <LoreContainer>
+      <LoreContainer style={pages && pages.length == 1 ? {background: pages[0].bgColor} : {}}>
         {pages.map((page: any, index: number) =>
           page.nsfw ? (
             <SoftLink 

@@ -70,7 +70,7 @@ export default function ImageWithTraits({
     <ImageWrapper>
       <TokenImage 
         src={source} 
-        style={{background: background, opacity: traitHover && keyImage == 0 ? 0.4 : 1}}
+        style={{background: background, opacity: traitHover && keyImage == 0 ? 0.25 : 1}}
       />
       <NewFrame/>
       {contracts[contract].coreTraits?.map((trait: any, index: number) => {
@@ -79,7 +79,7 @@ export default function ImageWithTraits({
             <TraitImage 
               src={`/static/img/traits/${contracts[contract].display.toLowerCase()}/${trait.toLowerCase()}/${getValue(attributes, trait)}.png`}
               style={{
-                opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .4 : 0,
+                opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .25 : 0,
                 zIndex: trait == 'Body' ? 0 : 1,
                 display: keyImage == 0 ? 'block' : 'none',
                 top: contracts[contract].display == 'Warriors' ? '-0.5px' : '0',

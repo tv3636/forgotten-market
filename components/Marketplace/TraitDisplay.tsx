@@ -1,14 +1,31 @@
 
 import styled from "@emotion/styled";
-import Link from "next/link";
-import { SoftLink } from "./marketplaceHelpers";
-import { BURN_TRAITS, COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import TraitLink from "./TraitLink";
+
+const TraitWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  gap: var(--sp0);
+  margin-top: var(--sp-3);
+
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+    padding: 20px;
+  }
+`;
 
 const TraitRow = styled.div`
   color: var(--lightGray);
   margin-bottom: var(--sp-4);
-  width: 22ch;
+  width: 32ch;
+
+  padding-left: var(--sp-1);
+  padding-right: var(--sp-1);
 
   :hover {
     cursor: pointer;
@@ -18,7 +35,7 @@ const TraitRow = styled.div`
 `;
 
 const TraitItem = styled.div`
-  font-size: var(--sp0);
+  font-size: var(--sp1);
   font-family: Alagard;
   color: var(--white);
 
@@ -26,7 +43,6 @@ const TraitItem = styled.div`
   margin-top: var(--sp-4);
 
   text-align: left;
-  width: 17ch;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -49,24 +65,12 @@ const TraitType = styled.div`
   margin-bottom: var(--sp-4);
 `;
 
-const TraitWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  @media only screen and (max-width: 600px) {
-    justify-content: center;
-    padding: 20px;
-  }
-`;
-
 const TraitValues = styled.div`
   display: flex;
   flex-direction: row;
   
   align-items: flex-end;
+  justify-content: space-between;
 `;
 
 export default function TraitDisplay({ 
@@ -80,7 +84,7 @@ export default function TraitDisplay({
   fullAttributes: any;
   contract: string;
   setHover: (hover: string) => void;
-  filters: [string];
+  filters: string[];
 }) {
   var traitCounts: any = {};
   var traits: any = {};
