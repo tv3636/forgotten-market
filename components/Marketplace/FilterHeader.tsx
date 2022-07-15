@@ -32,7 +32,7 @@ const Container = styled.div`
 
 const TraitRow = styled.div`
   color: var(--lightGray);
-  margin-bottom: var(--sp-4);
+  margin-bottom: var(--sp-1);
   width: 20ch;
   position: relative;
 
@@ -41,7 +41,7 @@ const TraitRow = styled.div`
   background-color: var(--frameGray);
   border-image: url("/static/img/trait_background.png");
   border-style: solid;
-  border-width: var(--sp-1);
+  border-width: var(--sp-3) var(--sp-2);
   border-image-slice: 15 20;
 
   box-shadow: 3px 4px 0 var(--mediumGray);
@@ -93,6 +93,8 @@ const TraitItem = styled.div`
 const Close = styled.div`
   width: 10px;
   height: 10px;
+
+  z-index: 20;
 
   :hover {
     cursor: pointer;

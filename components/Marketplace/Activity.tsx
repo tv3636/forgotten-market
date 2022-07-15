@@ -307,10 +307,8 @@ function BuyerSeller({
 
 export default function Activity({
   contract,
-  traitsSelected,
 }: {
   contract: string;
-  traitsSelected: number;
 }) {
   const [sales, setSales] = useState([]);
   const [continuation, setContinuation] = useState('');
@@ -341,87 +339,82 @@ export default function Activity({
   }, [router.query]);
 
   return (
-    <>
-      { traitsSelected >= 1 && <FilterHeader/> }
-      <InfiniteScroll
-        dataLength={sales.length}
-        next={() => { fetchSales(true) }}
-        hasMore={true}
-        loader={null}
-        scrollThreshold={0.1}
-        height={'100vh'}
-        style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
-      >
-        { fetched ? 
-          <ScrollContainer>
-          {sales.map((sale: any, index) => {
-            return (sale && sale.token ?
-              <ActivityWrapper key={index}>
-                <ActivityRow>
-                  <Grain style={{
-                    backgroundImage: `url(/static/img/marketplace/paperTxt0${(sale.token.tokenId % 4) + 1}.png)`,
-                    backgroundPosition: `${(sale.token.tokenId % 100)}% ${(sale.token.tokenId % 100)}%`
-                  }}/>
-                  <SalesDisplay>
-                    <Link
-                      href={`/marketplace/${contract}/${sale.token.tokenId}`}
-                      passHref={true}
-                    >
-                      <SoftLink>
-                        <ActivityImage 
-                          src={contracts[contract].display == 'Wizards' ? 
-                            `${contracts[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
-                            `${contracts[contract].image_url}${sale.token.tokenId}.png`}
-                        /> 
-                      </SoftLink>
-                    </Link>
-                    <SalesTextDisplay>
-                      <SalesText>{sale.token.name}</SalesText>
-                      <div style={{ display: 'flex' }}>
-                        <EthSymbol src={sale.orderSide == 'ask' ? '/static/img/marketplace/eth.png': '/static/img/marketplace/weth.png'}/>
-                        <SalesText>{sale.price}</SalesText>
-                      </div>
-                    </SalesTextDisplay>
-                  </SalesDisplay>
-                  <MobileWrapper>
-                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
-                    <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+    <InfiniteScroll
+      dataLength={sales.length}
+      next={() => { fetchSales(true) }}
+      hasMore={true}
+      loader={null}
+      scrollThreshold={0.1}
+      height={'100vh'}
+      style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
+    >
+      { fetched ? 
+        <ScrollContainer>
+        {sales.map((sale: any, index) => {
+          return (sale && sale.token ?
+            <ActivityWrapper key={index}>
+              <ActivityRow>
+                <Grain style={{
+                  backgroundImage: `url(/static/img/marketplace/paperTxt0${(sale.token.tokenId % 4) + 1}.png)`,
+                  backgroundPosition: `${(sale.token.tokenId % 100)}% ${(sale.token.tokenId % 100)}%`
+                }}/>
+                <SalesDisplay>
+                  <Link
+                    href={`/marketplace/${contract}/${sale.token.tokenId}`}
+                    passHref={true}
+                  >
+                    <SoftLink>
+                      <ActivityImage 
+                        src={contracts[contract].display == 'Wizards' ? 
+                          `${contracts[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
+                          `${contracts[contract].image_url}${sale.token.tokenId}.png`}
+                      /> 
+                    </SoftLink>
+                  </Link>
+                  <SalesTextDisplay>
+                    <SalesText>{sale.token.name}</SalesText>
+                    <div style={{ display: 'flex' }}>
+                      <EthSymbol src={sale.orderSide == 'ask' ? '/static/img/marketplace/eth.png': '/static/img/marketplace/weth.png'}/>
+                      <SalesText>{sale.price}</SalesText>
+                    </div>
+                  </SalesTextDisplay>
+                </SalesDisplay>
+                <MobileWrapper>
+                  <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                  <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <TimeText>
+                      <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
+                    </TimeText>
+                    <IconImage src="/static/img/marketplace/share.png"/>
+                    </div>
+                  </SoftLink>
+                </MobileWrapper>
+                <DesktopWrapper>
+                  <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                </DesktopWrapper>
+                <DesktopWrapper>
+                  <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                      <TimeText>
-                        <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
-                      </TimeText>
-                      <IconImage src="/static/img/marketplace/share.png"/>
-                      </div>
-                    </SoftLink>
-                  </MobileWrapper>
-                  <DesktopWrapper>
-                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
-                  </DesktopWrapper>
-                  <DesktopWrapper>
-                    <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
-                      <div style={{display: 'flex', alignItems: 'center'}}>
-                      <TimeText>
-                        <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
-                      </TimeText>
-                      <MarketIcon src={MARKET_ICONS_BY_NAME[sale.orderSource]} style={{marginLeft: '10px'}}/>
-                      </div>
-                    </SoftLink>
-                  </DesktopWrapper>
-                  <NewFrame/>
-                </ActivityRow>
-                <HorizontalLine/>
-              </ActivityWrapper> :
-              null
-              
-            );
-          })
-          }
-          <div className="scrim">
-          </div>
-          </ScrollContainer> :
-          <LoadingCard height={'80vh'} background={true}/>
+                    <TimeText>
+                      <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
+                    </TimeText>
+                    <MarketIcon src={MARKET_ICONS_BY_NAME[sale.orderSource]} style={{marginLeft: '10px'}}/>
+                    </div>
+                  </SoftLink>
+                </DesktopWrapper>
+                <NewFrame/>
+              </ActivityRow>
+              <HorizontalLine/>
+            </ActivityWrapper> :
+            null
+          );
+        })
         }
-      </InfiniteScroll>
-    </>
+        <div className="scrim"/>
+        </ScrollContainer> :
+        <LoadingCard height={'80vh'} background={true}/>
+      }
+    </InfiniteScroll>
   )
 }
