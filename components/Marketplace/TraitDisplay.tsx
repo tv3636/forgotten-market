@@ -202,7 +202,7 @@ export default function TraitDisplay({
                     <Grain tokenId={traits[attribute.key] ? traits[attribute.key][attribute.value]: Math.random() * 100 + 1} />
                     <TraitType>{attribute.key.toUpperCase()}</TraitType>
                     <TraitValues>
-                      <TraitItem>{attribute.value}</TraitItem>
+                      <TraitItem title={attribute.value}>{attribute.value}</TraitItem>
                       <TraitType style={{fontSize: 'calc(var(--sp-1) * 1.25)'}}>
                         {
                           traits[attribute.key] && contracts[contract].display != 'Flames' &&
