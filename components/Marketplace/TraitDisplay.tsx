@@ -69,6 +69,7 @@ const TraitItem = styled.div`
   font-size: var(--sp1);
   font-family: Alagard;
   color: var(--white);
+  text-shadow: 0px 2.5px var(--darkGray);
 
   margin-right: var(--sp-1);
 
@@ -105,7 +106,7 @@ const TraitValues = styled.div`
 
 const GrainFill = styled.div`
   position: absolute;
-  opacity: 10%;
+  opacity: 8%;
 
   width: 100%;
   height: calc(100% + (2 * var(--sp-1)));
@@ -194,7 +195,7 @@ export default function TraitDisplay({
             >
               <TraitLink trait={attribute.key} value={attribute.value}>
                 <TraitRow
-                  onMouseOver={() => setHover(contracts[contract].coreTraits?.includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
+                  onMouseOver={() => setHover(contracts[contract].coreTraits?.includes(attribute.key) && !['Background', 'Undesirable'].includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
                   onMouseOut={() => setHover('')}
                   style={showAll ? {} : {width: '34ch'}}
                 >

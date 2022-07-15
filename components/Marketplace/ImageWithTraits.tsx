@@ -3,6 +3,8 @@ import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { getValue } from "./marketplaceHelpers";
 
 const ImageWrapper = styled.div`
+  background-color: black;
+
   @media only screen and (max-width: 600px) {
     position: relative;
   }

@@ -66,12 +66,17 @@ const ListingWrapper = styled.div`
   display: flex;
   justify-content: center;
 
+  background-image: url('/static/img/interior-dark.png');
+  background-position: -50% 10%;
+
   max-width: 1000px;
   min-height: 90vh;
   margin: 0 auto;
 
   @media only screen and (max-width: 600px) {
     overflow-x: hidden;
+
+    background-position: 20% 10%;
   }
 `;
 
@@ -132,6 +137,8 @@ const TopRight = styled.div`
   flex-wrap: wrap;
   text-align: center;
   align-content: space-between;
+
+  background-color: black;
 
   @media only screen and (max-width: 1250px) {
     margin-left: 0px;
@@ -496,7 +503,7 @@ const ListingPage = ({
                   />
                 </BaseModule>
                 { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) &&
-                  <Column>
+                  <Column style={contracts[contractSlug].display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
                     <BaseModule traitModule={false}>
                       <RuneHeader>AFFINITY</RuneHeader>
                       <Affinity attributes={attributes} fullAttributes={fullAttributes} />

@@ -89,7 +89,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     ABI: WIZARDS_ABI,
     fee: '400',
     feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4',
-    coreTraits: ['Head', 'Body', 'Familiar', 'Prop', 'Rune'],
+    coreTraits: ['Head', 'Body', 'Familiar', 'Prop', 'Rune', 'Background'],
   },
   "0x9690b63eb85467be5267a3603f770589ab12dc95": {
     collection: "forgottenruneswarriorsguild",
@@ -99,7 +99,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     image_url: "https://portal.forgottenrunes.com/api/warriors/img/",
     fee: '650',
     feeRecipient: '0x6be88409f2a4751aea05a3a0977cb239904fe0d6',
-    coreTraits: ['Head', 'Body', 'Companion', 'Weapon', 'Shield', 'Rune'],
+    coreTraits: ['Head', 'Body', 'Companion', 'Weapon', 'Shield', 'Rune', 'Background'],
   },
   "0x251b5f14a825c537ff788604ea1b58e49b70726f": {
     collection: "forgottensouls",
@@ -110,7 +110,7 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     ABI: SOULS_ABI,
     fee: '816',
     feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882',
-    coreTraits: ['Head', 'Body', 'Familiar', 'Prop', 'Rune'],
+    coreTraits: ['Undesirable', 'Head', 'Body', 'Familiar', 'Prop', 'Rune', 'Background'],
   },
   "0xf55b615b479482440135ebf1b907fd4c37ed9420": {
     collection: "forgottenrunesponies",
