@@ -27,10 +27,19 @@ const TraitWrapper = styled.div`
   }
 `;
 
+const TraitContainer = styled.div`
+  position: relative;
+  width: 48%;
+
+  @media only screen and (max-width: 600px) {
+    width: auto;
+  }
+`;
+
 const TraitRow = styled.div`
   color: var(--lightGray);
   margin-bottom: var(--sp-4);
-  width: 35ch;
+  width: 100%;
   position: relative;
 
   z-index: 1;
@@ -48,6 +57,10 @@ const TraitRow = styled.div`
 
   :hover {
     cursor: pointer;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 35ch;
   }
 
   transition: all 100ms;
@@ -148,13 +161,13 @@ export default function TraitDisplay({
         }>
         {newAttributes.map((attribute: any, index: number) => {
           return (
-            <div key={index} style={{position: 'relative'}}>
+            <TraitContainer key={index}>
               <TraitLink trait={attribute.key} value={attribute.value}>
                 <TraitRow
                   onMouseOver={() => setHover(contracts[contract].coreTraits?.includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
                   onMouseOut={() => setHover('')}
                 >
-                    <Grain tokenId={traits[attribute.key][attribute.value]} opacity={10} />
+                    <Grain tokenId={traits[attribute.key] ? traits[attribute.key][attribute.value]: Math.random() * 100 + 1} opacity={10} />
                     <TraitType>{attribute.key.toUpperCase()}</TraitType>
                     <TraitValues>
                       <TraitItem>{attribute.value}</TraitItem>
@@ -168,7 +181,7 @@ export default function TraitDisplay({
                     </TraitValues>
                 </TraitRow>
               </TraitLink>
-            </div>
+            </TraitContainer>
           )
         })}
       </TraitWrapper>
