@@ -203,7 +203,7 @@ export default function TraitDisplay({
                     <TraitType>{attribute.key.toUpperCase()}</TraitType>
                     <TraitValues>
                       <TraitItem>{attribute.value}</TraitItem>
-                      <TraitType>
+                      <TraitType style={{fontSize: 'calc(var(--sp-1) * 1.25)'}}>
                         {
                           traits[attribute.key] && contracts[contract].display != 'Flames' &&
                           `(${((traits[attribute.key][attribute.value] / maxCount) * 100)
