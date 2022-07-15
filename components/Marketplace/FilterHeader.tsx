@@ -79,10 +79,6 @@ const TraitItem = styled.div`
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  :hover {
-    color: white;
-  }
-
   @media only screen and (max-width: 600px) {
     font-size: var(--sp0);
   }

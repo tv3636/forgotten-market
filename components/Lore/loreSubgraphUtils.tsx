@@ -1,15 +1,10 @@
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import {
-  CHARACTER_CONTRACTS,
-  isWizardsContract,
-} from "../../contracts/ForgottenRunesWizardsCultContract";
+import { CHARACTER_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
 import path from "path";
-import { IndividualLorePageData } from "./types";
-import { hydratePageDataFromMetadata } from "./markdownUtils";
 import { promises as fs } from "fs";
 import * as os from "os";
-import { CONTRACTS } from "../Marketplace/marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "../Marketplace/marketplaceConstants";
 
 const COMMON_LORE_FIELDS = `
   id
@@ -51,6 +46,10 @@ export async function bustLoreCache() {
     files.push(`${LORE_CACHE}_${CONTRACTS[contract].display.toLowerCase()}`);
   }
 
+  for (var contract in COMMUNITY_CONTRACTS) {
+    files.push(`${LORE_CACHE}_${COMMUNITY_CONTRACTS[contract].display.toLowerCase()}`);
+  }
+
   for (let index in files) {
     const file = files[index];
     try {
@@ -71,7 +70,8 @@ export async function getLoreInChapterForm(
   tokenContract: string,
   updateCache: boolean = false
 ) {
-  const cacheFile = `${LORE_CACHE}_${CONTRACTS[tokenContract].display.toLowerCase()}`;
+  let contracts = tokenContract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  const cacheFile = `${LORE_CACHE}_${contracts[tokenContract].display.toLowerCase()}`;
 
   let results;
 
@@ -170,7 +170,8 @@ export async function getFirstAvailableWizardLoreUrl() {
 export async function getWizardsWithLore(contract: string = CHARACTER_CONTRACTS.wizards): Promise<{
   [key: number]: boolean;
 }> {
-  const cacheFile = `${LORE_CACHE}_${CONTRACTS[contract].display.toLowerCase()}`;
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  const cacheFile = `${LORE_CACHE}_${contracts[contract].display.toLowerCase()}`;
   let results: any = {};
 
   try {
