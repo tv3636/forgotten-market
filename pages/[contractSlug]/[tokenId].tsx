@@ -67,7 +67,7 @@ const ListingWrapper = styled.div`
   justify-content: center;
 
   background-image: url('/static/img/interior-dark.png');
-  background-position: -50% 10%;
+  background-position: -58% 10%;
 
   max-width: 1000px;
   min-height: 90vh;
