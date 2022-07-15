@@ -39,6 +39,7 @@ const Overlay = styled.div`
   width: 60vw;
   height: auto;
   min-height: 500px;
+  max-height: 85vh;
   padding: var(--sp3) var(--sp4);
   margin-top: var(--sp4);
   background-color: var(--black);
@@ -52,8 +53,9 @@ const Overlay = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
-  justify-content: center;
   align-items: center;
+
+  overflow: scroll;
 
   @media only screen and (max-width: 600px) {
     width: 90vw;
