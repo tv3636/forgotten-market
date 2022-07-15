@@ -45,6 +45,14 @@ const IconImage = styled.img`
   transition: all 100ms;
 `;
 
+const PageWrapper = styled.div`
+  margin-top: var(--sp5);
+
+  @media only screen and (max-width: 600px) {
+    margin-top: var(--sp1);
+  }
+`;
+
 export default function LoreBlock({ 
   pages,
   length,
@@ -71,9 +79,9 @@ export default function LoreBlock({
               </div>
             </SoftLink>
           ) : (
-            <div key={index} style={{ marginTop: '6vh' }}>
+            <PageWrapper key={index}>
               <IndividualLorePage bgColor={page.bgColor} story={page.story} />
-            </div>
+            </PageWrapper>
           )
         )}
       </LoreContainer>
