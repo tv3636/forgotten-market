@@ -1,5 +1,6 @@
 
 import styled from "@emotion/styled";
+import Grain from "./Grain";
 import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import TraitLink from "./TraitLink";
 
@@ -9,6 +10,8 @@ const TraitWrapper = styled.div`
   width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  z-index: 1;
 
   gap: var(--sp0);
   margin-top: var(--sp-3);
@@ -27,7 +30,18 @@ const TraitWrapper = styled.div`
 const TraitRow = styled.div`
   color: var(--lightGray);
   margin-bottom: var(--sp-4);
-  width: 32ch;
+  width: 35ch;
+  position: relative;
+
+  z-index: 1;
+
+  background-color: var(--frameGray);
+  border-image: url("/static/img/trait_background.png");
+  border-style: solid;
+  border-width: var(--sp-1);
+  border-image-slice: 15 20;
+
+  box-shadow: 3px 4px 0 var(--mediumGray);
 
   padding-left: var(--sp-1);
   padding-right: var(--sp-1);
@@ -128,15 +142,19 @@ export default function TraitDisplay({
     }
 
     return (
-      <TraitWrapper>
+      <TraitWrapper style={
+        ['Wizards', 'Souls', 'Warriors'].includes(contracts[contract].display) ? 
+          {} : {justifyContent: 'center'}
+        }>
         {newAttributes.map((attribute: any, index: number) => {
           return (
-            <div key={index}>
+            <div key={index} style={{position: 'relative'}}>
               <TraitLink trait={attribute.key} value={attribute.value}>
                 <TraitRow
                   onMouseOver={() => setHover(contracts[contract].coreTraits?.includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
                   onMouseOut={() => setHover('')}
                 >
+                    <Grain tokenId={traits[attribute.key][attribute.value]} opacity={10} />
                     <TraitType>{attribute.key.toUpperCase()}</TraitType>
                     <TraitValues>
                       <TraitItem>{attribute.value}</TraitItem>

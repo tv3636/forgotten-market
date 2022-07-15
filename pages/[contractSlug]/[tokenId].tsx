@@ -31,6 +31,7 @@ import ImageWithTraits from "../../components/Marketplace/ImageWithTraits";
 import Affinity from "../../components/Marketplace/Affinity";
 import PriceModule from "../../components/Marketplace/PriceModule";
 import Bio from "../../components/Marketplace/Bio";
+import BaseModule from "../../components/Marketplace/BaseModule";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -250,35 +251,19 @@ const LoreWrapper = styled.div`
   }
 `;
 
-const Module = styled.div`
-  border-image-source: url(/static/img/moduleframe.png);
-  border-image-slice: 30 35;
-  border-image-width: var(--frameSize);
-  border-style: solid;
-  border-image-repeat: round;
-
-  padding: var(--sp1);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  background-color: var(--darkGray);
-
-  @media only screen and (max-width: 600px) {
-   max-width: 80%;
-  }
-`;
-
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   gap: var(--sp1);
   flex-grow: 1;
   flex-basis: min-content;
-
+  justify-content: space-between;
+  
   @media only screen and (max-width: 600px) {
+    height: auto;
+
     margin-bottom: var(--sp0);
     align-items: center;
     gap: 0;
@@ -288,6 +273,7 @@ const Column = styled.div`
     }
   }
 `;
+
 
 const ListingPage = ({
   contractSlug,
@@ -496,7 +482,7 @@ const ListingPage = ({
                 </TopDisplay>
               <HorizontalLine/>
               <SectionWrapper>
-                <Module style={{flexBasis: '50%', flexGrow: 2}}>
+                <BaseModule traitModule={true}>
                   <RuneHeader>
                     TRAITS
                   </RuneHeader>
@@ -507,21 +493,21 @@ const ListingPage = ({
                     setHover={setTraitHover}
                     filters={contracts[contractSlug].coreTraits}
                   />
-                </Module>
+                </BaseModule>
                 { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) &&
                   <Column>
-                    <Module>
+                    <BaseModule traitModule={false}>
                       <RuneHeader>AFFINITY</RuneHeader>
                       <Affinity attributes={attributes} fullAttributes={fullAttributes} />
-                    </Module>
-                    <Module>
+                    </BaseModule>
+                    <BaseModule traitModule={false}>
                       <RuneHeader>BIO</RuneHeader>
                       <Bio 
                         attributes={attributes} 
                         fullAttributes={fullAttributes}
                         collection={contracts[contractSlug].display}
                       />
-                    </Module>
+                    </BaseModule>
                   </Column>
                 }
               </SectionWrapper>
