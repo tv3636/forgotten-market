@@ -51,7 +51,7 @@ export default function LoreBlock({
   tokenId,
   contract,
 }: { 
-  pages: [];
+  pages: any[];
   length: number;
   tokenId: string;
   contract: string;
