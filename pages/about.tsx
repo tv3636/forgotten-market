@@ -1,9 +1,5 @@
 import Layout from "../components/Marketplace/NewLayout";
 import styled from "@emotion/styled";
-import { useState } from "react";
-import MobileOverlay from "../components/Marketplace/MobileOverlay";
-import RuneHeader from "../components/Marketplace/RuneHeader";
-import { MainMenu } from "../components/Marketplace/NewSiteNav";
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -102,9 +98,11 @@ const OSIcon = styled.img`
 
 const Fees = styled.table`
   max-width: 800px;
-  border-style: dashed;
-  border-radius: 10px;
-  border-width: 1px;
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
 
   padding: 5px;
   text-align: center;
@@ -119,8 +117,9 @@ const Row = styled.tr`
   }
 
   th, td {
-    border-bottom-style: dashed;
-    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--frameGray);
+    border-bottom-width: 4px;
   }
 
 `;
@@ -128,19 +127,21 @@ const Row = styled.tr`
 const BorderRight = styled.td`
   border-left: 0px;
   border-top: 0px;
-  border-right: 0.5px;
-  border-bottom: 0.5px;
+  border-right: 4px;
+  border-bottom: 4px;
 
-  border-style: dashed;
+  border-style: solid;
+  border-color: var(--frameGray);
 `;
 
 const BorderRightHeader = styled.th`
   border-left: 0px;
   border-top: 0px;
-  border-right: 0.5px;
-  border-bottom: 0.5px;
+  border-right: 4px;
+  border-bottom: 4px;
 
-  border-style: dashed;
+  border-style: solid;
+  border-color: var(--frameGray);
 `;
 
 export default function About({}: {}) {
