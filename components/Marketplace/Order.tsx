@@ -17,11 +17,11 @@ import { Execute, executeSteps } from '@reservoir0x/client-sdk';
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
 const OverlayWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
-  width: 99vw;
-  height: 99vh;
+  width: 100%;
+  height: 100%;
   background-color: #00000085;
   z-index: 20;
   display: flex;
@@ -43,6 +43,8 @@ const Overlay = styled.div`
   padding: var(--sp3) var(--sp4);
   margin-top: var(--sp4);
   background-color: var(--black);
+  overflow: scroll;
+  overflow-x: hidden;
 
   border-image-source: url(/static/img/moduleframe.png);
   border-image-slice: 30 35;
@@ -249,6 +251,7 @@ function OrderContent({
   const [showError, setShowError] = useState<any>(null);
   const [listOS, setListOS] = useState(false);
   const [listLR, setListLR] = useState(false);
+  const [steps, setSteps] = useState<Execute['steps']>();
   const [expiration, setExpiration] = useState(
     new Date(
       new Date().getFullYear(), 
@@ -288,6 +291,7 @@ function OrderContent({
     }
   }
 
+
   async function execute(url: URL, signer: any, expectedPrice?: number) {
     try {
       await executeSteps(url, signer, setSteps, undefined, expectedPrice);
@@ -308,7 +312,6 @@ function OrderContent({
           setTxn('');
           setStep(step);
           break;
-
         } else {
           if (step == steps[steps.length - 1]) {
             setStep(step);
