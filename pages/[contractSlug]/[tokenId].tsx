@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../components/Lore/markdownUtils";
-import { Icons, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
+import { getValue, Icons, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
   API_BASE_URL,
@@ -502,7 +502,8 @@ const ListingPage = ({
                     showAll={['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display)}
                   />
                 </BaseModule>
-                { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) &&
+                { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) && 
+                  !getValue(attributes, 'Undesirable') &&
                   <Column style={contracts[contractSlug].display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
                     <BaseModule traitModule={false}>
                       <RuneHeader>AFFINITY</RuneHeader>
