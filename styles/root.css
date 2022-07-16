@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=New+Rocker&family=Roboto+Mono:ital,wght@0,400;1,300;1,700&display=swap");
 
+@font-face {
+  font-family: "Terminal";
+  src: url("/static/game/wizards/terminal-grotesque.ttf") format("truetype");
+}
+
 html,
 body {
   background-color: #000000;
@@ -10,6 +15,11 @@ body {
   --lightGray: hsl(var(--hue), 15%, 75%);
   --mediumGray: hsl(var(--hue), 24%, 15%);
   --darkGray: hsl(var(--hue), 30%, 8%);
+
+  --midGray: #343046;
+  --frameGray: #2a283a;
+  --beige: #E1DECD;
+  --newGray: #585566;
 
   --ratio: 1.4; 
   --sp0: 1em;
@@ -23,14 +33,50 @@ body {
   --sp-3:calc(var(--sp-2) / var(--ratio));
   --sp-4:calc(var(--sp-3) / var(--ratio));
   --sp-5:calc(var(--sp-4) / var(--ratio));
+
+  font-family: "Terminal";
+  font-size: var(--sp0);
+
+  --frameSize: 24px;
+  --sidebar: 25ch;
+}
+
+@media only screen and (max-width: 1250px) {
+  .desktop {
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 1250px) {
+  .mobile {
+    display: none !important;
+  }
 }
 
 div#WEB3_CONNECT_MODAL_ID {
-  font-family: "Alagard", "Pixel-NES", monospace;
+  text-transform: uppercase;
+  text-shadow: 0px 2px var(--midGray);
 }
 
 div#WEB3_CONNECT_MODAL_ID .web3modal-modal-card {
   border-radius: 2px !important;
+}
+
+.scrim {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  z-index:  10;
+  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0, 1));
+}
+
+.web3modal-modal-lightbox {
+  z-index: 20 !important;
+}
+
+html, body, #__next {
+  height: 100%;
 }
 
 html {
@@ -41,11 +87,11 @@ html {
 }
 
 body {
-  /* font-family: "Roboto Mono", system-ui, -apple-system, */
-  font-family: "Inter", system-ui, -apple-system,
-    /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  color: #d1c8bf;
+  margin: 0;
+  
+  color: white;
+  text-shadow: 0px 1px var(--midGray);
+
 }
 
 *,
@@ -59,16 +105,38 @@ Sections
 ========
 */
 
-/**
-Remove the margin in all browsers.
-*/
+.alagard {
+  font-family: "Alagard";
+  color: var(--beige);
+  text-shadow: 0px 2px var(--midGray);
+}
 
-body {
-  margin: 0;
+.noscrim {
+  z-index: 11;
 }
 
 a {
-  color: #a983ff;
+  color: white;
+  text-decoration: none;
+
+  transition: all 200ms;
+}
+
+a:hover {
+  color: var(--lightGray);
+}
+
+p {
+  margin: 0;
+}
+
+.pointer {
+  transition: all 200ms;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  color: var(--lightGray);
 }
 
 h1,
@@ -81,10 +149,18 @@ h5 {
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 }
 h1 {
-  margin-top: 1.5em;
+  font-family: "Terminal";
+  color: white;
+  margin: 0;
+
+  text-shadow: 0px 2px var(--midGray);
 }
 h2 {
-  margin-top: 1.3em;
+  font-family: "Terminal";
+  color: white;
+  margin: 0;
+
+  text-shadow: 0px 2px var(--midGray);
 }
 h3 {
   margin-top: 1em;
@@ -137,8 +213,7 @@ p {
 
 .select__placeholder {
   color: var(--lightGray) !important;
-  font-family: 'Alagard';
-  font-size: 18px;
+  text-transform: uppercase;
 }
 
 .select__menu {
@@ -151,8 +226,7 @@ p {
 .select__option {
   color: var(--lightGray) !important;
   background-color: var(--mediumGray) !important;
-  font-family: 'Alagard';
-  font-size: 18px !important;
+  text-transform: uppercase;
 }
 
 .select__option:hover {
@@ -162,8 +236,7 @@ p {
 
 .select__single-value {
   color: var(--white) !important;
-  font-family: 'Alagard';
-  font-size: 18px;
+  text-transform: uppercase;
 }
 
 .select__input-container {

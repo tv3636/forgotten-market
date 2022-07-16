@@ -1,104 +1,169 @@
 import { useEffect } from "react";
-import { CONTRACTS, MARKETS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { SoftLink } from "./marketplaceHelpers";
-import wizards from "../../data/nfts-prod.json";
 import styled from "@emotion/styled";
+import wizards from "../../data/wizards.json";
+import warriors from "../../data/warriors.json";
+import souls from "../../data/souls.json";
+import ponies from "../../data/ponies.json";
+import babies from "../../data/babies.json";
 
-const wizData = wizards as { [wizardId: string]: any };
+const collectionData: any = {
+  'Wizards': wizards as { [wizardId: string]: any },
+  'Warriors': warriors as { [warriorId: string]: any},
+  'Souls': souls as { [soulId: string]: any },
+  'Ponies': ponies as { [ponyId: string]: any },
+  'Babies': babies as { [babyId: string]: any },
+}
 
 const ListingDisplay = styled.div`
-  width: 250px;
-  height: 350px;
-  margin: 25px;
+  width: 200px;
+  height: auto;
+  margin: var(--sp1);
   display: flex;
   flex-direction: column;
 
+  position: relative;
+  background-color: black;
+
   @media only screen and (max-width: 600px) {
-    width: 150px;
+    width: 140px;
     max-height: 250px;
     margin-left: 15px;
     margin-right: 15px;
-    margin-bottom: 15px;
-    margin-top: 5px;
+    margin-bottom: var(--sp-2);
   }
 
 `;
 
-const ListingImage = styled.img`
-  border-style: solid;
-  border-width: 4px;
-  border-color: var(--darkGray);
-  border-radius: 10px;
+const NewFrame = styled.div`
+  width: calc(100% + var(--frameSize));
+  height: calc(100% + 0.5 * var(--frameSize));
 
-  min-width: 250px;
-  min-height: 250px;
-  max-height: 50vw;
-  max-width: 50vw;
+  position: absolute;
+  left: calc(-0.5 * var(--frameSize));
+  top: calc(-0.1 * var(--frameSize));
+  z-index: 1;
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-image-outset: 0;
+  border-style: solid;
+  border-image-repeat: round;
+  image-rendering: pixelated;
+`;
+
+const ListingImage = styled.img`
+  width: 200px;
+  min-height: 200px;
+  
+  padding: var(--sp1);
+  z-index: 2;
 
   :hover {
     cursor: pointer;
-    border-color: var(--mediumGray);
   }
 
   @media only screen and (max-width: 600px) {
-    width: 150px;
-    height: 150px;
-
-    min-width: 150px;
-    max-width: 150px;
-
-    min-height: 150px;
-    max-height: 150px;
-
+    width: 140px;
+    min-height: 140px;
     border-width: 1.5px;
   }
+`;
 
-  transition: border-color 100ms;
+const ListingInfo = styled.div`
+  position: relative;
+  background-color: var(--frameGray);
+`;
 
+const NameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
 `;
 
 const MarketText = styled.p`
   font-family: Alagard;
-  font-size: 17px;
+  font-size: var(--sp0);
   font-weight: bold;
-  color: white;
+  color: var(--white);
+  text-shadow: 0px 1.5px var(--darkGray);
   
   line-height: 1.3;
-  max-width: 25ch;
+  max-width: 20ch;
+  min-height: 5ex;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
+  margin-bottom: var(--sp-1);
+  margin-top: var(--sp-2);
+
   @media only screen and (max-width: 600px) {
     max-width: 15ch;
+    padding-left: var(--sp-2);
+    padding-right: var(--sp-2)
   }
+`;
+
+const PriceWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const PriceDisplay = styled.div`
-  font-family: Alagard;
-  font-size: 17px;
-  color: var(--white);
+  font-family: Terminal;
+  font-size: var(--sp0);
+  color: white;
   font-weight: bold;
+
+  margin-left: -2px;
+  margin-right: -2px;
+
+  margin-bottom: var(--sp0);
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
+`;
+
+const EthSymbol = styled.img`
+  height: var(--sp-1);
+  margin-right: var(--sp-4);
 `;
 
 const MarketIcon = styled.img`
-  width: 17px;
-  height: 17px;
-  margin-top: 2px;
+  width: 22px;
+  height: 22px;
   image-rendering: pixelated;
 
-  @media only screen and (max-width: 600px) {
-    width: 15px;
-    height: 15px;
-    margin-top: 0;
-  }
+  position: absolute;
+  bottom: calc(-0.65 * var(--frameSize));
+  left: 50%;
+  transform: translate(-50%, 0%);
 
+  z-index: 3;
+
+  @media only screen and (max-width: 600px) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const Grain = styled.div`
+  position: absolute;
+  opacity: 8%;
+
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+
+  background-image: url(/static/img/marketplace/paperTxt03.png);
+  background-repeat: repeat;
 `;
 
 export default function TokenDisplay({
@@ -114,21 +179,20 @@ export default function TokenDisplay({
   price: number;
   source: string;
 }) {
-  let image = CONTRACTS[contract].display == 'Wizards' ? 
-    `${CONTRACTS[contract].image_url}${tokenId}/${tokenId}.png` : 
-    `${CONTRACTS[contract].image_url}${tokenId}.png`;
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
-  let turnaround = `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`;
-  let pony_turnaround = `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
+  let image = contracts[contract].display == 'Wizards' ? 
+    `${contracts[contract].image_url}${tokenId}/${tokenId}.png` : 
+    `${contracts[contract].image_url}${tokenId}.png`;
+
+  let turnaround = contracts[contract].display == 'Wizards' ? 
+    `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
+    `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
 
   // Preload turnaround GIFs
   useEffect(() => {
-    if (CONTRACTS[contract].display == 'Wizards') {
+    if (['Wizards', 'Ponies'].includes(contracts[contract].display)) {
       const img = new Image().src = turnaround;
-    }
-
-    if (CONTRACTS[contract].display == 'Ponies') {
-      const pony_img = new Image().src = pony_turnaround;
     }
   }, []);
 
@@ -139,9 +203,12 @@ export default function TokenDisplay({
     >
       <SoftLink>
       <ListingDisplay 
-        style={{height: 'auto'}}
+        style={
+          contracts[contract].display in collectionData && tokenId in collectionData[contracts[contract].display] ? 
+            { background: collectionData[contracts[contract].display][tokenId].background } : {}
+        }
       >
-        { CONTRACTS[contract].display == 'Wizards' ?
+        { contracts[contract].display == 'Wizards' || contracts[contract].display == 'Ponies' ?
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
@@ -150,52 +217,28 @@ export default function TokenDisplay({
             onMouseOut={(e) =>
               (e.currentTarget.src = image)
             }
-            style={{background: '#' + wizData[tokenId].background_color}}
-          /> : CONTRACTS[contract].display == 'Ponies' && tokenId < 440 ?
-          <ListingImage 
-            src={image}
-            onMouseOver={(e) =>
-              (e.currentTarget.src = pony_turnaround)
-            }
-            onMouseOut={(e) =>
-              (e.currentTarget.src = image)
-            }
-            style={{background: '#' + wizData[tokenId].background_color}}
           /> :
-          <ListingImage 
-            src={CONTRACTS[contract].image_url + tokenId + ".png"}
-          />
+          <ListingImage src={contracts[contract].image_url + tokenId + ".png"} />
         }
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: '50%',
-            justifyContent: 'flex-start',
-          }}
-        >
-          <div 
-            style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <ListingInfo>
+          <Grain style={{
+            backgroundImage: `url(/static/img/marketplace/paperTxt0${(tokenId % 4) + 1}.png)`,
+            backgroundPosition: `${(tokenId % 100)}% ${(tokenId % 100)}%`
+          }}/>
+          <NameWrapper>
             <MarketText title={name}>{name}</MarketText>
-            { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
-          </div>
+          </NameWrapper>
           <PriceDisplay>
             {price &&
-              <div style={{ display: 'flex' }}>
-                <img
-                  src='/static/img/marketplace/eth.png'
-                  style={{
-                    height: '14px',
-                    marginRight: '8px',
-                    marginTop: '2px',
-                  }}
-                />
+              <PriceWrapper>
+                <EthSymbol src='/static/img/marketplace/eth.png' />
                 <div>{price}</div>
-              </div>
+              </PriceWrapper>
             }
-            
           </PriceDisplay>
-        </div>
+          { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
+        </ListingInfo>
+        <NewFrame/>
       </ListingDisplay>
       </SoftLink>
     </Link>

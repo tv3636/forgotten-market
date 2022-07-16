@@ -1,14 +1,10 @@
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import {
-  CHARACTER_CONTRACTS,
-  isWizardsContract,
-} from "../../contracts/ForgottenRunesWizardsCultContract";
+import { CHARACTER_CONTRACTS } from "../../contracts/ForgottenRunesWizardsCultContract";
 import path from "path";
-import { IndividualLorePageData } from "./types";
-import { hydratePageDataFromMetadata } from "./markdownUtils";
 import { promises as fs } from "fs";
 import * as os from "os";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "../Marketplace/marketplaceConstants";
 
 const COMMON_LORE_FIELDS = `
   id
@@ -28,8 +24,7 @@ export const NORMALIZED_WIZARD_CONTRACT_ADDRESS =
   process.env.NEXT_PUBLIC_REACT_APP_WIZARDS_CONTRACT_ADDRESS?.toLowerCase();
 
 const LORE_CACHE = path.join(os.tmpdir(), ".lore_cache");
-const WIZARDS_LORE_CACHE = LORE_CACHE + "_wizards";
-const SOULS_LORE_CACHE = LORE_CACHE + "_souls";
+
 
 const WIZARDS_THAT_HAVE_LORE_CACHE = path.join(
   os.tmpdir(),
@@ -45,11 +40,16 @@ function getLoreUrl(
 }
 
 export async function bustLoreCache() {
-  const files = [
-    WIZARDS_LORE_CACHE,
-    SOULS_LORE_CACHE,
-    WIZARDS_THAT_HAVE_LORE_CACHE,
-  ];
+  const files = [ WIZARDS_THAT_HAVE_LORE_CACHE ];
+
+  for (var contract in CONTRACTS) {
+    files.push(`${LORE_CACHE}_${CONTRACTS[contract].display.toLowerCase()}`);
+  }
+
+  for (var contract in COMMUNITY_CONTRACTS) {
+    files.push(`${LORE_CACHE}_${COMMUNITY_CONTRACTS[contract].display.toLowerCase()}`);
+  }
+
   for (let index in files) {
     const file = files[index];
     try {
@@ -70,9 +70,8 @@ export async function getLoreInChapterForm(
   tokenContract: string,
   updateCache: boolean = false
 ) {
-  const cacheFile = isWizardsContract(tokenContract)
-    ? WIZARDS_LORE_CACHE
-    : SOULS_LORE_CACHE;
+  let contracts = tokenContract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  const cacheFile = `${LORE_CACHE}_${contracts[tokenContract].display.toLowerCase()}`;
 
   let results;
 
@@ -163,135 +162,6 @@ export async function getIndexForToken(
   return paginatedLore.findIndex((element) => element.tokenId === tokenId);
 }
 
-export async function getLeftRightPages(
-  loreTokenSlug: string,
-  tokenId: number,
-  leftPageNum: number,
-  rightPageNum: number
-) {
-  const tokenContract =
-    loreTokenSlug === "wizards"
-      ? CHARACTER_CONTRACTS.wizards
-      : CHARACTER_CONTRACTS.souls;
-  const loreInChapterForm = await getLoreInChapterForm(tokenContract);
-
-  const chapterIndexForToken = await getIndexForToken(
-    tokenId,
-    loreInChapterForm
-  );
-
-  let leftPage: IndividualLorePageData;
-  let rightPage: IndividualLorePageData;
-
-  if (chapterIndexForToken === -1) {
-    leftPage = {
-      isEmpty: true,
-      bgColor: `#000000`,
-      firstImage: null,
-      pageNumber: leftPageNum,
-    };
-
-    rightPage = {
-      isEmpty: true,
-      bgColor: "#000000",
-      firstImage: null,
-      pageNumber: rightPageNum,
-    };
-  } else {
-    const lore = loreInChapterForm[chapterIndexForToken]?.lore ?? [];
-
-    if (leftPageNum >= 0 && leftPageNum < lore.length) {
-      const loreElement = lore[leftPageNum];
-      leftPage = await hydratePageDataFromMetadata(
-        loreElement.loreMetadataURI,
-        loreElement.createdAtTimestamp,
-        loreElement.creator,
-        tokenId
-      );
-      leftPage.creator = loreElement.creator;
-      leftPage.loreIndex = loreElement.index;
-    } else {
-      // Would end up showing wizard
-      leftPage = {
-        isEmpty: true,
-        bgColor: `#000000`,
-        firstImage: null,
-      };
-    }
-    leftPage.pageNumber = leftPageNum;
-
-    if (rightPageNum < lore.length) {
-      const loreElement = lore[rightPageNum];
-      rightPage = await hydratePageDataFromMetadata(
-        loreElement.loreMetadataURI,
-        loreElement.createdAtTimestamp,
-        loreElement.creator,
-        tokenId
-      );
-      rightPage.creator = loreElement.creator;
-      rightPage.loreIndex = loreElement.index;
-    } else {
-      // Would end showing add lore
-      rightPage = {
-        isEmpty: true,
-        bgColor: "#000000",
-        firstImage: null,
-      };
-    }
-    rightPage.pageNumber = rightPageNum;
-  }
-
-  //------
-  // Figure out previous route
-  let previousPageRoute = null;
-  if (chapterIndexForToken > 0) {
-    if (leftPageNum - 1 >= 0) {
-      previousPageRoute = getLoreUrl(
-        loreTokenSlug,
-        loreInChapterForm[chapterIndexForToken].tokenId,
-        leftPageNum - 1
-      );
-    } else {
-      previousPageRoute = getLoreUrl(
-        loreTokenSlug,
-        loreInChapterForm[chapterIndexForToken - 1].tokenId,
-        (loreInChapterForm[chapterIndexForToken - 1]?.lore ?? []).length - 1
-      );
-    }
-  } else {
-    // No previous pages implies this is first wizard in the book, so before it comes lore
-    // TODO: obvs have to get clever with how to do going back from first soul to last wizard
-    previousPageRoute = getLoreUrl("narrative", 0, 0);
-  }
-
-  // Figure out next route
-  let nextPageRoute = null;
-  if (
-    rightPageNum <
-    (loreInChapterForm[chapterIndexForToken]?.lore ?? []).length - 1
-  ) {
-    nextPageRoute = getLoreUrl(loreTokenSlug, tokenId, rightPageNum + 2);
-  } else {
-    if (chapterIndexForToken + 1 < loreInChapterForm.length) {
-      nextPageRoute = getLoreUrl(
-        loreTokenSlug,
-        loreInChapterForm[chapterIndexForToken + 1].tokenId,
-        0
-      );
-    } else if (loreTokenSlug === "wizards") {
-      const soulsChapters = await getLoreInChapterForm(
-        CHARACTER_CONTRACTS.souls
-      );
-
-      if (soulsChapters.length > 0) {
-        nextPageRoute = getLoreUrl("souls", soulsChapters[0].tokenId, 0);
-      }
-    }
-  }
-
-  return [leftPage, rightPage, previousPageRoute, nextPageRoute];
-}
-
 export async function getFirstAvailableWizardLoreUrl() {
   // We used to fetch this from subgraph but now we know wizard 0 always has lore so no need :)
   return getLoreUrl("wizards", 0, 0);
@@ -300,10 +170,8 @@ export async function getFirstAvailableWizardLoreUrl() {
 export async function getWizardsWithLore(contract: string = CHARACTER_CONTRACTS.wizards): Promise<{
   [key: number]: boolean;
 }> {
-  const cacheFile = isWizardsContract(contract)
-    ? WIZARDS_LORE_CACHE
-    : SOULS_LORE_CACHE;
-
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  const cacheFile = `${LORE_CACHE}_${contracts[contract].display.toLowerCase()}`;
   let results: any = {};
 
   try {

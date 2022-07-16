@@ -1,54 +1,73 @@
 import styled from "@emotion/styled";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../components/Layout";
+import Layout from "../../components/Marketplace/NewLayout";
 import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { hydratePageDataFromMetadata } from "../../components/Lore/markdownUtils";
-import {
-  Icons, LoadingCard
-} from "../../components/Marketplace/marketplaceHelpers";
+import { getValue, Icons, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
 import {
   CONTRACTS,
   API_BASE_URL,
-  LOCATIONS,
   ORDER_TYPE,
-  BURN_ADDRESS,
+  COMMUNITY_CONTRACTS,
 } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
-import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import Order from "../../components/Marketplace/Order";
-import dynamic from "next/dynamic";
+import LoreBlock from "../../components/Marketplace/LoreBlock";
+import TraitDisplay from "../../components/Marketplace/TraitDisplay";
+import Carousel from "../../components/Marketplace/MarketCarousel";
+import { Owner } from "../../components/Marketplace/OfferDisplay";
+import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
+import RuneHeader from "../../components/Marketplace/RuneHeader";
 import wizards from "../../data/wizards.json";
+import warriors from "../../data/warriors.json";
 import souls from "../../data/souls.json";
 import ponies from "../../data/ponies.json";
-import warriors from "../../data/warriors.json";
-import Price from "../../components/Marketplace/Price";
-import LoreBlock from "../../components/Marketplace/LoreBlock";
-import MarketButtons from "../../components/Marketplace/MarketButtons";
-import TraitDisplay from "../../components/Marketplace/TraitDisplay";
-import { ListingExpiration } from "../../components/Marketplace/ListingExpiration";
-import Carousel from "../../components/Marketplace/MarketCarousel";
-import OfferDisplay, { Owner } from "../../components/Marketplace/OfferDisplay";
-import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
+import babies from "../../data/babies.json";
+import ImageWithTraits from "../../components/Marketplace/ImageWithTraits";
+import Affinity from "../../components/Marketplace/Affinity";
+import PriceModule from "../../components/Marketplace/PriceModule";
+import Bio from "../../components/Marketplace/Bio";
+import BaseModule from "../../components/Marketplace/BaseModule";
 
-const wizData = wizards as { [wizardId: string]: any };
-const soulData = souls as { [soulId: string]: any };
-const ponyData = ponies as { [ponyId: string]: any };
-const warriorsData = warriors as { [warriorId: string]: any };
-
-const DynamicMap = dynamic(() => import("../../components/Marketplace/MiniMap"), {
-  ssr: false, // leaflet doesn't like Next.js SSR
-});
+const collectionData: any = {
+  'Wizards': wizards as { [wizardId: string]: any },
+  'Warriors': warriors as { [warriorId: string]: any},
+  'Souls': souls as { [soulId: string]: any },
+  'Ponies': ponies as { [ponyId: string]: any },
+  'Babies': babies as { [babyId: string]: any },
+}
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
 
+const PageWrapper = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: 90vh;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media only screen and (max-width: 1250px) {
+    margin-top: var(--sp1);
+    max-height: 80vh;
+  }
+`;
+
 const ListingWrapper = styled.div`
   display: flex;
   justify-content: center;
+
+  background-image: url('/static/img/interior-dark.png');
+  background-position: -58% 10%;
 
   max-width: 1000px;
   min-height: 90vh;
@@ -56,6 +75,8 @@ const ListingWrapper = styled.div`
 
   @media only screen and (max-width: 600px) {
     overflow-x: hidden;
+
+    background-position: 20% 10%;
   }
 `;
 
@@ -64,7 +85,6 @@ const Listing = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: var(--sp0);
   margin-bottom: var(--sp0);
   max-width: 1300px;
 
@@ -74,10 +94,13 @@ const TopDisplay = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: var(--sp1);
+  justify-content: center;
 
-  @media only screen and (max-width: 600px) {
+  margin-top: var(--sp-1);
+
+  @media only screen and (max-width: 1250px) {
     justify-content: center;
+    margin-bottom: var(--sp-1);
   }
 `;
 
@@ -98,46 +121,54 @@ const TopLeft = styled.div`
     }
   }
 
-  @media only screen and (max-width: 600px) {
-    width: 370px;
+  @media only screen and (max-width: 1250px) {
+    width: 75%;
     align-content: center;
   }
 `;
 
 const TopRight = styled.div`
   margin-left: var(--sp3);
-  height: 420px;
   padding: var(--sp0);
+  padding-top: 0;
   max-width: calc(100% - 460px - var(--sp3));
   align-self: flex-start;
   display: flex;
   flex-wrap: wrap;
   text-align: center;
-  @media only screen and (max-width: 600px) {
+  align-content: space-between;
+
+  background-color: black;
+
+  @media only screen and (max-width: 1250px) {
     margin-left: 0px;
-    justify-content: center;
-    max-width: 80%;
-    height: auto;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    max-width: 95%;
+    height: auto !important;
   }
 `;
 
 const SectionWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   max-width: 1000px;
   width: 100%;
 
+  gap: var(--sp1);
   align-items: flex-start;
-`;
-
-const TokenImage = styled.img`
-  border: 2px dashed var(--darkGray);
-  background: #1f0200;
+  justify-content: space-between;
 
   @media only screen and (max-width: 600px) {
-    border: 4px solid var(--darkGray);
-    max-width: 300px;
-    max-height: 300px;
+    justify-content: center;
+    gap: 0;
+    > *:not(:last-child) {
+      margin-bottom: var(--sp1);
+    }
   }
 `;
 
@@ -147,59 +178,38 @@ const NameDisplay = styled.div`
   flex-direction: column;
 `;
 
-const NameStyle = styled.h2`
-  font-family: Alagard;
-  font-size: 45px;
+const NameStyle = styled.h1`
+  font-size: var(--sp3);
   max-width: 20ch;
   display: inline-block;
-  
-  color: white;
+  text-shadow: 0px 4px var(--midGray);
 
   text-align: left;
   margin-top: 0px;
   margin-bottom: 0px;
   margin-block-start: 0px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     text-align: center;
-    font-size: 25px;
+    font-size: var(--sp2);
+    text-shadow: 0px 2px var(--midGray);
+
+    margin-top: var(--sp-3);
   }
 `;
 
 const OwnerStyle = styled.h4`
-  font-family: Roboto Mono;
-  font-size: 14px;
-  font-weight: normal;
+  font-family: Terminal;
+  font-size: var(--sp0);
+  text-transform: uppercase;
   color: var(--lightGray);
 
   text-align: left;
-  margin-block-start: 0.5vh;
+  margin-top: var(--sp-4);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     text-align: center;
-    margin-top: 2vh;
-  }
-`;
-
-const PriceDisplay = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  @media only screen and (max-width: 600px) {
-    align-self: flex-start;
-    margin-top: 4vh;
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  min-width: 400px;
-
-  @media only screen and (max-width: 600px) {
-    justify-content: center;
+    margin-top: var(--sp-1);
   }
 `;
 
@@ -208,12 +218,14 @@ const HorizontalLine = styled.hr`
   border-style: dashed;
   width: 100%;
   border-width: 1px;
-  margin-top: var(--sp2);
-  margin-bottom: var(--sp2);
+  margin-top: var(--sp0);
+  margin-bottom: var(--sp0);
 
   @media only screen and (max-width: 600px) {
-    border-color: var(--mediumGray);
     width: 90%;
+
+    margin-top: 0;
+    margin-bottom: 0;
   }
 `;
 
@@ -226,43 +238,12 @@ const BottomLine = styled.hr`
   margin-bottom: var(--sp2);
 `;
 
-const SectionDisplay = styled.div`
-  font-family: Alagard;
-  font-size: 24px;
-  color: var(--white);
-  align-self: flex-start;
-  margin-bottom: var(--sp-3);
-  display: flex;
-  align-items: center;
-
-  @media only screen and (max-width: 600px) {
-    align-self: center;
-  }
-`;
-
-const SectionName = styled.div`
-  margin-right: var(--sp-1);
-`;
-
-const MidDisplay = styled.div`
-  text-align: center;
-  margin-right: 1.5vw;
-
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-
-  @media only screen and (max-width: 600px) {
-    flex-wrap: wrap;
-  }
-`;
-
 const BottomDisplay = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+
+  margin-top: var(--sp-1);
 `;
 
 const LoreWrapper = styled.div`
@@ -277,43 +258,29 @@ const LoreWrapper = styled.div`
   }
 `;
 
-const WarningWrapper = styled.div`
-  text-align: left;
-  font-size: 14px;
-  font-family: Roboto Mono;
-  color: red;
+const Column = styled.div`
   display: flex;
-  align-items: flex-end;
-  
+  flex-direction: column;
+  height: 100%;
+
+  gap: var(--sp1);
+  flex-grow: 1;
+  flex-basis: min-content;
+  justify-content: space-between;
+
   @media only screen and (max-width: 600px) {
-    justify-content: center;
-    font-size: 13px;
-    margin-top: 0;
+    height: auto;
+
+    margin-bottom: var(--sp0);
+    align-items: center;
+    gap: 0;
+
+    > * {
+      margin-bottom: var(--sp1);
+    }
   }
 `;
 
-const WarningSymbol = styled.div`
-  font-size: 20px;
-`;
-
-function SectionHeader({
-  title,
-  link,
-  tooltip
-}:{
-  title: string;
-  link: string;
-  tooltip: string;
-}) {
-  return (
-    <SectionDisplay>
-      <SectionName>{title}</SectionName>
-        <a href={link} target="_blank">
-          <InfoTooltip tooltip={tooltip}/>
-        </a>
-    </SectionDisplay>
-  )
-}
 
 const ListingPage = ({
   contractSlug,
@@ -331,34 +298,29 @@ const ListingPage = ({
   const [fullAttributes, setFullAttributes] = useState<any>([]);
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
-  const [ownerEns, setOwnerEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [modal, setModal] = useState(false);
   const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
+  const [traitHover, setTraitHover] = useState('');
   const { account } = useEthers();
+  let contracts = contractSlug in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
   const imageUrls: string[] = [
-    CONTRACTS[contractSlug].display == 'Wizards' ? 
-      CONTRACTS[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
-      CONTRACTS[contractSlug].image_url + tokenId + ".png",
+    contracts[contractSlug].display == 'Wizards' ? 
+    contracts[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
+    contracts[contractSlug].image_url + tokenId + ".png",
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-3-right.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
-  
-  var backgroundColor = CONTRACTS[contractSlug].display == 'Wizards' ? `${wizData[tokenId].background}` : '#000000';
-  var center = CONTRACTS[contractSlug].display == 'Wizards' && wizData[tokenId].location in LOCATIONS ? 
-    LOCATIONS[wizData[tokenId].location] : [0, 0];
 
-  if (CONTRACTS[contractSlug].display != 'Wizards' && 
-    CONTRACTS[contractSlug].display != 'Souls') {
-    center = [404, 404];
-  }
+  var backgroundColor = contracts[contractSlug].display in collectionData && tokenId in collectionData[contracts[contractSlug].display] ? 
+  `${collectionData[contracts[contractSlug].display][tokenId].background}` : '#000000';
 
   useEffect(() => {
     async function run() {
@@ -377,6 +339,7 @@ const ListingPage = ({
 
         console.log(listingsJson);
 
+        // TODO = improve performance
         const traits = await fetch(
           `${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`,
           { headers: headers }
@@ -389,11 +352,6 @@ const ListingPage = ({
           const provider = getProvider();
           var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
           setEns(ensName);
-
-          if (listingsJson.tokens[0].market.topBid.maker) {
-            var ownerEns = await provider.lookupAddress(listingsJson.tokens[0].market.topBid.maker);
-            setOwnerEns(ownerEns);
-          }
         } catch (e) {
           console.error("Couldn't get ENS");
         }
@@ -420,7 +378,7 @@ const ListingPage = ({
       }
       
       // Preload turnaround images
-      if (CONTRACTS[contractSlug].display == 'Wizards') {
+      if (contracts[contractSlug].display == 'Wizards') {
         for (var url of imageUrls) {
           const img = new Image().src = url;
         }
@@ -434,7 +392,7 @@ const ListingPage = ({
 
   useEffect(() => {
     async function getFlames() {
-      if (CONTRACTS[contractSlug].display == 'Flames') {
+      if (contracts[contractSlug].display == 'Flames') {
         const userFlames = await fetch(
           `${API_BASE_URL}users/${account}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`,
           { headers: headers }
@@ -452,149 +410,141 @@ const ListingPage = ({
   return (
     <Layout 
       title={
-        CONTRACTS[contractSlug].display == 'Wizards' ? wizData[tokenId].name : 
-        CONTRACTS[contractSlug].display == 'Souls' && tokenId in soulData ? soulData[tokenId] : 
-        CONTRACTS[contractSlug].display == 'Ponies' && tokenId in ponyData ? ponyData[tokenId] :
-        CONTRACTS[contractSlug].display == 'Warriors' && tokenId in warriorsData ? warriorsData[tokenId].name :
-        `${CONTRACTS[contractSlug].singular} #${tokenId}`
+        contracts[contractSlug].display in collectionData && tokenId in collectionData[contracts[contractSlug].display] ?
+        collectionData[contracts[contractSlug].display][tokenId].name :
+        `${contracts[contractSlug].singular} #${tokenId}`
       } 
-      description={`${CONTRACTS[contractSlug].singular} #${tokenId}`}
+      description={`${contracts[contractSlug].singular} #${tokenId}`}
       image={imageUrls[0]}
     >
-      {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
-        <ListingWrapper>
-          { modal && 
-            <Order 
-              tokenId={tokenId} 
-              contract={contractSlug} 
-              name={token.name} 
-              setModal={setModal} 
-              action={marketActionType} 
-              hash={listing.id} 
-              offerHash={offer.id} 
-              collectionWide={false}
-              expectedPrice={ 
-                marketActionType == ORDER_TYPE.ACCEPT_OFFER ? offer.value : 
-                marketActionType == ORDER_TYPE.BUY ? listing.price :
-                0
-              }
-            />
-          }
-          <Listing>
-            <TopDisplay>
-              <TopLeft>
-                <TokenImage 
-                  src={imageUrls[keyImage]} 
-                  height={CONTRACTS[contractSlug].display == 'Flames' ? 456 : 400}
-                  width={400}
-                  style={{background: backgroundColor}}
-                />
-                { CONTRACTS[contractSlug].display == 'Wizards' && 
-                  <Carousel 
-                    keyImage={keyImage}
-                    setKeyImage={setKeyImage}
-                    imageUrls={imageUrls}
-                  />
+      <PageWrapper>
+        {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
+          <ListingWrapper>
+            { modal && 
+              <Order 
+                tokenId={tokenId} 
+                contract={contractSlug} 
+                name={token.name} 
+                setModal={setModal} 
+                action={marketActionType} 
+                hash={listing.id} 
+                offerHash={offer.id} 
+                collectionWide={false}
+                trait={''}
+                traitValue={''}
+                expectedPrice={ 
+                  marketActionType == ORDER_TYPE.ACCEPT_OFFER ? offer.value : 
+                  marketActionType == ORDER_TYPE.BUY ? listing.price :
+                  0
                 }
-              </TopLeft>
-              <TopRight
-                style={{height: CONTRACTS[contractSlug].display == 'Flames' ? 476 : 420}}
-              >
-                <NameDisplay>
-                  <NameStyle>{token.name}</NameStyle>
-                  {token.owner && (
-                    <OwnerStyle>
-                      {`#${tokenId} - Owner: `}
-                      <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
-                    </OwnerStyle>
-                  )}
-                </NameDisplay>
-                <PriceDisplay>
-                  <Price value={listing.price} size={1} />
-                  {token.owner != BURN_ADDRESS &&
-                    <ButtonWrapper>
-                      <MarketButtons
-                        account={account}
-                        owner={CONTRACTS[contractSlug].display == 'Flames' && flameHolder ? account : token.owner}
-                        listValue={listing.price}
-                        hasOffer={offer.value != null}
-                        setModal={setModal}
-                        setActionType={setMarketActionType}
-                        highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
-                        native={listing.source.name == 'Forgotten Market'}
-                        tokenType={CONTRACTS[contractSlug].display == 'Flames' ? 1155 : 721}
-                        myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
-                      />
-                    </ButtonWrapper>
-                  }
-                  {listing.validUntil && 
-                    <ListingExpiration
-                      timer={countdownTimer}
-                      date={new Date(listing.validUntil * 1000)}
-                      source={listing.source.id}
-                    />
-                  }
-                  {offer.value ? 
-                    <OfferDisplay 
-                      value={offer.value}
-                      maker={offer.maker}
-                      account={account ?? ''}
-                      ens={ownerEns ?? ''}
-                    /> :
-                    null
-                  }
-                  { isBanned && 
-                    <WarningWrapper>
-                      <WarningSymbol style={{marginRight: '10px'}}>⚠</WarningSymbol> 
-                      Reported as stolen on OpenSea 
-                      <WarningSymbol style={{marginLeft: '10px'}}>⚠</WarningSymbol> 
-                    </WarningWrapper> 
-                  }
-                </PriceDisplay>
-              </TopRight>
-            </TopDisplay>
-            <HorizontalLine/>
-            <SectionWrapper>
-              <SectionHeader 
-                title={'Traits'}
-                link={'https://www.youtube.com/watch?v=GmL4WBj-36o'}
-                tooltip={`Attributes and affinity that define this ${CONTRACTS[contractSlug].singular.toLowerCase()}, encoded on-chain`}
               />
-              <MidDisplay>
-                <TraitDisplay attributes={attributes} fullAttributes={fullAttributes} contract={contractSlug} tokenId={tokenId} />
-                <DynamicMap center={center} />
-              </MidDisplay>
-            </SectionWrapper>
-            {CONTRACTS[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
-            {CONTRACTS[contractSlug].display != 'Flames' && 
-              <SectionWrapper>
-                <SectionDisplay>
-                  <SectionHeader
-                    title={'Lore'}
-                    link={'https://www.forgottenrunes.com/posts/lore-creation'}
-                    tooltip={`${CONTRACTS[contractSlug].singular} owners can inscribe lore for their ${CONTRACTS[contractSlug].display.toLowerCase()} on-chain`}
-                  />
-                </SectionDisplay>
-                <BottomDisplay>
-                  <LoreWrapper>
-                    <LoreBlock 
-                      pages={pages} 
-                      length={lore.length} 
-                      tokenId={tokenId} 
-                      contract={contractSlug}
-                    />
-                  </LoreWrapper>
-                  <Icons tokenId={Number(tokenId)} contract={contractSlug} />
-                </BottomDisplay>
-              </SectionWrapper>
             }
-            <BottomLine/>
-          </Listing>
-        </ListingWrapper> :
-        <ListingWrapper>
-          <LoadingCard height={'80vh'}/>
-        </ListingWrapper>
-      }
+            <Listing>
+              <RuneHeader>
+                {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
+              </RuneHeader>
+                <TopDisplay>
+                  <TopLeft>
+                    <ImageWithTraits
+                        source={imageUrls[keyImage]}
+                        background={backgroundColor}
+                        traitHover={traitHover}
+                        attributes={attributes}
+                        contract={contractSlug}
+                        keyImage={keyImage}
+                    />
+                    { contracts[contractSlug].display == 'Wizards' && 
+                      <Carousel 
+                        keyImage={keyImage}
+                        setKeyImage={setKeyImage}
+                        imageUrls={imageUrls}
+                      />
+                    }
+                  </TopLeft>
+                  <TopRight
+                    style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
+                  >
+                    <NameDisplay>
+                      <NameStyle className='alagard'>{token.name}</NameStyle>
+                      {token.owner && (
+                        <OwnerStyle>
+                          {`Owner: `}
+                          <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
+                        </OwnerStyle>
+                      )}
+                    </NameDisplay>
+                    <PriceModule
+                      listing={listing}
+                      offer={offer}
+                      account={account}
+                      token={token}
+                      contractDisplay={contracts[contractSlug].display}
+                      flameHolder={flameHolder}
+                      isBanned={isBanned}
+                      setModal={setModal}
+                      setMarketActionType={setMarketActionType}
+                      countdownTimer={countdownTimer}
+                    />
+                  </TopRight>
+                </TopDisplay>
+              <HorizontalLine/>
+              <SectionWrapper>
+                <BaseModule traitModule={true}>
+                  <RuneHeader>
+                    TRAITS
+                  </RuneHeader>
+                  <TraitDisplay 
+                    attributes={attributes} 
+                    fullAttributes={fullAttributes} 
+                    contract={contractSlug} 
+                    setHover={setTraitHover}
+                    filters={contracts[contractSlug].coreTraits}
+                    showAll={['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display)}
+                  />
+                </BaseModule>
+                { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) && 
+                  !getValue(attributes, 'Undesirable') &&
+                  <Column style={contracts[contractSlug].display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
+                    <BaseModule traitModule={false}>
+                      <RuneHeader>AFFINITY</RuneHeader>
+                      <Affinity attributes={attributes} fullAttributes={fullAttributes} />
+                    </BaseModule>
+                    <BaseModule traitModule={false}>
+                      <RuneHeader>BIO</RuneHeader>
+                      <Bio 
+                        attributes={attributes} 
+                        fullAttributes={fullAttributes}
+                        collection={contracts[contractSlug].display}
+                      />
+                    </BaseModule>
+                  </Column>
+                }
+              </SectionWrapper>
+              {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
+              {contracts[contractSlug].display != 'Flames' && 
+                <SectionWrapper>
+                  <BottomDisplay>
+                    <LoreWrapper>
+                    <RuneHeader>LORE</RuneHeader>
+                      <LoreBlock 
+                        pages={pages} 
+                        length={lore.length} 
+                        tokenId={tokenId} 
+                        contract={contractSlug}
+                      />
+                    </LoreWrapper>
+                    <Icons tokenId={Number(tokenId)} contract={contractSlug} />
+                  </BottomDisplay>
+                </SectionWrapper>
+              }
+              <BottomLine/>
+            </Listing>
+          </ListingWrapper> :
+          <ListingWrapper>
+            <LoadingCard height={'80vh'} background={true} />
+          </ListingWrapper>
+        }
+      </PageWrapper>
     </Layout>
   );
 };

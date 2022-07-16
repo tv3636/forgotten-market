@@ -12,3 +12,4 @@ declare module "draft-js-markdown-shortcuts-plugin";
 declare module "string-replace-async";
 declare module "react-twitter-embed";
 declare module "react-codepen-embed";
+declare module 'animated-number-react';

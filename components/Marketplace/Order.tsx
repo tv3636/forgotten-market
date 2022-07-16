@@ -3,17 +3,15 @@ import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
 import { BigNumber, constants, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
-import { 
-  calculateOffer, 
-  getWeth,
-} from './marketplaceHelpers';
+import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
+import { calculateOffer, getWeth } from './marketplaceHelpers';
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 import SetExpiration from './SetExpiration';
 import setParams from '../../lib/params';
 import SetPrice from './SetPrice';
 import ActionHeader from './ActionHeader';
+import GenericButton from './GenericButton';
 import { Execute, executeSteps } from '@reservoir0x/client-sdk';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
@@ -25,7 +23,7 @@ const OverlayWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: #00000085;
-  z-index: 1;
+  z-index: 20;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -37,24 +35,29 @@ const OverlayWrapper = styled.div`
 `;
 
 const Overlay = styled.div`
-  width: 800px;
-  max-width: 60%;
-  max-height: 90%;
-  padding: var(--sp2);
+  max-width: 1000px;
+  width: 60vw;
+  height: auto;
+  min-height: 500px;
+  max-height: 85vh;
+  padding: var(--sp3) var(--sp4);
   margin-top: var(--sp4);
   background-color: var(--black);
   overflow: scroll;
   overflow-x: hidden;
 
-  border: dashed;
-  border-radius: 15px;
-  border-color: var(--mediumGray);
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
 
   display: flex;
   flex-direction: column;
   align-content: center;
-  
   align-items: center;
+
+  overflow: scroll;
 
   @media only screen and (max-width: 600px) {
     width: 90vw;
@@ -147,27 +150,6 @@ const Form = styled.form`
 
 `;
 
-function ActionButton({ 
-  actionType,
-  submitAction
-}: { 
-  actionType: ORDER_TYPE;
-  submitAction: any;
-}) {
-  return (
-    <ButtonImage
-      src={`/static/img/marketplace/${ actionType == ORDER_TYPE.OFFER ? 'offer' : 'sell' }.png`}
-      onMouseOver={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${ actionType == ORDER_TYPE.OFFER ? 'offer' : 'sell' }_hover.png`)
-      }
-      onMouseOut={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${ actionType == ORDER_TYPE.OFFER ? 'offer' : 'sell' }.png`)
-      }
-      onClick={(e) => { submitAction(e) }}
-    /> 
-  )
-}
-
 function TransactionProcessing({ hash }: { hash: string }) {
   return (
     <a href={`https://etherscan.io/tx/${hash}`} target='_blank' style={{textDecoration: 'none', color: 'var(--white)'}}>
@@ -193,7 +175,7 @@ function PriceExplained({
   tooltip: string;
 }) {
   return (
-    <Description style={{marginBottom: 'var(--sp1)', marginLeft: '12%', marginTop: '15px'}}>
+    <Description style={{marginBottom: 'var(--sp-1)', marginLeft: '12%', marginTop: '15px'}}>
       <div style={{marginRight: 'var(--sp-3)', fontSize: '15px'}}>
         {`You ${action == ORDER_TYPE.OFFER ? 
           `pay ${amount} WETH` : 
@@ -244,6 +226,8 @@ function OrderContent({
   offerHash,
   setModal,
   collectionWide,
+  trait,
+  traitValue,
   expectedPrice,
 }: {
   action: ORDER_TYPE;
@@ -254,17 +238,19 @@ function OrderContent({
   offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
+  trait: string;
+  traitValue: string;
   expectedPrice: number;
 }) {
   const { library, account } = useEthers();
   const signer = library?.getSigner();
   const [step, setStep] = useState<any>(null);
+  const [steps, setSteps] = useState<Execute['steps']>();
   const [txn, setTxn] = useState('');
   const [price, setPrice] = useState('');
   const [showError, setShowError] = useState<any>(null);
   const [listOS, setListOS] = useState(false);
   const [listLR, setListLR] = useState(false);
-  const [steps, setSteps] = useState<Execute['steps']>();
   const [expiration, setExpiration] = useState(
     new Date(
       new Date().getFullYear(), 
@@ -286,6 +272,8 @@ function OrderContent({
   const [ethBalance, setEthBalance] = useState<any>(null);
   const url = new URL(OrderURLs[action], API_BASE_URL);
 
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+
   if (chainId != library?.network.chainId) {
     if (library?.network.chainId) {
       return (
@@ -302,11 +290,8 @@ function OrderContent({
     }
   }
 
-  async function execute(
-    url: URL, 
-    signer: any,
-    expectedPrice?: number,
-  ) {
+
+  async function execute(url: URL, signer: any, expectedPrice?: number) {
     try {
       await executeSteps(url, signer, setSteps, undefined, expectedPrice);
     } catch (e) {
@@ -326,7 +311,6 @@ function OrderContent({
           setTxn('');
           setStep(step);
           break;
-
         } else {
           if (step == steps[steps.length - 1]) {
             setStep(step);
@@ -415,7 +399,7 @@ function OrderContent({
       )
 
       if (weth?.balance && ethBalance) {
-        const calculations = calculateOffer(userInput, ethBalance, weth.balance, Number(CONTRACTS[contract].fee));
+        const calculations = calculateOffer(userInput, ethBalance, weth.balance, Number(contracts[contract].fee));
         setCalculations(calculations)
       }
     }
@@ -423,9 +407,7 @@ function OrderContent({
 
   // Kick off listing for sale or making offer
   //
-  async function submitAction(event: any) {
-    event.preventDefault();
-    
+  async function submitAction() {
     let query: any = {
       maker: account,
       weiPrice: action == ORDER_TYPE.SELL ? 
@@ -433,8 +415,8 @@ function OrderContent({
         calculations.total.toString(),
       expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
       automatedRoyalties: false,
-      fee: CONTRACTS[contract].fee,
-      feeRecipient: CONTRACTS[contract].feeRecipient,
+      fee: contracts[contract].fee,
+      feeRecipient: contracts[contract].feeRecipient,
       source: 'Forgotten Market',
       orderKind: 'seaport',
     }
@@ -443,6 +425,11 @@ function OrderContent({
       query.collection = contract;
     } else {
       query.token = `${contract}:${tokenId}`;
+    }
+
+    if (trait) {
+      query.attributeKey = trait;
+      query.attributeValue = traitValue;
     }
 
     setParams(url, query);
@@ -505,9 +492,9 @@ function OrderContent({
     return description
   }
 
-  var imageUrl = CONTRACTS[contract].display == 'Wizards' ? 
-    CONTRACTS[contract].image_url + tokenId + '/' + tokenId + '.png' : 
-    CONTRACTS[contract].image_url + tokenId + ".png";
+  var imageUrl = contracts[contract].display == 'Wizards' ? 
+    contracts[contract].image_url + tokenId + '/' + tokenId + '.png' : 
+    contracts[contract].image_url + tokenId + ".png";
 
   if (!step) {
     if (action == ORDER_TYPE.OFFER || action == ORDER_TYPE.SELL) {
@@ -520,6 +507,8 @@ function OrderContent({
             name={name}
             imageUrl={imageUrl}
             action={action}
+            trait={trait}
+            traitValue={traitValue}
           />
           
           <SetPrice 
@@ -532,7 +521,7 @@ function OrderContent({
             amount={
               action == ORDER_TYPE.OFFER ?
                 ethers.utils.formatEther(calculations.total) :
-                (Number(price) - Number(price) * (Number(CONTRACTS[contract].fee) / 10000)).toString()
+                (Number(price) - Number(price) * (Number(contracts[contract].fee) / 10000)).toString()
             }
             tooltip={
               action == ORDER_TYPE.OFFER ?
@@ -552,7 +541,7 @@ function OrderContent({
             </Form>
             
           }
-          <ActionButton actionType={action} submitAction={submitAction} />
+          <GenericButton onClick={submitAction} text={'SUBMIT'}/>
         </Overlay> 
       )
     } else {
@@ -591,6 +580,8 @@ interface OrderProps {
   offerHash: string;
   setModal: (modal: boolean) => void;
   collectionWide: boolean;
+  trait: string;
+  traitValue: string;
   expectedPrice: number;
 }
 

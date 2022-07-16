@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { API_BASE_URL, CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
+import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
-import { SoftLink, LoadingCard } from "./marketplaceHelpers";
+import { SoftLink, LoadingCard, getURLAttributes } from "./marketplaceHelpers";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
+import router from "next/router";
+import FilterHeader from "./FilterHeader";
 
 TimeAgo.addDefaultLocale(en);
 const headers: HeadersInit = new Headers();
@@ -17,11 +19,10 @@ const ScrollContainer = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 2vw;
-  margin-left: 1vw;
-  margin-right: 1vw;
   overflow: hidden;
-  
+
+  padding-top: var(--sp1);
+  padding-bottom: 400px;
 `;
 
 const ActivityImage = styled.img`
@@ -30,7 +31,8 @@ const ActivityImage = styled.img`
   border-color: var(--darkGray);
   border-radius: 10px;
 
-  margin-right: 20px;
+  margin-right: var(--sp0);
+  z-index: 2;
 
   width: 150px;
   height: 150px;
@@ -40,9 +42,9 @@ const ActivityImage = styled.img`
     border-color: var(--mediumGray);
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 100px;
-    height: 100px;
+    height: auto;
     margin-left: 0px;
     margin-right: 10px;
   }
@@ -63,7 +65,7 @@ const TimeText = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     font-size: 14px;
   }
 `;
@@ -75,16 +77,16 @@ const SalesText = styled.div`
   color: var(--white);
   
   line-height: 1.3;
-  width: 20ch;
+  max-width: 20ch;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   overflow: hidden;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     font-size: 15px;
-    width: 11ch;
+    width: 10ch;
   }
 `;
 
@@ -95,14 +97,16 @@ const BuyerText = styled.div`
   color: var(--white);
   
   line-height: 1.5;
-  max-width: 20ch;
+  max-width: 18ch;
   -webkit-line-clamp: 1;
   text-overflow: ellipsis;
   overflow: hidden;
 
-  @media only screen and (max-width: 600px) {
+  z-index: 2;
+
+  @media only screen and (max-width: 1250px) {
     font-size: 14px;
-    max-width: 14ch;
+    max-width: 13ch;
   }
 `;
 
@@ -111,7 +115,7 @@ const EthSymbol = styled.img`
   margin-right: 6px;
   margin-top: 3px;
   
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     height: 13px;
     margin-top: 2px;
   }
@@ -126,7 +130,7 @@ const HorizontalLine = styled.hr`
   margin-top: var(--sp-1);
   margin-bottom: var(--sp-1);
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     border-color: black;
     width: 90%;
 
@@ -141,7 +145,7 @@ const SalesTextDisplay = styled.div`
   flex-direction: column;
   height: 125px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     height: 75px;
   }
 
@@ -153,10 +157,11 @@ const SalesDisplay = styled.div`
   justify-content: center;
   align-items: center;
 
-  @media only screen and (max-width: 600px) {
+  z-index: 2;
+
+  @media only screen and (max-width: 1250px) {
     height: 75px;
   }
-
 `;
 
 const ActivityRow = styled.div`
@@ -164,25 +169,23 @@ const ActivityRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 
-  border: dashed;
-  border-radius: 20px;
-  border-color: var(--mediumGray);
-  background: #0d0c16c4;
+  background: var(--darkGray);
 
-  padding: 20px;
-  margin: 10px;
+  padding: var(--sp0);
+  margin: var(--sp-2);
 
-  @media only screen and (max-width: 600px) {
-    padding-left: 10px;
-    padding-right: 10px;
+  @media only screen and (max-width: 1250px) {
+    padding-top: var(--sp1);
   }
 `;
 
 const ActivityWrapper = styled.div`
   width: 80%;
+  max-width: 800px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 100%;
   }
 `;
@@ -190,9 +193,13 @@ const ActivityWrapper = styled.div`
 const MobileWrapper = styled.div`
   display: none;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     height: 75px;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    z-index: 2;
   }
 `;
 
@@ -201,7 +208,7 @@ const DesktopWrapper = styled.div`
   flex-direction: row;
   align-items: center;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     display: none;
   }
 `;
@@ -211,7 +218,7 @@ const IconImage = styled.img`
   height: 20px;
   margin-left: 5px;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1250px) {
     width: 15px;
     height: 15px;
   }
@@ -231,7 +238,9 @@ const MarketIcon = styled.img`
   margin-top: 2px;
   image-rendering: pixelated;
 
-  @media only screen and (max-width: 600px) {
+  z-index: 2;
+
+  @media only screen and (max-width: 1250px) {
     width: 15px;
     height: 15px;
     margin-right: 7px;
@@ -239,6 +248,35 @@ const MarketIcon = styled.img`
   }
 
 `;
+
+const NewFrame = styled.div`
+  width: calc(100% + var(--frameSize));
+  height: calc(100% + 0.5 * var(--frameSize));
+
+  position: absolute;
+  left: calc(-0.5 * var(--frameSize));
+  top: calc(-0.1 * var(--frameSize));
+  z-index: 1;
+  border-image-source: url(/static/img/newframe_black.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-image-outset: 0;
+  border-style: solid;
+  border-image-repeat: round;
+`;
+
+const Grain = styled.div`
+  position: absolute;
+  left: 0;
+  opacity: 4%;
+  
+  width: 100%;
+  height: 100%;
+
+  background-image: url(/static/img/marketplace/paperTxt03.png);
+  background-repeat: repeat;
+`;
+
 
 function BuyerSeller({ 
   buyer, 
@@ -275,95 +313,108 @@ export default function Activity({
   const [sales, setSales] = useState([]);
   const [continuation, setContinuation] = useState('');
   const [fetched, setFetched] = useState(false);
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
 
-  async function fetchSales() {
+  async function fetchSales(continued: boolean) {
     const recentSales = await fetch(
-      API_BASE_URL + `sales/v3?contract=${contract}${continuation != '' ? "&continuation=" + continuation : ''}`, 
+      API_BASE_URL + `sales/v3?collection=${contract}${continuation != '' && continued ? "&continuation=" + continuation : ''}`
+      + getURLAttributes(router.query), 
       { headers: headers }
     );
     const salesJson = await recentSales.json();
     console.log(salesJson);
-    setSales(sales.concat(salesJson.sales));
+
+    if (continued) {
+      setSales(sales.concat(salesJson.sales)); 
+    } else {
+      setSales(salesJson.sales);
+    }
     setContinuation(salesJson.continuation);
     setFetched(true);
   }
 
   useEffect(() => {
-    fetchSales();
-  }, []);
+    setFetched(false);
+    fetchSales(false);
+  }, [router.query]);
 
   return (
-      <InfiniteScroll
-        dataLength={sales.length}
-        next={fetchSales}
-        hasMore={true}
-        loader={null}
-        scrollThreshold={0.1}
-        height={'80vh'}
-      >
-        { fetched ? 
-          <ScrollContainer>
-          {sales.map((sale: any, index) => {
-            return (sale && sale.token ?
-              <ActivityWrapper key={index}>
-                <ActivityRow>
-                  <SalesDisplay>
-                    <Link
-                      href={`/marketplace/${contract}/${sale.token.tokenId}`}
-                      passHref={true}
-                    >
-                      <SoftLink>
-                        <ActivityImage 
-                          style={CONTRACTS[contract].display == 'Flames' ? {height: '171px'} : {}}
-                          src={CONTRACTS[contract].display == 'Wizards' ? 
-                            `${CONTRACTS[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
-                            `${CONTRACTS[contract].image_url}${sale.token.tokenId}.png`}
-                        /> 
-                      </SoftLink>
-                    </Link>
-                    <SalesTextDisplay>
-                      <SalesText style={{color: 'white'}}>{sale.token.name}</SalesText>
-                      <div style={{ display: 'flex' }}>
-                        <EthSymbol src='/static/img/marketplace/eth.png'/>
-                        <SalesText>{sale.price}</SalesText>
-                      </div>
-                    </SalesTextDisplay>
-                  </SalesDisplay>
-                  <MobileWrapper>
-                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
-                    <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+    <InfiniteScroll
+      dataLength={sales.length}
+      next={() => { fetchSales(true) }}
+      hasMore={true}
+      loader={null}
+      scrollThreshold={0.1}
+      height={'100vh'}
+      style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
+    >
+      { fetched ? 
+        <ScrollContainer>
+        {sales.map((sale: any, index) => {
+          return (sale && sale.token ?
+            <ActivityWrapper key={index}>
+              <ActivityRow>
+                <Grain style={{
+                  backgroundImage: `url(/static/img/marketplace/paperTxt0${(sale.token.tokenId % 4) + 1}.png)`,
+                  backgroundPosition: `${(sale.token.tokenId % 100)}% ${(sale.token.tokenId % 100)}%`
+                }}/>
+                <SalesDisplay>
+                  <Link
+                    href={`/marketplace/${contract}/${sale.token.tokenId}`}
+                    passHref={true}
+                  >
+                    <SoftLink>
+                      <ActivityImage 
+                        src={contracts[contract].display == 'Wizards' ? 
+                          `${contracts[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
+                          `${contracts[contract].image_url}${sale.token.tokenId}.png`}
+                      /> 
+                    </SoftLink>
+                  </Link>
+                  <SalesTextDisplay>
+                    <SalesText>{sale.token.name}</SalesText>
+                    <div style={{ display: 'flex' }}>
+                      <EthSymbol src={sale.orderSide == 'ask' ? '/static/img/marketplace/eth.png': '/static/img/marketplace/weth.png'}/>
+                      <SalesText>{sale.price}</SalesText>
+                    </div>
+                  </SalesTextDisplay>
+                </SalesDisplay>
+                <MobileWrapper>
+                  <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                  <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
+                  <div style={{display: 'flex', alignItems: 'center'}}>
+                    <TimeText>
+                      <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
+                    </TimeText>
+                    <IconImage src="/static/img/marketplace/share.png"/>
+                    </div>
+                  </SoftLink>
+                </MobileWrapper>
+                <DesktopWrapper>
+                  <BuyerSeller buyer={sale.to} seller={sale.from}/>
+                </DesktopWrapper>
+                <DesktopWrapper>
+                  <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                      <TimeText>
-                        <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
-                      </TimeText>
-                      <IconImage src="/static/img/marketplace/share.png"/>
-                      </div>
-                    </SoftLink>
-                  </MobileWrapper>
-                  <DesktopWrapper>
-                    <BuyerSeller buyer={sale.to} seller={sale.from}/>
-                  </DesktopWrapper>
-                  <DesktopWrapper>
-                    <SoftLink href={'https://etherscan.io/tx/' + sale.txHash} target="_blank" rel="noopener noreferrer">
-                      <div style={{display: 'flex', alignItems: 'center'}}>
-                      <TimeText>
-                        <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
-                      </TimeText>
-                      <MarketIcon src={MARKET_ICONS_BY_NAME[sale.orderSource]} style={{marginLeft: '10px'}}/>
-                      </div>
-                    </SoftLink>
-                  </DesktopWrapper>
-                </ActivityRow>
-                <HorizontalLine/>
-              </ActivityWrapper> :
-              null
-              
-            );
-          })
-          }
-          </ScrollContainer> :
-          <LoadingCard height={'80vh'}/>
+                    <TimeText>
+                      <ReactTimeAgo date={new Date(sale.timestamp * 1000)}/>
+                    </TimeText>
+                    <MarketIcon src={MARKET_ICONS_BY_NAME[sale.orderSource]} style={{marginLeft: '10px'}}/>
+                    </div>
+                  </SoftLink>
+                </DesktopWrapper>
+                <NewFrame/>
+              </ActivityRow>
+              <HorizontalLine/>
+            </ActivityWrapper> :
+            null
+          );
+        })
         }
-      </InfiniteScroll>
+        <div className="scrim"/>
+        </ScrollContainer> :
+        <LoadingCard height={'80vh'} background={true}/>
+      }
+    </InfiniteScroll>
   )
 }

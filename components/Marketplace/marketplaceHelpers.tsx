@@ -5,9 +5,10 @@ import { arrayify, splitSignature } from "ethers/lib/utils";
 import { ResponsivePixelImg } from "../../components/ResponsivePixelImg";
 import { formatBN } from "../../lib/numbers";
 import setParams from "../../lib/params";
-import { CONTRACTS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { pollUntilHasData, pollUntilOk } from '../../lib/pollApi';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 
 const SocialItem = styled.div`
   display: flex;
@@ -43,137 +44,6 @@ export type Execute = {
     | undefined
   query?: { [x: string]: any }
   error?: string | undefined
-}
-
-/**
- * When attempting to perform actions, such as, selling a token or
- * buying a token, the user's account needs to meet certain requirements. For
- * example, if the user attempts to buy a token the Reservoir API checks if the
- * user has enough balance, before providing the transaction to be signed by
- * the user. This function executes all transactions, in order, to complete the
- * action.
- * @param url URL object with the endpoint to be called. Example: `/execute/buy`
- * @param signer Ethereum signer object provided by the browser
- * @param setState Callback to update UI state has execution progresses
- * @returns The data field of the last element in the steps array
- */
-export default async function executeSteps(
-  url: any,
-  signer: Signer,
-  setTxn: (hash: string) => void,
-  showError: (show: any) => void,
-  setSteps: any,
-  newJson?: Execute
-) {
-  try {
-    let json = newJson
-
-    if (!json) {
-      const res = await fetch(url.href)
-      json = (await res.json()) as Execute
-    }
-
-    // Update state on first call or recursion
-    setSteps(json.steps?.map((step) => step))
-
-    // Handle errors
-    if (json.error) throw new Error(json.error)
-    if (!json.steps) throw new ReferenceError('There are no steps.')
-
-    const incompleteIndex = json.steps.findIndex(
-      ({ status }) => status === 'incomplete'
-    )
-
-    // There are no more incomplete steps
-    if (incompleteIndex === -1) return json
-
-    let { kind, data } = json.steps[incompleteIndex]
-
-    // Append any extra params provided by API
-    if (json.query) setParams(url, json.query)
-
-    // If step is missing data, poll until it is ready
-    if (!data) {
-      json = (await pollUntilHasData(url, incompleteIndex)) as Execute
-      if (!json.steps) throw new ReferenceError('There are no steps.')
-      data = json.steps[incompleteIndex].data
-    }
-
-    // Handle each step based on it's kind
-    switch (kind) {
-      // Make an on-chain transaction
-      case 'transaction': {
-        const tx = await signer.sendTransaction(data)
-        console.log(tx.hash);
-        setTxn(tx.hash)
-        await tx.wait()
-        break
-      }
-
-      // Sign a message
-      case 'signature': {
-        let signature: string | undefined
-
-        // Request user signature
-        if (data.signatureKind === 'eip191') {
-          signature = await signer.signMessage(arrayify(data.message))
-        } else if (data.signatureKind === 'eip712') {
-          signature = await (signer as unknown as TypedDataSigner)._signTypedData(
-            data.domain,
-            data.types,
-            data.value
-          )
-        }
-
-        if (signature) {
-          // Split signature into r,s,v components
-          const { r, s, v } = splitSignature(signature)
-          // Include signature params in any future requests
-          setParams(url, { r, s, v })
-        }
-
-        break
-      }
-
-      // Post a signed order object to order book
-      case 'request': {
-        const postOrderUrl = new URL(data.endpoint, url.origin)
-        try {
-          await fetch(postOrderUrl.href, {
-            method: data.method,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data.body),
-          })
-        } catch (err) {
-          throw err
-        }
-        break
-      }
-
-      // Confirm that an on-chain tx has been picked up by indexer
-      case 'confirmation': {
-        const confirmationUrl: any = new URL(data.endpoint, url.origin)
-        await pollUntilOk(confirmationUrl)
-        break
-      }
-
-      default:
-        break
-    }
-
-    json.steps[incompleteIndex].status = 'complete'
-
-    await executeSteps(url, signer, setTxn, showError, setSteps, json)
-
-    return true
-
-  } catch (e: any) {
-    showError(e.toString());
-    console.error(e);
-    return false;
-  }
 }
 
 /**
@@ -281,7 +151,7 @@ export function getOptions(traits: [any]) {
 }
 
 // Format trait for Reservoir API call
-function traitFormat(contract: string, trait: string) {
+export function traitFormat(trait: string) {
   var out = "";
   for (var word of trait.split(' ')) {
     if (word == 'in') {
@@ -300,11 +170,11 @@ function traitFormat(contract: string, trait: string) {
 }
 
 // Build API parameters from router parameters
-export function getURLAttributes(contract: string, query: any) {
+export function getURLAttributes(query: any) {
   var url_string = "";
   for (var trait of Object.keys(query)) {
     if (trait != 'contractSlug' && trait != 'activity' && trait != 'source') {
-      var url_trait = traitFormat(contract, trait).replace("#", "%23");
+      var url_trait = traitFormat(trait).replace("#", "%23");
       url_string +=
         "&attributes[" +
         url_trait +
@@ -324,6 +194,8 @@ export function Icons({
   tokenId: number;
   contract: string;
 }) {
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  
   return (
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "1vh" }}
@@ -341,14 +213,14 @@ export function Icons({
         </a>
       </SocialItem>
       <SocialItem>
-        <a href={`https://forgottenrunes.com/lockscreen?tokenSlug=${CONTRACTS[contract].display.toLowerCase()}&tokenId=${tokenId}`} className="icon-link" target="_blank">
+        <a href={`https://forgottenrunes.com/lockscreen?tokenSlug=${contracts[contract].display.toLowerCase()}&tokenId=${tokenId}`} className="icon-link" target="_blank">
           <ResponsivePixelImg src="/static/img/icons/social_phone_default.png" />
         </a>
       </SocialItem>
-      {CONTRACTS[contract].collection == "forgottenruneswizardscult" && (
+      {contracts[contract].collection == "forgottenruneswizardscult" && (
         <SocialItem>
           <a
-            href={`https://forgottenrunes.com/api/art/${CONTRACTS[contract].display.toLowerCase()}/${tokenId}.zip`}
+            href={`https://forgottenrunes.com/api/art/${contracts[contract].display.toLowerCase()}/${tokenId}.zip`}
             className="icon-link"
             target="_blank"
           >
@@ -358,7 +230,7 @@ export function Icons({
       )}
       <SocialItem>
         <a
-          href={`https://forgottenrunes.com/lore/${CONTRACTS[contract].display.toLowerCase()}/${tokenId}/0`}
+          href={`https://forgottenrunes.com/lore/${contracts[contract].display.toLowerCase()}/${tokenId}/0`}
           className="icon-link"
           target="_blank"
         >
@@ -369,7 +241,13 @@ export function Icons({
   );
 }
 
-export function LoadingCard({ height }: { height: string }) {
+export function LoadingCard({ 
+  height,
+  background,
+}: { 
+  height: string 
+  background: boolean
+}) {
   return (
     <div
       style={{
@@ -379,11 +257,12 @@ export function LoadingCard({ height }: { height: string }) {
         alignContent: "center",
         justifyContent: "center",
         height: height,
+        backgroundImage: background ? 'url(/static/img/interior-dark.png)' : 'none',
       }}
     >
       <img
         src="/static/img/marketplace/loading_card.gif"
-        style={{ maxWidth: "200px" }}
+        style={{ maxWidth: "200px", transform: "translateY(-100%)", }}
       />
     </div>
   );
@@ -392,3 +271,56 @@ export function LoadingCard({ height }: { height: string }) {
 export const SoftLink = styled.a`
   text-decoration: none;
 `;
+
+export function numShorten(num: number) {
+  return num >= 1000 ? `${(num / 1000).toPrecision(2)}k` : num;
+}
+
+/*
+* Trait Offer Helpers
+*/
+
+// Determine if one trait is selected, enabling trait offer
+export function isTraitOffer() {
+  const router = useRouter();
+
+  return Object.keys(router.query).length == (2 + Number('source' in router.query) + Number('activity' in router.query));
+}
+
+// Get trait selected for trait offer
+export function getTrait() {
+  const router = useRouter();
+
+  for (const key in router.query) {
+    if (!['contractSlug', 'source', 'activity'].includes(key)) {
+      return traitFormat(key);
+    }
+  }
+
+  return '';
+}
+
+// Get trait value selected for trait offer
+export function getTraitValue() {
+  const router = useRouter();
+
+  for (const key in router.query) {
+    if (!['contractSlug', 'source', 'activity'].includes(key)) {
+      return String(router.query[key]);
+    }
+  }
+
+  return '';
+}
+
+// Get trait value from trait pairs, given trait
+export function getValue(attributes: any, trait: string) {
+  for (var attribute of attributes) {
+    if (attribute.key == trait) {
+      return attribute.value;
+    }
+  }
+
+  return '';
+}
+

@@ -1,15 +1,32 @@
-import Layout from "../components/Layout";
+import Layout from "../components/Marketplace/NewLayout";
 import styled from "@emotion/styled";
+
+const PageWrapper = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  max-height: 90vh;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+`;
 
 const AboutWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  
-  min-height: 90vh;
+
   margin: 0 auto;
-  padding: 30px;
-  margin-top: 80px;
-  max-width: 1000px;
+  padding: var(--sp2);
+  margin-top: var(--sp2);
+  max-width: 100ch;
+  
+  a {
+    text-decoration: underline;
+  }
 
   @media only screen and (max-width: 600px) {
     overflow-x: hidden;
@@ -23,7 +40,7 @@ const Title = styled.div`
   color: var(--white);
 
   margin-top: var(--sp-1);
-  margin-bottom: var(--sp-1);
+  margin-bottom: var(--sp-4);
 
   @media only screen and (max-width: 600px) {
     font-size: 22px;
@@ -81,9 +98,11 @@ const OSIcon = styled.img`
 
 const Fees = styled.table`
   max-width: 800px;
-  border-style: dashed;
-  border-radius: 10px;
-  border-width: 1px;
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
 
   padding: 5px;
   text-align: center;
@@ -91,53 +110,49 @@ const Fees = styled.table`
 
 const Row = styled.tr`
   color: var(--white);
-  font-size: 15px;
+  text-transform: uppercase;
 
   th, td {
-    padding: 10px;
+    padding: var(--sp-2);
   }
 
   th, td {
-    border-bottom-style: dashed;
-    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--frameGray);
+    border-bottom-width: 4px;
   }
 
-`;
-
-const DoubleHeader = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const BorderRight = styled.td`
   border-left: 0px;
   border-top: 0px;
-  border-right: 0.5px;
-  border-bottom: 0.5px;
+  border-right: 4px;
+  border-bottom: 4px;
 
-  border-style: dashed;
+  border-style: solid;
+  border-color: var(--frameGray);
 `;
 
 const BorderRightHeader = styled.th`
   border-left: 0px;
   border-top: 0px;
-  border-right: 0.5px;
-  border-bottom: 0.5px;
+  border-right: 4px;
+  border-bottom: 4px;
 
-  border-style: dashed;
+  border-style: solid;
+  border-color: var(--frameGray);
 `;
 
-export default function About({
-}: {
-}) {
+export default function About({}: {}) {
   return (
     <Layout title="About">
+      <PageWrapper>
       <AboutWrapper>
         <Title>About</Title>
         <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
         <a href='https://reservoirprotocol.github.io/' target="_blank">Reservoir Protocol.</a></Description>
-        <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin:</Description>
+        <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, X2Y2, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin:</Description>
         <HorizontalLine/>
         <Fees style={{maxWidth: '600px'}}>
           <Row>
@@ -153,14 +168,18 @@ export default function About({
             <td><OSIcon src="/static/img/icons/nav/opensea_default.png" /></td>
           </Row>
           <Row>
-            <td style={{borderStyle: 'none'}}>LooksRare</td>
-            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
+            <td>LooksRare</td>
+            <td><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>X2Y2</td>
+            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/x2y2_default.png" /></td>
           </Row>
         </Fees>
         <HorizontalLine/>
         <HorizontalLine/>
         <Title>Fees</Title>
-        <Description>Listings and offers created on Forgotten.market will pay out all fees to the Forgotten Runes team and community. Listings aggregated from other marketplaces will pay out those marketplace fees as usual:</Description>
+        <Description>Listings and offers created on Forgotten.market pay out all fees to the Forgotten Runes team and community. Listings aggregated from other marketplaces will pay out those marketplace fees as usual:</Description>
         <HorizontalLine/>
         <Fees>
           <Row>
@@ -171,7 +190,7 @@ export default function About({
           <Row>
             <td>Forgotten.Market</td>
             <td><OSIcon src="/static/img/icons/nav/native_listing.png" /></td>
-            <td style={{fontWeight: 'bold'}}>1% to <a href='http://thehouseofwizards.com/' target="_blank">Community DAO</a></td>
+            <td style={{fontWeight: 'bold'}}>1.5% to <a href='http://thehouseofwizards.com/' target="_blank">Community DAO</a></td>
           </Row>
           <Row>
             <td>OpenSea</td>
@@ -179,98 +198,59 @@ export default function About({
             <td>2.5% to OpenSea</td>
           </Row>
           <Row>
-            <td style={{borderStyle: 'none'}}>LooksRare</td>
-            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
-            <td style={{borderStyle: 'none'}}>2% to LooksRare</td>
+            <td>LooksRare</td>
+            <td><OSIcon src="/static/img/icons/nav/looksrare_default.png" /></td>
+            <td>2% to LooksRare</td>
+          </Row>
+          <Row>
+            <td style={{borderStyle: 'none'}}>X2Y2</td>
+            <td style={{borderStyle: 'none'}}><OSIcon src="/static/img/icons/nav/x2y2_default.png" /></td>
+            <td style={{borderStyle: 'none'}}>0.5% to X2Y2</td>
           </Row>
         </Fees>
         <HorizontalLine/>
         <HorizontalLine/>
-        <Description>Additionally, the standard team fee is applied to all sales, resulting in the following total fees per collection/listing origin:</Description>
+        <Description>In addition to the marketplace fee, the standard team fee is applied to all sales:</Description>
         <HorizontalLine/>
-        <div style={{overflowX: 'scroll'}}>
         <Fees>
           <Row>
             <BorderRightHeader>Collection</BorderRightHeader>
-            <BorderRightHeader>Magic Machine Fee</BorderRightHeader>
-            <BorderRightHeader>
-              <DoubleHeader>
-                <OSIcon src="/static/img/icons/nav/opensea_default.png"/><div>&nbsp;&nbsp;Total Fee</div>
-              </DoubleHeader>
-            </BorderRightHeader>
-            <BorderRightHeader>
-              <DoubleHeader>
-                <OSIcon src="/static/img/icons/nav/looksrare_default.png"/><div>&nbsp;&nbsp;Total Fee</div>
-              </DoubleHeader>
-            </BorderRightHeader>
-            <th>
-              <DoubleHeader>
-                <OSIcon src="/static/img/icons/nav/native_listing.png"/><div>&nbsp;&nbsp;Total Fee</div>
-              </DoubleHeader>
-            </th>
+            <th>Team Fee</th>
           </Row>
           <Row>
             <BorderRight>Wizards</BorderRight>
-            <BorderRight>2.5%</BorderRight>
-            <BorderRight>5%</BorderRight>
-            <BorderRight>4.5%</BorderRight>
-            <td><b>3.5%</b></td>
+            <td><b>2.5%</b></td>
           </Row>
           <Row>
             <BorderRight>Warriors</BorderRight>
-            <BorderRight>5%</BorderRight>
-            <BorderRight>7.5%</BorderRight>
-            <BorderRight>7%</BorderRight>
-            <td><b>6%</b></td>
+            <td><b>5%</b></td>
           </Row>
           <Row>
             <BorderRight>Souls</BorderRight>
-            <BorderRight>6.66%</BorderRight>
-            <BorderRight>9.16%</BorderRight>
-            <BorderRight>8.66%</BorderRight>
-            <td><b>7.66%</b></td>
+            <td><b>6.66%</b></td>
           </Row>
           <Row>
             <BorderRight>Ponies</BorderRight>
-            <BorderRight>4.44%</BorderRight>
-            <BorderRight>6.94%</BorderRight>
-            <BorderRight>6.44%</BorderRight>
-            <td><b>5.44%</b></td>
+            <td><b>4.44%</b></td>
           </Row>
           <Row>
             <BorderRight>Flames</BorderRight>
-            <BorderRight>6.66%</BorderRight>
-            <BorderRight>9.16%</BorderRight>
-            <BorderRight>8.66%</BorderRight>
-            <td><b>7.66%</b></td>
+            <td><b>6.66%</b></td>
           </Row>
           <Row>
             <BorderRight>Beasts</BorderRight>
-            <BorderRight>7%</BorderRight>
-            <BorderRight>9.5%</BorderRight>
-            <BorderRight>9%</BorderRight>
-            <td><b>*7%</b></td>
+            <td><b>7%</b></td>
           </Row>
           <Row>
             <BorderRight>Locks</BorderRight>
-            <BorderRight>7.77%</BorderRight>
-            <BorderRight>10.27%</BorderRight>
-            <BorderRight>9.77%</BorderRight>
-            <td><b>*7.77%</b></td>
+            <td><b>7.77%</b></td>
           </Row>
           <Row>
             <BorderRight style={{borderBottom: 'none'}}>Spawn</BorderRight>
-            <BorderRight style={{borderBottom: 'none'}}>7%</BorderRight>
-            <BorderRight style={{borderBottom: 'none'}}>9.5%</BorderRight>
-            <BorderRight style={{borderBottom: 'none'}}>9%</BorderRight>
-            <BorderRight style={{borderBottom: 'none', borderRight: 'none'}}><b>*7%</b></BorderRight>
+            <BorderRight style={{borderBottom: 'none', borderRight: 'none'}}><b>7%</b></BorderRight>
           </Row>
         </Fees>
-        </div>
         <HorizontalLine/>
-        <HorizontalLine/>
-        <Description>* Fees for the Beasts, Locks, and Spawn collections are split 50/50 between Magic Machine and the Community DAO, so the 1% FM fee does not apply.</Description>
-        <Description style={{fontWeight: 'bold'}}>NOTE: On July 1, 2022 the Forgotten Market Fee will be raised to 1.5%, where it will stay indefinitely.</Description>
         <HorizontalLine/>
         <HorizontalLine/>
         <HorizontalLine/>
@@ -278,6 +258,7 @@ export default function About({
         <HorizontalLine/>
         <HorizontalLine/>
       </AboutWrapper>
+      </PageWrapper>
     </Layout>
   )
 }

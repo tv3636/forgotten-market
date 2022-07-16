@@ -9,7 +9,8 @@ TimeAgo.addDefaultLocale(en);
 const ExpirationWrapper = styled.div`
 text-align: left;
 font-size: 14px;
-font-family: Roboto Mono;
+font-family: Terminal;
+text-transform: uppercase;
 color: var(--lightGray);
 display: flex;
 margin-top: 1vh;
@@ -19,7 +20,7 @@ align-items: center;
   text-align: center;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 5% 5% 3% 5%;
+  margin: 4% 5% 3% 5%;
 
   font-size: 13px;
 }
@@ -66,7 +67,7 @@ export function ListingExpiration({
       <div>
         <ExpirationWrapper>
           { source in MARKET_ICONS && <MarketIcon src={MARKET_ICONS[source]} /> } 
-          <span style={{width: '16ch', alignSelf: 'center'}}>Listing expires </span>
+          <span style={{width: '13ch', alignSelf: 'center'}}>Listing expires </span>
           <ReactTimeAgo style={{alignSelf: 'center'}} date={new Date(date.toLocaleString('en-US'))} locale={'en-US'}/>
         </ExpirationWrapper>
       </div>

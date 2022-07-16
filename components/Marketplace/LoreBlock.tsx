@@ -5,8 +5,12 @@ import { LoadingCard } from "./marketplaceHelpers";
 import { SoftLink } from "./marketplaceHelpers";
 
 const LoreContainer = styled.div`
-  border: 2px dashed var(--mediumGray);
-  border-radius: 4px;
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
+  
   background: var(--darkGray);
   color: var(--lightGray);
 
@@ -41,20 +45,28 @@ const IconImage = styled.img`
   transition: all 100ms;
 `;
 
+const PageWrapper = styled.div`
+  margin-top: var(--sp5);
+
+  @media only screen and (max-width: 600px) {
+    margin-top: var(--sp1);
+  }
+`;
+
 export default function LoreBlock({ 
   pages,
   length,
   tokenId,
   contract,
 }: { 
-  pages: [];
+  pages: any[];
   length: number;
   tokenId: string;
   contract: string;
 }) {
   if (pages?.length > 0) {
     return (
-      <LoreContainer>
+      <LoreContainer style={pages && pages.length == 1 ? {background: pages[0].bgColor} : {}}>
         {pages.map((page: any, index: number) =>
           page.nsfw ? (
             <SoftLink 
@@ -67,9 +79,9 @@ export default function LoreBlock({
               </div>
             </SoftLink>
           ) : (
-            <div key={index} style={{ marginTop: '6vh' }}>
+            <PageWrapper key={index}>
               <IndividualLorePage bgColor={page.bgColor} story={page.story} />
-            </div>
+            </PageWrapper>
           )
         )}
       </LoreContainer>
@@ -77,7 +89,7 @@ export default function LoreBlock({
   } else if (length > 0) {
     return (
       <LoreContainer>
-        <LoadingCard height={'auto'}/>
+        <LoadingCard height={'40vh'} background={false}/>
       </LoreContainer>
     )
   } else {

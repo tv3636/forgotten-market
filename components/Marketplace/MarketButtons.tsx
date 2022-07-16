@@ -1,29 +1,16 @@
 import { ORDER_TYPE } from "./marketplaceConstants";
 import MarketConnect from "./MarketConnect";
 import styled from "@emotion/styled";
+import GenericButton from "./GenericButton";
 
 const Buttons = styled.div`
   display: flex;
   flex-wrap: wrap;
 
+  gap: var(--sp-1);
+
   @media only screen and (max-width: 600px) {
     justify-content: center;
-  }
-`;
-
-const ButtonImage = styled.img`
-  margin-right: var(--sp-3);
-  height: 35px;
-  image-rendering: pixelated;
-  margin-top: 5px;
-
-  :active {
-    position: relative;
-    top: 2px;
-  }
-
-  :hover {
-    cursor: pointer;
   }
 `;
 
@@ -37,16 +24,7 @@ function MarketButton({
    setActionType: (action: ORDER_TYPE) => void;
   }) {
   return (
-    <ButtonImage
-      src={`/static/img/marketplace/${type}.png`}
-      onMouseOver={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${type}_hover.png`)
-      }
-      onMouseOut={(e) =>
-        (e.currentTarget.src = `/static/img/marketplace/${type}.png`)
-      }
-      onClick={(e) => { setModal(true); setActionType(type); }}
-    />
+    <GenericButton onClick={() => { setModal(true); setActionType(type); }} text={type} />
   );
 }
 

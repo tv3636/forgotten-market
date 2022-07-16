@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { CONTRACTS, ORDER_TYPE } from "./marketplaceConstants"
+import { COMMUNITY_CONTRACTS, CONTRACTS, ORDER_TYPE } from "./marketplaceConstants"
 import { Title, TokenImage } from "./Order"
 
 const BannerImage = styled.img`
@@ -21,6 +21,8 @@ export default function ActionHeader({
   name,
   tokenId,
   imageUrl,
+  trait,
+  traitValue,
 }: {
   collectionWide: boolean;
   contract: string;
@@ -28,13 +30,17 @@ export default function ActionHeader({
   name: string;
   tokenId: string;
   imageUrl: string;
+  trait: string;
+  traitValue: string;
 }) {
+  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+
   if (collectionWide) {
     return (
       <HeaderContainer>
-        <BannerImage src={`/static/img/marketplace/${CONTRACTS[contract].display.toLowerCase()}-banner.png`} />
+        <BannerImage src={`/static/img/marketplace/${contracts[contract].display.toLowerCase()}-banner.png`} />
         <Title style={{marginBottom: "40px", fontSize: "24px"}}>
-          Submitting a collection offer for {name}
+          Submitting a { trait ? 'trait' : 'collection ' } offer for {trait ? `${trait}: ${traitValue}` : name}
         </Title>
       </HeaderContainer>
     )

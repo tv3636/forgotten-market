@@ -27,11 +27,9 @@ export async function hydratePageDataFromMetadata(
       isEmpty: false,
       bgColor: `#${wizard.background_color}`, //TODO: Hmm wiz colour, or some reddish hue?
       title: `Wizard ${tokenId} Burned`,
-      story: `On ${dayjs.unix(createdAtTimestamp).format("D MMMM YYYY")}, ${
+      story: `On ${dayjs.unix(createdAtTimestamp).format("MMMM D YYYY")}, ${
         wizard.name
-      } passed through The Sacred Flame and became a Soul \n\n![Soul Image](${
-        process.env.NEXT_PUBLIC_SOULS_API
-      }/api/souls/img/${tokenId}) \n\n[Go to Lore for this Soul](/lore/souls/${tokenId}/0)`,
+      } passed through The Sacred Flame and became a Soul \n\n![Soul Image](https://portal.forgottenrunes.com/api/souls/img/${tokenId}) \n\n[Go to Lore for this Soul](https://www.forgottenrunes.com/lore/souls/${tokenId}/0)`,
     };
   }
 
