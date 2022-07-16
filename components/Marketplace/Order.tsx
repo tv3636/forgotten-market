@@ -251,7 +251,6 @@ function OrderContent({
   const [showError, setShowError] = useState<any>(null);
   const [listOS, setListOS] = useState(false);
   const [listLR, setListLR] = useState(false);
-  const [steps, setSteps] = useState<Execute['steps']>();
   const [expiration, setExpiration] = useState(
     new Date(
       new Date().getFullYear(), 
