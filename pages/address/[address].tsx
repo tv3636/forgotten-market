@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { getProvider } from "../../hooks/useProvider";
 import { useState, useEffect } from "react";
 import AccountSection from "../../components/Marketplace/AccountSection";
-import { PREVIOUS_API_BASE_URL, CONTRACTS, API_BASE_URL } from "../../components/Marketplace/marketplaceConstants";
+import { PREVIOUS_API_BASE_URL, CONTRACTS, API_BASE_URL, COMMUNITY_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -198,7 +198,7 @@ export default function Address({
     var pageJson: any = {};
     var fetchUrl = `${API_BASE_URL}orders/${orderType == 'sell' ? 'asks' : 'bids'}/v2?maker=${address}`;
 
-    for (var contract of Object.keys(CONTRACTS)) {
+    for (var contract of Object.keys(CONTRACTS).concat(Object.keys(COMMUNITY_CONTRACTS))) {
       fetchUrl += `&contracts=${contract}`;
     }
   
@@ -267,10 +267,11 @@ export default function Address({
             <HorizontalLine />
             <StatRow>
               {Object.keys(tokenData).map((contract: any, index: number) => {
+                let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
                 return (
                   <SubTitle key={index}>
                     {
-                      `${CONTRACTS[contract].display}: ${CONTRACTS[contract].display == 'Flames' && tokenData[contract][0] ? 
+                      `${contracts[contract].display}: ${contracts[contract].display == 'Flames' && tokenData[contract][0] ? 
                       tokenData[contract][0].ownership.tokenCount : 
                       tokenData[contract].length
                     }`
@@ -283,12 +284,13 @@ export default function Address({
             
             <DesktopLine style={{borderColor: 'black'}}/>
             {Object.keys(tokenData).map((contract: any, index: number) => {
-                return tokenData[contract].length > 0 && CONTRACTS[contract].display != 'Flames' &&
+                let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+                return tokenData[contract].length > 0 && contracts[contract].display != 'Flames' &&
                   <AccountSection 
                     key={index} 
                     tokens={tokenData[contract]} 
                     contract={contract} 
-                    title={CONTRACTS[contract].display}
+                    title={contracts[contract].display}
                   />
               })}
             <HorizontalLine />
@@ -329,7 +331,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     ens = await mainProvider.lookupAddress(address) ?? '';
 
-    for (var contract of Object.keys(CONTRACTS)) {
+    for (var contract of Object.keys(CONTRACTS).concat(Object.keys(COMMUNITY_CONTRACTS))) {
       var tokens: any = [];
       var iteration = 0;
       var offset = 20;
