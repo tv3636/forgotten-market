@@ -145,13 +145,16 @@ export function getOptions(traits: [any]) {
     option.label =
       trait.value + ( " (" + trait.count + ")");
 
+    // Fix for Babies collection
+    option.label = option.label.replaceAll('_', ' ');
+
     result.push(option);
   }
   return result;
 }
 
 // Format trait for Reservoir API call
-export function traitFormat(trait: string) {
+export function traitFormat(trait: string, collection: string) {
   var out = "";
   for (var word of trait.split(' ')) {
     if (word == 'in') {
@@ -161,8 +164,11 @@ export function traitFormat(trait: string) {
     }
   }
 
-  // Rinkeby fix
-  if (chainId == 4 && ['Background ', 'Body ', 'Familiar ', 'Head ', 'Prop ', 'Rune '].includes(out)) {
+  // Rinkeby fix / Babies collection fix
+  if (
+      chainId == 4 && ['Background ', 'Body ', 'Familiar ', 'Head ', 'Prop ', 'Rune '].includes(out) || 
+      collection == 'Babies'
+    ) {
     out = out.charAt(0).toLowerCase() + out.slice(1);
   }
 
@@ -170,11 +176,11 @@ export function traitFormat(trait: string) {
 }
 
 // Build API parameters from router parameters
-export function getURLAttributes(query: any) {
+export function getURLAttributes(query: any, collection: string) {
   var url_string = "";
   for (var trait of Object.keys(query)) {
     if (trait != 'contractSlug' && trait != 'activity' && trait != 'source') {
-      var url_trait = traitFormat(trait).replace("#", "%23");
+      var url_trait = traitFormat(trait, collection).replace("#", "%23");
       url_string +=
         "&attributes[" +
         url_trait +
@@ -293,7 +299,7 @@ export function getTrait() {
 
   for (const key in router.query) {
     if (!['contractSlug', 'source', 'activity'].includes(key)) {
-      return traitFormat(key);
+      return traitFormat(key, String(router.query.contractSlug));
     }
   }
 

@@ -318,7 +318,7 @@ export default function Activity({
   async function fetchSales(continued: boolean) {
     const recentSales = await fetch(
       API_BASE_URL + `sales/v3?collection=${contract}${continuation != '' && continued ? "&continuation=" + continuation : ''}`
-      + getURLAttributes(router.query), 
+      + getURLAttributes(router.query, contracts[contract].display), 
       { headers: headers }
     );
     const salesJson = await recentSales.json();

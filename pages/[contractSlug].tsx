@@ -148,7 +148,7 @@ export default function Marketplace({
   let traitOffer = isTraitOffer();
 
   async function getStats() {
-    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query);
+    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query, contracts[contract].display);
     const statsPage = await fetch(stats_url, { headers: headers });
     const statsJson = await statsPage.json();
 
@@ -173,7 +173,7 @@ export default function Marketplace({
           url + '&sortBy=floorAskPrice&limit=50' + 
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
           (router.query.source ? "&source=" + router.query.source : '') +
-          getURLAttributes(router.query),
+          getURLAttributes(router.query, contracts[contract].display),
           { headers: headers }
         );
         const listingsJson = await page.json();
