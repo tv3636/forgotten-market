@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Image from 'next/image';
+import { getDisplayBid } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -51,11 +52,13 @@ export default function MarketDisplay({
   bid,
   lastPrice,
   lastSaleWeth,
+  contract,
 }:{
   price: string,
   bid: string,
   lastPrice: string,
   lastSaleWeth: boolean;
+  contract: string;
 }) {
   return (
     <StatsWrapper>
@@ -69,14 +72,14 @@ export default function MarketDisplay({
     <StatsItem>
       <Price>
         { bid && <EthSymbol weth={true}/> }
-        <h1>{bid? bid : '-'}</h1>
+        <h1>{bid? getDisplayBid(Number(bid), contract).toPrecision(2) : '-'}</h1>
       </Price>
       <div>BEST OFFER</div>
     </StatsItem>
     <StatsItem>
       <Price>
         { lastPrice && <EthSymbol weth={lastSaleWeth}/> }
-        <h1>{lastPrice ? lastPrice : '-'}</h1>
+        <h1>{lastPrice ? Number(lastPrice).toPrecision(2) : '-'}</h1>
       </Price>
       <div>LAST SALE</div>
     </StatsItem>

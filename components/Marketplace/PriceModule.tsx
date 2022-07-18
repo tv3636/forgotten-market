@@ -61,6 +61,7 @@ export default function PriceModule({
   setModal,
   setMarketActionType,
   countdownTimer,
+  contract,
 }: {
   listing: any;
   offer: any;
@@ -72,6 +73,7 @@ export default function PriceModule({
   setModal: any;
   setMarketActionType: any;
   countdownTimer: any;
+  contract: string;
 }) {
   return (
     <PriceDisplay>
@@ -80,6 +82,7 @@ export default function PriceModule({
         bid={offer.value} 
         lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp ? token.lastBuy.value?.toPrecision(3) : token.lastSell.value?.toPrecision(3) }
         lastSaleWeth={ token.lastBuy.timestamp > token.lastSell.timestamp }
+        contract={contract}
       />
       {token.owner != BURN_ADDRESS &&
         <ButtonWrapper>

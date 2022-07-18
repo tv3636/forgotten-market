@@ -3,12 +3,12 @@ import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, MARKET_ICONS_BY_NAME } fr
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
-import { SoftLink, LoadingCard, getURLAttributes } from "./marketplaceHelpers";
+import { SoftLink, getURLAttributes } from "./marketplaceHelpers";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
 import router from "next/router";
-import FilterHeader from "./FilterHeader";
+import LoadingCard from "./LoadingCard";
 
 TimeAgo.addDefaultLocale(en);
 const headers: HeadersInit = new Headers();

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import IndividualLorePage from "../Lore/IndividualLorePage";
 import { CONTRACTS } from "./marketplaceConstants";
-import { LoadingCard } from "./marketplaceHelpers";
+import LoadingCard from "./LoadingCard";
 import { SoftLink } from "./marketplaceHelpers";
 
 const LoreContainer = styled.div`

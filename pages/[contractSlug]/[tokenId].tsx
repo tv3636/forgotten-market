@@ -4,14 +4,8 @@ import Layout from "../../components/Marketplace/NewLayout";
 import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import { hydratePageDataFromMetadata } from "../../components/Lore/markdownUtils";
-import { getValue, Icons, LoadingCard } from "../../components/Marketplace/marketplaceHelpers";
-import {
-  CONTRACTS,
-  API_BASE_URL,
-  ORDER_TYPE,
-  COMMUNITY_CONTRACTS,
-} from "../../components/Marketplace/marketplaceConstants";
+import { getContract, getPages, getValue } from "../../components/Marketplace/marketplaceHelpers";
+import { API_BASE_URL, ORDER_TYPE } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
@@ -32,6 +26,8 @@ import Affinity from "../../components/Marketplace/Affinity";
 import PriceModule from "../../components/Marketplace/PriceModule";
 import Bio from "../../components/Marketplace/Bio";
 import BaseModule from "../../components/Marketplace/BaseModule";
+import LoadingCard from "../../components/Marketplace/LoadingCard";
+import Icons from "../../components/Marketplace/Icons";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -306,12 +302,12 @@ const ListingPage = ({
   const [isBanned, setIsBanned] = useState(false);
   const [traitHover, setTraitHover] = useState('');
   const { account } = useEthers();
-  let contracts = contractSlug in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let contractDict = getContract(contractSlug);
 
   const imageUrls: string[] = [
-    contracts[contractSlug].display == 'Wizards' ? 
-    contracts[contractSlug].image_url + tokenId + '/' + tokenId + '.png' : 
-    contracts[contractSlug].image_url + tokenId + ".png",
+    contractDict.display == 'Wizards' ? 
+    contractDict.image_url + tokenId + '/' + tokenId + '.png' : 
+    contractDict.image_url + tokenId + ".png",
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
@@ -319,8 +315,8 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
 
-  var backgroundColor = contracts[contractSlug].display in collectionData && tokenId in collectionData[contracts[contractSlug].display] ? 
-  `${collectionData[contracts[contractSlug].display][tokenId].background}` : '#000000';
+  var backgroundColor = contractDict.display in collectionData && tokenId in collectionData[contractDict.display] ? 
+  `${collectionData[contractDict.display][tokenId].background}` : '#000000';
 
   useEffect(() => {
     async function run() {
@@ -357,28 +353,10 @@ const ListingPage = ({
         }
       }
       
-      // Load lore
-      if (lore.length > 0) {
-        var newPages = [];
-        for (var lorePage of lore) {
-          var thisPage = await hydratePageDataFromMetadata(
-            lorePage.loreMetadataURI,
-            lorePage.createdAtTimestamp,
-            lorePage.creator,
-            lorePage.tokenId
-          );
-
-          if (lorePage.nsfw) {
-            newPages.push({ nsfw: true });
-          } else {
-            newPages.push(thisPage);
-          }
-        }
-        setPages(newPages);
-      }
+      setPages(await getPages(lore));
       
       // Preload turnaround images
-      if (contracts[contractSlug].display == 'Wizards') {
+      if (contractDict.display == 'Wizards') {
         for (var url of imageUrls) {
           const img = new Image().src = url;
         }
@@ -392,7 +370,7 @@ const ListingPage = ({
 
   useEffect(() => {
     async function getFlames() {
-      if (contracts[contractSlug].display == 'Flames') {
+      if (contractDict.display == 'Flames') {
         const userFlames = await fetch(
           `${API_BASE_URL}users/${account}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`,
           { headers: headers }
@@ -410,11 +388,11 @@ const ListingPage = ({
   return (
     <Layout 
       title={
-        contracts[contractSlug].display in collectionData && tokenId in collectionData[contracts[contractSlug].display] ?
-        collectionData[contracts[contractSlug].display][tokenId].name :
-        `${contracts[contractSlug].singular} #${tokenId}`
+        contractDict.display in collectionData && tokenId in collectionData[contractDict.display] ?
+        collectionData[contractDict.display][tokenId].name :
+        `${contractDict.singular} #${tokenId}`
       } 
-      description={`${contracts[contractSlug].singular} #${tokenId}`}
+      description={`${contractDict.singular} #${tokenId}`}
       image={imageUrls[0]}
     >
       <PageWrapper>
@@ -441,7 +419,7 @@ const ListingPage = ({
             }
             <Listing>
               <RuneHeader>
-                {`${contracts[contractSlug].singular.toUpperCase()} #${tokenId}`}
+                {`${contractDict.singular.toUpperCase()} #${tokenId}`}
               </RuneHeader>
                 <TopDisplay>
                   <TopLeft>
@@ -453,7 +431,7 @@ const ListingPage = ({
                         contract={contractSlug}
                         keyImage={keyImage}
                     />
-                    { contracts[contractSlug].display == 'Wizards' && 
+                    { contractDict.display == 'Wizards' && 
                       <Carousel 
                         keyImage={keyImage}
                         setKeyImage={setKeyImage}
@@ -462,7 +440,7 @@ const ListingPage = ({
                     }
                   </TopLeft>
                   <TopRight
-                    style={{height: contracts[contractSlug].display == 'Flames' ? 476 : 420}}
+                    style={{height: contractDict.display == 'Flames' ? 476 : 420}}
                   >
                     <NameDisplay>
                       <NameStyle className='alagard'>{token.name}</NameStyle>
@@ -478,12 +456,13 @@ const ListingPage = ({
                       offer={offer}
                       account={account}
                       token={token}
-                      contractDisplay={contracts[contractSlug].display}
+                      contractDisplay={contractDict.display}
                       flameHolder={flameHolder}
                       isBanned={isBanned}
                       setModal={setModal}
                       setMarketActionType={setMarketActionType}
                       countdownTimer={countdownTimer}
+                      contract={contractSlug}
                     />
                   </TopRight>
                 </TopDisplay>
@@ -498,13 +477,13 @@ const ListingPage = ({
                     fullAttributes={fullAttributes} 
                     contract={contractSlug} 
                     setHover={setTraitHover}
-                    filters={contracts[contractSlug].coreTraits}
-                    showAll={['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display)}
+                    filters={contractDict.coreTraits}
+                    showAll={['Wizards', 'Souls', 'Warriors'].includes(contractDict.display)}
                   />
                 </BaseModule>
-                { ['Wizards', 'Souls', 'Warriors'].includes(contracts[contractSlug].display) && 
+                { ['Wizards', 'Souls', 'Warriors'].includes(contractDict.display) && 
                   !getValue(attributes, 'Undesirable') &&
-                  <Column style={contracts[contractSlug].display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
+                  <Column style={contractDict.display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
                     <BaseModule traitModule={false}>
                       <RuneHeader>AFFINITY</RuneHeader>
                       <Affinity attributes={attributes} fullAttributes={fullAttributes} />
@@ -514,14 +493,14 @@ const ListingPage = ({
                       <Bio 
                         attributes={attributes} 
                         fullAttributes={fullAttributes}
-                        collection={contracts[contractSlug].display}
+                        collection={contractDict.display}
                       />
                     </BaseModule>
                   </Column>
                 }
               </SectionWrapper>
-              {contracts[contractSlug].display != 'Flames' &&  <HorizontalLine/> }
-              {contracts[contractSlug].display != 'Flames' && 
+              {contractDict.display != 'Flames' &&  <HorizontalLine/> }
+              {contractDict.display != 'Flames' && 
                 <SectionWrapper>
                   <BottomDisplay>
                     <LoreWrapper>

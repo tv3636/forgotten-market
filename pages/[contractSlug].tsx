@@ -3,8 +3,8 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
-import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
-import { getTrait, getTraitValue, getURLAttributes, isTraitOffer, LoadingCard } from "../components/Marketplace/marketplaceHelpers";
+import { API_BASE_URL, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
+import { getContract, getTrait, getTraitValue, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/NewLayout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
@@ -19,6 +19,7 @@ import CollectionOfferButton from "../components/Marketplace/CollectionOfferButt
 import MobileOverlay from "../components/Marketplace/MobileOverlay";
 import Activity from "../components/Marketplace/Activity";
 import FilterHeader from "../components/Marketplace/FilterHeader";
+import LoadingCard from "../components/Marketplace/LoadingCard";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -144,11 +145,11 @@ export default function Marketplace({
   const [floor, setFloor] = useState(0);
   const [bid, setBid] = useState(0);
   const router = useRouter();
-  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let contractDict = getContract(contract);
   let traitOffer = isTraitOffer();
 
   async function getStats() {
-    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query, contracts[contract].display);
+    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query, contractDict.display);
     const statsPage = await fetch(stats_url, { headers: headers });
     const statsJson = await statsPage.json();
 
@@ -173,7 +174,7 @@ export default function Marketplace({
           url + '&sortBy=floorAskPrice&limit=50' + 
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
           (router.query.source ? "&source=" + router.query.source : '') +
-          getURLAttributes(router.query, contracts[contract].display),
+          getURLAttributes(router.query, contractDict.display),
           { headers: headers }
         );
         const listingsJson = await page.json();
@@ -239,9 +240,9 @@ export default function Marketplace({
   if (contract) {
     return (
       <Layout
-        title={`${contracts[contract].display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
-        description={`Like ${contracts[contract].singular}, Buy ${contracts[contract].singular}`}
-        image={`/static/img/marketplace/${contracts[contract].display.toLowerCase()}-banner.png`}
+        title={`${contractDict.display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
+        description={`Like ${contractDict.singular}, Buy ${contractDict.singular}`}
+        image={`/static/img/marketplace/${contractDict.display.toLowerCase()}-banner.png`}
         setFilterActive={setFilterActive}
       >
         <Main>
@@ -249,7 +250,7 @@ export default function Marketplace({
             <Order
               contract={contract}
               tokenId={'0'}
-              name={contracts[contract].full}
+              name={contractDict.full}
               collectionWide={true}
               setModal={setShowModal}
               action={ORDER_TYPE.OFFER}

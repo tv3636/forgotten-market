@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
-import { BigNumber, constants, ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
-import { calculateOffer, getWeth } from './marketplaceHelpers';
+import { API_BASE_URL, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
+import { getContract, getWeth } from './marketplaceHelpers';
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 import SetExpiration from './SetExpiration';
@@ -150,6 +150,12 @@ const Form = styled.form`
 
 `;
 
+const BannerImage = styled.img`
+  width: 100%;
+  height: 20%;
+  margin-bottom: 40px;
+`;
+
 function TransactionProcessing({ hash }: { hash: string }) {
   return (
     <a href={`https://etherscan.io/tx/${hash}`} target='_blank' style={{textDecoration: 'none', color: 'var(--white)'}}>
@@ -175,12 +181,9 @@ function PriceExplained({
   tooltip: string;
 }) {
   return (
-    <Description style={{marginBottom: 'var(--sp-1)', marginLeft: '12%', marginTop: '15px'}}>
+    <Description style={{marginLeft: '12%', marginTop: '15px'}}>
       <div style={{marginRight: 'var(--sp-3)', fontSize: '15px'}}>
-        {`You ${action == ORDER_TYPE.OFFER ? 
-          `pay ${amount} WETH` : 
-          `receive ${amount} ETH`}`
-        }
+        {`You receive ${amount} ${action == ORDER_TYPE.ACCEPT_OFFER ? `WETH` : `ETH`}`}
       </div>
       <InfoTooltip tooltip={tooltip} />
     </Description>
@@ -192,12 +195,17 @@ function OverlayContent({
   tokenImage,
   showConfirmation,
   collectionWide,
+  contract,
 }: { 
   kind: 'transaction' | 'request' | 'signature' | 'confirmation';
   tokenImage: string;
   showConfirmation: boolean;
   collectionWide: boolean;
+  contract: string;
 }) {
+  let contractDict = getContract(contract);
+  console.log('collection offer on', contractDict);
+
   switch (kind) {
     case 'transaction':
       return <Animation name={'hourglass'} />
@@ -207,7 +215,7 @@ function OverlayContent({
 
     case 'signature':
       if (collectionWide) {
-        return null
+        return <BannerImage src={`/static/img/marketplace/${contractDict.display.toLowerCase()}-banner.png`} />
       } else {
         return <TokenImage src={tokenImage} height={'auto'} width={250} />
       }
@@ -257,22 +265,9 @@ function OrderContent({
       new Date().getMonth(), 
       new Date().getDate() + 7)
   );
-  const [calculations, setCalculations] = useState<ReturnType<typeof calculateOffer>>({
-    fee: constants.Zero,
-    total: constants.Zero,
-    missingEth: constants.Zero,
-    missingWeth: constants.Zero,
-    error: null,
-    warning: null,
-})
-  const [weth, setWeth] = useState<{
-    weth: Weth
-    balance: BigNumber
-  } | null>(null)
-  const [ethBalance, setEthBalance] = useState<any>(null);
-  const url = new URL(OrderURLs[action], API_BASE_URL);
 
-  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  const url = new URL(OrderURLs[action], API_BASE_URL);
+  const contractDict = getContract(contract);
 
   if (chainId != library?.network.chainId) {
     if (library?.network.chainId) {
@@ -290,7 +285,6 @@ function OrderContent({
     }
   }
 
-
   async function execute(url: URL, signer: any, expectedPrice?: number) {
     try {
       await executeSteps(url, signer, setSteps, undefined, expectedPrice);
@@ -301,7 +295,6 @@ function OrderContent({
   }
 
   useEffect(() => { 
-    console.log('steps');
     console.log(steps);
 
     if (steps) {
@@ -373,50 +366,19 @@ function OrderContent({
       }
     }
 
-    async function loadWeth() {
-      if (signer) {
-        var thisAddress = await signer?.getAddress();
-        var balance = await library?.getBalance(thisAddress);
-        setEthBalance(balance);
-        const weth = await getWeth(chainId as 1 | 4, library, signer)
-        if (weth) {
-          setWeth(weth)
-        }
-      }
-    }
-
-    if (action == ORDER_TYPE.OFFER) {
-      loadWeth()
-    } 
-
     run();
   }, []);
-
-  useEffect(() => {
-    if (!isNaN(Number(price))) {
-      const userInput = ethers.utils.parseEther(
-        price === '' ? '0' : price
-      )
-
-      if (weth?.balance && ethBalance) {
-        const calculations = calculateOffer(userInput, ethBalance, weth.balance, Number(contracts[contract].fee));
-        setCalculations(calculations)
-      }
-    }
-  }, [price]);
 
   // Kick off listing for sale or making offer
   //
   async function submitAction() {
     let query: any = {
       maker: account,
-      weiPrice: action == ORDER_TYPE.SELL ? 
-        ethers.utils.parseEther(price).toString() :
-        calculations.total.toString(),
+      weiPrice: ethers.utils.parseEther(price).toString(),
       expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
       automatedRoyalties: false,
-      fee: contracts[contract].fee,
-      feeRecipient: contracts[contract].feeRecipient,
+      fee: contractDict.fee,
+      feeRecipient: contractDict.feeRecipient,
       source: 'Forgotten Market',
       orderKind: 'seaport',
     }
@@ -477,7 +439,7 @@ function OrderContent({
         return `Listing ${name} for ${price} ETH`
 
       case 'Authorize offer':
-        return `Offering ${ethers.utils.formatEther(calculations.total)} WETH for ${name}`
+        return `Offering ${price} WETH for ${name}`
 
       case 'Submit offer':
         return `Submitting offer to the order book`
@@ -487,14 +449,26 @@ function OrderContent({
 
       case 'Confirmation':
         return `Purchase successful!`
+
+      case 'Accept offer':
+        return (
+          <div>
+            <div>{description}</div>
+            <Description style={{marginTop: 'var(--sp2)'}}>
+              <div style={{fontSize: '15px'}}>
+                {`You receive ${expectedPrice} WETH after fees`}
+              </div>
+            </Description>          
+          </div>
+        )
     }
 
     return description
   }
 
-  var imageUrl = contracts[contract].display == 'Wizards' ? 
-    contracts[contract].image_url + tokenId + '/' + tokenId + '.png' : 
-    contracts[contract].image_url + tokenId + ".png";
+  var imageUrl = contractDict.display == 'Wizards' ? 
+    contractDict.image_url + tokenId + '/' + tokenId + '.png' : 
+    contractDict.image_url + tokenId + ".png";
 
   if (!step) {
     if (action == ORDER_TYPE.OFFER || action == ORDER_TYPE.SELL) {
@@ -516,19 +490,13 @@ function OrderContent({
             setPrice={setPrice}
             submitAction={submitAction}
           />
-          <PriceExplained 
-            action={action}
-            amount={
-              action == ORDER_TYPE.OFFER ?
-                ethers.utils.formatEther(calculations.total) :
-                (Number(price) - Number(price) * (Number(contracts[contract].fee) / 10000)).toString()
-            }
-            tooltip={
-              action == ORDER_TYPE.OFFER ?
-              'Offers are made to include fees. When an offer is accepted, the fees will be subtracted and the seller will receive the remaining value.' :
-              'You will receive the amount shown here after fees are deducted.'
-            }
-          />
+          { action == ORDER_TYPE.SELL && 
+            <PriceExplained 
+              action={action}
+              amount={(Number(price) - Number(price) * (Number(contractDict.fee) / 10000)).toString()}
+              tooltip={'You will receive the amount shown here after fees are deducted.'}
+            /> 
+          }
           <SetExpiration
             action={action}
             expiration={expiration}
@@ -561,6 +529,7 @@ function OrderContent({
         tokenImage={imageUrl} 
         showConfirmation={action == ORDER_TYPE.BUY}
         collectionWide={collectionWide}
+        contract={contract}
       />
       <Title>{step.action}</Title>
       <Description>
