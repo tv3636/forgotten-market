@@ -1,9 +1,8 @@
 import { Provider as MobxStateTreeProvider } from "../store";
-
 import Head from "next/head";
 import { useGTag } from "../hooks/useGTag";
 import { useStore } from "../store";
-import { motion, AnimateSharedLayout } from "framer-motion";
+import { AnimateSharedLayout } from "framer-motion";
 import NextNprogress from "nextjs-progressbar";
 import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";

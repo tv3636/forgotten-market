@@ -2,10 +2,10 @@ import styled from "@emotion/styled";
 import { isTraitOffer } from "./marketplaceHelpers";
 
 const CollectionOffer = styled.div`
-  background: var(--mediumGray);
+  background: var(--midGray);
   border-style: dashed;
   border-radius: 20px;
-  border-color: var(--mediumGray);
+  border-color: var(--midGray);
   border-width: 1px;
 
   font-family: Terminal;
