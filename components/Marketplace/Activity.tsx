@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { API_BASE_URL, COMMUNITY_CONTRACTS, CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
+import { API_BASE_URL, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import ReactTimeAgo from 'react-time-ago';
-import { SoftLink, getURLAttributes } from "./marketplaceHelpers";
+import { SoftLink, getURLAttributes, getContract } from "./marketplaceHelpers";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -313,12 +313,12 @@ export default function Activity({
   const [sales, setSales] = useState([]);
   const [continuation, setContinuation] = useState('');
   const [fetched, setFetched] = useState(false);
-  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let contractDict = getContract(contract);
 
   async function fetchSales(continued: boolean) {
     const recentSales = await fetch(
       API_BASE_URL + `sales/v3?collection=${contract}${continuation != '' && continued ? "&continuation=" + continuation : ''}`
-      + getURLAttributes(router.query, contracts[contract].display), 
+      + getURLAttributes(router.query, contractDict.display), 
       { headers: headers }
     );
     const salesJson = await recentSales.json();
@@ -365,9 +365,9 @@ export default function Activity({
                   >
                     <SoftLink>
                       <ActivityImage 
-                        src={contracts[contract].display == 'Wizards' ? 
-                          `${contracts[contract].image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
-                          `${contracts[contract].image_url}${sale.token.tokenId}.png`}
+                        src={contractDict.display == 'Wizards' ? 
+                          `${contractDict.image_url}${sale.token.tokenId}/${sale.token.tokenId}.png` : 
+                          `${contractDict.image_url}${sale.token.tokenId}.png`}
                       /> 
                     </SoftLink>
                   </Link>

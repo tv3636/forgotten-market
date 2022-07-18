@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import Image from 'next/image';
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import AnimatedNumber from "animated-number-react";
-import { getDisplayBid } from "./marketplaceHelpers";
+import { getContract, getDisplayBid } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -60,7 +59,7 @@ export default function CollectionStats({
   bid: number;
   contract: string;
 }) {
-  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let contractDict = getContract(contract);
   let animationDuration = 350;
 
   return (
@@ -74,7 +73,7 @@ export default function CollectionStats({
           />
           {items > 1000 && `k`}
         </h1>
-        <div>{items == 1 ? contracts[contract].singular.toUpperCase() : contracts[contract].display.toUpperCase()}</div>
+        <div>{items == 1 ? contractDict.singular.toUpperCase() : contractDict.display.toUpperCase()}</div>
       </StatsItem>
       <StatsItem>
         <Price>

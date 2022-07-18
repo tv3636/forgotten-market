@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
-import { getValue } from "./marketplaceHelpers";
+import { getContract, getValue } from "./marketplaceHelpers";
 
 const ImageWrapper = styled.div`
   background-color: black;
@@ -66,7 +65,7 @@ export default function ImageWithTraits({
   attributes: any;
   keyImage: number;
 }) {
-  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let contractDict = getContract(contract);
   return (
     <ImageWrapper>
       <TokenImage 
@@ -74,17 +73,17 @@ export default function ImageWithTraits({
         style={{background: background, opacity: traitHover && keyImage == 0 ? 0.25 : 1}}
       />
       <NewFrame/>
-      {contracts[contract].coreTraits?.map((trait: any, index: number) => {
+      {contractDict.coreTraits?.map((trait: any, index: number) => {
           return (
             getValue(attributes, trait) != 'None' &&
             <TraitImage 
-              src={`/static/img/traits/${contracts[contract].display.toLowerCase()}/${trait.toLowerCase()}/${getValue(attributes, trait)}.png`}
+              src={`/static/img/traits/${contractDict.display.toLowerCase()}/${trait.toLowerCase()}/${getValue(attributes, trait)}.png`}
               style={{
                 opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .25 : 0,
                 zIndex: trait == 'Body' ? 0 : 1,
                 display: keyImage == 0 ? 'block' : 'none',
-                top: contracts[contract].display == 'Warriors' ? '-0.5px' : '0',
-                left: contracts[contract].display == 'Warriors' ? '-0.5px' : '0',
+                top: contractDict.display == 'Warriors' ? '-0.5px' : '0',
+                left: contractDict.display == 'Warriors' ? '-0.5px' : '0',
               }}
               key={index}
             />

@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import Image from 'next/image';
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 import { useRouter } from "next/router";
 import RuneHeader from "./RuneHeader";
+import { getContract } from "./marketplaceHelpers";
+import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -92,6 +93,7 @@ function Collection({
 }) {
   const router = useRouter();
   let active = router.query.contractSlug == contract;
+  let contractDict = getContract(contract);
   
   return (
     <div>
@@ -99,14 +101,14 @@ function Collection({
         <CollectionWrapper onClick={() => setBurgerActive(false)}>
           <CollectionIcon className={`icon${ active ? ' active' : ''} desktop`}>
             <Image 
-              src={`/static/img/marketplace/icon_${contract in CONTRACTS? CONTRACTS[contract]?.display :COMMUNITY_CONTRACTS[contract].display }.png`} 
+              src={`/static/img/marketplace/icon_${contractDict.display}.png`} 
               height='25ex' 
               width='25ch' 
             />
           </CollectionIcon>
           
             <CollectionName className={`alagard name${ active ? ' active' : ''}`}>
-              { contract in CONTRACTS ? CONTRACTS[contract].display : COMMUNITY_CONTRACTS[contract].display }
+              { contractDict.display }
             </CollectionName>
         </CollectionWrapper>
       </Link>

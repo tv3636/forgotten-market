@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { COMMUNITY_CONTRACTS, CONTRACTS, MARKETS } from "./marketplaceConstants";
+import { MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
-import { SoftLink } from "./marketplaceHelpers";
+import { getContract, SoftLink } from "./marketplaceHelpers";
 import styled from "@emotion/styled";
 import wizards from "../../data/wizards.json";
 import warriors from "../../data/warriors.json";
@@ -179,19 +179,19 @@ export default function TokenDisplay({
   price: number;
   source: string;
 }) {
-  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let contractDict = getContract(contract);
 
-  let image = contracts[contract].display == 'Wizards' ? 
-    `${contracts[contract].image_url}${tokenId}/${tokenId}.png` : 
-    `${contracts[contract].image_url}${tokenId}.png`;
+  let image = contractDict.display == 'Wizards' ? 
+    `${contractDict.image_url}${tokenId}/${tokenId}.png` : 
+    `${contractDict.image_url}${tokenId}.png`;
 
-  let turnaround = contracts[contract].display == 'Wizards' ? 
+  let turnaround = contractDict.display == 'Wizards' ? 
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
     `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
 
   // Preload turnaround GIFs
   useEffect(() => {
-    if (['Wizards', 'Ponies'].includes(contracts[contract].display)) {
+    if (['Wizards', 'Ponies'].includes(contractDict.display)) {
       const img = new Image().src = turnaround;
     }
   }, []);
@@ -204,11 +204,11 @@ export default function TokenDisplay({
       <SoftLink>
       <ListingDisplay 
         style={
-          contracts[contract].display in collectionData && tokenId in collectionData[contracts[contract].display] ? 
-            { background: collectionData[contracts[contract].display][tokenId].background } : {}
+          contractDict.display in collectionData && tokenId in collectionData[contractDict.display] ? 
+            { background: collectionData[contractDict.display][tokenId].background } : {}
         }
       >
-        { contracts[contract].display == 'Wizards' || contracts[contract].display == 'Ponies' ?
+        { contractDict.display == 'Wizards' || contractDict.display == 'Ponies' ?
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
@@ -218,7 +218,7 @@ export default function TokenDisplay({
               (e.currentTarget.src = image)
             }
           /> :
-          <ListingImage src={contracts[contract].image_url + tokenId + ".png"} />
+          <ListingImage src={contractDict.image_url + tokenId + ".png"} />
         }
         <ListingInfo>
           <Grain style={{

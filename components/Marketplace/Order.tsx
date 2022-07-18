@@ -203,9 +203,6 @@ function OverlayContent({
   collectionWide: boolean;
   contract: string;
 }) {
-  let contractDict = getContract(contract);
-  console.log('collection offer on', contractDict);
-
   switch (kind) {
     case 'transaction':
       return <Animation name={'hourglass'} />
@@ -215,7 +212,7 @@ function OverlayContent({
 
     case 'signature':
       if (collectionWide) {
-        return <BannerImage src={`/static/img/marketplace/${contractDict.display.toLowerCase()}-banner.png`} />
+        return <BannerImage src={`/static/img/marketplace/${getContract(contract).display.toLowerCase()}-banner.png`} />
       } else {
         return <TokenImage src={tokenImage} height={'auto'} width={250} />
       }
@@ -484,7 +481,6 @@ function OrderContent({
             trait={trait}
             traitValue={traitValue}
           />
-          
           <SetPrice 
             price={price}
             setPrice={setPrice}

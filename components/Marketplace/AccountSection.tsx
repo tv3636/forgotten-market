@@ -1,7 +1,6 @@
 import Link from "next/link";
 import styled from "@emotion/styled";
-import { SoftLink } from "./marketplaceHelpers";
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
+import { getContract, SoftLink } from "./marketplaceHelpers";
 
 const Title = styled.div`
   font-size: var(--sp1);
@@ -105,7 +104,7 @@ export default function AccountSection({
         {tokens.map((token: any, index: number) => {
           var thisContract = contract ? contract : token.contract;
           var thisTokenId = contract ? token.token.tokenId : token.tokenSetId.split(':')[2];
-          let contracts = thisContract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+          let contractDict = getContract(thisContract);
           return (
             <div key={index}>
               <Link 
@@ -115,9 +114,9 @@ export default function AccountSection({
                 <SoftLink>
                   <div style={{display: 'flex', flexDirection: 'column'}}>
                     <TokenImage 
-                      src={ contracts[thisContract].display == 'Wizards' ? 
-                        `${contracts[thisContract].image_url}${thisTokenId}/${thisTokenId}.png` :
-                        `${contracts[thisContract].image_url}${thisTokenId}.png`
+                      src={ contractDict.display == 'Wizards' ? 
+                        `${contractDict.image_url}${thisTokenId}/${thisTokenId}.png` :
+                        `${contractDict.image_url}${thisTokenId}.png`
                       }
                       height={100} 
                       width={100} 

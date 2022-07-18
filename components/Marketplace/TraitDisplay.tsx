@@ -1,6 +1,6 @@
 
 import styled from "@emotion/styled";
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
+import { getContract } from "./marketplaceHelpers";
 import TraitLink from "./TraitLink";
 
 const TraitWrapper = styled.div`
@@ -148,7 +148,7 @@ export default function TraitDisplay({
   var traitCounts: any = {};
   var traits: any = {};
   var maxCount = 0;
-  let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
+  let contractDict = getContract(contract);
 
   for (var trait of fullAttributes) {
     var totalCount = 0;
@@ -195,7 +195,7 @@ export default function TraitDisplay({
             >
               <TraitLink trait={attribute.key} value={attribute.value}>
                 <TraitRow
-                  onMouseOver={() => setHover(contracts[contract].coreTraits?.includes(attribute.key) && !['Background', 'Undesirable'].includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
+                  onMouseOver={() => setHover(contractDict.coreTraits?.includes(attribute.key) && !['Background', 'Undesirable'].includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
                   onMouseOut={() => setHover('')}
                   style={showAll ? {} : {width: '34ch'}}
                 >
@@ -205,7 +205,7 @@ export default function TraitDisplay({
                       <TraitItem title={attribute.value}>{attribute.value}</TraitItem>
                       <TraitType style={{fontSize: 'calc(var(--sp-1) * 1.25)'}}>
                         {
-                          traits[attribute.key] && contracts[contract].display != 'Flames' &&
+                          traits[attribute.key] && contractDict.display != 'Flames' &&
                           `(${((traits[attribute.key][attribute.value] / maxCount) * 100)
                             .toPrecision(traits[attribute.key][attribute.value] == maxCount ? 3 : 2)}%)`
                         }
