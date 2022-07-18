@@ -153,7 +153,17 @@ export default function Marketplace({
     const statsPage = await fetch(stats_url, { headers: headers });
     const statsJson = await statsPage.json();
 
-    setItems(statsJson.stats.tokenCount);
+    // When showing all wizards, show 10k - soul count because burned tokens are included in default response
+    if (contractDict.display == 'Wizards' && !getURLAttributes(router.query, contractDict.display)) {
+      var souls_stats_url = API_BASE_URL + "stats/v1?" + "collection=0x251b5f14a825c537ff788604ea1b58e49b70726f";
+      const soulsStats = await fetch(souls_stats_url, { headers: headers });
+      const soulsJson = await soulsStats.json();
+
+      setItems(10000 - soulsJson.stats.tokenCount);
+    } else {
+      setItems(statsJson.stats.tokenCount);
+    }
+
     setFloor(statsJson.stats.market.floorAsk.price?.toPrecision(2));
     setBid(statsJson.stats.market.topBid.value?.toPrecision(2));
   }
