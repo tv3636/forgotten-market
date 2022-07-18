@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { API_BASE_URL, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
-import { getContract, getWeth } from './marketplaceHelpers';
+import { getContract } from './marketplaceHelpers';
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 import SetExpiration from './SetExpiration';

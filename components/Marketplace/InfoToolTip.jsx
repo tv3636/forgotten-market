@@ -16,8 +16,6 @@ const FlexDisplay = styled.div`
 
 export default function InfoTooltip({
   tooltip
-}: {
-  tooltip: string;
 }) {
   return (
     <FlexDisplay>
