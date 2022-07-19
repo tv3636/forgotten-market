@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import { Weth } from '@reservoir0x/sdk/dist/common/helpers';
 import { useEthers } from '@usedapp/core';
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import { API_BASE_URL, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
-import { getContract, getWeth } from './marketplaceHelpers';
+import { getContract } from './marketplaceHelpers';
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 import SetExpiration from './SetExpiration';
@@ -103,22 +102,6 @@ const Description = styled.div`
   text-align: center;
 `;
 
-const ButtonImage = styled.img`
-  margin-top: var(--sp-1);
-  height: var(--sp3);
-  image-rendering: pixelated;
-  height: 35px;
-
-  :active {
-    position: relative;
-    top: 2px;
-  }
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
 const IconImage = styled.img`
   width: 20px;
   height: 20px;
@@ -152,7 +135,7 @@ const Form = styled.form`
 
 const BannerImage = styled.img`
   width: 100%;
-  height: 20%;
+  height: 248px;
   margin-bottom: 40px;
 `;
 

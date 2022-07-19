@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../components/Marketplace/NewLayout";
+import Layout from "../../components/Marketplace/Layout";
 import styled from "@emotion/styled";
 import { getProvider } from "../../hooks/useProvider";
 import { useState, useEffect } from "react";

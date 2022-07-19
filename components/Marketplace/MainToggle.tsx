@@ -64,7 +64,7 @@ export default function MainToggle({
       <ToggleButton 
         style={activity ? { backgroundColor: 'var(--darkGray)'} : {}} 
         className='rightButton'
-        onClick={() => {router.query['activity'] = 'True'; pushRouter()}}
+        onClick={() => {router.query['activity'] = 'sales'; pushRouter()}}
       >
         ACTIVITY
       </ToggleButton>

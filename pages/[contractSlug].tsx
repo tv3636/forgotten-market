@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
 import { API_BASE_URL, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
 import { getContract, getTrait, getTraitValue, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
-import Layout from "../components/Marketplace/NewLayout";
+import Layout from "../components/Marketplace/Layout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
-import Sidebar from "../components/Marketplace/NewSidebar";
+import Sidebar from "../components/Marketplace/Sidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../components/Marketplace/TokenDisplay";
 import Image from 'next/image';
@@ -228,6 +228,11 @@ export default function Marketplace({
     router.push({query: router.query}, undefined, {shallow: true});
   }
 
+  function updateActivityFeed(activityType: string) {
+    router.query['activity'] = activityType;
+    router.push({query: router.query}, undefined, {shallow: true});
+  }
+
   useEffect(() => {
     setShowActivity(Object.keys(router.query).includes('activity'));
 
@@ -278,11 +283,11 @@ export default function Marketplace({
               <MainToggle activity={showActivity} />
             </MidHeader>
             <div>
-              { traitsSelected >= 1 && <FilterHeader/> }
-              <InfiniteWrapper style={traitsSelected >= 1 ? {marginTop: 0} : {}}>
+              { traitsSelected >= 1 && !(router.query.activity == 'listings') && <FilterHeader/> }
+              <InfiniteWrapper style={traitsSelected >= 1 && !(router.query.activity == 'listings') ? {marginTop: 0} : {}}>
                 { showActivity ? 
-                  <Activity contract={contract} /> : 
-                  listings.length > 0 || loaded ? 
+                  <Activity contract={contract} /> 
+                  : listings.length > 0 || loaded ? 
                   (
                     <>
                       <InfiniteScroll
@@ -339,6 +344,7 @@ export default function Marketplace({
           setSource={updateSource}
           selectionChange={selectionChange}
           setShowModal={setShowModal}
+          setActivity={updateActivityFeed}
         />
       </Main>
       { filterActive && 
@@ -351,6 +357,7 @@ export default function Marketplace({
               noLoreChange={() => setHasNoLore(!hasNoLore)}
               setSource={updateSource}
               selectionChange={selectionChange}
+              setActivity={updateActivityFeed}
             />
           </FilterContainer>
         </MobileOverlay>

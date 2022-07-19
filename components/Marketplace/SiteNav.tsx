@@ -8,7 +8,7 @@ import useWeb3Modal from "../../hooks/useWeb3Modal";
 import { useState } from "react";
 import MobileOverlay from "./MobileOverlay";
 import RuneHeader from "./RuneHeader";
-import { CollectionContainer } from "./NewSidebar";
+import { CollectionContainer } from "./Sidebar";
 
 const HeaderWrapper = styled.div`
   display: flex;

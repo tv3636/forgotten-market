@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Layout from "../../components/Marketplace/NewLayout";
+import Layout from "../../components/Marketplace/Layout";
 import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";

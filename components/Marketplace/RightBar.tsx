@@ -33,6 +33,7 @@ export default function RightBar({
   setSource,
   selectionChange,
   setShowModal,
+  setActivity,
 }:{
   contract: string;
   loreChange: any;
@@ -40,6 +41,7 @@ export default function RightBar({
   setSource: any;
   selectionChange: any;
   setShowModal: any;
+  setActivity: any;
 }) {
   return (
     <Container className="noscrim desktop">  
@@ -49,7 +51,8 @@ export default function RightBar({
         loreChange={loreChange} 
         noLoreChange={noLoreChange} 
         setSource={setSource} 
-        selectionChange={selectionChange} 
+        selectionChange={selectionChange}
+        setActivity={setActivity}
       />
     </Container>
   )

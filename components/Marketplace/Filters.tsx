@@ -49,12 +49,15 @@ export default function Filters({
   noLoreChange,
   setSource,
   selectionChange,
+  setActivity,
+
 }:{
   contract: string;
   loreChange: any;
   noLoreChange: any;
   setSource: any;
   selectionChange: any;
+  setActivity: any;
 }) {
   const [traits, setTraits] = useState([]);
   const [expanded, setExpanded] = useState(false);
@@ -75,43 +78,64 @@ export default function Filters({
 
   return (
     <>
-      <Filter onClick={() => setExpanded(!expanded)}>
-        FILTER BY TRAIT
-        <div>{ expanded ? <img src='/static/img/marketplace/down_arrow.png' height='12px' width='20px'/> : `>`}</div>
-      </Filter>
-      <TraitExpander style={{display: expanded ? 'block': 'none'}}>
-      {traits.map((trait: any, index) => (
-        <div key={index} style={{ marginBottom: 'var(--sp0)' }}>
-          <Select
-            options={getOptions(trait.values)}
-            onChange={(e) => selectionChange(e, trait.key)}
-            isClearable={true}
-            placeholder={trait.key}
-            value={trait.key.toLowerCase() in router.query ? {label: router.query[trait.key.toLowerCase()]} : null}
-            classNamePrefix='select'
-          />
-        </div>
-      ))}
-    </TraitExpander>
-      <Form>
-        <label>
-          <input type='checkbox' onClick={loreChange} /> HAS LORE
-        </label>
-        <label>
-          <input type='checkbox' onClick={noLoreChange} /> HAS NO LORE
-        </label>
-      </Form>
-      <Form>
-        {Object.keys(MARKETS).map((source: string, index: number) => (
-          <label key={index}>
-            <input type='radio' name='source' onClick={() => setSource(source)} checked={router.query['source'] == source} /> 
-            &nbsp;{MARKETS[source].name.toUpperCase()}
+    { (router.query.activity == 'sales' || !router.query.activity) &&
+      <>
+        <Filter onClick={() => setExpanded(!expanded)}>
+          FILTER BY TRAIT
+          <div>{ expanded ? <img src='/static/img/marketplace/down_arrow.png' height='12px' width='20px'/> : `>`}</div>
+        </Filter>
+        <TraitExpander style={{display: expanded ? 'block': 'none'}}>
+        {traits.map((trait: any, index) => (
+          <div key={index} style={{ marginBottom: 'var(--sp0)' }}>
+            <Select
+              options={getOptions(trait.values)}
+              onChange={(e) => selectionChange(e, trait.key)}
+              isClearable={true}
+              placeholder={trait.key}
+              value={trait.key.toLowerCase() in router.query ? {label: router.query[trait.key.toLowerCase()]} : null}
+              classNamePrefix='select'
+            />
+          </div>))}
+        </TraitExpander>
+      </>
+    }
+    { !router.query.activity ?
+      <>
+        <Form>
+          <label>
+            <input type='checkbox' onClick={loreChange} /> HAS LORE
           </label>
-        ))}
-        <label>
-          <input type='radio' name='source' onClick={() => setSource('')} checked={!router.query['source']}/> SHOW ALL
-        </label>            
+          <label>
+            <input type='checkbox' onClick={noLoreChange} /> HAS NO LORE
+          </label>
+        </Form>
+        <Form>
+          {Object.keys(MARKETS).map((source: string, index: number) => (
+            <label key={index}>
+              <input type='radio' name='source' onClick={() => setSource(source)} checked={router.query['source'] == source} /> 
+              &nbsp;{MARKETS[source].name.toUpperCase()}
+            </label>
+          ))}
+          <label>
+            <input type='radio' name='source' onClick={() => setSource('')} checked={!router.query['source']}/> SHOW ALL
+          </label>            
+        </Form>
+      </> 
+      : <Form>
+         <label>
+            <input 
+              type='radio' 
+              name='activity' 
+              onClick={() => { setActivity('sales') }} checked={router.query.activity == 'sales'} /> SHOW SALES
+          </label>
+          <label>
+            <input 
+              type='radio' 
+              name='activity' 
+              onClick={() => { setActivity('listings') }} checked={router.query.activity == 'listings'} /> SHOW LISTINGS
+          </label>
       </Form>
+      }
     </>
   )
 }

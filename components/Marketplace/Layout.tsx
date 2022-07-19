@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { ReactNode } from "react";
-import SiteNav from "./NewSiteNav";
+import SiteNav from "./SiteNav";
 import styled from "@emotion/styled";
 
 const Container = styled.div`
