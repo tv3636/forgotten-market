@@ -34,7 +34,7 @@ export default function ActionButton({
   onClick: any;
 }) {
   return (
-    <ButtonDiv onClick={onClick}> 
+    <ButtonDiv onClick={onClick} style={text.length > 10 ? {padding: '0 var(--sp-1)'} : {}}> 
       {text.toUpperCase()}
     </ButtonDiv>
   )

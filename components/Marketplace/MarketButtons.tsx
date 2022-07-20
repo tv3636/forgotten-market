@@ -17,14 +17,16 @@ const Buttons = styled.div`
 function MarketButton({ 
   type,
   setModal,
-  setActionType
+  setActionType,
+  text = '',
  }: { 
    type: ORDER_TYPE;
    setModal: (setting: boolean) => void;
    setActionType: (action: ORDER_TYPE) => void;
+   text?: string;
   }) {
   return (
-    <GenericButton onClick={() => { setModal(true); setActionType(type); }} text={type} />
+    <GenericButton onClick={() => { setModal(true); setActionType(type); }} text={ text ? text : type} />
   );
 }
 
@@ -60,10 +62,8 @@ export default function MarketButtons({
         if (listValue) {
           return (
             <Buttons>
-              {native ? 
-                <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} /> :
-                <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} />
-              }
+              <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} text={'LOWER LISTING'}/>
+              {native && <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />}
               {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
             </Buttons>
           )

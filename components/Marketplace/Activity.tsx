@@ -39,7 +39,7 @@ const HorizontalLine = styled.hr`
 `;
 
 const ActivityWrapper = styled.div`
-  width: 80%;
+  width: 100%;
   max-width: 800px;
 
   @media only screen and (max-width: 1250px) {
@@ -52,15 +52,15 @@ export default function Activity({
 }: {
   contract: string;
 }) {
-  const [sales, setSales] = useState([]);
-  const [listings, setListings] = useState([]);
+  const [sales, setSales] = useState<any[]>([]);
+  const [listings, setListings] = useState<any[]>([]);
   const [salesContinuation, setSalesContinuation] = useState('');
   const [listingsContinuation, setListingsContinuation] = useState('');
   const [fetched, setFetched] = useState(false);
   let contractDict = getContract(contract);
   const router = useRouter();
 
-  async function fetchTokens(continued: boolean) {
+  async function fetchTokens(continued: boolean, addFirst: boolean) {
     if (router.query.activity == 'sales') {
       const recentSales = await fetch(
         API_BASE_URL + `sales/v3?collection=${contract}${salesContinuation != '' && continued 
@@ -75,9 +75,24 @@ export default function Activity({
 
       if (continued) {
         setSales(sales.concat(salesJson.sales)); 
+      } else if (addFirst) {
+          for (var sale of salesJson.sales) {
+            let newSale = true;
+            for (var existingSale of sales) {
+              if (existingSale.id == sale.id) {
+                newSale = false;
+                break;
+              }
+            }
+            
+            if (newSale) {
+              setSales(sales.concat(sale));
+            }
+          }
       } else {
         setSales(salesJson.sales);
       }
+
       setSalesContinuation(salesJson.continuation);
     }
 
@@ -92,9 +107,22 @@ export default function Activity({
       const listingsJson = await recentListings.json();
       console.log(listingsJson);
 
-
       if (continued) {
         setListings(listings.concat(listingsJson.orders));
+      } else if (addFirst) {
+        for (var listing of listingsJson.orders) {
+          let newListing = true;
+          for (var existingListing of listings) {
+            if (listing.id == existingListing.id) {
+              newListing = false;
+              break;
+            }
+          }
+
+          if (newListing) {
+            setListings([listing].concat(listings));
+          }
+        }
       } else {
         setListings(listingsJson.orders);
       }
@@ -107,13 +135,21 @@ export default function Activity({
 
   useEffect(() => {
     setFetched(false);
-    fetchTokens(false);
+    fetchTokens(false, false);
   }, [router.query]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      (() => fetchTokens(false, true))();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [sales, listings]);
 
   return (
     <InfiniteScroll
-      dataLength={sales.length}
-      next={() => { fetchTokens(true) }}
+      dataLength={router.query.activity == 'sales' ? sales.length: listings.length}
+      next={() => { fetchTokens(true, false) }}
       hasMore={true}
       loader={null}
       scrollThreshold={0.1}

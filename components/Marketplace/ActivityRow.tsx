@@ -217,7 +217,7 @@ const ActivityImage = styled.img`
   z-index: 2;
 
   width: 150px;
-  height: 150px;
+  min-height: 150px;
 
   :hover {
     cursor: pointer;
@@ -226,7 +226,7 @@ const ActivityImage = styled.img`
 
   @media only screen and (max-width: 1250px) {
     width: 100px;
-    height: auto;
+    min-height: auto;
     margin-left: 0px;
     margin-right: 10px;
   }
@@ -263,7 +263,7 @@ export default function ActivityRow({
   const tokenId = 'token' in activity ? activity.token.tokenId : activity.tokenSetId.split(':')[2];
   const name = 'token' in activity ? activity.token.name : activity.metadata.data.tokenName;
   const ethOrWeth = 'token' in activity && !(activity.orderSide == 'ask') ? 'weTH' : 'eTH';
-  const timestamp = 'token' in activity ? activity.timestamp : activity.validFrom;
+  const timestamp = 'token' in activity ? activity.timestamp : (new Date(activity.createdAt)).getTime() / 1000;
   const source = 'token' in activity ? activity.orderSource : activity.source.name;
 
   return (
