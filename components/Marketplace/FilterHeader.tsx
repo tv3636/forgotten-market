@@ -28,6 +28,10 @@ const Container = styled.div`
   }
 
   background: transparent;
+
+  @media only screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 const TraitRow = styled.div`
@@ -50,6 +54,10 @@ const TraitRow = styled.div`
   padding-right: var(--sp-1);
 
   transition: all 100ms;
+
+  @media only screen and (max-width: 600px) {
+    width: 14ch;
+  }
 `;
 
 const TraitType = styled.div`
@@ -81,6 +89,7 @@ const TraitItem = styled.div`
 
   @media only screen and (max-width: 600px) {
     font-size: var(--sp0);
+    max-width: 8ch;
   }
   
   transition: all 100ms;

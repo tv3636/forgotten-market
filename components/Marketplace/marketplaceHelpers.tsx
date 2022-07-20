@@ -130,11 +130,8 @@ export function numShorten(num: number) {
 export function isTraitOffer() {
   const router = useRouter();
 
-  console.log(getTraitCount(), router.query);
-
   if (getTraitCount() == 1) {
     for (var trait of Object.keys(router.query)) {
-      console.log(router.query[trait]);
       if (!NON_TRAITS.includes(trait) 
         && ((Array.isArray(router.query[trait]) && router.query[trait].length == 1)
         || !Array.isArray(router.query[trait]))) {
