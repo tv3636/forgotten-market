@@ -98,7 +98,7 @@ const ScrollContainer = styled.div`
   overflow: hidden;
 
   padding-top: var(--sp-4);
-  padding-bottom: 250px;
+  padding-bottom: 500px;
 `;
 
 const BottomScrim = styled.div`
@@ -170,7 +170,7 @@ export default function Marketplace({
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
-    var url = API_BASE_URL + "tokens/details/v3?" + "collection=" + contract;
+    var url = API_BASE_URL + "tokens/details/v4?" + "collection=" + contract;
     setLoaded(false);
 
     if (reset) {
@@ -200,9 +200,13 @@ export default function Marketplace({
     setLoaded(true);
   }
 
+  function routerPush() {
+    router.push({query: router.query}, undefined, {shallow: true});
+  }
+
   function selectionChange(selected: any, trait: any) {
     if (selected) {
-      router.query[trait.toLowerCase()] = selected.value;
+      router.query[trait.toLowerCase()] = selected.map((selection: { value: string; }) => selection.value);
     } else {
       delete router.query[trait.toLowerCase()];
     }
@@ -214,7 +218,7 @@ export default function Marketplace({
       - Number('contractSlug' in router.query)
     );
 
-    router.push({query: router.query}, undefined, {shallow: true});
+    routerPush();
     fetchListings(true);
   }
 
@@ -225,12 +229,12 @@ export default function Marketplace({
       delete router.query['source'];
     }
 
-    router.push({query: router.query}, undefined, {shallow: true});
+    routerPush();
   }
 
   function updateActivityFeed(activityType: string) {
     router.query['activity'] = activityType;
-    router.push({query: router.query}, undefined, {shallow: true});
+    routerPush();
   }
 
   useEffect(() => {

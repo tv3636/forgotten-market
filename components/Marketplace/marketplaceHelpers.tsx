@@ -1,6 +1,6 @@
 import { Weth } from "@reservoir0x/sdk/dist/common/helpers";
 import { BigNumber, Signer } from "ethers";
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS, NON_TRAITS } from "./marketplaceConstants";
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { hydratePageDataFromMetadata } from "../Lore/markdownUtils";
@@ -99,11 +99,15 @@ export function getURLAttributes(query: any, collection: string) {
   for (var trait of Object.keys(query)) {
     if (trait != 'contractSlug' && trait != 'activity' && trait != 'source') {
       var url_trait = traitFormat(trait, collection).replace("#", "%23");
-      url_string +=
-        "&attributes[" +
-        url_trait +
-        "]=" +
-        query[trait].replaceAll(' ', '+');
+
+      if (Array.isArray(query[trait])) {
+        for (var selection of query[trait]) {
+          console.log(selection);
+          url_string += "&attributes[" + url_trait + "]=" + selection.replaceAll(' ', '+');
+        }
+      } else {
+        url_string += "&attributes[" + url_trait + "]=" + query[trait].replaceAll(' ', '+');
+      }
     }
   }
 
@@ -126,7 +130,28 @@ export function numShorten(num: number) {
 export function isTraitOffer() {
   const router = useRouter();
 
-  return Object.keys(router.query).length == (2 + Number('source' in router.query) + Number('activity' in router.query));
+  console.log(getTraitCount(), router.query);
+
+  if (getTraitCount() == 1) {
+    for (var trait of Object.keys(router.query)) {
+      console.log(router.query[trait]);
+      if (!NON_TRAITS.includes(trait) 
+        && ((Array.isArray(router.query[trait]) && router.query[trait].length == 1)
+        || !Array.isArray(router.query[trait]))) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+}
+
+// Get count of selected traits in query
+export function getTraitCount() {
+  const router = useRouter();
+
+  return Object.keys(router.query).length 
+    - NON_TRAITS.reduce((prev, current) => {return prev + Number(current in router.query)}, 0);
 }
 
 // Get trait selected for trait offer

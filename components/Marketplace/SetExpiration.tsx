@@ -14,7 +14,6 @@ const Expiration = styled.div`
   margin-bottom: var(--sp3);
   margin-top: var(--sp1);
   max-width: 250px;
-
 `;
 
 export default function SetExpiration({

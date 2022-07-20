@@ -76,9 +76,6 @@ export const MARKETS: any = {
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
   "https://api.reservoir.tools/" : "https://api-rinkeby.reservoir.tools/";
 
-  export const PREVIOUS_API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
-  "https://mainnet-api-v4.reservoir.tools/" : "https://rinkeby-api-v4.reservoir.tools/";
-
 export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ? {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
     collection: "forgottenruneswizardscult",
@@ -255,7 +252,7 @@ export const BURN_TRAITS: any = [
   'Transmuted from',
   'Transmuted from number',
   'Burn order',
-]
+];
 
 export const BACKGROUND_COLORS: any = {
   "#000000": "black",
@@ -263,4 +260,6 @@ export const BACKGROUND_COLORS: any = {
   "#120315": "purple",
   "#040D04": "green",
   "#1E0200": "red",
-}
+};
+
+export const NON_TRAITS = ['activity', 'contractSlug', 'source'];

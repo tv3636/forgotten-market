@@ -80,7 +80,10 @@ export default function PriceModule({
       <MarketDisplay 
         price={listing.price} 
         bid={offer.value} 
-        lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp ? token.lastBuy.value?.toPrecision(3) : token.lastSell.value?.toPrecision(3) }
+        lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp 
+          ? token.lastBuy.value?.toPrecision(3) 
+          : token.lastSell.value?.toPrecision(3) 
+        }
         lastSaleWeth={ token.lastBuy.timestamp > token.lastSell.timestamp }
         contract={contract}
       />

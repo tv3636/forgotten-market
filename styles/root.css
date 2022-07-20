@@ -243,6 +243,21 @@ p {
   color: var(--white) !important;
 }
 
+.select__multi-value {
+  background-color: var(--midGray) !important;
+  border-radius: 20px;
+}
+
+.select__multi-value__label {
+  color: var(--white) !important;
+  text-transform: uppercase;
+}
+
+.select__multi-value__remove:hover {
+  background-color: var(--lightGray) !important;
+  color: var(--black) !important;
+}
+
 .__react_component_tooltip {
   background: var(--darkGray) !important;
   color: var(--white) !important;

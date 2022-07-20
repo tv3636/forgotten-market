@@ -91,11 +91,18 @@ export default function Filters({
               options={getOptions(trait.values)}
               onChange={(e) => selectionChange(e, trait.key)}
               isClearable={true}
+              isMulti={true}
               placeholder={trait.key}
-              value={trait.key.toLowerCase() in router.query ? {label: router.query[trait.key.toLowerCase()]} : null}
+              value={trait.key.toLowerCase() in router.query 
+                ? Array.isArray(router.query[trait.key.toLowerCase()]) 
+                  ? (router.query[trait.key.toLowerCase()] as string[]).map(selection => { return { value: selection, label: selection } }) 
+                  : [{ value: router.query[trait.key.toLowerCase()], label: router.query[trait.key.toLowerCase()] }]
+                : []
+              }
               classNamePrefix='select'
             />
-          </div>))}
+          </div>
+        ))}
         </TraitExpander>
       </>
     }

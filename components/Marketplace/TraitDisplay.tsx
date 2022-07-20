@@ -195,11 +195,22 @@ export default function TraitDisplay({
             >
               <TraitLink trait={attribute.key} value={attribute.value}>
                 <TraitRow
-                  onMouseOver={() => setHover(contractDict.coreTraits?.includes(attribute.key) && !['Background', 'Undesirable'].includes(attribute.key) && attribute.value != 'None' ? attribute.key : '')}
+                  onMouseOver={
+                    () => setHover(
+                      contractDict.coreTraits?.includes(attribute.key) 
+                        && !['Background', 'Undesirable'].includes(attribute.key) 
+                        && attribute.value != 'None' 
+                          ? attribute.key : ''
+                    )
+                  }
                   onMouseOut={() => setHover('')}
                   style={showAll ? {} : {width: '34ch'}}
                 >
-                    <Grain tokenId={traits[attribute.key] ? traits[attribute.key][attribute.value]: Math.random() * 100 + 1} />
+                    <Grain 
+                      tokenId={traits[attribute.key] 
+                        ? traits[attribute.key][attribute.value]
+                        : Math.random() * 100 + 1} 
+                    />
                     <TraitType>{attribute.key.toUpperCase()}</TraitType>
                     <TraitValues>
                       <TraitItem title={attribute.value}>{attribute.value}</TraitItem>

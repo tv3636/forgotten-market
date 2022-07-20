@@ -66,7 +66,7 @@ const TraitType = styled.div`
 `;
 
 const TraitItem = styled.div`
-  font-size: var(--sp1);
+  font-size: var(--sp0);
   font-family: Alagard;
   color: var(--white);
   text-shadow: 0px 2.5px var(--darkGray);
@@ -97,33 +97,56 @@ const Close = styled.div`
   }
 `;
 
-
-export default function FilterHeader({}: {}) {
+function TraitTag({
+  trait,
+  value,
+}:{
+  trait: string;
+  value: string;
+}) {
   const router = useRouter();
 
-  function removeFilter(filter: string) {
-    delete router.query[filter];
+  function removeFilter(trait: string, value: string) {
+    if (Array.isArray(router.query[trait])) {
+      router.query[trait] = (router.query[trait] as string[]).filter((v: string) => v !== value);
+    } else {
+      delete router.query[trait];
+    }
     router.push({query: router.query}, undefined, {shallow: true});
   }
 
   return (
+    <TraitRow>
+      <TraitType>
+        {trait.toUpperCase()}
+        <Close onClick={() => removeFilter(trait, value)} style={{alignSelf: 'flex-end'}}>
+          <Image src='/static/img/x.png' width='20px' height='20px'/>
+        </Close>
+      </TraitType>
+      <TraitItem>
+        {value}
+      </TraitItem>
+    </TraitRow>
+  )
+}
+
+export default function FilterHeader({}: {}) {
+  const router = useRouter();
+
+  return (
     <Container>
       {
-        Object.keys(router.query).map((trait: string, index: number) => {
+        Object.keys(router.query).map((trait: string, index: number) => { 
           return (
-            trait != 'activity' && trait != 'source' && trait != 'contractSlug' &&
-            <TraitRow key={index}>
-              <TraitType>
-                {trait.toUpperCase()}
-                <Close onClick={() => removeFilter(trait)} style={{alignSelf: 'flex-end'}}>
-                  <Image src='/static/img/x.png' width='20px' height='20px'/>
-                </Close>
-              </TraitType>
-              <TraitItem>
-                {router.query[trait]}
-              </TraitItem>
-            </TraitRow>
-          );
+            trait != 'activity' && trait != 'source' && trait != 'contractSlug' 
+            && (
+              Array.isArray(router.query[trait]) ?
+                (router.query[trait] as string[]).map((value: string, index: number) => (
+                  <TraitTag key={index} trait={trait} value={value}/>
+                )) 
+              : <TraitTag key={index} trait={trait} value={router.query[trait] as string}/>
+            )
+          )
         })
       }
     </Container>

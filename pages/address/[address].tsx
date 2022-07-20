@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { getProvider } from "../../hooks/useProvider";
 import { useState, useEffect } from "react";
 import AccountSection from "../../components/Marketplace/AccountSection";
-import { PREVIOUS_API_BASE_URL, CONTRACTS, API_BASE_URL, COMMUNITY_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
+import { CONTRACTS, API_BASE_URL, COMMUNITY_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -20,7 +20,6 @@ const PageWrapper = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-
 `;
 
 const AccountWrapper = styled.div`
@@ -187,7 +186,6 @@ export default function Address({
   valid: boolean;
 }) {
   const [listings, setListings] = useState<any>([]);
-  const [offers, setOffers] = useState<any>([]);
   const [offersMade, setOffersMade] = useState<any>([]);
   const [continuation, setContinuation] = useState('');
 
@@ -222,37 +220,9 @@ export default function Address({
     }
   }
 
-  async function fetchOffers() {
-    var activeOffers = [];
-    var iteration = 0;
-    var offset = 20;
-    var page = null;
-    var pageJson: any = {};
-
-    while (iteration == 0 || pageJson.tokens.length == offset) {
-      page = await fetch(
-        `${PREVIOUS_API_BASE_URL}users/${address}/tokens?community=forgottenrunes&hasOffer=true&offset=${offset * iteration}`,
-        { headers: headers }
-      );
-
-      pageJson = await page.json();
-
-      for (var token of pageJson.tokens) {
-        if (token.token.topBuy.schema.kind != 'collection') {
-          activeOffers.push(token.token);
-        }
-      }
-
-      iteration++;
-    }
-
-    setOffers(activeOffers);
-  }
-
   useEffect(() => {
     fetchOrders('sell');
     fetchOrders('buy')
-    //fetchOffers();
   }, []);
 
   if (valid) {
@@ -299,9 +269,6 @@ export default function Address({
             }
             { offersMade.length > 0 && 
               <AccountSection tokens={offersMade} contract={null} title={'Offers Made'}/>
-            }
-            { offers.length > 0 && 
-              <AccountSection tokens={offers} contract={null} title={'Offers Received'}/>
             }
           </Account>
         </AccountWrapper>
