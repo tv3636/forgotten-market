@@ -262,7 +262,7 @@ export default function ActivityRow({
   const contractDict = getContract(contract);
   const tokenId = 'token' in activity ? activity.token.tokenId : activity.tokenSetId.split(':')[2];
   const name = 'token' in activity ? activity.token.name : activity.metadata.data.tokenName;
-  const ethOrWeth = 'token' in activity && !(activity.orderSide == 'ask') ? 'weTH' : 'eTH';
+  const ethOrWeth = 'token' in activity && !(activity.orderSide == 'ask') ? 'weth' : 'eth';
   const timestamp = 'token' in activity ? activity.timestamp : (new Date(activity.createdAt)).getTime() / 1000;
   const source = 'token' in activity ? activity.orderSource : activity.source.name;
 
