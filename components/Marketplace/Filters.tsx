@@ -119,7 +119,7 @@ export default function Filters({
         <Form>
           {Object.keys(MARKETS).map((source: string, index: number) => (
             <label key={index}>
-              <input type='radio' name='source' onClick={() => setSource(source)} checked={router.query['source'] == source} /> 
+              <input type='radio' name='source' onClick={() => setSource(MARKETS[source].name)} checked={router.query['source'] == MARKETS[source].name} /> 
               &nbsp;{MARKETS[source].name.toUpperCase()}
             </label>
           ))}
