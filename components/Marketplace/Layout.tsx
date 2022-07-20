@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { ReactNode } from "react";
-import SiteNav from "./SiteNav";
 import styled from "@emotion/styled";
+import SiteNav from "./SiteNav";
 
 const Container = styled.div`
   width: 1800px;

@@ -1,4 +1,4 @@
-import Layout from "../components/Layout";
+import Layout from "../components/Marketplace/Layout";
 import styled from "@emotion/styled";
 
 const AboutWrapper = styled.div`
