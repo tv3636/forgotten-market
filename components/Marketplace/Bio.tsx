@@ -31,6 +31,15 @@ const Value = styled.div`
   font-family: Alagard;
   font-size: var(--sp0);
   color: var(--white);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  @media only screen and (max-width: 600px) {
+    max-width: 12ch;
+  }
 `;
 
 const Tuple = styled.div`
