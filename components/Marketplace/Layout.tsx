@@ -56,7 +56,7 @@ const Layout = ({
         {image ? (
           <meta 
             name="twitter:image" 
-            content={`https://forgotten.market${image}`}
+            content={image}
             key="twimage"
           />
         ) :
@@ -70,7 +70,7 @@ const Layout = ({
         {image ? (
         <meta
           property="og:image"
-          content={`https://forgotten.market${image}`}
+          content={image}
           key="ogimage"
         />
         ) :
