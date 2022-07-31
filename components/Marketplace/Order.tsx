@@ -427,9 +427,6 @@ function OrderContent({
       case 'Submit listing':
         return `Submitting listing to the order book`
 
-      case 'Confirmation':
-        return `Purchase successful!`
-
       case 'Accept offer':
         return (
           <div>

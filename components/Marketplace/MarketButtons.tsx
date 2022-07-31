@@ -63,7 +63,7 @@ export default function MarketButtons({
           return (
             <Buttons>
               <MarketButton type={ORDER_TYPE.SELL} setModal={setModal} setActionType={setActionType} text={'LOWER LISTING'}/>
-              {native && <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />}
+              <MarketButton type={ORDER_TYPE.CANCEL_LISTING} setModal={setModal} setActionType={setActionType} />
               {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} setModal={setModal} setActionType={setActionType} />}
             </Buttons>
           )
