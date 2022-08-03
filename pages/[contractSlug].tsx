@@ -52,12 +52,14 @@ const Main = styled.div`
 
   margin-left: var(--sp3);
   margin-right: var(--sp3);
+
+  @media only screen and (max-width: 1450px) {
+    margin-left: var(--sp0);
+    margin-right: var(--sp0);
+  }
   
   @media only screen and (max-width: 1250px) { 
     justify-content: center;
-
-    margin-left: var(--sp0);
-    margin-right: var(--sp0);
   }
 
   @media only screen and (min-width: 1250px) and (max-height: 700px) {
