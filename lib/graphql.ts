@@ -8,16 +8,20 @@ const client = new ApolloClient({
   link: from([
     onError(({ graphQLErrors, networkError, operation, forward }) => {
       if (graphQLErrors) {
-        for (let err of graphQLErrors) {
-          console.warn(`Checking if to retry GraphQL error: ${err.message}`);
+        try {
+          for (let err of graphQLErrors) {
+            console.warn(`Checking if to retry GraphQL error: ${err.message}`);
 
-          if (
-            err.message ===
-            "panic processing query: Once instance has previously been poisoned"
-          ) {
-            console.info("Retrying panic error...");
-            return forward(operation);
+            if (
+              err.message ===
+              "panic processing query: Once instance has previously been poisoned"
+            ) {
+              console.info("Retrying panic error...");
+              return forward(operation);
+            }
           }
+        } catch (e) {
+          console.error(e);
         }
       }
 
