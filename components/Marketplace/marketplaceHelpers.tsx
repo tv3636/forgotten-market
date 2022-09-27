@@ -198,15 +198,15 @@ export function getDisplayBid(bid: number, contract: string) {
   return bid / feePercent;
 }
 
-export async function getPages(lore: any) {
+export async function getPages(lore: any, tokenId: any) {
   if (lore.length > 0) {
     var newPages = [];
     for (var lorePage of lore) {
       var thisPage = await hydratePageDataFromMetadata(
         lorePage.loreMetadataURI,
-        lorePage.createdAtTimestamp,
+        lorePage.createdAt,
         lorePage.creator,
-        lorePage.tokenId
+        tokenId
       );
 
       if (lorePage.nsfw) {
@@ -215,6 +215,7 @@ export async function getPages(lore: any) {
         newPages.push(thisPage);
       }
     }
+    console.log(newPages);
     return newPages;
   }
 }

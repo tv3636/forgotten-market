@@ -353,7 +353,7 @@ const ListingPage = ({
         }
       }
       
-      setPages(await getPages(lore));
+      setPages(await getPages(lore, tokenId));
       
       // Preload turnaround images
       if (contractDict.display == 'Wizards') {
@@ -537,29 +537,28 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     const { data } = await client.query({
       query: gql`
-        query WizardLore {
-            loreTokens(first: 999, orderBy: tokenId, orderDirection: asc, where: {tokenContract: "${contractSlug}", tokenId: "${tokenId}"}) {
-                lore(
-                    where: { struck: false }
-                    orderBy: id
-                    orderDirection: asc
-                ) {
-                    id
-                    index
-                    creator
-                    tokenContract
-                    loreMetadataURI
-                    tokenId
-                    struck
-                    nsfw
-                    createdAtTimestamp
-                }
+        query Query{
+          Lore(where: {struck: {_eq: false}, token: {tokenId: {_eq: ${tokenId}}, tokenContract: {_eq: "${contractSlug}"}}}) {
+            id
+            index
+            creator
+            token {
+              wizard {
+              id
+              }
             }
+            nsfw
+            createdAt
+            markdownText
+            rawContent
+            loreMetadataURI
+          }
         }`,
     });
 
-    var results = data["loreTokens"][0]["lore"];
+    var results = data.Lore;
   } catch (e) {
+    console.error(e);
     console.error("Couldn't fetch lore. Continuing anyway as it's non-fatal...");
     results = [];
   }
