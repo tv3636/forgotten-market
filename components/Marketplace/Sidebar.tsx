@@ -125,7 +125,7 @@ export function CollectionContainer({
 }: Props) {
   return (
     <MobileContainer>
-      <RuneHeader>OFFICIAL</RuneHeader>
+      <RuneHeader>OFFICIAL COLLECTIONS</RuneHeader>
       <Collections>
       {
         Object.keys(CONTRACTS).map((contract: string, index) => (
@@ -133,7 +133,7 @@ export function CollectionContainer({
         ))
       }
       </Collections>
-      <RuneHeader>COMMUNITY</RuneHeader>
+      <RuneHeader>COMMUNITY COLLECTIONS</RuneHeader>
       <Collections>
       {
         Object.keys(COMMUNITY_CONTRACTS).map((contract: string, index) => (

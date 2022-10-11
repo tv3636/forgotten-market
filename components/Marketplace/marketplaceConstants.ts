@@ -209,6 +209,24 @@ export const COMMUNITY_CONTRACTS: any = {
     fee: '500',
     feeRecipient: '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4'
   },
+  "0x4bce2bf108599257f84e0b1965631132a579481b": {
+    collection: "heroesofcumberland",
+    display: "Heroes",
+    singular: "Hero",
+    full: "Heroes of Cumberland",
+    image_url: "https://forgottenbabies.com/cucumdogs/",
+    fee: '250',
+    feeRecipient: '0x0303ee7033319f99d5486eaabef6e3d685ef89cb',
+  },
+  "0x4addac15971ab60ead954b8f15a67518730450e0": {
+    collection: "forgottenpunks",
+    display: "Punks",
+    singular: "Punk",
+    full: "ForgottenPunks",
+    image_url: "https://forgottenpunks.vercel.app/api/img/",
+    fee: '750',
+    feeRecipient: '0x19dcef0cb5e71c95683bbdf21394f505c4eaece9'
+  }
 }
 
 export const LOCATIONS: any = {
