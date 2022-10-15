@@ -52,6 +52,8 @@ export const MARKET_ICONS_BY_NAME: any = {
   'OpenSea': '/static/img/icons/nav/opensea_default.png',
   'LooksRare': '/static/img/icons/nav/looksrare_default.png',
   'X2Y2': '/static/img/icons/nav/x2y2_default.png',
+  'Buy, Sell, and Swap NFTs Instantly | NFTX': '/static/img/icons/nav/nftx_default.png',
+  'sudoswap': '/static/img/icons/nav/sudoswap_default.png'
 }
 
 export const MARKETS: any = {
@@ -70,7 +72,7 @@ export const MARKETS: any = {
   [X2Y2_SOURCE]: {
     image: '/static/img/icons/nav/x2y2_default.png',
     name: 'X2Y2'
-  }
+  },
 }
 
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
