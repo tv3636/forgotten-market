@@ -227,7 +227,10 @@ export default function Address({
 
   if (valid) {
   return (
-    <Layout title="Account">
+    <Layout 
+      title="Account Page"
+      image={`https://forgotten-market-api.vercel.app/api/og?address=${address}`}
+    >
       <PageWrapper>
         <AccountWrapper>
           <Account>
