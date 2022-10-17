@@ -262,7 +262,6 @@ export default function Marketplace({
     return (
       <Layout
         title={`${contractDict.display} ${ showActivity ? 'Activity' : 'Marketplace'}`}
-        description={`Like ${contractDict.singular}, Buy ${contractDict.singular}`}
         image={`https://forgotten.market/static/img/marketplace/${contractDict.display.toLowerCase()}-banner.png`}
         setFilterActive={setFilterActive}
       >

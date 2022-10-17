@@ -78,18 +78,13 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         />
         <meta
           property="og:site_name"
-          content={"forgotten.market"}
+          content={"Forgotten Market"}
           key="ogsitename"
         />
         <meta
           property="og:title"
-          content={"forgotten.market"}
+          content={"Forgotten Market"}
           key="ogtitle"
-        />
-        <meta
-          property="og:description"
-          content={"Like Wizard, Buy Wizard"}
-          key="ogdesc"
         />
       </Head>
       <DAppProvider

@@ -392,7 +392,6 @@ const ListingPage = ({
         collectionData[contractDict.display][tokenId].name :
         `${contractDict.singular} #${tokenId}`
       } 
-      description={`${contractDict.singular} #${tokenId}`}
       image={imageUrls[0]}
     >
       <PageWrapper>
