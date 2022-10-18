@@ -52,6 +52,8 @@ const Account = styled.div`
   margin-left: var(--sp1);
   margin-top: var(--sp3);
 
+  max-width: 90%;
+
   @media only screen and (max-width: 600px) {
     align-content: center;
     align-items: center;
@@ -136,6 +138,7 @@ const IconImage = styled.img`
 
 const StatRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   text-align: center;
 
   @media only screen and (max-width: 600px) {
