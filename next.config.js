@@ -79,7 +79,12 @@ let nextConfig = {
         source: '/marketplace/:slug*',
         destination: '/:slug*',
         permanent: true,
-      }
+      },
+      {
+        source: '/en-US/:slug*',
+        destination: '/:slug*',
+        permanent: true,
+      },
     ]
   },
 };
