@@ -181,9 +181,12 @@ export default function TokenDisplay({
 }) {
   let contractDict = getContract(contract);
 
+  console.log(contractDict.display == 'Beasts' && tokenId == 0, contractDict.display == 'Beasts', tokenId)
   let image = contractDict.display == 'Wizards' ? 
     `${contractDict.image_url}${tokenId}/${tokenId}.png` : 
-    `${contractDict.image_url}${tokenId}.png`;
+    `${contractDict.image_url}${tokenId}.${(contractDict.display == 'Beasts' && tokenId == 0) ? 'gif' : 'png'}`;
+
+  console.log(image);
 
   let turnaround = contractDict.display == 'Wizards' ? 
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
@@ -218,7 +221,7 @@ export default function TokenDisplay({
               (e.currentTarget.src = image)
             }
           /> :
-          <ListingImage src={contractDict.image_url + tokenId + ".png"} />
+          <ListingImage src={image} />
         }
         <ListingInfo>
           <Grain style={{

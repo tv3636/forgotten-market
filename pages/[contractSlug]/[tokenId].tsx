@@ -307,7 +307,7 @@ const ListingPage = ({
   const imageUrls: string[] = [
     contractDict.display == 'Wizards' ? 
     contractDict.image_url + tokenId + '/' + tokenId + '.png' : 
-    contractDict.image_url + tokenId + ".png",
+    contractDict.image_url + tokenId + (contractDict.display == 'Beasts' && tokenId == '0' ? ".gif" : ".png") ,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
