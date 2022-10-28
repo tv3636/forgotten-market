@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { MARKETS } from "./marketplaceConstants";
+import { ITEM_CONTRACTS, MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
 import { getContract, getImage, SoftLink } from "./marketplaceHelpers";
 import styled from "@emotion/styled";
@@ -182,7 +182,7 @@ export default function TokenDisplay({
   image_url: string;
 }) {
   let contractDict = getContract(contract);
-  let image = image_url || getImage(contract, tokenId);
+  let image = getImage(contract, tokenId);
   let hasTurnaround = ['Wizards', 'Ponies', 'Souls'].includes(contractDict.display);
 
   let turnaround = contractDict.display == 'Wizards' ? 
@@ -190,6 +190,11 @@ export default function TokenDisplay({
     contractDict.display == 'Souls' ?
       `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
       `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
+
+  // Use Reservoir for item images, for now
+  if (contract in ITEM_CONTRACTS) {
+    image = image_url;
+  }
 
   // Preload turnaround GIFs
   useEffect(() => {
