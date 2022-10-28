@@ -467,19 +467,21 @@ const ListingPage = ({
                 </TopDisplay>
               <HorizontalLine/>
               <SectionWrapper>
-                <BaseModule traitModule={true}>
-                  <RuneHeader plaintext={false} home={false}>
-                    TRAITS
-                  </RuneHeader>
-                  <TraitDisplay 
-                    attributes={attributes} 
-                    fullAttributes={fullAttributes} 
-                    contract={contractSlug} 
-                    setHover={setTraitHover}
-                    filters={contractDict.coreTraits}
-                    showAll={['Wizards', 'Souls', 'Warriors'].includes(contractDict.display)}
-                  />
-                </BaseModule>
+                { attributes.length > 0 &&
+                  <BaseModule traitModule={true}>
+                    <RuneHeader plaintext={false} home={false}>
+                      TRAITS
+                    </RuneHeader>
+                    <TraitDisplay 
+                      attributes={attributes} 
+                      fullAttributes={fullAttributes} 
+                      contract={contractSlug} 
+                      setHover={setTraitHover}
+                      filters={contractDict.coreTraits}
+                      showAll={['Wizards', 'Souls', 'Warriors'].includes(contractDict.display)}
+                    />
+                  </BaseModule>
+                }
                 { ['Wizards', 'Souls', 'Warriors'].includes(contractDict.display) && 
                   !getValue(attributes, 'Undesirable') &&
                   <Column style={contractDict.display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
