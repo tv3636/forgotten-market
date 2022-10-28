@@ -11,13 +11,20 @@ headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? 
 const Filter = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: var(--mediumGray);
+  background-color: var(--darkGray);
 
-  border-radius: 15px;
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 40 50;
+  border-image-width: calc(var(--frameSize) / 1.25);
+  border-style: solid;
+  border-image-repeat: round;
+
   padding: var(--sp0);
+  padding-left: var(--sp1);
+  padding-right: var(--sp1);
 
   :hover {
-    background-color: var(--darkGray);
+    background-color: var(--mediumGray);
     cursor: pointer;
   }
 
@@ -31,14 +38,14 @@ const TraitExpander = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  background-color: var(--mediumGray);
+  background-color: var(--darkGray);
   
-  border-radius: 15px;
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 40 50;
+  border-image-width: calc(var(--frameSize) / 1.25);
+  border-style: solid;
+  border-image-repeat: round;
   padding: var(--sp0);
-
-  :hover {
-    background-color: var(--darkGray);
-  }
 
   transition: all 200ms;
 `;

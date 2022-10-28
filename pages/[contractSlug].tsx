@@ -84,7 +84,7 @@ const MidContainer = styled.div`
 
 const InfiniteWrapper = styled.div`
   position: relative;
-  margin-top: var(--sp3);
+  margin-top: var(--sp4);
   height: calc(100% - var(--sp3));
 
   @media only screen and (max-width: 1250px) { 

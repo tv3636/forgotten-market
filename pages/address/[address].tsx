@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { getProvider } from "../../hooks/useProvider";
 import { useState, useEffect } from "react";
 import AccountSection from "../../components/Marketplace/AccountSection";
-import { CONTRACTS, API_BASE_URL, COMMUNITY_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
+import { CONTRACTS, API_BASE_URL, COMMUNITY_CONTRACTS, ALL_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -199,7 +199,7 @@ export default function Address({
     var pageJson: any = {};
     var fetchUrl = `${API_BASE_URL}orders/${orderType == 'sell' ? 'asks' : 'bids'}/v2?maker=${address}`;
 
-    for (var contract of Object.keys(CONTRACTS).concat(Object.keys(COMMUNITY_CONTRACTS))) {
+    for (var contract of Object.keys(ALL_CONTRACTS)) {
       fetchUrl += `&contracts=${contract}`;
     }
   
@@ -304,7 +304,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     ens = await mainProvider.lookupAddress(address) ?? '';
 
-    for (var contract of Object.keys(CONTRACTS).concat(Object.keys(COMMUNITY_CONTRACTS))) {
+    for (var contract of Object.keys(ALL_CONTRACTS)) {
       var tokens: any = [];
       var iteration = 0;
       var offset = 20;

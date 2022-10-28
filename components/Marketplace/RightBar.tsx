@@ -3,7 +3,7 @@ import CollectionOfferButton from "./CollectionOfferButton";
 import Filters from "./Filters";
 
 const Container = styled.div`
-  margin-top: var(--sp1);
+  margin-top: var(--sp3);
   height: calc(100% - var(--sp1));
   max-height: calc(100% - var(--sp1));
 

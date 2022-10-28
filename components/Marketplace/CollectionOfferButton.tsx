@@ -2,20 +2,22 @@ import styled from "@emotion/styled";
 import { isTraitOffer } from "./marketplaceHelpers";
 
 const CollectionOffer = styled.div`
-  background: var(--midGray);
-  border-style: dashed;
-  border-radius: 20px;
-  border-color: var(--midGray);
-  border-width: 1px;
+  background-color: var(--darkGray);
+  border-image: url(/static/img/button-frame.png);
+  border-style: solid;
+  border-width: calc(var(--sp0) / 1.05);
+  border-image-slice: 46 42 46 42;
 
   font-family: Terminal;
+  color: var(--white);
 
-  padding: var(--sp0);
+  padding: var(--sp-4);
+  padding-left: var(--sp-2);
 
   :hover {
-    background: var(--darkGray);
-    border-color: var(--darkGray);
-    color: var(--white);
+    background-color: var(--mediumGray);
+    border-color: var(--lightGray);
+    color: white;
     cursor: pointer;
   }
 

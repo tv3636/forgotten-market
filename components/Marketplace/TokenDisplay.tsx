@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { MARKETS } from "./marketplaceConstants";
 import Link from "next/link";
-import { getContract, SoftLink } from "./marketplaceHelpers";
+import { getContract, getImage, SoftLink } from "./marketplaceHelpers";
 import styled from "@emotion/styled";
 import wizards from "../../data/wizards.json";
 import warriors from "../../data/warriors.json";
@@ -180,21 +180,18 @@ export default function TokenDisplay({
   source: string;
 }) {
   let contractDict = getContract(contract);
-
-  console.log(contractDict.display == 'Beasts' && tokenId == 0, contractDict.display == 'Beasts', tokenId)
-  let image = contractDict.display == 'Wizards' ? 
-    `${contractDict.image_url}${tokenId}/${tokenId}.png` : 
-    `${contractDict.image_url}${tokenId}.${(contractDict.display == 'Beasts' && tokenId == 0) ? 'gif' : 'png'}`;
-
-  console.log(image);
+  let image = getImage(contract, tokenId);
+  let hasTurnaround = ['Wizards', 'Ponies', 'Souls'].includes(contractDict.display);
 
   let turnaround = contractDict.display == 'Wizards' ? 
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
-    `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
+    contractDict.display == 'Souls' ?
+      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
+      `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
 
   // Preload turnaround GIFs
   useEffect(() => {
-    if (['Wizards', 'Ponies'].includes(contractDict.display)) {
+    if (hasTurnaround) {
       const img = new Image().src = turnaround;
     }
   }, []);
@@ -211,7 +208,7 @@ export default function TokenDisplay({
             { background: collectionData[contractDict.display][tokenId].background } : {}
         }
       >
-        { contractDict.display == 'Wizards' || contractDict.display == 'Ponies' ?
+        { hasTurnaround ?
           <ListingImage 
             src={image}
             onMouseOver={(e) =>
