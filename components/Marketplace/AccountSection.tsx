@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styled from "@emotion/styled";
-import { getContract, SoftLink } from "./marketplaceHelpers";
+import { getContract, getImage, SoftLink } from "./marketplaceHelpers";
 
 const Title = styled.div`
   font-size: var(--sp1);
@@ -104,7 +104,6 @@ export default function AccountSection({
         {tokens.map((token: any, index: number) => {
           var thisContract = contract ? contract : token.contract;
           var thisTokenId = contract ? token.token.tokenId : token.tokenSetId.split(':')[2];
-          let contractDict = getContract(thisContract);
           return (
             <div key={index}>
               <Link 
@@ -114,10 +113,7 @@ export default function AccountSection({
                 <SoftLink>
                   <div style={{display: 'flex', flexDirection: 'column'}}>
                     <TokenImage 
-                      src={ contractDict.display == 'Wizards' ? 
-                        `${contractDict.image_url}${thisTokenId}/${thisTokenId}.png` :
-                        `${contractDict.image_url}${thisTokenId}.png`
-                      }
+                      src={getImage(thisContract, thisTokenId)}
                       height={100} 
                       width={100} 
                     />

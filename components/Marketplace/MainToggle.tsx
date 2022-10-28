@@ -25,13 +25,18 @@ const ToggleButton = styled.div`
 
   width: 17ch;
 
-  padding-left: var(--sp1);
-  padding-right: var(--sp1);
-  padding-top: var(--sp-3);
-  padding-bottom: var(--sp-3);
+  padding-left: var(--sp-1);
+  padding-right: var(--sp-1);
+  padding-top: 0;
+  padding-bottom: 0;
 
   background-color: var(--mediumGray);
   box-shadow: 0px 4px var(--darkGray);
+
+  border-image: url(/static/img/button-frame.png);
+  border-style: solid;
+  border-width: var(--sp-1);
+  border-image-slice: 46 42 46 42;
 
   :hover {
     background-color: var(--darkGray);

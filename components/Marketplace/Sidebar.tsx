@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from "next/router";
 import RuneHeader from "./RuneHeader";
 import { getContract } from "./marketplaceHelpers";
-import { COMMUNITY_CONTRACTS, CONTRACTS } from "./marketplaceConstants";
+import { BEAST_CONTRACTS, CHARACTER_CONTRACTS, COMMUNITY_CONTRACTS, CONTRACTS, ITEM_CONTRACTS, MOUNT_CONTRACTS } from "./marketplaceConstants";
 
 const headers: HeadersInit = new Headers();
 headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
@@ -14,10 +14,10 @@ const Container = styled.div`
   flex-direction: column;
   overflow: scroll;
 
-  margin-top: var(--sp1);
+  margin-top: var(--sp3);
 
   max-width: var(--sidebar);
-  min-width: var(--sidebar);
+  min-width: calc(var(--sidebar) / 1.1);
 
   ::-webkit-scrollbar {
     display: none;
@@ -35,7 +35,7 @@ const MobileContainer = styled.div`
 `;
 
 const Collections = styled.div`
-  margin-bottom: var(--sp1);
+  margin-bottom: var(--sp-1);
 `;
 
 const CollectionWrapper = styled.div`
@@ -69,18 +69,59 @@ const CollectionWrapper = styled.div`
 
 const CollectionIcon = styled.div`
   opacity: 0;
-  transition: all 250ms;
+  transition: all 150ms;
 `;
 
 const CollectionName = styled.div`
   padding: var(--sp-5);
-  font-size: var(--sp2);
+  padding-top: calc(var(--sp-5) / 1.25);
+  padding-bottom: calc(var(--sp-5) / 1.25);
+  font-size: var(--sp1);
   transform: translateX(-2ch);
 
-  transition: all 250ms;
+  transition: all 200ms;
 
   @media only screen and (max-width: 1250px) {
     transform: none;
+  }
+`;
+
+const HeaderWrap = styled.div`
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 40 50;
+  border-image-width: calc(var(--frameSize) / 1.25);
+  border-style: solid;
+  border-image-repeat: round;
+
+  background-color: var(--darkGray);
+
+  padding: var(--sp0) var(--sp0);  
+`;
+
+const SectionWrap = styled.div`
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 40 50;
+  border-image-width: calc(var(--frameSize) / 1.25);
+  border-style: solid;
+  border-image-repeat: round;
+
+  margin-bottom: var(--sp1);
+  background-color: var(--darkGray);
+  padding: var(--sp-1);
+`;
+
+const BlockWrap = styled.div`
+  margin-top: var(--sp-4);
+`;
+
+const NameWrap = styled.div`
+  display: flex;
+  justify-content: center;
+
+  margin-left: var(--sp0);
+
+  @media only screen and (max-width: 1250px) {
+    margin-left: 0;
   }
 `;
 
@@ -96,7 +137,7 @@ function Collection({
   let contractDict = getContract(contract);
   
   return (
-    <div>
+    <NameWrap>
       <Link href={`/${ contract }${ 'activity' in router.query ? `?activity=${router.query.activity}` : ''}`}>
         <CollectionWrapper onClick={() => setBurgerActive(false)}>
           <CollectionIcon className={`icon${ active ? ' active' : ''} desktop`}>
@@ -112,7 +153,30 @@ function Collection({
             </CollectionName>
         </CollectionWrapper>
       </Link>
-    </div>
+    </NameWrap>
+  )
+}
+
+function CollectionBlock({
+  contracts,
+  name,
+  setBurgerActive,
+}: {
+  contracts: string[];
+  name: string;
+  setBurgerActive: (active: boolean) => void;
+}) {
+  return (
+    <BlockWrap>
+      <RuneHeader plaintext={false} home={true}>{name}</RuneHeader>
+      <Collections>
+      {
+        Object.keys(contracts).map((contract: string, index) => (
+          <Collection key={index} contract={contract} setBurgerActive={setBurgerActive} />
+        ))
+      }
+      </Collections>
+    </BlockWrap>
   )
 }
 
@@ -125,22 +189,27 @@ export function CollectionContainer({
 }: Props) {
   return (
     <MobileContainer>
-      <RuneHeader>OFFICIAL COLLECTIONS</RuneHeader>
-      <Collections>
-      {
-        Object.keys(CONTRACTS).map((contract: string, index) => (
-          <Collection key={index} contract={contract} setBurgerActive={setBurgerActive} />
-        ))
-      }
-      </Collections>
-      <RuneHeader>COMMUNITY COLLECTIONS</RuneHeader>
-      <Collections>
-      {
-        Object.keys(COMMUNITY_CONTRACTS).map((contract: string, index) => (
-          <Collection key={index} contract={contract} setBurgerActive={setBurgerActive} />
-        ))
-      }
-      </Collections>
+      <HeaderWrap>
+        <RuneHeader plaintext={true} home={true}>OFFICIAL COLLECTIONS</RuneHeader>
+      </HeaderWrap>
+      <SectionWrap>
+        <CollectionBlock contracts={CHARACTER_CONTRACTS} name={'CHARACTERS'} setBurgerActive={setBurgerActive}/>
+        <CollectionBlock contracts={MOUNT_CONTRACTS} name={'MOUNTS'} setBurgerActive={setBurgerActive}/>
+        <CollectionBlock contracts={BEAST_CONTRACTS} name={'BEASTS'} setBurgerActive={setBurgerActive}/>
+        <CollectionBlock contracts={ITEM_CONTRACTS} name={'ITEMS'} setBurgerActive={setBurgerActive}/>
+      </SectionWrap>
+      <HeaderWrap>
+        <RuneHeader plaintext={true} home={true}>COMMUNITY COLLECTIONS</RuneHeader>
+      </HeaderWrap>
+      <SectionWrap>
+        <Collections>
+        {
+          Object.keys(COMMUNITY_CONTRACTS).map((contract: string, index) => (
+            <Collection key={index} contract={contract} setBurgerActive={setBurgerActive} />
+          ))
+        }
+        </Collections>
+      </SectionWrap>
     </MobileContainer>
   )
 }

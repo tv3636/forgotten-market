@@ -19,6 +19,11 @@ const HeaderWrapper = styled.div`
   margin-left: var(--sp3);
   margin-right: var(--sp3);
   margin-top: var(--sp1);
+
+  @media only screen and (max-width: 1450px) {
+    margin-left: var(--sp0);
+    margin-right: var(--sp0);
+  }
   
   @media only screen and (max-width: 1250px) {
     margin-top: var(--sp1);
@@ -47,7 +52,7 @@ const Menu = styled.div`
     justify-content: auto;
     align-items: center;
 
-    margin-bottom: var(--sp1);
+    
   }
 `;
 
@@ -60,10 +65,14 @@ const MenuItem = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  width: 180px;
-  height: 59px;
+  width: var(--sidebar);
+  
+  @media only screen and (max-width: 1450px) {
+    width: calc(var(--sidebar) / 1.1);
+  }
   
   @media only screen and (max-width: 1250px) {
+    width: 180px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -86,6 +95,18 @@ const Burger = styled.div`
 
 const FilterContainer = styled.div`
   height: 25px;
+`;
+
+const MobileWrapper = styled.div`
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 40 50;
+  border-image-width: calc(var(--frameSize) / 1.25);
+  border-style: solid;
+  border-image-repeat: round;
+
+  margin-bottom: var(--sp1);
+  background-color: var(--darkGray);
+  padding: var(--sp-1);
 `;
 
 export function MainMenu({
@@ -173,8 +194,10 @@ export default function SiteNav({
             }
          </FilterContainer>
         <MobileOverlay burgerActive={burgerActive} setBurgerActive={setBurgerActive}>
-          <RuneHeader>NAVIGATION</RuneHeader>
-          <MainMenu className="mobile"/>
+          <MobileWrapper>
+            <RuneHeader plaintext={false} home={true}>NAVIGATION</RuneHeader>
+            <MainMenu className="mobile"/>
+          </MobileWrapper>
           <CollectionContainer setBurgerActive={setBurgerActive} />
         </MobileOverlay>
       

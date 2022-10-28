@@ -192,6 +192,16 @@ export function getContract(contract: string) {
   return contract in CONTRACTS ? CONTRACTS[contract] : COMMUNITY_CONTRACTS[contract];
 }
 
+export function getImage(contract: string, tokenId: number | string) {
+  let contractDict = getContract(contract);
+
+  return contractDict.display == 'Wizards' ? 
+  `${contractDict.image_url}${tokenId}/${tokenId}.png` : 
+  contractDict.image_url.indexOf('https://portal.forgottenrunes') == 0 ? 
+    `${contractDict.image_url}${tokenId}` :
+    `${contractDict.image_url}${tokenId}.png`;
+}
+
 // Get display bid value (price before fees)
 export function getDisplayBid(bid: number, contract: string) {
   let feePercent = (10000 - Number(getContract(contract).fee)) / 10000;

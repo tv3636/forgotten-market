@@ -78,7 +78,8 @@ export const MARKETS: any = {
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
   "https://api.reservoir.tools/" : "https://api-rinkeby.reservoir.tools/";
 
-export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ? {
+
+export const CHARACTER_CONTRACTS: any = {
   "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
     collection: "forgottenruneswizardscult",
     display: "Wizards",
@@ -111,6 +112,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882',
     coreTraits: ['Undesirable', 'Head', 'Body', 'Familiar', 'Prop', 'Rune', 'Background'],
   },
+}
+
+export const MOUNT_CONTRACTS: any = {
   "0xf55b615b479482440135ebf1b907fd4c37ed9420": {
     collection: "forgottenrunesponies",
     display: "Ponies",
@@ -122,6 +126,9 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     feeRecipient: '0x94F0e012B7BB033F32029FbCC4f1d29ff1CfC30a',
     coreTraits: ['Head', 'Pony', 'Clothes', 'Mouth', 'Rune'],
   },
+}
+
+export const ITEM_CONTRACTS: any = {
   "0x31158181b4b91a423bfdc758fc3bf8735711f9c5": {
     collection: "infinityveil",
     display: "Flames",
@@ -132,12 +139,30 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     fee: '816',
     feeRecipient: '0xCfd61fb650DA1DD7B8f7Bc7aD0d105B40bBD3882',
   },
-  "0x8634c23d5794ed177e9ffd55b22fdb80a505ab7b": {
-    collection: "forgottenrunesbeasts",
-    display: "Beasts",
-    singular: "Beast",
-    full: "Forgotten Runes Beasts",
-    image_url: "https://portal.forgottenrunes.com/api/beasts/img/",
+  "0x59775fd5f266c216d7566eb216153ab8863c9c84": {
+    collection: "nightmareimpstreatboxes",
+    display: "Boxes",
+    singular: "Box",
+    full: "Nightmare Imp's Treat Boxes",
+    image_url: "https://portal.forgottenrunes.com/api/halloween/boxes/img/",
+    fee: '750',
+    feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
+  },
+  "0x7c104b4db94494688027cced1e2ebfb89642c80f": {
+    collection: "athenaeum",
+    display: "Treats",
+    singular: "Treat",
+    full: "Forgotten Runes Athenaeum",
+    image_url: "https://portal.forgottenrunes.com/api/treats/img/",
+    fee: '750',
+    feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
+  },
+  "0x5f48045f3a1a19ab9985418869f77612cfa752d6": {
+    collection: "nightmareimpstricks",
+    display: "Tricks",
+    singular: "Trick",
+    full: "Nightmare Imp's Tricks",
+    image_url: "https://portal.forgottenrunes.com/api/tricks/img/",
     fee: '750',
     feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
   },
@@ -150,6 +175,19 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     fee: '827',
     feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
   },
+}
+
+export const BEAST_CONTRACTS: any = {  
+  "0x8634c23d5794ed177e9ffd55b22fdb80a505ab7b": {
+    collection: "forgottenrunesbeasts",
+    display: "Beasts",
+    singular: "Beast",
+    full: "Forgotten Runes Beasts",
+    image_url: "https://portal.forgottenrunes.com/api/beasts/img/",
+    fee: '750',
+    feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
+  },
+  
   "0x7de11a2d9e9727fa5ead3094e40211c5e9cf5857": {
     collection: "forgottenrunesbeastspawn",
     display: "Spawn",
@@ -159,38 +197,14 @@ export const CONTRACTS: any = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID)
     fee: '750',
     feeRecipient: '0xa708b04D686372D3E81536Ad71535F562E746A5a'
   }
-} : {
-  "0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42": {
-    collection: "forgottenruneswizardscult",
-    display: "Wizards",
-    singular: "Wizard",
-    full: "Forgotten Runes Wizard's Cult",
-    image_url: "https://runes-turnarounds.s3.amazonaws.com/",
-    ABI: WIZARDS_ABI,
-    fee: '400',
-    feeRecipient: '0xbd896505c48f085e0682087c3d55febbd6e58aae'
-  },
-  "0x95082b505c0752eef1806aef2b6b2d55eea77e4e": {
-    collection: "forgottensouls",
-    display: "Souls",
-    singular: "Soul",
-    full: "Forgotten Souls",
-    image_url: "https://portal.forgottenrunes.com/api/souls/img/",
-    ABI: SOULS_ABI,
-    fee: '816',
-    feeRecipient: '0x7761edb1d12b05a0ab2eaa6bb1d4b469aab59205'
-  },
-  "0x5020c6460b0b26a69c6c0bb8d99ed314f3c39d9e": {
-    collection: "forgottenrunesponies",
-    display: "Ponies",
-    singular: "Pony",
-    full: "Forgotten Runes Ponies",
-    image_url: "https://portal.forgottenrunes.com/api/shadowfax/img/",
-    ABI: PONIES_ABI,
-    fee: '594',
-    feeRecipient: '0x7d1346757b353a8ff47a3493885d8201f4d24caf'
-  }
-};
+}
+
+export const CONTRACTS: any = Object.assign({}, 
+  CHARACTER_CONTRACTS, 
+  MOUNT_CONTRACTS, 
+  BEAST_CONTRACTS, 
+  ITEM_CONTRACTS
+);
 
 export const COMMUNITY_CONTRACTS: any = {
   "0x5a79182165a2917ef9cccf33f472fe22afffeff8": {
@@ -230,6 +244,8 @@ export const COMMUNITY_CONTRACTS: any = {
     feeRecipient: '0x19dcef0cb5e71c95683bbdf21394f505c4eaece9'
   }
 }
+
+export const ALL_CONTRACTS: any = Object.assign({}, CONTRACTS, COMMUNITY_CONTRACTS);
 
 export const LOCATIONS: any = {
   "Cuckoo Land": [5.6, 5.3],

@@ -4,7 +4,7 @@ import Layout from "../../components/Marketplace/Layout";
 import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
-import { getContract, getPages, getValue } from "../../components/Marketplace/marketplaceHelpers";
+import { getContract, getImage, getPages, getValue } from "../../components/Marketplace/marketplaceHelpers";
 import { API_BASE_URL, ORDER_TYPE } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
@@ -292,6 +292,7 @@ const ListingPage = ({
   const [offer, setOffer] = useState<any>({});
   const [attributes, setAttributes] = useState<any>([]);
   const [fullAttributes, setFullAttributes] = useState<any>([]);
+  const [loaded, setLoaded] = useState(false);
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
@@ -305,9 +306,7 @@ const ListingPage = ({
   let contractDict = getContract(contractSlug);
 
   const imageUrls: string[] = [
-    contractDict.display == 'Wizards' ? 
-    contractDict.image_url + tokenId + '/' + tokenId + '.png' : 
-    contractDict.image_url + tokenId + (contractDict.display == 'Beasts' && tokenId == '0' ? ".gif" : ".png") ,
+    getImage(contractSlug, tokenId) ,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
@@ -343,6 +342,7 @@ const ListingPage = ({
   
         const traitJson = await traits.json();
         setFullAttributes(traitJson.attributes);
+        setLoaded(true);
 
         try {
           const provider = getProvider();
@@ -395,7 +395,7 @@ const ListingPage = ({
       image={imageUrls[0]}
     >
       <PageWrapper>
-        {Object.keys(listing).length > 0 && Object.keys(fullAttributes).length > 0 ? 
+        {loaded ? 
           <ListingWrapper>
             { modal && 
               <Order 
@@ -417,7 +417,7 @@ const ListingPage = ({
               />
             }
             <Listing>
-              <RuneHeader>
+              <RuneHeader plaintext={false} home={false}>
                 {`${contractDict.singular.toUpperCase()} #${tokenId}`}
               </RuneHeader>
                 <TopDisplay>
@@ -467,28 +467,30 @@ const ListingPage = ({
                 </TopDisplay>
               <HorizontalLine/>
               <SectionWrapper>
-                <BaseModule traitModule={true}>
-                  <RuneHeader>
-                    TRAITS
-                  </RuneHeader>
-                  <TraitDisplay 
-                    attributes={attributes} 
-                    fullAttributes={fullAttributes} 
-                    contract={contractSlug} 
-                    setHover={setTraitHover}
-                    filters={contractDict.coreTraits}
-                    showAll={['Wizards', 'Souls', 'Warriors'].includes(contractDict.display)}
-                  />
-                </BaseModule>
+                { attributes.length > 0 &&
+                  <BaseModule traitModule={true}>
+                    <RuneHeader plaintext={false} home={false}>
+                      TRAITS
+                    </RuneHeader>
+                    <TraitDisplay 
+                      attributes={attributes} 
+                      fullAttributes={fullAttributes} 
+                      contract={contractSlug} 
+                      setHover={setTraitHover}
+                      filters={contractDict.coreTraits}
+                      showAll={['Wizards', 'Souls', 'Warriors'].includes(contractDict.display)}
+                    />
+                  </BaseModule>
+                }
                 { ['Wizards', 'Souls', 'Warriors'].includes(contractDict.display) && 
                   !getValue(attributes, 'Undesirable') &&
                   <Column style={contractDict.display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
                     <BaseModule traitModule={false}>
-                      <RuneHeader>AFFINITY</RuneHeader>
+                      <RuneHeader plaintext={false} home={false}>AFFINITY</RuneHeader>
                       <Affinity attributes={attributes} fullAttributes={fullAttributes} />
                     </BaseModule>
                     <BaseModule traitModule={false}>
-                      <RuneHeader>BIO</RuneHeader>
+                      <RuneHeader plaintext={false} home={false}>BIO</RuneHeader>
                       <Bio 
                         attributes={attributes} 
                         fullAttributes={fullAttributes}
@@ -503,7 +505,7 @@ const ListingPage = ({
                 <SectionWrapper>
                   <BottomDisplay>
                     <LoreWrapper>
-                    <RuneHeader>LORE</RuneHeader>
+                    <RuneHeader plaintext={false} home={false}>LORE</RuneHeader>
                       <LoreBlock 
                         pages={pages} 
                         length={lore.length} 
