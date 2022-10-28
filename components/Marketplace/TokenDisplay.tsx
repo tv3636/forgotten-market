@@ -172,15 +172,17 @@ export default function TokenDisplay({
   name,
   price,
   source,
+  image_url,
 }: {
   contract: string;
   tokenId: number;
   name: string;
   price: number;
   source: string;
+  image_url: string;
 }) {
   let contractDict = getContract(contract);
-  let image = getImage(contract, tokenId);
+  let image = image_url || getImage(contract, tokenId);
   let hasTurnaround = ['Wizards', 'Ponies', 'Souls'].includes(contractDict.display);
 
   let turnaround = contractDict.display == 'Wizards' ? 

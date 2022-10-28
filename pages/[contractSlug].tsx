@@ -309,6 +309,7 @@ export default function Marketplace({
                       >
                         <ScrollContainer>
                           {listings.map((listing: any, index) => {
+                            console.log(listing);
                             return (
                               ((!hasLore && !hasNoLore) ||
                                 (hasLore &&
@@ -324,6 +325,7 @@ export default function Marketplace({
                                     name={listing.token.name}
                                     price={listing.market.floorAsk.price}
                                     source={listing.market.floorAsk.source.id}
+                                    image_url={listing.token.image}
                                   />
                                 </div>
                               )
