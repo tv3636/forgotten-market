@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import ReactTimeAgo from 'react-time-ago';
 import TimeAgo from 'javascript-time-ago';
-import { getContract, SoftLink } from "./marketplaceHelpers";
+import { getContract, getImage, SoftLink } from "./marketplaceHelpers";
 import en from 'javascript-time-ago/locale/en.json';
 import Link from "next/link";
 import { MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
@@ -279,9 +279,7 @@ export default function ActivityRow({
       >
         <SoftLink>
           <ActivityImage 
-            src={contractDict.display == 'Wizards' ? 
-              `${contractDict.image_url}${tokenId}/${tokenId}.png` : 
-              `${contractDict.image_url}${tokenId}.png`}
+            src={getImage(contract, tokenId)}
           /> 
         </SoftLink>
       </Link>
