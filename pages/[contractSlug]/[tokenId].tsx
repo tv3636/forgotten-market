@@ -305,7 +305,7 @@ const ListingPage = ({
   const { account } = useEthers();
   let contractDict = getContract(contractSlug);
 
-  const imageUrls: string[] = [
+  let imageUrls: string[] = [
     getImage(contractSlug, tokenId),
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
@@ -313,6 +313,17 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-3-right.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
+
+  if (contractDict.display == 'Souls') {
+    imageUrls = [
+      getImage(contractSlug, tokenId),
+      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-0-front.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-1-left.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-2-back.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-3-right.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/${tokenId}-walkcycle-nobg.gif`
+    ]
+  }
 
   var backgroundColor = contractDict.display in collectionData && tokenId in collectionData[contractDict.display] ? 
   `${collectionData[contractDict.display][tokenId].background}` : '#000000';
@@ -436,7 +447,7 @@ const ListingPage = ({
                         contract={contractSlug}
                         keyImage={keyImage}
                     />
-                    { contractDict.display == 'Wizards' && 
+                    { ['Wizards', 'Souls'].includes(contractDict.display) && 
                       <Carousel 
                         keyImage={keyImage}
                         setKeyImage={setKeyImage}
