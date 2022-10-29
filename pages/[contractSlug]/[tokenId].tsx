@@ -277,6 +277,34 @@ const Column = styled.div`
   }
 `;
 
+const Module = styled.div`
+  border-image-source: url(/static/img/moduleframe.png);
+  border-image-slice: 30 35;
+  border-image-width: var(--frameSize);
+  border-style: solid;
+  border-image-repeat: round;
+
+  padding: var(--sp1);
+
+  width: 100%;
+  margin-bottom: var(--sp0);
+
+  background-color: var(--darkGray);
+
+  @media only screen and (max-width: 600px) {
+   max-width: 80%;
+  }
+`;
+
+const Banner = styled.div`
+  font-family: Alagard;
+  font-size: var(--sp1);
+  color: var(--white);
+
+  display: flex;
+  justify-content: center;
+`;
+
 
 const ListingPage = ({
   contractSlug,
@@ -302,6 +330,7 @@ const ListingPage = ({
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
   const [traitHover, setTraitHover] = useState('');
+  const [hasClaim, setHasClaim] = useState(false);
   const { account } = useEthers();
   let contractDict = getContract(contractSlug);
 
@@ -352,10 +381,30 @@ const ListingPage = ({
         );
   
         const traitJson = await traits.json();
-        setFullAttributes(traitJson.attributes);
-        setLoaded(true);
+        setFullAttributes(traitJson.attributes);        
 
         console.log(traitJson);
+
+        // Check for Halloween claim
+        if (['Wizards', 'Souls', 'Warriors'].includes(contractDict.display)) {          
+          try  {
+            const eligibleFromOwner = await fetch(`https://portal.forgottenrunes.com/api/halloween/eligibletokens/${listingsJson.tokens[0].token.owner}`);
+            const eligible = await eligibleFromOwner.json();
+
+            for (var token of eligible) {
+              if (token.tokenId == tokenId) {
+                setHasClaim(true);
+                console.log('can claim');
+              }
+            }      
+
+            setLoaded(true);
+          } catch (e) {
+
+          }        
+        } else {
+          setLoaded(true);
+        }
 
         try {
           const provider = getProvider();
@@ -483,6 +532,20 @@ const ListingPage = ({
                   </TopRight>
                 </TopDisplay>
               <HorizontalLine/>
+              { hasClaim &&
+                <SectionWrapper>
+                  <Module>
+                    <RuneHeader plaintext={false} home={false}>
+                        TRICK OR TREAT
+                    </RuneHeader>
+                    <Banner>
+                      <a href='https://www.forgottenrunes.com/nightmareimp' target='_blank'>
+                        TRICK OR TREAT AVAILABLE!
+                      </a>
+                    </Banner>
+                  </Module>
+                </SectionWrapper>
+              }
               <SectionWrapper>
                 { attributes.length > 0 &&
                   <BaseModule traitModule={true}>
