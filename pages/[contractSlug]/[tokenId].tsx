@@ -563,12 +563,14 @@ const ListingPage = ({
                   </BaseModule>
                 }
                 { ['Wizards', 'Souls', 'Warriors'].includes(contractDict.display) && 
-                  !getValue(attributes, 'Undesirable') &&
+                  !getValue(attributes, 'Undesirable') &&                  
                   <Column style={contractDict.display == 'Warriors' ? {justifyContent: 'flex-start'} : {}}>
-                    <BaseModule traitModule={false}>
-                      <RuneHeader plaintext={false} home={false}>AFFINITY</RuneHeader>
-                      <Affinity attributes={attributes} fullAttributes={fullAttributes} />
-                    </BaseModule>
+                    { getValue(attributes, 'Affinity') &&
+                      <BaseModule traitModule={false}>
+                        <RuneHeader plaintext={false} home={false}>AFFINITY</RuneHeader>
+                        <Affinity attributes={attributes} fullAttributes={fullAttributes} />
+                      </BaseModule>
+                    }
                     <BaseModule traitModule={false}>
                       <RuneHeader plaintext={false} home={false}>BIO</RuneHeader>
                       <Bio 
