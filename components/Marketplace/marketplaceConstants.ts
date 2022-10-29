@@ -242,6 +242,15 @@ export const COMMUNITY_CONTRACTS: any = {
     image_url: "https://forgottenpunks.vercel.app/api/img/",
     fee: '750',
     feeRecipient: '0x19dcef0cb5e71c95683bbdf21394f505c4eaece9'
+  },
+  "0x4715be0c5e9bcfe1382da60cff69096af4c4eef4" : {
+    collection: "desert-bestiary",
+    display: "Barren Court",
+    singular: "Beast",
+    full: "The Barren Court: Desert Bestiary",
+    image_url: "",
+    fee: '500',
+    feeRecipient: '0x9b63e090ca2dc9581d24267417ddfc6dbdf12e30'
   }
 }
 

@@ -104,6 +104,7 @@ export default function AccountSection({
         {tokens.map((token: any, index: number) => {
           var thisContract = contract ? contract : token.contract;
           var thisTokenId = contract ? token.token.tokenId : token.tokenSetId.split(':')[2];
+          console.log(token);
           return (
             <div key={index}>
               <Link 
@@ -113,7 +114,7 @@ export default function AccountSection({
                 <SoftLink>
                   <div style={{display: 'flex', flexDirection: 'column'}}>
                     <TokenImage 
-                      src={getImage(thisContract, thisTokenId)}
+                      src={getImage(thisContract, thisTokenId, token.token?.image)}
                       height={100} 
                       width={100} 
                     />

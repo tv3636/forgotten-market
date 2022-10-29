@@ -306,7 +306,7 @@ const ListingPage = ({
   let contractDict = getContract(contractSlug);
 
   const imageUrls: string[] = [
-    getImage(contractSlug, tokenId) ,
+    getImage(contractSlug, tokenId),
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-0-front.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-1-left.png`,
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/400/turnarounds/wizards-${tokenId}-2-back.png`,
@@ -425,7 +425,11 @@ const ListingPage = ({
                 <TopDisplay>
                   <TopLeft>
                     <ImageWithTraits
-                        source={contractSlug in ITEM_CONTRACTS ? token.image : imageUrls[keyImage]}
+                        source={
+                          contractSlug in ITEM_CONTRACTS || contractSlug == '0x4715be0c5e9bcfe1382da60cff69096af4c4eef4' ? 
+                            token.image : 
+                            imageUrls[keyImage]
+                          }
                         background={backgroundColor}
                         traitHover={traitHover}
                         attributes={attributes}

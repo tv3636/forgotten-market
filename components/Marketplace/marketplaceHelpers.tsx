@@ -1,6 +1,6 @@
 import { Weth } from "@reservoir0x/sdk/dist/common/helpers";
 import { BigNumber, Signer } from "ethers";
-import { COMMUNITY_CONTRACTS, CONTRACTS, NON_TRAITS } from "./marketplaceConstants";
+import { COMMUNITY_CONTRACTS, CONTRACTS, ITEM_CONTRACTS, NON_TRAITS } from "./marketplaceConstants";
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { hydratePageDataFromMetadata } from "../Lore/markdownUtils";
@@ -192,7 +192,11 @@ export function getContract(contract: string) {
   return contract in CONTRACTS ? CONTRACTS[contract] : COMMUNITY_CONTRACTS[contract];
 }
 
-export function getImage(contract: string, tokenId: number | string) {
+export function getImage(contract: string, tokenId: number | string, image_url?: string) {
+  if (image_url && (contract in ITEM_CONTRACTS || contract == '0x4715be0c5e9bcfe1382da60cff69096af4c4eef4')) {
+    return image_url;
+  }
+  
   let contractDict = getContract(contract);
 
   return contractDict.display == 'Wizards' ? 
