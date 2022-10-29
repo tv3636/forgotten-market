@@ -77,6 +77,7 @@ const CollectionName = styled.div`
   padding-top: calc(var(--sp-5) / 1.25);
   padding-bottom: calc(var(--sp-5) / 1.25);
   font-size: var(--sp1);
+  text-align: center;
   transform: translateX(-2ch);
 
   transition: all 200ms;

@@ -53,7 +53,8 @@ export const MARKET_ICONS_BY_NAME: any = {
   'LooksRare': '/static/img/icons/nav/looksrare_default.png',
   'X2Y2': '/static/img/icons/nav/x2y2_default.png',
   'Buy, Sell, and Swap NFTs Instantly | NFTX': '/static/img/icons/nav/nftx_default.png',
-  'sudoswap': '/static/img/icons/nav/sudoswap_default.png'
+  'sudoswap': '/static/img/icons/nav/sudoswap_default.png',
+  'blur.io': '/static/img/icons/nav/blur_default.png'
 }
 
 export const MARKETS: any = {
