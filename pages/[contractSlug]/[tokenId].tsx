@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { getContract, getImage, getPages, getValue } from "../../components/Marketplace/marketplaceHelpers";
-import { API_BASE_URL, ORDER_TYPE } from "../../components/Marketplace/marketplaceConstants";
+import { API_BASE_URL, ITEM_CONTRACTS, ORDER_TYPE } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
 import { useEthers } from "@usedapp/core";
 import countdown from "countdown";
@@ -344,6 +344,8 @@ const ListingPage = ({
         setFullAttributes(traitJson.attributes);
         setLoaded(true);
 
+        console.log(traitJson);
+
         try {
           const provider = getProvider();
           var ensName = await provider.lookupAddress(listingsJson.tokens[0].token.owner);
@@ -423,7 +425,7 @@ const ListingPage = ({
                 <TopDisplay>
                   <TopLeft>
                     <ImageWithTraits
-                        source={imageUrls[keyImage]}
+                        source={contractSlug in ITEM_CONTRACTS ? token.image : imageUrls[keyImage]}
                         background={backgroundColor}
                         traitHover={traitHover}
                         attributes={attributes}

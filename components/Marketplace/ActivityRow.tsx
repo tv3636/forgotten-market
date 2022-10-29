@@ -4,7 +4,7 @@ import TimeAgo from 'javascript-time-ago';
 import { getContract, getImage, SoftLink } from "./marketplaceHelpers";
 import en from 'javascript-time-ago/locale/en.json';
 import Link from "next/link";
-import { MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
+import { ITEM_CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -259,7 +259,6 @@ export default function ActivityRow({
   contract: string;
   activity: any;
 }) {
-  const contractDict = getContract(contract);
   const tokenId = 'token' in activity ? activity.token.tokenId : activity.tokenSetId.split(':')[2];
   const name = 'token' in activity ? activity.token.name : activity.metadata.data.tokenName;
   const ethOrWeth = 'token' in activity && !(activity.orderSide == 'ask') ? 'weth' : 'eth';
@@ -279,7 +278,7 @@ export default function ActivityRow({
       >
         <SoftLink>
           <ActivityImage 
-            src={getImage(contract, tokenId)}
+            src={contract in ITEM_CONTRACTS ? activity.token.image : getImage(contract, tokenId)}
           /> 
         </SoftLink>
       </Link>
