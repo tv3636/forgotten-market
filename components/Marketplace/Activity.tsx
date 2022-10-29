@@ -40,7 +40,7 @@ const HorizontalLine = styled.hr`
 
 const ActivityWrapper = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: min(800px, 90%);
 
   @media only screen and (max-width: 1250px) {
     width: 100%;
