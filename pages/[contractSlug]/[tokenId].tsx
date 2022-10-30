@@ -343,14 +343,15 @@ const ListingPage = ({
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif`
   ]
 
-  if (contractDict.display == 'Souls') {
+  if (contractDict.display == 'Souls' || contractDict.display == 'Warriors') {
+    let collection = contractDict.display.toLowerCase();
     imageUrls = [
       getImage(contractSlug, tokenId),
-      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-0-front.png`,
-      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-1-left.png`,
-      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-2-back.png`,
-      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/souls-${tokenId}-3-right.png`,
-      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/${tokenId}-walkcycle-nobg.gif`
+      `https://runes-turnarounds.s3.amazonaws.com/${collection}/${tokenId}/${collection}-${tokenId}-0-front.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/${collection}/${tokenId}/${collection}-${tokenId}-1-left.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/${collection}/${tokenId}/${collection}-${tokenId}-2-back.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/${collection}/${tokenId}/${collection}-${tokenId}-3-right.png`,
+      `https://runes-turnarounds.s3.amazonaws.com/${collection}/${tokenId}/${tokenId}-walkcycle-nobg.gif`
     ]
   }
 
@@ -496,7 +497,7 @@ const ListingPage = ({
                         contract={contractSlug}
                         keyImage={keyImage}
                     />
-                    { ['Wizards', 'Souls'].includes(contractDict.display) && 
+                    { ['Wizards', 'Souls', 'Warriors'].includes(contractDict.display) && 
                       <Carousel 
                         keyImage={keyImage}
                         setKeyImage={setKeyImage}

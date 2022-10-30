@@ -183,12 +183,12 @@ export default function TokenDisplay({
 }) {
   let contractDict = getContract(contract);
   let image = getImage(contract, tokenId, image_url);
-  let hasTurnaround = ['Wizards', 'Ponies', 'Souls'].includes(contractDict.display);
+  let hasTurnaround = ['Wizards', 'Ponies', 'Souls', 'Warriors'].includes(contractDict.display);
 
   let turnaround = contractDict.display == 'Wizards' ? 
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
-    contractDict.display == 'Souls' ?
-      `https://runes-turnarounds.s3.amazonaws.com/souls/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
+    contractDict.display == 'Souls' || contractDict.display == 'Warriors' ?
+      `https://runes-turnarounds.s3.amazonaws.com/${contractDict.display.toLowerCase()}/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
       `https://runes-turnarounds.s3.amazonaws.com/ponies/${tokenId}.gif`;
 
   // Use Reservoir for item images, for now
