@@ -330,7 +330,6 @@ const ListingPage = ({
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
   const [traitHover, setTraitHover] = useState('');
-  const [hasClaim, setHasClaim] = useState(false);
   const { account } = useEthers();
   let contractDict = getContract(contractSlug);
 
@@ -386,26 +385,7 @@ const ListingPage = ({
 
         console.log(traitJson);
 
-        // Check for Halloween claim
-        if (['Wizards', 'Souls', 'Warriors'].includes(contractDict.display)) {          
-          try  {
-            const eligibleFromOwner = await fetch(`https://portal.forgottenrunes.com/api/halloween/eligibletokens/${listingsJson.tokens[0].token.owner}`);
-            const eligible = await eligibleFromOwner.json();
-
-            for (var token of eligible) {
-              if (token.tokenId == tokenId) {
-                setHasClaim(true);
-                console.log('can claim');
-              }
-            }      
-
-            setLoaded(true);
-          } catch (e) {
-
-          }        
-        } else {
-          setLoaded(true);
-        }
+        setLoaded(true);
 
         try {
           const provider = getProvider();
@@ -532,21 +512,7 @@ const ListingPage = ({
                     />
                   </TopRight>
                 </TopDisplay>
-              <HorizontalLine/>
-              { hasClaim &&
-                <SectionWrapper>
-                  <Module>
-                    <RuneHeader plaintext={false} home={false}>
-                        TRICK OR TREAT
-                    </RuneHeader>
-                    <Banner>
-                      <a href='https://www.forgottenrunes.com/nightmareimp' target='_blank'>
-                        TRICK OR TREAT AVAILABLE!
-                      </a>
-                    </Banner>
-                  </Module>
-                </SectionWrapper>
-              }
+              <HorizontalLine/>              
               <SectionWrapper>
                 { attributes.length > 0 &&
                   <BaseModule traitModule={true}>
