@@ -2,18 +2,24 @@ import styled from '@emotion/styled';
 import { useEthers } from '@usedapp/core';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
-import { API_BASE_URL, OrderPaths, OrderURLs, ORDER_TYPE } from './marketplaceConstants';
+import { ORDER_TYPE } from './marketplaceConstants';
 import { getContract } from './marketplaceHelpers';
 import InfoTooltip from "../../components/Marketplace/InfoToolTip";
 import MarketConnect from "../../components/Marketplace/MarketConnect";
 import SetExpiration from './SetExpiration';
-import setParams from '../../lib/params';
 import SetPrice from './SetPrice';
 import ActionHeader from './ActionHeader';
 import GenericButton from './GenericButton';
-import { Execute, executeSteps } from '@reservoir0x/client-sdk';
+import { createClient, Execute, getClient } from '@reservoir0x/reservoir-sdk';
+import { JsonRpcSigner } from '@ethersproject/providers';
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
+
+createClient({
+  apiBase: "https://api.reservoir.tools",
+  apiKey: process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY,
+  source: "forgotten.market"
+});
 
 const OverlayWrapper = styled.div`
   position: fixed;
@@ -233,7 +239,6 @@ function OrderContent({
   const { library, account } = useEthers();
   const signer = library?.getSigner();
   const [step, setStep] = useState<any>(null);
-  const [steps, setSteps] = useState<Execute['steps']>();
   const [txn, setTxn] = useState('');
   const [price, setPrice] = useState('');
   const [showError, setShowError] = useState<any>(null);
@@ -246,7 +251,6 @@ function OrderContent({
       new Date().getDate() + 7)
   );
 
-  const url = new URL(OrderURLs[action], API_BASE_URL);
   const contractDict = getContract(contract);
 
   if (chainId != library?.network.chainId) {
@@ -265,21 +269,12 @@ function OrderContent({
     }
   }
 
-  async function execute(url: URL, signer: any, expectedPrice?: number) {
-    try {
-      await executeSteps(url, signer, setSteps, undefined, expectedPrice);
-    } catch (e) {
-      // Metamask rejection or other failure
-      setModal(false);
-    }
-  }
-
-  useEffect(() => { 
+  function stepUpdate(steps: any) {
     console.log(steps);
 
     if (steps) {
       for (var step of steps) {
-        if (step.status == 'incomplete') {
+        if (step.items[0]?.status == 'incomplete') {
 
           setTxn('');
           setStep(step);
@@ -291,55 +286,79 @@ function OrderContent({
           }
         }
       }
+
+      if (steps[steps.length - 1].items[0]?.status == 'complete') {
+        setModal(false);
+      }
     }
-  }, [steps]);
+  }
 
   useEffect(() => {
     async function run() {
-      let query: OrderPaths[typeof action];
-  
       switch(action) {
         case ORDER_TYPE.BUY:
-          query = {
-            token: `${contract}:${tokenId}`,
-            taker: await signer?.getAddress() ?? '',
+          try {
+            await getClient()?.actions.buyToken({
+              tokens: [{ tokenId: tokenId, contract: contract }],
+              signer: (signer as JsonRpcSigner),
+              onProgress: (steps: Execute['steps']) => {
+                stepUpdate(steps);
+              }
+            })
+          } catch (e) {
+            setModal(false);
           }
-          setParams(url, query);
-          await execute(url, signer, expectedPrice);
-  
-          setTimeout(() => {setModal(false)}, 2000);
+
+          setTimeout(() => {setModal(false)}, 2000);            
           break;
   
-        case ORDER_TYPE.ACCEPT_OFFER:
-           query = {
-            token: `${contract}:${tokenId}`,
-            taker: await signer?.getAddress() ?? '',
+        case ORDER_TYPE.ACCEPT_OFFER:     
+          /*     
+          Temporarily disabled while stale bid values are showing
+          try {
+            await getClient()?.actions.acceptOffer({
+              token: { tokenId: tokenId, contract: contract },
+              signer: (signer as JsonRpcSigner),
+              onProgress: (steps: Execute['steps']) => {
+                stepUpdate(steps);
+              }
+            })
+          } catch (e) {
+            setModal(false);
           }
-  
-          setParams(url, query);
-          await execute(url, signer, expectedPrice);
+          */
   
           setModal(false);
           break;
   
         case ORDER_TYPE.CANCEL_LISTING:
-          query = {
-            id: hash,
-            maker: account ?? '',
+          try {
+            await getClient()?.actions.cancelOrder({
+              id: hash,
+              signer: (signer as JsonRpcSigner),
+              onProgress: (steps: Execute['steps']) => {
+                stepUpdate(steps);
+              }
+            })
+          } catch(e) {
+            setModal(false);
           }
-          setParams(url, query);
-          await execute(url, signer);
   
           setModal(false);
           break;
   
         case ORDER_TYPE.CANCEL_OFFER:
-          query = {
-            id: offerHash,
-            maker: account ?? '',
+          try {
+            await getClient()?.actions.cancelOrder({
+              id: hash,
+              signer: (signer as JsonRpcSigner),
+              onProgress: (steps: Execute['steps']) => {
+                stepUpdate(steps);
+              }
+            })
+          } catch(e) {
+            setModal(false);
           }
-          setParams(url, query);
-          await execute(url, signer);
   
           setModal(false);
           break;
@@ -349,18 +368,31 @@ function OrderContent({
     run();
   }, []);
 
+  async function sell(query: any) {
+    try {
+      await getClient()?.actions.listToken({
+        listings: [query],
+        signer: (signer as JsonRpcSigner),
+        onProgress: (steps: Execute['steps']) => {
+          stepUpdate(steps);
+        }
+      })
+    } catch(e) {
+      setModal(false);
+    }
+  }
+
   // Kick off listing for sale or making offer
   //
   async function submitAction() {
     let query: any = {
-      maker: account,
       weiPrice: ethers.utils.parseEther(price).toString(),
       expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
       automatedRoyalties: false,
       fee: contractDict.fee,
       feeRecipient: contractDict.feeRecipient,
-      source: 'Forgotten Market',
       orderKind: 'seaport',
+      orderbook: 'reservoir',
     }
 
     if (collectionWide) {
@@ -374,41 +406,48 @@ function OrderContent({
       query.attributeValue = traitValue;
     }
 
-    setParams(url, query);
-    await execute(url, signer);
+    if (action == ORDER_TYPE.SELL) {
+      sell(query);
 
-    if (listOS) {
-      const os_url = new URL(OrderURLs[action], API_BASE_URL);
-      let os_query: any = {
-        token: `${contract}:${tokenId}`,
-        maker: account,
-        weiPrice: ethers.utils.parseEther(price).toString(),
-        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
-        orderbook: 'opensea',
-        orderKind: 'seaport',
+      if (listOS) {
+        let os_query: any = {
+          token: `${contract}:${tokenId}`,
+          weiPrice: ethers.utils.parseEther(price).toString(),
+          expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
+          orderbook: 'opensea',
+          orderKind: 'seaport',
+        }
+  
+        sell(os_query);
       }
-      
-      setParams(os_url, os_query);
-      await execute(os_url, signer);
-    }
-
-    if (listLR) {
-      const lr_url = new URL(OrderURLs[action], API_BASE_URL);
-      let lr_query: any = {
-        token: `${contract}:${tokenId}`,
-        maker: account,
-        weiPrice: ethers.utils.parseEther(price).toString(),
-        expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
-        orderbook: 'looks-rare',
-        orderKind: 'looks-rare'
+  
+      if (listLR) {
+        let lr_query: any = {
+          token: `${contract}:${tokenId}`,
+          maker: account,
+          weiPrice: ethers.utils.parseEther(price).toString(),
+          expirationTime: (Date.parse(expiration.toString()) / 1000).toString(),
+          orderbook: 'looks-rare',
+          orderKind: 'looks-rare'
+        }
+        
+        sell(lr_query);
       }
-      
-      setParams(lr_url, lr_query);
-      await execute(lr_url, signer);
+    } 
+
+    if (action == ORDER_TYPE.OFFER) {
+      try {
+        await getClient()?.actions.placeBid({
+          bids: [query],
+          signer: (signer as JsonRpcSigner),
+          onProgress: (steps: Execute['steps']) => {
+            stepUpdate(steps);
+          }
+        })
+      } catch(e) {
+        setModal(false);
+      }
     }
-
-    setModal(false);
-
   }
 
   // Replace some description messages, otherwise leave as is

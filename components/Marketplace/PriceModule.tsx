@@ -79,7 +79,7 @@ export default function PriceModule({
     <PriceDisplay>
       <MarketDisplay 
         price={listing.price} 
-        bid={offer.value} 
+        bid={offer?.value} 
         lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp 
           ? token.lastBuy.value?.toPrecision(3) 
           : token.lastSell.value?.toPrecision(3) 
@@ -93,22 +93,23 @@ export default function PriceModule({
             account={account}
             owner={contractDisplay == 'Flames' && flameHolder ? account : token.owner}
             listValue={listing.price}
-            hasOffer={offer.value != null}
+            hasOffer={offer?.value != null}
             setModal={setModal}
             setActionType={setMarketActionType}
-            highestOffer={offer.value && offer.maker.toLowerCase() == account?.toLowerCase()}
+            highestOffer={offer?.value && offer?.maker.toLowerCase() == account?.toLowerCase()}
             native={listing.source.name == 'Forgotten Market'}
             tokenType={contractDisplay == 'Flames' ? 1155 : 721}
-            myOffer={offer.value && offer.maker?.toLowerCase() == account?.toLowerCase()}
+            myOffer={offer?.value && offer?.maker?.toLowerCase() == account?.toLowerCase()}
           />
         </ButtonWrapper>
       }
-      {listing.validUntil && 
+      {listing.validUntil ? 
         <ListingExpiration
           timer={countdownTimer}
           date={new Date(listing.validUntil * 1000)}
           source={listing.source.id}
         />
+        : null
       }
       { isBanned && 
         <WarningWrapper>

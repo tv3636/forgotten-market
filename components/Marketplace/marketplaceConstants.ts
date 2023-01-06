@@ -4,7 +4,6 @@ import {
   PONIES_ABI,
   INFINITY_VEIL_ABI
 } from "../../contracts/abis";
-import { paths } from '@reservoir0x/client-sdk';
 
 export enum ORDER_TYPE {
   BUY = 'buy',
@@ -15,36 +14,20 @@ export enum ORDER_TYPE {
   CANCEL_OFFER = 'cancel offer',
 }
 
-export interface OrderPaths {
-  [ORDER_TYPE.BUY]: paths['/execute/buy/v1']['get']['parameters']['query'],
-  [ORDER_TYPE.SELL]: paths['/execute/list/v2']['get']['parameters']['query'],
-  [ORDER_TYPE.OFFER]: paths['/execute/bid/v2']['get']['parameters']['query'],
-  [ORDER_TYPE.ACCEPT_OFFER]: paths['/execute/sell/v1']['get']['parameters']['query'],
-  [ORDER_TYPE.CANCEL_LISTING]: paths['/execute/cancel/v1']['get']['parameters']['query'],
-  [ORDER_TYPE.CANCEL_OFFER]: paths['/execute/cancel/v1']['get']['parameters']['query'],
-}
-
-export const OrderURLs: any = {
-  'buy': 'execute/buy/v1',
-  'sell': '/execute/list/v2',
-  'offer': '/execute/bid/v2',
-  'accept offer': '/execute/sell/v1',
-  'cancel listing': '/execute/cancel/v1',
-  'cancel offer': '/execute/cancel/v1',
-}
-
 export const BURN_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 export const OPENSEA_SOURCE = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073';
 export const LOOKSRARE_SOURCE = '0x5924a28caaf1cc016617874a2f0c3710d881f3c1';
 export const FORGOTTEN_MARKET_SOURCE = '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4';
 export const X2Y2_SOURCE = '0xdc28ffaea1f91a88fb6fd0a8fe70d71bdd64284c';
+export const SUDOSWAP_SOURCE = '0x4749e292ba93ecc24639c5e8dc518c73283ae148';
 
 export const MARKET_ICONS: any = {
   [OPENSEA_SOURCE]: '/static/img/icons/nav/opensea_default.png',
   [LOOKSRARE_SOURCE]: '/static/img/icons/nav/looksrare_default.png',
   [FORGOTTEN_MARKET_SOURCE]: '/static/img/icons/nav/native_listing.png',
   [X2Y2_SOURCE]: '/static/img/icons/nav/x2y2_default.png',
+  [SUDOSWAP_SOURCE]: '/static/img/icons/nav/sudoswap_default.png',
 }
 
 export const MARKET_ICONS_BY_NAME: any = {
@@ -73,6 +56,10 @@ export const MARKETS: any = {
   [X2Y2_SOURCE]: {
     image: '/static/img/icons/nav/x2y2_default.png',
     name: 'X2Y2'
+  },
+  [SUDOSWAP_SOURCE]: {
+    image: '/static/img/icons/nav/sudoswap_default.png',
+    name: 'Sudoswap'
   },
 }
 
