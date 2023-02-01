@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
-import { API_BASE_URL, ORDER_TYPE } from "../components/Marketplace/marketplaceConstants";
+import { API_BASE_URL, ORDER_TYPE, sourceReplace } from "../components/Marketplace/marketplaceConstants";
 import { getContract, getTrait, getTraitValue, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/Layout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
@@ -172,7 +172,7 @@ export default function Marketplace({
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
-    var url = API_BASE_URL + "tokens/details/v4?" + "collection=" + contract;
+    var url = API_BASE_URL + "tokens/v5?" + ("set" in contractDict ? "collectionsSetId=" + contractDict.set : "collection=" + contract);
     setLoaded(false);
 
     if (reset) {
@@ -185,7 +185,7 @@ export default function Marketplace({
         const page = await fetch(
           url + '&sortBy=floorAskPrice&limit=50' + 
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
-          (router.query.source ? "&source=" + router.query.source : '') +
+          (router.query.source ? "&source=" + sourceReplace(router.query.source) : '') +
           getURLAttributes(router.query, contractDict.display),
           { headers: headers }
         );
@@ -323,7 +323,7 @@ export default function Marketplace({
                                     contract={contract}
                                     tokenId={listing.token.tokenId}
                                     name={listing.token.name}
-                                    price={listing.market.floorAsk.price}
+                                    price={listing.market.floorAsk.price?.amount.native}
                                     source={listing.market.floorAsk.source.id}
                                     image_url={listing.token.image}
                                   />

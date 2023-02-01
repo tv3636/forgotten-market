@@ -21,6 +21,7 @@ export const LOOKSRARE_SOURCE = '0x5924a28caaf1cc016617874a2f0c3710d881f3c1';
 export const FORGOTTEN_MARKET_SOURCE = '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dcc4';
 export const X2Y2_SOURCE = '0xdc28ffaea1f91a88fb6fd0a8fe70d71bdd64284c';
 export const SUDOSWAP_SOURCE = '0x4749e292ba93ecc24639c5e8dc518c73283ae148';
+export const NFTX_SOURCE = '0xe864198328af9d2260e4178734190022fe8d79dc';
 
 export const MARKET_ICONS: any = {
   [OPENSEA_SOURCE]: '/static/img/icons/nav/opensea_default.png',
@@ -28,6 +29,7 @@ export const MARKET_ICONS: any = {
   [FORGOTTEN_MARKET_SOURCE]: '/static/img/icons/nav/native_listing.png',
   [X2Y2_SOURCE]: '/static/img/icons/nav/x2y2_default.png',
   [SUDOSWAP_SOURCE]: '/static/img/icons/nav/sudoswap_default.png',
+  [NFTX_SOURCE]: '/static/img/icons/nav/nftx_default.png',
 }
 
 export const MARKET_ICONS_BY_NAME: any = {
@@ -61,6 +63,22 @@ export const MARKETS: any = {
     image: '/static/img/icons/nav/sudoswap_default.png',
     name: 'Sudoswap'
   },
+  [NFTX_SOURCE]: {
+    image: '/static/img/icons/nav/nftx_default.png',
+    name: 'NFTX'
+  }
+}
+
+export function sourceReplace(source: any) {
+  if (source == 'Sudoswap') {
+    return 'sudoswap'
+  }
+
+  if (source == 'NFTX') {
+    return 'nftx.io'
+  }
+
+  return source
 }
 
 export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
@@ -229,7 +247,8 @@ export const COMMUNITY_CONTRACTS: any = {
     full: "ForgottenPunks",
     image_url: "https://forgottenpunks.vercel.app/api/img/",
     fee: '750',
-    feeRecipient: '0x19dcef0cb5e71c95683bbdf21394f505c4eaece9'
+    feeRecipient: '0x19dcef0cb5e71c95683bbdf21394f505c4eaece9',
+    set: 'a0a37754be08f44a336ac4d8c1748f4af2fc77f7b4576ccadff58623796a63df'
   },
   "0x4715be0c5e9bcfe1382da60cff69096af4c4eef4" : {
     collection: "desert-bestiary",
