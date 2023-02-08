@@ -257,6 +257,15 @@ export const COMMUNITY_CONTRACTS: any = {
     image_url: "",
     fee: '500',
     feeRecipient: '0x9b63e090ca2dc9581d24267417ddfc6dbdf12e30'
+  },
+  "0xf486f696b80164b5943191236eca114f4efab2ff": {
+    collection: "blacksandmounts",
+    display: "Mounts",
+    singular: "Mount",
+    full: "BlackSand Mounts",
+    image_url: "https://forgottenbabies.com/ponies/",
+    fee: '0',
+    feeRecipient: '0xb807144c6aa1424657715e7b0f5fadbf9ea22411'
   }
 }
 
