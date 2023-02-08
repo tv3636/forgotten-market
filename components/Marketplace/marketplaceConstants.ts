@@ -81,8 +81,7 @@ export function sourceReplace(source: any) {
   return source
 }
 
-export const API_BASE_URL: string = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID) == 1 ?
-  "https://api.reservoir.tools/" : "https://api-rinkeby.reservoir.tools/";
+export const API_BASE_URL: string = "/api/"
 
 
 export const CHARACTER_CONTRACTS: any = {

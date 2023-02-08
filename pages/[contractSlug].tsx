@@ -21,9 +21,6 @@ import Activity from "../components/Marketplace/Activity";
 import FilterHeader from "../components/Marketplace/FilterHeader";
 import LoadingCard from "../components/Marketplace/LoadingCard";
 
-const headers: HeadersInit = new Headers();
-headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
-
 const MidHeader = styled.div`
   display: flex;
   flex-direction: column;
@@ -152,13 +149,13 @@ export default function Marketplace({
 
   async function getStats() {
     var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query, contractDict.display);
-    const statsPage = await fetch(stats_url, { headers: headers });
+    const statsPage = await fetch(stats_url);
     const statsJson = await statsPage.json();
 
     // When showing all wizards, show 10k - soul count because burned tokens are included in default response
     if (contractDict.display == 'Wizards' && !getURLAttributes(router.query, contractDict.display)) {
       var souls_stats_url = API_BASE_URL + "stats/v1?" + "collection=0x251b5f14a825c537ff788604ea1b58e49b70726f";
-      const soulsStats = await fetch(souls_stats_url, { headers: headers });
+      const soulsStats = await fetch(souls_stats_url);
       const soulsJson = await soulsStats.json();
 
       setItems(10000 - soulsJson.stats.tokenCount);
@@ -186,8 +183,7 @@ export default function Marketplace({
           url + '&sortBy=floorAskPrice&limit=50' + 
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
           (router.query.source ? "&source=" + sourceReplace(router.query.source) : '') +
-          getURLAttributes(router.query, contractDict.display),
-          { headers: headers }
+          getURLAttributes(router.query, contractDict.display)
         );
         const listingsJson = await page.json();
         lists = lists.concat(listingsJson.tokens);

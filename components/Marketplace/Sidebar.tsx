@@ -6,9 +6,6 @@ import RuneHeader from "./RuneHeader";
 import { getContract } from "./marketplaceHelpers";
 import { BEAST_CONTRACTS, CHARACTER_CONTRACTS, COMMUNITY_CONTRACTS, CONTRACTS, ITEM_CONTRACTS, MOUNT_CONTRACTS } from "./marketplaceConstants";
 
-const headers: HeadersInit = new Headers();
-headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;

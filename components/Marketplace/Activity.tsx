@@ -7,9 +7,6 @@ import router, { useRouter } from "next/router";
 import LoadingCard from "./LoadingCard";
 import ActivityRow from "./ActivityRow";
 
-const headers: HeadersInit = new Headers();
-headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
-
 const ScrollContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -67,8 +64,7 @@ export default function Activity({
           ? "&continuation=" + salesContinuation 
           : ''
         }`
-        + getURLAttributes(router.query, contractDict.display), 
-        { headers: headers }
+        + getURLAttributes(router.query, contractDict.display)
       );
       const salesJson = await recentSales.json();
       console.log(salesJson);
@@ -101,9 +97,7 @@ export default function Activity({
         API_BASE_URL + `orders/asks/v2?contracts=${contract}${listingsContinuation != '' && continued 
         ? "&continuation=" + listingsContinuation 
         : ''
-      }`,
-        { headers: headers }
-      );
+      }`);
       const listingsJson = await recentListings.json();
       console.log(listingsJson);
 

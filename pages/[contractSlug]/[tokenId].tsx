@@ -37,9 +37,6 @@ const collectionData: any = {
   'Babies': babies as { [babyId: string]: any },
 }
 
-const headers: HeadersInit = new Headers();
-headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
-
 const PageWrapper = styled.div`
   width: 100%;
   overflow-y: scroll;
@@ -359,10 +356,7 @@ const ListingPage = ({
 
   useEffect(() => {
     async function run() {
-      const page = await fetch(
-        `${API_BASE_URL}tokens/details/v3?tokens=${contractSlug}:${tokenId}`,
-        { headers: headers }
-      );
+      const page = await fetch(`${API_BASE_URL}tokens/details/v3?tokens=${contractSlug}:${tokenId}`);
       const listingsJson = await page.json();
 
       if (listingsJson.tokens.length > 0) {
@@ -375,10 +369,7 @@ const ListingPage = ({
         console.log(listingsJson);
 
         // TODO = improve performance
-        const traits = await fetch(
-          `${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`,
-          { headers: headers }
-        );
+        const traits = await fetch(`${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`);
   
         const traitJson = await traits.json();
         setFullAttributes(traitJson.attributes);        
@@ -414,10 +405,7 @@ const ListingPage = ({
   useEffect(() => {
     async function getFlames() {
       if (contractDict.display == 'Flames') {
-        const userFlames = await fetch(
-          `${API_BASE_URL}users/${account}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`,
-          { headers: headers }
-        );
+        const userFlames = await fetch(`${API_BASE_URL}users/${account}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`);
 
         const flamesJson = await userFlames.json();
         setFlameHolder(flamesJson.tokens.length > 0);

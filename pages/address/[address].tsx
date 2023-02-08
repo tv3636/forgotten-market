@@ -6,9 +6,6 @@ import { useState, useEffect } from "react";
 import AccountSection from "../../components/Marketplace/AccountSection";
 import { CONTRACTS, API_BASE_URL, COMMUNITY_CONTRACTS, ALL_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 
-const headers: HeadersInit = new Headers();
-headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
-
 const PageWrapper = styled.div`
   width: 100%;
   overflow-y: scroll;
@@ -204,10 +201,7 @@ export default function Address({
     }
   
     while (iteration == 0 || continuation) {
-      page = await fetch(
-        fetchUrl,
-        { headers: headers }
-      );
+      page = await fetch(fetchUrl);
 
       pageJson = await page.json();
       validListings = validListings.concat(pageJson.orders);
@@ -301,6 +295,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   var ens = '';
   var valid = true;
 
+  const headers: HeadersInit = new Headers();
+  headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
+
   try {
     ens = await mainProvider.lookupAddress(address) ?? '';
 
@@ -313,7 +310,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   
       while (iteration == 0 || pageJson.tokens && pageJson.tokens.length == offset) {
         page = await fetch(
-          `${API_BASE_URL}users/${address}/tokens/v2?collection=${contract}&offset=${offset * iteration}&limit=20`,
+          `https://api.reservoir.tools/users/${address}/tokens/v2?collection=${contract}&offset=${offset * iteration}&limit=20`,
           { headers: headers }
         );
   

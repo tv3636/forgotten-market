@@ -16,8 +16,7 @@ import { JsonRpcSigner } from '@ethersproject/providers';
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
 
 createClient({
-  apiBase: "https://api.reservoir.tools",
-  apiKey: process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY,
+  apiBase: "/api",
   source: "forgotten.market"
 });
 

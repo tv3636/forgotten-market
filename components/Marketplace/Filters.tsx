@@ -5,9 +5,6 @@ import Select from "react-select";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-const headers: HeadersInit = new Headers();
-headers.set('x-api-key', process.env.NEXT_PUBLIC_REACT_APP_RESERVOIR_API_KEY ?? '');
-
 const Filter = styled.div`
   display: flex;
   justify-content: space-between;
@@ -71,10 +68,7 @@ export default function Filters({
   const router = useRouter();
 
   async function fetchTraits() {
-    const attributes = await fetch(
-      `${API_BASE_URL}collections/${contract}/attributes/all/v1`,
-      { headers: headers }
-  );
+    const attributes = await fetch(`${API_BASE_URL}collections/${contract}/attributes/all/v1`);
     const attributeJson = await attributes.json();
     setTraits(attributeJson.attributes);
   }
