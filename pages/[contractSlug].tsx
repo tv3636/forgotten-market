@@ -169,7 +169,7 @@ export default function Marketplace({
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
-    var url = API_BASE_URL + "tokens/v5?" + ("set" in contractDict ? "collectionsSetId=" + contractDict.set : "collection=" + contract);
+    var url = API_BASE_URL + "tokens/v5?" + ("collection=" + contract);
     setLoaded(false);
 
     if (reset) {
