@@ -1,0 +1,78 @@
+    {
+        "active": true,
+        "visible": true,
+        "collideBottom": true,
+        "collideLeft": true,
+        "collideRight": true,
+        "collideTop": true,
+        "on": true,
+        "particleBringToTop": true,
+        "radial": true,
+        "frame": {
+            "frames": [
+                "castle_v3_snowparticlebig_1.png",
+                "castle_v3_snowparticlemed_1.png",
+                "castle_v3_snowparticlesmall_1.png"
+            ],
+            "cycle": true,
+            "quantity": 1
+        },
+        "frequency": 1,
+        "gravityX": 0,
+        "gravityY": 10,
+        "maxParticles": 60000,
+        "timeScale": 2,
+        "blendMode": 3,
+        "accelerationX": {
+            "ease": "Sine.easeIn",
+            "min": -0.5,
+            "max": 0.5
+        },
+        "accelerationY": {
+            "ease": "Linear",
+            "min": 0.5,
+            "max": 5
+        },
+        "alpha": {
+            "ease": "Linear",
+            "min": 0.2,
+            "max": 1
+        },
+        "angle": {
+            "ease": "Linear",
+            "min": 90,
+            "max": 360
+        },
+        "bounce": 0,
+        "delay": 0,
+        "lifespan": 45000,
+        "maxVelocityX": 10,
+        "maxVelocityY": 25,
+        "moveToX": 0,
+        "moveToY": 0,
+        "quantity": {
+            "ease": "Linear",
+            "min": 1,
+            "max": 10
+        },
+        "rotate": 0,
+        "scale": {
+            "ease": "Sine.easeIn",
+            "min": 0.5,
+            "max": 0.1
+        },
+        "speed": {
+            "ease": "Linear",
+            "min": 1,
+            "max": 30
+        },
+        "x": 1,
+        "y": 2,
+        "tint": [
+            16777215
+        ],
+        "emitZone": {
+            "source": "new Phaser.Geom.Rectangle(0, 0, 700, 1)",
+            "type": "random"
+        }
+    }

@@ -1,0 +1,424 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=New+Rocker&family=Roboto+Mono:ital,wght@0,400;1,300;1,700&display=swap");
+
+@font-face {
+  font-family: "Terminal";
+  src: url("/static/game/wizards/terminal-grotesque.ttf") format("truetype");
+}
+
+html,
+body {
+  background-color: #000000;
+
+  --black: black;
+  --white: hsl(260,15%, 90%);
+  --hue: 250;
+  --lightGray: hsl(var(--hue), 15%, 75%);
+  --mediumGray: hsl(var(--hue), 24%, 15%);
+  --darkGray: hsl(var(--hue), 30%, 8%);
+
+  --midGray: #343046;
+  --frameGray: #2a283a;
+  --beige: #E1DECD;
+  --newGray: #585566;
+
+  --ratio: 1.4; 
+  --sp0: 1em;
+  --sp1: calc(var(--ratio) * var(--sp0));
+  --sp2: calc(var(--ratio) * var(--sp1));
+  --sp3: calc(var(--ratio) * var(--sp2));
+  --sp4: calc(var(--ratio) * var(--sp3));
+  --sp5: calc(var(--ratio) * var(--sp4));
+  --sp-1:calc(var(--sp0) / var(--ratio));
+  --sp-2:calc(var(--sp-1) / var(--ratio));
+  --sp-3:calc(var(--sp-2) / var(--ratio));
+  --sp-4:calc(var(--sp-3) / var(--ratio));
+  --sp-5:calc(var(--sp-4) / var(--ratio));
+
+  font-family: "Terminal";
+  font-size: var(--sp0);
+
+  --frameSize: 24px;
+  --sidebar: 25ch;
+}
+
+@media only screen and (max-width: 1250px) {
+  .desktop {
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 1250px) {
+  .mobile {
+    display: none !important;
+  }
+}
+
+div#WEB3_CONNECT_MODAL_ID {
+  text-transform: uppercase;
+  text-shadow: 0px 2px var(--midGray);
+}
+
+div#WEB3_CONNECT_MODAL_ID .web3modal-modal-card {
+  border-radius: 2px !important;
+}
+
+.scrim {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  z-index:  10;
+  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0, 1));
+}
+
+.web3modal-modal-lightbox {
+  z-index: 20 !important;
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+html {
+  line-height: 1.15;
+  /* 1 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+body {
+  margin: 0;
+  
+  color: white;
+  text-shadow: 0px 1px var(--midGray);
+
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/*
+Sections
+========
+*/
+
+.alagard {
+  font-family: "Alagard";
+  color: var(--beige);
+  text-shadow: 0px 2px var(--midGray);
+}
+
+.noscrim {
+  z-index: 11;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+
+  transition: all 200ms;
+}
+
+a:hover {
+  color: var(--lightGray);
+}
+
+p {
+  margin: 0;
+}
+
+.pointer {
+  transition: all 200ms;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  color: var(--lightGray);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  /* font-family: "Alagard", system-ui, -apple-system, "Segoe UI", Roboto, */
+  font-family: "New Rocker", system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+h1 {
+  font-family: "Terminal";
+  color: white;
+  margin: 0;
+
+  text-shadow: 0px 2px var(--midGray);
+}
+h2 {
+  font-family: "Terminal";
+  color: white;
+  margin: 0;
+
+  text-shadow: 0px 2px var(--midGray);
+}
+h3 {
+  margin-top: 1em;
+}
+
+p {
+  line-height: 1.6em;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+.infinite-scroll-component::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0);
+}
+
+#nprogress .peg {
+  box-shadow: none !important;
+}
+
+.select__control {
+  background-color: var(--darkGray) !important;
+  border-color: var(--mediumGray) !important;
+  border-style: dashed !important;
+  border-width: 2px !important;
+}
+
+.select__control--is-focused {
+  border-color: var(--white) !important;
+  box-shadow: var(--white) !important;
+}
+
+.select__control:hover {
+  background: var(--mediumGray) !important;
+  border-color: var(--lightGray) !important;
+}
+
+.select__placeholder {
+  color: var(--lightGray) !important;
+  text-transform: uppercase;
+}
+
+.select__menu {
+  background-color: var(--mediumGray) !important;
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  border-width: 2px !important;
+}
+
+.select__option {
+  color: var(--lightGray) !important;
+  background-color: var(--mediumGray) !important;
+  text-transform: uppercase;
+}
+
+.select__option:hover {
+  color: var(--lightGray) !important;
+  background-color: var(--darkGray) !important;
+}
+
+.select__single-value {
+  color: var(--white) !important;
+  text-transform: uppercase;
+}
+
+.select__input-container {
+  color: var(--white) !important;
+}
+
+.select__multi-value {
+  background-color: var(--midGray) !important;
+  border-radius: 20px;
+}
+
+.select__multi-value__label {
+  color: var(--white) !important;
+  text-transform: uppercase;
+}
+
+.select__multi-value__remove:hover {
+  background-color: var(--lightGray) !important;
+  color: var(--black) !important;
+}
+
+.__react_component_tooltip {
+  background: var(--darkGray) !important;
+  color: var(--white) !important;
+
+  border-radius: 10px !important;
+  border-style: dashed !important;
+  border-width: 1.5px !important;
+  border-color: var(--mediumGray) !important;
+}
+
+.flatpickr-input {
+  background: var(--darkGray);
+  border: dashed;
+  padding: 10px;
+  color: var(--lightGray);
+  border-radius: 10px;
+  border-color: var(--mediumGray);
+
+  font-family: 'Roboto Mono';
+  text-align: center;
+
+  margin-right: 1ch;
+
+  transition: all 100ms;
+}
+
+.flatpickr-input:hover {
+  background: var(--mediumGray);
+  border-color: var(--lightGray);
+  color: var(--white);
+}
+
+.flatpickr-month {
+  background: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+
+  font-family: Alagard !important;
+}
+
+.flatpickr-monthDropdown-months {
+  background: var(--mediumGray) !important;
+}
+
+.flatpickr-weekdays {
+  background: var(--mediumGray) !important;
+  border-bottom: dashed;
+  border-bottom-color: var(--lightGray);
+  border-bottom-width: 1px;
+}
+
+.flatpickr-weekday {
+  background: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+
+  font-family: Roboto Mono !important;
+}
+
+.flatpickr-rContainer {
+  background: var(--darkGray) !important;
+  border-bottom: dashed;
+  border-bottom-color: var(--lightGray);
+  border-bottom-width: 1px;
+}
+
+.flatpickr-day {
+  background: var(--darkGray) !important;
+  border-color: var(--darkGray) !important;
+  color: var(--lightGray) !important;
+  font-family: Roboto Mono !important;
+}
+
+.flatpickr-disabled {
+  color: var(--mediumGray) !important;
+}
+
+.selected {
+  background-color: var(--mediumGray) !important;
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  color: var(--white) !important;
+}
+
+.flatpickr-time {
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-minute {
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-am-pm {
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-hour {
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-hour:hover {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-minute:hover {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-am-pm:hover {
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-hour:focus {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-minute:focus {
+  border-color: var(--lightGray) !important;
+  border-style: dashed !important;
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-am-pm:focus {
+  background-color: var(--mediumGray) !important;
+  color: var(--lightGray) !important;
+}
+
+.flatpickr-next-month {
+  fill: var(--lightGray) !important;
+}
+
+.flatpickr-prev-month {
+  fill: var(--lightGray) !important;
+}
+
+.flatpickr-next-month:hover svg {
+  fill: var(--white) !important;
+}
+
+.flatpickr-prev-month:hover svg {
+  fill: var(--white) !important;
+}
+
+.flatpickr-calendar.arrowBottom:after {
+  border-top-color: var(--lightGray) !important;
+}
+
+.flatpickr-calendar.arrowTop:before {
+  border-bottom-color: var(--lightGray) !important;
+}
+
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: var(--lightGray) !important;
+}

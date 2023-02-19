@@ -1,0 +1,261 @@
+{ "frames": {
+   "tower-0": {
+    "frame": { "x": 2, "y": 2, "w": 288, "h": 624 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 208, "y": 160, "w": 288, "h": 624 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerLines-0": {
+    "frame": { "x": 614, "y": 2, "w": 208, "h": 272 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 240, "y": 176, "w": 208, "h": 272 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-01-0": {
+    "frame": { "x": 1344, "y": 2, "w": 32, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 416, "y": 272, "w": 32, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-02-0": {
+    "frame": { "x": 1276, "y": 70, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 416, "y": 272, "w": 16, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-03-0": {
+    "frame": { "x": 1344, "y": 20, "w": 32, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 400, "y": 272, "w": 32, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-04-0": {
+    "frame": { "x": 1378, "y": 2, "w": 16, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 400, "y": 272, "w": 16, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-05-0": {
+    "frame": { "x": 1276, "y": 2, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 384, "y": 272, "w": 32, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-06-0": {
+    "frame": { "x": 1276, "y": 36, "w": 16, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 384, "y": 272, "w": 16, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-07-0": {
+    "frame": { "x": 1294, "y": 36, "w": 32, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 368, "y": 288, "w": 32, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-08-0": {
+    "frame": { "x": 1348, "y": 74, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 368, "y": 288, "w": 16, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-09-0": {
+    "frame": { "x": 1328, "y": 38, "w": 32, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 352, "y": 288, "w": 32, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-10-0": {
+    "frame": { "x": 1366, "y": 74, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 352, "y": 288, "w": 16, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-11-0": {
+    "frame": { "x": 824, "y": 84, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 336, "y": 288, "w": 16, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-12-0": {
+    "frame": { "x": 1362, "y": 38, "w": 32, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 320, "y": 288, "w": 32, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-13-0": {
+    "frame": { "x": 1294, "y": 54, "w": 16, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 320, "y": 272, "w": 16, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-14-0": {
+    "frame": { "x": 1312, "y": 54, "w": 16, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 320, "y": 272, "w": 16, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-15-0": {
+    "frame": { "x": 1330, "y": 56, "w": 16, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 304, "y": 272, "w": 16, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-16-0": {
+    "frame": { "x": 1348, "y": 56, "w": 32, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 272, "w": 32, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-17-0": {
+    "frame": { "x": 842, "y": 84, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 272, "w": 16, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "rune-18-0": {
+    "frame": { "x": 1382, "y": 56, "w": 16, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 256, "w": 16, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerBandRed-0": {
+    "frame": { "x": 1130, "y": 2, "w": 144, "h": 48 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 320, "w": 144, "h": 48 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "towerBandPulse-0": {
+    "frame": { "x": 1130, "y": 52, "w": 144, "h": 48 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 288, "y": 320, "w": 144, "h": 48 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "palms-0": {
+    "frame": { "x": 824, "y": 2, "w": 304, "h": 80 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 192, "y": 336, "w": 304, "h": 80 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "plants-0": {
+    "frame": { "x": 292, "y": 2, "w": 320, "h": 384 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 192, "y": 272, "w": 320, "h": 384 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "hatStaff-0": {
+    "frame": { "x": 1310, "y": 2, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 368, "y": 416, "w": 32, "h": 32 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "bottomTile-0": {
+    "frame": { "x": 614, "y": 276, "w": 704, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 768, "w": 704, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "squareRot-0": {
+    "frame": { "x": 860, "y": 84, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "castle_v2.png",
+  "format": "RGBA8888",
+  "size": { "w": 1398, "h": 626 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "play", "from": 0, "to": 0, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "tower", "opacity": 255, "blendMode": "normal" },
+   { "name": "towerLines", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-01", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-02", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-03", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-04", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-05", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-06", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-07", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-08", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-09", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-10", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-11", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-12", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-13", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-14", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-15", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-16", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-17", "opacity": 255, "blendMode": "normal" },
+   { "name": "rune-18", "opacity": 255, "blendMode": "normal" },
+   { "name": "towerBandRed", "opacity": 255, "blendMode": "normal" },
+   { "name": "towerBandPulse", "opacity": 255, "blendMode": "normal" },
+   { "name": "palms", "opacity": 255, "blendMode": "normal" },
+   { "name": "plants", "opacity": 255, "blendMode": "normal" },
+   { "name": "hatStaff", "opacity": 255, "blendMode": "normal" },
+   { "name": "bottomTile", "opacity": 255, "blendMode": "normal" },
+   { "name": "squareRot", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

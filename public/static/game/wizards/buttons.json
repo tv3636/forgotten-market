@@ -1,0 +1,650 @@
+{
+	"textures": [
+		{
+			"image": "buttons.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 916,
+				"h": 218
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "summonmore_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 408,
+						"h": 54
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 408,
+						"h": 54
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 408,
+						"h": 54
+					}
+				},
+				{
+					"filename": "summonmore_rollover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 408,
+						"h": 54
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 408,
+						"h": 54
+					},
+					"frame": {
+						"x": 408,
+						"y": 0,
+						"w": 408,
+						"h": 54
+					}
+				},
+				{
+					"filename": "bubbleFox.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 100,
+						"h": 90
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 100,
+						"h": 90
+					},
+					"frame": {
+						"x": 816,
+						"y": 0,
+						"w": 100,
+						"h": 90
+					}
+				},
+				{
+					"filename": "button1_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 0,
+						"y": 54,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "button1_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 148,
+						"y": 54,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "button2_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 296,
+						"y": 54,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "button2_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 444,
+						"y": 54,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "button3_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 592,
+						"y": 54,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "button3_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 740,
+						"y": 90,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "social_discord_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 38,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 38,
+						"h": 30
+					},
+					"frame": {
+						"x": 740,
+						"y": 54,
+						"w": 38,
+						"h": 30
+					}
+				},
+				{
+					"filename": "social_opensea_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 34
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 34
+					},
+					"frame": {
+						"x": 778,
+						"y": 54,
+						"w": 34,
+						"h": 34
+					}
+				},
+				{
+					"filename": "faq_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 24,
+						"h": 32
+					},
+					"frame": {
+						"x": 888,
+						"y": 90,
+						"w": 24,
+						"h": 32
+					}
+				},
+				{
+					"filename": "faq_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 24,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 24,
+						"h": 32
+					},
+					"frame": {
+						"x": 888,
+						"y": 122,
+						"w": 24,
+						"h": 32
+					}
+				},
+				{
+					"filename": "no_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 0,
+						"y": 136,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "no_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 148,
+						"y": 136,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "yes_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 296,
+						"y": 136,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "yes_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 148,
+						"h": 82
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 148,
+						"h": 82
+					},
+					"frame": {
+						"x": 444,
+						"y": 136,
+						"w": 148,
+						"h": 82
+					}
+				},
+				{
+					"filename": "social_discord_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 38,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 38,
+						"h": 30
+					},
+					"frame": {
+						"x": 592,
+						"y": 136,
+						"w": 38,
+						"h": 30
+					}
+				},
+				{
+					"filename": "social_link_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 36,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 36,
+						"h": 24
+					},
+					"frame": {
+						"x": 630,
+						"y": 136,
+						"w": 36,
+						"h": 24
+					}
+				},
+				{
+					"filename": "social_opensea_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 34
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 34
+					},
+					"frame": {
+						"x": 666,
+						"y": 136,
+						"w": 34,
+						"h": 34
+					}
+				},
+				{
+					"filename": "button_exit_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 32
+					},
+					"frame": {
+						"x": 630,
+						"y": 160,
+						"w": 34,
+						"h": 32
+					}
+				},
+				{
+					"filename": "button_exit_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 32
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 32
+					},
+					"frame": {
+						"x": 592,
+						"y": 166,
+						"w": 34,
+						"h": 32
+					}
+				},
+				{
+					"filename": "social_link_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 36,
+						"h": 24
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 36,
+						"h": 24
+					},
+					"frame": {
+						"x": 664,
+						"y": 170,
+						"w": 36,
+						"h": 24
+					}
+				},
+				{
+					"filename": "ethsymbol.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 30
+					},
+					"frame": {
+						"x": 700,
+						"y": 136,
+						"w": 34,
+						"h": 30
+					}
+				},
+				{
+					"filename": "social_ig_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 30
+					},
+					"frame": {
+						"x": 700,
+						"y": 166,
+						"w": 32,
+						"h": 30
+					}
+				},
+				{
+					"filename": "social_twitter_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 28
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 28
+					},
+					"frame": {
+						"x": 732,
+						"y": 172,
+						"w": 34,
+						"h": 28
+					}
+				},
+				{
+					"filename": "social_twitter_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 34,
+						"h": 28
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 34,
+						"h": 28
+					},
+					"frame": {
+						"x": 766,
+						"y": 172,
+						"w": 34,
+						"h": 28
+					}
+				},
+				{
+					"filename": "social_ig_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 32,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 32,
+						"h": 30
+					},
+					"frame": {
+						"x": 800,
+						"y": 172,
+						"w": 32,
+						"h": 30
+					}
+				},
+				{
+					"filename": "social_download_default.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 30,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 30,
+						"h": 30
+					},
+					"frame": {
+						"x": 832,
+						"y": 172,
+						"w": 30,
+						"h": 30
+					}
+				},
+				{
+					"filename": "social_download_hover.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 30,
+						"h": 30
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 30,
+						"h": 30
+					},
+					"frame": {
+						"x": 862,
+						"y": 172,
+						"w": 30,
+						"h": 30
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:450da24263f8c77bfd2a3c51680fbc1f:dbac12ee3de0912139cf425e9c8dc75d:b34c8670b11bb20cb1751a70d3683e22$"
+	}
+}

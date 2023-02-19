@@ -1,0 +1,251 @@
+{
+	"textures": [
+		{
+			"image": "floaters.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 32,
+				"h": 148
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "trifx04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 621,
+						"y": 351,
+						"w": 24,
+						"h": 16
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 24,
+						"h": 16
+					}
+				},
+				{
+					"filename": "partcileVert03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 805,
+						"y": 359,
+						"w": 4,
+						"h": 82
+					},
+					"frame": {
+						"x": 27,
+						"y": 1,
+						"w": 4,
+						"h": 82
+					}
+				},
+				{
+					"filename": "partcileVert02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 795,
+						"y": 363,
+						"w": 6,
+						"h": 62
+					},
+					"frame": {
+						"x": 1,
+						"y": 85,
+						"w": 6,
+						"h": 62
+					}
+				},
+				{
+					"filename": "squarefx02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 671,
+						"y": 323,
+						"w": 16,
+						"h": 16
+					},
+					"frame": {
+						"x": 9,
+						"y": 19,
+						"w": 16,
+						"h": 16
+					}
+				},
+				{
+					"filename": "partcileVert01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 783,
+						"y": 383,
+						"w": 4,
+						"h": 40
+					},
+					"frame": {
+						"x": 1,
+						"y": 19,
+						"w": 4,
+						"h": 40
+					}
+				},
+				{
+					"filename": "trifx01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 797,
+						"y": 267,
+						"w": 18,
+						"h": 16
+					},
+					"frame": {
+						"x": 7,
+						"y": 37,
+						"w": 18,
+						"h": 16
+					}
+				},
+				{
+					"filename": "squarefx03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 677,
+						"y": 285,
+						"w": 18,
+						"h": 14
+					},
+					"frame": {
+						"x": 7,
+						"y": 55,
+						"w": 18,
+						"h": 14
+					}
+				},
+				{
+					"filename": "trifx02.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 807,
+						"y": 303,
+						"w": 12,
+						"h": 10
+					},
+					"frame": {
+						"x": 1,
+						"y": 71,
+						"w": 12,
+						"h": 10
+					}
+				},
+				{
+					"filename": "trifx03.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 823,
+						"y": 251,
+						"w": 20,
+						"h": 20
+					},
+					"frame": {
+						"x": 9,
+						"y": 85,
+						"w": 20,
+						"h": 20
+					}
+				},
+				{
+					"filename": "squarefx04.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 693,
+						"y": 339,
+						"w": 8,
+						"h": 8
+					},
+					"frame": {
+						"x": 15,
+						"y": 71,
+						"w": 8,
+						"h": 8
+					}
+				},
+				{
+					"filename": "squarefx01.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 1400,
+						"h": 1566
+					},
+					"spriteSourceSize": {
+						"x": 655,
+						"y": 299,
+						"w": 20,
+						"h": 18
+					},
+					"frame": {
+						"x": 9,
+						"y": 107,
+						"w": 20,
+						"h": 18
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:b8e46a6c450d4ae5c9570af601c2d2f8:950ca70b8e90b37c5a0b4034581c35c6:706525a58bcf15971782de41f4ba7c0a$"
+	}
+}

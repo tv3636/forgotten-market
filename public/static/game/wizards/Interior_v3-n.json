@@ -1,0 +1,59 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 3, "y": 3, "w": 1078, "h": 571 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 63, "y": 0, "w": 1074, "h": 567 },
+    "sourceSize": { "w": 1200, "h": 587 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "Interior_v3-n.png",
+  "format": "RGBA8888",
+  "size": { "w": 1082, "h": 575 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "ref", "opacity": 255, "blendMode": "normal" },
+   { "name": "bg" },
+   { "name": "blackBG", "group": "bg", "opacity": 255, "blendMode": "normal" },
+   { "name": "purpleGradient", "group": "bg", "opacity": 255, "blendMode": "normal" },
+   { "name": "clouds02", "group": "bg", "opacity": 255, "blendMode": "normal" },
+   { "name": "clouds01", "group": "bg", "opacity": 255, "blendMode": "normal" },
+   { "name": "stars1", "group": "bg", "opacity": 255, "blendMode": "normal" },
+   { "name": "stars2", "group": "bg", "opacity": 255, "blendMode": "normal" },
+   { "name": "moon", "group": "bg", "opacity": 255, "blendMode": "normal" },
+   { "name": "floor", "opacity": 255, "blendMode": "normal" },
+   { "name": "shad_floorColum", "opacity": 152, "blendMode": "normal" },
+   { "name": "columnL" },
+   { "name": "column", "group": "columnL", "opacity": 255, "blendMode": "normal" },
+   { "name": "columnGradSoft", "group": "columnL", "opacity": 255, "blendMode": "normal" },
+   { "name": "ColumnMatrix", "group": "columnL", "opacity": 28, "blendMode": "normal" },
+   { "name": "columnR" },
+   { "name": "column Copy", "group": "columnR", "opacity": 255, "blendMode": "normal" },
+   { "name": "columnGradSoft Copy", "group": "columnR", "opacity": 255, "blendMode": "normal" },
+   { "name": "ColumnMatrix Copy", "group": "columnR", "opacity": 28, "blendMode": "normal" },
+   { "name": "carpetRoll", "opacity": 255, "blendMode": "normal" },
+   { "name": "carpetRoll Copy", "opacity": 255, "blendMode": "normal" },
+   { "name": "carpetStripes", "opacity": 255, "blendMode": "normal" },
+   { "name": "carpetStripes Copy", "opacity": 255, "blendMode": "normal" },
+   { "name": "shad_plant", "opacity": 255, "blendMode": "normal" },
+   { "name": "shad_plant Copy", "opacity": 255, "blendMode": "normal" },
+   { "name": "plants", "opacity": 255, "blendMode": "normal" },
+   { "name": "steps", "opacity": 255, "blendMode": "normal" },
+   { "name": "carpetShad", "opacity": 255, "blendMode": "normal" },
+   { "name": "beamSolid", "opacity": 95, "blendMode": "normal" },
+   { "name": "beamMatrix", "opacity": 66, "blendMode": "normal" },
+   { "name": "rays01", "opacity": 219, "blendMode": "normal" },
+   { "name": "rays02", "opacity": 74, "blendMode": "normal" },
+   { "name": "bottomBlackGrad", "opacity": 255, "blendMode": "normal" },
+   { "name": "SideGrad", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

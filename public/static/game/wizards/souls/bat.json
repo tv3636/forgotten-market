@@ -1,0 +1,38 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 14, "y": 7, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 187, "y": 128, "w": 10, "h": 9 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 14, "y": 1, "w": 19, "h": 5 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 183, "y": 129, "w": 19, "h": 5 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 1, "y": 1, "w": 12, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 186, "y": 123, "w": 12, "h": 12 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "castle_Souls.png",
+  "format": "RGBA8888",
+  "size": { "w": 33, "h": 16 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "play-bat", "from": 0, "to": 2, "direction": "forward" }
+  ]
+ }
+}

@@ -1,0 +1,46 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 25, "y": 1, "w": 20, "h": 26 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 236, "y": 324, "w": 20, "h": 26 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 1, "y": 25, "w": 22, "h": 24 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 236, "y": 326, "w": 22, "h": 24 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "2": {
+    "frame": { "x": 1, "y": 1, "w": 23, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 236, "y": 327, "w": 23, "h": 23 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   },
+   "3": {
+    "frame": { "x": 25, "y": 1, "w": 20, "h": 26 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 236, "y": 324, "w": 20, "h": 26 },
+    "sourceSize": { "w": 700, "h": 783 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "castle_Souls.png",
+  "format": "RGBA8888",
+  "size": { "w": 45, "h": 49 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "play", "from": 0, "to": 3, "direction": "forward" }
+  ]
+ }
+}

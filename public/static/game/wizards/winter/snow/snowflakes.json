@@ -1,0 +1,209 @@
+{
+	"textures": [
+		{
+			"image": "snowflakes.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 14,
+				"h": 16
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "castle_v3_snowparticlebig_1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 359,
+						"y": 199,
+						"w": 7,
+						"h": 7
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 7,
+						"h": 7
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlemed_1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 352,
+						"y": 192,
+						"w": 5,
+						"h": 5
+					},
+					"frame": {
+						"x": 1,
+						"y": 10,
+						"w": 5,
+						"h": 5
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlesmall_1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 362,
+						"y": 190,
+						"w": 4,
+						"h": 4
+					},
+					"frame": {
+						"x": 8,
+						"y": 10,
+						"w": 4,
+						"h": 4
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlebig_2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3,
+						"h": 3
+					},
+					"frame": {
+						"x": 10,
+						"y": 1,
+						"w": 3,
+						"h": 3
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlebig_3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3,
+						"h": 3
+					},
+					"frame": {
+						"x": 10,
+						"y": 1,
+						"w": 3,
+						"h": 3
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlemed_2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3,
+						"h": 3
+					},
+					"frame": {
+						"x": 10,
+						"y": 1,
+						"w": 3,
+						"h": 3
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlemed_3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3,
+						"h": 3
+					},
+					"frame": {
+						"x": 10,
+						"y": 1,
+						"w": 3,
+						"h": 3
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlesmall_2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3,
+						"h": 3
+					},
+					"frame": {
+						"x": 10,
+						"y": 1,
+						"w": 3,
+						"h": 3
+					}
+				},
+				{
+					"filename": "castle_v3_snowparticlesmall_3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 700,
+						"h": 783
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3,
+						"h": 3
+					},
+					"frame": {
+						"x": 10,
+						"y": 1,
+						"w": 3,
+						"h": 3
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:c73a37e1c4fe14ebf6ab17840c5f8543:f059233ad881222435b28e0e17e2e544:1d02fb9e2da191ef1ac0f5e1ccb11e3a$"
+	}
+}

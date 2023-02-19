@@ -1,0 +1,139 @@
+{ "frames": {
+   "MMFoxSoulWave-0": {
+    "frame": { "x": 1, "y": 1, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-1": {
+    "frame": { "x": 52, "y": 1, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-2": {
+    "frame": { "x": 103, "y": 1, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-3": {
+    "frame": { "x": 154, "y": 1, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-4": {
+    "frame": { "x": 1, "y": 69, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-5": {
+    "frame": { "x": 52, "y": 69, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-6": {
+    "frame": { "x": 103, "y": 69, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-7": {
+    "frame": { "x": 154, "y": 69, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-8": {
+    "frame": { "x": 1, "y": 137, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-9": {
+    "frame": { "x": 52, "y": 137, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-10": {
+    "frame": { "x": 103, "y": 137, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-11": {
+    "frame": { "x": 154, "y": 137, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-12": {
+    "frame": { "x": 1, "y": 205, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-13": {
+    "frame": { "x": 52, "y": 205, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   },
+   "MMFoxSoulWave-14": {
+    "frame": { "x": 103, "y": 205, "w": 50, "h": 67 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 50, "h": 67 },
+    "sourceSize": { "w": 50, "h": 70 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "MMFoxSoul.png",
+  "format": "RGBA8888",
+  "size": { "w": 204, "h": 272 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "play", "from": 0, "to": 14, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "MMFoxSoulWave", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
