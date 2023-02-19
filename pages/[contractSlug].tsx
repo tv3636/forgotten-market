@@ -12,7 +12,6 @@ import Sidebar from "../components/Marketplace/Sidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../components/Marketplace/TokenDisplay";
 import RightBar from "../components/Marketplace/RightBar";
-import Order from "../components/Marketplace/Order";
 import Filters from "../components/Marketplace/Filters";
 import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
 import MobileOverlay from "../components/Marketplace/MobileOverlay";
@@ -144,7 +143,7 @@ export default function Marketplace({
   const [bid, setBid] = useState(0);
   const router = useRouter();
   let contractDict = getContract(contract);
-  let traitOffer = isTraitOffer();
+  let traitOffer = isTraitOffer(router.query);
 
   async function getStats() {
     var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query, contractDict.display);
@@ -261,21 +260,6 @@ export default function Marketplace({
         setFilterActive={setFilterActive}
       >
         <Main>
-          {showModal &&
-            <Order
-              contract={contract}
-              tokenId={'0'}
-              name={contractDict.full}
-              collectionWide={true}
-              setModal={setShowModal}
-              action={ORDER_TYPE.OFFER}
-              hash={''}
-              offerHash={''}
-              trait={traitOffer ? getTrait() : ''}
-              traitValue={traitOffer ? getTraitValue() : ''}
-              expectedPrice={0}
-            />
-          }
           <Sidebar />
           <MidContainer>
             <MidHeader>

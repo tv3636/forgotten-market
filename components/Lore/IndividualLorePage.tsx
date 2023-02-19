@@ -167,6 +167,7 @@ export default function IndividualLorePage({
     <TextPage style={{ color: textColor }}>
       {story && (
         <ReactMarkdown
+          // eslint-disable-next-line
           children={story}
           components={{
             pre: ({ node, children, ...props }) => (
@@ -194,6 +195,7 @@ export default function IndividualLorePage({
                 fallbackSrc = newSrc;
               }
 
+              // eslint-disable-next-line
               const [imgSrc, setImgSrc] = useState<string>(newSrc);
               const onError = () => setImgSrc(fallbackSrc);
               return <img {...props} src={imgSrc} onError={onError} />;

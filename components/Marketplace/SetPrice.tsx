@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { Title } from "./Order"
 
 const ListPrice = styled.div`
   display: flex;
@@ -51,7 +50,6 @@ export default function SetPrice({
 }) {
   return (
     <ListPrice>
-      <Title style={{width: '5ch'}}>Price:&nbsp;&nbsp;&nbsp;</Title>
       <form onSubmit={(e) => { submitAction(e) }}>
         <PriceInput 
           type="number" 

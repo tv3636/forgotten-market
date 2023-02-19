@@ -7,9 +7,6 @@ import { gql } from "@apollo/client";
 import { getContract, getImage, getPages, getValue } from "../../components/Marketplace/marketplaceHelpers";
 import { API_BASE_URL, ITEM_CONTRACTS, ORDER_TYPE } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
-import { useEthers } from "@usedapp/core";
-import countdown from "countdown";
-import Order from "../../components/Marketplace/Order";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
 import TraitDisplay from "../../components/Marketplace/TraitDisplay";
 import Carousel from "../../components/Marketplace/MarketCarousel";
@@ -430,25 +427,6 @@ const ListingPage = ({
       <PageWrapper>
         {loaded ? 
           <ListingWrapper>
-            { modal && 
-              <Order 
-                tokenId={tokenId} 
-                contract={contractSlug} 
-                name={token.name} 
-                setModal={setModal} 
-                action={marketActionType} 
-                hash={listing.id} 
-                offerHash={offer.id} 
-                collectionWide={false}
-                trait={''}
-                traitValue={''}
-                expectedPrice={ 
-                  marketActionType == ORDER_TYPE.ACCEPT_OFFER ? offer.value : 
-                  marketActionType == ORDER_TYPE.BUY ? listing.price :
-                  0
-                }
-              />
-            }
             <Listing>
               <RuneHeader plaintext={false} home={false}>
                 {`${contractDict.singular.toUpperCase()} #${tokenId}`}

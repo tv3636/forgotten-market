@@ -1,6 +1,5 @@
 import { COMMUNITY_CONTRACTS, CONTRACTS, ITEM_CONTRACTS, NON_TRAITS } from "./marketplaceConstants";
 import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
 import { hydratePageDataFromMetadata } from "../Lore/markdownUtils";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
@@ -103,14 +102,13 @@ export function numShorten(num: number) {
 */
 
 // Determine if one trait is selected, enabling trait offer
-export function isTraitOffer() {
-  const router = useRouter();
+export function isTraitOffer(query: any) {
 
-  if (getTraitCount() == 1) {
-    for (var trait of Object.keys(router.query)) {
+  if (getTraitCount(query) == 1) {
+    for (var trait of Object.keys(query)) {
       if (!NON_TRAITS.includes(trait) 
-        && ((Array.isArray(router.query[trait]) && router.query[trait]?.length == 1)
-        || !Array.isArray(router.query[trait]))) {
+        && ((Array.isArray(query[trait]) && query[trait]?.length == 1)
+        || !Array.isArray(query[trait]))) {
         return true;
       }
     }
@@ -120,20 +118,16 @@ export function isTraitOffer() {
 }
 
 // Get count of selected traits in query
-export function getTraitCount() {
-  const router = useRouter();
-
-  return Object.keys(router.query).length 
-    - NON_TRAITS.reduce((prev, current) => {return prev + Number(current in router.query)}, 0);
+export function getTraitCount(query: any) {
+  return Object.keys(query).length 
+    - NON_TRAITS.reduce((prev, current) => {return prev + Number(current in query)}, 0);
 }
 
 // Get trait selected for trait offer
-export function getTrait() {
-  const router = useRouter();
-
-  for (const key in router.query) {
+export function getTrait(query: any) {
+  for (const key in query) {
     if (!['contractSlug', 'source', 'activity'].includes(key)) {
-      return traitFormat(key, String(router.query.contractSlug));
+      return traitFormat(key, String(query.contractSlug));
     }
   }
 
@@ -141,12 +135,10 @@ export function getTrait() {
 }
 
 // Get trait value selected for trait offer
-export function getTraitValue() {
-  const router = useRouter();
-
-  for (const key in router.query) {
+export function getTraitValue(query: any) {
+  for (const key in query) {
     if (!['contractSlug', 'source', 'activity'].includes(key)) {
-      return String(router.query[key]);
+      return String(query[key]);
     }
   }
 

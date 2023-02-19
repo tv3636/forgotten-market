@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import { isTraitOffer } from "./marketplaceHelpers";
 
 const CollectionOffer = styled.div`
@@ -29,9 +30,11 @@ export default function CollectionOfferButton({
 }: { 
   setShowModal: (show: boolean) => void;
 }) {
+  const router = useRouter();
+  
   return (
     <CollectionOffer onClick={() => setShowModal(true)}>
-      {`${ isTraitOffer() ? 'TRAIT' : 'COLLECTION' } OFFER`}
+      {`${ isTraitOffer(router.query) ? 'TRAIT' : 'COLLECTION' } OFFER`}
     </CollectionOffer>
   )
 }
