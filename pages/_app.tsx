@@ -5,6 +5,7 @@ import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";
 import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
+import { ReservoirKitProvider } from '@reservoir0x/reservoir-kit-ui'
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet],
@@ -93,6 +94,17 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
           key="ogtitle"
         />
       </Head>
+      <ReservoirKitProvider
+        options={{
+          chains: [{
+            id: 1,
+            baseApiUrl: "http://localhost:3000/api",
+            default: true,            
+          }],
+          source: "forgotten.market",
+          normalizeRoyalties: true
+        }}
+      >
         <WagmiConfig client={client}>
           <AnimateSharedLayout>
             <Component {...pageProps} />
@@ -105,6 +117,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
             />
           </AnimateSharedLayout>
         </WagmiConfig>
+      </ReservoirKitProvider>
     </>
   );
 }

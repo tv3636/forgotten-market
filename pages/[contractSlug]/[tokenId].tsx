@@ -354,7 +354,7 @@ const ListingPage = ({
 
   useEffect(() => {
     async function run() {
-      const page = await fetch(`${API_BASE_URL}tokens/details/v3?tokens=${contractSlug}:${tokenId}`);
+      const page = await fetch(`${API_BASE_URL}tokens/v5?tokens=${contractSlug}:${tokenId}&includeAttributes=true&normalizeRoyalties=true`);
       const listingsJson = await page.json();
 
       if (listingsJson.tokens.length > 0) {
