@@ -32,7 +32,6 @@ export default function RightBar({
   noLoreChange,
   setSource,
   selectionChange,
-  setShowModal,
   setActivity,
 }:{
   contract: string;
@@ -40,12 +39,11 @@ export default function RightBar({
   noLoreChange: any;
   setSource: any;
   selectionChange: any;
-  setShowModal: any;
   setActivity: any;
 }) {
   return (
     <Container className="noscrim desktop">  
-      <CollectionOfferButton setShowModal={setShowModal} />
+      <CollectionOfferButton />
       <Filters 
         contract={contract} 
         loreChange={loreChange} 

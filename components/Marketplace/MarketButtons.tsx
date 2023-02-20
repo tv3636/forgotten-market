@@ -1,8 +1,14 @@
 import { ORDER_TYPE } from "./marketplaceConstants";
 import MarketConnect from "./MarketConnect";
 import styled from "@emotion/styled";
-import GenericButton from "./GenericButton";
-import { BuyModal } from '@reservoir0x/reservoir-kit-ui';
+import { 
+  BuyModal, 
+  ListModal, 
+  BidModal, 
+  AcceptBidModal, 
+  CancelBidModal, 
+  CancelListingModal 
+} from '@reservoir0x/reservoir-kit-ui';
 
 const Buttons = styled.div`
   display: flex;
@@ -41,16 +47,78 @@ const StyledButton = styled.button`
   transition: all 200ms;
 `;
 
-function MarketButton({ 
-  type,
-  text = '',
- }: { 
-   type: ORDER_TYPE;
-   text?: string;
-  }) {
-  return (
-    <GenericButton text={ text ? text : type} />
-  );
+function MarketModal({
+  text,
+  contract,
+  tokenId,
+  orderId,
+}: {
+  text: string;
+  contract: string;
+  tokenId: string;
+  orderId: string;
+}) {
+  const trigger = <StyledButton>{text}</StyledButton>;
+
+  if (text == 'BUY') {
+    return (
+      <BuyModal
+        trigger={trigger}
+        collectionId={contract}
+        tokenId={tokenId}
+      />
+    )
+  }
+
+  if (text == 'SELL' || text == 'LOWER LISTING') {
+    return (
+      <ListModal
+        trigger={trigger}
+        collectionId={contract}
+        tokenId={tokenId}
+      />
+    )
+  }
+
+  if (text == 'OFFER') {
+    return (
+      <BidModal
+        trigger={trigger}
+        collectionId={contract}
+        tokenId={tokenId}
+      />
+    )
+  }
+
+  if (text == 'ACCEPT OFFER') {
+    return (
+      <AcceptBidModal
+        trigger={trigger}
+        collectionId={contract}
+        tokenId={tokenId}
+      />
+    )
+  }
+
+  if (text == 'CANCEL OFFER') {
+    return (
+      <CancelBidModal
+        trigger={trigger}
+        bidId={orderId}
+      />
+    )
+  }
+
+  if (text == 'CANCEL LISTING') {
+    return (
+      <CancelListingModal
+        trigger={trigger}
+        listingId={orderId}
+      />
+    )
+  }
+
+  return null
 }
 
 export default function MarketButtons({
@@ -64,6 +132,7 @@ export default function MarketButtons({
   myOffer,
   contract,
   tokenId,
+  hash,
 }: {
   account: string | null | undefined;
   owner: string | null | undefined;
@@ -75,6 +144,7 @@ export default function MarketButtons({
   myOffer: boolean;
   contract: string;
   tokenId: string;
+  hash: string;
 }) {
   if (!account) {
     return <MarketConnect />;
@@ -85,34 +155,25 @@ export default function MarketButtons({
         if (listValue) {
           return (
             <Buttons>
-              <MarketButton type={ORDER_TYPE.SELL} text={'LOWER LISTING'}/>
-              <MarketButton type={ORDER_TYPE.CANCEL_LISTING} />
-              {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} />}
+              <MarketModal text={'LOWER LISTING'} contract={contract} tokenId={tokenId} orderId={hash}/>
+              <MarketModal text={'CANCEL LISTING'} contract={contract} tokenId={tokenId} orderId={hash} />
+              {hasOffer && <MarketModal text={'ACCEPT OFFER'} contract={contract} tokenId={tokenId} orderId={hash} />}
             </Buttons>
           )
         } else {
           return (
             <Buttons>
-              <MarketButton type={ORDER_TYPE.SELL} />
-              {hasOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} />}
+              <MarketModal text={'SELL'} contract={contract} tokenId={tokenId} orderId={hash}/>
+              {hasOffer && <MarketModal text={'ACCEPT OFFER'} contract={contract} tokenId={tokenId} orderId={hash} />}
             </Buttons>
           )
         }
       } else {
         return (
           <Buttons>
-            {listValue && 
-              <BuyModal
-                trigger={<StyledButton>BUY</StyledButton>}
-                collectionId={contract}
-                tokenId={tokenId}
-                onPurchaseComplete={(data) => console.log('Purchase Complete')}
-                onPurchaseError={(error, data) => console.log('Transaction Error', error, data)}
-                onClose={(data, stepData, currentStep) => console.log('Modal Closed')}
-              />
-            }
-            <MarketButton type={ORDER_TYPE.OFFER} />
-            {highestOffer ? <MarketButton type={ORDER_TYPE.CANCEL_OFFER} /> : null} 
+            {listValue && <MarketModal text={'BUY'} contract={contract} tokenId={tokenId} orderId={hash}/>}
+            <MarketModal text={'OFFER'} contract={contract} tokenId={tokenId} orderId={hash} />
+            {highestOffer ? <MarketModal text={'CANCEL OFFER'} contract={contract} tokenId={tokenId} orderId={hash} /> : null} 
           </Buttons>
         );
       }
@@ -120,23 +181,14 @@ export default function MarketButtons({
   } else {
     return (
       <Buttons>
-        {listValue && 
-          <BuyModal
-            trigger={<StyledButton>BUY</StyledButton>}
-            collectionId={contract}
-            tokenId={tokenId}
-            onPurchaseComplete={(data) => console.log('Purchase Complete')}
-            onPurchaseError={(error, data) => console.log('Transaction Error', error, data)}
-            onClose={(data, stepData, currentStep) => console.log('Modal Closed')}
-          />
-        }
-        <MarketButton type={ORDER_TYPE.OFFER} />
-        {highestOffer && <MarketButton type={ORDER_TYPE.CANCEL_OFFER} />}
+        {listValue && <MarketModal text={'BUY'} contract={contract} tokenId={tokenId} orderId={hash}/>}
+        <MarketModal text={'OFFER'} contract={contract} tokenId={tokenId} orderId={hash} />
+        {highestOffer && <MarketModal text={'CANCEL OFFER'} contract={contract} tokenId={tokenId} orderId={hash} />}
         {native ? 
-          <MarketButton type={ORDER_TYPE.CANCEL_LISTING} /> :
-          account.toLowerCase() == owner?.toLowerCase() && <MarketButton type={ORDER_TYPE.SELL} />
+          <MarketModal text={'CANCEL LISTING'} contract={contract} tokenId={tokenId} orderId={hash} /> :
+          account.toLowerCase() == owner?.toLowerCase() && <MarketModal text={'SELL'} contract={contract} tokenId={tokenId} orderId={hash}/>
         }
-        {hasOffer && !myOffer && <MarketButton type={ORDER_TYPE.ACCEPT_OFFER} />}
+        {hasOffer && !myOffer && <MarketModal text={'ACCEPT OFFER'} contract={contract} tokenId={tokenId} orderId={hash} />}
       </Buttons>
     )
   }

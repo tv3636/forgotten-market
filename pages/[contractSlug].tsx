@@ -3,8 +3,8 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
-import { API_BASE_URL, ORDER_TYPE, sourceReplace } from "../components/Marketplace/marketplaceConstants";
-import { getContract, getTrait, getTraitValue, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
+import { API_BASE_URL, sourceReplace } from "../components/Marketplace/marketplaceConstants";
+import { getContract, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/Layout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
@@ -130,7 +130,6 @@ export default function Marketplace({
   contract: string;
 }) {
   const [showActivity, setShowActivity] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [listings, setListings] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
@@ -143,7 +142,6 @@ export default function Marketplace({
   const [bid, setBid] = useState(0);
   const router = useRouter();
   let contractDict = getContract(contract);
-  let traitOffer = isTraitOffer(router.query);
 
   async function getStats() {
     var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query, contractDict.display);
@@ -329,14 +327,13 @@ export default function Marketplace({
           noLoreChange={() => setHasNoLore(!hasNoLore)}
           setSource={updateSource}
           selectionChange={selectionChange}
-          setShowModal={setShowModal}
           setActivity={updateActivityFeed}
         />
       </Main>
       { filterActive && 
         <MobileOverlay burgerActive={filterActive} setBurgerActive={setFilterActive}>
           <FilterContainer>
-            <CollectionOfferButton setShowModal={setShowModal} />
+            <CollectionOfferButton />
             <Filters
               contract={contract} 
               loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 

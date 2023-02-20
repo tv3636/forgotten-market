@@ -76,8 +76,8 @@ export default function PriceModule({
   return (
     <PriceDisplay>
       <MarketDisplay 
-        price={listing.price.amount.decimal} 
-        bid={offer?.value} 
+        price={listing.price?.amount.decimal} 
+        bid={offer?.price.amount.decimal} 
         lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp 
           ? token.lastBuy.value?.toPrecision(3) 
           : token.lastSell.value?.toPrecision(3) 
@@ -90,14 +90,15 @@ export default function PriceModule({
           <MarketButtons
             account={account}
             owner={contractDisplay == 'Flames' && flameHolder ? account : token.owner}
-            listValue={listing.price.amount.decimal}
-            hasOffer={offer?.value != null}
-            highestOffer={offer?.value && offer?.maker.toLowerCase() == account?.toLowerCase()}
+            listValue={listing.price?.amount.decimal}
+            hasOffer={offer?.price.amount.decimal != null}
+            highestOffer={offer?.price.amount.decimal && offer?.maker.toLowerCase() == account?.toLowerCase()}
             native={listing.source.name == 'Forgotten Market'}
             tokenType={contractDisplay == 'Flames' ? 1155 : 721}
-            myOffer={offer?.value && offer?.maker?.toLowerCase() == account?.toLowerCase()}
+            myOffer={offer?.price.amount.decimal && offer?.maker?.toLowerCase() == account?.toLowerCase()}
             tokenId={tokenId}
             contract={contract}
+            hash={listing.id}
           />
         </ButtonWrapper>
       }

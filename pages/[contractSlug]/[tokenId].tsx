@@ -319,8 +319,6 @@ const ListingPage = ({
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
-  const [modal, setModal] = useState(false);
-  const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
@@ -352,9 +350,10 @@ const ListingPage = ({
   var backgroundColor = contractDict.display in collectionData && tokenId in collectionData[contractDict.display] ? 
   `${collectionData[contractDict.display][tokenId].background}` : '#000000';
 
+  // TODO: update on completed modal
   useEffect(() => {
     async function run() {
-      const page = await fetch(`${API_BASE_URL}tokens/v5?tokens=${contractSlug}:${tokenId}&includeAttributes=true&normalizeRoyalties=true`);
+      const page = await fetch(`${API_BASE_URL}tokens/v5?tokens=${contractSlug}:${tokenId}&includeAttributes=true&normalizeRoyalties=true&includeTopBid=true`);
       const listingsJson = await page.json();
 
       if (listingsJson.tokens.length > 0) {
@@ -366,7 +365,7 @@ const ListingPage = ({
 
         console.log(listingsJson);
 
-        // TODO = improve performance
+        // TODO: improve performance
         const traits = await fetch(`${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`);
   
         const traitJson = await traits.json();
@@ -399,7 +398,7 @@ const ListingPage = ({
     }
 
     run();
-  }, [modal, contractSlug]);
+  }, [contractSlug]);
 
   useEffect(() => {
     async function getFlames() {

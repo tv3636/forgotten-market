@@ -98,7 +98,7 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
         options={{
           chains: [{
             id: 1,
-            baseApiUrl: "http://localhost:3000/api",
+            baseApiUrl: String(process.env.NEXT_PUBLIC_REACT_APP_API_BASE_URL),
             default: true,            
           }],
           source: "forgotten.market",
