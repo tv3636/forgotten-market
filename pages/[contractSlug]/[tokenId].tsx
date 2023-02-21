@@ -353,7 +353,7 @@ const ListingPage = ({
   // TODO: update on completed modal
   useEffect(() => {
     async function run() {
-      const page = await fetch(`${API_BASE_URL}tokens/v5?tokens=${contractSlug}:${tokenId}&includeAttributes=true&normalizeRoyalties=true&includeTopBid=true`);
+      const page = await fetch(`${API_BASE_URL}tokens/v5?tokens=${contractSlug}:${tokenId}&includeAttributes=true&includeTopBid=true`);
       const listingsJson = await page.json();
 
       if (listingsJson.tokens.length > 0) {

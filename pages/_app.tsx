@@ -102,7 +102,6 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
             default: true,            
           }],
           source: "forgotten.market",
-          normalizeRoyalties: true,
           marketplaceFee: 150,
           marketplaceFeeRecipient: '0x6eab2d42fef9aad0036bc145b5f451799e3fb3f7'
         }}
