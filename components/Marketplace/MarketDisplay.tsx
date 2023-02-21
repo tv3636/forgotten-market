@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { getDisplayBid } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -71,7 +70,7 @@ export default function MarketDisplay({
     <StatsItem>
       <Price>
         { bid && <EthSymbol weth={true}/> }
-        <h1>{bid? getDisplayBid(Number(bid), contract).toPrecision(2) : '-'}</h1>
+        <h1>{bid? bid : '-'}</h1>
       </Price>
       <div>BEST OFFER</div>
     </StatsItem>

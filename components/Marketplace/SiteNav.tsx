@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MobileOverlay from "./MobileOverlay";
 import RuneHeader from "./RuneHeader";
 import { CollectionContainer } from "./Sidebar";
@@ -112,11 +112,17 @@ export function MainMenu({
 }:{
   className: string;
 }) {
+  const [connectedWallet, setConnectedWallet] = useState<any>(null);
   const { address, isConnected } = useAccount()
-  const { data: ensName } = useEnsName({ address })
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   })
+
+  useEffect(() => {
+    if (isConnected && address) {
+      setConnectedWallet(address);
+    }
+  }, [])
 
   return (
     <Menu className={className}>
@@ -124,8 +130,8 @@ export function MainMenu({
         <Link href='/about'>HELP</Link>
       </MenuItem>
       <MenuItem>
-        {address ? 
-            <Link href={`/address/${address}`}>
+        {connectedWallet ? 
+            <Link href={`/address/${connectedWallet}`}>
               ACCOUNT
             </Link> :
           <div className='pointer' onClick={() => connect()}>CONNECT</div>

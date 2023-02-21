@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { getContract, getImage, getPages, getValue } from "../../components/Marketplace/marketplaceHelpers";
-import { API_BASE_URL, ITEM_CONTRACTS, ORDER_TYPE } from "../../components/Marketplace/marketplaceConstants";
+import { API_BASE_URL, ITEM_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
 import TraitDisplay from "../../components/Marketplace/TraitDisplay";

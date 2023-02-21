@@ -174,12 +174,6 @@ export function getImage(contract: string, tokenId: number | string, image_url?:
     `${contractDict.image_url}${tokenId}.png`;
 }
 
-// Get display bid value (price before fees)
-export function getDisplayBid(bid: number, contract: string) {
-  let feePercent = (10000 - Number(getContract(contract).fee)) / 10000;
-  return bid / feePercent;
-}
-
 export async function getPages(lore: any, tokenId: any) {
   if (lore.length > 0) {
     var newPages = [];

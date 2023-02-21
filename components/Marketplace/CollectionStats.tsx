@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import AnimatedNumber from "animated-number-react";
-import { getContract, getDisplayBid } from "./marketplaceHelpers";
+import { getContract } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -96,7 +96,7 @@ export default function CollectionStats({
           <h1>
             { bid ? 
               <AnimatedNumber 
-                value={bid? getDisplayBid(bid, contract) : 0}
+                value={bid? bid : 0}
                 formatValue={(value: number) => value.toPrecision(2)}
                 duration={animationDuration}
               /> :
