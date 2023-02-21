@@ -5,16 +5,12 @@ import React, { useEffect, useState } from "react";
 import client from "../../lib/graphql";
 import { gql } from "@apollo/client";
 import { getContract, getImage, getPages, getValue } from "../../components/Marketplace/marketplaceHelpers";
-import { API_BASE_URL, ITEM_CONTRACTS, ORDER_TYPE } from "../../components/Marketplace/marketplaceConstants";
+import { API_BASE_URL, ITEM_CONTRACTS } from "../../components/Marketplace/marketplaceConstants";
 import { getProvider } from "../../hooks/useProvider";
-import { useEthers } from "@usedapp/core";
-import countdown from "countdown";
-import Order from "../../components/Marketplace/Order";
 import LoreBlock from "../../components/Marketplace/LoreBlock";
 import TraitDisplay from "../../components/Marketplace/TraitDisplay";
 import Carousel from "../../components/Marketplace/MarketCarousel";
 import { Owner } from "../../components/Marketplace/OfferDisplay";
-import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
 import RuneHeader from "../../components/Marketplace/RuneHeader";
 import wizards from "../../data/wizards.json";
 import warriors from "../../data/warriors.json";
@@ -28,6 +24,7 @@ import Bio from "../../components/Marketplace/Bio";
 import BaseModule from "../../components/Marketplace/BaseModule";
 import LoadingCard from "../../components/Marketplace/LoadingCard";
 import Icons from "../../components/Marketplace/Icons";
+import { useAccount } from "wagmi";
 
 const collectionData: any = {
   'Wizards': wizards as { [wizardId: string]: any },
@@ -321,13 +318,11 @@ const ListingPage = ({
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
   const [countdownTimer, setCountdownTimer] = useState<any>(null);
-  const [modal, setModal] = useState(false);
-  const [marketActionType, setMarketActionType] = useState(ORDER_TYPE.BUY);
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
   const [traitHover, setTraitHover] = useState('');
-  const { account } = useEthers();
+  const { address, isConnected } = useAccount();
   let contractDict = getContract(contractSlug);
 
   let imageUrls: string[] = [
@@ -354,9 +349,10 @@ const ListingPage = ({
   var backgroundColor = contractDict.display in collectionData && tokenId in collectionData[contractDict.display] ? 
   `${collectionData[contractDict.display][tokenId].background}` : '#000000';
 
+  // TODO: update on completed modal
   useEffect(() => {
     async function run() {
-      const page = await fetch(`${API_BASE_URL}tokens/details/v3?tokens=${contractSlug}:${tokenId}`);
+      const page = await fetch(`${API_BASE_URL}tokens/v5?tokens=${contractSlug}:${tokenId}&includeAttributes=true&includeTopBid=true`);
       const listingsJson = await page.json();
 
       if (listingsJson.tokens.length > 0) {
@@ -364,11 +360,11 @@ const ListingPage = ({
         setListing(listingsJson.tokens[0].market.floorAsk);
         setOffer(listingsJson.tokens[0].market.topBid);
         setAttributes(listingsJson.tokens[0].token.attributes);
-        setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
+        //setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
 
         console.log(listingsJson);
 
-        // TODO = improve performance
+        // TODO: improve performance
         const traits = await fetch(`${API_BASE_URL}collections/${contractSlug}/attributes/all/v1`);
   
         const traitJson = await traits.json();
@@ -396,25 +392,25 @@ const ListingPage = ({
         }
       }
       
-      setIsBanned(await isOpenSeaBanned(contractSlug, Number(tokenId)));
+      setIsBanned(listingsJson.tokens[0].token.isFlagged);
     }
 
     run();
-  }, [modal, contractSlug]);
+  }, [contractSlug]);
 
   useEffect(() => {
     async function getFlames() {
       if (contractDict.display == 'Flames') {
-        const userFlames = await fetch(`${API_BASE_URL}users/${account}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`);
+        const userFlames = await fetch(`${API_BASE_URL}users/${address}/tokens/v2?collection=${contractSlug}&offset=0&limit=20`);
 
         const flamesJson = await userFlames.json();
         setFlameHolder(flamesJson.tokens.length > 0);
       }
     }
-    if (account) {
+    if (address) {
       getFlames();
     }
-  }, [account])
+  }, [address])
 
   return (
     <Layout 
@@ -428,25 +424,6 @@ const ListingPage = ({
       <PageWrapper>
         {loaded ? 
           <ListingWrapper>
-            { modal && 
-              <Order 
-                tokenId={tokenId} 
-                contract={contractSlug} 
-                name={token.name} 
-                setModal={setModal} 
-                action={marketActionType} 
-                hash={listing.id} 
-                offerHash={offer.id} 
-                collectionWide={false}
-                trait={''}
-                traitValue={''}
-                expectedPrice={ 
-                  marketActionType == ORDER_TYPE.ACCEPT_OFFER ? offer.value : 
-                  marketActionType == ORDER_TYPE.BUY ? listing.price :
-                  0
-                }
-              />
-            }
             <Listing>
               <RuneHeader plaintext={false} home={false}>
                 {`${contractDict.singular.toUpperCase()} #${tokenId}`}
@@ -481,22 +458,21 @@ const ListingPage = ({
                       {token.owner && (
                         <OwnerStyle>
                           {`Owner: `}
-                          <Owner owner={token.owner} connectedAccount={account} ens={ens}/>
+                          <Owner owner={token.owner} connectedAccount={address} ens={ens}/>
                         </OwnerStyle>
                       )}
                     </NameDisplay>
                     <PriceModule
                       listing={listing}
                       offer={offer}
-                      account={account}
+                      account={address}
                       token={token}
                       contractDisplay={contractDict.display}
                       flameHolder={flameHolder}
                       isBanned={isBanned}
-                      setModal={setModal}
-                      setMarketActionType={setMarketActionType}
                       countdownTimer={countdownTimer}
                       contract={contractSlug}
+                      tokenId={tokenId}
                     />
                   </TopRight>
                 </TopDisplay>

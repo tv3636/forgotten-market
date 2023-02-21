@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
-import Image from 'next/image';
 import AnimatedNumber from "animated-number-react";
-import { getContract, getDisplayBid } from "./marketplaceHelpers";
+import { getContract } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -39,7 +38,7 @@ function EthSymbol({
 }) {
   return (
     <div style={{marginRight: 'var(--sp-4)', display: 'flex'}}>
-      <Image 
+      <img 
         src={weth ? "/static/img/marketplace/weth.png" : "/static/img/marketplace/eth_alt.png"} 
         height='21ex' 
         width='11ch'
@@ -97,7 +96,7 @@ export default function CollectionStats({
           <h1>
             { bid ? 
               <AnimatedNumber 
-                value={bid? getDisplayBid(bid, contract) : 0}
+                value={bid? bid : 0}
                 formatValue={(value: number) => value.toPrecision(2)}
                 duration={animationDuration}
               /> :

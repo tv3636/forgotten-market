@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
-import Image from 'next/image';
 import { useRouter } from "next/router";
 import RuneHeader from "./RuneHeader";
 import { getContract } from "./marketplaceHelpers";
@@ -139,7 +138,7 @@ function Collection({
       <Link href={`/${ contract }${ 'activity' in router.query ? `?activity=${router.query.activity}` : ''}`}>
         <CollectionWrapper onClick={() => setBurgerActive(false)}>
           <CollectionIcon className={`icon${ active ? ' active' : ''} desktop`}>
-            <Image 
+            <img 
               src={`/static/img/marketplace/icon_${contractDict.display}.png`} 
               height='25ex' 
               width='25ch' 

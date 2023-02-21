@@ -1,14 +1,12 @@
 import styled from "@emotion/styled";
-import { useEthers } from "@usedapp/core";
-import Image from 'next/image';
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useMst } from "../../store";
-import useWeb3Modal from "../../hooks/useWeb3Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MobileOverlay from "./MobileOverlay";
 import RuneHeader from "./RuneHeader";
 import { CollectionContainer } from "./Sidebar";
+import { useAccount, useConnect } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -114,20 +112,17 @@ export function MainMenu({
 }:{
   className: string;
 }) {
-  const { account } = useEthers();
-  const { web3Settings } = useMst();
-  const { activate } = useEthers();
+  const [connectedWallet, setConnectedWallet] = useState<any>(null);
+  const { address, isConnected } = useAccount()
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  })
 
-  const setInjectedProvider = (newProvider: any) => {
-    web3Settings.setInjectedProvider(newProvider);
-    activate(newProvider);
-
-    // workaround to reload page after wallet is connected
-    window.location.reload();
-  };
-
-  const [web3Modal, loadWeb3Modal, logoutOfWeb3Modal] =
-    useWeb3Modal(setInjectedProvider);
+  useEffect(() => {
+    if (isConnected && address) {
+      setConnectedWallet(address);
+    }
+  }, [])
 
   return (
     <Menu className={className}>
@@ -135,11 +130,11 @@ export function MainMenu({
         <Link href='/about'>HELP</Link>
       </MenuItem>
       <MenuItem>
-        {account ? 
-            <Link href={`/address/${account}`}>
+        {connectedWallet ? 
+            <Link href={`/address/${connectedWallet}`}>
               ACCOUNT
             </Link> :
-          <div className='pointer' onClick={() => loadWeb3Modal()}>CONNECT</div>
+          <div className='pointer' onClick={() => connect()}>CONNECT</div>
         }
       </MenuItem>
     </Menu>
@@ -163,29 +158,27 @@ export default function SiteNav({
             router.query.contractSlug : 
             '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42'
         }`}>
-          <Image 
+          <img 
             src="/static/img/forgotten-runes-logo.png" 
             width="180px" 
             height="59px" 
             className="pointer"
-            layout="responsive"
           />  
         </Link>
       </LogoContainer>
       <MainMenu className="desktop" />
 
       <Burger className="mobile" onClick={() => setBurgerActive(true)}>
-          <Image 
+          <img 
               src="/static/img/burger.png" 
               width="25px" 
               height="25px" 
               className="pointer"
-              layout="responsive"
             />  
           </Burger>
           <FilterContainer className="mobile" onClick={() => setFilterActive(true)}>
             { homepage && 
-            <Image 
+            <img 
                 src="/static/img/filter.png" 
                 width="25px" 
                 height="25px" 

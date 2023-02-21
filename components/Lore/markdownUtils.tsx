@@ -1,8 +1,8 @@
 import { IndividualLorePageData } from "./types";
-import { IPFS_SERVER } from "../../constants";
 import productionWizardData from "../../data/nfts-prod.json";
 import dayjs from "dayjs";
 import { fetchFromIpfs } from "../../lib/web3Utils";
+import { IPFS_SERVER } from "../Marketplace/marketplaceConstants";
 
 const wizData = productionWizardData as { [wizardId: string]: any };
 

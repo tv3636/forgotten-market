@@ -1,8 +1,5 @@
-import { Weth } from "@reservoir0x/sdk/dist/common/helpers";
-import { BigNumber, Signer } from "ethers";
 import { COMMUNITY_CONTRACTS, CONTRACTS, ITEM_CONTRACTS, NON_TRAITS } from "./marketplaceConstants";
 import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
 import { hydratePageDataFromMetadata } from "../Lore/markdownUtils";
 
 const chainId = Number(process.env.NEXT_PUBLIC_REACT_APP_CHAIN_ID);
@@ -19,28 +16,6 @@ export type Execute = {
     | undefined
   query?: { [x: string]: any }
   error?: string | undefined
-}
-
-/**
- * Get a wETH contract instance and the signers wETH balance
- * @param chainId The Ethereum chain ID (eg: 1 - Ethereum Mainnet,
- *  4 - Rinkeby Testnet)
- * @param provider An abstraction to access the blockchain data
- * @param signer An Ethereum signer object
- * @returns A wETH contract instance and the signers wETH balance
- */
- export async function getWeth(chainId: number, provider: any, signer: Signer) {
-  const weth = new Weth(provider, chainId)
-  const signerAddress = await signer.getAddress()
-
-  try {
-    const balance = BigNumber.from(await weth.getBalance(signerAddress))
-    return { weth, balance }
-  } catch (err) {
-    console.error(err)
-  }
-
-  return null
 }
 
 // Sort and count trait values
@@ -127,14 +102,13 @@ export function numShorten(num: number) {
 */
 
 // Determine if one trait is selected, enabling trait offer
-export function isTraitOffer() {
-  const router = useRouter();
+export function isTraitOffer(query: any) {
 
-  if (getTraitCount() == 1) {
-    for (var trait of Object.keys(router.query)) {
+  if (getTraitCount(query) == 1) {
+    for (var trait of Object.keys(query)) {
       if (!NON_TRAITS.includes(trait) 
-        && ((Array.isArray(router.query[trait]) && router.query[trait].length == 1)
-        || !Array.isArray(router.query[trait]))) {
+        && ((Array.isArray(query[trait]) && query[trait]?.length == 1)
+        || !Array.isArray(query[trait]))) {
         return true;
       }
     }
@@ -144,20 +118,16 @@ export function isTraitOffer() {
 }
 
 // Get count of selected traits in query
-export function getTraitCount() {
-  const router = useRouter();
-
-  return Object.keys(router.query).length 
-    - NON_TRAITS.reduce((prev, current) => {return prev + Number(current in router.query)}, 0);
+export function getTraitCount(query: any) {
+  return Object.keys(query).length 
+    - NON_TRAITS.reduce((prev, current) => {return prev + Number(current in query)}, 0);
 }
 
 // Get trait selected for trait offer
-export function getTrait() {
-  const router = useRouter();
-
-  for (const key in router.query) {
+export function getTrait(query: any) {
+  for (const key in query) {
     if (!['contractSlug', 'source', 'activity'].includes(key)) {
-      return traitFormat(key, String(router.query.contractSlug));
+      return traitFormat(key, String(query.contractSlug));
     }
   }
 
@@ -165,12 +135,10 @@ export function getTrait() {
 }
 
 // Get trait value selected for trait offer
-export function getTraitValue() {
-  const router = useRouter();
-
-  for (const key in router.query) {
+export function getTraitValue(query: any) {
+  for (const key in query) {
     if (!['contractSlug', 'source', 'activity'].includes(key)) {
-      return String(router.query[key]);
+      return String(query[key]);
     }
   }
 
@@ -204,12 +172,6 @@ export function getImage(contract: string, tokenId: number | string, image_url?:
   contractDict.image_url.indexOf('https://portal.forgottenrunes') == 0 ? 
     `${contractDict.image_url}${tokenId}` :
     `${contractDict.image_url}${tokenId}.png`;
-}
-
-// Get display bid value (price before fees)
-export function getDisplayBid(bid: number, contract: string) {
-  let feePercent = (10000 - Number(getContract(contract).fee)) / 10000;
-  return bid / feePercent;
 }
 
 export async function getPages(lore: any, tokenId: any) {

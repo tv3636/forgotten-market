@@ -1,6 +1,4 @@
 import styled from "@emotion/styled";
-import Image from 'next/image';
-import { getDisplayBid } from "./marketplaceHelpers";
 
 const Price = styled.div`
   display: flex;
@@ -38,7 +36,7 @@ function EthSymbol({
 }) {
   return (
     <div style={{marginRight: 'var(--sp-4)', display: 'flex'}}>
-      <Image 
+      <img 
         src={weth ? "/static/img/marketplace/weth.png" : "/static/img/marketplace/eth_alt.png"} 
         height='24ex' 
         width='12ch'
@@ -72,7 +70,7 @@ export default function MarketDisplay({
     <StatsItem>
       <Price>
         { bid && <EthSymbol weth={true}/> }
-        <h1>{bid? getDisplayBid(Number(bid), contract).toPrecision(2) : '-'}</h1>
+        <h1>{bid? bid : '-'}</h1>
       </Price>
       <div>BEST OFFER</div>
     </StatsItem>

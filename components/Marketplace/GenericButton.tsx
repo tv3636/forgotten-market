@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const ButtonDiv = styled.div`
+const StyledButton = styled.button`
   background-color: var(--darkGray);
   border-image: url(/static/img/button-frame.png);
   border-style: solid;
@@ -26,16 +26,14 @@ const ButtonDiv = styled.div`
   transition: all 200ms;
 `;
 
-export default function ActionButton({ 
+export default function GenericButton({ 
   text,
-  onClick
 }: { 
   text: string;
-  onClick: any;
 }) {
   return (
-    <ButtonDiv onClick={onClick} style={text.length > 10 ? {padding: '0 var(--sp-1)'} : {}}> 
+    <StyledButton style={text.length > 10 ? {padding: '0 var(--sp-1)'} : {}}> 
       {text.toUpperCase()}
-    </ButtonDiv>
+    </StyledButton>
   )
 }

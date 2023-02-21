@@ -97,7 +97,7 @@ function MapBlur({ center }: { center: any }) {
         <MapStyles>
           <MapOverlay>
             <OverlayMessage>
-              <a href="https://forgottenrunes.com/map" target="_blank">
+              <a href="https://forgottenrunes.com/map" target="_blank" rel="noreferrer">
                 <InfoTooltip tooltip={'So far, only about 25% of the Runiverse has been revealed on the map. The rest remains to be seen.'}/>
               </a>
               <div style={{marginTop: 'var(--sp-1'}}>

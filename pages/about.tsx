@@ -150,8 +150,8 @@ export default function About({}: {}) {
       <PageWrapper>
       <AboutWrapper>
         <Title>About</Title>
-        <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank">open source</a> Forgotten Runes marketplace, powered by&nbsp;
-        <a href='https://reservoirprotocol.github.io/' target="_blank">Reservoir Protocol.</a></Description>
+        <Description>Forgotten.market is a cult-created, <a href='https://github.com/tv3636/forgotten-market' target="_blank" rel="noreferrer">open source</a> Forgotten Runes marketplace, powered by&nbsp;
+        <a href='https://reservoirprotocol.github.io/' target="_blank" rel="noreferrer">Reservoir Protocol.</a></Description>
         <Description>Listings shown here are a combination of listings aggregated from OpenSea, LooksRare, X2Y2, and listings made natively on Forgotten.market. Listings show an icon to indicate their origin:</Description>
         <HorizontalLine/>
         <Fees style={{maxWidth: '600px'}}>
@@ -190,7 +190,7 @@ export default function About({}: {}) {
           <Row>
             <td>Forgotten.Market</td>
             <td><OSIcon src="/static/img/icons/nav/native_listing.png" /></td>
-            <td style={{fontWeight: 'bold'}}>1.5% to <a href='http://thehouseofwizards.com/' target="_blank">Community DAO</a></td>
+            <td style={{fontWeight: 'bold'}}>1.5% to <a href='http://thehouseofwizards.com/' target="_blank" rel="noreferrer">Community DAO</a></td>
           </Row>
           <Row>
             <td>OpenSea</td>

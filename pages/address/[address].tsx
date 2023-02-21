@@ -218,8 +218,8 @@ export default function Address({
   }
 
   useEffect(() => {
-    fetchOrders('sell');
-    fetchOrders('buy')
+    //fetchOrders('sell');
+    //fetchOrders('buy')
   }, []);
 
   if (valid) {

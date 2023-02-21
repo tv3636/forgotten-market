@@ -1,41 +1,5 @@
-const path = require("path");
-const webpack = require("webpack");
-const root = path.resolve(__dirname);
-const withImages = require("next-images");
-const withSvgr = require("next-svgr");
-const withMDX = require("@next/mdx")({
-  extension: /\.mdx?$/,
-});
-const withTM = require("next-transpile-modules")([
-  "rehype-slug",
-  "rehype-autolink-headings",
-  "hast-util-has-property",
-  "hast-util-heading-rank",
-  "hast-util-to-string",
-  "hast-util-is-element",
-  "unist-util-is",
-]);
-
-// https://gist.github.com/diachedelic/6ded48f5c6442482fa69e91ec7ab1742
-let nextConfig = {
-  webpack: (config, { isServer }) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      react$: path.resolve(root, "./node_modules/react"),
-    };
-
-    // if (!options.isServer) {
-    //   config.node = {
-    //     fs: "empty",
-    //   };
-    // }
-    return config;
-  },
-  images: {
-    domains: ["nftz.forgottenrunes.com", "cloudflare-ipfs.com"],
-  },
-  experimental: { esmExternals: true },
-  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   async headers() {
     return [
       {
@@ -87,14 +51,7 @@ let nextConfig = {
       },
     ]
   },
-};
+  transpilePackages: ['@reservoir0x/reservoir-kit-ui'],
+}
 
-nextConfig = withImages(nextConfig);
-nextConfig = withSvgr(nextConfig);
-nextConfig = withMDX(nextConfig);
-nextConfig = withTM({
-  webpack5: false,
-  ...nextConfig,
-});
-
-module.exports = nextConfig;
+module.exports = nextConfig
