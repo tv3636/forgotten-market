@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import RuneHeader from "./RuneHeader";
 import { getContract } from "./marketplaceHelpers";
-import { BEAST_CONTRACTS, CHARACTER_CONTRACTS, COMMUNITY_CONTRACTS, CONTRACTS, ITEM_CONTRACTS, MOUNT_CONTRACTS } from "./marketplaceConstants";
+import { BEAST_CONTRACTS, CHARACTER_CONTRACTS, COMMUNITY_CONTRACTS, ITEM_CONTRACTS, MOUNT_CONTRACTS } from "./marketplaceConstants";
 
 const Container = styled.div`
   display: flex;

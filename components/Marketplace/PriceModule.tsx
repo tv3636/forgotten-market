@@ -92,7 +92,7 @@ export default function PriceModule({
             hasOffer={offer.price?.amount.decimal != null}
             highestOffer={offer.price?.amount.decimal && offer?.maker.toLowerCase() == account?.toLowerCase()}
             native={listing.source.name == 'Forgotten Market'}
-            tokenType={contractDisplay == 'Flames' ? 1155 : 721}
+            tokenType={contractDisplay == 'Flames' || contractDisplay == 'Treats' ? 1155 : 721}
             myOffer={offer.price?.amount.decimal && offer?.maker?.toLowerCase() == account?.toLowerCase()}
             tokenId={tokenId}
             contract={contract}

@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { ReactNode } from "react";
+import Image from "next/legacy/image";
 
 const SectionHeader = styled.div`
   display: flex;
@@ -34,9 +35,9 @@ export default function RuneHeader({
       } : home ? {
         marginBottom: 'var(--sp-2)'
       } : {}}>
-      { !plaintext && <img src="/static/img/floaters-left.png" height='14.5px' width='67px' /> }
+      { !plaintext && <Image src="/static/img/floaters-left.png" height='14.5' width='57' /> }
         {children}
-      { !plaintext && <img src="/static/img/floaters-right.png" height='14.5px' width='67px' /> }
+      { !plaintext && <Image src="/static/img/floaters-right.png" height='14.5' width='57' /> }
     </SectionHeader>
   )
 }

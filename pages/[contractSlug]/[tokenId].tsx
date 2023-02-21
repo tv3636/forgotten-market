@@ -271,35 +271,6 @@ const Column = styled.div`
   }
 `;
 
-const Module = styled.div`
-  border-image-source: url(/static/img/moduleframe.png);
-  border-image-slice: 30 35;
-  border-image-width: var(--frameSize);
-  border-style: solid;
-  border-image-repeat: round;
-
-  padding: var(--sp1);
-
-  width: 100%;
-  margin-bottom: var(--sp0);
-
-  background-color: var(--darkGray);
-
-  @media only screen and (max-width: 600px) {
-   max-width: 80%;
-  }
-`;
-
-const Banner = styled.div`
-  font-family: Alagard;
-  font-size: var(--sp1);
-  color: var(--white);
-
-  display: flex;
-  justify-content: center;
-`;
-
-
 const ListingPage = ({
   contractSlug,
   tokenId,
@@ -384,7 +355,7 @@ const ListingPage = ({
       setPages(await getPages(lore, tokenId));
       
       // Preload turnaround images
-      if (contractDict.display == 'Wizards') {
+      if (contractDict.display == 'Wizards' || contractDict.display == 'Souls' || contractDict.display == 'Warriors') {
         for (var url of imageUrls) {
           const img = new Image().src = url;
         }
