@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
 import { API_BASE_URL, sourceReplace } from "../components/Marketplace/marketplaceConstants";
-import { getContract, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
+import { getContract, getURLAttributes } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/Layout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";

@@ -36,19 +36,21 @@ export default function Icons({
     <div
       style={{ display: "flex", justifyContent: "center", marginTop: "1vh" }}
     >
-      <SocialItem>
-        <a
-          href={`https://forgottenrunes.com/scenes/gm/${tokenId}`}
-          className="icon-link gm"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <ResponsivePixelImg
-            src="/static/img/icons/gm.png"
-            className="gm-img"
-          />
-        </a>
-      </SocialItem>
+      { contractDict.display == 'Wizards' && 
+        <SocialItem>
+          <a
+            href={`https://forgottenrunes.com/scenes/gm/${tokenId}`}
+            className="icon-link gm"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <ResponsivePixelImg
+              src="/static/img/icons/gm.png"
+              className="gm-img"
+            />
+          </a>
+        </SocialItem>
+      }
       <SocialItem>
         <a 
           href={`https://forgottenrunes.com/lockscreen?tokenSlug=${contractDict.display.toLowerCase()}&tokenId=${tokenId}`} 
@@ -58,7 +60,7 @@ export default function Icons({
           <ResponsivePixelImg src="/static/img/icons/social_phone_default.png" />
         </a>
       </SocialItem>
-      {contractDict.collection == "forgottenruneswizardscult" && (
+      {['Wizards', 'Warriors', 'Souls', 'Ponies'].includes(contractDict.display) && (
         <SocialItem>
           <a
             href={`https://forgottenrunes.com/api/art/${contractDict.display.toLowerCase()}/${tokenId}.zip`}

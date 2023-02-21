@@ -5,7 +5,7 @@ import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";
 import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import { ReservoirKitProvider } from '@reservoir0x/reservoir-kit-ui'
+import { darkTheme, ReservoirKitProvider, ReservoirKitTheme } from '@reservoir0x/reservoir-kit-ui'
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet],
@@ -16,6 +16,20 @@ const client = createClient({
   autoConnect: true,
   provider,
   webSocketProvider,
+})
+
+const theme = darkTheme({
+  headlineFont: "Terminal",
+  font: "Terminal",
+  primaryColor: "var(--mediumGray)",
+  overlayBackground: "#000000db",
+  contentBackground: "var(--darkGray)",
+  headerBackground: "#0f0f14",
+  footerBackground: "var(--darkGray)",
+  wellBackground: "var(--frameGray)",
+  popoverBackground: "var(--midGray)",
+  buttonTextColor: "white",
+  textColor: "var(--white)",
 })
 
 function App({ Component, pageProps }: { Component: any; pageProps: any }) {
@@ -103,8 +117,9 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
           }],
           source: "forgotten.market",
           marketplaceFee: 150,
-          marketplaceFeeRecipient: '0x6eab2d42fef9aad0036bc145b5f451799e3fb3f7'
+          marketplaceFeeRecipient: '0x6eab2d42fef9aad0036bc145b5f451799e3fb3f7',
         }}
+        theme={theme}
       >
         <WagmiConfig client={client}>
           <AnimateSharedLayout>

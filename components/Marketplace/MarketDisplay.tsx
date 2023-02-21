@@ -63,14 +63,14 @@ export default function MarketDisplay({
     <StatsItem>
       <Price>
         { price && <EthSymbol weth={false}/> }
-        <h1>{price ? price : '-'}</h1>
+        <h1>{price ? Number(price).toPrecision(3) : '-'}</h1>
       </Price>
       <div>LIST PRICE</div>
     </StatsItem>
     <StatsItem>
       <Price>
         { bid && <EthSymbol weth={true}/> }
-        <h1>{bid? bid : '-'}</h1>
+        <h1>{bid? Number(bid).toPrecision(3) : '-'}</h1>
       </Price>
       <div>BEST OFFER</div>
     </StatsItem>
