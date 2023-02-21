@@ -133,7 +133,7 @@ export function MainMenu({
     if (isConnected && address) {
       setConnectedWallet(address);
     }
-  }, [])
+  }, [isConnected])
 
   return (
     <Menu className={className}>
