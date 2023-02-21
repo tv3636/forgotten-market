@@ -11,7 +11,6 @@ import LoreBlock from "../../components/Marketplace/LoreBlock";
 import TraitDisplay from "../../components/Marketplace/TraitDisplay";
 import Carousel from "../../components/Marketplace/MarketCarousel";
 import { Owner } from "../../components/Marketplace/OfferDisplay";
-//import { isOpenSeaBanned } from '@reservoir0x/client-sdk';
 import RuneHeader from "../../components/Marketplace/RuneHeader";
 import wizards from "../../data/wizards.json";
 import warriors from "../../data/warriors.json";
@@ -393,8 +392,7 @@ const ListingPage = ({
         }
       }
       
-      // TO-DO: add back
-      //setIsBanned(await isOpenSeaBanned(contractSlug, Number(tokenId)));
+      setIsBanned(listingsJson.tokens[0].token.isFlagged);
     }
 
     run();
