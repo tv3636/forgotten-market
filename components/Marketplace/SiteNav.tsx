@@ -83,6 +83,17 @@ const LogoContainer = styled.div`
   }
 `;
 
+const StyledLogo = styled.img`
+  width: 180px;
+  height: 59px;
+
+  @media only screen and (max-width: 600px) {
+    width: 120px;
+    height: 40px;
+  }
+
+`;
+
 const Burger = styled.div`
   --scale: 0.7;
   width: calc(33.75px * var(--scale));
@@ -158,10 +169,8 @@ export default function SiteNav({
             router.query.contractSlug : 
             '0x521f9c7505005cfa19a8e5786a9c3c9c9f5e6f42'
         }`}>
-          <img 
+          <StyledLogo 
             src="/static/img/forgotten-runes-logo.png" 
-            width="180px" 
-            height="59px" 
             className="pointer"
           />  
         </Link>
