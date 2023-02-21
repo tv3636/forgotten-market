@@ -2,7 +2,6 @@ import { ORDER_TYPE } from "./marketplaceConstants";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import styled from "@emotion/styled";
-import { Title } from "./Order";
 
 const Expiration = styled.div`
   display: flex;
@@ -27,11 +26,6 @@ export default function SetExpiration({
 }) {
   return (
     <Expiration>
-      <Title style={{fontSize: '15px'}}>
-        <div style={{marginBottom: '5px', maxWidth: '8ch', textAlign: 'left'}}>
-          { `${action == ORDER_TYPE.OFFER ? 'Offer' : 'Listing'} Expires: ` }
-        </div>
-      </Title>
       <Flatpickr
         data-enable-time
         value={expiration}

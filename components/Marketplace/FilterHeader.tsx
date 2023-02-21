@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import Image from 'next/image';
 
 const Container = styled.div`
   display: flex;
@@ -129,7 +128,7 @@ function TraitTag({
       <TraitType>
         {trait.toUpperCase()}
         <Close onClick={() => removeFilter(trait, value)} style={{alignSelf: 'flex-end'}}>
-          <Image src='/static/img/x.png' width='20px' height='20px'/>
+          <img src='/static/img/x.png' width={20} height={20}/>
         </Close>
       </TraitType>
       <TraitItem>

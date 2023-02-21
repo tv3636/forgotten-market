@@ -3,7 +3,7 @@ import { API_BASE_URL } from "./marketplaceConstants";
 import { getURLAttributes, getContract } from "./marketplaceHelpers";
 import styled from "@emotion/styled";
 import InfiniteScroll from "react-infinite-scroll-component";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import LoadingCard from "./LoadingCard";
 import ActivityRow from "./ActivityRow";
 

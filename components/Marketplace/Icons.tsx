@@ -41,6 +41,7 @@ export default function Icons({
           href={`https://forgottenrunes.com/scenes/gm/${tokenId}`}
           className="icon-link gm"
           target="_blank"
+          rel="noreferrer"
         >
           <ResponsivePixelImg
             src="/static/img/icons/gm.png"
@@ -49,7 +50,11 @@ export default function Icons({
         </a>
       </SocialItem>
       <SocialItem>
-        <a href={`https://forgottenrunes.com/lockscreen?tokenSlug=${contractDict.display.toLowerCase()}&tokenId=${tokenId}`} className="icon-link" target="_blank">
+        <a 
+          href={`https://forgottenrunes.com/lockscreen?tokenSlug=${contractDict.display.toLowerCase()}&tokenId=${tokenId}`} 
+          className="icon-link" target="_blank" 
+          rel="noreferrer"
+        >
           <ResponsivePixelImg src="/static/img/icons/social_phone_default.png" />
         </a>
       </SocialItem>
@@ -59,6 +64,7 @@ export default function Icons({
             href={`https://forgottenrunes.com/api/art/${contractDict.display.toLowerCase()}/${tokenId}.zip`}
             className="icon-link"
             target="_blank"
+            rel="noreferrer"
           >
             <ResponsivePixelImg src="/static/img/icons/social_download_default_w.png" />
           </a>
@@ -69,6 +75,7 @@ export default function Icons({
           href={`https://forgottenrunes.com/lore/${contractDict.display.toLowerCase()}/${tokenId}/0`}
           className="icon-link"
           target="_blank"
+          rel="noreferrer"
         >
           <ResponsivePixelImg src="/static/img/icons/social_link_default.png" />
         </a>

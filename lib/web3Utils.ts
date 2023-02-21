@@ -3,10 +3,10 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { BaseProvider } from "@ethersproject/providers";
 import { Contract, Provider } from "ethcall";
 
-import { IPFS_SERVER } from "../constants";
 import axiosRetry from "axios-retry";
 import axios from "axios";
 import { WIZARDS_ABI } from "../contracts/abis";
+import { IPFS_SERVER } from "@/components/Marketplace/marketplaceConstants";
 
 export const getAddressSafe = (x: string | null) => {
   try {

@@ -31,11 +31,11 @@ export async function bustLoreCache() {
   const files = [ WIZARDS_THAT_HAVE_LORE_CACHE ];
 
   for (var contract in CONTRACTS) {
-    files.push(`${LORE_CACHE}_${CONTRACTS[contract].display.toLowerCase()}`);
+    files.push(`${LORE_CACHE}_${CONTRACTS[contract]?.display.toLowerCase()}`);
   }
 
   for (var contract in COMMUNITY_CONTRACTS) {
-    files.push(`${LORE_CACHE}_${COMMUNITY_CONTRACTS[contract].display.toLowerCase()}`);
+    files.push(`${LORE_CACHE}_${COMMUNITY_CONTRACTS[contract]?.display.toLowerCase()}`);
   }
 
   for (let index in files) {
@@ -69,7 +69,7 @@ export async function getWizardsWithLore(contract: string = CHARACTER_CONTRACTS.
   [key: number]: boolean;
 }> {
   let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
-  const cacheFile = `${LORE_CACHE}_${contracts[contract].display.toLowerCase()}`;
+  const cacheFile = `${LORE_CACHE}_${contracts[contract]?.display.toLowerCase()}`;
   let results: any = {};
 
   try {

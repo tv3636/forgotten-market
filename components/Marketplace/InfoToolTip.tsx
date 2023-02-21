@@ -31,7 +31,7 @@ export default function InfoTooltip({
         }
         data-tip={tooltip} 
       />
-      <ReactTooltip/>
+      
     </FlexDisplay>
   );
 }

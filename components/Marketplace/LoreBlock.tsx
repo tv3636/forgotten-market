@@ -72,6 +72,7 @@ export default function LoreBlock({
             <SoftLink 
               href={`https://forgottenlewds.com/lore/${CONTRACTS[contract].display.toLowerCase()}/${tokenId}/0`}
               target="_blank"
+              key={index}
             >
               <div style={{display: 'flex', color: 'var(--lightGray)'}}>
                 View NSFW Lore Entry

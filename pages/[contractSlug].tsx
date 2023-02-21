@@ -3,17 +3,15 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getWizardsWithLore } from "../components/Lore/loreSubgraphUtils";
-import { API_BASE_URL, ORDER_TYPE, sourceReplace } from "../components/Marketplace/marketplaceConstants";
-import { getContract, getTrait, getTraitValue, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
+import { API_BASE_URL, sourceReplace } from "../components/Marketplace/marketplaceConstants";
+import { getContract, getURLAttributes, isTraitOffer } from "../components/Marketplace/marketplaceHelpers";
 import Layout from "../components/Marketplace/Layout";
 import CollectionStats from "../components/Marketplace/CollectionStats";
 import MainToggle from "../components/Marketplace/MainToggle";
 import Sidebar from "../components/Marketplace/Sidebar";
 import InfiniteScroll from "react-infinite-scroll-component";
 import TokenDisplay from "../components/Marketplace/TokenDisplay";
-import Image from 'next/image';
 import RightBar from "../components/Marketplace/RightBar";
-import Order from "../components/Marketplace/Order";
 import Filters from "../components/Marketplace/Filters";
 import CollectionOfferButton from "../components/Marketplace/CollectionOfferButton";
 import MobileOverlay from "../components/Marketplace/MobileOverlay";
@@ -132,7 +130,6 @@ export default function Marketplace({
   contract: string;
 }) {
   const [showActivity, setShowActivity] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [listings, setListings] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [hasLore, setHasLore] = useState(false);
@@ -145,16 +142,15 @@ export default function Marketplace({
   const [bid, setBid] = useState(0);
   const router = useRouter();
   let contractDict = getContract(contract);
-  let traitOffer = isTraitOffer();
 
   async function getStats() {
-    var stats_url = API_BASE_URL + "stats/v1?" + "collection=" + contract + getURLAttributes(router.query, contractDict.display);
+    var stats_url = API_BASE_URL + "stats/v2?" + "collection=" + contract + getURLAttributes(router.query, contractDict.display);
     const statsPage = await fetch(stats_url);
     const statsJson = await statsPage.json();
 
     // When showing all wizards, show 10k - soul count because burned tokens are included in default response
     if (contractDict.display == 'Wizards' && !getURLAttributes(router.query, contractDict.display)) {
-      var souls_stats_url = API_BASE_URL + "stats/v1?" + "collection=0x251b5f14a825c537ff788604ea1b58e49b70726f";
+      var souls_stats_url = API_BASE_URL + "stats/v2?" + "collection=0x251b5f14a825c537ff788604ea1b58e49b70726f";
       const soulsStats = await fetch(souls_stats_url);
       const soulsJson = await soulsStats.json();
 
@@ -163,8 +159,8 @@ export default function Marketplace({
       setItems(statsJson.stats.tokenCount);
     }
 
-    setFloor(statsJson.stats.market.floorAsk.price?.toPrecision(2));
-    setBid(statsJson.stats.market.topBid.value?.toPrecision(2));
+    setFloor(statsJson.stats.market.floorAsk.price?.amount.decimal.toPrecision(2));
+    setBid(statsJson.stats.market.topBid.price?.amount.decimal.toPrecision(2));
   }
 
   async function fetchListings(reset: boolean) {
@@ -262,21 +258,6 @@ export default function Marketplace({
         setFilterActive={setFilterActive}
       >
         <Main>
-          {showModal &&
-            <Order
-              contract={contract}
-              tokenId={'0'}
-              name={contractDict.full}
-              collectionWide={true}
-              setModal={setShowModal}
-              action={ORDER_TYPE.OFFER}
-              hash={''}
-              offerHash={''}
-              trait={traitOffer ? getTrait() : ''}
-              traitValue={traitOffer ? getTraitValue() : ''}
-              expectedPrice={0}
-            />
-          }
           <Sidebar />
           <MidContainer>
             <MidHeader>
@@ -299,7 +280,7 @@ export default function Marketplace({
                         height={"100vh"}
                         scrollThreshold={0.3}
                         endMessage={
-                          <Image src='/static/img/marketplace/rune.png' width='28px' height='48px' />
+                          <img src='/static/img/marketplace/rune.png' width='28px' height='48px' />
                         }
                         style={{backgroundImage: 'url(/static/img/interior-dark.png)'}}
                       >
@@ -334,7 +315,7 @@ export default function Marketplace({
                   <LoadingCard height={'100vh'} background={true} />
                 )}
                 <TopScrim>
-                  <Image src='/static/img/scrim-reverse.png' height='20px' width='1155px' layout='responsive' />
+                  <img src='/static/img/scrim-reverse.png' height='20px' width='1155px' />
                 </TopScrim>
               </InfiniteWrapper>
             </div>
@@ -346,14 +327,13 @@ export default function Marketplace({
           noLoreChange={() => setHasNoLore(!hasNoLore)}
           setSource={updateSource}
           selectionChange={selectionChange}
-          setShowModal={setShowModal}
           setActivity={updateActivityFeed}
         />
       </Main>
       { filterActive && 
         <MobileOverlay burgerActive={filterActive} setBurgerActive={setFilterActive}>
           <FilterContainer>
-            <CollectionOfferButton setShowModal={setShowModal} />
+            <CollectionOfferButton />
             <Filters
               contract={contract} 
               loreChange={() => { setHasLore(!hasLore); fetchListings(false); }} 

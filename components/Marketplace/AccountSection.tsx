@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styled from "@emotion/styled";
-import { getContract, getImage, SoftLink } from "./marketplaceHelpers";
+import { getImage, SoftLink } from "./marketplaceHelpers";
 
 const Title = styled.div`
   font-size: var(--sp1);

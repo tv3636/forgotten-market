@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { ReactNode } from "react";
-import Image from 'next/image';
 
 const Burger = styled.div`
   width: 25px;
@@ -70,7 +69,7 @@ export default function MobileOverlay(props: Props) {
     <MobileMenu style={props.burgerActive ? {display: 'block'} : {}}>
       <MobileHeader>
         <LogoContainer>
-          <Image 
+          <img 
             src="/static/img/forgotten-runes-logo.png" 
             width="120px" 
             height="40px" 
@@ -78,7 +77,7 @@ export default function MobileOverlay(props: Props) {
           />  
         </LogoContainer>
         <Burger onClick={() => props.setBurgerActive(false)} style={{alignSelf: 'flex-end'}}>
-          <Image src='/static/img/x.png' width='20px' height='20px'/>
+          <img src='/static/img/x.png' width='20px' height='20px'/>
         </Burger>
       </MobileHeader>
       <BurgerContainer>

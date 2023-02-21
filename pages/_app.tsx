@@ -1,17 +1,24 @@
-import { Provider as MobxStateTreeProvider } from "../store";
 import Head from "next/head";
-import { useGTag } from "../hooks/useGTag";
-import { useStore } from "../store";
 import { AnimateSharedLayout } from "framer-motion";
 import NextNprogress from "nextjs-progressbar";
 import "../public/static/game/wizards/fonts.css";
 import "../styles/root.css";
-import { ChainId, DAppProvider } from "@usedapp/core";
+import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+import { ReservoirKitProvider } from '@reservoir0x/reservoir-kit-ui'
+
+const { chains, provider, webSocketProvider } = configureChains(
+  [mainnet],
+  [publicProvider()],
+)
+ 
+const client = createClient({
+  autoConnect: true,
+  provider,
+  webSocketProvider,
+})
 
 function App({ Component, pageProps }: { Component: any; pageProps: any }) {
-  useGTag();
-  const store = useStore(pageProps.initialState);
-
   return (
     <>
       <Head>
@@ -87,12 +94,19 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
           key="ogtitle"
         />
       </Head>
-      <DAppProvider
-        config={{
-          readOnlyChainId: ChainId.Mainnet,
+      <ReservoirKitProvider
+        options={{
+          chains: [{
+            id: 1,
+            baseApiUrl: String(process.env.NEXT_PUBLIC_REACT_APP_API_BASE_URL),
+            default: true,            
+          }],
+          source: "forgotten.market",
+          marketplaceFee: 150,
+          marketplaceFeeRecipient: '0x6eab2d42fef9aad0036bc145b5f451799e3fb3f7'
         }}
       >
-        <MobxStateTreeProvider value={store}>
+        <WagmiConfig client={client}>
           <AnimateSharedLayout>
             <Component {...pageProps} />
             <NextNprogress
@@ -103,8 +117,8 @@ function App({ Component, pageProps }: { Component: any; pageProps: any }) {
               showOnShallow={false}
             />
           </AnimateSharedLayout>
-        </MobxStateTreeProvider>
-      </DAppProvider>
+        </WagmiConfig>
+      </ReservoirKitProvider>
     </>
   );
 }
