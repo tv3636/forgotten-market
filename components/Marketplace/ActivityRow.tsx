@@ -5,6 +5,7 @@ import { getImage, SoftLink } from "./marketplaceHelpers";
 import en from 'javascript-time-ago/locale/en.json';
 import Link from "next/link";
 import { ITEM_CONTRACTS, MARKET_ICONS_BY_NAME } from "./marketplaceConstants";
+import { useEnsName } from "wagmi";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -238,14 +239,15 @@ function Address({
   address,
   text,
 }: {
-  address: string;
+  address: any;
   text: string;
 }) {
+  let ens = useEnsName({ address: address }).data;
   return (
     <Link href={`/address/${address}`} passHref={true}>
       <SoftLink>
         <BuyerText style={{display: 'flex', flexDirection: 'row'}}>{`${text}:`}&nbsp;
-          <BuyerText>{address}</BuyerText>
+          <BuyerText>{ens ? ens : address}</BuyerText>
         </BuyerText>
       </SoftLink>
     </Link>

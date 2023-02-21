@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import MobileOverlay from "./MobileOverlay";
 import RuneHeader from "./RuneHeader";
 import { CollectionContainer } from "./Sidebar";
-import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { useAccount, useConnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
 const HeaderWrapper = styled.div`
