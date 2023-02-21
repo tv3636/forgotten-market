@@ -43,15 +43,13 @@ const MarketIcon = styled.img`
 `;
 
 export function ListingExpiration({
-  timer,
   date,
   source,
 }: {
-  timer: any;
   date: any;
   source: string;
 }) {
-  if (timer?.days > 1) {
+  if (date.getTime() - new Date().getTime() < 86400000) {
     if (date) {
       return (
         <ExpirationWrapper>
@@ -62,7 +60,7 @@ export function ListingExpiration({
     } else {
       return null;
     }
-  } else if (timer) {
+  } else {
     return (
       <div>
         <ExpirationWrapper>
@@ -72,7 +70,5 @@ export function ListingExpiration({
         </ExpirationWrapper>
       </div>
     );
-  } else {
-    return <ExpirationWrapper>Listing expires</ExpirationWrapper>
-  }
+  } 
 }

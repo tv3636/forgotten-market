@@ -58,7 +58,6 @@ export default function PriceModule({
   isBanned,
   flameHolder,
   contractDisplay,
-  countdownTimer,
   contract,
   tokenId,
 }: {
@@ -69,7 +68,6 @@ export default function PriceModule({
   isBanned: boolean;
   flameHolder: boolean;
   contractDisplay: string;
-  countdownTimer: any;
   contract: string;
   tokenId: string;
 }) {
@@ -104,7 +102,6 @@ export default function PriceModule({
       }
       {listing.validUntil ? 
         <ListingExpiration
-          timer={countdownTimer}
           date={new Date(listing.validUntil * 1000)}
           source={listing.source.id}
         />

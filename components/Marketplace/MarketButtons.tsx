@@ -70,7 +70,7 @@ function MarketModal({
     )
   }
 
-  if (text == 'SELL' || text == 'LOWER LISTING') {
+  if (text == 'SELL') {
     return (
       <ListModal
         trigger={trigger}

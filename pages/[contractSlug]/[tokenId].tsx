@@ -317,7 +317,6 @@ const ListingPage = ({
   const [loaded, setLoaded] = useState(false);
   const [pages, setPages] = useState<any>(null);
   const [ens, setEns] = useState<string | null>("");
-  const [countdownTimer, setCountdownTimer] = useState<any>(null);
   const [keyImage, setKeyImage] = useState(0);
   const [flameHolder, setFlameHolder] = useState(false);
   const [isBanned, setIsBanned] = useState(false);
@@ -360,7 +359,6 @@ const ListingPage = ({
         setListing(listingsJson.tokens[0].market.floorAsk);
         setOffer(listingsJson.tokens[0].market.topBid);
         setAttributes(listingsJson.tokens[0].token.attributes);
-        //setCountdownTimer(countdown(new Date(listingsJson.tokens[0].market.floorAsk.validUntil * 1000)));
 
         console.log(listingsJson);
 
@@ -470,7 +468,6 @@ const ListingPage = ({
                       contractDisplay={contractDict.display}
                       flameHolder={flameHolder}
                       isBanned={isBanned}
-                      countdownTimer={countdownTimer}
                       contract={contractSlug}
                       tokenId={tokenId}
                     />
