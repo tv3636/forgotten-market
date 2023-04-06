@@ -22,6 +22,7 @@ export const FORGOTTEN_MARKET_SOURCE = '0xfdfda3d504b1431ea0fd70084b1bfa39fa99dc
 export const X2Y2_SOURCE = '0xdc28ffaea1f91a88fb6fd0a8fe70d71bdd64284c';
 export const SUDOSWAP_SOURCE = '0x4749e292ba93ecc24639c5e8dc518c73283ae148';
 export const NFTX_SOURCE = '0xe864198328af9d2260e4178734190022fe8d79dc';
+export const BLUR_SOURCE = '0xe073a3b3497e2ed4c6110eebbb664a839b168bcb';
 
 export const IPFS_SERVER = 'https://nfts.forgottenrunes.com/ipfs';
 
@@ -32,6 +33,7 @@ export const MARKET_ICONS: any = {
   [X2Y2_SOURCE]: '/static/img/icons/nav/x2y2_default.png',
   [SUDOSWAP_SOURCE]: '/static/img/icons/nav/sudoswap_default.png',
   [NFTX_SOURCE]: '/static/img/icons/nav/nftx_default.png',
+  [BLUR_SOURCE]: '/static/img/icons/nav/blur_default.png',
 }
 
 export const MARKET_ICONS_BY_NAME: any = {
@@ -68,6 +70,10 @@ export const MARKETS: any = {
   [NFTX_SOURCE]: {
     image: '/static/img/icons/nav/nftx_default.png',
     name: 'NFTX'
+  },
+  [BLUR_SOURCE]: {
+    image: '/static/img/icons/nav/blur_default.png',
+    name: 'Blur'
   }
 }
 
@@ -78,6 +84,10 @@ export function sourceReplace(source: any) {
 
   if (source == 'NFTX') {
     return 'nftx.io'
+  }
+
+  if (source == 'Blur') {
+    return 'blur.io'
   }
 
   return source
