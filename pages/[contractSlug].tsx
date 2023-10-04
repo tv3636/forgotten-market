@@ -301,7 +301,7 @@ export default function Marketplace({
                                     tokenId={listing.token.tokenId}
                                     name={listing.token.name}
                                     price={listing.market.floorAsk.price?.amount.native}
-                                    source={listing.market.floorAsk.source.id}
+                                    source={listing.market.floorAsk.source?.id}
                                     image_url={listing.token.image}
                                   />
                                 </div>
