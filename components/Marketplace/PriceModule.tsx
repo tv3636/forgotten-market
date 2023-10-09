@@ -91,7 +91,7 @@ export default function PriceModule({
             listValue={listing.price?.amount.decimal}
             hasOffer={offer.price?.amount.decimal != null}
             highestOffer={offer.price?.amount.decimal && offer?.maker.toLowerCase() == account?.toLowerCase()}
-            native={listing.source.name == 'Forgotten Market'}
+            native={listing.source?.name == 'Forgotten Market'}
             tokenType={contractDisplay == 'Flames' || contractDisplay == 'Treats' ? 1155 : 721}
             myOffer={offer.price?.amount.decimal && offer?.maker?.toLowerCase() == account?.toLowerCase()}
             tokenId={tokenId}
@@ -103,7 +103,7 @@ export default function PriceModule({
       {listing.validUntil ? 
         <ListingExpiration
           date={new Date(listing.validUntil * 1000)}
-          source={listing.source.id}
+          source={listing.source?.id}
         />
         : null
       }
