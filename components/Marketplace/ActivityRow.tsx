@@ -265,7 +265,7 @@ export default function ActivityRow({
   const name = 'token' in activity ? activity.token.name : activity.metadata.data.tokenName;
   const ethOrWeth = 'token' in activity && !(activity.orderSide == 'ask') ? 'weth' : 'eth';
   const timestamp = 'token' in activity ? activity.timestamp : (new Date(activity.createdAt)).getTime() / 1000;
-  const source = 'token' in activity ? activity.orderSource : activity.source.name;
+  const source = 'token' in activity ? activity.orderSource : activity.source?.name;
 
   return (
     <RowContainer>
