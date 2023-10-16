@@ -54,7 +54,14 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  //console.log('proxy', endpoint, query);
+  if (query.sortBy = '1DayVolume') {
+    res.status(400).json({
+      error: 'Invalid sortBy',
+    })
+    return
+  }
+
+  console.log('proxy', endpoint, query);
 
   // Construct the API url: `https://api.reservoir.tools/{endpoint}/{query-string}`
   const url = new URL(endpoint, RESERVOIR_API_BASE)
