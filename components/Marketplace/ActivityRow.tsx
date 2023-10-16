@@ -280,7 +280,7 @@ export default function ActivityRow({
       >
         <SoftLink>
           <ActivityImage 
-            src={contract in ITEM_CONTRACTS ? activity.token.image : getImage(contract, tokenId, activity.token.image)}
+            src={contract in ITEM_CONTRACTS ? activity.token?.image : getImage(contract, tokenId, activity.token?.image)}
           /> 
         </SoftLink>
       </Link>

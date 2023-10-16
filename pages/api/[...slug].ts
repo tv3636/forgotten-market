@@ -1,3 +1,4 @@
+import { ALL_CONTRACTS } from '@/components/Marketplace/marketplaceConstants'
 import { setParams } from '@reservoir0x/reservoir-sdk'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -26,6 +27,34 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
   } else {
     endpoint = (slug || ['']).join('/')
   }
+
+  let collection = '';
+  if ('collection' in query) {
+    collection = query.collection as string;
+  } else if (endpoint.includes('/attributes/all/v1')) {
+    collection = endpoint.split('/')[1];
+  } else if ('tokens' in query) {
+    collection = (query.tokens as string).split(':')[0];
+  } else if ('contracts' in query) {
+    collection = (query.contracts as string);
+  }
+
+  // Restrict proxy usage
+  if (collection && !Object.keys(ALL_CONTRACTS).includes(collection)) {
+    res.status(400).json({
+      error: 'Invalid collection',
+    })
+    return
+  }
+
+  if (!(['collections', 'tokens', 'stats', 'sales', 'execute', 'orders'].includes(endpoint.split('/')[0]))) {
+    res.status(400).json({
+      error: 'Invalid endpoint',
+    })
+    return
+  }
+
+  //console.log('proxy', endpoint, query);
 
   // Construct the API url: `https://api.reservoir.tools/{endpoint}/{query-string}`
   const url = new URL(endpoint, RESERVOIR_API_BASE)
