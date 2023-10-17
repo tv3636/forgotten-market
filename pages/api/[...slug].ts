@@ -54,7 +54,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  if (query.sortBy = '1DayVolume') {
+  if (query.sortBy == '1DayVolume') {
     res.status(400).json({
       error: 'Invalid sortBy',
     })
