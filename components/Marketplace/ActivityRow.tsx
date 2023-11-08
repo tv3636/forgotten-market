@@ -254,6 +254,28 @@ function Address({
   )
 }
 
+function BuyerSeller({
+  activity,
+}: {
+  activity: any;
+}) {
+  const seller = 'token' in activity ? activity.from : activity.maker;
+  if (seller != "0x0000000000000000000000000000000000000000") {
+    return (
+      <div>
+          { 'token' in activity && <Address address={activity.to} text={'Buyer'}/> }
+          <Address address={seller} text={'Seller'} /> 
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        { 'token' in activity && <Address address={activity.to} text={'Minter'}/> }
+      </div>
+    )
+  }
+}
+
 export default function ActivityRow({
   contract,
   activity,
@@ -293,10 +315,7 @@ export default function ActivityRow({
       </SalesTextDisplay>
     </SalesDisplay>
     <MobileWrapper>
-      <div>
-        { 'token' in activity && <Address address={activity.to} text={'Buyer'}/> }
-        <Address address={'token' in activity ? activity.from : activity.maker} text={'Seller'} /> 
-      </div>
+      <BuyerSeller activity={activity}/>
       <SoftLink href={'https://etherscan.io/tx/' + activity.txHash} target="_blank" rel="noopener noreferrer">
       <div style={{display: 'flex', alignItems: 'center'}}>
         <TimeText>
@@ -307,10 +326,7 @@ export default function ActivityRow({
       </SoftLink>
     </MobileWrapper>
     <DesktopWrapper>
-      <div>
-        { 'token' in activity && <Address address={activity.to} text={'Buyer'}/> }
-        <Address address={'token' in activity ? activity.from : activity.maker} text={'Seller'} /> 
-      </div>
+      <BuyerSeller activity={activity}/>
     </DesktopWrapper>
     <DesktopWrapper>
       <SoftLink href={'https://etherscan.io/tx/' + activity.txHash} target="_blank" rel="noopener noreferrer">
