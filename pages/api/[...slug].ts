@@ -47,7 +47,7 @@ const proxy = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  if (!(['collections', 'tokens', 'stats', 'sales', 'execute', 'orders'].includes(endpoint.split('/')[0]))) {
+  if (!(['collections', 'tokens', 'stats', 'sales', 'execute', 'orders', 'admin'].includes(endpoint.split('/')[0]))) {
     res.status(400).json({
       error: 'Invalid endpoint',
     })
