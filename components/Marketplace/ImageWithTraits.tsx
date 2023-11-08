@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { getContract, getValue } from "./marketplaceHelpers";
+import { useState } from "react";
 
 const ImageWrapper = styled.div`
   background-color: black;
@@ -18,6 +19,33 @@ const TokenImage = styled.img`
   }
 
   transition: all 250ms;
+`;
+
+const TokenIFrame = styled.iframe`
+  padding: var(--sp2);
+  width: 400px;
+  height: 400px;
+
+  position: relative;
+  z-index: 100;
+  border: none;
+
+  @media only screen and (max-width: 600px) {
+    max-width: 250px;
+    max-height: 250px;
+  }
+`;
+
+const IFrameFallBack = styled.img`
+  padding: var(--sp2);
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: 2;
+
+  width: 400px;
+  height: 400px;
 `;
 
 const TraitImage = styled(TokenImage)`
@@ -57,6 +85,8 @@ export default function ImageWithTraits({
   contract,
   attributes,
   keyImage,
+  iFrame,
+  tokenId,
 }:{
   source: string;
   background: string;
@@ -64,31 +94,48 @@ export default function ImageWithTraits({
   contract: string;
   attributes: any;
   keyImage: number;
+  iFrame: boolean;
+  tokenId: string;
 }) {
+  const [loaded, setLoaded] = useState<boolean>(false);
   let contractDict = getContract(contract);
-  return (
-    <ImageWrapper>
-      <TokenImage 
-        src={source} 
-        style={{background: background, opacity: traitHover && keyImage == 0 ? 0.25 : 1}}
-      />
-      <NewFrame/>
-      {contractDict.coreTraits?.map((trait: any, index: number) => {
-          return (
-            getValue(attributes, trait) != 'None' &&
-            <TraitImage 
-              src={`/static/img/traits/${contractDict.display.toLowerCase()}/${trait.toLowerCase()}/${getValue(attributes, trait)}.png`}
-              style={{
-                opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .25 : 0,
-                zIndex: trait == 'Body' ? 0 : 1,
-                display: keyImage == 0 ? 'block' : 'none',
-                top: contractDict.display == 'Warriors' ? '-0.5px' : '0',
-                left: contractDict.display == 'Warriors' ? '-0.5px' : '0',
-              }}
-              key={index}
-            />
-          );
-        })}
-    </ImageWrapper>
-  )
+  if (!iFrame) {
+    return (
+      <ImageWrapper>
+        <TokenImage 
+          src={source} 
+          style={{background: background, opacity: traitHover && keyImage == 0 ? 0.25 : 1}}
+        />
+        <NewFrame/>
+        {contractDict.coreTraits?.map((trait: any, index: number) => {
+            return (
+              getValue(attributes, trait) != 'None' &&
+              <TraitImage 
+                src={`/static/img/traits/${contractDict.display.toLowerCase()}/${trait.toLowerCase()}/${getValue(attributes, trait)}.png`}
+                style={{
+                  opacity: (traitHover == trait) ? 1 : (trait == 'Head' && traitHover == 'Body') ? .25 : 0,
+                  zIndex: trait == 'Body' ? 0 : 1,
+                  display: keyImage == 0 ? 'block' : 'none',
+                  top: contractDict.display == 'Warriors' ? '-0.5px' : '0',
+                  left: contractDict.display == 'Warriors' ? '-0.5px' : '0',
+                }}
+                key={index}
+              />
+            );
+          })}
+      </ImageWrapper>
+    )
+  } else {
+    return (
+      <ImageWrapper>
+        <TokenIFrame 
+          src={`https://www.forgottenrunes.com/viewer/wizards/${tokenId}`}
+          style={{display: loaded ? 'block' : 'none'}}
+          onLoad={() => setLoaded(true)}
+        />
+        <NewFrame style={{background: background}}/>
+        <IFrameFallBack src={source}/>
+      </ImageWrapper>
+    )
+  }
 }

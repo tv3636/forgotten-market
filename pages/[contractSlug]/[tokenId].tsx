@@ -399,19 +399,21 @@ const ListingPage = ({
               </RuneHeader>
                 <TopDisplay>
                   <TopLeft>
-                    <ImageWithTraits
-                        source={
-                          contractSlug in ITEM_CONTRACTS || contractSlug == '0x4715be0c5e9bcfe1382da60cff69096af4c4eef4' ? 
-                            token.image : 
-                            imageUrls[keyImage]
-                          }
-                        background={backgroundColor}
-                        traitHover={traitHover}
-                        attributes={attributes}
-                        contract={contractSlug}
-                        keyImage={keyImage}
-                    />
-                    { ['Wizards', 'Souls', 'Warriors'].includes(contractDict.display) && 
+                      <ImageWithTraits
+                          source={
+                            contractSlug in ITEM_CONTRACTS || contractSlug == '0x4715be0c5e9bcfe1382da60cff69096af4c4eef4' ? 
+                              token.image : 
+                              imageUrls[keyImage]
+                            }
+                          background={backgroundColor}
+                          traitHover={traitHover}
+                          attributes={attributes}
+                          contract={contractSlug}
+                          keyImage={keyImage}
+                          iFrame={contractDict.display == 'Wizards'}
+                          tokenId={tokenId}
+                      />
+                    { ['Souls', 'Warriors'].includes(contractDict.display) && 
                       <Carousel 
                         keyImage={keyImage}
                         setKeyImage={setKeyImage}
