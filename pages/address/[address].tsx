@@ -187,7 +187,7 @@ export default function Address({
 }) {
   const [listings, setListings] = useState<any>([]);
   const [offersMade, setOffersMade] = useState<any>([]);
-  const [continuation, setContinuation] = useState('');
+  const [continuation, setContinuation] = useState('');  
 
   async function fetchOrders(orderType: string) {
     var validListings: any = [];
@@ -236,33 +236,36 @@ export default function Address({
             <HorizontalLine style={{borderColor: 'var(--mediumGray)'}}/>
             <HorizontalLine />
             <StatRow>
-              {Object.keys(tokenData).map((contract: any, index: number) => {
+              {Object.keys(ALL_CONTRACTS).map((contract: any, index: number) => {
                 let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
-                return (
-                  <SubTitle key={index}>
-                    {
-                      `${contracts[contract].display}: ${contracts[contract].display == 'Flames' && tokenData[contract][0] ? 
-                      tokenData[contract][0].ownership.tokenCount : 
-                      tokenData[contract].length
-                    }`
-                    }
-                  </SubTitle>
-                );
+                  return (
+                    <SubTitle key={index}>
+                      {
+                        `${contracts[contract].display}: ${contracts[contract].display == 'Flames' && contract in tokenData
+                          ? tokenData[contract][0].ownership.tokenCount
+                          : contract in tokenData 
+                            ? tokenData[contract].length 
+                            : 0
+                      }`
+                      }
+                    </SubTitle>
+                  );               
               })}
             </StatRow>
             </AccountInfo>
             
             <DesktopLine style={{borderColor: 'black'}}/>
-            {Object.keys(tokenData).map((contract: any, index: number) => {
+            {Object.keys(ALL_CONTRACTS).map((contract: any, index: number) => {
                 let contracts = contract in CONTRACTS ? CONTRACTS : COMMUNITY_CONTRACTS;
-                return tokenData[contract].length > 0 && contracts[contract].display != 'Flames' &&
+                return tokenData[contract]?.length > 0 && contracts[contract].display != 'Flames' &&
                   <AccountSection 
                     key={index} 
                     tokens={tokenData[contract]} 
                     contract={contract} 
                     title={contracts[contract].display}
                   />
-              })}
+              })              
+            }
             <HorizontalLine />
             { listings.length > 0 && 
               <AccountSection tokens={listings} contract={null} title={'Listings'}/>
@@ -301,26 +304,32 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     ens = await mainProvider.lookupAddress(address) ?? '';
 
-    for (var contract of Object.keys(ALL_CONTRACTS)) {
-      var tokens: any = [];
-      var iteration = 0;
-      var offset = 20;
-      var page = null;
-      var pageJson: any = {};
-  
-      while (iteration == 0 || pageJson.tokens && pageJson.tokens.length == offset) {
-        page = await fetch(
-          `https://api.reservoir.tools/users/${address}/tokens/v2?collection=${contract}&offset=${offset * iteration}&limit=20`,
-          { headers: headers }
-        );
-  
-        pageJson = await page.json();
-        tokens = tokens.concat(pageJson.tokens)
+    var tokens: any = [];
+    var iteration = 0;
+    var page = null;
+    var pageJson: any = {};
+    var continuation;
 
-        iteration ++;
+    while (iteration == 0 || continuation) {
+      page = await fetch(
+        `https://api.reservoir.tools/users/${address}/tokens/v7?collectionsSetId=edfcc25c83b81eb5b3cc7428148447bbd824003383e6f9b21cfec1608361620d${continuation ? `&continuation=${continuation}` : ''}`,
+        { headers: headers }
+      );
+
+      pageJson = await page.json();
+      continuation = pageJson.continuation;
+      tokens = tokens.concat(pageJson.tokens)
+
+      iteration ++;
+    }
+
+    for (var token of tokens) {
+      let tokenObj = token.token;
+      if (tokenObj.contract in tokenData) {
+        tokenData[tokenObj.contract].push(token);
+      } else {
+        tokenData[tokenObj.contract] = [token];
       }
-
-      tokenData[contract] = tokens.filter((token: any) => token);
     }
 
   } catch (error) {
