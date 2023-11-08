@@ -312,7 +312,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     while (iteration == 0 || continuation) {
       page = await fetch(
-        `https://api.reservoir.tools/users/${address}/tokens/v7?collectionsSetId=edfcc25c83b81eb5b3cc7428148447bbd824003383e6f9b21cfec1608361620d${continuation ? `&continuation=${continuation}` : ''}`,
+        `https://api.reservoir.tools/users/${address}/tokens/v7?collectionsSetId=78785599784ade1a60d15969174fb2b19431a955c82a92c49bced704813f798d${continuation ? `&continuation=${continuation}` : ''}`,
         { headers: headers }
       );
 

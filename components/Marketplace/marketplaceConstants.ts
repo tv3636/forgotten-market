@@ -176,6 +176,12 @@ export const ITEM_CONTRACTS: any = {
     full: "Forgotten Runes Gate to the Seventh Realm",
     image_url: "https://portal.forgottenrunes.com/api/locks/img/",
   },
+  "0x5d4aa6ff9de7963ead5a17b454dc1093ca9e98e7": {
+    collection: "forgotten-runiverse-watchers-rings",
+    display: "Rings",
+    singular: "Ring",
+    full: "Forgotten Runiverse Watcher's Rings",
+  }
 }
 
 export const BEAST_CONTRACTS: any = {  

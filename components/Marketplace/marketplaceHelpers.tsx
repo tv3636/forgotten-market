@@ -167,11 +167,15 @@ export function getImage(contract: string, tokenId: number | string, image_url?:
   
   let contractDict = getContract(contract);
 
-  return contractDict.display == 'Wizards' ? 
-  `${contractDict.image_url}${tokenId}/${tokenId}.png` : 
-  contractDict.image_url.indexOf('https://portal.forgottenrunes') == 0 ? 
-    `${contractDict.image_url}${tokenId}` :
-    `${contractDict.image_url}${tokenId}.png`;
+  if ("image_url" in contractDict) {
+    return contractDict.display == 'Wizards' ? 
+    `${contractDict.image_url}${tokenId}/${tokenId}.png` : 
+    contractDict.image_url.indexOf('https://portal.forgottenrunes') == 0 ? 
+      `${contractDict.image_url}${tokenId}` :
+      `${contractDict.image_url}${tokenId}.png`;
+  } else {
+    return image_url ?? "";
+  }
 }
 
 export async function getPages(lore: any, tokenId: any) {

@@ -318,7 +318,7 @@ export default function ActivityRow({
         <TimeText>
           <ReactTimeAgo date={new Date(timestamp * 1000)}/>
         </TimeText>
-        <MarketIcon src={MARKET_ICONS_BY_NAME[source]} style={{marginLeft: '10px'}}/>
+        {source && <MarketIcon src={MARKET_ICONS_BY_NAME[source]} style={{marginLeft: '10px'}}/>}
         </div>
       </SoftLink>
     </DesktopWrapper>
