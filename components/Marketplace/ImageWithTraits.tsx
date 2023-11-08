@@ -46,6 +46,11 @@ const IFrameFallBack = styled.img`
 
   width: 400px;
   height: 400px;
+
+  @media only screen and (max-width: 600px) {
+    max-width: 250px;
+    max-height: 250px;
+  }
 `;
 
 const TraitImage = styled(TokenImage)`
