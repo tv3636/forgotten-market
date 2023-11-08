@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { getContract, getValue } from "./marketplaceHelpers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ImageWrapper = styled.div`
   background-color: black;
@@ -103,8 +103,27 @@ export default function ImageWithTraits({
   tokenId: string;
 }) {
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' && window.innerWidth <= 600
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth <= 600);
+    }
+
+    if (typeof window !== 'undefined') {
+      handleResize();
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isMobile]);
+
   let contractDict = getContract(contract);
-  if (!iFrame) {
+  if (isMobile || !iFrame) {
     return (
       <ImageWrapper>
         <TokenImage 
