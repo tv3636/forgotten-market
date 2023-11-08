@@ -320,9 +320,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         iteration ++;
       }
 
-      tokenData[contract] = tokens;
+      tokenData[contract] = tokens.filter((token: any) => token);
     }
-    
 
   } catch (error) {
     valid = false;
