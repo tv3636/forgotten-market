@@ -160,7 +160,7 @@ export default function Marketplace({
     }
 
     setFloor(statsJson.stats.market.floorAsk.price?.amount.decimal.toPrecision(2));
-    setBid(statsJson.stats.market.topBid.price?.amount.decimal.toPrecision(2));
+    setBid(statsJson.stats.market.topBid.price?.amount.native.toPrecision(2));
   }
 
   async function fetchListings(reset: boolean) {

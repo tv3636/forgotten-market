@@ -74,8 +74,8 @@ export default function PriceModule({
   return (
     <PriceDisplay>
       <MarketDisplay 
-        price={listing.price?.amount.decimal} 
-        bid={offer.price?.amount.decimal} 
+        price={listing.price?.amount.native} 
+        bid={offer.price?.amount.native} 
         lastPrice={ token.lastBuy.timestamp > token.lastSell.timestamp 
           ? token.lastBuy.value?.toPrecision(3) 
           : token.lastSell.value?.toPrecision(3) 
@@ -88,12 +88,12 @@ export default function PriceModule({
           <MarketButtons
             account={account}
             owner={contractDisplay == 'Flames' && flameHolder ? account : token.owner}
-            listValue={listing.price?.amount.decimal}
-            hasOffer={offer.price?.amount.decimal != null}
-            highestOffer={offer.price?.amount.decimal && offer?.maker.toLowerCase() == account?.toLowerCase()}
+            listValue={listing.price?.amount.native}
+            hasOffer={offer.price?.amount.native != null}
+            highestOffer={offer.price?.amount.native && offer?.maker.toLowerCase() == account?.toLowerCase()}
             native={listing.source?.name == 'Forgotten Market'}
             tokenType={contractDisplay == 'Flames' || contractDisplay == 'Treats' ? 1155 : 721}
-            myOffer={offer.price?.amount.decimal && offer?.maker?.toLowerCase() == account?.toLowerCase()}
+            myOffer={offer.price?.amount.native && offer?.maker?.toLowerCase() == account?.toLowerCase()}
             tokenId={tokenId}
             contract={contract}
             hash={listing.id}
