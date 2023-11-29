@@ -39,3 +39,4 @@ out
 .mine
 .vscode
 public/static/cdn/
+.env*.local
