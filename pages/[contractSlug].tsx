@@ -165,7 +165,7 @@ export default function Marketplace({
 
   async function fetchListings(reset: boolean) {
     var lists: any = [];
-    var url = API_BASE_URL + "tokens/v5?" + ("collection=" + contract);
+    var url = API_BASE_URL + "tokens/v7?" + ("collection=" + contract);
     setLoaded(false);
 
     if (reset) {
@@ -177,6 +177,7 @@ export default function Marketplace({
       if (reset || continuation != null) {
         const page = await fetch(
           url + '&sortBy=floorAskPrice&limit=50' + 
+          '&includeQuantity=true' + // for erc1155 tokens (i.e. treats)
           (!reset && continuation != '' ? "&continuation=" + continuation : '') +
           (router.query.source ? "&source=" + sourceReplace(router.query.source) : '') +
           getURLAttributes(router.query, contractDict.display)
@@ -299,6 +300,7 @@ export default function Marketplace({
                                   <TokenDisplay
                                     contract={contract}
                                     tokenId={listing.token.tokenId}
+                                    remainingSupply={listing.token.remainingSupply}
                                     name={listing.token.name}
                                     price={listing.market.floorAsk.price?.amount.native}
                                     source={listing.market.floorAsk.source?.id}
