@@ -168,10 +168,9 @@ const Grain = styled.div`
 
 const QuantityOverlay = styled.div`
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: var(--sp0);
+  left: var(--sp0);;
   color: white;
-  background: rgba(255, 255, 255, 0.1);
   padding: 5px;
   border-radius: 50%;
   font-size: 1rem;
