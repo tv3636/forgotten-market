@@ -166,9 +166,22 @@ const Grain = styled.div`
   background-repeat: repeat;
 `;
 
+const QuantityOverlay = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
+  border-radius: 50%;
+  font-size: 1rem;
+  z-index: 10;
+`;
+
 export default function TokenDisplay({
   contract,
   tokenId,
+  remainingSupply,
   name,
   price,
   source,
@@ -176,6 +189,7 @@ export default function TokenDisplay({
 }: {
   contract: string;
   tokenId: number;
+  remainingSupply: number;
   name: string;
   price: number;
   source: string;
@@ -184,6 +198,7 @@ export default function TokenDisplay({
   let contractDict = getContract(contract);
   let image = getImage(contract, tokenId, image_url);
   let hasTurnaround = ['Wizards', 'Ponies', 'Souls', 'Warriors'].includes(contractDict.display);
+  let hasMultiples = contractDict.display == 'Treats';
 
   let turnaround = contractDict.display == 'Wizards' ? 
     `https://runes-turnarounds.s3.amazonaws.com/${tokenId}/${tokenId}-walkcycle-nobg.gif` :
@@ -246,6 +261,7 @@ export default function TokenDisplay({
           { source in MARKETS && <MarketIcon src={MARKETS[source].image} title={MARKETS[source].name}/> }
         </ListingInfo>
         <NewFrame/>
+        {hasMultiples && <QuantityOverlay>x{remainingSupply}</QuantityOverlay>}
       </ListingDisplay>
       </SoftLink>
     </Link>
